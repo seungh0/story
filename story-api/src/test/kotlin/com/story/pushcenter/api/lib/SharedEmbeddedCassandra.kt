@@ -47,7 +47,7 @@ object SharedEmbeddedCassandra {
         val settings: Settings = getSettings()
         val session = CqlSession.builder()
             .addContactPoint(InetSocketAddress(settings.address, settings.port))
-            .withLocalpushcenter("pushcenter1")
+            .withLocalDatacenter("datacenter1")
             .build()
 
         CqlScript.ofClassPath("cql/schema.cql").forEachStatement {

@@ -6,8 +6,7 @@ object KafkaTopicFinder {
 
     private val KAFKA_TOPIC_MAP: HashMap<TopicType, String?> = object : HashMap<TopicType, String?>() {
         init {
-            val env = ApplicationContextProvider.applicationContext?.environment
-                ?: throw IllegalArgumentException("Application Environment를 가져오는데 실패하였습니다")
+            val env = ApplicationContextProvider.applicationContext.environment
         }
     }
 
