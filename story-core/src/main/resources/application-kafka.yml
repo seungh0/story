@@ -1,0 +1,43 @@
+spring:
+  kafka:
+    consumer:
+      enable-auto-commit: true
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      max-poll-records: 1000
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+
+
+---
+spring.config:
+  activate:
+    on-profile: local
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+
+
+---
+spring.config:
+  activate:
+    on-profile: dev
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+
+
+---
+spring.config:
+  activate:
+    on-profile: test
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092

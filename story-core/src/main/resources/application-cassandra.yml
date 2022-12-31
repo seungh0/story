@@ -1,0 +1,65 @@
+spring:
+  data:
+    cassandra:
+      schema-action: none
+      request:
+        consistency: ONE
+        timeout: 2s
+      connection:
+        connect-timeout: 5s
+
+
+---
+spring.config:
+  activate:
+    on-profile: local
+
+spring:
+  data:
+    cassandra:
+      keyspace-name: story_pushcenter_local
+      contact-points: localhost
+      local-pushcenter: pushcenter1
+      schema-action: create_if_not_exists
+      port: 9042
+
+logging:
+  level:
+    org.springframework.data.cassandra.core.cql.CqlTemplate: DEBUG
+    org.springframework.data.cassandra.core.cql.ReactiveCqlTemplate: DEBUG
+
+---
+spring.config:
+  activate:
+    on-profile: dev
+
+spring:
+  data:
+    cassandra:
+      keyspace-name: ${secret.cassandra.keyspace-name}
+      contact-points: ${secret.cassandra.contact-points}
+      port: ${secret.cassandra.port}
+      local-pushcenter: ${secret.cassandra.local-pushcenter}
+      schema-action: none
+      username: ${secret.cassandra.username}
+      password: ${secret.cassandra.password}
+
+
+---
+spring.config:
+  activate:
+    on-profile: test
+
+spring:
+  data:
+    cassandra:
+      keyspace-name: story_pushcenter_test
+      contact-points: localhost
+      port: 29042
+      local-pushcenter: pushcenter1
+      schema-action: create_if_not_exists
+
+logging:
+  level:
+    org.springframework.data.cassandra.core.cql.CqlTemplate: DEBUG
+    org.springframework.data.cassandra.core.cql.ReactiveCqlTemplate: DEBUG

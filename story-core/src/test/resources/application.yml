@@ -1,0 +1,10 @@
+spring.profiles.default: test
+spring.config:
+  import:
+    - classpath:/application-cassandra.yml
+
+
+---
+spring.config:
+  activate:
+    on-profile: test

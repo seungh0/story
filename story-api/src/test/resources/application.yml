@@ -1,0 +1,27 @@
+spring.profiles.default: test
+spring.config:
+  import:
+    - classpath:/application-cassandra.yml
+    - classpath:/application-kafka.yml
+
+
+---
+spring.config:
+  activate:
+    on-profile: test
+
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+spring:
+  application:
+    name: tokki-api
+  webflux:
+    base-path: /api
+    format:
+      date: iso
+      date-time: iso
+      time: iso
