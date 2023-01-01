@@ -23,4 +23,4 @@ spring:
       time: iso
   kafka:
     consumer:
-      group-id: STORY_pushcenter_API_CONSUMER
+      group-id: STORY_datacenter_API_CONSUMER

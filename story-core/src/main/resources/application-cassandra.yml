@@ -17,9 +17,9 @@ spring.config:
 spring:
   data:
     cassandra:
-      keyspace-name: story_pushcenter_local
+      keyspace-name: story_datacenter_local
       contact-points: localhost
-      local-pushcenter: pushcenter1
+      local-datacenter: datacenter1
       schema-action: create_if_not_exists
       port: 9042
 
@@ -39,7 +39,7 @@ spring:
       keyspace-name: ${secret.cassandra.keyspace-name}
       contact-points: ${secret.cassandra.contact-points}
       port: ${secret.cassandra.port}
-      local-pushcenter: ${secret.cassandra.local-pushcenter}
+      local-datacenter: ${secret.cassandra.local-datacenter}
       schema-action: none
       username: ${secret.cassandra.username}
       password: ${secret.cassandra.password}
@@ -53,10 +53,10 @@ spring.config:
 spring:
   data:
     cassandra:
-      keyspace-name: story_pushcenter_test
+      keyspace-name: story_datacenter_test
       contact-points: localhost
       port: 29042
-      local-pushcenter: pushcenter1
+      local-datacenter: datacenter1
       schema-action: create_if_not_exists
 
 logging:

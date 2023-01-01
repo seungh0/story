@@ -6,5 +6,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.story.pushcenter.api.ApiApplicationKt")
+    mainClass.set("com.story.datacenter.api.ApiApplicationKt")
 }

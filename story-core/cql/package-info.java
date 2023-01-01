@@ -1,1 +1,1 @@
-package com.story.pushcenter.core.domain;
+package com.story.datacenter.core.domain;
