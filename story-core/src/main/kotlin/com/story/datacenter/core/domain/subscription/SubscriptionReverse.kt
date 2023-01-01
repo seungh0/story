@@ -1,7 +1,7 @@
 package com.story.datacenter.core.domain.subscription
 
 import com.story.datacenter.core.common.enums.ServiceType
-import org.springframework.data.cassandra.core.cql.Ordering
+import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.CassandraType
@@ -61,7 +61,7 @@ data class SubscriptionReversePrimaryKey(
     @field:CassandraType(type = TEXT)
     val subscriberId: String,
 
-    @field:PrimaryKeyColumn(value = "target_id", type = CLUSTERED, ordering = Ordering.DESCENDING)
+    @field:PrimaryKeyColumn(value = "target_id", type = CLUSTERED, ordering = DESCENDING)
     @field:CassandraType(type = TEXT)
     val targetId: String,
 )

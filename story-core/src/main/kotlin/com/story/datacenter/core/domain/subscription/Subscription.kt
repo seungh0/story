@@ -1,6 +1,8 @@
 package com.story.datacenter.core.domain.subscription
 
 import com.story.datacenter.core.common.enums.ServiceType
+import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
@@ -59,7 +61,7 @@ data class SubscriptionPrimaryKey(
     @field:CassandraType(type = BIGINT)
     val slotNo: Long,
 
-    @field:PrimaryKeyColumn(value = "subscriber_id", type = PARTITIONED)
+    @field:PrimaryKeyColumn(value = "subscriber_id", type = CLUSTERED, ordering = DESCENDING)
     @field:CassandraType(type = TEXT)
     val subscriberId: String,
 )
