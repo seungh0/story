@@ -1,0 +1,16 @@
+spring:
+  redis:
+    port: 6381
+    host: localhost
+    connect-timeout: 2s
+
+---
+spring.config:
+  activate:
+    on-profile:
+      - test
+
+spring:
+  redis:
+    host: localhost
+    port: ${random.int(49152,65535)}

@@ -8,13 +8,14 @@ import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
 import org.springframework.data.cassandra.core.mapping.Column
+import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
 @Table("subscription_v1")
 data class Subscription(
-    @PrimaryKeyColumn
+    @field:PrimaryKey
     val key: SubscriptionPrimaryKey,
 
     @field:Column(value = "extra_json")
@@ -27,14 +28,14 @@ data class Subscription(
             serviceType: ServiceType,
             subscriptionType: String,
             targetId: String,
-            slotNo: Long,
+            partitionId: Long,
             subscriberId: String,
         ) = Subscription(
             key = SubscriptionPrimaryKey(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
-                slotNo = slotNo,
+                slotNo = partitionId,
                 subscriberId = subscriberId,
             ),
         )

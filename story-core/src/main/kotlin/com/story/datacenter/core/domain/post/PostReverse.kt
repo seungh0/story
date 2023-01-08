@@ -14,7 +14,7 @@ import org.springframework.data.cassandra.core.mapping.Table
 
 @Table("post_reverse_v1")
 data class PostReverse(
-    @PrimaryKey
+    @field:PrimaryKey
     val key: PostReversePrimaryKey,
 
     @field:Column(value = "title")

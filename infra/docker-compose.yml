@@ -12,6 +12,15 @@ services:
     volumes:
       - cassandra_data:/var/lib/cassandra
 
+  redis:
+    image: redis:6.0
+    command: redis-server --port 6379
+    ports:
+      - '6381:6379'
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -40,4 +49,6 @@ services:
 
 volumes:
   cassandra_data:
+    driver: local
+  redis_data:
     driver: local

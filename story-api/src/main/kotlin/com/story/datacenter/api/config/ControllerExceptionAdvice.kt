@@ -20,27 +20,27 @@ class ControllerExceptionAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException::class)
-    private fun handleBadRequest(e: BindException): ApiResponse<Nothing> {
-        val errorMessage = e.bindingResult.fieldErrors.stream()
+    private fun handleBadRequest(exception: BindException): ApiResponse<Nothing> {
+        val errorMessage = exception.bindingResult.fieldErrors.stream()
             .map { fieldError -> fieldError.defaultMessage + " [${fieldError.field}]" }
             .collect(Collectors.joining("\n"))
-        log.warn(errorMessage, e)
+        log.warn(exception) { errorMessage }
         return ApiResponse.fail(E400_BAD_REQUEST, errorMessage)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServerWebInputException::class)
-    private fun handleServerWebInputException(e: ServerWebInputException): ApiResponse<Nothing> {
-        log.warn(e.message, e)
+    private fun handleServerWebInputException(exception: ServerWebInputException): ApiResponse<Nothing> {
+        log.warn(exception) { exception.message }
         return ApiResponse.fail(E400_BAD_REQUEST)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException::class)
-    private fun handleHttpMessageNotReadableException(e: HttpMessageNotReadableException): ApiResponse<Nothing> {
-        log.warn(e.message)
-        if (e.rootCause is MissingKotlinParameterException) {
-            val parameterName = (e.rootCause as MissingKotlinParameterException).parameter.name
+    private fun handleHttpMessageNotReadableException(exception: HttpMessageNotReadableException): ApiResponse<Nothing> {
+        log.warn(exception) { exception.message }
+        if (exception.rootCause is MissingKotlinParameterException) {
+            val parameterName = (exception.rootCause as MissingKotlinParameterException).parameter.name
             return ApiResponse.fail(
                 E400_BAD_REQUEST,
                 "Parameter ($parameterName) is Missing"
@@ -51,15 +51,15 @@ class ControllerExceptionAdvice {
 
     @ExceptionHandler(StoryBaseException::class)
     private fun handleBaseException(exception: StoryBaseException): ResponseEntity<ApiResponse<Nothing>> {
-        log.error(exception.message, exception)
+        log.error(exception) { exception.message }
         return ResponseEntity.status(exception.errorCode.httpStatusCode)
             .body(ApiResponse.fail(error = exception.errorCode))
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception::class)
-    private fun handleInternalServerException(exception: Exception): ApiResponse<Nothing> {
-        log.error(exception.message, exception)
+    @ExceptionHandler(Throwable::class)
+    private fun handleInternalServerException(throwable: Throwable): ApiResponse<Nothing> {
+        log.error(throwable) { throwable.message }
         return ApiResponse.fail(E500_INTERNAL_SERVER_ERROR)
     }
 

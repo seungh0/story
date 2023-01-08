@@ -11,10 +11,10 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table("subscription_counter")
+@Table("subscription_counter_v1")
 data class SubscriptionCounter(
-    @PrimaryKey
-    val key: SubscriptionReversePrimaryKey,
+    @field:PrimaryKey
+    val key: SubscriptionCounterPrimaryKey,
 
     @field:Column(value = "count")
     @field:CassandraType(type = COUNTER)

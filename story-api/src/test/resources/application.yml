@@ -3,7 +3,7 @@ spring.config:
   import:
     - classpath:/application-cassandra.yml
     - classpath:/application-kafka.yml
-
+    - classpath:/application-redis.yml
 
 ---
 spring.config:

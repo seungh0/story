@@ -1,6 +1,7 @@
 package com.story.datacenter.core.domain.subscription
 
 import com.story.datacenter.core.common.enums.ServiceType
+import com.story.datacenter.core.common.utils.JsonUtils
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -8,13 +9,14 @@ import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
 import org.springframework.data.cassandra.core.mapping.Column
+import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
 @Table("subscription_reverse_v1")
 data class SubscriptionReverse(
-    @PrimaryKeyColumn
+    @field:PrimaryKey
     val key: SubscriptionReversePrimaryKey,
 
     @field:Column(value = "slot_no")
@@ -33,6 +35,7 @@ data class SubscriptionReverse(
             subscriberId: String,
             targetId: String,
             slotNo: Long,
+            extraJson: String? = null,
         ) = SubscriptionReverse(
             key = SubscriptionReversePrimaryKey(
                 serviceType = serviceType,
@@ -41,6 +44,7 @@ data class SubscriptionReverse(
                 targetId = targetId,
             ),
             slotNo = slotNo,
+            extraJson = extraJson?.let { extra -> JsonUtils.toJson(extra) },
         )
     }
 

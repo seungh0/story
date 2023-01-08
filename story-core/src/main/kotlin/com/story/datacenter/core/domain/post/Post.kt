@@ -8,7 +8,7 @@ import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
 
 @Table("post_v1")
 data class Post(
-    @PrimaryKey
+    @field:PrimaryKey
     val key: PostPrimaryKey,
 
     @field:Column(value = "title")

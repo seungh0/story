@@ -28,8 +28,8 @@ object SharedEmbeddedCassandra {
                 server.reuseAddress = true
                 return server.localPort
             }
-        } catch (e: IOException) {
-            throw IllegalArgumentException(String.format("사용 가능한 랜덤 포트를 찾는 중 에러가 발생했습니다. message: (%s)", e.message))
+        } catch (exception: IOException) {
+            throw IllegalArgumentException("사용 가능한 랜덤 포트를 찾는 중 에러가 발생했습니다", exception)
         }
     }
 

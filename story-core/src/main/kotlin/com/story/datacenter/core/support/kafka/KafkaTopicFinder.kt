@@ -4,7 +4,7 @@ import com.story.datacenter.core.support.spring.ApplicationContextProvider
 
 object KafkaTopicFinder {
 
-    private val KAFKA_TOPIC_MAP: HashMap<TopicType, String?> = object : HashMap<TopicType, String?>() {
+    private val KAFKA_TOPIC_MAP: HashMap<TopicType, String> = object : HashMap<TopicType, String>() {
         init {
             val env = ApplicationContextProvider.applicationContext.environment
         }

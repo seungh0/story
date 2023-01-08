@@ -1,11 +1,10 @@
-package com.story.datacenter.api.common.advice
+package com.story.datacenter.api.config
 
 import com.ninjasquad.springmockk.SpykBean
 import com.story.datacenter.api.ApiTestBase
 import com.story.datacenter.api.domain.HealthController
-import com.story.datacenter.api.config.ControllerExceptionAdvice
-import com.story.datacenter.core.common.error.ErrorCode
 import com.story.datacenter.core.common.error.ConflictException
+import com.story.datacenter.core.common.error.ErrorCode
 import com.story.datacenter.core.common.error.InternalServerException
 import io.mockk.every
 import org.junit.jupiter.api.Test

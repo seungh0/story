@@ -1,4 +1,4 @@
-package com.story.datacenter.api.common.controller
+package com.story.datacenter.api.domain
 
 import com.story.datacenter.api.ApiTestBase
 import com.story.datacenter.api.domain.HealthController

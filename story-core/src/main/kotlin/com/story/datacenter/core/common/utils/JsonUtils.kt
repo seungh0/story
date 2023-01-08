@@ -14,16 +14,16 @@ object JsonUtils {
     fun <T> toJson(input: T): String {
         return try {
             DEFAULT_OBJECT_MAPPER.writeValueAsString(input)
-        } catch (e: JsonProcessingException) {
-            throw IllegalArgumentException("Can't to serialize message: ${e.message}")
+        } catch (exception: JsonProcessingException) {
+            throw IllegalArgumentException("Can't to serialize", exception)
         }
     }
 
     fun <T> toObject(jsonString: String?, toClass: Class<T>?): T {
         return try {
             DEFAULT_OBJECT_MAPPER.readValue(jsonString, toClass)
-        } catch (e: JsonProcessingException) {
-            throw IllegalArgumentException("Can't to deserialize message: ${e.message}")
+        } catch (exception: JsonProcessingException) {
+            throw IllegalArgumentException("Can't to deserialize", exception)
         }
     }
 

@@ -15,6 +15,7 @@ class SubscriptionRetriever(
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
     private val subscriptionReactiveRepository: SubscriptionReactiveRepository,
     private val subscriptionReverseReactiveRepository: SubscriptionReverseReactiveRepository,
+    private val subscriptionSlotAllocator: SubscriptionSlotAllocator,
 ) {
 
     suspend fun exists(
@@ -53,13 +54,17 @@ class SubscriptionRetriever(
     ): CursorResult<SubscriptionResponse> {
         when (cursorRequest.direction) {
             CursorDirection.NEXT -> {
-                var currentSlotNo = 1L
+                var lastSlotNo = subscriptionSlotAllocator.getCurrentSlot(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    targetId = targetId
+                )
                 val subscriptionSlice = if (cursorRequest.cursor == null) {
                     subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoAndKeySubscriberIdLessThan(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
-                        slotNo = 1L, // TODO: 시작 Slot이 1이 아닐 수도 있다.
+                        slotNo = lastSlotNo,
                         pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
                     )
                 } else {
@@ -67,7 +72,7 @@ class SubscriptionRetriever(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
-                        slotNo = currentSlotNo, // TODO: 시작 Slot이 1이 아닐 수도 있다.
+                        slotNo = lastSlotNo,
                         subscriberId = cursorRequest.cursor,
                         pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
                     )
@@ -82,15 +87,14 @@ class SubscriptionRetriever(
                 }
 
                 val subscriptions = subscriptionSlice.content as MutableList<Subscription>
-                val lastSlotNo = 9999L // TODO: 연동
 
-                while (++currentSlotNo <= lastSlotNo && subscriptions.size < cursorRequest.pageSize) {
+                while (++lastSlotNo <= SubscriptionSlotAllocator.FIRST_SLOT_ID && subscriptions.size < cursorRequest.pageSize) {
                     val subscriptionsInSlot =
                         subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoAndKeySubscriberIdLessThan(
                             serviceType = serviceType,
                             subscriptionType = subscriptionType,
                             targetId = targetId,
-                            slotNo = currentSlotNo,
+                            slotNo = lastSlotNo,
                             pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
                         )
                     subscriptions.addAll(subscriptionSlice.content)
@@ -103,13 +107,17 @@ class SubscriptionRetriever(
                 )
             }
             CursorDirection.PREVIOUS -> {
-                var currentSlotNo = 999L // TODO: 슬롯 조회
+                var lastSlotNo = subscriptionSlotAllocator.getCurrentSlot(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    targetId = targetId
+                )
                 val subscriptionSlice =
                     subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoAndKeySubscriberIdAndKeySubscriberIdGreaterThanOrderByKeySubscriberIdAsc(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
-                        slotNo = currentSlotNo,
+                        slotNo = lastSlotNo,
                         subscriberId = cursorRequest.cursor!!,
                         pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
                     )
@@ -123,15 +131,14 @@ class SubscriptionRetriever(
                 }
 
                 val subscriptions = subscriptionSlice.content as MutableList<Subscription>
-                val firstSlotNo = 1L // TODO: 연동
 
-                while (--currentSlotNo >= firstSlotNo && subscriptions.size < cursorRequest.pageSize) {
+                while (--lastSlotNo >= SubscriptionSlotAllocator.FIRST_SLOT_ID && subscriptions.size < cursorRequest.pageSize) {
                     val subscriptionsInSlot =
                         subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoAndKeySubscriberIdLessThan(
                             serviceType = serviceType,
                             subscriptionType = subscriptionType,
                             targetId = targetId,
-                            slotNo = currentSlotNo,
+                            slotNo = lastSlotNo,
                             pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
                         )
                     subscriptions.addAll(subscriptionSlice.content)

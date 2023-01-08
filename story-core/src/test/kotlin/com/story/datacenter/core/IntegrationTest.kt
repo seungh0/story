@@ -3,6 +3,7 @@ package com.story.datacenter.core
 import com.story.datacenter.core.lib.EmbeddedCassandraRandomPortPropertiesInitializer
 import com.story.datacenter.core.lib.SharedEmbeddedCassandra
 import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Tag
 import org.springframework.boot.test.context.SpringBootTest
@@ -12,6 +13,11 @@ import org.springframework.test.context.ContextConfiguration
 @SpringBootTest
 @ContextConfiguration(initializers = [EmbeddedCassandraRandomPortPropertiesInitializer::class])
 internal abstract class IntegrationTest : CoreTestBase() {
+
+    @AfterEach
+    fun cleanUp() {
+
+    }
 
     companion object {
         @BeforeAll

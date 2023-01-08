@@ -24,7 +24,7 @@ class SubscriptionSubscriber(
         subscriptionType: String,
         targetId: String,
         subscriberId: String,
-        extraJson: String?,
+        extraJson: String? = null,
     ) {
         val primaryKey = SubscriptionReversePrimaryKey(
             serviceType = serviceType,
@@ -38,12 +38,16 @@ class SubscriptionSubscriber(
 
         val jobs = mutableListOf<Job>()
         jobs.add(CoroutineScope(Dispatchers.IO).launch {
-            val slotNo = subscriptionSlotAllocator.allocate(subscriptionType = subscriptionType, targetId = targetId)
+            val partitionId = subscriptionSlotAllocator.allocate(
+                serviceType = serviceType,
+                subscriptionType = subscriptionType,
+                targetId = targetId
+            )
             val subscription = Subscription.of(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
-                slotNo = slotNo,
+                partitionId = partitionId,
                 subscriberId = subscriberId,
             )
             val subscriptionReverse = SubscriptionReverse.of(
@@ -51,7 +55,7 @@ class SubscriptionSubscriber(
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
-                slotNo = slotNo,
+                slotNo = partitionId,
             )
 
             reactiveCassandraOperations.batchOps()

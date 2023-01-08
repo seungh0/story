@@ -57,7 +57,7 @@ spring:
       contact-points: localhost
       port: 29042
       local-datacenter: datacenter1
-      schema-action: create_if_not_exists
+      schema-action: RECREATE
 
 logging:
   level:

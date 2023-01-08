@@ -2,6 +2,8 @@ spring.profiles.default: test
 spring.config:
   import:
     - classpath:/application-cassandra.yml
+    - classpath:/application-redis.yml
+    - classpath:/application-kafka.yml
 
 
 ---
