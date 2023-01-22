@@ -1,0 +1,27 @@
+=== Health Check API
+
+- Health Check API
+
+==== [Response]
+
+===== [Response Field]
+
+include::{snippets}/HEALTH-CHECK/response-fields.adoc[]
+
+===== [Response Body]
+
+include::{snippets}/HEALTH-CHECK/response-body.adoc[]
+
+==== [HTTP Example]
+
+===== [Request HTTP Example]
+
+include::{snippets}/HEALTH-CHECK/http-request.adoc[]
+
+===== [Response HTTP Example]
+
+include::{snippets}/HEALTH-CHECK/http-response.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/HEALTH-CHECK/curl-request.adoc[]

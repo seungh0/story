@@ -2,8 +2,8 @@ package com.story.datacenter.core.domain.subscription
 
 import com.story.datacenter.core.common.enums.CursorDirection
 import com.story.datacenter.core.common.enums.ServiceType
+import com.story.datacenter.core.common.model.Cursor
 import com.story.datacenter.core.common.model.CursorRequest
-import com.story.datacenter.core.common.model.CursorResponse
 import com.story.datacenter.core.common.model.CursorResult
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Slice
@@ -18,7 +18,7 @@ class SubscriptionRetriever(
     private val subscriptionSlotAllocator: SubscriptionSlotAllocator,
 ) {
 
-    suspend fun exists(
+    suspend fun checkSubscription(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
@@ -33,7 +33,7 @@ class SubscriptionRetriever(
         return subscriptionReverseCoroutineRepository.existsById(primaryKey)
     }
 
-    suspend fun getCount(
+    suspend fun getSubscribersCount(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
@@ -46,12 +46,12 @@ class SubscriptionRetriever(
         return subscriptionCounterCoroutineRepository.findById(primaryKey)?.count ?: 0L
     }
 
-    suspend fun getBySubscriber(
+    suspend fun getTargetSubscribers(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<SubscriptionResponse> {
+    ): CursorResult<SubscriptionResponse, String> {
         when (cursorRequest.direction) {
             CursorDirection.NEXT -> {
                 var lastSlotNo = subscriptionSlotAllocator.getCurrentSlot(
@@ -82,7 +82,7 @@ class SubscriptionRetriever(
                 if (!subscriptionSlice.hasNext() && subscriptionSlice.size >= cursorRequest.pageSize) {
                     return CursorResult.of(
                         data = subscriptionSlice.content.map { subscription -> SubscriptionResponse.of(subscription) },
-                        cursor = CursorResponse(cursor = nextCursor),
+                        cursor = Cursor(cursor = nextCursor),
                     )
                 }
 
@@ -103,7 +103,7 @@ class SubscriptionRetriever(
 
                 return CursorResult.of(
                     data = subscriptions.map { subscription -> SubscriptionResponse.of(subscription) },
-                    cursor = CursorResponse(cursor = nextCursor)
+                    cursor = Cursor(cursor = nextCursor)
                 )
             }
             CursorDirection.PREVIOUS -> {
@@ -126,7 +126,7 @@ class SubscriptionRetriever(
                 if (!subscriptionSlice.hasNext() && subscriptionSlice.size >= cursorRequest.pageSize) {
                     return CursorResult.of(
                         data = subscriptionSlice.content.map { subscription -> SubscriptionResponse.of(subscription) },
-                        cursor = CursorResponse(cursor = nextCursor),
+                        cursor = Cursor(cursor = nextCursor),
                     )
                 }
 
@@ -147,7 +147,7 @@ class SubscriptionRetriever(
 
                 return CursorResult.of(
                     data = subscriptions.map { subscription -> SubscriptionResponse.of(subscription) },
-                    cursor = CursorResponse(cursor = nextCursor)
+                    cursor = Cursor(cursor = nextCursor)
                 )
             }
         }
@@ -161,12 +161,12 @@ class SubscriptionRetriever(
         }
     }
 
-    suspend fun getBySubscriberByAccount(
+    suspend fun getSubscriberTargets(
         serviceType: ServiceType,
         subscriptionType: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<SubscriptionResponse> {
+    ): CursorResult<SubscriptionResponse, String> {
         when (cursorRequest.direction) {
             CursorDirection.NEXT -> {
                 val subscriptionSlice = if (cursorRequest.cursor == null) {
@@ -192,7 +192,7 @@ class SubscriptionRetriever(
                             subscriptionReverse
                         )
                     },
-                    cursor = CursorResponse(cursor = getNextCursorBySubscriptionReverse(subscriptionSlice))
+                    cursor = Cursor(cursor = getNextCursorBySubscriptionReverse(subscriptionSlice))
                 )
             }
             CursorDirection.PREVIOUS -> {
@@ -211,7 +211,7 @@ class SubscriptionRetriever(
                             subscriptionReverse
                         )
                     },
-                    cursor = CursorResponse(cursor = getNextCursorBySubscriptionReverse(subscriptionSlice))
+                    cursor = Cursor(cursor = getNextCursorBySubscriptionReverse(subscriptionSlice))
                 )
             }
         }

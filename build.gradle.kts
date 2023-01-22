@@ -11,6 +11,7 @@ plugins {
     id("org.springframework.boot") version "2.7.7"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     id("application")
+    id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
 }
@@ -33,6 +34,7 @@ subprojects {
     apply(plugin = "kotlin-spring")
     apply(plugin = "application")
     apply(plugin = "java-test-fixtures")
+    apply(plugin = "org.asciidoctor.jvm.convert")
 
     dependencies {
         // Spring
@@ -95,6 +97,7 @@ subprojects {
         group = "verification"
         useJUnitPlatform {
             excludeTags("integration-test")
+            excludeTags("docs-test")
         }
     }
 
@@ -106,6 +109,13 @@ subprojects {
         }
     }
 
+    task<Test>("docsTest") {
+        description = "Docs Test"
+        group = "verification"
+        useJUnitPlatform {
+            includeTags("docs-test")
+        }
+    }
 }
 
 application {

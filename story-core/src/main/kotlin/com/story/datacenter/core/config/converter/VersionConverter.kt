@@ -1,5 +1,6 @@
-package com.story.datacenter.core.common.model
+package com.story.datacenter.core.config.converter
 
+import com.story.datacenter.core.common.model.Version
 import org.springframework.core.convert.converter.Converter
 import org.springframework.data.convert.ReadingConverter
 import org.springframework.data.convert.WritingConverter

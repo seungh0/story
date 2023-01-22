@@ -1,0 +1,17 @@
+[cols="3%,10%,70%"]
+|===
+| Http status | Minor Status Code | Error Description
+| 400 | 000 | Bad Request
+| 401 | 000 | UnAuthorized Request
+| 403 | 000 | Forbidden
+| 404 | 000 | Not Found
+| 405 | 000 | Method Not Allowed
+| 406 | 000 | Not Acceptable
+| 409 | 000 | Conflict
+| 413 | 000 | Payload is too Large
+| 413 | 001 | File Size is Too Large
+| 415 | 000 | UnSupported MediaType
+| 500 | 000 | Internal Server Error
+| 500 | 001 | Init failed
+| 501 | 000 | Not Implemented
+|===

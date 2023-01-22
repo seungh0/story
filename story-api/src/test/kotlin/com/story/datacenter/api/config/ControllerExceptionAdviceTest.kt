@@ -10,15 +10,12 @@ import io.mockk.every
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.HttpStatus
-import org.springframework.test.web.reactive.server.WebTestClient
 
 @WebFluxTest(
     HealthController::class,
     ControllerExceptionAdvice::class
 )
-internal class ControllerExceptionAdviceTest(
-    private val webClient: WebTestClient,
-) : ApiTestBase() {
+internal class ControllerExceptionAdviceTest : ApiTestBase() {
 
     @SpykBean
     private lateinit var healthCheckController: HealthController
@@ -43,7 +40,7 @@ internal class ControllerExceptionAdviceTest(
             .exchange()
             .expectStatus().isEqualTo(HttpStatus.CONFLICT)
             .expectBody()
-            .jsonPath("$.code").isEqualTo(ErrorCode.E409_CONFLICT.minorStatusCode)
+            .jsonPath("$.code").isEqualTo("409000")
             .jsonPath("$.message").isEqualTo(ErrorCode.E409_CONFLICT.errorMessage)
     }
 
@@ -60,7 +57,7 @@ internal class ControllerExceptionAdviceTest(
             .exchange()
             .expectStatus().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
             .expectBody()
-            .jsonPath("$.code").isEqualTo(ErrorCode.E500_INTERNAL_SERVER_ERROR.minorStatusCode)
+            .jsonPath("$.code").isEqualTo("500000")
             .jsonPath("$.message").isEqualTo(ErrorCode.E500_INTERNAL_SERVER_ERROR.errorMessage)
     }
 

@@ -40,8 +40,21 @@ internal class SubscriptionSubscriberTest(
             subscriberId = subscriberId,
         )
 
+        subscriptionCoroutineRepository.saveAll(
+            listOf(
+                Subscription.of(
+                    serviceType = ServiceType.TWEETER,
+                    subscriptionType = "follow",
+                    subscriberId = "subscriberId",
+                    targetId = "targetId",
+                    partitionId = 1000L,
+                )
+            )
+        )
+
         // then
-        val subscriptions = subscriptionCoroutineRepository.findAll().toList()
+        val subscriptions: List<Subscription> = subscriptionCoroutineRepository.findAll().toList()
+
         assertThat(subscriptions).hasSize(1)
         subscriptions[0].also {
             assertThat(it.key.serviceType).isEqualTo(serviceType)
