@@ -42,4 +42,8 @@ data class PostPrimaryKey(
     @field:PrimaryKeyColumn(value = "account_id", type = CLUSTERED)
     @field:CassandraType(type = TEXT)
     val accountId: String,
+
+    @field:PrimaryKeyColumn(value = "post_id", type = CLUSTERED)
+    @field:CassandraType(type = TEXT)
+    val postId: Long,
 )

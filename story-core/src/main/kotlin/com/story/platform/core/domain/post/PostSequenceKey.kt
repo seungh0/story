@@ -1,16 +1,17 @@
-package com.story.platform.core.domain.subscription
+package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.support.redis.StringRedisKey
 import java.time.Duration
 
-data class SubscriptionSequenceKey(
+data class PostSequenceKey(
     val serviceType: ServiceType,
-    val subscriptionType: String,
-    val targetId: String,
-) : StringRedisKey<SubscriptionSequenceKey, Long> {
+    val accountId: String,
+    val spaceType: String,
+    val spaceId: String,
+) : StringRedisKey<PostSequenceKey, Long> {
 
-    override fun getKey(): String = "s:service:$serviceType:subscription:$subscriptionType:target:$targetId"
+    override fun getKey(): String = "post:st:$serviceType:account:$accountId:st:$spaceType:si:$spaceId"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

@@ -52,4 +52,8 @@ data class PostReversePrimaryKey(
     @field:PrimaryKeyColumn(value = "space_id", type = CLUSTERED)
     @field:CassandraType(type = TEXT)
     val spaceId: String,
+
+    @field:PrimaryKeyColumn(value = "post_id", type = CLUSTERED)
+    @field:CassandraType(type = TEXT)
+    val postId: Long,
 )
