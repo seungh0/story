@@ -1,4 +1,4 @@
-package com.story.datacenter.core.config.redis
+package com.story.datacenter.core.support.redis
 
 import com.story.datacenter.core.common.error.InternalServerException
 import com.story.datacenter.core.common.partition.ProcessUtils

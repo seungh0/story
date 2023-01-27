@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.server.ServerWebInputException
-import java.util.stream.Collectors
 
 @RestControllerAdvice
 class ControllerExceptionAdvice {
@@ -21,9 +20,9 @@ class ControllerExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException::class)
     private fun handleBadRequest(exception: BindException): ApiResponse<Nothing> {
-        val errorMessage = exception.bindingResult.fieldErrors.stream()
-            .map { fieldError -> fieldError.defaultMessage + " [${fieldError.field}]" }
-            .collect(Collectors.joining("\n"))
+        val errorMessage = exception.bindingResult.fieldErrors
+            .mapNotNull { fieldError -> fieldError.defaultMessage?.plus(" [${fieldError.field}]") }
+            .joinToString(separator = "\n")
         log.warn(exception) { errorMessage }
         return ApiResponse.fail(E400_BAD_REQUEST, errorMessage)
     }

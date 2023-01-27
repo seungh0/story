@@ -1,4 +1,4 @@
-package com.story.datacenter.core.config.cache
+package com.story.datacenter.core.support.cache
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import org.springframework.cache.CacheManager

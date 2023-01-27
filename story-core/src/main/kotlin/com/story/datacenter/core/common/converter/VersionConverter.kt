@@ -1,4 +1,4 @@
-package com.story.datacenter.core.config.converter
+package com.story.datacenter.core.common.converter
 
 import com.story.datacenter.core.common.model.Version
 import org.springframework.core.convert.converter.Converter
