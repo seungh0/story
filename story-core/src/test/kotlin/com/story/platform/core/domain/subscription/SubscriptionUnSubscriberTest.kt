@@ -38,7 +38,7 @@ internal class SubscriptionUnSubscriberTest(
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,
-                slotNo = 1L,
+                slotId = 1L,
             )
         )
 
@@ -48,7 +48,7 @@ internal class SubscriptionUnSubscriberTest(
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,
-                slotNo = 1L,
+                slotId = 1L,
             )
         )
 

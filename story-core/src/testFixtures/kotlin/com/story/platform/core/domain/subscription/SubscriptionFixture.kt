@@ -8,7 +8,7 @@ object SubscriptionFixture {
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
-        slotNo: Long,
+        slotId: Long,
         subscriberId: String,
         extraJson: String? = null,
     ) = Subscription(
@@ -16,7 +16,7 @@ object SubscriptionFixture {
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
-            slotNo = slotNo,
+            slotId = slotId,
             subscriberId = subscriberId,
         ),
         extraJson = extraJson,

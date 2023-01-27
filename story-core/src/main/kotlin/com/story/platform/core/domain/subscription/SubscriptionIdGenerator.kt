@@ -5,36 +5,36 @@ import com.story.platform.core.support.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-class SubscriptionSequenceGenerator(
-    private val subscriptionSequenceRepository: StringRedisRepository<SubscriptionIdKey, Long>,
+class SubscriptionIdGenerator(
+    private val subscriptionIdRepository: StringRedisRepository<SubscriptionIdGenerateKey, Long>,
 ) {
 
     suspend fun generate(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
-    ) = subscriptionSequenceRepository.incr(
-        key = SubscriptionIdKey(
+    ) = subscriptionIdRepository.incr(
+        key = SubscriptionIdGenerateKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
     )
 
-    suspend fun getLastSequence(
+    suspend fun getLastSubscriptionId(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
-    ) = subscriptionSequenceRepository.get(
-        key = SubscriptionIdKey(
+    ) = subscriptionIdRepository.get(
+        key = SubscriptionIdGenerateKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
-    ) ?: INIT_SUBSCRIPTION_SEQUENCE
+    ) ?: INIT_SUBSCRIPTION_ID
 
     companion object {
-        const val INIT_SUBSCRIPTION_SEQUENCE = 0L
+        const val INIT_SUBSCRIPTION_ID = 0L
     }
 
 }

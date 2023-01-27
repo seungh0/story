@@ -1,17 +1,15 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.support.redis.StringRedisKey
 import java.time.Duration
 
-data class PostSequenceKey(
-    val serviceType: ServiceType,
+data class PostIdGenerateKey(
+    val postSpaceKey: PostSpaceKey,
     val accountId: String,
-    val spaceType: String,
-    val spaceId: String,
-) : StringRedisKey<PostSequenceKey, Long> {
+) : StringRedisKey<PostIdGenerateKey, Long> {
 
-    override fun getKey(): String = "post:st:$serviceType:account:$accountId:st:$spaceType:si:$spaceId"
+    override fun getKey(): String =
+        "post:st:${postSpaceKey.serviceType}:account:$accountId:st:${postSpaceKey.spaceType}:si:${postSpaceKey.spaceId}"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

@@ -15,7 +15,7 @@ class SubscriptionSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
-    private val subscriptionSequenceGenerator: SubscriptionSequenceGenerator,
+    private val subscriptionIdGenerator: SubscriptionIdGenerator,
 ) {
 
     // TODO: 분산 락
@@ -39,8 +39,8 @@ class SubscriptionSubscriber(
         withContext(Dispatchers.IO) {
             val jobs = mutableListOf<Job>()
             jobs.add(launch {
-                val slotNo = SubscriptionSlotAllocator.allocate(
-                    subscriptionSequenceGenerator.generate(
+                val slotId = SubscriptionSlotAllocator.allocate(
+                    subscriptionIdGenerator.generate(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId
@@ -50,7 +50,7 @@ class SubscriptionSubscriber(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
-                    slotNo = slotNo,
+                    slotId = slotId,
                     subscriberId = subscriberId,
                 )
                 val subscriptionReverse = SubscriptionReverse.of(
@@ -58,7 +58,7 @@ class SubscriptionSubscriber(
                     subscriptionType = subscriptionType,
                     targetId = targetId,
                     subscriberId = subscriberId,
-                    slotNo = slotNo,
+                    slotId = slotId,
                 )
 
                 reactiveCassandraOperations.batchOps()

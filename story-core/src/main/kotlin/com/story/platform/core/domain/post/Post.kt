@@ -22,7 +22,32 @@ data class Post(
     @field:Column(value = "extra_json")
     @field:CassandraType(type = TEXT)
     val extraJson: String?,
-)
+) {
+
+    companion object {
+        fun of(
+            postSpaceKey: PostSpaceKey,
+            accountId: String,
+            postId: Long,
+            title: String,
+            content: String,
+            extraJson: String?,
+        ) = Post(
+            key = PostPrimaryKey(
+                serviceType = postSpaceKey.serviceType,
+                spaceType = postSpaceKey.spaceType,
+                spaceId = postSpaceKey.spaceId,
+                accountId = accountId,
+                postId = postId,
+            ),
+            title = title,
+            content = content,
+            extraJson = extraJson,
+        )
+
+    }
+
+}
 
 
 @PrimaryKeyClass

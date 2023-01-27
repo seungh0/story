@@ -1,10 +1,16 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.common.utils.SlotAllocator
+
 object SubscriptionSlotAllocator {
 
     fun allocate(
-        subscriptionSequence: Long,
-    ) = (subscriptionSequence / SLOT_SIZE) + FIRST_SLOT_ID
+        subscriptionId: Long,
+    ) = SlotAllocator.allocate(
+        id = subscriptionId,
+        firstSlotId = FIRST_SLOT_ID,
+        slotSize = SLOT_SIZE,
+    )
 
     private const val SLOT_SIZE = 50_000
     const val FIRST_SLOT_ID = 1L

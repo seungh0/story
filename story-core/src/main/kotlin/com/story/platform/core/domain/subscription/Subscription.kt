@@ -28,14 +28,14 @@ data class Subscription(
             serviceType: ServiceType,
             subscriptionType: String,
             targetId: String,
-            slotNo: Long,
+            slotId: Long,
             subscriberId: String,
         ) = Subscription(
             key = SubscriptionPrimaryKey(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
-                slotNo = slotNo,
+                slotId = slotId,
                 subscriberId = subscriberId,
             ),
         )
@@ -58,9 +58,9 @@ data class SubscriptionPrimaryKey(
     @field:CassandraType(type = TEXT)
     val targetId: String,
 
-    @field:PrimaryKeyColumn(value = "slot_no", type = PARTITIONED, ordering = DESCENDING, ordinal = 4)
+    @field:PrimaryKeyColumn(value = "slot_id", type = PARTITIONED, ordering = DESCENDING, ordinal = 4)
     @field:CassandraType(type = BIGINT)
-    val slotNo: Long,
+    val slotId: Long,
 
     @field:PrimaryKeyColumn(value = "subscriber_id", type = CLUSTERED, ordering = DESCENDING, ordinal = 5)
     @field:CassandraType(type = TEXT)

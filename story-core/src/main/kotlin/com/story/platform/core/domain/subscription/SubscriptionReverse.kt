@@ -18,9 +18,9 @@ data class SubscriptionReverse(
     @field:PrimaryKey
     val key: SubscriptionReversePrimaryKey,
 
-    @field:Column(value = "slot_no")
+    @field:Column(value = "slot_id")
     @field:CassandraType(type = BIGINT)
-    val slotNo: Long,
+    val slotId: Long,
 ) {
 
     companion object {
@@ -29,7 +29,7 @@ data class SubscriptionReverse(
             subscriptionType: String,
             subscriberId: String,
             targetId: String,
-            slotNo: Long,
+            slotId: Long,
         ) = SubscriptionReverse(
             key = SubscriptionReversePrimaryKey(
                 serviceType = serviceType,
@@ -37,7 +37,7 @@ data class SubscriptionReverse(
                 subscriberId = subscriberId,
                 targetId = targetId,
             ),
-            slotNo = slotNo,
+            slotId = slotId,
         )
     }
 

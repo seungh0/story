@@ -41,9 +41,9 @@ data class PostReversePrimaryKey(
     @field:CassandraType(type = TEXT)
     val accountId: String,
 
-    @field:PrimaryKeyColumn(value = "slot_no", type = PARTITIONED)
+    @field:PrimaryKeyColumn(value = "slot_id", type = PARTITIONED)
     @field:CassandraType(type = BIGINT)
-    val slotNo: Long,
+    val slotId: Long,
 
     @field:PrimaryKeyColumn(value = "space_type", type = CLUSTERED)
     @field:CassandraType(type = TEXT)

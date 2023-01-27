@@ -48,7 +48,7 @@ internal class SubscriptionSubscriberTest(
             assertThat(it.key.serviceType).isEqualTo(serviceType)
             assertThat(it.key.subscriptionType).isEqualTo(subscriptionType)
             assertThat(it.key.subscriberId).isEqualTo(subscriberId)
-            assertThat(it.key.slotNo).isEqualTo(1L)
+            assertThat(it.key.slotId).isEqualTo(1L)
             assertThat(it.key.targetId).isEqualTo(targetId)
             assertThat(it.extraJson).isNull()
         }
@@ -60,7 +60,7 @@ internal class SubscriptionSubscriberTest(
             assertThat(it.key.subscriptionType).isEqualTo(subscriptionType)
             assertThat(it.key.subscriberId).isEqualTo(subscriberId)
             assertThat(it.key.targetId).isEqualTo(targetId)
-            assertThat(it.slotNo).isEqualTo(1L)
+            assertThat(it.slotId).isEqualTo(1L)
         }
 
         val subscriptionCounters = subscriptionCounterCoroutineRepository.findAll().toList()
@@ -87,7 +87,7 @@ internal class SubscriptionSubscriberTest(
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,
-                slotNo = 1L,
+                slotId = 1L,
             )
         )
 
@@ -97,7 +97,7 @@ internal class SubscriptionSubscriberTest(
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,
-                slotNo = 1L,
+                slotId = 1L,
             )
         )
 
@@ -125,7 +125,7 @@ internal class SubscriptionSubscriberTest(
             assertThat(it.key.serviceType).isEqualTo(serviceType)
             assertThat(it.key.subscriptionType).isEqualTo(subscriptionType)
             assertThat(it.key.subscriberId).isEqualTo(subscriberId)
-            assertThat(it.key.slotNo).isEqualTo(1L)
+            assertThat(it.key.slotId).isEqualTo(1L)
             assertThat(it.key.targetId).isEqualTo(targetId)
             assertThat(it.extraJson).isNull()
         }
@@ -137,7 +137,7 @@ internal class SubscriptionSubscriberTest(
             assertThat(it.key.subscriptionType).isEqualTo(subscriptionType)
             assertThat(it.key.subscriberId).isEqualTo(subscriberId)
             assertThat(it.key.targetId).isEqualTo(targetId)
-            assertThat(it.slotNo).isEqualTo(1L)
+            assertThat(it.slotId).isEqualTo(1L)
         }
 
         val subscriptionCounters = subscriptionCounterCoroutineRepository.findAll().toList()

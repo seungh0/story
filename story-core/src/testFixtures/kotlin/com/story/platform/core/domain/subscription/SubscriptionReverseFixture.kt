@@ -8,7 +8,7 @@ object SubscriptionReverseFixture {
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
-        slotNo: Long,
+        slotId: Long,
         subscriberId: String,
     ) = SubscriptionReverse(
         key = SubscriptionReversePrimaryKey(
@@ -17,7 +17,7 @@ object SubscriptionReverseFixture {
             targetId = targetId,
             subscriberId = subscriberId,
         ),
-        slotNo = slotNo,
+        slotId = slotId,
     )
 
 }

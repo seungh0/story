@@ -7,28 +7,28 @@ import org.springframework.data.domain.Slice
 
 interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscription, SubscriptionPrimaryKey> {
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoOrderByKeySubscriberIdDesc(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
-        slotNo: Long,
+        slotId: Long,
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoAndKeySubscriberIdAndKeySubscriberIdLessThanOrderByKeySubscriberIdDesc(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThanOrderByKeySubscriberIdDesc(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
-        slotNo: Long,
+        slotId: Long,
         subscriberId: String,
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoAndKeySubscriberIdAndKeySubscriberIdGreaterThanOrderByKeySubscriberIdAsc(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdGreaterThanOrderByKeySubscriberIdAsc(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
-        slotNo: Long,
+        slotId: Long,
         subscriberId: String,
         pageable: Pageable,
     ): Slice<Subscription>

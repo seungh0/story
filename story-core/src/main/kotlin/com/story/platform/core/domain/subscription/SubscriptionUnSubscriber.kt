@@ -42,7 +42,7 @@ class SubscriptionUnSubscriber(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
-                        slotNo = subscriptionReverse.slotNo,
+                        slotId = subscriptionReverse.slotId,
                         subscriberId = subscriberId,
                     )
                 )
