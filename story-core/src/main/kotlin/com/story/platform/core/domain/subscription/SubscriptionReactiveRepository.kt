@@ -7,7 +7,7 @@ import org.springframework.data.domain.Slice
 
 interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscription, SubscriptionPrimaryKey> {
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoAndKeySubscriberIdLessThan(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoOrderByKeySubscriberIdDesc(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
@@ -15,7 +15,7 @@ interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscript
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoAndKeySubscriberIdAndKeySubscriberIdLessThan(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotNoAndKeySubscriberIdAndKeySubscriberIdLessThanOrderByKeySubscriberIdDesc(
         serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,

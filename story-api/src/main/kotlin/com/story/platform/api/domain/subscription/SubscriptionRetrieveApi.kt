@@ -1,6 +1,9 @@
 package com.story.platform.api.domain.subscription
 
-import com.story.platform.core.domain.subscription.SubscriptionResponse
+import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.common.model.CursorRequest
+import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.subscription.SubscriptionRetriever
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -10,7 +13,7 @@ import javax.validation.Valid
 
 @RequestMapping("/v1/subscription/{subscriptionType}")
 @RestController
-class SubscriptionRetrieverApi(
+class SubscriptionRetrieveApi(
     private val subscriptionRetriever: SubscriptionRetriever,
 ) {
 
@@ -19,14 +22,14 @@ class SubscriptionRetrieverApi(
         @PathVariable subscriptionType: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
-    ): com.story.platform.core.common.model.ApiResponse<SubscriptionExistsResponse> {
+    ): ApiResponse<SubscriptionExistsResponse> {
         val exists = subscriptionRetriever.checkSubscription(
-            serviceType = com.story.platform.core.common.enums.ServiceType.TWEETER,
+            serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
         )
-        return com.story.platform.core.common.model.ApiResponse.success(
+        return ApiResponse.success(
             result = SubscriptionExistsResponse(exists = exists)
         )
     }
@@ -35,13 +38,13 @@ class SubscriptionRetrieverApi(
     suspend fun getSubscribersCount(
         @PathVariable subscriptionType: String,
         @PathVariable targetId: String,
-    ): com.story.platform.core.common.model.ApiResponse<SubscribersCountResponse> {
+    ): ApiResponse<SubscribersCountResponse> {
         val subscribersCount = subscriptionRetriever.getSubscribersCount(
-            serviceType = com.story.platform.core.common.enums.ServiceType.TWEETER,
+            serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
-        return com.story.platform.core.common.model.ApiResponse.success(
+        return ApiResponse.success(
             result = SubscribersCountResponse(count = subscribersCount)
         )
     }
@@ -50,14 +53,20 @@ class SubscriptionRetrieverApi(
     suspend fun getTargetSubscribers(
         @PathVariable subscriptionType: String,
         @PathVariable targetId: String,
-        @Valid cursorRequest: com.story.platform.core.common.model.CursorRequest,
-    ): com.story.platform.core.common.model.ApiResponse<com.story.platform.core.common.model.CursorResult<SubscriptionResponse, String>> {
-        return com.story.platform.core.common.model.ApiResponse.success(
-            result = subscriptionRetriever.getTargetSubscribers(
-                serviceType = com.story.platform.core.common.enums.ServiceType.TWEETER,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
-                cursorRequest = cursorRequest,
+        @Valid cursorRequest: CursorRequest,
+    ): ApiResponse<CursorResult<SubscriberResponse, String>> {
+        val subscriptionReverses = subscriptionRetriever.getTargetSubscribers(
+            serviceType = ServiceType.TWEETER,
+            subscriptionType = subscriptionType,
+            targetId = targetId,
+            cursorRequest = cursorRequest,
+        )
+        return ApiResponse.success(
+            result = CursorResult.of(
+                data = subscriptionReverses.data.map { subscriptionReverse ->
+                    SubscriberResponse.of(subscriptionReverse)
+                },
+                cursor = subscriptionReverses.cursor,
             )
         )
     }
@@ -66,14 +75,20 @@ class SubscriptionRetrieverApi(
     suspend fun getSubscriberTargets(
         @PathVariable subscriptionType: String,
         @PathVariable subscriberId: String,
-        @Valid cursorRequest: com.story.platform.core.common.model.CursorRequest,
-    ): com.story.platform.core.common.model.ApiResponse<com.story.platform.core.common.model.CursorResult<SubscriptionResponse, String>> {
-        return com.story.platform.core.common.model.ApiResponse.success(
-            result = subscriptionRetriever.getSubscriberTargets(
-                serviceType = com.story.platform.core.common.enums.ServiceType.TWEETER,
-                subscriptionType = subscriptionType,
-                subscriberId = subscriberId,
-                cursorRequest = cursorRequest,
+        @Valid cursorRequest: CursorRequest,
+    ): ApiResponse<CursorResult<SubscriptionTargetResponse, String>> {
+        val subscriptions = subscriptionRetriever.getSubscriberTargets(
+            serviceType = ServiceType.TWEETER,
+            subscriptionType = subscriptionType,
+            subscriberId = subscriberId,
+            cursorRequest = cursorRequest,
+        )
+        return ApiResponse.success(
+            result = CursorResult.of(
+                data = subscriptions.data.map { subscription ->
+                    SubscriptionTargetResponse.of(subscription)
+                },
+                cursor = subscriptions.cursor,
             )
         )
     }

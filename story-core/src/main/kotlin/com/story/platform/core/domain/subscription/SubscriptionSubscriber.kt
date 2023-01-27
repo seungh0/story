@@ -48,7 +48,7 @@ class SubscriptionSubscriber(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
-                    partitionId = partitionId,
+                    slotNo = partitionId,
                     subscriberId = subscriberId,
                 )
                 val subscriptionReverse = SubscriptionReverse.of(

@@ -1,5 +1,7 @@
 package com.story.platform.api.domain.subscription
 
+import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.subscription.SubscriptionSubscriber
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -17,14 +19,14 @@ class SubscriptionSubscribeApi(
         @PathVariable subscriptionType: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
-    ): com.story.platform.core.common.model.ApiResponse<String> {
+    ): ApiResponse<String> {
         subscriptionSubscriber.subscribe(
-            serviceType = com.story.platform.core.common.enums.ServiceType.TWEETER,
+            serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
         )
-        return com.story.platform.core.common.model.ApiResponse.OK
+        return ApiResponse.OK
     }
 
 }

@@ -14,13 +14,15 @@ class SubscriptionSlotAllocator(
         subscriptionType: String,
         targetId: String,
     ): Long {
-        return stringRedisRepository.get(
-            key = SubscriptionSequenceKey(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
-            )
-        ) ?: FIRST_SLOT_ID
+        return getSlotBySequence(
+            sequence = stringRedisRepository.get(
+                key = SubscriptionSequenceKey(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    targetId = targetId,
+                )
+            ) ?: FIRST_SLOT_ID
+        )
     }
 
     suspend fun allocate(
@@ -28,14 +30,19 @@ class SubscriptionSlotAllocator(
         subscriptionType: String,
         targetId: String,
     ): Long {
-        val subscriptionSequenceKey = stringRedisRepository.incr(
-            key = SubscriptionSequenceKey(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
+        return getSlotBySequence(
+            stringRedisRepository.incr(
+                key = SubscriptionSequenceKey(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    targetId = targetId,
+                )
             )
         )
-        return subscriptionSequenceKey / SLOT_SIZE + FIRST_SLOT_ID
+    }
+
+    private fun getSlotBySequence(sequence: Long): Long {
+        return sequence / SLOT_SIZE + FIRST_SLOT_ID
     }
 
     companion object {
