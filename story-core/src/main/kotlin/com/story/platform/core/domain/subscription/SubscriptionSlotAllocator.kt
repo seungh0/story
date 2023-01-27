@@ -1,53 +1,12 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.support.redis.StringRedisRepository
-import org.springframework.stereotype.Repository
+object SubscriptionSlotAllocator {
 
-@Repository
-class SubscriptionSlotAllocator(
-    private val stringRedisRepository: StringRedisRepository<SubscriptionSequenceKey, Long>,
-) {
+    fun allocate(
+        subscriptionSequence: Long,
+    ) = (subscriptionSequence / SLOT_SIZE) + FIRST_SLOT_ID
 
-    suspend fun getCurrentSlot(
-        serviceType: ServiceType,
-        subscriptionType: String,
-        targetId: String,
-    ): Long {
-        return getSlotBySequence(
-            sequence = stringRedisRepository.get(
-                key = SubscriptionSequenceKey(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                )
-            ) ?: FIRST_SLOT_ID
-        )
-    }
-
-    suspend fun allocate(
-        serviceType: ServiceType,
-        subscriptionType: String,
-        targetId: String,
-    ): Long {
-        return getSlotBySequence(
-            stringRedisRepository.incr(
-                key = SubscriptionSequenceKey(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                )
-            )
-        )
-    }
-
-    private fun getSlotBySequence(sequence: Long): Long {
-        return sequence / SLOT_SIZE + FIRST_SLOT_ID
-    }
-
-    companion object {
-        const val FIRST_SLOT_ID = 1L
-        private const val SLOT_SIZE = 50_000
-    }
+    private const val SLOT_SIZE = 50_000
+    const val FIRST_SLOT_ID = 1L
 
 }

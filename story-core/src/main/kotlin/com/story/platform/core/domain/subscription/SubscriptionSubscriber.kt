@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val subscriptionSlotAllocator: SubscriptionSlotAllocator,
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
+    private val subscriptionSequenceGenerator: SubscriptionSequenceGenerator,
 ) {
 
     // TODO: 분산 락
@@ -39,16 +39,18 @@ class SubscriptionSubscriber(
         withContext(Dispatchers.IO) {
             val jobs = mutableListOf<Job>()
             jobs.add(launch {
-                val partitionId = subscriptionSlotAllocator.allocate(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId
+                val slotNo = SubscriptionSlotAllocator.allocate(
+                    subscriptionSequenceGenerator.generate(
+                        serviceType = serviceType,
+                        subscriptionType = subscriptionType,
+                        targetId = targetId
+                    )
                 )
                 val subscription = Subscription.of(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
-                    slotNo = partitionId,
+                    slotNo = slotNo,
                     subscriberId = subscriberId,
                 )
                 val subscriptionReverse = SubscriptionReverse.of(
@@ -56,7 +58,7 @@ class SubscriptionSubscriber(
                     subscriptionType = subscriptionType,
                     targetId = targetId,
                     subscriberId = subscriberId,
-                    slotNo = partitionId,
+                    slotNo = slotNo,
                 )
 
                 reactiveCassandraOperations.batchOps()
