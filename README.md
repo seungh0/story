@@ -1,4 +1,4 @@
-# Story Platform Push Center
+# Story Platform
 
 - Kotlin, Kotlin Coroutine
 - Spring Webflux

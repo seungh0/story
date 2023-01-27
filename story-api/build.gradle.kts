@@ -23,5 +23,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.story.datacenter.api.ApiApplicationKt")
+    mainClass.set("com.story.platform.api.ApiApplicationKt")
 }

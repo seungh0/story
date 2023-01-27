@@ -16,7 +16,7 @@ server:
 
 spring:
   application:
-    name: tokki-api-consumer
+    name: story-api-consumer
   webflux:
     format:
       date: iso
@@ -24,4 +24,4 @@ spring:
       time: iso
   kafka:
     consumer:
-      group-id: STORY_datacenter_API_CONSUMER
+      group-id: STORY_PLATFORM_API_CONSUMER

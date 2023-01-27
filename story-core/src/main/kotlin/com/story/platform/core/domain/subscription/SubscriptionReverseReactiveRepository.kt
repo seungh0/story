@@ -1,0 +1,33 @@
+package com.story.platform.core.domain.subscription
+
+import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
+
+interface SubscriptionReverseReactiveRepository :
+    ReactiveCassandraRepository<SubscriptionReverse, SubscriptionReversePrimaryKey> {
+
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberId(
+        serviceType: com.story.platform.core.common.enums.ServiceType,
+        subscriptionType: String,
+        subscriberId: String,
+        pageable: Pageable,
+    ): Slice<SubscriptionReverse>
+
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdLessThan(
+        serviceType: com.story.platform.core.common.enums.ServiceType,
+        subscriptionType: String,
+        subscriberId: String,
+        targetId: String,
+        pageable: Pageable,
+    ): Slice<SubscriptionReverse>
+
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
+        serviceType: com.story.platform.core.common.enums.ServiceType,
+        subscriptionType: String,
+        subscriberId: String,
+        targetId: String,
+        pageable: Pageable,
+    ): Slice<SubscriptionReverse>
+
+}

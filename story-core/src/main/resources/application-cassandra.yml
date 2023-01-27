@@ -17,7 +17,7 @@ spring.config:
 spring:
   data:
     cassandra:
-      keyspace-name: story_datacenter_local
+      keyspace-name: story_platform_local
       contact-points: localhost
       local-datacenter: datacenter1
       schema-action: create_if_not_exists
@@ -53,7 +53,7 @@ spring.config:
 spring:
   data:
     cassandra:
-      keyspace-name: story_datacenter_test
+      keyspace-name: story_platform_test
       contact-points: localhost
       port: 29042
       local-datacenter: datacenter1

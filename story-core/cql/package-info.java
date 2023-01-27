@@ -1,1 +1,1 @@
-package com.story.datacenter.core.domain;
+package com.story.platform.core.domain;

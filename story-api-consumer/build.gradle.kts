@@ -6,5 +6,5 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.story.datacenter.apiconsumer.ApiConsumerApplicationKt")
+    mainClass.set("com.story.platform.apiconsumer.ApiConsumerApplicationKt")
 }

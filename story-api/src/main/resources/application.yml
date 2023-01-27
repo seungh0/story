@@ -16,7 +16,7 @@ server:
 
 spring:
   application:
-    name: tokki-api
+    name: story-api
   webflux:
     base-path: /api
     format:
