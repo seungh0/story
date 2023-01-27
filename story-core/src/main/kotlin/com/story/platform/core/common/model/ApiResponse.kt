@@ -1,6 +1,7 @@
 package com.story.platform.core.common.model
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.story.platform.core.common.error.ErrorCode
 
 data class ApiResponse<T>(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
@@ -13,19 +14,19 @@ data class ApiResponse<T>(
 ) {
 
     companion object {
-        fun <T> success(result: T): com.story.platform.core.common.model.ApiResponse<T> =
-            com.story.platform.core.common.model.ApiResponse(result = result)
+        fun <T> success(result: T): ApiResponse<T> =
+            ApiResponse(result = result)
 
         fun fail(
-            error: com.story.platform.core.common.error.ErrorCode,
+            error: ErrorCode,
             message: String? = null,
-        ): com.story.platform.core.common.model.ApiResponse<Nothing> = com.story.platform.core.common.model.ApiResponse(
+        ): ApiResponse<Nothing> = ApiResponse(
             code = "${error.httpStatusCode}${error.minorStatusCode}",
             message = message ?: error.errorMessage,
             result = null,
         )
 
-        val OK = com.story.platform.core.common.model.ApiResponse.Companion.success(result = "OK")
+        val OK = success(result = "OK")
     }
 
 }

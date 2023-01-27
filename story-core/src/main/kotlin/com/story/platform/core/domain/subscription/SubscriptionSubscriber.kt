@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.common.enums.ServiceType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.joinAll
@@ -19,7 +20,7 @@ class SubscriptionSubscriber(
 
     // TODO: 분산 락
     suspend fun subscribe(
-        serviceType: com.story.platform.core.common.enums.ServiceType,
+        serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
         subscriberId: String,

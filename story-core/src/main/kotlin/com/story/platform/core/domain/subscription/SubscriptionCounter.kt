@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.COUNTER
@@ -25,7 +26,7 @@ data class SubscriptionCounter(
 data class SubscriptionCounterPrimaryKey(
     @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED)
     @field:CassandraType(type = TEXT)
-    val serviceType: com.story.platform.core.common.enums.ServiceType,
+    val serviceType: ServiceType,
 
     @field:PrimaryKeyColumn(value = "subscription_type", type = PARTITIONED)
     @field:CassandraType(type = TEXT)

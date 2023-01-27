@@ -1,5 +1,10 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.common.enums.CursorDirection
+import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.model.Cursor
+import com.story.platform.core.common.model.CursorRequest
+import com.story.platform.core.common.model.CursorResult
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
@@ -14,7 +19,7 @@ class SubscriptionRetriever(
 ) {
 
     suspend fun checkSubscription(
-        serviceType: com.story.platform.core.common.enums.ServiceType,
+        serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
         subscriberId: String,
@@ -29,7 +34,7 @@ class SubscriptionRetriever(
     }
 
     suspend fun getSubscribersCount(
-        serviceType: com.story.platform.core.common.enums.ServiceType,
+        serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
     ): Long {
@@ -42,13 +47,13 @@ class SubscriptionRetriever(
     }
 
     suspend fun getTargetSubscribers(
-        serviceType: com.story.platform.core.common.enums.ServiceType,
+        serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
-        cursorRequest: com.story.platform.core.common.model.CursorRequest,
-    ): com.story.platform.core.common.model.CursorResult<SubscriptionResponse, String> {
+        cursorRequest: CursorRequest,
+    ): CursorResult<SubscriptionResponse, String> {
         when (cursorRequest.direction) {
-            com.story.platform.core.common.enums.CursorDirection.NEXT -> {
+            CursorDirection.NEXT -> {
                 var lastSlotNo = subscriptionSlotAllocator.getCurrentSlot(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -75,9 +80,9 @@ class SubscriptionRetriever(
 
                 var nextCursor: String? = getNextCursorBySubscription(subscriptionSlice)
                 if (!subscriptionSlice.hasNext() && subscriptionSlice.size >= cursorRequest.pageSize) {
-                    return com.story.platform.core.common.model.CursorResult.of(
+                    return CursorResult.of(
                         data = subscriptionSlice.content.map { subscription -> SubscriptionResponse.of(subscription) },
-                        cursor = com.story.platform.core.common.model.Cursor(cursor = nextCursor),
+                        cursor = Cursor(cursor = nextCursor),
                     )
                 }
 
@@ -96,12 +101,12 @@ class SubscriptionRetriever(
                     nextCursor = getNextCursorBySubscription(subscriptionsInSlot)
                 }
 
-                return com.story.platform.core.common.model.CursorResult.of(
+                return CursorResult.of(
                     data = subscriptions.map { subscription -> SubscriptionResponse.of(subscription) },
-                    cursor = com.story.platform.core.common.model.Cursor(cursor = nextCursor)
+                    cursor = Cursor(cursor = nextCursor)
                 )
             }
-            com.story.platform.core.common.enums.CursorDirection.PREVIOUS -> {
+            CursorDirection.PREVIOUS -> {
                 var lastSlotNo = subscriptionSlotAllocator.getCurrentSlot(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -119,9 +124,9 @@ class SubscriptionRetriever(
 
                 var nextCursor: String? = getNextCursorBySubscription(subscriptionSlice)
                 if (!subscriptionSlice.hasNext() && subscriptionSlice.size >= cursorRequest.pageSize) {
-                    return com.story.platform.core.common.model.CursorResult.of(
+                    return CursorResult.of(
                         data = subscriptionSlice.content.map { subscription -> SubscriptionResponse.of(subscription) },
-                        cursor = com.story.platform.core.common.model.Cursor(cursor = nextCursor),
+                        cursor = Cursor(cursor = nextCursor),
                     )
                 }
 
@@ -140,9 +145,9 @@ class SubscriptionRetriever(
                     nextCursor = getNextCursorBySubscription(subscriptionsInSlot)
                 }
 
-                return com.story.platform.core.common.model.CursorResult.of(
+                return CursorResult.of(
                     data = subscriptions.map { subscription -> SubscriptionResponse.of(subscription) },
-                    cursor = com.story.platform.core.common.model.Cursor(cursor = nextCursor)
+                    cursor = Cursor(cursor = nextCursor)
                 )
             }
         }
@@ -157,13 +162,13 @@ class SubscriptionRetriever(
     }
 
     suspend fun getSubscriberTargets(
-        serviceType: com.story.platform.core.common.enums.ServiceType,
+        serviceType: ServiceType,
         subscriptionType: String,
         subscriberId: String,
-        cursorRequest: com.story.platform.core.common.model.CursorRequest,
-    ): com.story.platform.core.common.model.CursorResult<SubscriptionResponse, String> {
+        cursorRequest: CursorRequest,
+    ): CursorResult<SubscriptionResponse, String> {
         when (cursorRequest.direction) {
-            com.story.platform.core.common.enums.CursorDirection.NEXT -> {
+            CursorDirection.NEXT -> {
                 val subscriptionSlice = if (cursorRequest.cursor == null) {
                     subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberId(
                         serviceType = serviceType,
@@ -181,20 +186,20 @@ class SubscriptionRetriever(
                     )
                 }
 
-                return com.story.platform.core.common.model.CursorResult.of(
+                return CursorResult.of(
                     data = subscriptionSlice.content.map { subscriptionReverse ->
                         SubscriptionResponse.of(
                             subscriptionReverse
                         )
                     },
-                    cursor = com.story.platform.core.common.model.Cursor(
+                    cursor = Cursor(
                         cursor = getNextCursorBySubscriptionReverse(
                             subscriptionSlice
                         )
                     )
                 )
             }
-            com.story.platform.core.common.enums.CursorDirection.PREVIOUS -> {
+            CursorDirection.PREVIOUS -> {
                 val subscriptionSlice =
                     subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
                         serviceType = serviceType,
@@ -204,13 +209,13 @@ class SubscriptionRetriever(
                         pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
                     )
 
-                return com.story.platform.core.common.model.CursorResult.of(
+                return CursorResult.of(
                     data = subscriptionSlice.content.map { subscriptionReverse ->
                         SubscriptionResponse.of(
                             subscriptionReverse
                         )
                     },
-                    cursor = com.story.platform.core.common.model.Cursor(
+                    cursor = Cursor(
                         cursor = getNextCursorBySubscriptionReverse(
                             subscriptionSlice
                         )

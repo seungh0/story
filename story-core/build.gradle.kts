@@ -8,7 +8,6 @@ tasks.jar {
 
 val commonsLang3Version = "3.12.0"
 val caffeineCacheVersion = "2.9.3"
-val embeddedRedisVersion = "0.7.2"
 
 dependencies {
     // CommonsLang3
@@ -26,9 +25,6 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine:$caffeineCacheVersion")
 
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
-
-    // Embedded Redis
-    implementation("it.ozimov:embedded-redis:${embeddedRedisVersion}")
 
     testImplementation(testFixtures(project(":story-core")))
 }

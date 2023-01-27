@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.support.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 
@@ -9,7 +10,7 @@ class SubscriptionSlotAllocator(
 ) {
 
     suspend fun getCurrentSlot(
-        serviceType: com.story.platform.core.common.enums.ServiceType,
+        serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
     ): Long {
@@ -23,7 +24,7 @@ class SubscriptionSlotAllocator(
     }
 
     suspend fun allocate(
-        serviceType: com.story.platform.core.common.enums.ServiceType,
+        serviceType: ServiceType,
         subscriptionType: String,
         targetId: String,
     ): Long {

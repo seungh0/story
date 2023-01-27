@@ -1,5 +1,6 @@
 package com.story.platform.core.common.converter
 
+import com.story.platform.core.common.model.Version
 import org.springframework.core.convert.converter.Converter
 import org.springframework.data.convert.ReadingConverter
 import org.springframework.data.convert.WritingConverter
@@ -7,16 +8,16 @@ import org.springframework.stereotype.Component
 
 @Component
 @WritingConverter
-class VersionWriteConverter : Converter<com.story.platform.core.common.model.Version, String> {
+class VersionWriteConverter : Converter<Version, String> {
 
-    override fun convert(version: com.story.platform.core.common.model.Version): String = version.toString()
+    override fun convert(version: Version): String = version.toString()
 
 }
 
 @Component
 @ReadingConverter
-class VersionReadConverter : Converter<String, com.story.platform.core.common.model.Version> {
+class VersionReadConverter : Converter<String, Version> {
 
-    override fun convert(versionStr: String) = com.story.platform.core.common.model.Version.of(versionStr)
+    override fun convert(versionStr: String) = Version.of(versionStr)
 
 }

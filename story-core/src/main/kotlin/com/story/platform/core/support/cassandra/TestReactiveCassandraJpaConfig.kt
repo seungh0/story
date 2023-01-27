@@ -1,5 +1,6 @@
 package com.story.platform.core.support.cassandra
 
+import com.story.platform.core.CoreRoot
 import com.story.platform.core.common.converter.VersionReadConverter
 import com.story.platform.core.common.converter.VersionWriteConverter
 import org.springframework.boot.autoconfigure.cassandra.CassandraProperties
@@ -14,8 +15,8 @@ import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption
 import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories
 
 @Profile("test")
-@EntityScan(basePackageClasses = [com.story.platform.core.CoreRoot::class])
-@EnableReactiveCassandraRepositories(basePackageClasses = [com.story.platform.core.CoreRoot::class])
+@EntityScan(basePackageClasses = [CoreRoot::class])
+@EnableReactiveCassandraRepositories(basePackageClasses = [CoreRoot::class])
 @Configuration
 class TestReactiveCassandraJpaConfig(
     private val cassandraProperties: CassandraProperties,

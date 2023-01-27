@@ -7,25 +7,25 @@ import java.util.stream.IntStream
 data class Version(
     val version: String,
     override val length: Int,
-) : Comparable<com.story.platform.core.common.model.Version>, CharSequence, Serializable {
+) : Comparable<Version>, CharSequence, Serializable {
 
-    fun isGreaterThan(version: com.story.platform.core.common.model.Version): Boolean {
+    fun isGreaterThan(version: Version): Boolean {
         return compareTo(version) > 0
     }
 
-    fun isGreaterThanOrEqualTo(version: com.story.platform.core.common.model.Version): Boolean {
+    fun isGreaterThanOrEqualTo(version: Version): Boolean {
         return compareTo(version) >= 0
     }
 
-    fun `is`(version: com.story.platform.core.common.model.Version): Boolean {
+    fun `is`(version: Version): Boolean {
         return equals(version)
     }
 
-    fun isLessThan(version: com.story.platform.core.common.model.Version): Boolean {
+    fun isLessThan(version: Version): Boolean {
         return compareTo(version) < 0
     }
 
-    fun isLessThanOrEqualTo(version: com.story.platform.core.common.model.Version): Boolean {
+    fun isLessThanOrEqualTo(version: Version): Boolean {
         return compareTo(version) <= 0
     }
 
@@ -33,13 +33,13 @@ data class Version(
         return version.hashCode()
     }
 
-    override fun compareTo(other: com.story.platform.core.common.model.Version): Int {
+    override fun compareTo(other: Version): Int {
         val versionArray: Array<String> =
-            version.split(com.story.platform.core.common.model.Version.Companion.VERSION_REGEX.pattern().toRegex())
+            version.split(Version.VERSION_REGEX.pattern().toRegex())
                 .dropLastWhile { it.isEmpty() }
                 .toTypedArray()
         val targetVersionArray: Array<String> = other.toString()
-            .split(com.story.platform.core.common.model.Version.Companion.VERSION_REGEX.pattern().toRegex())
+            .split(Version.VERSION_REGEX.pattern().toRegex())
             .dropLastWhile { it.isEmpty() }
             .toTypedArray()
 
@@ -87,22 +87,22 @@ data class Version(
         if (this === other) {
             return true
         }
-        if (other !is com.story.platform.core.common.model.Version) {
+        if (other !is Version) {
             return false
         }
         return compareTo(other) == 0
     }
 
     companion object {
-        private val EMPTY = com.story.platform.core.common.model.Version("", 0)
+        private val EMPTY = Version("", 0)
 
         private val VERSION_REGEX = Pattern.compile("[^a-zA-Z\\d]+")
 
-        fun of(version: String?): com.story.platform.core.common.model.Version {
+        fun of(version: String?): Version {
             if (version.isNullOrBlank()) {
-                return com.story.platform.core.common.model.Version.Companion.EMPTY
+                return Version.EMPTY
             }
-            return com.story.platform.core.common.model.Version(
+            return Version(
                 version = version,
                 length = version.length,
             )

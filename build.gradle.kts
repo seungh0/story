@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val kotlinLoggingJvmVersion = "2.1.20"
 val kotlinxCoroutinesTestVersion = "1.6.4"
-val embeddedCassandraVersion = "4.0.7"
 val springMockkVersion = "3.1.1"
 
 plugins {

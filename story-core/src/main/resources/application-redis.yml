@@ -13,4 +13,4 @@ spring.config:
 spring:
   redis:
     host: localhost
-    port: ${random.int(49152,65535)}
+    port: 6381

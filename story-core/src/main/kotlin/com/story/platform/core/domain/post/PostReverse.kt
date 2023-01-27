@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.CassandraType
@@ -34,7 +35,7 @@ data class PostReverse(
 data class PostReversePrimaryKey(
     @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED)
     @field:CassandraType(type = TEXT)
-    val serviceType: com.story.platform.core.common.enums.ServiceType,
+    val serviceType: ServiceType,
 
     @field:PrimaryKeyColumn(value = "account_id", type = PARTITIONED)
     @field:CassandraType(type = TEXT)
