@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  cassandra:
+    image: cassandra:4
+    ports:
+      - "9042:9042"
+    restart: always
+
+  redis:
+    image: redis:6.0
+    command: redis-server --port 6379
+    ports:
+      - '6381:6379'
+    restart: unless-stopped

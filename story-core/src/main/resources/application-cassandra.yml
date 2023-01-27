@@ -55,7 +55,7 @@ spring:
     cassandra:
       keyspace-name: story_platform_test
       contact-points: localhost
-      port: 29042
+      port: 9042
       local-datacenter: datacenter1
       schema-action: RECREATE
 

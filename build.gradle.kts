@@ -61,9 +61,6 @@ subprojects {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
         testImplementation("io.projectreactor:reactor-test")
 
-        // Embedded Cassandra
-        implementation("com.github.nosan:embedded-cassandra:$embeddedCassandraVersion")
-
         // Spring MockK
         testImplementation("com.ninja-squad:springmockk:${springMockkVersion}")
     }
