@@ -28,7 +28,25 @@ data class PostReverse(
     @field:Column(value = "extra_json")
     @field:CassandraType(type = TEXT)
     val extraJson: String?,
-)
+) {
+
+    companion object {
+        fun of(post: Post) = PostReverse(
+            key = PostReversePrimaryKey(
+                serviceType = post.key.serviceType,
+                accountId = post.key.accountId,
+                slotId = PostSlotAllocator.allocate(post.key.postId),
+                spaceId = post.key.spaceId,
+                spaceType = post.key.spaceType,
+                postId = post.key.postId,
+            ),
+            title = post.title,
+            content = post.content,
+            extraJson = post.extraJson,
+        )
+    }
+
+}
 
 
 @PrimaryKeyClass

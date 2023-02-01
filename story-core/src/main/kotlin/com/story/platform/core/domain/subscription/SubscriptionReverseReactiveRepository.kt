@@ -8,14 +8,7 @@ import org.springframework.data.domain.Slice
 interface SubscriptionReverseReactiveRepository :
     ReactiveCassandraRepository<SubscriptionReverse, SubscriptionReversePrimaryKey> {
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdOrderByKeyTargetIdDesc(
-        serviceType: ServiceType,
-        subscriptionType: String,
-        subscriberId: String,
-        pageable: Pageable,
-    ): Slice<SubscriptionReverse>
-
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdLessThanEqual(
         serviceType: ServiceType,
         subscriptionType: String,
         subscriberId: String,
@@ -23,7 +16,14 @@ interface SubscriptionReverseReactiveRepository :
         pageable: Pageable,
     ): Slice<SubscriptionReverse>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdGreaterThanEqual(
+        serviceType: ServiceType,
+        subscriptionType: String,
+        subscriberId: String,
+        pageable: Pageable,
+    ): Slice<SubscriptionReverse>
+
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanEqual(
         serviceType: ServiceType,
         subscriptionType: String,
         subscriberId: String,

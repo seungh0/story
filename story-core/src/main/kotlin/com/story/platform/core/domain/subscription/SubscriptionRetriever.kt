@@ -5,7 +5,6 @@ import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
-import com.story.platform.core.domain.subscription.SubscriptionSlotAllocator.FIRST_SLOT_ID
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 
@@ -54,29 +53,32 @@ class SubscriptionRetriever(
     ): CursorResult<Subscription, String> {
         when (cursorRequest.direction) {
             CursorDirection.NEXT -> {
-                var lastSlotId = SubscriptionSlotAllocator.allocate(
-                    subscriptionId = subscriptionIdGenerator.getLastSubscriptionId(
-                        serviceType = serviceType,
-                        subscriptionType = subscriptionType,
-                        targetId = targetId
-                    )
-                )
-                val subscriptionSlice = if (cursorRequest.cursor == null) {
-                    subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
+                var firstSlotId: Long = cursorRequest.cursor?.let { cursor ->
+                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanEqual(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
-                        slotId = lastSlotId,
+                        subscriberId = cursor,
+                        pageable = CassandraPageRequest.of(0, 1)
+                    ).content.firstOrNull()?.slotId
+                } ?: SubscriptionSlotAllocator.FIRST_SLOT_ID
+
+                val subscriptionSlice = if (cursorRequest.cursor == null) {
+                    subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdGreaterThan(
+                        serviceType = serviceType,
+                        subscriptionType = subscriptionType,
+                        targetId = targetId,
+                        slotId = firstSlotId,
                         pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
                     )
                 } else {
-                    subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThanOrderByKeySubscriberIdDesc(
+                    subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdGreaterThan(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
-                        slotId = lastSlotId,
+                        slotId = firstSlotId,
                         subscriberId = cursorRequest.cursor,
-                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
+                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
                     )
                 }
 
@@ -90,13 +92,21 @@ class SubscriptionRetriever(
 
                 val subscriptions = subscriptionSlice.content as MutableList<Subscription>
 
-                while (++lastSlotId <= FIRST_SLOT_ID && subscriptions.size < cursorRequest.pageSize) {
+                val lastSlotId = SubscriptionSlotAllocator.allocate(
+                    subscriptionId = subscriptionIdGenerator.getLastSubscriptionId(
+                        serviceType = serviceType,
+                        subscriptionType = subscriptionType,
+                        targetId = targetId
+                    )
+                )
+
+                while (++firstSlotId <= lastSlotId && subscriptions.size < cursorRequest.pageSize) {
                     val subscriptionsInSlot =
-                        subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
+                        subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdGreaterThan(
                             serviceType = serviceType,
                             subscriptionType = subscriptionType,
                             targetId = targetId,
-                            slotId = lastSlotId,
+                            slotId = firstSlotId,
                             pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
                         )
                     subscriptions.addAll(subscriptionSlice.content)
@@ -109,21 +119,30 @@ class SubscriptionRetriever(
                 )
             }
             CursorDirection.PREVIOUS -> {
-                var lastSlot = SubscriptionSlotAllocator.allocate(
+                var lastSlotId: Long = cursorRequest.cursor!!.let { cursor ->
+                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanEqual(
+                        serviceType = serviceType,
+                        subscriptionType = subscriptionType,
+                        targetId = targetId,
+                        subscriberId = cursor,
+                        pageable = CassandraPageRequest.of(0, 1)
+                    ).content.firstOrNull()?.slotId
+                } ?: SubscriptionSlotAllocator.allocate(
                     subscriptionId = subscriptionIdGenerator.getLastSubscriptionId(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId
                     )
                 )
+
                 val subscriptionSlice =
-                    subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdGreaterThanOrderByKeySubscriberIdAsc(
+                    subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
-                        slotId = lastSlot,
+                        slotId = lastSlotId,
                         subscriberId = cursorRequest.cursor!!,
-                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
+                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
                     )
 
                 var nextCursor: String? = SubscriptionCursorCalculator.getNextCursorBySubscription(subscriptionSlice)
@@ -136,13 +155,13 @@ class SubscriptionRetriever(
 
                 val subscriptions = subscriptionSlice.content as MutableList<Subscription>
 
-                while (--lastSlot >= FIRST_SLOT_ID && subscriptions.size < cursorRequest.pageSize) {
+                while (--lastSlotId >= SubscriptionSlotAllocator.FIRST_SLOT_ID && subscriptions.size < cursorRequest.pageSize) {
                     val subscriptionsInSlot =
-                        subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
+                        subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
                             serviceType = serviceType,
                             subscriptionType = subscriptionType,
                             targetId = targetId,
-                            slotId = lastSlot,
+                            slotId = lastSlotId,
                             pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
                         )
                     subscriptions.addAll(subscriptionSlice.content)
@@ -166,19 +185,19 @@ class SubscriptionRetriever(
         when (cursorRequest.direction) {
             CursorDirection.NEXT -> {
                 val subscriptionSlice = if (cursorRequest.cursor == null) {
-                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdOrderByKeyTargetIdDesc(
+                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdGreaterThanEqual(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         subscriberId = subscriberId,
-                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
+                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
                     )
                 } else {
-                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
+                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanEqual(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         subscriberId = subscriberId,
                         targetId = cursorRequest.cursor,
-                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
+                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
                     )
                 }
 
@@ -193,12 +212,12 @@ class SubscriptionRetriever(
             }
             CursorDirection.PREVIOUS -> {
                 val subscriptionSlice =
-                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
+                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdLessThanEqual(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         subscriberId = subscriberId,
                         targetId = cursorRequest.cursor!!,
-                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
+                        pageable = CassandraPageRequest.of(0, cursorRequest.pageSize)
                     )
 
                 return CursorResult.of(

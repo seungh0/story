@@ -53,17 +53,9 @@ class SubscriptionSubscriber(
                     slotId = slotId,
                     subscriberId = subscriberId,
                 )
-                val subscriptionReverse = SubscriptionReverse.of(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                    subscriberId = subscriberId,
-                    slotId = slotId,
-                )
-
                 reactiveCassandraOperations.batchOps()
                     .insert(subscription)
-                    .insert(subscriptionReverse)
+                    .insert(SubscriptionReverse.of(subscription = subscription))
                     .execute()
                     .awaitSingleOrNull()
             })

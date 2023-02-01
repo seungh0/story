@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
+import org.springframework.data.cassandra.core.cql.Ordering.ASCENDING
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -25,19 +26,15 @@ data class SubscriptionReverse(
 
     companion object {
         fun of(
-            serviceType: ServiceType,
-            subscriptionType: String,
-            subscriberId: String,
-            targetId: String,
-            slotId: Long,
+            subscription: Subscription,
         ) = SubscriptionReverse(
             key = SubscriptionReversePrimaryKey(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                subscriberId = subscriberId,
-                targetId = targetId,
+                serviceType = subscription.key.serviceType,
+                subscriptionType = subscription.key.subscriptionType,
+                subscriberId = subscription.key.subscriberId,
+                targetId = subscription.key.targetId,
             ),
-            slotId = slotId,
+            slotId = subscription.key.slotId,
         )
     }
 
@@ -58,7 +55,7 @@ data class SubscriptionReversePrimaryKey(
     @field:CassandraType(type = TEXT)
     val subscriberId: String,
 
-    @field:PrimaryKeyColumn(value = "target_id", type = CLUSTERED, ordering = DESCENDING, ordinal = 4)
+    @field:PrimaryKeyColumn(value = "target_id", type = CLUSTERED, ordering = ASCENDING, ordinal = 4)
     @field:CassandraType(type = TEXT)
     val targetId: String,
 )

@@ -7,7 +7,7 @@ val kotlinxCoroutinesTestVersion = "1.6.4"
 val springMockkVersion = "3.1.1"
 
 plugins {
-    id("org.springframework.boot") version "2.7.7"
+    id("org.springframework.boot") version "2.7.8"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     id("application")
     id("org.asciidoctor.jvm.convert") version "3.3.2"
@@ -15,7 +15,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 allprojects {
     group = "com.story.platform"
@@ -73,7 +73,7 @@ subprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "11"
+            jvmTarget = "17"
         }
     }
 
