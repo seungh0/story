@@ -6,6 +6,8 @@ services:
     ports:
       - "9042:9042"
     restart: always
+    tmpfs:
+      - /var/lib/cassandra/data
 
   redis:
     image: redis:6.0
