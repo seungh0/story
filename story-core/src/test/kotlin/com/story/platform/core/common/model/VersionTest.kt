@@ -1,6 +1,6 @@
 package com.story.platform.core.common.model
 
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -17,10 +17,10 @@ internal class VersionTest {
         val version = Version.of(versionString)
 
         // then
-        assertThat(version.`is`(Version.of("37.0.0.0"))).isTrue
-        assertThat(version.`is`(Version.of("37.0.0"))).isTrue
-        assertThat(version.`is`(Version.of("37.0"))).isTrue
-        assertThat(version.`is`(Version.of("37"))).isTrue
+        version shouldBe Version.of("37.0.0.0")
+        version shouldBe Version.of("37.0.0")
+        version shouldBe Version.of("37.0")
+        version shouldBe Version.of("37")
     }
 
     @ValueSource(strings = ["", "0", "0.0", "0.0.0"])
@@ -30,77 +30,72 @@ internal class VersionTest {
         val version = Version.of(versionString)
 
         // then
-        assertThat(version.`is`(Version.of("0.0.0"))).isTrue
+        version shouldBe Version.of("0.0.0")
     }
 
     @MethodSource("isGreaterThan")
     @ParameterizedTest
     fun `큰 버전인지 체크한다`(target: Version, expectedResult: Boolean) {
         // given
-        val version: Version =
-            Version.of("1.0.1")
+        val version: Version = Version.of("1.0.1")
 
         // when
         val isGreaterThan = version.isGreaterThan((target))
 
         // then
-        assertThat(isGreaterThan).isEqualTo(expectedResult)
+        isGreaterThan shouldBe expectedResult
     }
 
     @MethodSource("isGreaterThanOrEqualTo")
     @ParameterizedTest
     fun `크거나 같은 버전인지 체크한다`(target: Version, expectedResult: Boolean) {
         // given
-        val version: Version =
-            Version.of("1.0.1")
+        val version: Version = Version.of("1.0.1")
 
         // when
         val isGreaterThanOrEqualTo = version.isGreaterThanOrEqualTo((target))
 
         // then
-        assertThat(isGreaterThanOrEqualTo).isEqualTo(expectedResult)
+        isGreaterThanOrEqualTo shouldBe expectedResult
     }
 
     @MethodSource("is")
     @ParameterizedTest
     fun `같은 버전인지 체크한다`(target: Version, expectedResult: Boolean) {
         // given
-        val version: Version =
-            Version.of("1.0.1")
+        val version: Version = Version.of("1.0.1")
 
         // when
-        val `is` = version.`is`((target))
+        val sut = version.`is`((target))
 
         // then
-        assertThat(`is`).isEqualTo(expectedResult)
+        sut shouldBe expectedResult
     }
 
     @MethodSource("isLessThan")
     @ParameterizedTest
     fun `작은 버전인지 체크한다`(target: Version, expectedResult: Boolean) {
         // given
-        val version: Version =
-            Version.of("1.0.1")
+        val version = Version.of("1.0.1")
 
         // when
         val isLessThan = version.isLessThan((target))
 
         // then
-        assertThat(isLessThan).isEqualTo(expectedResult)
+        isLessThan shouldBe expectedResult
     }
 
     @MethodSource("isLessThanOrEqualTo")
     @ParameterizedTest
     fun `작거나 같은 버전인지 체크한다`(target: Version, expectedResult: Boolean) {
         // given
-        val version: Version =
-            Version.of("1.0.1")
+        val version: Version = Version.of("1.0.1")
 
         // when
         val isLessThanOrEqualTo = version.isLessThanOrEqualTo((target))
 
         // then
-        assertThat(isLessThanOrEqualTo).isEqualTo(expectedResult)
+        isLessThanOrEqualTo shouldBe expectedResult
     }
 
     companion object {
