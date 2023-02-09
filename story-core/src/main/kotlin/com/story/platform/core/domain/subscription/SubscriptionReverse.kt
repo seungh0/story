@@ -19,14 +19,35 @@ data class SubscriptionReverse(
     @field:PrimaryKey
     val key: SubscriptionReversePrimaryKey,
 
+    @field:Column("status")
+    @field:CassandraType(type = CassandraType.Name.TEXT)
+    var status: SubscriptionStatus,
+
     @field:Column(value = "slot_id")
     @field:CassandraType(type = BIGINT)
     val slotId: Long,
 ) {
 
+    fun isDeleted(): Boolean {
+        return this.status == SubscriptionStatus.DELETED
+    }
+
+    fun isActivated(): Boolean {
+        return this.status == SubscriptionStatus.ACTIVE
+    }
+
+    fun activate() {
+        this.status = SubscriptionStatus.ACTIVE
+    }
+
+    fun delete() {
+        this.status = SubscriptionStatus.DELETED
+    }
+
     companion object {
         fun of(
             subscription: Subscription,
+            status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
         ) = SubscriptionReverse(
             key = SubscriptionReversePrimaryKey(
                 serviceType = subscription.key.serviceType,
@@ -35,6 +56,7 @@ data class SubscriptionReverse(
                 targetId = subscription.key.targetId,
             ),
             slotId = subscription.key.slotId,
+            status = status,
         )
     }
 

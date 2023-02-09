@@ -10,6 +10,7 @@ object SubscriptionReverseFixture {
         targetId: String,
         slotId: Long,
         subscriberId: String,
+        status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
     ) = SubscriptionReverse(
         key = SubscriptionReversePrimaryKey(
             serviceType = serviceType,
@@ -18,6 +19,7 @@ object SubscriptionReverseFixture {
             subscriberId = subscriberId,
         ),
         slotId = slotId,
+        status = status,
     )
 
 }

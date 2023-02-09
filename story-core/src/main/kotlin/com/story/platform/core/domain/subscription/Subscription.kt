@@ -21,7 +21,7 @@ data class Subscription(
 
     @field:Column(value = "extra_json")
     @field:CassandraType(type = TEXT)
-    val extraJson: String? = null,
+    val extraJson: String?,
 ) {
 
     companion object {
@@ -31,6 +31,7 @@ data class Subscription(
             targetId: String,
             slotId: Long,
             subscriberId: String,
+            extraJson: String?,
         ) = Subscription(
             key = SubscriptionPrimaryKey(
                 serviceType = serviceType,
@@ -39,6 +40,7 @@ data class Subscription(
                 slotId = slotId,
                 subscriberId = subscriberId,
             ),
+            extraJson = extraJson,
         )
     }
 

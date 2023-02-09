@@ -5,8 +5,8 @@ import com.story.platform.core.common.enums.ServiceType
 object SubscriptionFixture {
 
     fun create(
-        serviceType: ServiceType,
-        subscriptionType: String,
+        serviceType: ServiceType = ServiceType.TWEETER,
+        subscriptionType: String = "follow",
         targetId: String,
         slotId: Long,
         subscriberId: String,

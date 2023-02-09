@@ -18,7 +18,7 @@ class SubscriptionSubscriber(
     private val subscriptionIdGenerator: SubscriptionIdGenerator,
 ) {
 
-    // TODO: 분산 락
+    // TODO: 분산 락 적용
     suspend fun subscribe(
         serviceType: ServiceType,
         subscriptionType: String,
@@ -32,33 +32,34 @@ class SubscriptionSubscriber(
             subscriberId = subscriberId,
             targetId = targetId,
         )
-        if (subscriptionReverseCoroutineRepository.existsById(primaryKey)) {
+        val subscriptionReverse = subscriptionReverseCoroutineRepository.findById(primaryKey)
+        if ((subscriptionReverse != null) && subscriptionReverse.isActivated()) {
             return
         }
 
-        withContext(Dispatchers.IO) {
-            val jobs = mutableListOf<Job>()
-            jobs.add(launch {
-                val slotId = SubscriptionSlotAllocator.allocate(
-                    subscriptionIdGenerator.generate(
-                        serviceType = serviceType,
-                        subscriptionType = subscriptionType,
-                        targetId = targetId
-                    )
-                )
-                val subscription = Subscription.of(
+        val subscription = Subscription.of(
+            serviceType = serviceType,
+            subscriptionType = subscriptionType,
+            targetId = targetId,
+            slotId = subscriptionReverse?.slotId ?: SubscriptionSlotAllocator.allocate(
+                subscriptionIdGenerator.generate(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
-                    targetId = targetId,
-                    slotId = slotId,
-                    subscriberId = subscriberId,
+                    targetId = targetId
                 )
-                reactiveCassandraOperations.batchOps()
-                    .insert(subscription)
-                    .insert(SubscriptionReverse.of(subscription = subscription))
-                    .execute()
-                    .awaitSingleOrNull()
-            })
+            ),
+            subscriberId = subscriberId,
+            extraJson = extraJson,
+        )
+
+        withContext(Dispatchers.IO) {
+            val jobs = mutableListOf<Job>()
+
+            reactiveCassandraOperations.batchOps()
+                .insert(subscription)
+                .insert(SubscriptionReverse.of(subscription = subscription))
+                .execute()
+                .awaitSingleOrNull()
 
             jobs.add(launch {
                 subscriptionCounterCoroutineRepository.increase(

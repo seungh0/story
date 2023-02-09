@@ -24,7 +24,6 @@ class SubscriptionUnSubscriber(
         targetId: String,
         subscriberId: String,
     ) {
-
         val subscriptionReverse = subscriptionReverseCoroutineRepository.findById(
             SubscriptionReversePrimaryKey(
                 serviceType = serviceType,
@@ -32,7 +31,11 @@ class SubscriptionUnSubscriber(
                 subscriberId = subscriberId,
                 targetId = targetId,
             )
-        ) ?: return
+        )
+
+        if (subscriptionReverse == null || subscriptionReverse.isDeleted()) {
+            return
+        }
 
         val jobs = mutableListOf<Job>()
         withContext(Dispatchers.IO) {
@@ -46,9 +49,10 @@ class SubscriptionUnSubscriber(
                         subscriberId = subscriberId,
                     )
                 )
+                subscriptionReverse.delete()
                 reactiveCassandraOperations.batchOps()
-                    .delete(subscriptionReverse)
                     .delete(subscription)
+                    .insert(subscriptionReverse)
                     .execute()
                     .awaitSingleOrNull()
             })
