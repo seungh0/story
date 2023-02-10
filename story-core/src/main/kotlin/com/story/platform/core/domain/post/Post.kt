@@ -1,9 +1,11 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.ServiceType
+import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.*
+import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
 
 @Table("post_v1")
@@ -11,18 +13,36 @@ data class Post(
     @field:PrimaryKey
     val key: PostPrimaryKey,
 
+    @field:Column(value = "account_id")
+    @field:CassandraType(type = TEXT)
+    val accountId: String,
+
     @field:Column(value = "title")
     @field:CassandraType(type = TEXT)
-    val title: String,
+    var title: String,
 
     @field:Column(value = "content")
     @field:CassandraType(type = TEXT)
-    val content: String,
+    var content: String,
 
     @field:Column(value = "extra_json")
     @field:CassandraType(type = TEXT)
-    val extraJson: String?,
+    var extraJson: String?,
 ) {
+
+    fun isOwner(accountId: String): Boolean {
+        return this.accountId == accountId
+    }
+
+    fun update(
+        title: String,
+        content: String,
+        extraJson: String?,
+    ) {
+        this.title = title
+        this.content = content
+        this.extraJson = extraJson
+    }
 
     companion object {
         fun of(
@@ -33,18 +53,15 @@ data class Post(
             content: String,
             extraJson: String?,
         ) = Post(
-            key = PostPrimaryKey(
-                serviceType = postSpaceKey.serviceType,
-                spaceType = postSpaceKey.spaceType,
-                spaceId = postSpaceKey.spaceId,
-                accountId = accountId,
+            key = PostPrimaryKey.of(
+                postSpaceKey = postSpaceKey,
                 postId = postId,
             ),
+            accountId = accountId,
             title = title,
             content = content,
             extraJson = extraJson,
         )
-
     }
 
 }
@@ -52,23 +69,38 @@ data class Post(
 
 @PrimaryKeyClass
 data class PostPrimaryKey(
-    @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED)
+    @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED, ordinal = 1)
     @field:CassandraType(type = TEXT)
     val serviceType: ServiceType,
 
-    @field:PrimaryKeyColumn(value = "space_type", type = PARTITIONED)
+    @field:PrimaryKeyColumn(value = "space_type", type = PARTITIONED, ordinal = 2)
     @field:CassandraType(type = TEXT)
     val spaceType: String,
 
-    @field:PrimaryKeyColumn(value = "space_id", type = PARTITIONED)
+    @field:PrimaryKeyColumn(value = "space_id", type = PARTITIONED, ordinal = 3)
     @field:CassandraType(type = TEXT)
     val spaceId: String,
 
-    @field:PrimaryKeyColumn(value = "account_id", type = CLUSTERED)
-    @field:CassandraType(type = TEXT)
-    val accountId: String,
+    @field:PrimaryKeyColumn(value = "slot_id", type = PARTITIONED, ordinal = 4)
+    @field:CassandraType(type = BIGINT)
+    val slotId: Long,
 
-    @field:PrimaryKeyColumn(value = "post_id", type = CLUSTERED)
-    @field:CassandraType(type = TEXT)
+    @field:PrimaryKeyColumn(value = "post_id", type = CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
+    @field:CassandraType(type = BIGINT)
     val postId: Long,
-)
+) {
+
+    companion object {
+        fun of(
+            postSpaceKey: PostSpaceKey,
+            postId: Long,
+        ) = PostPrimaryKey(
+            serviceType = postSpaceKey.serviceType,
+            spaceType = postSpaceKey.spaceType,
+            spaceId = postSpaceKey.spaceId,
+            slotId = PostSlotAllocator.allocate(postId),
+            postId = postId,
+        )
+    }
+
+}

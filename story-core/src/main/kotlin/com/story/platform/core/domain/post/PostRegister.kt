@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.post
 
-import com.datastax.oss.driver.api.core.cql.BatchType
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
@@ -18,19 +17,16 @@ class PostRegister(
         content: String,
         extraJson: String? = null,
     ) {
-        val postId = postIdGenerator.generate(
-            postSpaceKey = postSpaceKey,
-            accountId = accountId,
-        )
+        val postId = postIdGenerator.generate(postSpaceKey = postSpaceKey)
         val post = Post.of(
             postSpaceKey = postSpaceKey,
             accountId = accountId,
             postId = postId,
             title = title,
             content = content,
-            extraJson = extraJson
+            extraJson = extraJson,
         )
-        reactiveCassandraOperations.batchOps(BatchType.LOGGED)
+        reactiveCassandraOperations.batchOps()
             .insert(post)
             .insert(PostReverse.of(post))
             .execute()

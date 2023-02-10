@@ -5,11 +5,10 @@ import java.time.Duration
 
 data class PostIdGenerateKey(
     val postSpaceKey: PostSpaceKey,
-    val accountId: String,
 ) : StringRedisKey<PostIdGenerateKey, Long> {
 
     override fun getKey(): String =
-        "post:st:${postSpaceKey.serviceType}:account:$accountId:st:${postSpaceKey.spaceType}:si:${postSpaceKey.spaceId}"
+        "post:serviceType:${postSpaceKey.serviceType}:spaceType:${postSpaceKey.spaceType}:spaceId:${postSpaceKey.spaceId}"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

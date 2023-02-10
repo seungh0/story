@@ -57,7 +57,6 @@ spring:
       contact-points: localhost
       port: 9042
       local-datacenter: datacenter1
-      schema-action: RECREATE
 
 logging:
   level:

@@ -11,6 +11,7 @@ import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfig
 import org.springframework.data.cassandra.config.SchemaAction
 import org.springframework.data.cassandra.core.convert.CassandraCustomConversions
 import org.springframework.data.cassandra.core.cql.keyspace.CreateKeyspaceSpecification
+import org.springframework.data.cassandra.core.cql.keyspace.DropKeyspaceSpecification
 import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption
 import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories
 
@@ -28,14 +29,19 @@ class TestReactiveCassandraJpaConfig(
         val specification: CreateKeyspaceSpecification =
             CreateKeyspaceSpecification.createKeyspace(cassandraProperties.keyspaceName)
                 .ifNotExists()
-                .with(KeyspaceOption.DURABLE_WRITES, true)
         return listOf(specification)
     }
+
+//    override fun getKeyspaceDrops(): List<DropKeyspaceSpecification> {
+//        val specification = DropKeyspaceSpecification.dropKeyspace(cassandraProperties.keyspaceName)
+//            .ifExists()
+//        return listOf(specification)
+//    }
 
     override fun getKeyspaceName(): String = cassandraProperties.keyspaceName
 
     override fun getSchemaAction(): SchemaAction {
-        return SchemaAction.RECREATE
+        return SchemaAction.CREATE_IF_NOT_EXISTS
     }
 
     override fun customConversions(): CassandraCustomConversions {
