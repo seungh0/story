@@ -1,16 +1,18 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.support.RandomGenerator.generateEnum
+import com.story.platform.core.support.RandomGenerator.generateLong
+import com.story.platform.core.support.RandomGenerator.generateString
 
 object SubscriptionFixture {
 
     fun create(
-        serviceType: ServiceType = ServiceType.TWEETER,
-        subscriptionType: String = "follow",
-        targetId: String,
-        slotId: Long,
-        subscriberId: String,
-        extraJson: String? = null,
+        serviceType: ServiceType = generateEnum(ServiceType::class.java),
+        subscriptionType: String = generateString(),
+        targetId: String = generateString(),
+        slotId: Long = generateLong(),
+        subscriberId: String = generateString(),
     ) = Subscription(
         key = SubscriptionPrimaryKey(
             serviceType = serviceType,
@@ -19,7 +21,6 @@ object SubscriptionFixture {
             slotId = slotId,
             subscriberId = subscriberId,
         ),
-        extraJson = extraJson,
     )
 
 }

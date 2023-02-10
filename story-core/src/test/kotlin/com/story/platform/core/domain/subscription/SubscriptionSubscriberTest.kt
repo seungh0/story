@@ -47,7 +47,6 @@ internal class SubscriptionSubscriberTest(
                 it.key.subscriberId shouldBe subscriberId
                 it.key.slotId shouldBe 1L
                 it.key.targetId shouldBe targetId
-                it.extraJson shouldBe null
             }
 
             val subscriptionReverses = subscriptionReverseCoroutineRepository.findAll().toList()
@@ -124,7 +123,6 @@ internal class SubscriptionSubscriberTest(
                 it.key.subscriberId shouldBe subscriberId
                 it.key.slotId shouldBe 1L
                 it.key.targetId shouldBe targetId
-                it.extraJson shouldBe null
             }
 
             val subscriptionReverses = subscriptionReverseCoroutineRepository.findAll().toList()
@@ -194,7 +192,6 @@ internal class SubscriptionSubscriberTest(
                 it.key.subscriberId shouldBe subscriberId
                 it.key.slotId shouldBe 1L
                 it.key.targetId shouldBe targetId
-                it.extraJson shouldBe null
             }
 
             val subscriptionReverses = subscriptionReverseCoroutineRepository.findAll().toList()

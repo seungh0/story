@@ -1,15 +1,18 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.support.RandomGenerator.generateEnum
+import com.story.platform.core.support.RandomGenerator.generateLong
+import com.story.platform.core.support.RandomGenerator.generateString
 
 object SubscriptionReverseFixture {
 
     fun create(
-        serviceType: ServiceType,
-        subscriptionType: String,
-        targetId: String,
-        slotId: Long,
-        subscriberId: String,
+        serviceType: ServiceType = generateEnum(ServiceType::class.java),
+        subscriptionType: String = generateString(),
+        targetId: String = generateString(),
+        slotId: Long = generateLong(),
+        subscriberId: String = generateString(),
         status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
     ) = SubscriptionReverse(
         key = SubscriptionReversePrimaryKey(

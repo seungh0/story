@@ -8,7 +8,6 @@ import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
-import org.springframework.data.cassandra.core.mapping.Column
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
@@ -18,10 +17,6 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class Subscription(
     @field:PrimaryKey
     val key: SubscriptionPrimaryKey,
-
-    @field:Column(value = "extra_json")
-    @field:CassandraType(type = TEXT)
-    val extraJson: String?,
 ) {
 
     companion object {
@@ -31,7 +26,6 @@ data class Subscription(
             targetId: String,
             slotId: Long,
             subscriberId: String,
-            extraJson: String?,
         ) = Subscription(
             key = SubscriptionPrimaryKey(
                 serviceType = serviceType,
@@ -40,7 +34,6 @@ data class Subscription(
                 slotId = slotId,
                 subscriberId = subscriberId,
             ),
-            extraJson = extraJson,
         )
     }
 

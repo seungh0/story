@@ -24,7 +24,6 @@ class SubscriptionSubscriber(
         subscriptionType: String,
         targetId: String,
         subscriberId: String,
-        extraJson: String? = null,
     ) {
         val primaryKey = SubscriptionReversePrimaryKey(
             serviceType = serviceType,
@@ -49,7 +48,6 @@ class SubscriptionSubscriber(
                 )
             ),
             subscriberId = subscriberId,
-            extraJson = extraJson,
         )
 
         withContext(Dispatchers.IO) {
