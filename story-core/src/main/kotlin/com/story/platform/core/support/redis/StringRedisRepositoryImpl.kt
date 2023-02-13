@@ -11,20 +11,16 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
 ) : StringRedisRepository<K, V> {
 
     override suspend fun exists(key: K): Boolean {
-        val operations = redisTemplate.opsForValue()
-        return operations[key.getKey()].awaitSingleOrNull() != null
+        return redisTemplate.opsForValue().get(key.getKey()).awaitSingleOrNull() != null
     }
 
     override suspend fun existsBulk(keys: List<K>): Map<K, Boolean> {
         if (keys.isEmpty()) {
             return HashMap()
         }
-        val operations = redisTemplate.opsForValue()
-
-        val values: List<String?> = keys.chunked(FETCH_SIZE)
-            .mapNotNull { chunkedKeys ->
-                operations.multiGet(chunkedKeys.map { key -> key.getKey() }).awaitSingleOrNull()
-            }
+        val values: List<String?> = keys.chunked(FETCH_SIZE).mapNotNull { chunkedKeys ->
+            redisTemplate.opsForValue().multiGet(chunkedKeys.map { key -> key.getKey() }).awaitSingleOrNull()
+        }
             .flatten()
 
         val exists: MutableMap<K, Boolean> = HashMap()
@@ -35,8 +31,7 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
     }
 
     override suspend fun get(key: K): V? {
-        val operations = redisTemplate.opsForValue()
-        return key.deserializeValue(operations[key.getKey()].awaitSingleOrNull())
+        return key.deserializeValue(redisTemplate.opsForValue().get(key.getKey()).awaitSingleOrNull())
     }
 
     override suspend fun getBulk(keys: List<K>): List<V> {
@@ -44,21 +39,21 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
             return emptyList()
         }
         val actualType = keys[0]
-        val operations = redisTemplate.opsForValue()
         val values: List<String> = keys.chunked(FETCH_SIZE)
-            .mapNotNull { keyList -> operations.multiGet(keyList.map { key -> key.getKey() }).awaitSingleOrNull() }
+            .mapNotNull { keyList ->
+                redisTemplate.opsForValue().multiGet(keyList.map { key -> key.getKey() }).awaitSingleOrNull()
+            }
             .flatten()
 
         return values.mapNotNull { value -> actualType.deserializeValue(value) }
     }
 
     override suspend fun setWithTtl(key: K, value: V, ttl: Duration?) {
-        val operations = redisTemplate.opsForValue()
         if (ttl == null) {
-            operations[key.getKey()] = key.serializeValue(value)
+            redisTemplate.opsForValue().set(key.getKey(), key.serializeValue(value)).awaitSingleOrNull()
             return
         }
-        operations[key.getKey(), key.serializeValue(value)] = ttl
+        redisTemplate.opsForValue().set(key.getKey(), key.serializeValue(value), ttl).awaitSingleOrNull()
     }
 
     override suspend fun setBulk(keyValues: Map<K, V>) {
@@ -66,8 +61,8 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
             return
         }
 
-        val operations = redisTemplate.opsForValue()
-        operations.multiSet(keyValues.map { (key, value) -> key.toString() to value.toString() }.toMap())
+        redisTemplate.opsForValue()
+            .multiSet(keyValues.map { (key, value) -> key.toString() to value.toString() }.toMap())
             .awaitSingleOrNull()
     }
 
@@ -91,13 +86,15 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
     }
 
     override suspend fun incrBy(key: K, value: Long): Long {
-        val operations = redisTemplate.opsForValue()
-        return operations.increment(key.getKey(), value).awaitSingleOrNull() ?: 0L
+        return redisTemplate.opsForValue().increment(key.getKey(), value).awaitSingleOrNull() ?: 0L
     }
 
     override suspend fun decrBy(key: K, value: Long): Long {
-        val operations = redisTemplate.opsForValue()
-        return operations.decrement(key.getKey(), value).awaitSingleOrNull() ?: 0L
+        return redisTemplate.opsForValue().decrement(key.getKey(), value).awaitSingleOrNull() ?: 0L
+    }
+
+    override suspend fun getTtl(key: K): Duration {
+        return redisTemplate.getExpire(key.getKey()).awaitSingleOrNull() ?: Duration.ZERO
     }
 
     companion object {

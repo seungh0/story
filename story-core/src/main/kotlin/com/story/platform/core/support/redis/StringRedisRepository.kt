@@ -55,4 +55,6 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
 
     suspend fun decrBy(key: K, value: Long): Long
 
+    suspend fun getTtl(key: K): Duration
+
 }

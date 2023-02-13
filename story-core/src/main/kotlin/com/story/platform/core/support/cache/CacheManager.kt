@@ -1,0 +1,83 @@
+package com.story.platform.core.support.cache
+
+import com.story.platform.core.common.model.ReflectionType
+import com.story.platform.core.common.utils.LoggerUtilsExtension.log
+import org.springframework.stereotype.Component
+
+@Component
+class CacheManager(
+    private val cacheStrategyDelegator: CacheStrategyDelegator,
+) {
+
+    suspend fun getCacheFromLayeredCache(cacheType: CacheType, cacheKey: String, returnType: ReflectionType): Any? {
+        val localCacheValue = cacheStrategyDelegator.getCache(
+            cacheStrategyType = CacheStrategyType.LOCAL,
+            cacheType = cacheType,
+            cacheKey = cacheKey,
+            returnType = returnType
+        )
+        if (localCacheValue != null) {
+            return localCacheValue
+        }
+
+        runCatching {
+            val globalCacheValue = cacheStrategyDelegator.getCache(
+                cacheStrategyType = CacheStrategyType.GLOBAL,
+                cacheType = cacheType,
+                cacheKey = cacheKey,
+                returnType = returnType
+            )
+            if (globalCacheValue != null) {
+                cacheStrategyDelegator.refreshCache(
+                    cacheStrategyType = CacheStrategyType.LOCAL,
+                    cacheType = cacheType,
+                    cacheKey = cacheKey,
+                    value = globalCacheValue
+                )
+                return globalCacheValue
+            }
+        }.onFailure { throwable ->
+            log.error(throwable) { throwable.message }
+        }
+        return null
+    }
+
+    suspend fun refreshCacheLayeredCache(cacheType: CacheType, cacheKey: String, value: Any) {
+        cacheStrategyDelegator.refreshCache(
+            cacheStrategyType = CacheStrategyType.LOCAL,
+            cacheType = cacheType,
+            cacheKey = cacheKey,
+            value = value
+        )
+
+        runCatching {
+            cacheStrategyDelegator.refreshCache(
+                cacheStrategyType = CacheStrategyType.GLOBAL,
+                cacheType = cacheType,
+                cacheKey = cacheKey,
+                value = value
+            )
+        }.onFailure { throwable ->
+            log.error(throwable) { throwable.message }
+        }
+    }
+
+    suspend fun evictCacheLayeredCache(cacheType: CacheType, cacheKey: String) {
+        cacheStrategyDelegator.evict(
+            cacheStrategyType = CacheStrategyType.LOCAL,
+            cacheType = cacheType,
+            cacheKey = cacheKey
+        )
+
+        runCatching {
+            cacheStrategyDelegator.evict(
+                cacheStrategyType = CacheStrategyType.GLOBAL,
+                cacheType = cacheType,
+                cacheKey = cacheKey
+            )
+        }.onFailure { throwable ->
+            log.error(throwable) { throwable.message }
+        }
+    }
+
+}

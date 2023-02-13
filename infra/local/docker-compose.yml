@@ -2,6 +2,7 @@ version: "3.9"
 
 services:
   cassandra:
+    container_name: story-platform-cassandra
     image: cassandra:4
     ports:
       - "9042:9042"
@@ -13,6 +14,7 @@ services:
       - cassandra_data:/var/lib/cassandra
 
   redis:
+    container_name: story-platform-redis
     image: redis:6.0
     command: redis-server --port 6379
     ports:

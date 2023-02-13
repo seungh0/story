@@ -42,6 +42,7 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter-validation")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+        implementation("org.springframework.boot:spring-boot-starter-aop")
 
         // Kotlin
         implementation("org.jetbrains.kotlin:kotlin-reflect")

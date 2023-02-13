@@ -5,6 +5,8 @@ import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.support.cache.CacheType
+import com.story.platform.core.support.cache.Cacheable
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 
@@ -33,6 +35,10 @@ class SubscriptionRetriever(
         return subscription != null && subscription.isActivated()
     }
 
+    @Cacheable(
+        cacheType = CacheType.SUBSCRIBERS_COUNT,
+        key = "(T(java.lang.Math).random() * 16).intValue() + 'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId}",
+    )
     suspend fun getSubscribersCount(
         serviceType: ServiceType,
         subscriptionType: String,
@@ -46,6 +52,11 @@ class SubscriptionRetriever(
         return subscriptionCounterCoroutineRepository.findById(primaryKey)?.count ?: 0L
     }
 
+    @Cacheable(
+        cacheType = CacheType.SUBSCRIBERS_COUNT,
+        key = "(T(java.lang.Math).random() * 16).intValue() + 'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':direction:' + {#request.direction} + ':pageSize:' + {#request.pageSize}",
+        condition = "{#cursorRequest.cursor == null}"
+    )
     suspend fun getTargetSubscribers(
         serviceType: ServiceType,
         subscriptionType: String,

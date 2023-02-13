@@ -11,7 +11,7 @@ import java.util.*
 
 @EnableCaching
 @Configuration
-class CacheConfig {
+class LocalCacheConfig {
 
     @Bean(CAFFEINE_CACHE_MANAGER)
     fun caffeineCacheManager(): CacheManager {
@@ -21,11 +21,11 @@ class CacheConfig {
     }
 
     private fun caffeineCaches(): List<CaffeineCache> {
-        return CacheType.values()
+        return CacheType.LOCAL_CACHE_TYPES
             .map { cache ->
                 CaffeineCache(
                     cache.key, Caffeine.newBuilder()
-                        .expireAfterWrite(cache.duration)
+                        .expireAfterWrite(cache.localCacheTtl!!)
                         .build()
                 )
             }
