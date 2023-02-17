@@ -13,7 +13,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table("subscription_v1")
+@Table(SubscriptionTableNames.SUBSCRIPTION)
 data class Subscription(
     @field:PrimaryKey
     val key: SubscriptionPrimaryKey,

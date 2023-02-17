@@ -1,9 +1,11 @@
 package com.story.platform.core
 
+import com.story.platform.core.domain.post.PostTableNames
+
 object LoadCqlScriptsHelper {
 
     val POST_REVERSE_V1: String = """
-        CREATE TABLE IF NOT EXISTS post_reverse_v1
+        CREATE TABLE IF NOT EXISTS ${PostTableNames.POST_REVERSE}
         (
             service_type text,
             account_id   text,

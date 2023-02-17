@@ -14,7 +14,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table("subscription_reverse_v1")
+@Table(SubscriptionTableNames.SUBSCRIPTION_REVERSE)
 data class SubscriptionReverse(
     @field:PrimaryKey
     val key: SubscriptionReversePrimaryKey,

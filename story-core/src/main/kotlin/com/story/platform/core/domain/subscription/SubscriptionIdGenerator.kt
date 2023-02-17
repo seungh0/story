@@ -34,7 +34,7 @@ class SubscriptionIdGenerator(
     ) ?: INIT_SUBSCRIPTION_ID
 
     companion object {
-        const val INIT_SUBSCRIPTION_ID = 0L
+        const val INIT_SUBSCRIPTION_ID = 1L
     }
 
 }

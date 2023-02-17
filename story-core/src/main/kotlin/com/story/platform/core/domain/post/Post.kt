@@ -8,7 +8,7 @@ import org.springframework.data.cassandra.core.mapping.*
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
 
-@Table("post_v1")
+@Table(PostTableNames.POST)
 data class Post(
     @field:PrimaryKey
     val key: PostPrimaryKey,

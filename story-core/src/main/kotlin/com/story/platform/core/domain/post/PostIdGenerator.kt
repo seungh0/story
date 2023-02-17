@@ -17,7 +17,7 @@ class PostIdGenerator(
     ) ?: INIT_POST_ID
 
     companion object {
-        const val INIT_POST_ID = 0L
+        const val INIT_POST_ID = 1L
     }
 
 }

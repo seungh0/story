@@ -8,7 +8,7 @@ import org.springframework.data.cassandra.core.mapping.*
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
 
-@Table("post_reverse_v1")
+@Table(PostTableNames.POST_REVERSE)
 data class PostReverse(
     @field:PrimaryKey
     val key: PostReversePrimaryKey,
