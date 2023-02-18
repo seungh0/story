@@ -71,7 +71,7 @@ data class SubscriptionReversePrimaryKey(
 
     @field:PrimaryKeyColumn(value = "subscription_type", type = PARTITIONED, ordering = DESCENDING, ordinal = 2)
     @field:CassandraType(type = TEXT)
-    val subscriptionType: String,
+    val subscriptionType: SubscriptionType,
 
     @field:PrimaryKeyColumn(value = "subscriber_id", type = PARTITIONED, ordering = DESCENDING, ordinal = 3)
     @field:CassandraType(type = TEXT)

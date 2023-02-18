@@ -7,7 +7,7 @@ object PostFixture {
 
     fun create(
         serviceType: ServiceType = RandomGenerator.generateEnum(ServiceType::class.java),
-        spaceType: String = RandomGenerator.generateString(),
+        spaceType: PostSpaceType = RandomGenerator.generateEnum(PostSpaceType::class.java),
         spaceId: String = RandomGenerator.generateString(),
         accountId: String = RandomGenerator.generateString(),
         postId: Long = RandomGenerator.generateLong(),

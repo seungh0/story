@@ -3,6 +3,7 @@ package com.story.platform.api.domain.subscription
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.subscription.SubscriptionSubscriber
+import com.story.platform.core.domain.subscription.SubscriptionType
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -16,7 +17,7 @@ class SubscriptionSubscribeApi(
 
     @PostMapping("/subscriber/{subscriberId}/target/{targetId}")
     suspend fun subscribe(
-        @PathVariable subscriptionType: String,
+        @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
     ): ApiResponse<String> {

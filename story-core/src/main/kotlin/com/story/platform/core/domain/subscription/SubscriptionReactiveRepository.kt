@@ -10,7 +10,7 @@ interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscript
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdGreaterThan(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
         slotId: Long,
         pageable: Pageable,
@@ -18,7 +18,7 @@ interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscript
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdGreaterThan(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
         slotId: Long,
         subscriberId: String,
@@ -27,7 +27,7 @@ interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscript
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
         slotId: Long,
         pageable: Pageable,
@@ -35,7 +35,7 @@ interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscript
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
         slotId: Long,
         subscriberId: String,
@@ -44,7 +44,7 @@ interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscript
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdLessThan(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
         slotId: Long,
         pageable: CassandraPageRequest,

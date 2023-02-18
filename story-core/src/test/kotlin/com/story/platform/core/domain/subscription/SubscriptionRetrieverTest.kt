@@ -23,7 +23,7 @@ internal class SubscriptionRetrieverTest(
         test("구독이 되어 있는 경우 true") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
 
@@ -53,7 +53,7 @@ internal class SubscriptionRetrieverTest(
         test("구독이 되어 있지 않는 경우 false") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
 
@@ -72,7 +72,7 @@ internal class SubscriptionRetrieverTest(
         test("구독 취소가 되어 있는 경우 false") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
 
@@ -103,7 +103,7 @@ internal class SubscriptionRetrieverTest(
         test("대상자의 구독자 수를 조회한다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
             val count = 999L
@@ -142,7 +142,7 @@ internal class SubscriptionRetrieverTest(
         test("대상자의 구독자가 없는 경우 구독자 수가 0명으로 표기된다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
 
@@ -171,7 +171,7 @@ internal class SubscriptionRetrieverTest(
         test("대상자가 없는 경우 구독자수가 0으로 표기된다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "구독 대상자"
 
             // when

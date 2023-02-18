@@ -36,7 +36,7 @@ data class SubscriptionCounterPrimaryKey(
         ordinal = 2
     )
     @field:CassandraType(type = TEXT)
-    val subscriptionType: String,
+    val subscriptionType: SubscriptionType,
 
     @field:PrimaryKeyColumn(value = "target_id", type = PARTITIONED, ordering = Ordering.DESCENDING, ordinal = 3)
     @field:CassandraType(type = TEXT)

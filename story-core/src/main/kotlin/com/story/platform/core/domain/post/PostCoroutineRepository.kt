@@ -7,7 +7,7 @@ interface PostCoroutineRepository : CoroutineCrudRepository<Post, PostPrimaryKey
 
     suspend fun findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
         serviceType: ServiceType,
-        spaceType: String,
+        spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
         postId: Long,

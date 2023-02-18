@@ -11,7 +11,7 @@ class SubscriptionIdGenerator(
 
     suspend fun generate(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
     ) = subscriptionIdRepository.incr(
         key = SubscriptionIdGenerateKey(
@@ -23,7 +23,7 @@ class SubscriptionIdGenerator(
 
     suspend fun getLastSubscriptionId(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
     ) = subscriptionIdRepository.get(
         key = SubscriptionIdGenerateKey(

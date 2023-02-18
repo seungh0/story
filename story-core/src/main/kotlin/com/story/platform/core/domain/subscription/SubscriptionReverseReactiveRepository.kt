@@ -10,7 +10,7 @@ interface SubscriptionReverseReactiveRepository :
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdLessThanEqual(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         subscriberId: String,
         targetId: String,
         pageable: Pageable,
@@ -18,21 +18,21 @@ interface SubscriptionReverseReactiveRepository :
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdGreaterThanEqual(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         subscriberId: String,
         pageable: Pageable,
     ): Slice<SubscriptionReverse>
 
     suspend fun findByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetId(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         subscriberId: String,
         targetId: String,
     ): SubscriptionReverse?
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanEqual(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         subscriberId: String,
         targetId: String,
         pageable: Pageable,

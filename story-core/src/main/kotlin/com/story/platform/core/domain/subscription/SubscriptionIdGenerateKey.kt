@@ -6,7 +6,7 @@ import java.time.Duration
 
 data class SubscriptionIdGenerateKey(
     val serviceType: ServiceType,
-    val subscriptionType: String,
+    val subscriptionType: SubscriptionType,
     val targetId: String,
 ) : StringRedisKey<SubscriptionIdGenerateKey, Long> {
 

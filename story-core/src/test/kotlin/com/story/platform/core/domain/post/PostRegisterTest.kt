@@ -33,7 +33,7 @@ internal class PostRegisterTest(
             // given
             val postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,
-                spaceType = "comment",
+                spaceType = PostSpaceType.ACCOUNT,
                 spaceId = "commentId",
             )
             val accountId = "accountId"

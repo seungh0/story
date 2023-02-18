@@ -10,7 +10,7 @@ interface SubscriptionCounterCoroutineRepository :
         """
 			update ${SubscriptionTableNames.SUBSCRIPTION_COUNTER} set count = count + :count
 			where service_type = :#{#key.serviceType.name()}
-			and subscription_type = :#{#key.subscriptionType}
+			and subscription_type = :#{#key.subscriptionType.name()}
 			and target_id = :#{#key.targetId}
 		"""
     )
@@ -23,7 +23,7 @@ interface SubscriptionCounterCoroutineRepository :
         """
 			update ${SubscriptionTableNames.SUBSCRIPTION_COUNTER} set count = count - :count
 			where service_type = :#{#key.serviceType.name()}
-			and subscription_type = :#{#key.subscriptionType}
+			and subscription_type = :#{#key.subscriptionType.name()}
 			and target_id = :#{#key.targetId}
 		"""
     )

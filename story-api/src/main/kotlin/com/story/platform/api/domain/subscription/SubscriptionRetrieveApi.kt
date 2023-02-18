@@ -5,6 +5,7 @@ import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.subscription.SubscriptionRetriever
+import com.story.platform.core.domain.subscription.SubscriptionType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,7 +20,7 @@ class SubscriptionRetrieveApi(
 
     @GetMapping("/subscriber/{subscriberId}/target/{targetId}/exists")
     suspend fun checkSubscription(
-        @PathVariable subscriptionType: String,
+        @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
     ): ApiResponse<SubscriptionExistsResponse> {
@@ -36,7 +37,7 @@ class SubscriptionRetrieveApi(
 
     @GetMapping("/target/{targetId}/subscribers/count")
     suspend fun getSubscribersCount(
-        @PathVariable subscriptionType: String,
+        @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
     ): ApiResponse<SubscribersCountResponse> {
         val subscribersCount = subscriptionRetriever.getSubscribersCount(
@@ -51,7 +52,7 @@ class SubscriptionRetrieveApi(
 
     @GetMapping("/target/{targetId}/subscribers")
     suspend fun getTargetSubscribers(
-        @PathVariable subscriptionType: String,
+        @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
         @Valid cursorRequest: CursorRequest,
     ): ApiResponse<CursorResult<SubscriberResponse, String>> {
@@ -73,7 +74,7 @@ class SubscriptionRetrieveApi(
 
     @GetMapping("/subscriber/{subscriberId}/targets")
     suspend fun getSubscriberTargets(
-        @PathVariable subscriptionType: String,
+        @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
     ): ApiResponse<CursorResult<SubscriptionTargetResponse, String>> {

@@ -25,7 +25,7 @@ internal class SubscriptionSubscriberTest(
         test("구독 정보를 추가합니다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
 
@@ -73,7 +73,7 @@ internal class SubscriptionSubscriberTest(
         test("구독 정보를 추가할때 이미 구독 정보가 있는 경우라도 멱등성을 보장한다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
 
@@ -149,7 +149,7 @@ internal class SubscriptionSubscriberTest(
         test("구독 정보를 추가할때 구독 취소한 이력이 있다면 기존 슬롯에 추가한다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
 

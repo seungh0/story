@@ -104,7 +104,7 @@ internal class PostModifierTest(
                 postModifier.modify(
                     postSpaceKey = PostSpaceKey(
                         serviceType = ServiceType.TWEETER,
-                        spaceType = "comment",
+                        spaceType = PostSpaceType.ACCOUNT,
                         spaceId = "50000",
                     ),
                     postId = 10000L,

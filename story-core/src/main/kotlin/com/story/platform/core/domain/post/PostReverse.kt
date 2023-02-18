@@ -60,7 +60,7 @@ data class PostReversePrimaryKey(
 
     @field:PrimaryKeyColumn(value = "space_type", type = CLUSTERED, ordering = DESCENDING, ordinal = 4)
     @field:CassandraType(type = TEXT)
-    val spaceType: String,
+    val spaceType: PostSpaceType,
 
     @field:PrimaryKeyColumn(value = "space_id", type = CLUSTERED, ordering = DESCENDING, ordinal = 5)
     @field:CassandraType(type = TEXT)

@@ -21,7 +21,7 @@ class SubscriptionSubscriber(
     // TODO: 분산 락 적용
     suspend fun subscribe(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
     ) {

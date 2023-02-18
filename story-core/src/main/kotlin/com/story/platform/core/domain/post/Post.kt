@@ -75,7 +75,7 @@ data class PostPrimaryKey(
 
     @field:PrimaryKeyColumn(value = "space_type", type = PARTITIONED, ordinal = 2)
     @field:CassandraType(type = TEXT)
-    val spaceType: String,
+    val spaceType: PostSpaceType,
 
     @field:PrimaryKeyColumn(value = "space_id", type = PARTITIONED, ordinal = 3)
     @field:CassandraType(type = TEXT)

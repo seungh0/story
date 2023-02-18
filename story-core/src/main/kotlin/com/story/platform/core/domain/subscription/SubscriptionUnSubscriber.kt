@@ -20,7 +20,7 @@ class SubscriptionUnSubscriber(
 
     suspend fun unsubscribe(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
     ) {

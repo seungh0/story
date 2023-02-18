@@ -21,7 +21,7 @@ class SubscriptionRetriever(
 
     suspend fun checkSubscription(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
     ): Boolean {
@@ -41,7 +41,7 @@ class SubscriptionRetriever(
     )
     suspend fun getSubscribersCount(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
     ): Long {
         val primaryKey = SubscriptionCounterPrimaryKey(
@@ -59,7 +59,7 @@ class SubscriptionRetriever(
     )
     suspend fun getTargetSubscribers(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         targetId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<Subscription, String> {
@@ -228,7 +228,7 @@ class SubscriptionRetriever(
 
     suspend fun getSubscriberTargets(
         serviceType: ServiceType,
-        subscriptionType: String,
+        subscriptionType: SubscriptionType,
         subscriberId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<SubscriptionReverse, String> {

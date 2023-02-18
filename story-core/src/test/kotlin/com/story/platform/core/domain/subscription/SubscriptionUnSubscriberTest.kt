@@ -25,7 +25,7 @@ internal class SubscriptionUnSubscriberTest(
         test("기존의 구독 정보를 취소한다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
 
@@ -93,7 +93,7 @@ internal class SubscriptionUnSubscriberTest(
         test("구독 정보가 없을 때 구독 정보를 취소하더라도 멱등성을 보장한다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
 
@@ -119,7 +119,7 @@ internal class SubscriptionUnSubscriberTest(
         test("구독 취소시 이미 취소된 이력이 있다면 유지된다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val subscriptionType = "follow"
+            val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
 

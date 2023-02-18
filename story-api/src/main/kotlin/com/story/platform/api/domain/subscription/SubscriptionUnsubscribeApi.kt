@@ -2,6 +2,7 @@ package com.story.platform.api.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.domain.subscription.SubscriptionType
 import com.story.platform.core.domain.subscription.SubscriptionUnSubscriber
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,7 +17,7 @@ class SubscriptionUnsubscribeApi(
 
     @DeleteMapping("/subscriber/{subscriberId}/target/{targetId}")
     suspend fun unsubscribe(
-        @PathVariable subscriptionType: String,
+        @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
     ): ApiResponse<String> {

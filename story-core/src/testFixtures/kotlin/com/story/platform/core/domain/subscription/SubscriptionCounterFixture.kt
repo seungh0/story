@@ -9,7 +9,7 @@ object SubscriptionCounterFixture {
 
     fun create(
         serviceType: ServiceType = generateEnum(ServiceType::class.java),
-        subscriptionType: String = generateString(),
+        subscriptionType: SubscriptionType = generateEnum(SubscriptionType::class.java),
         targetId: String = generateString(),
         count: Long = generateLong(),
     ) = SubscriptionCounter(

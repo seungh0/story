@@ -22,7 +22,7 @@ data class Subscription(
     companion object {
         fun of(
             serviceType: ServiceType,
-            subscriptionType: String,
+            subscriptionType: SubscriptionType,
             targetId: String,
             slotId: Long,
             subscriberId: String,
@@ -48,7 +48,7 @@ data class SubscriptionPrimaryKey(
 
     @field:PrimaryKeyColumn(value = "subscription_type", type = PARTITIONED, ordering = DESCENDING, ordinal = 2)
     @field:CassandraType(type = TEXT)
-    val subscriptionType: String,
+    val subscriptionType: SubscriptionType,
 
     @field:PrimaryKeyColumn(value = "target_id", type = PARTITIONED, ordering = DESCENDING, ordinal = 3)
     @field:CassandraType(type = TEXT)
