@@ -143,6 +143,7 @@ class SubscriptionRetriever(
                     cursor = Cursor(cursor = nextCursor)
                 )
             }
+
             CursorDirection.PREVIOUS -> {
                 val firstSlotId = SubscriptionSlotAllocator.FIRST_SLOT_ID
                 val lastSlotId = SubscriptionSlotAllocator.allocate(
@@ -260,6 +261,7 @@ class SubscriptionRetriever(
                     )
                 )
             }
+
             CursorDirection.PREVIOUS -> {
                 val subscriptionSlice =
                     subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdLessThanEqual(

@@ -12,7 +12,6 @@ import org.springframework.data.cassandra.config.SchemaAction
 import org.springframework.data.cassandra.core.convert.CassandraCustomConversions
 import org.springframework.data.cassandra.core.cql.keyspace.CreateKeyspaceSpecification
 import org.springframework.data.cassandra.core.cql.keyspace.DropKeyspaceSpecification
-import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption
 import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories
 
 @Profile("test")
@@ -32,11 +31,11 @@ class TestReactiveCassandraJpaConfig(
         return listOf(specification)
     }
 
-//    override fun getKeyspaceDrops(): List<DropKeyspaceSpecification> {
-//        val specification = DropKeyspaceSpecification.dropKeyspace(cassandraProperties.keyspaceName)
-//            .ifExists()
-//        return listOf(specification)
-//    }
+    override fun getKeyspaceDrops(): List<DropKeyspaceSpecification> {
+        val specification = DropKeyspaceSpecification.dropKeyspace(cassandraProperties.keyspaceName)
+            .ifExists()
+        return listOf(specification)
+    }
 
     override fun getKeyspaceName(): String = cassandraProperties.keyspaceName
 
