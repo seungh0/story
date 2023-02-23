@@ -40,7 +40,7 @@ class TestReactiveCassandraJpaConfig(
     override fun getKeyspaceName(): String = cassandraProperties.keyspaceName
 
     override fun getSchemaAction(): SchemaAction {
-        return SchemaAction.CREATE_IF_NOT_EXISTS
+        return SchemaAction.RECREATE
     }
 
     override fun customConversions(): CassandraCustomConversions {

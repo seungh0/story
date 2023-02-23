@@ -1,27 +1,11 @@
 package com.story.platform.core.support.kafka
 
-import java.util.*
-
 enum class TopicType(
-    private val code: String,
     private val description: String,
+    val property: String,
 ) {
 
-    ;
-
-    companion object {
-        private val cachedTopicTypes: MutableMap<String, TopicType> = HashMap()
-
-        init {
-            for (topicType in TopicType.values()) {
-                cachedTopicTypes[topicType.code] = topicType
-            }
-        }
-
-        fun of(code: String): TopicType {
-            return cachedTopicTypes[code.uppercase(Locale.getDefault())]
-                ?: throw IllegalArgumentException("등록된 카프카 토픽($code)이 존재하지 않습니다")
-        }
-    }
+    SUBSCRIPTION(description = "구독", property = "story.kafka.topic.subscription"),
+    UNSUBSCRIPTION(description = "구독 취소", property = "story.kafka.topic.unsubscription"),
 
 }

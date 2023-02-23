@@ -12,6 +12,12 @@ spring:
       acks: all
       retries: 3
 
+story:
+  kafka:
+    topic:
+      subscription: suscription_v1
+      unsubscription: unsubscription_v1
+
 
 ---
 spring.config:
@@ -20,7 +26,7 @@ spring.config:
 
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:29092
 
 
 ---
@@ -30,7 +36,7 @@ spring.config:
 
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 118.67.131.30:9092
 
 
 ---

@@ -20,7 +20,7 @@ spring:
       keyspace-name: story_platform_local
       contact-points: localhost
       local-datacenter: datacenter1
-      schema-action: recreate
+      schema-action: create_if_not_exists
       port: 9042
 
 logging:
