@@ -1,6 +1,7 @@
 package com.story.platform.api.lib
 
 import com.story.platform.api.RestDocsTest
+import com.story.platform.core.common.error.ErrorCode
 import org.junit.jupiter.api.Test
 import java.io.File
 
@@ -19,7 +20,7 @@ internal class ErrorCodeDocsGeneratorTest : RestDocsTest() {
 
             """.trimIndent()
 
-        com.story.platform.core.common.error.ErrorCode.values()
+        ErrorCode.values()
             .forEach { errorCode ->
                 asciidoctorText +=
                     """

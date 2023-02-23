@@ -30,4 +30,19 @@ class SubscriptionSubscribeApi(
         return ApiResponse.OK
     }
 
+    @PostMapping("/subscriber/{subscriberId}/target/{targetId}/async")
+    suspend fun subscribeAsync(
+        @PathVariable subscriptionType: SubscriptionType,
+        @PathVariable subscriberId: String,
+        @PathVariable targetId: String,
+    ): ApiResponse<String> {
+        subscriptionSubscriber.subscribe(
+            serviceType = ServiceType.TWEETER,
+            subscriptionType = subscriptionType,
+            targetId = targetId,
+            subscriberId = subscriberId,
+        )
+        return ApiResponse.OK
+    }
+
 }
