@@ -17,14 +17,10 @@ class LocalCacheStrategy(
             return null
         }
         val cache = cacheManager.getCache(cacheType.key)
-        if (cache == null) {
-            return null
-        }
+            ?: return null
 
         val cacheValueWrapper = cache.get(cacheKey)
-        if (cacheValueWrapper == null) {
-            return null
-        }
+            ?: return null
 
         val cacheValue = cacheValueWrapper.get()
 
