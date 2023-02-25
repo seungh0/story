@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.utils.JsonUtils
+import com.story.platform.core.support.json.JsonUtils
 import com.story.platform.core.support.kafka.KafkaTopicFinder
 import com.story.platform.core.support.kafka.TopicType
 import kotlinx.coroutines.reactor.awaitSingleOrNull

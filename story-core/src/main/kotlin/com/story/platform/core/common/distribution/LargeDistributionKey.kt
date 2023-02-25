@@ -1,8 +1,8 @@
-package com.story.platform.core.common.partition
+package com.story.platform.core.common.distribution
 
 import java.util.regex.Pattern
 
-data class SmallDistributionKey(
+data class LargeDistributionKey(
     override val key: String,
 ) : DistributionKey {
 
@@ -11,22 +11,22 @@ data class SmallDistributionKey(
     }
 
     companion object {
-        private val TYPE = DistributionKeyType.SMALL
+        private val TYPE = DistributionKeyType.LARGE
         private val DISTRIBUTION_KEY_PATTERN = Pattern.compile(TYPE.pattern)
-        private val ALL_KEYS: MutableList<SmallDistributionKey> = mutableListOf()
+        private val ALL_KEYS: MutableList<LargeDistributionKey> = mutableListOf()
 
         init {
             DistributionKeyUtils.makeAllDistributionKeys(ALL_KEYS, TYPE.digit) { key: String -> of(key) }
         }
 
-        fun of(key: String): SmallDistributionKey {
+        fun of(key: String): LargeDistributionKey {
             require(!(key.isBlank() || !DISTRIBUTION_KEY_PATTERN.matcher(key).matches())) {
                 "Not matching with DISTRIBUTION_KEY_PATTERN ( " + TYPE.pattern + " )."
             }
-            return SmallDistributionKey(key)
+            return LargeDistributionKey(key)
         }
 
-        fun fromId(rawId: String): SmallDistributionKey {
+        fun fromId(rawId: String): LargeDistributionKey {
             return of(DistributionKeyUtils.hashing(TYPE.hashFormat, rawId, ALL_KEYS.size))
         }
     }

@@ -1,4 +1,4 @@
-package com.story.platform.core.common.partition
+package com.story.platform.core.common.distribution
 
 import org.apache.commons.lang3.StringUtils
 import java.nio.charset.StandardCharsets

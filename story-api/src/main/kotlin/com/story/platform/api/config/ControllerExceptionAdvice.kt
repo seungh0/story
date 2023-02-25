@@ -2,6 +2,7 @@ package com.story.platform.api.config
 
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.story.platform.core.common.error.ErrorCode.*
+import com.story.platform.core.common.error.StoryBaseException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.utils.LoggerUtilsExtension.log
 import org.springframework.http.HttpStatus
@@ -47,8 +48,8 @@ class ControllerExceptionAdvice {
         return ApiResponse.fail(E400_BAD_REQUEST)
     }
 
-    @ExceptionHandler(com.story.platform.core.common.error.StoryBaseException::class)
-    private fun handleBaseException(exception: com.story.platform.core.common.error.StoryBaseException): ResponseEntity<ApiResponse<Nothing>> {
+    @ExceptionHandler(StoryBaseException::class)
+    private fun handleBaseException(exception: StoryBaseException): ResponseEntity<ApiResponse<Nothing>> {
         log.error(exception) { exception.message }
         return ResponseEntity.status(exception.errorCode.httpStatusCode)
             .body(ApiResponse.fail(error = exception.errorCode))

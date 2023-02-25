@@ -1,9 +1,9 @@
 package com.story.platform.apiconsumer.domain.post
 
-import com.story.platform.core.common.utils.JsonUtils
 import com.story.platform.core.common.utils.LoggerUtilsExtension.log
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.post.PostEventType
+import com.story.platform.core.support.json.JsonUtils
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Service

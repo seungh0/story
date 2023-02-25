@@ -1,4 +1,4 @@
-package com.story.platform.core.common.partition
+package com.story.platform.core.common.distribution
 
 interface DistributionKey {
 

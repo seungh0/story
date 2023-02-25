@@ -7,11 +7,11 @@ import org.redisson.api.RedissonClient
 import org.springframework.stereotype.Service
 
 @Service
-class DistributedLockExecutor(
+class DistributedLockProvider(
     private val redissonClient: RedissonClient,
 ) {
 
-    fun execute(
+    fun executeInCriticalSection(
         distributeLock: DistributeLock,
         lockKey: String,
         runnable: () -> Any?,

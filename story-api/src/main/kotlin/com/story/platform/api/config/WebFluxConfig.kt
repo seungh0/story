@@ -1,6 +1,6 @@
 package com.story.platform.api.config
 
-import com.story.platform.core.common.utils.JsonUtils
+import com.story.platform.core.support.json.JsonUtils
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.http.codec.json.Jackson2JsonDecoder

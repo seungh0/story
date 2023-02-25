@@ -2,5 +2,5 @@
 
 - Kotlin, Kotlin Coroutine
 - Spring Webflux
-- Reactive Cassandra
+- Reactive Cassandra, Reactive Redis
 - Kafka
