@@ -3,7 +3,7 @@ package com.story.platform.core.domain.subscription
 import com.story.platform.core.common.enums.ServiceType
 
 data class SubscriptionEvent(
-    val type: SubscriptionEventType,
+    val eventType: SubscriptionEventType,
     val serviceType: ServiceType,
     val subscriptionType: SubscriptionType,
     val subscriberId: String,
@@ -17,7 +17,7 @@ data class SubscriptionEvent(
             subscriberId: String,
             targetId: String,
         ) = SubscriptionEvent(
-            type = SubscriptionEventType.UPSERT,
+            eventType = SubscriptionEventType.UPSERT,
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
@@ -30,7 +30,7 @@ data class SubscriptionEvent(
             subscriberId: String,
             targetId: String,
         ) = SubscriptionEvent(
-            type = SubscriptionEventType.DELETE,
+            eventType = SubscriptionEventType.DELETE,
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,

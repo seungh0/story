@@ -16,7 +16,7 @@ story:
   kafka:
     topic:
       subscription: suscription_v1
-      unsubscription: unsubscription_v1
+      post: post_v1
 
 
 ---
