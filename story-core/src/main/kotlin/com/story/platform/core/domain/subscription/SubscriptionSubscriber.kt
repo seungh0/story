@@ -1,6 +1,9 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.utils.JsonUtils
+import com.story.platform.core.support.kafka.KafkaTopicFinder
+import com.story.platform.core.support.kafka.TopicType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.joinAll
@@ -8,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.withContext
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,6 +20,7 @@ class SubscriptionSubscriber(
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
     private val subscriptionIdGenerator: SubscriptionIdGenerator,
+    private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 
     // TODO: 분산 락 적용
@@ -71,6 +76,14 @@ class SubscriptionSubscriber(
 
             jobs.joinAll()
         }
+
+        val event = SubscriptionEvent.created(
+            serviceType = serviceType,
+            subscriptionType = subscriptionType,
+            subscriberId = subscriberId,
+            targetId = targetId,
+        )
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), JsonUtils.toJson(event))
     }
 
 }

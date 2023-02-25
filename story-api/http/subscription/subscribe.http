@@ -3,17 +3,8 @@ POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello
 Content-Type: application/json
 
 
-### 구독 등록 (비동기)
-POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello/async
-Content-Type: application/json
-
-
 ### 구독 취소
 DELETE {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello
-
-
-### 구독 취소
-DELETE {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello/async
 
 
 ### 구독 여부 확인

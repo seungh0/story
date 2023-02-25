@@ -6,6 +6,5 @@ enum class TopicType(
 ) {
 
     SUBSCRIPTION(description = "구독", property = "story.kafka.topic.subscription"),
-    UNSUBSCRIPTION(description = "구독 취소", property = "story.kafka.topic.unsubscription"),
 
 }

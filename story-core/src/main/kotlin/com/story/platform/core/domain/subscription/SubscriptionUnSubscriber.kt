@@ -1,6 +1,9 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.utils.JsonUtils
+import com.story.platform.core.support.kafka.KafkaTopicFinder
+import com.story.platform.core.support.kafka.TopicType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.joinAll
@@ -8,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.withContext
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,6 +20,7 @@ class SubscriptionUnSubscriber(
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
+    private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 
     suspend fun unsubscribe(
@@ -68,6 +73,14 @@ class SubscriptionUnSubscriber(
             })
             jobs.joinAll()
         }
+
+        val event = SubscriptionEvent.deleted(
+            serviceType = serviceType,
+            subscriptionType = subscriptionType,
+            subscriberId = subscriberId,
+            targetId = targetId,
+        )
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), JsonUtils.toJson(event))
     }
 
 }

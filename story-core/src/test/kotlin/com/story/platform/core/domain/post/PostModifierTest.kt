@@ -10,6 +10,7 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.cassandra.core.ReactiveCassandraTemplate
 
@@ -22,7 +23,8 @@ internal class PostModifierTest(
 ) : FunSpec({
 
     beforeEach {
-        reactiveCassandraTemplate.execute(SimpleStatement.newInstance(LoadCqlScriptsHelper.POST_REVERSE_V1)).subscribe()
+        reactiveCassandraTemplate.execute(SimpleStatement.newInstance(LoadCqlScriptsHelper.POST_REVERSE_V1))
+            .awaitSingleOrNull()
     }
 
     afterEach {
