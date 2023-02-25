@@ -45,7 +45,7 @@ internal class SlotAllocatorTest : FunSpec({
             val id = 0L
 
             // when & the
-            shouldThrowExactly<IllegalStateException> {
+            shouldThrowExactly<IllegalArgumentException> {
                 SlotAllocator.allocate(id = id, firstSlotId = 1L, slotSize = 500)
             }
         }
