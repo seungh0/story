@@ -15,7 +15,7 @@ spring:
 story:
   kafka:
     topic:
-      subscription: suscription_v1
+      subscription: subscription_v1
       post: post_v1
 
 

@@ -4,6 +4,8 @@ import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.utils.JsonUtils
 import com.story.platform.core.support.kafka.KafkaTopicFinder
 import com.story.platform.core.support.kafka.TopicType
+import com.story.platform.core.support.lock.DistributeLock
+import com.story.platform.core.support.lock.DistributedLockType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.joinAll
@@ -23,7 +25,10 @@ class SubscriptionSubscriber(
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 
-    // TODO: 분산 락 적용
+    @DistributeLock(
+        lockType = DistributedLockType.SUBSCRIBE,
+        key = "'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
+    )
     suspend fun subscribe(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
