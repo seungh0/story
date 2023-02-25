@@ -2,7 +2,6 @@ package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.cassandra.core.cql.Ordering.ASCENDING
-import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.CassandraType
@@ -42,19 +41,19 @@ data class Subscription(
 
 @PrimaryKeyClass
 data class SubscriptionPrimaryKey(
-    @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED, ordering = DESCENDING, ordinal = 1)
+    @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED, ordinal = 1)
     @field:CassandraType(type = TEXT)
     val serviceType: ServiceType,
 
-    @field:PrimaryKeyColumn(value = "subscription_type", type = PARTITIONED, ordering = DESCENDING, ordinal = 2)
+    @field:PrimaryKeyColumn(value = "subscription_type", type = PARTITIONED, ordinal = 2)
     @field:CassandraType(type = TEXT)
     val subscriptionType: SubscriptionType,
 
-    @field:PrimaryKeyColumn(value = "target_id", type = PARTITIONED, ordering = DESCENDING, ordinal = 3)
+    @field:PrimaryKeyColumn(value = "target_id", type = PARTITIONED, ordinal = 3)
     @field:CassandraType(type = TEXT)
     val targetId: String,
 
-    @field:PrimaryKeyColumn(value = "slot_id", type = PARTITIONED, ordering = ASCENDING, ordinal = 4)
+    @field:PrimaryKeyColumn(value = "slot_id", type = PARTITIONED, ordinal = 4)
     @field:CassandraType(type = BIGINT)
     val slotId: Long,
 

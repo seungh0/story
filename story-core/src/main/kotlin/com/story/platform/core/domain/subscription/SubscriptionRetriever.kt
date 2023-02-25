@@ -54,7 +54,7 @@ class SubscriptionRetriever(
 
     @Cacheable(
         cacheType = CacheType.SUBSCRIBERS_COUNT,
-        key = "(T(java.lang.Math).random() * 16).intValue() + 'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':direction:' + {#request.direction} + ':pageSize:' + {#request.pageSize}",
+        key = "(T(java.lang.Math).random() * 16).intValue() + 'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':direction:' + {#cursorRequest.direction} + ':pageSize:' + {#cursorRequest.pageSize}",
         condition = "{#cursorRequest.cursor == null}"
     )
     suspend fun getTargetSubscribers(
@@ -84,7 +84,7 @@ class SubscriptionRetriever(
                 } ?: firstSlotId
 
                 val subscriptionSlice = if (cursorRequest.cursor == null) {
-                    subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdGreaterThan(
+                    subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
@@ -119,7 +119,7 @@ class SubscriptionRetriever(
                 while (cursorRequest.pageSize > subscriptions.size && ++currentSlotId <= lastSlotId) {
                     val needMoreSize = cursorRequest.pageSize - subscriptions.size
                     val subscriptionsInCurrentSlot =
-                        subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdGreaterThan(
+                        subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
                             serviceType = serviceType,
                             subscriptionType = subscriptionType,
                             targetId = targetId,
@@ -236,7 +236,7 @@ class SubscriptionRetriever(
         when (cursorRequest.direction) {
             CursorDirection.NEXT -> {
                 val subscriptionSlice = if (cursorRequest.cursor == null) {
-                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdGreaterThanEqual(
+                    subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberId(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         subscriberId = subscriberId,
@@ -253,7 +253,10 @@ class SubscriptionRetriever(
                 }
 
                 return CursorResult.of(
-                    data = subscriptionSlice.content,
+                    data = subscriptionSlice.content.subList(
+                        0,
+                        cursorRequest.pageSize.coerceAtMost(subscriptionSlice.content.size)
+                    ),
                     cursor = Cursor(
                         cursor = SubscriptionCursorCalculator.getNextCursorBySubscriptionReverse(
                             subscriptionSlice

@@ -8,6 +8,7 @@ tasks.jar {
 
 val commonsLang3Version = "3.12.0"
 val caffeineCacheVersion = "2.9.3"
+val redissonVersion = "3.19.3"
 
 dependencies {
     // CommonsLang3
@@ -24,7 +25,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("com.github.ben-manes.caffeine:caffeine:$caffeineCacheVersion")
 
+    // Redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+    implementation("org.redisson:redisson:${redissonVersion}")
 
     testImplementation(testFixtures(project(":story-core")))
 }

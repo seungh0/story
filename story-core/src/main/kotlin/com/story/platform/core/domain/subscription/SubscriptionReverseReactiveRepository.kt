@@ -16,7 +16,7 @@ interface SubscriptionReverseReactiveRepository :
         pageable: Pageable,
     ): Slice<SubscriptionReverse>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdGreaterThanEqual(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberId(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         subscriberId: String,
