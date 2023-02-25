@@ -19,7 +19,7 @@ dependencies {
 
     // Spring Rest Docs
     testImplementation("org.springframework.restdocs:spring-restdocs-webtestclient")
-    asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.6.RELEASE")
+    asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor:3.0.0")
 }
 
 application {
