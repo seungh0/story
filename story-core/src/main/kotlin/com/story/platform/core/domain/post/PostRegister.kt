@@ -1,9 +1,11 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.support.json.JsonUtils
+import com.story.platform.core.support.kafka.KafkaProducerConfig
 import com.story.platform.core.support.kafka.KafkaTopicFinder
 import com.story.platform.core.support.kafka.TopicType
 import kotlinx.coroutines.reactor.awaitSingleOrNull
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service
 class PostRegister(
     private val postIdGenerator: PostIdGenerator,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
+    @Qualifier(KafkaProducerConfig.ACK_ALL_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 

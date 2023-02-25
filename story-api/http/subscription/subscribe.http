@@ -1,10 +1,10 @@
 ### 구독 등록
-POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello
+POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello2
 Content-Type: application/json
 
 
 ### 구독 취소
-DELETE {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello
+DELETE {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello2
 
 
 ### 구독 여부 확인

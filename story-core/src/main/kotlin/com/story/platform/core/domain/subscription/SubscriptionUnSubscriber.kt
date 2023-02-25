@@ -2,6 +2,7 @@ package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.support.json.JsonUtils
+import com.story.platform.core.support.kafka.KafkaProducerConfig
 import com.story.platform.core.support.kafka.KafkaTopicFinder
 import com.story.platform.core.support.kafka.TopicType
 import kotlinx.coroutines.Dispatchers
@@ -10,6 +11,7 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.withContext
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
@@ -20,6 +22,7 @@ class SubscriptionUnSubscriber(
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
+    @Qualifier(KafkaProducerConfig.ACK_ALL_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 

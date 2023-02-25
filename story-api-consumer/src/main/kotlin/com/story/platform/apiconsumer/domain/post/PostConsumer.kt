@@ -4,6 +4,7 @@ import com.story.platform.core.common.utils.LoggerUtilsExtension.log
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.post.PostEventType
 import com.story.platform.core.support.json.JsonUtils
+import com.story.platform.core.support.kafka.KafkaConsumerConfig
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Service
@@ -11,7 +12,11 @@ import org.springframework.stereotype.Service
 @Service
 class PostConsumer {
 
-    @KafkaListener(topics = ["\${story.kafka.topic.post}"], groupId = "POST")
+    @KafkaListener(
+        topics = ["\${story.kafka.topic.post}"],
+        groupId = "post",
+        containerFactory = KafkaConsumerConfig.DEFAULT_CONTAINER_FACTORY,
+    )
     fun handlePostEvent(record: ConsumerRecord<String, String>) {
         val event = JsonUtils.toObject(record.value(), PostEvent::class.java)
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
