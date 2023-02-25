@@ -2,7 +2,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotlinLoggingJvmVersion = "2.1.20"
+val kotlinLoggingJvmVersion = "3.0.5"
 val kotlinxCoroutinesTestVersion = "1.6.4"
 val springMockkVersion = "3.1.1"
 val kotestVersion = "5.5.5"
