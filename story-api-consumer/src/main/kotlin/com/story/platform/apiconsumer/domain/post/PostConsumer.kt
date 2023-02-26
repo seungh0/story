@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service
 class PostConsumer {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.post}"],
-        groupId = "post",
+        topics = ["\${story.kafka.post.topic}"],
+        groupId = "\${story.kafka.post.group-id}",
         containerFactory = KafkaConsumerConfig.DEFAULT_CONTAINER_FACTORY,
     )
     fun handlePostEvent(record: ConsumerRecord<String, String>) {

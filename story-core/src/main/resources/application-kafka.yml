@@ -1,8 +1,11 @@
 story:
   kafka:
-    topic:
-      subscription: subscription_v1
-      post: post_v1
+    subscription:
+      topic: subscription_v1
+      group-id: story-api-consumer-subscription
+    post:
+      topic: post_v1
+      group-id: story-api-consumer-post
 
 ---
 spring.config:

@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service
 class SubscriptionConsumer {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.subscription}"],
-        groupId = "subscription",
+        topics = ["\${story.kafka.subscription.topic}"],
+        groupId = "\${story.kafka.subscription.group-id}",
         containerFactory = KafkaConsumerConfig.DEFAULT_CONTAINER_FACTORY,
     )
     fun handleSubscriptionEvent(record: ConsumerRecord<String, String>) {

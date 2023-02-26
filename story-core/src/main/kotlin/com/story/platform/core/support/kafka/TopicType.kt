@@ -5,7 +5,7 @@ enum class TopicType(
     val property: String,
 ) {
 
-    SUBSCRIPTION(description = "구독", property = "story.kafka.topic.subscription"),
-    POST(description = "포스팅", property = "story.kafka.topic.subscription"),
+    SUBSCRIPTION(description = "구독", property = "story.kafka.subscription.topic"),
+    POST(description = "포스팅", property = "story.kafka.post.topic"),
 
 }
