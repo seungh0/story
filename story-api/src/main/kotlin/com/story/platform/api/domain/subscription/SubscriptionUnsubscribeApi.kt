@@ -6,16 +6,14 @@ import com.story.platform.core.domain.subscription.SubscriptionType
 import com.story.platform.core.domain.subscription.SubscriptionUnSubscriber
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/subscription/{subscriptionType}")
 @RestController
 class SubscriptionUnsubscribeApi(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
 ) {
 
-    @DeleteMapping("/subscriber/{subscriberId}/target/{targetId}")
+    @DeleteMapping("/v1/subscription/{subscriptionType}/subscriber/{subscriberId}/target/{targetId}")
     suspend fun unsubscribe(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,

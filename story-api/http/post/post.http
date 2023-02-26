@@ -1,0 +1,37 @@
+### 포스팅 등록
+POST {{api}}/v1/space/ACCOUNT/account-id/post
+Content-Type: application/json
+
+{
+    "accountId": "account-id",
+    "title": "새로운 포스트",
+    "content": "포스트에 대한 본문\n블라블라~"
+}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+
+
+### 포스팅 수정
+PUT {{api}}/v1/space/ACCOUNT/account-id/post/1
+Content-Type: application/json
+
+{
+    "accountId": "account-id",
+    "title": "새로운 포스트",
+    "content": "포스트에 대한 본문\n블라블라~"
+}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+
+
+### 포스팅 조회
+GET {{api}}/v1/space/ACCOUNT/account-id/post/1
+
