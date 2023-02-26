@@ -10,6 +10,10 @@ data class CursorResult<E, K>(
             data: List<E>,
             cursor: Cursor<K>,
         ) = CursorResult(data = data, cursor = cursor)
+
+        fun <E, K> lastCursor(
+            data: List<E>,
+        ) = CursorResult(data = data, cursor = Cursor<K>(cursor = null))
     }
 
 }

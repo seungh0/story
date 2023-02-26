@@ -16,7 +16,7 @@ interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscript
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdGreaterThan(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         targetId: String,

@@ -1,5 +1,5 @@
 ### 구독 등록
-POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello2
+POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh02/target/hello
 Content-Type: application/json
 
 > {%
@@ -40,7 +40,7 @@ GET {{api}}/v1/subscription/FOLLOW/target/hello/subscribers/count
 
 
 ### 대상자의 구독자 목록 조회
-GET {{api}}/v1/subscription/FOLLOW/target/hello/subscribers?direction=NEXT&pageSize=10
+GET {{api}}/v1/subscription/FOLLOW/target/hello/subscribers?direction=NEXT&pageSize=2&cursor=seungh01
 
 > {%
     client.test("200 OK", () => {
@@ -50,7 +50,7 @@ GET {{api}}/v1/subscription/FOLLOW/target/hello/subscribers?direction=NEXT&pageS
 
 
 ### 특정 유저의 구독 대상자 목록 조회
-GET {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/targets?direction=NEXT&pageSize=10
+GET {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/targets?direction=NEXT&pageSize=2&cursor=seungh0
 
 > {%
     client.test("200 OK", () => {

@@ -35,3 +35,7 @@ Content-Type: application/json
 ### 포스팅 조회
 GET {{api}}/v1/space/ACCOUNT/account-id/post/1
 
+
+### 포스팅 목록 조회
+GET {{api}}/v1/space/ACCOUNT/account-id/posts?pageSize=2&direction=NEXT&cursor=2
+
