@@ -1,5 +1,6 @@
 package com.story.platform.core.support.kafka
 
+import com.story.platform.core.common.utils.LoggerUtilsExtension.log
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties
@@ -7,7 +8,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
+import org.springframework.kafka.listener.DefaultErrorHandler
 import org.springframework.kafka.support.serializer.JsonDeserializer
+import org.springframework.util.backoff.FixedBackOff
 
 @Configuration
 class KafkaConsumerConfig(
@@ -18,6 +21,27 @@ class KafkaConsumerConfig(
     fun defaultKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.consumerFactory = DefaultKafkaConsumerFactory(defaultKafkaConsumerConfig())
+        factory.setConcurrency(1)
+
+        factory.setCommonErrorHandler(
+            DefaultErrorHandler({ consumerRecord, exception ->
+                if (consumerRecord.value() == null) {
+                    log.error("[Topic: ${consumerRecord.topic()}] value is null", exception)
+                } else {
+                    log.error(
+                        """
+                        [topic: ${consumerRecord.topic()}] consume fail
+                        cause: ${exception.message}
+                        key: ${consumerRecord.key()}
+                        value: ${consumerRecord.value()}
+                        headers: ${consumerRecord.headers()}
+                        offset: ${consumerRecord.offset()}
+                        """.trimIndent(),
+                        exception
+                    )
+                }
+            }, FixedBackOff(1000L, 3L))
+        )
         return factory
     }
 
