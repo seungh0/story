@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.post
 
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 data class ModifyPostApiRequest(
     @field:NotBlank

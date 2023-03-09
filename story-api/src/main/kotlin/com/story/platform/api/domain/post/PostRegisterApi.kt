@@ -5,11 +5,11 @@ import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostRegister
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import javax.validation.Valid
 
 @RestController
 class PostRegisterApi(

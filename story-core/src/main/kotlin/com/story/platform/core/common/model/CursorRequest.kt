@@ -1,8 +1,8 @@
 package com.story.platform.core.common.model
 
 import com.story.platform.core.common.enums.CursorDirection
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
 
 data class CursorRequest(
     val cursor: String? = null,

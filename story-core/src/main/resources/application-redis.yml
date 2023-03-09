@@ -1,8 +1,9 @@
 spring:
-  redis:
-    port: 6381
-    host: localhost
-    connect-timeout: 2s
+  data:
+    redis:
+      port: 6381
+      host: localhost
+      connect-timeout: 2s
 
 ---
 spring.config:

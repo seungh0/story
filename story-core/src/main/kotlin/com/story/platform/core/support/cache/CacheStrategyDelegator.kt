@@ -3,9 +3,9 @@ package com.story.platform.core.support.cache
 import com.story.platform.core.common.error.NotImplementedException
 import com.story.platform.core.common.model.ReflectionType
 import com.story.platform.core.support.spring.SpringBeanProvider
+import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import java.util.*
-import javax.annotation.PostConstruct
 
 @Component
 class CacheStrategyDelegator(

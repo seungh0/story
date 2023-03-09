@@ -12,6 +12,7 @@ import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.server.MethodNotAllowedException
 import org.springframework.web.server.ServerWebInputException
 
 @RestControllerAdvice
@@ -32,6 +33,13 @@ class ControllerExceptionAdvice {
     private fun handleServerWebInputException(exception: ServerWebInputException): ApiResponse<Nothing> {
         log.warn(exception) { exception.message }
         return ApiResponse.fail(E400_BAD_REQUEST)
+    }
+
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    @ExceptionHandler(MethodNotAllowedException::class)
+    private fun handleMethodNotAllowedException(exception: MethodNotAllowedException): ApiResponse<Nothing> {
+        log.warn(exception) { exception.message }
+        return ApiResponse.fail(E405_METHOD_NOT_ALLOWED)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
