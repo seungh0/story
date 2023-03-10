@@ -38,13 +38,13 @@ object DistributionKeyUtils {
         func: Function<String, T>,
     ) {
         if (currentDigit == maxDigit) {
-            allKey.add(func.apply(StringUtils.join(chars, "")))
+            allKey += func.apply(StringUtils.join(chars, ""))
             return
         }
         val currentDigit2 = currentDigit + 1
         for (numericChar in NUMERIC_CHARS) {
             val characters: MutableList<Char> = ArrayList(chars)
-            characters.add(numericChar)
+            characters += numericChar
             makeAllDistributionKeys(
                 allKey,
                 characters,

@@ -47,7 +47,7 @@ class SubscriptionUnSubscriber(
 
         val jobs = mutableListOf<Job>()
         withContext(Dispatchers.IO) {
-            jobs.add(launch {
+            jobs += launch {
                 val subscription = subscriptionCoroutineRepository.findById(
                     SubscriptionPrimaryKey(
                         serviceType = serviceType,
@@ -63,9 +63,9 @@ class SubscriptionUnSubscriber(
                     .insert(subscriptionReverse)
                     .execute()
                     .awaitSingleOrNull()
-            })
+            }
 
-            jobs.add(launch {
+            jobs += launch {
                 subscriptionCounterCoroutineRepository.decrease(
                     SubscriptionCounterPrimaryKey(
                         serviceType = serviceType,
@@ -73,7 +73,7 @@ class SubscriptionUnSubscriber(
                         targetId = targetId,
                     )
                 )
-            })
+            }
             jobs.joinAll()
         }
 

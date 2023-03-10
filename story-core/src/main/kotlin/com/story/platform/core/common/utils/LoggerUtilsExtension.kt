@@ -5,6 +5,7 @@ import mu.KotlinLogging
 
 object LoggerUtilsExtension {
 
-    val log: KLogger inline get() = KotlinLogging.logger {}
+    val log: KLogger
+        inline get() = KotlinLogging.logger {}
 
 }

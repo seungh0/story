@@ -72,7 +72,7 @@ class SubscriptionSubscriber(
                 .execute()
                 .awaitSingleOrNull()
 
-            jobs.add(launch {
+            jobs += launch {
                 subscriptionCounterCoroutineRepository.increase(
                     SubscriptionCounterPrimaryKey(
                         serviceType = serviceType,
@@ -80,7 +80,7 @@ class SubscriptionSubscriber(
                         targetId = targetId,
                     )
                 )
-            })
+            }
 
             jobs.joinAll()
         }

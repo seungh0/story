@@ -1,5 +1,6 @@
 package com.story.platform.core.common.model
 
-data class Cursor<K>(
+@JvmInline
+value class Cursor<K>(
     val cursor: K?,
 )
