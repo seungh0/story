@@ -40,7 +40,7 @@ internal class VersionTest {
         val version: Version = Version.of("1.0.1")
 
         // when
-        val isGreaterThan = version.isGreaterThan((target))
+        val isGreaterThan = version > target
 
         // then
         isGreaterThan shouldBe expectedResult
@@ -53,7 +53,7 @@ internal class VersionTest {
         val version: Version = Version.of("1.0.1")
 
         // when
-        val isGreaterThanOrEqualTo = version.isGreaterThanOrEqualTo((target))
+        val isGreaterThanOrEqualTo = version >= target
 
         // then
         isGreaterThanOrEqualTo shouldBe expectedResult
@@ -66,7 +66,7 @@ internal class VersionTest {
         val version: Version = Version.of("1.0.1")
 
         // when
-        val sut = version.`is`((target))
+        val sut = version == target
 
         // then
         sut shouldBe expectedResult
@@ -79,7 +79,7 @@ internal class VersionTest {
         val version = Version.of("1.0.1")
 
         // when
-        val isLessThan = version.isLessThan((target))
+        val isLessThan = version < target
 
         // then
         isLessThan shouldBe expectedResult
@@ -92,7 +92,7 @@ internal class VersionTest {
         val version: Version = Version.of("1.0.1")
 
         // when
-        val isLessThanOrEqualTo = version.isLessThanOrEqualTo((target))
+        val isLessThanOrEqualTo = version <= target
 
         // then
         isLessThanOrEqualTo shouldBe expectedResult

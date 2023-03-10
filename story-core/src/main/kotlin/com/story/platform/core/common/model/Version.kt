@@ -9,37 +9,17 @@ data class Version(
     override val length: Int,
 ) : Comparable<Version>, CharSequence, Serializable {
 
-    fun isGreaterThan(version: Version): Boolean {
-        return compareTo(version) > 0
-    }
-
-    fun isGreaterThanOrEqualTo(version: Version): Boolean {
-        return compareTo(version) >= 0
-    }
-
-    fun `is`(version: Version): Boolean {
-        return equals(version)
-    }
-
-    fun isLessThan(version: Version): Boolean {
-        return compareTo(version) < 0
-    }
-
-    fun isLessThanOrEqualTo(version: Version): Boolean {
-        return compareTo(version) <= 0
-    }
-
     override fun hashCode(): Int {
         return version.hashCode()
     }
 
     override fun compareTo(other: Version): Int {
         val versionArray: Array<String> =
-            version.split(Version.VERSION_REGEX.pattern().toRegex())
+            version.split(VERSION_REGEX.pattern().toRegex())
                 .dropLastWhile { it.isEmpty() }
                 .toTypedArray()
         val targetVersionArray: Array<String> = other.toString()
-            .split(Version.VERSION_REGEX.pattern().toRegex())
+            .split(VERSION_REGEX.pattern().toRegex())
             .dropLastWhile { it.isEmpty() }
             .toTypedArray()
 
