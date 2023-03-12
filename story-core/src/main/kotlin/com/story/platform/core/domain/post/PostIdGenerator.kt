@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.support.redis.StringRedisRepository
+import com.story.platform.core.infrastructure.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 
 @Repository

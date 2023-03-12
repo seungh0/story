@@ -7,8 +7,8 @@ import com.story.platform.core.domain.post.PostEventType
 import com.story.platform.core.domain.subscription.SubscriptionDistributedKeyGenerator
 import com.story.platform.core.domain.subscription.SubscriptionEvent
 import com.story.platform.core.domain.subscription.SubscriptionEventType
+import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
 import com.story.platform.core.support.json.JsonUtils
-import com.story.platform.core.support.kafka.KafkaConsumerConfig
 import kotlinx.coroutines.runBlocking
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener

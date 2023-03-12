@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.support.redis.StringRedisRepository
+import com.story.platform.core.infrastructure.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 
 @Repository

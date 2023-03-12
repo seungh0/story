@@ -1,4 +1,4 @@
-package com.story.platform.core.support.kafka
+package com.story.platform.core.infrastructure.kafka
 
 import com.story.platform.core.common.utils.LoggerUtilsExtension.log
 import org.apache.kafka.clients.consumer.ConsumerConfig

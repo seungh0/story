@@ -1,6 +1,6 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.support.redis.StringRedisKey
+import com.story.platform.core.infrastructure.redis.StringRedisKey
 import java.time.Duration
 
 data class RedisCacheKey(

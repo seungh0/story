@@ -1,4 +1,4 @@
-package com.story.platform.core.support.redis
+package com.story.platform.core.infrastructure.redis
 
 import java.time.Duration
 import java.util.stream.Collectors

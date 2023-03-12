@@ -1,4 +1,4 @@
-package com.story.platform.core.support.redis
+package com.story.platform.core.infrastructure.redis
 
 import org.redisson.Redisson
 import org.redisson.api.RedissonClient

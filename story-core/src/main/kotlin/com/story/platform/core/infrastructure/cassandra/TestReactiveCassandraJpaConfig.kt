@@ -1,4 +1,4 @@
-package com.story.platform.core.support.cassandra
+package com.story.platform.core.infrastructure.cassandra
 
 import com.story.platform.core.CoreRoot
 import com.story.platform.core.common.converter.VersionReadConverter

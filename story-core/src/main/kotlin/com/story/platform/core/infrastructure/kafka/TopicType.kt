@@ -1,4 +1,4 @@
-package com.story.platform.core.support.kafka
+package com.story.platform.core.infrastructure.kafka
 
 enum class TopicType(
     private val description: String,

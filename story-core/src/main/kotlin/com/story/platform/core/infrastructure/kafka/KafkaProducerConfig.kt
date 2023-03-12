@@ -1,4 +1,4 @@
-package com.story.platform.core.support.kafka
+package com.story.platform.core.infrastructure.kafka
 
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer

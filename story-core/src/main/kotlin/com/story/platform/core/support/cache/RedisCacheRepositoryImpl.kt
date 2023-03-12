@@ -1,7 +1,7 @@
 package com.story.platform.core.support.cache
 
 import com.story.platform.core.common.error.InternalServerException
-import com.story.platform.core.support.redis.StringRedisRepository
+import com.story.platform.core.infrastructure.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 import java.time.Duration
 
