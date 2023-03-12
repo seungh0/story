@@ -16,7 +16,7 @@ server:
 
 spring:
   application:
-    name: story-api-consumer
+    name: story-worker
   webflux:
     format:
       date: iso
