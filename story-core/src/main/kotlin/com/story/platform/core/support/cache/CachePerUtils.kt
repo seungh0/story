@@ -3,7 +3,7 @@ package com.story.platform.core.support.cache
 import java.time.Duration
 import kotlin.random.Random
 
-object CachePERUtils {
+object CachePerUtils {
 
     /**
      * Probablistic Early Recomputation

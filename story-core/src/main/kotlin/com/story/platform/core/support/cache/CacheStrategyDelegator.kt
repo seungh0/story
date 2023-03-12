@@ -46,6 +46,11 @@ class CacheStrategyDelegator(
             ?: throw NotImplementedException("지원하지 않는 캐시 전략($cacheStrategyType) 입니다")
     }
 
+    suspend fun evictAll(cacheStrategyType: CacheStrategyType, cacheType: CacheType) {
+        val cacheStrategy = findCacheStrategy(cacheStrategyType)
+        cacheStrategy.evictAll(cacheType = cacheType)
+    }
+
     @PostConstruct
     fun initialize() {
         cacheStrategyEnumMap.putAll(
@@ -54,11 +59,6 @@ class CacheStrategyDelegator(
                 CacheStrategy::cacheStrategy,
             )
         )
-    }
-
-    suspend fun evictAll(cacheStrategyType: CacheStrategyType, cacheType: CacheType) {
-        val cacheStrategy = findCacheStrategy(cacheStrategyType)
-        cacheStrategy.evictAll(cacheType = cacheType)
     }
 
     companion object {
