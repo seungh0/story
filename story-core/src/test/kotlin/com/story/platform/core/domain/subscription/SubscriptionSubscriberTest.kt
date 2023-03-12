@@ -1,14 +1,13 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.distribution.LargeDistributionKey
+import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.ServiceType
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+@IntegrationTest
 internal class SubscriptionSubscriberTest(
     private val subscriptionSubscriber: SubscriptionSubscriber,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
@@ -77,7 +76,7 @@ internal class SubscriptionSubscriberTest(
             subscriptionDistributed[0].also {
                 it.key.serviceType shouldBe serviceType
                 it.key.subscriptionType shouldBe subscriptionType
-                it.key.distributedKey shouldBe LargeDistributionKey.fromId(subscriberId).key
+                it.key.distributedKey shouldBe SubscriptionDistributedKeyGenerator.generate(subscriberId)
                 it.key.targetId shouldBe targetId
                 it.key.subscriberId shouldBe subscriberId
             }
@@ -119,7 +118,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             subscriptionDistributedCoroutineRepository.save(
-                SubscriptionDistributedFixture.create(
+                SubscriptionDistributorFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
@@ -172,7 +171,7 @@ internal class SubscriptionSubscriberTest(
             subscriptionDistributed[0].also {
                 it.key.serviceType shouldBe serviceType
                 it.key.subscriptionType shouldBe subscriptionType
-                it.key.distributedKey shouldBe LargeDistributionKey.fromId(subscriberId).key
+                it.key.distributedKey shouldBe SubscriptionDistributedKeyGenerator.generate(subscriberId)
                 it.key.targetId shouldBe targetId
                 it.key.subscriberId shouldBe subscriberId
             }

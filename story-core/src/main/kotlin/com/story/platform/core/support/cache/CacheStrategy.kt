@@ -12,4 +12,6 @@ interface CacheStrategy {
 
     suspend fun evict(cacheType: CacheType, cacheKey: String)
 
+    suspend fun evictAll(cacheType: CacheType)
+
 }

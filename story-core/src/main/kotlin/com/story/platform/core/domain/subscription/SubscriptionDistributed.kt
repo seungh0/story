@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.distribution.LargeDistributionKey
 import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
@@ -71,7 +70,7 @@ data class SubscriptionDistributedPrimaryKey(
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
-            distributedKey = LargeDistributionKey.fromId(rawId = subscriberId).key,
+            distributedKey = SubscriptionDistributedKeyGenerator.generate(subscriberId = subscriberId),
         )
     }
 

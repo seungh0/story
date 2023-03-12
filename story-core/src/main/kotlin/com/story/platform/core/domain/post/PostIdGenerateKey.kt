@@ -7,7 +7,7 @@ data class PostIdGenerateKey(
     val postSpaceKey: PostSpaceKey,
 ) : StringRedisKey<PostIdGenerateKey, Long> {
 
-    override fun getKey(): String =
+    override fun makeKeyString(): String =
         "post:serviceType:${postSpaceKey.serviceType}:spaceType:${postSpaceKey.spaceType}:spaceId:${postSpaceKey.spaceId}"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()

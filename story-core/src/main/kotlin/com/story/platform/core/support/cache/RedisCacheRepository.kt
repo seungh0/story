@@ -30,4 +30,6 @@ interface RedisCacheRepository {
         cacheKey: String,
     ): Duration
 
+    suspend fun evictAll(cacheType: CacheType)
+
 }

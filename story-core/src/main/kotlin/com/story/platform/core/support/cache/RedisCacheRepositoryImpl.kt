@@ -55,4 +55,19 @@ class RedisCacheRepositoryImpl(
         return stringRedisRepository.getTtl(redisCacheKey)
     }
 
+    override suspend fun evictAll(cacheType: CacheType) {
+        if (!cacheType.enableGlobalCache()) {
+            throw InternalServerException("해당 캐시($cacheType)는 레디스 캐시를 지원하지 않습니다")
+        }
+        val keyPrefix = RedisCacheKey.getCachePrefix(cacheType)
+        val keyStrings = stringRedisRepository.scan(keyPrefix)
+        if (keyStrings.isEmpty()) {
+            return
+        }
+
+        val cacheKeys =
+            keyStrings.map { keyString -> RedisCacheKey.fromKeyString(cacheType = cacheType, keyString = keyString) }
+        stringRedisRepository.delBulk(cacheKeys)
+    }
+
 }

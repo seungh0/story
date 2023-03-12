@@ -1,22 +1,25 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.helper.CacheCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+@IntegrationTest
 internal class SubscriptionRetrieverTest(
     private val subscriptionRetriever: SubscriptionRetriever,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
+    private val cacheCleaner: CacheCleaner,
 ) : FunSpec({
 
     afterEach {
         subscriptionCoroutineRepository.deleteAll()
         subscriptionReverseCoroutineRepository.deleteAll()
         subscriptionCounterCoroutineRepository.deleteAll()
+        cacheCleaner.cleanUp()
     }
 
     context("구독 여부를 조회한다") {

@@ -55,4 +55,11 @@ class GlobalCacheStrategy(
         }
     }
 
+    override suspend fun evictAll(cacheType: CacheType) {
+        if (!cacheType.enableGlobalCache()) {
+            return
+        }
+        redisCacheRepository.evictAll(cacheType = cacheType)
+    }
+
 }

@@ -4,7 +4,7 @@ import java.time.Duration
 
 interface StringRedisKey<K : StringRedisKey<K, V>, V> {
 
-    fun getKey(): String
+    fun makeKeyString(): String
 
     fun serializeValue(value: V): String
 

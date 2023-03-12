@@ -56,6 +56,11 @@ class CacheStrategyDelegator(
         )
     }
 
+    suspend fun evictAll(cacheStrategyType: CacheStrategyType, cacheType: CacheType) {
+        val cacheStrategy = findCacheStrategy(cacheStrategyType)
+        cacheStrategy.evictAll(cacheType = cacheType)
+    }
+
     companion object {
         private val cacheStrategyEnumMap = EnumMap<CacheStrategyType, CacheStrategy>(CacheStrategyType::class.java)
     }

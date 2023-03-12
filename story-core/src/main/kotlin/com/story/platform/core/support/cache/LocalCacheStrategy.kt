@@ -51,4 +51,11 @@ class LocalCacheStrategy(
         }
     }
 
+    override suspend fun evictAll(cacheType: CacheType) {
+        if (!cacheType.enableLocalCache()) {
+            return
+        }
+        cacheManager.getCache(cacheType.key)?.clear()
+    }
+
 }

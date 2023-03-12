@@ -1,13 +1,13 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.ServiceType
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+@IntegrationTest
 internal class SubscriptionUnSubscriberTest(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
@@ -60,7 +60,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             subscriptionDistributedCoroutineRepository.save(
-                SubscriptionDistributedFixture.create(
+                SubscriptionDistributorFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,

@@ -8,7 +8,7 @@ data class RedisCacheKey(
     val cacheKey: String,
 ) : StringRedisKey<RedisCacheKey, String> {
 
-    override fun getKey(): String = "cache:${cacheType.key}:${cacheKey}"
+    override fun makeKeyString(): String = "${getCachePrefix(cacheType)}${cacheKey}"
 
     override fun serializeValue(value: String): String = value
 
@@ -24,6 +24,20 @@ data class RedisCacheKey(
             cacheType = cacheType,
             cacheKey = cacheKey,
         )
+
+        fun getCachePrefix(cacheType: CacheType) = "cache:${cacheType.key}:"
+
+        fun fromKeyString(cacheType: CacheType, keyString: String): RedisCacheKey {
+            val prefix = getCachePrefix(cacheType)
+            if (!keyString.startsWith(prefix)) {
+                throw IllegalArgumentException("해당 keyString($keyString)은 cacheType($cacheType)에 해당하는 레디스 키가 아닙니다")
+            }
+
+            return RedisCacheKey(
+                cacheType = cacheType,
+                cacheKey = keyString.split(prefix)[1],
+            )
+        }
     }
 
 }

@@ -80,4 +80,14 @@ class CacheManager(
         }
     }
 
+    suspend fun evictAllCachesLayeredCache(cacheType: CacheType) {
+        cacheStrategyDelegator.evictAll(cacheStrategyType = CacheStrategyType.LOCAL, cacheType = cacheType)
+
+        runCatching {
+            cacheStrategyDelegator.evictAll(cacheStrategyType = CacheStrategyType.GLOBAL, cacheType = cacheType)
+        }.onFailure { throwable ->
+            log.error(throwable) { throwable.message }
+        }
+    }
+
 }

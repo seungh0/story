@@ -1,4 +1,4 @@
-package com.story.platform.core
+package com.story.platform.core.helper
 
 import com.story.platform.core.domain.post.PostTableNames
 
