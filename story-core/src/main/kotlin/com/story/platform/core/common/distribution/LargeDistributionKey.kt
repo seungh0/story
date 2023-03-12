@@ -13,7 +13,7 @@ data class LargeDistributionKey(
     companion object {
         private val TYPE = DistributionKeyType.LARGE
         private val DISTRIBUTION_KEY_PATTERN = Pattern.compile(TYPE.pattern)
-        private val ALL_KEYS: MutableList<LargeDistributionKey> = mutableListOf()
+        val ALL_KEYS: MutableList<LargeDistributionKey> = mutableListOf()
 
         init {
             DistributionKeyUtils.makeAllDistributionKeys(ALL_KEYS, TYPE.digit) { key: String -> of(key) }

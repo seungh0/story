@@ -1,5 +1,5 @@
 ### 구독 등록
-POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh02/target/hello
+POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh02/target/hello1
 Content-Type: application/json
 
 > {%

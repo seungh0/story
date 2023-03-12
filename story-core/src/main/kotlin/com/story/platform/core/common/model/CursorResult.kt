@@ -5,6 +5,8 @@ data class CursorResult<E, K>(
     val cursor: Cursor<K>,
 ) {
 
+    fun hasNext() = cursor.cursor == null
+
     companion object {
         fun <E, K> of(
             data: List<E>,

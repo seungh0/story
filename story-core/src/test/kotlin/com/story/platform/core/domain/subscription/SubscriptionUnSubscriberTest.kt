@@ -13,12 +13,14 @@ internal class SubscriptionUnSubscriberTest(
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
+    private val subscriptionDistributedCoroutineRepository: SubscriptionDistributedCoroutineRepository,
 ) : FunSpec({
 
     afterEach {
         subscriptionCoroutineRepository.deleteAll()
         subscriptionReverseCoroutineRepository.deleteAll()
         subscriptionCounterCoroutineRepository.deleteAll()
+        subscriptionDistributedCoroutineRepository.deleteAll()
     }
 
     context("구독을 취소한다") {
@@ -54,6 +56,15 @@ internal class SubscriptionUnSubscriberTest(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
+                )
+            )
+
+            subscriptionDistributedCoroutineRepository.save(
+                SubscriptionDistributedFixture.create(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    targetId = targetId,
+                    subscriberId = subscriberId,
                 )
             )
 

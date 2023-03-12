@@ -22,6 +22,7 @@ class SubscriptionUnSubscriber(
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
+    private val subscriptionDistributedCoroutineRepository: SubscriptionDistributedCoroutineRepository,
     @Qualifier(KafkaProducerConfig.ACK_ALL_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
@@ -58,9 +59,20 @@ class SubscriptionUnSubscriber(
                     )
                 )
                 subscriptionReverse.delete()
+
+                val subscriptionDistributed = subscriptionDistributedCoroutineRepository.findById(
+                    SubscriptionDistributedPrimaryKey.of(
+                        serviceType = serviceType,
+                        subscriptionType = subscriptionType,
+                        targetId = targetId,
+                        subscriberId = subscriberId,
+                    )
+                )
+
                 reactiveCassandraOperations.batchOps()
                     .delete(subscription)
                     .insert(subscriptionReverse)
+                    .delete(subscriptionDistributed)
                     .execute()
                     .awaitSingleOrNull()
             }

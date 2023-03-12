@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.common.distribution.LargeDistributionKey
 import com.story.platform.core.common.enums.ServiceType
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -13,12 +14,14 @@ internal class SubscriptionSubscriberTest(
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
+    private val subscriptionDistributedCoroutineRepository: SubscriptionDistributedCoroutineRepository,
 ) : FunSpec({
 
     afterEach {
         subscriptionCoroutineRepository.deleteAll()
         subscriptionReverseCoroutineRepository.deleteAll()
         subscriptionCounterCoroutineRepository.deleteAll()
+        subscriptionDistributedCoroutineRepository.deleteAll()
     }
 
     context("구독을 추가한다") {
@@ -68,6 +71,16 @@ internal class SubscriptionSubscriberTest(
                 it.key.targetId shouldBe targetId
                 it.count shouldBe 1L
             }
+
+            val subscriptionDistributed = subscriptionDistributedCoroutineRepository.findAll().toList()
+            subscriptionDistributed shouldHaveSize 1
+            subscriptionDistributed[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.distributedKey shouldBe LargeDistributionKey.fromId(subscriberId).key
+                it.key.targetId shouldBe targetId
+                it.key.subscriberId shouldBe subscriberId
+            }
         }
 
         test("구독 정보를 추가할때 이미 구독 정보가 있는 경우라도 멱등성을 보장한다") {
@@ -102,6 +115,15 @@ internal class SubscriptionSubscriberTest(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
+                )
+            )
+
+            subscriptionDistributedCoroutineRepository.save(
+                SubscriptionDistributedFixture.create(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    targetId = targetId,
+                    subscriberId = subscriberId,
                 )
             )
 
@@ -143,6 +165,16 @@ internal class SubscriptionSubscriberTest(
                 it.key.subscriptionType shouldBe subscriptionType
                 it.key.targetId shouldBe targetId
                 it.count shouldBe 1L
+            }
+
+            val subscriptionDistributed = subscriptionDistributedCoroutineRepository.findAll().toList()
+            subscriptionDistributed shouldHaveSize 1
+            subscriptionDistributed[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.distributedKey shouldBe LargeDistributionKey.fromId(subscriberId).key
+                it.key.targetId shouldBe targetId
+                it.key.subscriberId shouldBe subscriberId
             }
         }
 

@@ -69,6 +69,7 @@ class SubscriptionSubscriber(
             reactiveCassandraOperations.batchOps()
                 .insert(subscription)
                 .insert(SubscriptionReverse.of(subscription = subscription))
+                .insert(SubscriptionDistributed.of(subscription = subscription))
                 .execute()
                 .awaitSingleOrNull()
 

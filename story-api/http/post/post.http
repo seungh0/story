@@ -3,8 +3,8 @@ POST {{api}}/v1/space/ACCOUNT/account-id/post
 Content-Type: application/json
 
 {
-    "accountId": "account-id",
-    "title": "새로운 포스트",
+    "accountId": "hello1",
+    "title": "새로운 포스트123",
     "content": "포스트에 대한 본문\n블라블라~"
 }
 
