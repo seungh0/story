@@ -9,7 +9,9 @@ import com.story.platform.core.domain.subscription.SubscriptionEvent
 import com.story.platform.core.domain.subscription.SubscriptionEventType
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
 import com.story.platform.core.support.json.JsonUtils
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Service
@@ -30,30 +32,32 @@ class FeedHandlerConsumer(
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
         runBlocking {
-            when (event.eventType) {
-                PostEventType.CREATED -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
-                    feedRegister.registerPostFeed(
-                        serviceType = event.serviceType,
-                        targetId = event.accountId,
-                        distributedKey = distributedKey.key,
-                        spaceType = event.spaceType,
-                        spaceId = event.spaceId,
-                        postId = event.postId,
-                    )
-                }
+            withContext(Dispatchers.IO) {
+                when (event.eventType) {
+                    PostEventType.CREATED -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
+                        feedRegister.registerPostFeed(
+                            serviceType = event.serviceType,
+                            targetId = event.accountId,
+                            distributedKey = distributedKey.key,
+                            spaceType = event.spaceType,
+                            spaceId = event.spaceId,
+                            postId = event.postId,
+                        )
+                    }
 
-                PostEventType.DELETED -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
-                    feedRemover.removePostFeed(
-                        serviceType = event.serviceType,
-                        targetId = event.accountId,
-                        distributedKey = distributedKey.key,
-                        spaceType = event.spaceType,
-                        spaceId = event.spaceId,
-                        postId = event.postId,
-                    )
-                }
+                    PostEventType.DELETED -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
+                        feedRemover.removePostFeed(
+                            serviceType = event.serviceType,
+                            targetId = event.accountId,
+                            distributedKey = distributedKey.key,
+                            spaceType = event.spaceType,
+                            spaceId = event.spaceId,
+                            postId = event.postId,
+                        )
+                    }
 
-                else -> return@runBlocking
+                    else -> return@withContext
+                }
             }
         }
     }
@@ -69,25 +73,27 @@ class FeedHandlerConsumer(
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
         runBlocking {
-            when (event.eventType) {
-                SubscriptionEventType.UPSERT -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
-                    feedRegister.registerSubscriptionFeed(
-                        serviceType = event.serviceType,
-                        subscriptionType = event.subscriptionType,
-                        distributedKey = distributedKey.key,
-                        targetId = event.targetId,
-                        subscriberId = event.subscriberId,
-                    )
-                }
+            withContext(Dispatchers.IO) {
+                when (event.eventType) {
+                    SubscriptionEventType.UPSERT -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
+                        feedRegister.registerSubscriptionFeed(
+                            serviceType = event.serviceType,
+                            subscriptionType = event.subscriptionType,
+                            distributedKey = distributedKey.key,
+                            targetId = event.targetId,
+                            subscriberId = event.subscriberId,
+                        )
+                    }
 
-                SubscriptionEventType.DELETE -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
-                    feedRemover.removeSubscriptionFeed(
-                        serviceType = event.serviceType,
-                        subscriptionType = event.subscriptionType,
-                        distributedKey = distributedKey.key,
-                        targetId = event.targetId,
-                        subscriberId = event.subscriberId,
-                    )
+                    SubscriptionEventType.DELETE -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
+                        feedRemover.removeSubscriptionFeed(
+                            serviceType = event.serviceType,
+                            subscriptionType = event.subscriptionType,
+                            distributedKey = distributedKey.key,
+                            targetId = event.targetId,
+                            subscriberId = event.subscriberId,
+                        )
+                    }
                 }
             }
         }
