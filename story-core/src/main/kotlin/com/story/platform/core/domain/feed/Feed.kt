@@ -4,7 +4,7 @@ import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.domain.post.PostSlotAllocator
 import com.story.platform.core.domain.post.PostSpaceType
 import com.story.platform.core.domain.subscription.SubscriptionType
-import com.story.platform.core.support.json.JsonUtils
+import com.story.platform.core.support.json.toJson
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.Column
@@ -40,14 +40,12 @@ data class Feed(
                 accountId = accountId,
             ),
             feedType = FeedType.POST,
-            feedKeyJson = JsonUtils.toJson(
-                FeedPostKey(
-                    spaceType = spaceType,
-                    spaceId = spaceId,
-                    slotId = PostSlotAllocator.allocate(postId = postId),
-                    postId = postId,
-                )
-            ),
+            feedKeyJson = FeedPostKey(
+                spaceType = spaceType,
+                spaceId = spaceId,
+                slotId = PostSlotAllocator.allocate(postId = postId),
+                postId = postId,
+            ).toJson(),
         )
 
         fun fromSubscription(
@@ -62,13 +60,11 @@ data class Feed(
                 accountId = accountId,
             ),
             feedType = FeedType.SUBSCRIPTION,
-            feedKeyJson = JsonUtils.toJson(
-                FeedSubscriptionKey(
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                    subscriberId = subscriberId,
-                )
-            ),
+            feedKeyJson = FeedSubscriptionKey(
+                subscriptionType = subscriptionType,
+                targetId = targetId,
+                subscriberId = subscriberId,
+            ).toJson(),
         )
     }
 

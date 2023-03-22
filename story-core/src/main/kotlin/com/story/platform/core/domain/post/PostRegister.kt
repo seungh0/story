@@ -3,7 +3,7 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
-import com.story.platform.core.support.json.JsonUtils
+import com.story.platform.core.support.json.toJson
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
@@ -50,7 +50,7 @@ class PostRegister(
             content = content,
             extraJson = extraJson,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), JsonUtils.toJson(event))
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), event.toJson())
     }
 
 }

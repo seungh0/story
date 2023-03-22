@@ -3,6 +3,7 @@ package com.story.platform.core.support.cache
 import com.story.platform.core.common.model.ReflectionType
 import com.story.platform.core.common.utils.LoggerUtilsExtension.log
 import com.story.platform.core.support.json.JsonUtils
+import com.story.platform.core.support.json.toJson
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -41,7 +42,7 @@ class GlobalCacheStrategy(
         if (!cacheType.enableGlobalCache()) {
             return
         }
-        redisCacheRepository.setCache(cacheType = cacheType, cacheKey = cacheKey, value = JsonUtils.toJson(value))
+        redisCacheRepository.setCache(cacheType = cacheType, cacheKey = cacheKey, value = value.toJson())
         log.info { "글로벌 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
     }
 

@@ -80,11 +80,3 @@ data class PostEvent(
     }
 
 }
-
-enum class PostEventType {
-
-    CREATED,
-    UPDATED,
-    DELETED,
-
-}

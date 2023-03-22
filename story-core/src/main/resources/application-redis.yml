@@ -12,6 +12,7 @@ spring.config:
       - test
 
 spring:
-  redis:
-    host: localhost
-    port: 6381
+  data:
+    redis:
+      host: localhost
+      port: 6381

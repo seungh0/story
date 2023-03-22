@@ -4,7 +4,7 @@ import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
-import com.story.platform.core.support.json.JsonUtils
+import com.story.platform.core.support.json.toJson
 import com.story.platform.core.support.lock.DistributeLock
 import com.story.platform.core.support.lock.DistributedLockType
 import kotlinx.coroutines.Dispatchers
@@ -92,7 +92,7 @@ class SubscriptionSubscriber(
             subscriberId = subscriberId,
             targetId = targetId,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), JsonUtils.toJson(event))
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), event.toJson())
     }
 
 }
