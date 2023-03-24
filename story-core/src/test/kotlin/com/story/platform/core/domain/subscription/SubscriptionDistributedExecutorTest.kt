@@ -3,6 +3,7 @@ package com.story.platform.core.domain.subscription
 import com.datastax.oss.driver.api.core.cql.BatchType
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.helper.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.reactor.awaitSingleOrNull
@@ -13,10 +14,11 @@ class SubscriptionDistributedExecutorTest(
     private val subscriptionDistributedCoroutineRepository: SubscriptionDistributedCoroutineRepository,
     private val subscriptionDistributedExecutor: SubscriptionDistributedExecutor,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
+    private val testCleaner: TestCleaner,
 ) : FunSpec({
 
     afterEach {
-        subscriptionDistributedCoroutineRepository.deleteAll()
+        testCleaner.cleanUp()
     }
 
     context("특정 대상의 구독자들에게 액션을 실행한다") {

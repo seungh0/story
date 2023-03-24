@@ -4,6 +4,7 @@ import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.ForbiddenException
 import com.story.platform.core.common.error.NotFoundException
+import com.story.platform.core.helper.TestCleaner
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -15,11 +16,11 @@ internal class PostModifierTest(
     private val postModifier: PostModifier,
     private val postCoroutineRepository: PostCoroutineRepository,
     private val postReverseCoroutineRepository: PostReverseCoroutineRepository,
+    private val testCleaner: TestCleaner,
 ) : FunSpec({
 
     afterEach {
-        postCoroutineRepository.deleteAll()
-        postReverseCoroutineRepository.deleteAll()
+        testCleaner.cleanUp()
     }
 
     context("포스트 수정") {

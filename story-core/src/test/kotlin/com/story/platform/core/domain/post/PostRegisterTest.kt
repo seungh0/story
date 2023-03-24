@@ -2,6 +2,7 @@ package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.helper.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -13,11 +14,11 @@ internal class PostRegisterTest(
     private val postRegister: PostRegister,
     private val postCoroutineRepository: PostCoroutineRepository,
     private val postReverseCoroutineRepository: PostReverseCoroutineRepository,
+    private val testCleaner: TestCleaner,
 ) : FunSpec({
 
     afterEach {
-        postCoroutineRepository.deleteAll()
-        postReverseCoroutineRepository.deleteAll()
+        testCleaner.cleanUp()
     }
 
     context("포스트 등록") {

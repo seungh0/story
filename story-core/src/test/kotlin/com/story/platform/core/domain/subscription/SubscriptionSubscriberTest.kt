@@ -2,6 +2,7 @@ package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.helper.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -14,13 +15,11 @@ internal class SubscriptionSubscriberTest(
     private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
     private val subscriptionDistributedCoroutineRepository: SubscriptionDistributedCoroutineRepository,
+    private val testCleaner: TestCleaner,
 ) : FunSpec({
 
     afterEach {
-        subscriptionCoroutineRepository.deleteAll()
-        subscriptionReverseCoroutineRepository.deleteAll()
-        subscriptionCounterCoroutineRepository.deleteAll()
-        subscriptionDistributedCoroutineRepository.deleteAll()
+        testCleaner.cleanUp()
     }
 
     context("구독을 추가한다") {
