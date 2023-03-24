@@ -1,27 +1,19 @@
 package com.story.platform.core.domain.post
 
-import com.datastax.oss.driver.api.core.cql.SimpleStatement
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.helper.LoadCqlScriptsHelper
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.flow.toList
-import org.springframework.data.cassandra.core.ReactiveCassandraTemplate
 
 @IntegrationTest
 internal class PostRegisterTest(
     private val postRegister: PostRegister,
     private val postCoroutineRepository: PostCoroutineRepository,
     private val postReverseCoroutineRepository: PostReverseCoroutineRepository,
-    private val reactiveCassandraTemplate: ReactiveCassandraTemplate,
 ) : FunSpec({
-
-    beforeEach {
-        reactiveCassandraTemplate.execute(SimpleStatement.newInstance(LoadCqlScriptsHelper.POST_REVERSE_V1)).subscribe()
-    }
 
     afterEach {
         postCoroutineRepository.deleteAll()

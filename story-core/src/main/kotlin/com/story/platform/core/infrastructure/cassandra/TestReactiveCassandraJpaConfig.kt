@@ -1,6 +1,7 @@
 package com.story.platform.core.infrastructure.cassandra
 
 import com.story.platform.core.CoreRoot
+import com.story.platform.core.common.constants.StoryPackageConst
 import com.story.platform.core.common.converter.VersionReadConverter
 import com.story.platform.core.common.converter.VersionWriteConverter
 import org.springframework.boot.autoconfigure.cassandra.CassandraProperties
@@ -50,6 +51,10 @@ class TestReactiveCassandraJpaConfig(
                 versionReadConverter,
             )
         )
+    }
+
+    override fun getEntityBasePackages(): Array<String> {
+        return arrayOf(StoryPackageConst.BASE_PACKAGE)
     }
 
 }

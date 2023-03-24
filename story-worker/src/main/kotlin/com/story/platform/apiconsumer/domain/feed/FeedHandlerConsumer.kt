@@ -62,7 +62,6 @@ class FeedHandlerConsumer(
         }
     }
 
-
     @KafkaListener(
         topics = ["\${story.kafka.subscription.topic}"],
         groupId = "\${story.kafka.subscription.group-id}",
