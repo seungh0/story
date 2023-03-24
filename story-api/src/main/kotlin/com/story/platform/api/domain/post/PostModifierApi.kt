@@ -21,7 +21,7 @@ class PostModifierApi(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @PathVariable postId: Long,
-        @Valid @RequestBody request: ModifyPostApiRequest,
+        @Valid @RequestBody request: PostModifyApiRequest,
     ): ApiResponse<String> {
         postModifier.modify(
             postSpaceKey = PostSpaceKey(

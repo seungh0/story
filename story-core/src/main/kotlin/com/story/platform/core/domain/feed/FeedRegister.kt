@@ -13,7 +13,7 @@ class FeedRegister(
     private val feedCoroutineRepository: FeedCoroutineRepository,
 ) {
 
-    suspend fun registerPostFeed(
+    suspend fun addPostFeed(
         serviceType: ServiceType,
         targetId: String,
         distributedKey: String,
@@ -40,7 +40,7 @@ class FeedRegister(
         )
     }
 
-    suspend fun registerSubscriptionFeed(
+    suspend fun addSubscriptionFeed(
         serviceType: ServiceType,
         distributedKey: String,
         subscriptionType: SubscriptionType,

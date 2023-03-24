@@ -23,8 +23,8 @@ internal class PostModifierTest(
         testCleaner.cleanUp()
     }
 
-    context("포스트 수정") {
-        test("등록된 포스트를 수정합니다") {
+    context("등록된 포스트를 수정한다") {
+        test("기존에 등록된 포스트를 수정합니다") {
             // given
             val title = "포스트 제목"
             val content = """
@@ -86,7 +86,7 @@ internal class PostModifierTest(
             }
         }
 
-        test("존재하지 않는 포스트를 수정할 수 없다") {
+        test("존재하지 않는 포스트의 경우 포스트 정보를 수정할 수 없습니다") {
             // given
             val title = "포스트 제목"
             val content = "포스트 내용"
@@ -109,7 +109,7 @@ internal class PostModifierTest(
             }
         }
 
-        test("해당 포스트의 작성자가 아닌 경우 포스트를 수정할수 없다") {
+        test("포스트의 작성자만이 포스트를 수정할 수 있습니다") {
             // given
             val title = "포스트 제목"
             val content = "포스트 내용"

@@ -100,7 +100,7 @@ internal class SubscriptionUnSubscriberTest(
             }
         }
 
-        test("구독 정보가 없을 때 구독 정보를 취소하더라도 멱등성을 보장한다") {
+        test("구독 정보가 없을 때 구독 정보를 취소하는 경우 멱등성을 갖는다") {
             // given
             val serviceType = ServiceType.TWEETER
             val subscriptionType = SubscriptionType.FOLLOW
@@ -126,7 +126,7 @@ internal class SubscriptionUnSubscriberTest(
             subscriptionCounters shouldHaveSize 0
         }
 
-        test("구독 취소시 이미 취소된 이력이 있다면 유지된다") {
+        test("구독 취소시 이미 구독 취소 이력이 있다면 멱등성을 갖는다") {
             // given
             val serviceType = ServiceType.TWEETER
             val subscriptionType = SubscriptionType.FOLLOW

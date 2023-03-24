@@ -19,8 +19,8 @@ internal class SubscriptionRetrieverTest(
         testCleaner.cleanUp()
     }
 
-    context("구독 여부를 조회한다") {
-        test("구독이 되어 있는 경우 true") {
+    context("유저가 대상에게 구독자인지 확인한다") {
+        test("대상자를 구독한 기록이 있으면, 구독자이다") {
             // given
             val serviceType = ServiceType.TWEETER
             val subscriptionType = SubscriptionType.FOLLOW
@@ -39,7 +39,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionReverseCoroutineRepository.save(subscriptionReverse)
 
             // when
-            val isSubscriber = subscriptionRetriever.checkSubscription(
+            val isSubscriber = subscriptionRetriever.isSubscriber(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -50,7 +50,7 @@ internal class SubscriptionRetrieverTest(
             isSubscriber shouldBe true
         }
 
-        test("구독이 되어 있지 않는 경우 false") {
+        test("대상자를 구독한 기록이 없다면, 구독자가 아니다") {
             // given
             val serviceType = ServiceType.TWEETER
             val subscriptionType = SubscriptionType.FOLLOW
@@ -58,7 +58,7 @@ internal class SubscriptionRetrieverTest(
             val subscriberId = "구독자"
 
             // when
-            val isSubscriber = subscriptionRetriever.checkSubscription(
+            val isSubscriber = subscriptionRetriever.isSubscriber(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -69,7 +69,7 @@ internal class SubscriptionRetrieverTest(
             isSubscriber shouldBe false
         }
 
-        test("구독 취소가 되어 있는 경우 false") {
+        test("구독이 취소되어 있는 경우, 구독자가 아니다") {
             // given
             val serviceType = ServiceType.TWEETER
             val subscriptionType = SubscriptionType.FOLLOW
@@ -87,7 +87,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionReverseCoroutineRepository.save(subscriptionReverse)
 
             // when
-            val isSubscriber = subscriptionRetriever.checkSubscription(
+            val isSubscriber = subscriptionRetriever.isSubscriber(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -99,7 +99,7 @@ internal class SubscriptionRetrieverTest(
         }
     }
 
-    context("구독자 수를 조회한다") {
+    context("대상자의 구독자 수를 조회한다") {
         test("대상자의 구독자 수를 조회한다") {
             // given
             val serviceType = ServiceType.TWEETER
@@ -129,7 +129,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val subscribersCount = subscriptionRetriever.getSubscribersCount(
+            val subscribersCount = subscriptionRetriever.countSubscribers(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -158,7 +158,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionReverseCoroutineRepository.save(subscriptionReverse)
 
             // when
-            val subscribersCount = subscriptionRetriever.getSubscribersCount(
+            val subscribersCount = subscriptionRetriever.countSubscribers(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -168,14 +168,14 @@ internal class SubscriptionRetrieverTest(
             subscribersCount shouldBe 0L
         }
 
-        test("대상자가 없는 경우 구독자수가 0으로 표기된다") {
+        test("대상자가 없는 경우 구독자 수가 0으로 표기된다") {
             // given
             val serviceType = ServiceType.TWEETER
             val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "구독 대상자"
 
             // when
-            val subscribersCount = subscriptionRetriever.getSubscribersCount(
+            val subscribersCount = subscriptionRetriever.countSubscribers(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,

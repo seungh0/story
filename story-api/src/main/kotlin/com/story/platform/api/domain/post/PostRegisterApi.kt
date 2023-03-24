@@ -20,7 +20,7 @@ class PostRegisterApi(
     suspend fun register(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
-        @Valid @RequestBody request: RegisterPostApiRequest,
+        @Valid @RequestBody request: PostRegisterApiRequest,
     ): ApiResponse<String> {
         postRegister.register(
             postSpaceKey = PostSpaceKey(

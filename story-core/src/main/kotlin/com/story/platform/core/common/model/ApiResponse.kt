@@ -26,7 +26,7 @@ data class ApiResponse<T>(
             result = null,
         )
 
-        val OK = success(result = "OK")
+        val OK: ApiResponse<String> = success(result = "OK")
     }
 
 }

@@ -19,12 +19,12 @@ class SubscriptionRetrieveApi(
 ) {
 
     @GetMapping("/subscriber/{subscriberId}/target/{targetId}/exists")
-    suspend fun checkSubscription(
+    suspend fun isSubscriber(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
     ): ApiResponse<SubscriptionExistsResponse> {
-        val exists = subscriptionRetriever.checkSubscription(
+        val exists = subscriptionRetriever.isSubscriber(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
@@ -36,11 +36,11 @@ class SubscriptionRetrieveApi(
     }
 
     @GetMapping("/target/{targetId}/subscribers/count")
-    suspend fun getSubscribersCount(
+    suspend fun countSubscribers(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
     ): ApiResponse<SubscribersCountResponse> {
-        val subscribersCount = subscriptionRetriever.getSubscribersCount(
+        val subscribersCount = subscriptionRetriever.countSubscribers(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
@@ -51,12 +51,12 @@ class SubscriptionRetrieveApi(
     }
 
     @GetMapping("/target/{targetId}/subscribers")
-    suspend fun getTargetSubscribers(
+    suspend fun getSubscribers(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
         @Valid cursorRequest: CursorRequest,
     ): ApiResponse<CursorResult<SubscriberResponse, String>> {
-        val subscriptionReverses = subscriptionRetriever.getTargetSubscribers(
+        val subscriptionReverses = subscriptionRetriever.getSubscribers(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
@@ -73,12 +73,12 @@ class SubscriptionRetrieveApi(
     }
 
     @GetMapping("/subscriber/{subscriberId}/targets")
-    suspend fun getSubscriberTargets(
+    suspend fun getSubscriptionTargets(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
     ): ApiResponse<CursorResult<SubscriptionTargetResponse, String>> {
-        val subscriptions = subscriptionRetriever.getSubscriberTargets(
+        val subscriptions = subscriptionRetriever.getSubscriptionTargets(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,

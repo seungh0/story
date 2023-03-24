@@ -2,13 +2,13 @@ package com.story.platform.api.lib
 
 import com.story.platform.api.RestDocsTest
 import com.story.platform.core.common.error.ErrorCode
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.FunSpec
 import java.io.File
 
-internal class ErrorCodeDocsGeneratorTest : RestDocsTest() {
+@RestDocsTest
+internal class ErrorCodeDocsGeneratorTest : FunSpec({
 
-    @Test
-    fun `ErrorCode Docs`() {
+    test("에러코드 Asciidoctor 생성") {
         val file = File(FILE_PATH_NAME)
         if (!file.exists()) {
             file.createNewFile()
@@ -33,6 +33,8 @@ internal class ErrorCodeDocsGeneratorTest : RestDocsTest() {
 
         file.printWriter().use { out -> out.println(asciidoctorText) }
     }
+
+}) {
 
     companion object {
         private const val FILE_PATH_NAME = "src/docs/asciidoc/restapi/error.adoc"

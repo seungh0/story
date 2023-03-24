@@ -21,11 +21,11 @@ class SubscriptionDistributedExecutorTest(
         testCleaner.cleanUp()
     }
 
-    context("특정 대상의 구독자들에게 액션을 실행한다") {
-        test("특정 대상의 구독자들을 전체 스캔한다") {
+    context("특정 대상의 구독자들 분산 조회 한다") {
+        test("분산 키에 해당하는 구독자들을 대상으로 액션을 수행한다") {
             // given
             val serviceType = ServiceType.TWEETER
-            val targetId = "targetId"
+            val targetId = "구독 대상자"
             val distributedKey = "001"
 
             val subscriptions = IntRange(start = 1, endInclusive = 20).map {
@@ -61,8 +61,11 @@ class SubscriptionDistributedExecutorTest(
             executeCount shouldBe 7L
         }
 
-        test("다른 대상을 구독한 유저들은 포함되지 않는다") {
+        test("구독자들에 다른 대상을 구독한 유저들은 포함되지 않는다") {
             // given
+            var subscribersCount = 0L
+            var executeCount = 0L
+
             val serviceType = ServiceType.TWEETER
             val distributedKey = "001"
 
@@ -70,18 +73,15 @@ class SubscriptionDistributedExecutorTest(
                 serviceType = serviceType,
                 subscriptionType = SubscriptionType.FOLLOW,
                 distributedKey = distributedKey,
-                targetId = "another-target-id",
+                targetId = "다른 구독 대상자",
             )
             subscriptionDistributedCoroutineRepository.save(subscription)
-
-            var subscribersCount = 0L
-            var executeCount = 0L
 
             // when
             subscriptionDistributedExecutor.executeToTargetSubscribers(
                 serviceType = serviceType,
                 distributedKey = distributedKey,
-                targetId = "targetId",
+                targetId = "구독 대상자",
                 fetchSize = 3,
             ) {
                 subscribersCount += it.size
@@ -93,8 +93,11 @@ class SubscriptionDistributedExecutorTest(
             executeCount shouldBe 1L
         }
 
-        test("다른 분산키를 가지고 있는 구독 정보는 포함되지 않는다") {
+        test("다른 분산키에 해당하는 구독자들은 포함되지 않는다") {
             // given
+            var subscribersCount = 0L
+            var executeCount = 0L
+
             val serviceType = ServiceType.TWEETER
             val targetId = "targetId"
             val distributedKey = "001"
@@ -106,10 +109,6 @@ class SubscriptionDistributedExecutorTest(
                 targetId = targetId,
             )
             subscriptionDistributedCoroutineRepository.save(subscription)
-
-
-            var subscribersCount = 0L
-            var executeCount = 0L
 
             // when
             subscriptionDistributedExecutor.executeToTargetSubscribers(

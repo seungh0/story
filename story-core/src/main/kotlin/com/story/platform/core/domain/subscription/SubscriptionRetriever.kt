@@ -20,7 +20,7 @@ class SubscriptionRetriever(
     private val subscriptionIdGenerator: SubscriptionIdGenerator,
 ) {
 
-    suspend fun checkSubscription(
+    suspend fun isSubscriber(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         targetId: String,
@@ -40,7 +40,7 @@ class SubscriptionRetriever(
         cacheType = CacheType.SUBSCRIBERS_COUNT,
         key = "(T(java.lang.Math).random() * 16).intValue() + 'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId}",
     )
-    suspend fun getSubscribersCount(
+    suspend fun countSubscribers(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         targetId: String,
@@ -53,21 +53,21 @@ class SubscriptionRetriever(
         return subscriptionCounterCoroutineRepository.findById(primaryKey)?.count ?: 0L
     }
 
-    suspend fun getTargetSubscribers(
+    suspend fun getSubscribers(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         targetId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<Subscription, String> {
         return when (cursorRequest.direction) {
-            CursorDirection.NEXT -> getNextTargetSubscribers(
+            CursorDirection.NEXT -> getSubscribersNextDirection(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 cursorRequest = cursorRequest,
             )
 
-            CursorDirection.PREVIOUS -> getPreviousTargetSubscribers(
+            CursorDirection.PREVIOUS -> getSubscribersPreviousDirection(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -76,7 +76,7 @@ class SubscriptionRetriever(
         }
     }
 
-    private suspend fun getPreviousTargetSubscribers(
+    private suspend fun getSubscribersPreviousDirection(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         targetId: String,
@@ -162,7 +162,7 @@ class SubscriptionRetriever(
         )
     }
 
-    private suspend fun getNextTargetSubscribers(
+    private suspend fun getSubscribersNextDirection(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         targetId: String,
@@ -247,21 +247,21 @@ class SubscriptionRetriever(
         )
     }
 
-    suspend fun getSubscriberTargets(
+    suspend fun getSubscriptionTargets(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         subscriberId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<SubscriptionReverse, String> {
         val subscriptions = when (cursorRequest.direction) {
-            CursorDirection.NEXT -> getNextSubscriberTargets(
+            CursorDirection.NEXT -> getSubscriptionTargetsNextDirection(
                 cursorRequest = cursorRequest,
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
             )
 
-            CursorDirection.PREVIOUS -> getPreviousSubscriberTargets(
+            CursorDirection.PREVIOUS -> getSubscriptionTargetsPreviousDirection(
                 cursorRequest = cursorRequest,
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
@@ -274,7 +274,7 @@ class SubscriptionRetriever(
         )
     }
 
-    private suspend fun getPreviousSubscriberTargets(
+    private suspend fun getSubscriptionTargetsPreviousDirection(
         cursorRequest: CursorRequest,
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
@@ -298,7 +298,7 @@ class SubscriptionRetriever(
         )
     }
 
-    private suspend fun getNextSubscriberTargets(
+    private suspend fun getSubscriptionTargetsNextDirection(
         cursorRequest: CursorRequest,
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,

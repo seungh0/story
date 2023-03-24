@@ -1,18 +1,27 @@
 package com.story.platform.api.domain
 
-import com.story.platform.api.ApiTestBase
-import org.junit.jupiter.api.Test
+import com.story.platform.api.lib.WebClientUtils
+import com.story.platform.core.common.model.ApiResponse
+import io.kotest.core.spec.style.FunSpec
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.test.web.reactive.server.WebTestClient
 
 @WebFluxTest(HealthController::class)
-internal class HealthControllerTest : ApiTestBase() {
+internal class HealthControllerTest(
+    private val webClient: WebTestClient,
+) : FunSpec({
 
-    @Test
-    fun `Health Check API Test`() {
-        webClient.get()
+    test("Health Check API") {
+        // when
+        val exchange = webClient.get()
             .uri("/health")
+            .headers(WebClientUtils.commonHeaders)
             .exchange()
-            .expectStatus().isOk
+
+        // then
+        exchange.expectStatus().isOk
+            .expectBody()
+            .jsonPath("$.result").isEqualTo(ApiResponse.OK.result!!)
     }
 
-}
+})

@@ -21,8 +21,8 @@ internal class PostRegisterTest(
         testCleaner.cleanUp()
     }
 
-    context("포스트 등록") {
-        test("신규 포스트를 등록합니다") {
+    context("신규 포스트를 등록한다") {
+        test("유저가 새로운 포스트를 등록합니다") {
             // given
             val postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,

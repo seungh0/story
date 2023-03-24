@@ -2,7 +2,7 @@ package com.story.platform.api.domain.post
 
 import jakarta.validation.constraints.NotBlank
 
-data class RegisterPostApiRequest(
+data class PostRegisterApiRequest(
     @field:NotBlank
     val accountId: String = "",
 

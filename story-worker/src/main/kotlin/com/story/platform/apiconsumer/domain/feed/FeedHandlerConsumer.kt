@@ -35,7 +35,7 @@ class FeedHandlerConsumer(
             withContext(Dispatchers.IO) {
                 when (event.eventType) {
                     PostEventType.CREATED -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
-                        feedRegister.registerPostFeed(
+                        feedRegister.addPostFeed(
                             serviceType = event.serviceType,
                             targetId = event.accountId,
                             distributedKey = distributedKey.key,
@@ -75,7 +75,7 @@ class FeedHandlerConsumer(
             withContext(Dispatchers.IO) {
                 when (event.eventType) {
                     SubscriptionEventType.UPSERT -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
-                        feedRegister.registerSubscriptionFeed(
+                        feedRegister.addSubscriptionFeed(
                             serviceType = event.serviceType,
                             subscriptionType = event.subscriptionType,
                             distributedKey = distributedKey.key,

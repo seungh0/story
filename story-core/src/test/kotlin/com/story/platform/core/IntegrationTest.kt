@@ -1,8 +1,8 @@
 package com.story.platform.core
 
-import org.junit.jupiter.api.Tag
+import io.kotest.core.annotation.Tags
 import org.springframework.boot.test.context.SpringBootTest
 
-@Tag("integration-test")
+@Tags("integration-test")
 @SpringBootTest
 annotation class IntegrationTest
