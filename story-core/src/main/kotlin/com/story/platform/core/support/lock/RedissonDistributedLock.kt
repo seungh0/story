@@ -7,7 +7,7 @@ import org.redisson.api.RedissonClient
 import org.springframework.stereotype.Service
 
 @Service
-class DistributedLockProvider(
+class RedissonDistributedLock(
     private val redissonClient: RedissonClient,
 ) {
 

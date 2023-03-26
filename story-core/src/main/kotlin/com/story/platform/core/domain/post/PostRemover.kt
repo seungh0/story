@@ -11,44 +11,48 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
 @Service
-class PostRegister(
-    private val postIdGenerator: PostIdGenerator,
+class PostRemover(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     @Qualifier(KafkaProducerConfig.ACK_ALL_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
+    private val postCoroutineRepository: PostCoroutineRepository,
+    private val postReverseCoroutineRepository: PostReverseCoroutineRepository,
 ) {
 
-    suspend fun register(
+    suspend fun remove(
         postSpaceKey: PostSpaceKey,
         accountId: String,
-        title: String,
-        content: String,
-        extraJson: String? = null,
+        postId: Long,
     ) {
-        val postId = postIdGenerator.generate(postSpaceKey = postSpaceKey)
-        val post = Post.of(
-            postSpaceKey = postSpaceKey,
-            accountId = accountId,
+        val postReverse =
+            postReverseCoroutineRepository.findByKeyServiceTypeAndKeyAccountIdAndKeyPostIdAndKeySpaceTypeAndKeySpaceId(
+                serviceType = postSpaceKey.serviceType,
+                accountId = accountId,
+                postId = postId,
+                spaceType = postSpaceKey.spaceType,
+                spaceId = postSpaceKey.spaceId,
+            ) ?: return
+
+        val post = postCoroutineRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+            serviceType = postSpaceKey.serviceType,
+            spaceType = postSpaceKey.spaceType,
+            spaceId = postSpaceKey.spaceId,
+            slotId = postReverse.slotId,
             postId = postId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
         )
+
         reactiveCassandraOperations.batchOps()
-            .insert(post)
-            .insert(PostReverse.of(post))
+            .delete(post)
+            .delete(postReverse)
             .execute()
             .awaitSingleOrNull()
 
-        val event = PostEvent.created(
+        val event = PostEvent.deleted(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
             accountId = accountId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
         )
         kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
     }

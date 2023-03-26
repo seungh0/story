@@ -5,15 +5,15 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class PostIdGenerator(
-    private val postIdRepository: StringRedisRepository<PostIdGenerateKey, Long>,
+    private val postIdRepository: StringRedisRepository<PostIdGeneratorKey, Long>,
 ) {
 
     suspend fun generate(postSpaceKey: PostSpaceKey) = postIdRepository.incr(
-        key = PostIdGenerateKey(postSpaceKey = postSpaceKey)
+        key = PostIdGeneratorKey(postSpaceKey = postSpaceKey)
     )
 
     suspend fun getLastPostId(postSpaceKey: PostSpaceKey) = postIdRepository.get(
-        key = PostIdGenerateKey(postSpaceKey = postSpaceKey)
+        key = PostIdGeneratorKey(postSpaceKey = postSpaceKey)
     ) ?: INIT_POST_ID
 
     companion object {

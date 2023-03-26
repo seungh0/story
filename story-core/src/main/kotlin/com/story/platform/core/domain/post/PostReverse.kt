@@ -13,6 +13,10 @@ data class PostReverse(
     @field:PrimaryKey
     val key: PostReversePrimaryKey,
 
+    @field:Column(value = "slot_id")
+    @field:CassandraType(type = BIGINT)
+    val slotId: Long,
+
     @field:Column(value = "title")
     @field:CassandraType(type = TEXT)
     val title: String,
@@ -35,6 +39,7 @@ data class PostReverse(
                 spaceType = post.key.spaceType,
                 spaceId = post.key.spaceId,
             ),
+            slotId = post.key.slotId,
             title = post.title,
             content = post.content,
             extraJson = post.extraJson,

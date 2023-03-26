@@ -63,9 +63,6 @@ data class PostEvent(
             spaceId: String,
             postId: Long,
             accountId: String,
-            title: String,
-            content: String,
-            extraJson: String?,
         ) = PostEvent(
             eventType = PostEventType.DELETED,
             serviceType = serviceType,
@@ -73,9 +70,9 @@ data class PostEvent(
             spaceId = spaceId,
             postId = postId,
             accountId = accountId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
+            title = "",
+            content = "",
+            extraJson = null,
         )
     }
 

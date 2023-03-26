@@ -3,9 +3,9 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.infrastructure.redis.StringRedisKey
 import java.time.Duration
 
-data class PostIdGenerateKey(
+data class PostIdGeneratorKey(
     val postSpaceKey: PostSpaceKey,
-) : StringRedisKey<PostIdGenerateKey, Long> {
+) : StringRedisKey<PostIdGeneratorKey, Long> {
 
     override fun makeKeyString(): String =
         "post:serviceType:${postSpaceKey.serviceType}:spaceType:${postSpaceKey.spaceType}:spaceId:${postSpaceKey.spaceId}"

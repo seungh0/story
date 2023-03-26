@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 @Aspect
 @Component
 class DistributeLockAspect(
-    private val distributedLockProvider: DistributedLockProvider,
+    private val redissonDistributedLock: RedissonDistributedLock,
 ) {
 
     @Around("args(.., kotlin.coroutines.Continuation) && @annotation(DistributeLock)")
@@ -26,7 +26,7 @@ class DistributeLockAspect(
             joinPoint.coroutineArgs,
             distributeLock.key
         )
-        return distributedLockProvider.executeInCriticalSection(
+        return redissonDistributedLock.executeInCriticalSection(
             distributeLock = distributeLock,
             lockKey = "lock:${distributeLock.lockType.prefix}:$lockKey}",
         ) {
