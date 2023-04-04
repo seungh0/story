@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 class PostRegister(
     private val postIdGenerator: PostIdGenerator,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    @Qualifier(KafkaProducerConfig.ACK_ALL_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.POST_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 

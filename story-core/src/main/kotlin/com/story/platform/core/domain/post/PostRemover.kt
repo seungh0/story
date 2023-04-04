@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 @Service
 class PostRemover(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    @Qualifier(KafkaProducerConfig.ACK_ALL_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.POST_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val postCoroutineRepository: PostCoroutineRepository,
     private val postReverseCoroutineRepository: PostReverseCoroutineRepository,

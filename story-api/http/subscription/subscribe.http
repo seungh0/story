@@ -1,5 +1,5 @@
 ### 구독 등록
-POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh02/target/hello1
+POST {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello1
 Content-Type: application/json
 
 > {%
@@ -10,7 +10,7 @@ Content-Type: application/json
 
 
 ### 구독 취소
-DELETE {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello2
+DELETE {{api}}/v1/subscription/FOLLOW/subscriber/seungh0/target/hello1
 
 > {%
     client.test("200 OK", () => {

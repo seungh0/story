@@ -23,7 +23,7 @@ class SubscriptionUnSubscriber(
     private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
     private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
     private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
-    @Qualifier(KafkaProducerConfig.ACK_ALL_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.SUBSCRIPTION_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 
@@ -95,7 +95,7 @@ class SubscriptionUnSubscriber(
             subscriberId = subscriberId,
             targetId = targetId,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), event.toJson())
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
     }
 
 }

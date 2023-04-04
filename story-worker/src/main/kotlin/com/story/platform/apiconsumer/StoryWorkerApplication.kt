@@ -1,4 +1,4 @@
-package com.story.platform.api
+package com.story.platform.apiconsumer
 
 import com.story.platform.core.common.constants.StoryPackageConst.BASE_PACKAGE
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -7,8 +7,8 @@ import org.springframework.boot.runApplication
 
 @ConfigurationPropertiesScan(basePackages = [BASE_PACKAGE])
 @SpringBootApplication(scanBasePackages = [BASE_PACKAGE])
-class ApiApplication
+class StoryWorkerApplication
 
 fun main(args: Array<String>) {
-    runApplication<ApiApplication>(*args)
+    runApplication<StoryWorkerApplication>(*args)
 }
