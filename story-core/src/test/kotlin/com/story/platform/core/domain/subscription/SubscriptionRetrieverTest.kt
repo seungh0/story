@@ -9,9 +9,9 @@ import io.kotest.matchers.shouldBe
 @IntegrationTest
 internal class SubscriptionRetrieverTest(
     private val subscriptionRetriever: SubscriptionRetriever,
+    private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
-    private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
-    private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
+    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -34,9 +34,9 @@ internal class SubscriptionRetrieverTest(
                 slotId = 1L,
                 subscriberId = subscriberId,
             )
-            val subscriptionReverse = SubscriptionReverse.of(subscription)
-            subscriptionCoroutineRepository.save(subscription)
-            subscriptionReverseCoroutineRepository.save(subscriptionReverse)
+            val subscriptionReverse = Subscription.of(subscription)
+            subscriberCoroutineRepository.save(subscription)
+            subscriptionCoroutineRepository.save(subscriptionReverse)
 
             // when
             val isSubscriber = subscriptionRetriever.isSubscriber(
@@ -84,7 +84,7 @@ internal class SubscriptionRetrieverTest(
                 subscriberId = subscriberId,
                 status = SubscriptionStatus.DELETED,
             )
-            subscriptionReverseCoroutineRepository.save(subscriptionReverse)
+            subscriptionCoroutineRepository.save(subscriptionReverse)
 
             // when
             val isSubscriber = subscriptionRetriever.isSubscriber(
@@ -115,12 +115,12 @@ internal class SubscriptionRetrieverTest(
                 slotId = 1L,
                 subscriberId = subscriberId,
             )
-            val subscriptionReverse = SubscriptionReverse.of(subscription)
-            subscriptionCoroutineRepository.save(subscription)
-            subscriptionReverseCoroutineRepository.save(subscriptionReverse)
+            val subscriptionReverse = Subscription.of(subscription)
+            subscriberCoroutineRepository.save(subscription)
+            subscriptionCoroutineRepository.save(subscriptionReverse)
 
-            subscriptionCounterCoroutineRepository.increase(
-                key = SubscriptionCounterPrimaryKey(
+            subscriberCounterCoroutineRepository.increase(
+                key = SubscriberCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
@@ -153,9 +153,9 @@ internal class SubscriptionRetrieverTest(
                 slotId = 1L,
                 subscriberId = subscriberId,
             )
-            val subscriptionReverse = SubscriptionReverse.of(subscription)
-            subscriptionCoroutineRepository.save(subscription)
-            subscriptionReverseCoroutineRepository.save(subscriptionReverse)
+            val subscriptionReverse = Subscription.of(subscription)
+            subscriberCoroutineRepository.save(subscription)
+            subscriptionCoroutineRepository.save(subscriptionReverse)
 
             // when
             val subscribersCount = subscriptionRetriever.countSubscribers(

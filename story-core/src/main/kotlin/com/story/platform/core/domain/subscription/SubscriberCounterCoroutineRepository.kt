@@ -3,32 +3,32 @@ package com.story.platform.core.domain.subscription
 import org.springframework.data.cassandra.repository.Query
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface SubscriptionCounterCoroutineRepository :
-    CoroutineCrudRepository<SubscriptionCounter, SubscriptionCounterPrimaryKey> {
+interface SubscriberCounterCoroutineRepository :
+    CoroutineCrudRepository<SubscriberCounter, SubscriberCounterPrimaryKey> {
 
     @Query(
         """
-			update ${SubscriptionTableNames.SUBSCRIPTION_COUNTER} set count = count + :count
+			update ${SubscriptionTableNames.SUBSCRIBER_COUNT} set count = count + :count
 			where service_type = :#{#key.serviceType.name()}
 			and subscription_type = :#{#key.subscriptionType.name()}
 			and target_id = :#{#key.targetId}
 		"""
     )
     suspend fun increase(
-        key: SubscriptionCounterPrimaryKey,
+        key: SubscriberCounterPrimaryKey,
         count: Long = 1L,
     )
 
     @Query(
         """
-			update ${SubscriptionTableNames.SUBSCRIPTION_COUNTER} set count = count - :count
+			update ${SubscriptionTableNames.SUBSCRIBER_COUNT} set count = count - :count
 			where service_type = :#{#key.serviceType.name()}
 			and subscription_type = :#{#key.subscriptionType.name()}
 			and target_id = :#{#key.targetId}
 		"""
     )
     suspend fun decrease(
-        key: SubscriptionCounterPrimaryKey,
+        key: SubscriberCounterPrimaryKey,
         count: Long = 1L,
     )
 

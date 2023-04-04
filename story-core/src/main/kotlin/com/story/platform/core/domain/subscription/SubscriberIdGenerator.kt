@@ -5,8 +5,8 @@ import com.story.platform.core.infrastructure.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-class SubscriptionIdGenerator(
-    private val subscriptionIdRepository: StringRedisRepository<SubscriptionIdGeneratorKey, Long>,
+class SubscriberIdGenerator(
+    private val subscriptionIdRepository: StringRedisRepository<SubscriberIdGeneratorKey, Long>,
 ) {
 
     suspend fun generate(
@@ -14,7 +14,7 @@ class SubscriptionIdGenerator(
         subscriptionType: SubscriptionType,
         targetId: String,
     ) = subscriptionIdRepository.incr(
-        key = SubscriptionIdGeneratorKey(
+        key = SubscriberIdGeneratorKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
@@ -26,7 +26,7 @@ class SubscriptionIdGenerator(
         subscriptionType: SubscriptionType,
         targetId: String,
     ) = subscriptionIdRepository.get(
-        key = SubscriptionIdGeneratorKey(
+        key = SubscriberIdGeneratorKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,

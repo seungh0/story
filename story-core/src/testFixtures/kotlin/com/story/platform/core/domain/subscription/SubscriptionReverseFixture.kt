@@ -14,8 +14,8 @@ object SubscriptionReverseFixture {
         slotId: Long = generateLong(),
         subscriberId: String = generateString(),
         status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
-    ) = SubscriptionReverse(
-        key = SubscriptionReversePrimaryKey(
+    ) = Subscription(
+        key = SubscriptionPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,

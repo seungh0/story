@@ -1,12 +1,12 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.utils.SlotAllocator
+import com.story.platform.core.common.utils.SlotAssigner
 
-object SubscriptionSlotAllocator {
+object SubscriberSlotAssigner {
 
-    fun allocate(
+    fun assign(
         subscriptionId: Long,
-    ) = SlotAllocator.allocate(
+    ) = SlotAssigner.assign(
         id = subscriptionId,
         firstSlotId = FIRST_SLOT_ID,
         slotSize = SLOT_SIZE,

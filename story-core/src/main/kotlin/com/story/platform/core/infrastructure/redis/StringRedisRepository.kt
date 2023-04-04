@@ -47,13 +47,13 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
         return incrBy(key, 1)
     }
 
-    suspend fun incrBy(key: K, value: Long): Long
+    suspend fun incrBy(key: K, count: Long): Long
 
     suspend fun decr(key: K): Long {
         return decrBy(key, 1L)
     }
 
-    suspend fun decrBy(key: K, value: Long): Long
+    suspend fun decrBy(key: K, count: Long): Long
 
     suspend fun getTtl(key: K): Duration
 

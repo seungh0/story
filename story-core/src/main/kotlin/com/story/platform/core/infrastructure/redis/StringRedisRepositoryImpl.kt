@@ -88,12 +88,12 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
             }
     }
 
-    override suspend fun incrBy(key: K, value: Long): Long {
-        return redisTemplate.opsForValue().increment(key.makeKeyString(), value).awaitSingleOrNull() ?: 0L
+    override suspend fun incrBy(key: K, count: Long): Long {
+        return redisTemplate.opsForValue().increment(key.makeKeyString(), count).awaitSingleOrNull() ?: 0L
     }
 
-    override suspend fun decrBy(key: K, value: Long): Long {
-        return redisTemplate.opsForValue().decrement(key.makeKeyString(), value).awaitSingleOrNull() ?: 0L
+    override suspend fun decrBy(key: K, count: Long): Long {
+        return redisTemplate.opsForValue().decrement(key.makeKeyString(), count).awaitSingleOrNull() ?: 0L
     }
 
     override suspend fun getTtl(key: K): Duration {

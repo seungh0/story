@@ -19,10 +19,10 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionUnSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
-    private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
-    private val subscriptionDistributedCoroutineRepository: SubscriptionDistributedCoroutineRepository,
+    private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
+    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
+    private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
     @Qualifier(KafkaProducerConfig.ACK_ALL_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
@@ -33,8 +33,8 @@ class SubscriptionUnSubscriber(
         targetId: String,
         subscriberId: String,
     ) {
-        val subscriptionReverse = subscriptionReverseCoroutineRepository.findById(
-            SubscriptionReversePrimaryKey(
+        val subscriptionReverse = subscriptionCoroutineRepository.findById(
+            SubscriptionPrimaryKey(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
@@ -49,8 +49,8 @@ class SubscriptionUnSubscriber(
         val jobs = mutableListOf<Job>()
         withContext(Dispatchers.IO) {
             jobs += launch {
-                val subscription = subscriptionCoroutineRepository.findById(
-                    SubscriptionPrimaryKey(
+                val subscription = subscriberCoroutineRepository.findById(
+                    SubscriberPrimaryKey(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
@@ -60,8 +60,8 @@ class SubscriptionUnSubscriber(
                 )
                 subscriptionReverse.delete()
 
-                val subscriptionDistributed = subscriptionDistributedCoroutineRepository.findById(
-                    SubscriptionDistributedPrimaryKey.of(
+                val subscriptionDistributed = subscriberDistributedCoroutineRepository.findById(
+                    SubscriberDistributedPrimaryKey.of(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,
@@ -78,8 +78,8 @@ class SubscriptionUnSubscriber(
             }
 
             jobs += launch {
-                subscriptionCounterCoroutineRepository.decrease(
-                    SubscriptionCounterPrimaryKey(
+                subscriberCounterCoroutineRepository.decrease(
+                    SubscriberCounterPrimaryKey(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,

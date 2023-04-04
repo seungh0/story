@@ -98,7 +98,7 @@ data class PostPrimaryKey(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
-            slotId = PostSlotAllocator.allocate(postId),
+            slotId = PostSlotAssigner.assign(postId),
             postId = postId,
         )
     }

@@ -13,8 +13,8 @@ object SubscriptionFixture {
         targetId: String = generateString(),
         slotId: Long = generateLong(),
         subscriberId: String = generateString(),
-    ) = Subscription(
-        key = SubscriptionPrimaryKey(
+    ) = Subscriber(
+        key = SubscriberPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,

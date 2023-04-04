@@ -21,9 +21,9 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
-    private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
-    private val subscriptionIdGenerator: SubscriptionIdGenerator,
+    private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
+    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
+    private val subscriberIdGenerator: SubscriberIdGenerator,
     @Qualifier(KafkaProducerConfig.ACK_ALL_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
@@ -38,23 +38,23 @@ class SubscriptionSubscriber(
         targetId: String,
         subscriberId: String,
     ) {
-        val primaryKey = SubscriptionReversePrimaryKey(
+        val primaryKey = SubscriptionPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
             targetId = targetId,
         )
-        val subscriptionReverse = subscriptionReverseCoroutineRepository.findById(primaryKey)
+        val subscriptionReverse = subscriptionCoroutineRepository.findById(primaryKey)
         if ((subscriptionReverse != null) && subscriptionReverse.isActivated()) {
             return
         }
 
-        val subscription = Subscription.of(
+        val subscriber = Subscriber.of(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
-            slotId = subscriptionReverse?.slotId ?: SubscriptionSlotAllocator.allocate(
-                subscriptionIdGenerator.generate(
+            slotId = subscriptionReverse?.slotId ?: SubscriberSlotAssigner.assign(
+                subscriberIdGenerator.generate(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId
@@ -67,15 +67,15 @@ class SubscriptionSubscriber(
             val jobs = mutableListOf<Job>()
 
             reactiveCassandraOperations.batchOps()
-                .insert(subscription)
-                .insert(SubscriptionReverse.of(subscription = subscription))
-                .insert(SubscriptionDistributed.of(subscription = subscription))
+                .insert(subscriber)
+                .insert(Subscription.of(subscriber = subscriber))
+                .insert(SubscriberDistributed.of(subscriber = subscriber))
                 .execute()
                 .awaitSingleOrNull()
 
             jobs += launch {
-                subscriptionCounterCoroutineRepository.increase(
-                    SubscriptionCounterPrimaryKey(
+                subscriberCounterCoroutineRepository.increase(
+                    SubscriberCounterPrimaryKey(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
                         targetId = targetId,

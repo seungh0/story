@@ -9,25 +9,25 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table(SubscriptionTableNames.SUBSCRIPTION_DISTRIBUTED)
-data class SubscriptionDistributed(
+@Table(SubscriptionTableNames.SUBSCRIBER_DISTRIBUTED)
+data class SubscriberDistributed(
     @field:PrimaryKey
-    val key: SubscriptionDistributedPrimaryKey,
+    val key: SubscriberDistributedPrimaryKey,
 ) {
     companion object {
-        fun of(subscription: Subscription) = SubscriptionDistributed(
-            key = SubscriptionDistributedPrimaryKey.of(
-                serviceType = subscription.key.serviceType,
-                subscriptionType = subscription.key.subscriptionType,
-                targetId = subscription.key.targetId,
-                subscriberId = subscription.key.subscriberId,
+        fun of(subscriber: Subscriber) = SubscriberDistributed(
+            key = SubscriberDistributedPrimaryKey.of(
+                serviceType = subscriber.key.serviceType,
+                subscriptionType = subscriber.key.subscriptionType,
+                targetId = subscriber.key.targetId,
+                subscriberId = subscriber.key.subscriberId,
             )
         )
     }
 }
 
 @PrimaryKeyClass
-data class SubscriptionDistributedPrimaryKey(
+data class SubscriberDistributedPrimaryKey(
     @field:PrimaryKeyColumn(value = "service_type", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
     @field:CassandraType(type = CassandraType.Name.TEXT)
     val serviceType: ServiceType,
@@ -65,12 +65,12 @@ data class SubscriptionDistributedPrimaryKey(
             subscriptionType: SubscriptionType,
             targetId: String,
             subscriberId: String,
-        ) = SubscriptionDistributedPrimaryKey(
+        ) = SubscriberDistributedPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
-            distributedKey = SubscriptionDistributedKeyGenerator.generate(subscriberId = subscriberId),
+            distributedKey = SubscriberDistributedKeyGenerator.generate(subscriberId = subscriberId),
         )
     }
 

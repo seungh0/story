@@ -7,6 +7,7 @@ import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
+import org.springframework.data.cassandra.core.mapping.Column
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
@@ -16,23 +17,45 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class Subscription(
     @field:PrimaryKey
     val key: SubscriptionPrimaryKey,
+
+    @field:Column("status")
+    @field:CassandraType(type = CassandraType.Name.TEXT)
+    var status: SubscriptionStatus,
+
+    @field:Column(value = "slot_id")
+    @field:CassandraType(type = BIGINT)
+    val slotId: Long,
 ) {
+
+    fun isDeleted(): Boolean {
+        return this.status == SubscriptionStatus.DELETED
+    }
+
+    fun isActivated(): Boolean {
+        return this.status == SubscriptionStatus.ACTIVE
+    }
+
+    fun activate() {
+        this.status = SubscriptionStatus.ACTIVE
+    }
+
+    fun delete() {
+        this.status = SubscriptionStatus.DELETED
+    }
 
     companion object {
         fun of(
-            serviceType: ServiceType,
-            subscriptionType: SubscriptionType,
-            targetId: String,
-            slotId: Long,
-            subscriberId: String,
+            subscriber: Subscriber,
+            status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
         ) = Subscription(
             key = SubscriptionPrimaryKey(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
-                slotId = slotId,
-                subscriberId = subscriberId,
+                serviceType = subscriber.key.serviceType,
+                subscriptionType = subscriber.key.subscriptionType,
+                subscriberId = subscriber.key.subscriberId,
+                targetId = subscriber.key.targetId,
             ),
+            slotId = subscriber.key.slotId,
+            status = status,
         )
     }
 
@@ -49,15 +72,11 @@ data class SubscriptionPrimaryKey(
     @field:CassandraType(type = TEXT)
     val subscriptionType: SubscriptionType,
 
-    @field:PrimaryKeyColumn(value = "target_id", type = PARTITIONED, ordinal = 3)
-    @field:CassandraType(type = TEXT)
-    val targetId: String,
-
-    @field:PrimaryKeyColumn(value = "slot_id", type = PARTITIONED, ordinal = 4)
-    @field:CassandraType(type = BIGINT)
-    val slotId: Long,
-
-    @field:PrimaryKeyColumn(value = "subscriber_id", type = CLUSTERED, ordering = ASCENDING, ordinal = 5)
+    @field:PrimaryKeyColumn(value = "subscriber_id", type = PARTITIONED, ordinal = 3)
     @field:CassandraType(type = TEXT)
     val subscriberId: String,
+
+    @field:PrimaryKeyColumn(value = "target_id", type = CLUSTERED, ordering = ASCENDING, ordinal = 4)
+    @field:CassandraType(type = TEXT)
+    val targetId: String,
 )

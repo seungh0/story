@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
-class SubscriptionDistributedExecutor(
-    private val subscriptionDistributedReactiveRepository: SubscriptionDistributedReactiveRepository,
+class SubscriberDistributedExecutor(
+    private val subscriberDistributedReactiveRepository: SubscriberDistributedReactiveRepository,
 ) {
 
     suspend fun executeToTargetSubscribers(
@@ -15,13 +15,13 @@ class SubscriptionDistributedExecutor(
         distributedKey: String,
         targetId: String,
         fetchSize: Int = 100,
-        runnableToSubscribers: suspend (subscriptions: Collection<SubscriptionDistributed>) -> Unit,
+        runnableToSubscribers: suspend (subscriptions: Collection<SubscriberDistributed>) -> Unit,
     ) {
         var pageable: Pageable = CassandraPageRequest.first(fetchSize)
 
         do {
             val subscriptions =
-                subscriptionDistributedReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyDistributedKeyAndKeyTargetId(
+                subscriberDistributedReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyDistributedKeyAndKeyTargetId(
                     serviceType = serviceType,
                     subscriptionType = SubscriptionType.FOLLOW,
                     distributedKey = distributedKey,

@@ -4,7 +4,7 @@ import com.story.platform.core.domain.feed.FeedRegister
 import com.story.platform.core.domain.feed.FeedRemover
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.post.PostEventType
-import com.story.platform.core.domain.subscription.SubscriptionDistributedKeyGenerator
+import com.story.platform.core.domain.subscription.SubscriberDistributedKeyGenerator
 import com.story.platform.core.domain.subscription.SubscriptionEvent
 import com.story.platform.core.domain.subscription.SubscriptionEventType
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
@@ -34,7 +34,7 @@ class FeedHandlerConsumer(
         runBlocking {
             withContext(Dispatchers.IO) {
                 when (event.eventType) {
-                    PostEventType.CREATED -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
+                    PostEventType.CREATED -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
                         feedRegister.addPostFeed(
                             serviceType = event.serviceType,
                             targetId = event.accountId,
@@ -45,7 +45,7 @@ class FeedHandlerConsumer(
                         )
                     }
 
-                    PostEventType.DELETED -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
+                    PostEventType.DELETED -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
                         feedRemover.removePostFeed(
                             serviceType = event.serviceType,
                             targetId = event.accountId,
@@ -74,7 +74,7 @@ class FeedHandlerConsumer(
         runBlocking {
             withContext(Dispatchers.IO) {
                 when (event.eventType) {
-                    SubscriptionEventType.UPSERT -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
+                    SubscriptionEventType.UPSERT -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
                         feedRegister.addSubscriptionFeed(
                             serviceType = event.serviceType,
                             subscriptionType = event.subscriptionType,
@@ -84,7 +84,7 @@ class FeedHandlerConsumer(
                         )
                     }
 
-                    SubscriptionEventType.DELETE -> SubscriptionDistributedKeyGenerator.KEYS.map { distributedKey ->
+                    SubscriptionEventType.DELETE -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
                         feedRemover.removeSubscriptionFeed(
                             serviceType = event.serviceType,
                             subscriptionType = event.subscriptionType,

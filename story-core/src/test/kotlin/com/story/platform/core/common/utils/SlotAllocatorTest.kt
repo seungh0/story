@@ -12,7 +12,7 @@ internal class SlotAllocatorTest : FunSpec({
             val id = 1L
 
             // when
-            val slot = SlotAllocator.allocate(id = id, firstSlotId = 1L, slotSize = 500)
+            val slot = SlotAssigner.assign(id = id, firstSlotId = 1L, slotSize = 500)
 
             // then
             slot shouldBe 1L
@@ -23,7 +23,7 @@ internal class SlotAllocatorTest : FunSpec({
             val id = 500L
 
             // when
-            val slot = SlotAllocator.allocate(id = id, firstSlotId = 1L, slotSize = 500)
+            val slot = SlotAssigner.assign(id = id, firstSlotId = 1L, slotSize = 500)
 
             // then
             slot shouldBe 1L
@@ -34,7 +34,7 @@ internal class SlotAllocatorTest : FunSpec({
             val id = 501L
 
             // when
-            val slot = SlotAllocator.allocate(id = id, firstSlotId = 1L, slotSize = 500)
+            val slot = SlotAssigner.assign(id = id, firstSlotId = 1L, slotSize = 500)
 
             // then
             slot shouldBe 2L
@@ -46,7 +46,7 @@ internal class SlotAllocatorTest : FunSpec({
 
             // when & the
             shouldThrowExactly<IllegalArgumentException> {
-                SlotAllocator.allocate(id = id, firstSlotId = 1L, slotSize = 500)
+                SlotAssigner.assign(id = id, firstSlotId = 1L, slotSize = 500)
             }
         }
     }

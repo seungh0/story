@@ -11,8 +11,8 @@ import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 
 @IntegrationTest
 class SubscriptionDistributedExecutorTest(
-    private val subscriptionDistributedCoroutineRepository: SubscriptionDistributedCoroutineRepository,
-    private val subscriptionDistributedExecutor: SubscriptionDistributedExecutor,
+    private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
+    private val subscriberDistributedExecutor: SubscriberDistributedExecutor,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
@@ -46,7 +46,7 @@ class SubscriptionDistributedExecutorTest(
             var executeCount = 0L
 
             // when
-            subscriptionDistributedExecutor.executeToTargetSubscribers(
+            subscriberDistributedExecutor.executeToTargetSubscribers(
                 serviceType = serviceType,
                 distributedKey = distributedKey,
                 targetId = targetId,
@@ -75,10 +75,10 @@ class SubscriptionDistributedExecutorTest(
                 distributedKey = distributedKey,
                 targetId = "다른 구독 대상자",
             )
-            subscriptionDistributedCoroutineRepository.save(subscription)
+            subscriberDistributedCoroutineRepository.save(subscription)
 
             // when
-            subscriptionDistributedExecutor.executeToTargetSubscribers(
+            subscriberDistributedExecutor.executeToTargetSubscribers(
                 serviceType = serviceType,
                 distributedKey = distributedKey,
                 targetId = "구독 대상자",
@@ -108,10 +108,10 @@ class SubscriptionDistributedExecutorTest(
                 distributedKey = "002",
                 targetId = targetId,
             )
-            subscriptionDistributedCoroutineRepository.save(subscription)
+            subscriberDistributedCoroutineRepository.save(subscription)
 
             // when
-            subscriptionDistributedExecutor.executeToTargetSubscribers(
+            subscriberDistributedExecutor.executeToTargetSubscribers(
                 serviceType = serviceType,
                 distributedKey = distributedKey,
                 targetId = targetId,

@@ -1,53 +1,48 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
-import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
-interface SubscriptionReactiveRepository : ReactiveCassandraRepository<Subscription, SubscriptionPrimaryKey> {
+interface SubscriptionReactiveRepository :
+    ReactiveCassandraRepository<Subscription, SubscriptionPrimaryKey> {
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdOrderByKeyTargetIdDesc(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
+        subscriberId: String,
         targetId: String,
-        slotId: Long,
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberId(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
-        targetId: String,
-        slotId: Long,
         subscriberId: String,
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdOrderByKeyTargetIdDesc(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
-        targetId: String,
-        slotId: Long,
-        pageable: Pageable,
-    ): Slice<Subscription>
-
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
-        serviceType: ServiceType,
-        subscriptionType: SubscriptionType,
-        targetId: String,
-        slotId: Long,
         subscriberId: String,
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdLessThan(
+    suspend fun findByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetId(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
+        subscriberId: String,
         targetId: String,
-        slotId: Long,
-        pageable: CassandraPageRequest,
+    ): Subscription?
+
+    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThan(
+        serviceType: ServiceType,
+        subscriptionType: SubscriptionType,
+        subscriberId: String,
+        targetId: String,
+        pageable: Pageable,
     ): Slice<Subscription>
 
 }

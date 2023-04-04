@@ -12,8 +12,8 @@ object SubscriptionCounterFixture {
         subscriptionType: SubscriptionType = generateEnum(SubscriptionType::class.java),
         targetId: String = generateString(),
         count: Long = generateLong(),
-    ) = SubscriptionCounter(
-        key = SubscriptionCounterPrimaryKey(
+    ) = SubscriberCounter(
+        key = SubscriberCounterPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,

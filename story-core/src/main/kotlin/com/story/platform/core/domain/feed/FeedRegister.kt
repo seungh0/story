@@ -2,14 +2,14 @@ package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.domain.post.PostSpaceType
-import com.story.platform.core.domain.subscription.SubscriptionDistributedExecutor
+import com.story.platform.core.domain.subscription.SubscriberDistributedExecutor
 import com.story.platform.core.domain.subscription.SubscriptionType
 import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Service
 
 @Service
 class FeedRegister(
-    private val subscriptionDistributedExecutor: SubscriptionDistributedExecutor,
+    private val subscriberDistributedExecutor: SubscriberDistributedExecutor,
     private val feedCoroutineRepository: FeedCoroutineRepository,
 ) {
 
@@ -21,7 +21,7 @@ class FeedRegister(
         spaceId: String,
         postId: Long,
     ) {
-        subscriptionDistributedExecutor.executeToTargetSubscribers(
+        subscriberDistributedExecutor.executeToTargetSubscribers(
             serviceType = serviceType,
             distributedKey = distributedKey,
             targetId = targetId,
@@ -47,7 +47,7 @@ class FeedRegister(
         targetId: String,
         subscriberId: String,
     ) {
-        subscriptionDistributedExecutor.executeToTargetSubscribers(
+        subscriberDistributedExecutor.executeToTargetSubscribers(
             serviceType = serviceType,
             distributedKey = distributedKey,
             targetId = targetId,

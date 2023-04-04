@@ -12,11 +12,11 @@ object SubscriptionDistributorFixture {
         distributedKey: String? = null,
         targetId: String = generateString(),
         subscriberId: String = generateString(),
-    ) = SubscriptionDistributed(
-        key = SubscriptionDistributedPrimaryKey(
+    ) = SubscriberDistributed(
+        key = SubscriberDistributedPrimaryKey(
             serviceType = serviceType,
             distributedKey = distributedKey
-                ?: SubscriptionDistributedKeyGenerator.generate(subscriberId = subscriberId),
+                ?: SubscriberDistributedKeyGenerator.generate(subscriberId = subscriberId),
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,

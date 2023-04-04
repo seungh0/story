@@ -1,12 +1,12 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.utils.SlotAllocator
+import com.story.platform.core.common.utils.SlotAssigner
 
-object PostSlotAllocator {
+object PostSlotAssigner {
 
-    fun allocate(
+    fun assign(
         postId: Long,
-    ) = SlotAllocator.allocate(
+    ) = SlotAssigner.assign(
         id = postId,
         firstSlotId = FIRST_SLOT_ID,
         slotSize = SLOT_SIZE,

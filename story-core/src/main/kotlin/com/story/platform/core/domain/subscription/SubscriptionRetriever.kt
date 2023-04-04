@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class SubscriptionRetriever(
-    private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
-    private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
+    private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
+    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
+    private val subscriberReactiveRepository: SubscriberReactiveRepository,
     private val subscriptionReactiveRepository: SubscriptionReactiveRepository,
-    private val subscriptionReverseReactiveRepository: SubscriptionReverseReactiveRepository,
-    private val subscriptionIdGenerator: SubscriptionIdGenerator,
+    private val subscriberIdGenerator: SubscriberIdGenerator,
 ) {
 
     suspend fun isSubscriber(
@@ -26,13 +26,13 @@ class SubscriptionRetriever(
         targetId: String,
         subscriberId: String,
     ): Boolean {
-        val primaryKey = SubscriptionReversePrimaryKey(
+        val primaryKey = SubscriptionPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
             targetId = targetId,
         )
-        val subscription = subscriptionReverseCoroutineRepository.findById(primaryKey)
+        val subscription = subscriptionCoroutineRepository.findById(primaryKey)
         return subscription != null && subscription.isActivated()
     }
 
@@ -45,12 +45,12 @@ class SubscriptionRetriever(
         subscriptionType: SubscriptionType,
         targetId: String,
     ): Long {
-        val primaryKey = SubscriptionCounterPrimaryKey(
+        val primaryKey = SubscriberCounterPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
-        return subscriptionCounterCoroutineRepository.findById(primaryKey)?.count ?: 0L
+        return subscriberCounterCoroutineRepository.findById(primaryKey)?.count ?: 0L
     }
 
     suspend fun getSubscribers(
@@ -58,7 +58,7 @@ class SubscriptionRetriever(
         subscriptionType: SubscriptionType,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<Subscription, String> {
+    ): CursorResult<Subscriber, String> {
         return when (cursorRequest.direction) {
             CursorDirection.NEXT -> getSubscribersNextDirection(
                 serviceType = serviceType,
@@ -81,10 +81,10 @@ class SubscriptionRetriever(
         subscriptionType: SubscriptionType,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<Subscription, String> {
-        val firstSlotId = SubscriptionSlotAllocator.FIRST_SLOT_ID
-        val lastSlotId = SubscriptionSlotAllocator.allocate(
-            subscriptionIdGenerator.getLastSubscriptionId(
+    ): CursorResult<Subscriber, String> {
+        val firstSlotId = SubscriberSlotAssigner.FIRST_SLOT_ID
+        val lastSlotId = SubscriberSlotAssigner.assign(
+            subscriberIdGenerator.getLastSubscriptionId(
                 serviceType,
                 subscriptionType,
                 targetId
@@ -92,7 +92,7 @@ class SubscriptionRetriever(
         )
 
         var currentSlotId: Long = cursorRequest.cursor?.let { cursor ->
-            subscriptionReverseReactiveRepository.findByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetId(
+            subscriptionReactiveRepository.findByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetId(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -101,7 +101,7 @@ class SubscriptionRetriever(
         } ?: lastSlotId
 
         val subscriptionSlice = if (cursorRequest.cursor == null) {
-            subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdLessThan(
+            subscriberReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdLessThan(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -109,7 +109,7 @@ class SubscriptionRetriever(
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize)
             )
         } else {
-            subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
+            subscriberReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -119,7 +119,7 @@ class SubscriptionRetriever(
             )
         }
 
-        var previousCursor = SubscriptionCursorCalculator.getNextCursorBySubscription(subscriptionSlice)
+        var previousCursor = SubscriberCursorCalculator.getNextCursorBySubscription(subscriptionSlice)
         if (previousCursor == null && currentSlotId > firstSlotId) {
             subscriptionSlice.content.lastOrNull()?.key?.subscriberId ?: cursorRequest.cursor
         }
@@ -131,12 +131,12 @@ class SubscriptionRetriever(
             )
         }
 
-        val subscriptions = subscriptionSlice.content as MutableList<Subscription>
+        val subscribers = subscriptionSlice.content as MutableList<Subscriber>
 
-        while (subscriptions.size < cursorRequest.pageSize && --currentSlotId >= firstSlotId) {
-            val needMoreSize = cursorRequest.pageSize - subscriptions.size
+        while (subscribers.size < cursorRequest.pageSize && --currentSlotId >= firstSlotId) {
+            val needMoreSize = cursorRequest.pageSize - subscribers.size
             val subscriptionsInCurrentSlot =
-                subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
+                subscriberReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
@@ -146,7 +146,7 @@ class SubscriptionRetriever(
 
             val sizeOfCurrentCursor = needMoreSize.coerceAtMost(subscriptionSlice.size)
             val subscriptionInCurrentCursor = subscriptionsInCurrentSlot.content.subList(0, sizeOfCurrentCursor)
-            subscriptions += subscriptionInCurrentCursor
+            subscribers += subscriptionInCurrentCursor
 
             previousCursor =
                 if (subscriptionsInCurrentSlot.size > needMoreSize || currentSlotId > firstSlotId) {
@@ -157,7 +157,7 @@ class SubscriptionRetriever(
         }
 
         return CursorResult.of(
-            data = subscriptions,
+            data = subscribers,
             cursor = Cursor(cursor = previousCursor)
         )
     }
@@ -167,10 +167,10 @@ class SubscriptionRetriever(
         subscriptionType: SubscriptionType,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<Subscription, String> {
-        val firstSlotId = SubscriptionSlotAllocator.FIRST_SLOT_ID
-        val lastSlotId = SubscriptionSlotAllocator.allocate(
-            subscriptionIdGenerator.getLastSubscriptionId(
+    ): CursorResult<Subscriber, String> {
+        val firstSlotId = SubscriberSlotAssigner.FIRST_SLOT_ID
+        val lastSlotId = SubscriberSlotAssigner.assign(
+            subscriberIdGenerator.getLastSubscriptionId(
                 serviceType,
                 subscriptionType,
                 targetId
@@ -178,7 +178,7 @@ class SubscriptionRetriever(
         )
 
         var currentSlotId: Long = cursorRequest.cursor?.let { cursor ->
-            subscriptionReverseReactiveRepository.findByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetId(
+            subscriptionReactiveRepository.findByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetId(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -187,7 +187,7 @@ class SubscriptionRetriever(
         } ?: firstSlotId
 
         val subscriptionSlice = if (cursorRequest.cursor == null) {
-            subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
+            subscriberReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -195,7 +195,7 @@ class SubscriptionRetriever(
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize)
             )
         } else {
-            subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
+            subscriberReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -205,7 +205,7 @@ class SubscriptionRetriever(
             )
         }
 
-        var nextCursor: String? = SubscriptionCursorCalculator.getNextCursorBySubscription(subscriptionSlice)
+        var nextCursor: String? = SubscriberCursorCalculator.getNextCursorBySubscription(subscriptionSlice)
         if (nextCursor == null && currentSlotId < lastSlotId) {
             subscriptionSlice.content.lastOrNull()?.key?.subscriberId ?: cursorRequest.cursor
         }
@@ -217,12 +217,12 @@ class SubscriptionRetriever(
             )
         }
 
-        val subscriptions = subscriptionSlice.content as MutableList<Subscription>
+        val subscribers = subscriptionSlice.content as MutableList<Subscriber>
 
-        while (cursorRequest.pageSize > subscriptions.size && ++currentSlotId <= lastSlotId) {
-            val needMoreSize = cursorRequest.pageSize - subscriptions.size
+        while (cursorRequest.pageSize > subscribers.size && ++currentSlotId <= lastSlotId) {
+            val needMoreSize = cursorRequest.pageSize - subscribers.size
             val subscriptionsInCurrentSlot =
-                subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
+                subscriberReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
@@ -232,7 +232,7 @@ class SubscriptionRetriever(
 
             val sizeOfCurrentCursor = needMoreSize.coerceAtMost(subscriptionSlice.size)
             val subscriptionInCurrentCursor = subscriptionsInCurrentSlot.content.subList(0, sizeOfCurrentCursor)
-            subscriptions += subscriptionInCurrentCursor
+            subscribers += subscriptionInCurrentCursor
 
             nextCursor = if (subscriptionInCurrentCursor.size > needMoreSize || currentSlotId < lastSlotId) {
                 subscriptionInCurrentCursor.lastOrNull()?.key?.subscriberId
@@ -242,7 +242,7 @@ class SubscriptionRetriever(
         }
 
         return CursorResult.of(
-            data = subscriptions,
+            data = subscribers,
             cursor = Cursor(cursor = nextCursor)
         )
     }
@@ -252,7 +252,7 @@ class SubscriptionRetriever(
         subscriptionType: SubscriptionType,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<SubscriptionReverse, String> {
+    ): CursorResult<Subscription, String> {
         val subscriptions = when (cursorRequest.direction) {
             CursorDirection.NEXT -> getSubscriptionTargetsNextDirection(
                 cursorRequest = cursorRequest,
@@ -279,9 +279,9 @@ class SubscriptionRetriever(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         subscriberId: String,
-    ): Slice<SubscriptionReverse> {
+    ): Slice<Subscription> {
         if (cursorRequest.cursor == null) {
-            return subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdOrderByKeyTargetIdDesc(
+            return subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdOrderByKeyTargetIdDesc(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
@@ -289,7 +289,7 @@ class SubscriptionRetriever(
             )
         }
 
-        return subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdOrderByKeyTargetIdDesc(
+        return subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdOrderByKeyTargetIdDesc(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
@@ -303,16 +303,16 @@ class SubscriptionRetriever(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         subscriberId: String,
-    ): Slice<SubscriptionReverse> {
+    ): Slice<Subscription> {
         if (cursorRequest.cursor == null) {
-            return subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberId(
+            return subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberId(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize)
             )
         }
-        return subscriptionReverseReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThan(
+        return subscriptionReactiveRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThan(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
@@ -321,7 +321,7 @@ class SubscriptionRetriever(
         )
     }
 
-    private fun getCursor(subscriptions: Slice<SubscriptionReverse>): Cursor<String> {
+    private fun getCursor(subscriptions: Slice<Subscription>): Cursor<String> {
         if (subscriptions.hasNext()) {
             return Cursor(cursor = subscriptions.content.last().key.targetId)
         }

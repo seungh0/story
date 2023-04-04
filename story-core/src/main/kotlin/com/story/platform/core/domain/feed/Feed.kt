@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.domain.post.PostSlotAllocator
+import com.story.platform.core.domain.post.PostSlotAssigner
 import com.story.platform.core.domain.post.PostSpaceType
 import com.story.platform.core.domain.subscription.SubscriptionType
 import com.story.platform.core.support.json.toJson
@@ -43,7 +43,7 @@ data class Feed(
             feedKeyJson = FeedPostKey(
                 spaceType = spaceType,
                 spaceId = spaceId,
-                slotId = PostSlotAllocator.allocate(postId = postId),
+                slotId = PostSlotAssigner.assign(postId = postId),
                 postId = postId,
             ).toJson(),
         )

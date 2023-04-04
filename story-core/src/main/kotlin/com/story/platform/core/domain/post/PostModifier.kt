@@ -20,7 +20,7 @@ class PostModifier(
         content: String,
         extraJson: String? = null,
     ) {
-        val slotId = PostSlotAllocator.allocate(postId)
+        val slotId = PostSlotAssigner.assign(postId)
         val post = postCoroutineRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,

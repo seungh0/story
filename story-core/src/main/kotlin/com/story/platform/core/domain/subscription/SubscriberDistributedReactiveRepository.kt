@@ -5,8 +5,8 @@ import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
-interface SubscriptionDistributedReactiveRepository :
-    ReactiveCassandraRepository<SubscriptionDistributed, SubscriptionDistributedPrimaryKey> {
+interface SubscriberDistributedReactiveRepository :
+    ReactiveCassandraRepository<SubscriberDistributed, SubscriberDistributedPrimaryKey> {
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyDistributedKeyAndKeyTargetId(
         serviceType: ServiceType,
@@ -14,6 +14,6 @@ interface SubscriptionDistributedReactiveRepository :
         distributedKey: String,
         targetId: String,
         pageable: Pageable,
-    ): Slice<SubscriptionDistributed>
+    ): Slice<SubscriberDistributed>
 
 }

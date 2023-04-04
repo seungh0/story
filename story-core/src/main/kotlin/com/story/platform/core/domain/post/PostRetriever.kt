@@ -23,7 +23,7 @@ class PostRetriever(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
-            slotId = PostSlotAllocator.allocate(postId),
+            slotId = PostSlotAssigner.assign(postId),
             postId = postId,
         ) ?: throw NotFoundException("해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
     }
@@ -49,7 +49,7 @@ class PostRetriever(
     ): Slice<Post> {
         if (cursorRequest.cursor == null) {
             val lastSlotId =
-                PostSlotAllocator.allocate(postId = postIdGenerator.getLastPostId(postSpaceKey = postSpaceKey))
+                PostSlotAssigner.assign(postId = postIdGenerator.getLastPostId(postSpaceKey = postSpaceKey))
             return postCoroutineRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
                 serviceType = postSpaceKey.serviceType,
                 spaceType = postSpaceKey.spaceType,
@@ -59,7 +59,7 @@ class PostRetriever(
             )
         }
 
-        val currentSlot = PostSlotAllocator.allocate(postId = cursorRequest.cursor.toLong())
+        val currentSlot = PostSlotAssigner.assign(postId = cursorRequest.cursor.toLong())
         return postCoroutineRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
@@ -75,7 +75,7 @@ class PostRetriever(
         postSpaceKey: PostSpaceKey,
     ): Slice<Post> {
         if (cursorRequest.cursor == null) {
-            val firstSlotId = PostSlotAllocator.FIRST_SLOT_ID
+            val firstSlotId = PostSlotAssigner.FIRST_SLOT_ID
             return postCoroutineRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
                 serviceType = postSpaceKey.serviceType,
                 spaceType = postSpaceKey.spaceType,
@@ -84,7 +84,7 @@ class PostRetriever(
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize),
             )
         }
-        val currentSlot = PostSlotAllocator.allocate(postId = cursorRequest.cursor.toLong())
+        val currentSlot = PostSlotAssigner.assign(postId = cursorRequest.cursor.toLong())
         return postCoroutineRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,

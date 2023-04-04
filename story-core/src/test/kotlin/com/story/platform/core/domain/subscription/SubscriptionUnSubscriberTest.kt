@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.toList
 @IntegrationTest
 internal class SubscriptionUnSubscriberTest(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
+    private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
-    private val subscriptionReverseCoroutineRepository: SubscriptionReverseCoroutineRepository,
-    private val subscriptionCounterCoroutineRepository: SubscriptionCounterCoroutineRepository,
-    private val subscriptionDistributedCoroutineRepository: SubscriptionDistributedCoroutineRepository,
+    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
+    private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -30,7 +30,7 @@ internal class SubscriptionUnSubscriberTest(
             val targetId = "10000"
             val subscriberId = "2000"
 
-            subscriptionCoroutineRepository.save(
+            subscriberCoroutineRepository.save(
                 SubscriptionFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -40,7 +40,7 @@ internal class SubscriptionUnSubscriberTest(
                 )
             )
 
-            subscriptionReverseCoroutineRepository.save(
+            subscriptionCoroutineRepository.save(
                 SubscriptionReverseFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -50,15 +50,15 @@ internal class SubscriptionUnSubscriberTest(
                 )
             )
 
-            subscriptionCounterCoroutineRepository.increase(
-                key = SubscriptionCounterPrimaryKey(
+            subscriberCounterCoroutineRepository.increase(
+                key = SubscriberCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
                 )
             )
 
-            subscriptionDistributedCoroutineRepository.save(
+            subscriberDistributedCoroutineRepository.save(
                 SubscriptionDistributorFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -76,10 +76,10 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // then
-            val subscriptions = subscriptionCoroutineRepository.findAll().toList()
+            val subscriptions = subscriberCoroutineRepository.findAll().toList()
             subscriptions shouldHaveSize 0
 
-            val subscriptionReverses = subscriptionReverseCoroutineRepository.findAll().toList()
+            val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 1
             subscriptionReverses[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -90,7 +90,7 @@ internal class SubscriptionUnSubscriberTest(
                 it.status shouldBe SubscriptionStatus.DELETED
             }
 
-            val subscriptionCounters = subscriptionCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -116,13 +116,13 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // then
-            val subscriptions: List<Subscription> = subscriptionCoroutineRepository.findAll().toList()
-            subscriptions shouldHaveSize 0
+            val subscribers: List<Subscriber> = subscriberCoroutineRepository.findAll().toList()
+            subscribers shouldHaveSize 0
 
-            val subscriptionReverses = subscriptionReverseCoroutineRepository.findAll().toList()
+            val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 0
 
-            val subscriptionCounters = subscriptionCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 0
         }
 
@@ -133,7 +133,7 @@ internal class SubscriptionUnSubscriberTest(
             val targetId = "10000"
             val subscriberId = "2000"
 
-            subscriptionReverseCoroutineRepository.save(
+            subscriptionCoroutineRepository.save(
                 SubscriptionReverseFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -153,10 +153,10 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // then
-            val subscriptions = subscriptionCoroutineRepository.findAll().toList()
+            val subscriptions = subscriberCoroutineRepository.findAll().toList()
             subscriptions shouldHaveSize 0
 
-            val subscriptionReverses = subscriptionReverseCoroutineRepository.findAll().toList()
+            val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 1
             subscriptionReverses[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -167,7 +167,7 @@ internal class SubscriptionUnSubscriberTest(
                 it.status shouldBe SubscriptionStatus.DELETED
             }
 
-            val subscriptionCounters = subscriptionCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 0
         }
     }
