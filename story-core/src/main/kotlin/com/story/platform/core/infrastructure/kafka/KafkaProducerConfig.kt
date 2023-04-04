@@ -45,7 +45,7 @@ class KafkaProducerConfig(
                 kafkaConfiguration(
                     maxInflightRequestsPerConnection = 5,
                     acksConfig = "all", // 일관성
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음,
+                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음.
                     lingerMs = 0, // 지연 없이 발송하기 위함
                 )
             )
@@ -59,7 +59,7 @@ class KafkaProducerConfig(
                 kafkaConfiguration(
                     maxInflightRequestsPerConnection = 5,
                     acksConfig = "all", // 일관성
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음,
+                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음.
                     lingerMs = 0, // 지연 없이 발송하기 위함
                 )
             )

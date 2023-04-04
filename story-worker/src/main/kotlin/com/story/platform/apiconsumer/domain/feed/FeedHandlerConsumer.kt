@@ -14,6 +14,8 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.messaging.handler.annotation.Headers
+import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Service
 
 @Service
@@ -25,9 +27,12 @@ class FeedHandlerConsumer(
     @KafkaListener(
         topics = ["\${story.kafka.post.topic}"],
         groupId = "\${story.kafka.post.group-id}",
-        containerFactory = KafkaConsumerConfig.DEFAULT_CONTAINER_FACTORY,
+        containerFactory = KafkaConsumerConfig.POST_CONTAINER_FACTORY,
     )
-    fun handlePostFeed(record: ConsumerRecord<String, String>) {
+    fun handlePostFeed(
+        @Payload record: ConsumerRecord<String, String>,
+        @Headers headers: Map<String, Any>,
+    ) {
         val event = JsonUtils.toObject(record.value(), PostEvent::class.java)
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
@@ -65,9 +70,12 @@ class FeedHandlerConsumer(
     @KafkaListener(
         topics = ["\${story.kafka.subscription.topic}"],
         groupId = "\${story.kafka.subscription.group-id}",
-        containerFactory = KafkaConsumerConfig.DEFAULT_CONTAINER_FACTORY,
+        containerFactory = KafkaConsumerConfig.SUBSCRIPTION_CONTAINER_FACTORY,
     )
-    fun handleSubscriptionFeed(record: ConsumerRecord<String, String>) {
+    fun handleSubscriptionFeed(
+        @Payload record: ConsumerRecord<String, String>,
+        @Headers headers: Map<String, Any>,
+    ) {
         val event = JsonUtils.toObject(record.value(), SubscriptionEvent::class.java)
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
