@@ -15,6 +15,3 @@ endif::[]
 ==== 에러 코드
 
 include::./restapi/error.adoc[]
-
-include::./restapi/heatlh.adoc[]
-

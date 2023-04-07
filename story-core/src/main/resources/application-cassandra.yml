@@ -2,11 +2,10 @@ spring:
   cassandra:
     schema-action: none
     request:
-      consistency: ONE
-      timeout: 2s
+      consistency: quorum
+      timeout: 3000
     connection:
-      connect-timeout: 5s
-
+      connect-timeout: 5000
 
 ---
 spring.config:
