@@ -39,7 +39,7 @@ class SubscriptionRetriever(
 
     @Cacheable(
         cacheType = CacheType.SUBSCRIBERS_COUNT,
-        key = "(T(java.lang.Math).random() * 16).intValue() + 'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId}",
+        key = "'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId}",
     )
     suspend fun countSubscribers(
         serviceType: ServiceType,
@@ -56,7 +56,7 @@ class SubscriptionRetriever(
 
     @Cacheable(
         cacheType = CacheType.SUBSCRIPTION_COUNT,
-        key = "(T(java.lang.Math).random() * 16).intValue() + 'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':subscriberId:' + {#subscriberId}",
+        key = "'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':subscriberId:' + {#subscriberId}",
     )
     suspend fun countSubscriptions(
         serviceType: ServiceType,
