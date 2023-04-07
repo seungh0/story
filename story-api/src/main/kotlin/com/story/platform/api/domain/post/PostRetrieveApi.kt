@@ -17,6 +17,9 @@ class PostRetrieveApi(
     private val postRetriever: PostRetriever,
 ) {
 
+    /**
+     * 특정 포스트를 조회한다
+     */
     @GetMapping("/v1/space/{spaceType}/{spaceId}/post/{postId}")
     suspend fun getPost(
         @PathVariable spaceType: PostSpaceType,
@@ -34,6 +37,9 @@ class PostRetrieveApi(
         return ApiResponse.success(PostResponse.of(post))
     }
 
+    /**
+     * 포스트 목록을 조회한다
+     */
     @GetMapping("/v1/space/{spaceType}/{spaceId}/posts")
     suspend fun getPosts(
         @PathVariable spaceType: PostSpaceType,

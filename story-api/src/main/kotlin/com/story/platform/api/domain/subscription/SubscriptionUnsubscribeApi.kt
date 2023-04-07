@@ -13,6 +13,9 @@ class SubscriptionUnsubscribeApi(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
 ) {
 
+    /**
+     * 구독을 취소한다
+     */
     @DeleteMapping("/v1/subscription/{subscriptionType}/subscriber/{subscriberId}/target/{targetId}")
     suspend fun unsubscribe(
         @PathVariable subscriptionType: SubscriptionType,

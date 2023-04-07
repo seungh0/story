@@ -16,6 +16,9 @@ class PostRegisterApi(
     private val postRegister: PostRegister,
 ) {
 
+    /**
+     * 신규 포스트를 등록한다
+     */
     @PostMapping("/v1/space/{spaceType}/{spaceId}/post")
     suspend fun register(
         @PathVariable spaceType: PostSpaceType,

@@ -15,6 +15,9 @@ class SubscriptionSubscribeApi(
     private val subscriptionSubscriber: SubscriptionSubscriber,
 ) {
 
+    /**
+     * 구독을 등록한다
+     */
     @PostMapping("/v1/subscription/{subscriptionType}/subscriber/{subscriberId}/target/{targetId}")
     suspend fun subscribe(
         @PathVariable subscriptionType: SubscriptionType,

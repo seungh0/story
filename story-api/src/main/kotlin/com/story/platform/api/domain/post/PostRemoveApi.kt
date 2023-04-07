@@ -15,6 +15,9 @@ class PostRemoveApi(
     private val postRemover: PostRemover,
 ) {
 
+    /**
+     * 포스트를 삭제한다
+     */
     @DeleteMapping("/v1/space/{spaceType}/{spaceId}/post/{postId}")
     suspend fun remove(
         @PathVariable spaceType: PostSpaceType,

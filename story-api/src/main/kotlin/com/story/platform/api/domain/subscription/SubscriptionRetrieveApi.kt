@@ -18,6 +18,9 @@ class SubscriptionRetrieveApi(
     private val subscriptionRetriever: SubscriptionRetriever,
 ) {
 
+    /**
+     * 대상자의 구독자인지 확인한다
+     */
     @GetMapping("/subscriber/{subscriberId}/target/{targetId}/exists")
     suspend fun isSubscriber(
         @PathVariable subscriptionType: SubscriptionType,
@@ -35,6 +38,9 @@ class SubscriptionRetrieveApi(
         )
     }
 
+    /**
+     * 구독자 수를 조회한다
+     */
     @GetMapping("/target/{targetId}/subscribers/count")
     suspend fun countSubscribers(
         @PathVariable subscriptionType: SubscriptionType,
@@ -50,6 +56,9 @@ class SubscriptionRetrieveApi(
         )
     }
 
+    /**
+     * 구독 대상자 수를 조회한다
+     */
     @GetMapping("/subscriber/{subscriberId}/subscriptions/count")
     suspend fun countSubscriptions(
         @PathVariable subscriptionType: SubscriptionType,
@@ -65,6 +74,9 @@ class SubscriptionRetrieveApi(
         )
     }
 
+    /**
+     * 구독자 목록을 조회한다
+     */
     @GetMapping("/target/{targetId}/subscribers")
     suspend fun getSubscribers(
         @PathVariable subscriptionType: SubscriptionType,
@@ -87,6 +99,9 @@ class SubscriptionRetrieveApi(
         )
     }
 
+    /**
+     * 구독중인 대상자 목록을 조회한다
+     */
     @GetMapping("/subscriber/{subscriberId}/targets")
     suspend fun getSubscriptionTargets(
         @PathVariable subscriptionType: SubscriptionType,

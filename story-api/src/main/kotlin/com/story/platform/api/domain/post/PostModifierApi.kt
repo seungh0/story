@@ -16,6 +16,9 @@ class PostModifierApi(
     private val postModifier: PostModifier,
 ) {
 
+    /**
+     * 포스트 정보를 수정한다
+     */
     @PutMapping("/v1/space/{spaceType}/{spaceId}/post/{postId}")
     suspend fun modify(
         @PathVariable spaceType: PostSpaceType,
