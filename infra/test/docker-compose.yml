@@ -13,7 +13,7 @@ services:
     image: redis:6.0
     command: redis-server --port 6379 --save "" --appendonly no
     ports:
-      - '6381:6379'
+      - '6379:6379'
     restart: unless-stopped
 
   zookeeper:
