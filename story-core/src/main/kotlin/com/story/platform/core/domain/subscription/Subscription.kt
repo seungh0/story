@@ -25,6 +25,10 @@ data class Subscription(
     @field:Column(value = "slot_id")
     @field:CassandraType(type = BIGINT)
     val slotId: Long,
+
+    @field:Column
+    @field:CassandraType(type = CassandraType.Name.BOOLEAN)
+    val alarm: Boolean,
 ) {
 
     fun isDeleted(): Boolean {
@@ -56,6 +60,7 @@ data class Subscription(
             ),
             slotId = subscriber.key.slotId,
             status = status,
+            alarm = subscriber.alarm,
         )
     }
 

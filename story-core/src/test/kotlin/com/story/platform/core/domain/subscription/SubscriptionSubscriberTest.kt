@@ -29,6 +29,7 @@ internal class SubscriptionSubscriberTest(
             val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
+            val alarm = true
 
             // when
             subscriptionSubscriber.subscribe(
@@ -36,6 +37,7 @@ internal class SubscriptionSubscriberTest(
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
+                alarm = alarm,
             )
 
             // then
@@ -48,6 +50,7 @@ internal class SubscriptionSubscriberTest(
                 it.key.subscriberId shouldBe subscriberId
                 it.key.slotId shouldBe 1L
                 it.key.targetId shouldBe targetId
+                it.alarm shouldBe alarm
             }
 
             val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
@@ -59,6 +62,7 @@ internal class SubscriptionSubscriberTest(
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
                 it.status shouldBe SubscriptionStatus.ACTIVE
+                it.alarm shouldBe alarm
             }
 
             val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
@@ -78,6 +82,110 @@ internal class SubscriptionSubscriberTest(
                 it.key.distributedKey shouldBe SubscriberDistributedKeyGenerator.generate(subscriberId)
                 it.key.targetId shouldBe targetId
                 it.key.subscriberId shouldBe subscriberId
+                it.alarm shouldBe alarm
+            }
+        }
+
+        test("기존에 등록된 구독의 알람 설정을 변경한다") {
+            // given
+            val serviceType = ServiceType.TWEETER
+            val subscriptionType = SubscriptionType.FOLLOW
+            val targetId = "10000"
+            val subscriberId = "2000"
+            val alarm = true
+
+            subscriberCoroutineRepository.save(
+                SubscriptionFixture.create(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    subscriberId = subscriberId,
+                    targetId = targetId,
+                    slotId = 1L,
+                    alarm = false,
+                )
+            )
+
+            subscriptionCoroutineRepository.save(
+                SubscriptionReverseFixture.create(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    subscriberId = subscriberId,
+                    targetId = targetId,
+                    slotId = 1L,
+                    alarm = false,
+                )
+            )
+
+            subscriberCounterCoroutineRepository.increase(
+                key = SubscriberCounterPrimaryKey(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    targetId = targetId,
+                )
+            )
+
+            subscriberDistributedCoroutineRepository.save(
+                SubscriptionDistributorFixture.create(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    targetId = targetId,
+                    subscriberId = subscriberId,
+                    alarm = false,
+                )
+            )
+
+            // when
+            subscriptionSubscriber.subscribe(
+                serviceType = serviceType,
+                subscriptionType = subscriptionType,
+                targetId = targetId,
+                subscriberId = subscriberId,
+                alarm = alarm,
+            )
+
+            // then
+            val subscribers: List<Subscriber> = subscriberCoroutineRepository.findAll().toList()
+
+            subscribers shouldHaveSize 1
+            subscribers[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.subscriberId shouldBe subscriberId
+                it.key.slotId shouldBe 1L
+                it.key.targetId shouldBe targetId
+                it.alarm shouldBe alarm
+            }
+
+            val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
+            subscriptionReverses shouldHaveSize 1
+            subscriptionReverses[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.subscriberId shouldBe subscriberId
+                it.key.targetId shouldBe targetId
+                it.slotId shouldBe 1L
+                it.status shouldBe SubscriptionStatus.ACTIVE
+                it.alarm shouldBe alarm
+            }
+
+            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
+            subscriptionCounters shouldHaveSize 1
+            subscriptionCounters[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.targetId shouldBe targetId
+                it.count shouldBe 1L
+            }
+
+            val subscriptionDistributed = subscriberDistributedCoroutineRepository.findAll().toList()
+            subscriptionDistributed shouldHaveSize 1
+            subscriptionDistributed[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.distributedKey shouldBe SubscriberDistributedKeyGenerator.generate(subscriberId)
+                it.key.targetId shouldBe targetId
+                it.key.subscriberId shouldBe subscriberId
+                it.alarm shouldBe alarm
             }
         }
 
@@ -87,6 +195,7 @@ internal class SubscriptionSubscriberTest(
             val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
+            val alarm = true
 
             subscriberCoroutineRepository.save(
                 SubscriptionFixture.create(
@@ -131,6 +240,7 @@ internal class SubscriptionSubscriberTest(
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
+                alarm = alarm,
             )
 
             // then
@@ -143,6 +253,7 @@ internal class SubscriptionSubscriberTest(
                 it.key.subscriberId shouldBe subscriberId
                 it.key.slotId shouldBe 1L
                 it.key.targetId shouldBe targetId
+                it.alarm shouldBe alarm
             }
 
             val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
@@ -154,6 +265,7 @@ internal class SubscriptionSubscriberTest(
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
                 it.status shouldBe SubscriptionStatus.ACTIVE
+                it.alarm shouldBe alarm
             }
 
             val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
@@ -173,6 +285,7 @@ internal class SubscriptionSubscriberTest(
                 it.key.distributedKey shouldBe SubscriberDistributedKeyGenerator.generate(subscriberId)
                 it.key.targetId shouldBe targetId
                 it.key.subscriberId shouldBe subscriberId
+                it.alarm shouldBe alarm
             }
         }
 
@@ -182,6 +295,7 @@ internal class SubscriptionSubscriberTest(
             val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
+            val alarm = true
 
             subscriberCoroutineRepository.save(
                 SubscriptionFixture.create(
@@ -210,6 +324,7 @@ internal class SubscriptionSubscriberTest(
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
+                alarm = alarm,
             )
 
             // then
@@ -222,6 +337,7 @@ internal class SubscriptionSubscriberTest(
                 it.key.subscriberId shouldBe subscriberId
                 it.key.slotId shouldBe 1L
                 it.key.targetId shouldBe targetId
+                it.alarm shouldBe alarm
             }
 
             val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
@@ -233,6 +349,7 @@ internal class SubscriptionSubscriberTest(
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
                 it.status shouldBe SubscriptionStatus.ACTIVE
+                it.alarm shouldBe alarm
             }
 
             val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()

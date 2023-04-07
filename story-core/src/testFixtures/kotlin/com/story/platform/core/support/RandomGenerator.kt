@@ -16,6 +16,12 @@ object RandomGenerator {
 
     @JvmOverloads
     @JvmStatic
+    fun generateBoolean(): Boolean {
+        return Random.nextInt(1, 2) % 2 == 0
+    }
+
+    @JvmOverloads
+    @JvmStatic
     fun generateInt(
         start: Int = 1,
         end: Int = 10000,

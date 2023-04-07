@@ -46,37 +46,49 @@ class SubscriptionUnSubscriber(
             return
         }
 
+        val subscription = subscriberCoroutineRepository.findById(
+            SubscriberPrimaryKey(
+                serviceType = serviceType,
+                subscriptionType = subscriptionType,
+                targetId = targetId,
+                slotId = subscriptionReverse.slotId,
+                subscriberId = subscriberId,
+            )
+        )
+        subscriptionReverse.delete()
+
+        val subscriptionDistributed = subscriberDistributedCoroutineRepository.findById(
+            SubscriberDistributedPrimaryKey.of(
+                serviceType = serviceType,
+                subscriptionType = subscriptionType,
+                targetId = targetId,
+                subscriberId = subscriberId,
+            )
+        )
+
+        reactiveCassandraOperations.batchOps()
+            .delete(subscription)
+            .insert(subscriptionReverse)
+            .delete(subscriptionDistributed)
+            .execute()
+            .awaitSingleOrNull()
+
+        unsubscriptionPostProcessor(
+            serviceType = serviceType,
+            subscriptionType = subscriptionType,
+            targetId = targetId,
+            subscriberId = subscriberId,
+        )
+    }
+
+    private suspend fun unsubscriptionPostProcessor(
+        serviceType: ServiceType,
+        subscriptionType: SubscriptionType,
+        targetId: String,
+        subscriberId: String,
+    ) {
         val jobs = mutableListOf<Job>()
         withContext(Dispatchers.IO) {
-            jobs += launch {
-                val subscription = subscriberCoroutineRepository.findById(
-                    SubscriberPrimaryKey(
-                        serviceType = serviceType,
-                        subscriptionType = subscriptionType,
-                        targetId = targetId,
-                        slotId = subscriptionReverse.slotId,
-                        subscriberId = subscriberId,
-                    )
-                )
-                subscriptionReverse.delete()
-
-                val subscriptionDistributed = subscriberDistributedCoroutineRepository.findById(
-                    SubscriberDistributedPrimaryKey.of(
-                        serviceType = serviceType,
-                        subscriptionType = subscriptionType,
-                        targetId = targetId,
-                        subscriberId = subscriberId,
-                    )
-                )
-
-                reactiveCassandraOperations.batchOps()
-                    .delete(subscription)
-                    .insert(subscriptionReverse)
-                    .delete(subscriptionDistributed)
-                    .execute()
-                    .awaitSingleOrNull()
-            }
-
             jobs += launch {
                 subscriberCounterCoroutineRepository.decrease(
                     SubscriberCounterPrimaryKey(
@@ -86,16 +98,19 @@ class SubscriptionUnSubscriber(
                     )
                 )
             }
+
+            jobs += launch {
+                val event = SubscriptionEvent.deleted(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    subscriberId = subscriberId,
+                    targetId = targetId,
+                )
+                kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
+            }
+
             jobs.joinAll()
         }
-
-        val event = SubscriptionEvent.deleted(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            subscriberId = subscriberId,
-            targetId = targetId,
-        )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
     }
 
 }

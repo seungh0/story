@@ -6,7 +6,9 @@ import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
+import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BOOLEAN
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
+import org.springframework.data.cassandra.core.mapping.Column
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
@@ -16,6 +18,10 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class Subscriber(
     @field:PrimaryKey
     val key: SubscriberPrimaryKey,
+
+    @field:Column
+    @field:CassandraType(type = BOOLEAN)
+    val alarm: Boolean,
 ) {
 
     companion object {
@@ -25,6 +31,7 @@ data class Subscriber(
             targetId: String,
             slotId: Long,
             subscriberId: String,
+            alarm: Boolean,
         ) = Subscriber(
             key = SubscriberPrimaryKey(
                 serviceType = serviceType,
@@ -33,6 +40,7 @@ data class Subscriber(
                 slotId = slotId,
                 subscriberId = subscriberId,
             ),
+            alarm = alarm,
         )
     }
 

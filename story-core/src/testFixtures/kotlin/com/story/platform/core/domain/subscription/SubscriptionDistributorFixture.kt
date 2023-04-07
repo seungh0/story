@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.support.RandomGenerator.generateBoolean
 import com.story.platform.core.support.RandomGenerator.generateEnum
 import com.story.platform.core.support.RandomGenerator.generateString
 
@@ -12,6 +13,7 @@ object SubscriptionDistributorFixture {
         distributedKey: String? = null,
         targetId: String = generateString(),
         subscriberId: String = generateString(),
+        alarm: Boolean = generateBoolean(),
     ) = SubscriberDistributed(
         key = SubscriberDistributedPrimaryKey(
             serviceType = serviceType,
@@ -21,6 +23,7 @@ object SubscriptionDistributorFixture {
             targetId = targetId,
             subscriberId = subscriberId,
         ),
+        alarm = alarm
     )
 
 }

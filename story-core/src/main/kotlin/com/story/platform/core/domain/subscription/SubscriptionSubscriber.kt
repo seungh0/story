@@ -37,6 +37,7 @@ class SubscriptionSubscriber(
         subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
+        alarm: Boolean,
     ) {
         val primaryKey = SubscriptionPrimaryKey(
             serviceType = serviceType,
@@ -46,10 +47,18 @@ class SubscriptionSubscriber(
         )
         val subscriptionReverse = subscriptionCoroutineRepository.findById(primaryKey)
         if ((subscriptionReverse != null) && subscriptionReverse.isActivated()) {
+            saveSubscription(
+                serviceType = serviceType,
+                subscriptionType = subscriptionType,
+                targetId = targetId,
+                slotId = subscriptionReverse.slotId,
+                subscriberId = subscriberId,
+                alarm = alarm,
+            )
             return
         }
 
-        val subscriber = Subscriber.of(
+        saveSubscription(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
@@ -61,18 +70,50 @@ class SubscriptionSubscriber(
                 )
             ),
             subscriberId = subscriberId,
+            alarm = alarm,
         )
 
+        newSubscriptionPostProcessor(
+            serviceType = serviceType,
+            subscriptionType = subscriptionType,
+            subscriberId = subscriberId,
+            targetId = targetId,
+        )
+    }
+
+    private suspend fun saveSubscription(
+        serviceType: ServiceType,
+        subscriptionType: SubscriptionType,
+        targetId: String,
+        slotId: Long,
+        subscriberId: String,
+        alarm: Boolean,
+    ) {
+        val subscriber = Subscriber.of(
+            serviceType = serviceType,
+            subscriptionType = subscriptionType,
+            targetId = targetId,
+            slotId = slotId,
+            subscriberId = subscriberId,
+            alarm = alarm,
+        )
+
+        reactiveCassandraOperations.batchOps()
+            .insert(subscriber)
+            .insert(Subscription.of(subscriber = subscriber))
+            .insert(SubscriberDistributed.of(subscriber = subscriber))
+            .execute()
+            .awaitSingleOrNull()
+    }
+
+    private suspend fun newSubscriptionPostProcessor(
+        serviceType: ServiceType,
+        subscriptionType: SubscriptionType,
+        subscriberId: String,
+        targetId: String,
+    ) {
+        val jobs = mutableListOf<Job>()
         withContext(Dispatchers.IO) {
-            val jobs = mutableListOf<Job>()
-
-            reactiveCassandraOperations.batchOps()
-                .insert(subscriber)
-                .insert(Subscription.of(subscriber = subscriber))
-                .insert(SubscriberDistributed.of(subscriber = subscriber))
-                .execute()
-                .awaitSingleOrNull()
-
             jobs += launch {
                 subscriberCounterCoroutineRepository.increase(
                     SubscriberCounterPrimaryKey(
@@ -83,16 +124,17 @@ class SubscriptionSubscriber(
                 )
             }
 
-            jobs.joinAll()
+            jobs += launch {
+                val event = SubscriptionEvent.created(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    subscriberId = subscriberId,
+                    targetId = targetId,
+                )
+                kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
+            }
         }
-
-        val event = SubscriptionEvent.created(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            subscriberId = subscriberId,
-            targetId = targetId,
-        )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
+        jobs.joinAll()
     }
 
 }
