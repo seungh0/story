@@ -1,19 +1,8 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
-import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
-import com.story.platform.core.infrastructure.kafka.TopicType
-import com.story.platform.core.support.json.toJson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactor.awaitSingleOrNull
-import kotlinx.coroutines.withContext
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
-import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
 @Service
@@ -21,10 +10,9 @@ class SubscriptionUnSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
     private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
-    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
     private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
-    @Qualifier(KafkaProducerConfig.SUBSCRIPTION_KAFKA_TEMPLATE)
-    private val kafkaTemplate: KafkaTemplate<String, String>,
+    private val subscriptionCounterManager: SubscriptionCounterManager,
+    private val subscriptionEventPublisher: SubscriptionEventPublisher,
 ) {
 
     suspend fun unsubscribe(
@@ -87,30 +75,19 @@ class SubscriptionUnSubscriber(
         targetId: String,
         subscriberId: String,
     ) {
-        val jobs = mutableListOf<Job>()
-        withContext(Dispatchers.IO) {
-            jobs += launch {
-                subscriberCounterCoroutineRepository.decrease(
-                    SubscriberCounterPrimaryKey(
-                        serviceType = serviceType,
-                        subscriptionType = subscriptionType,
-                        targetId = targetId,
-                    )
-                )
-            }
+        subscriptionCounterManager.decrease(
+            serviceType = serviceType,
+            subscriptionType = subscriptionType,
+            targetId = targetId,
+            subscriberId = subscriberId,
+        )
 
-            jobs += launch {
-                val event = SubscriptionEvent.deleted(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    subscriberId = subscriberId,
-                    targetId = targetId,
-                )
-                kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
-            }
-
-            jobs.joinAll()
-        }
+        subscriptionEventPublisher.publishUnsubscriptionEvent(
+            serviceType = serviceType,
+            subscriptionType = subscriptionType,
+            subscriberId = subscriberId,
+            targetId = targetId,
+        )
     }
 
 }

@@ -13,7 +13,8 @@ internal class SubscriptionUnSubscriberTest(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
     private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
-    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
+    private val subscribersCounterCoroutineRepository: SubscribersCounterCoroutineRepository,
+    private val subscriptionsCounterCoroutineRepository: SubscriptionsCounterCoroutineRepository,
     private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
@@ -50,11 +51,19 @@ internal class SubscriptionUnSubscriberTest(
                 )
             )
 
-            subscriberCounterCoroutineRepository.increase(
-                key = SubscriberCounterPrimaryKey(
+            subscribersCounterCoroutineRepository.increase(
+                key = SubscribersCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
+                )
+            )
+
+            subscriptionsCounterCoroutineRepository.increase(
+                key = SubscriptionsCounterPrimaryKey(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    subscriberId = subscriberId,
                 )
             )
 
@@ -90,12 +99,21 @@ internal class SubscriptionUnSubscriberTest(
                 it.status shouldBe SubscriptionStatus.DELETED
             }
 
-            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType
                 it.key.subscriptionType shouldBe subscriptionType
                 it.key.targetId shouldBe targetId
+                it.count shouldBe 0L
+            }
+
+            val subscriberCounters = subscriptionsCounterCoroutineRepository.findAll().toList()
+            subscriberCounters shouldHaveSize 1
+            subscriberCounters[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.subscriberId shouldBe subscriberId
                 it.count shouldBe 0L
             }
         }
@@ -122,8 +140,11 @@ internal class SubscriptionUnSubscriberTest(
             val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 0
 
-            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 0
+
+            val subscriberCounters = subscriptionsCounterCoroutineRepository.findAll().toList()
+            subscriberCounters shouldHaveSize 0
         }
 
         test("구독 취소시 이미 구독 취소 이력이 있다면 멱등성을 갖는다") {
@@ -167,8 +188,11 @@ internal class SubscriptionUnSubscriberTest(
                 it.status shouldBe SubscriptionStatus.DELETED
             }
 
-            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 0
+
+            val subscriberCounters = subscriptionsCounterCoroutineRepository.findAll().toList()
+            subscriberCounters shouldHaveSize 0
         }
     }
 

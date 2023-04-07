@@ -50,6 +50,21 @@ class SubscriptionRetrieveApi(
         )
     }
 
+    @GetMapping("/subscriber/{subscriberId}/subscriptions/count")
+    suspend fun countSubscriptions(
+        @PathVariable subscriptionType: SubscriptionType,
+        @PathVariable subscriberId: String,
+    ): ApiResponse<SubscriptionsCountResponse> {
+        val subscribersCount = subscriptionRetriever.countSubscriptions(
+            serviceType = ServiceType.TWEETER,
+            subscriptionType = subscriptionType,
+            subscriberId = subscriberId,
+        )
+        return ApiResponse.success(
+            result = SubscriptionsCountResponse(count = subscribersCount)
+        )
+    }
+
     @GetMapping("/target/{targetId}/subscribers")
     suspend fun getSubscribers(
         @PathVariable subscriptionType: SubscriptionType,

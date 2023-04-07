@@ -1,11 +1,11 @@
 ### 포스팅 등록
-POST {{api}}/v1/space/ACCOUNT/account-id/post
+POST {{api}}/v1/space/ACCOUNT/tokki/post
 Content-Type: application/json
 
 {
-    "accountId": "hello1",
-    "title": "새로운 포스트123",
-    "content": "포스트에 대한 본문\n블라블라~"
+    "accountId": "tokki",
+    "title": "토끼의 소확행 일기",
+    "content": "토끼랑 치킨을 먹었따\n히히~"
 }
 
 > {%
@@ -16,13 +16,13 @@ Content-Type: application/json
 
 
 ### 포스팅 수정
-PUT {{api}}/v1/space/ACCOUNT/account-id/post/1
+PUT {{api}}/v1/space/ACCOUNT/tokki/post/1
 Content-Type: application/json
 
 {
-    "accountId": "account-id",
-    "title": "새로운 포스트",
-    "content": "포스트에 대한 본문\n블라블라~"
+    "accountId": "tokki",
+    "title": "토끼의 소확행 일기",
+    "content": "토끼랑 치킨을 먹었따\n토토~"
 }
 
 > {%
@@ -33,9 +33,9 @@ Content-Type: application/json
 
 
 ### 포스팅 조회
-GET {{api}}/v1/space/ACCOUNT/account-id/post/1
+GET {{api}}/v1/space/ACCOUNT/tokki/post/1
 
 
 ### 포스팅 목록 조회
-GET {{api}}/v1/space/ACCOUNT/account-id/posts?pageSize=2&direction=NEXT&cursor=2
+GET {{api}}/v1/space/ACCOUNT/tokki/posts?pageSize=2&direction=NEXT&cursor=2
 

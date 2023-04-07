@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionRetriever(
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
-    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
+    private val subscribersCounterCoroutineRepository: SubscribersCounterCoroutineRepository,
+    private val subscriptionsCounterCoroutineRepository: SubscriptionsCounterCoroutineRepository,
     private val subscriberReactiveRepository: SubscriberReactiveRepository,
     private val subscriptionReactiveRepository: SubscriptionReactiveRepository,
     private val subscriberIdGenerator: SubscriberIdGenerator,
@@ -45,12 +46,29 @@ class SubscriptionRetriever(
         subscriptionType: SubscriptionType,
         targetId: String,
     ): Long {
-        val primaryKey = SubscriberCounterPrimaryKey(
+        val primaryKey = SubscribersCounterPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
-        return subscriberCounterCoroutineRepository.findById(primaryKey)?.count ?: 0L
+        return subscribersCounterCoroutineRepository.findById(primaryKey)?.count ?: 0L
+    }
+
+    @Cacheable(
+        cacheType = CacheType.SUBSCRIPTION_COUNT,
+        key = "(T(java.lang.Math).random() * 16).intValue() + 'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':subscriberId:' + {#subscriberId}",
+    )
+    suspend fun countSubscriptions(
+        serviceType: ServiceType,
+        subscriptionType: SubscriptionType,
+        subscriberId: String,
+    ): Long {
+        val primaryKey = SubscriptionsCounterPrimaryKey(
+            serviceType = serviceType,
+            subscriptionType = subscriptionType,
+            subscriberId = subscriberId,
+        )
+        return subscriptionsCounterCoroutineRepository.findById(primaryKey)?.count ?: 0L
     }
 
     suspend fun getSubscribers(

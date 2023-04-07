@@ -13,7 +13,8 @@ internal class SubscriptionSubscriberTest(
     private val subscriptionSubscriber: SubscriptionSubscriber,
     private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
-    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
+    private val subscribersCounterCoroutineRepository: SubscribersCounterCoroutineRepository,
+    private val subscriptionsCounterCoroutineRepository: SubscriptionsCounterCoroutineRepository,
     private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
@@ -65,12 +66,21 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType
                 it.key.subscriptionType shouldBe subscriptionType
                 it.key.targetId shouldBe targetId
+                it.count shouldBe 1L
+            }
+
+            val subscriberCounters = subscriptionsCounterCoroutineRepository.findAll().toList()
+            subscriberCounters shouldHaveSize 1
+            subscriberCounters[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.subscriberId shouldBe subscriberId
                 it.count shouldBe 1L
             }
 
@@ -116,11 +126,19 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriberCounterCoroutineRepository.increase(
-                key = SubscriberCounterPrimaryKey(
+            subscribersCounterCoroutineRepository.increase(
+                key = SubscribersCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
+                )
+            )
+
+            subscriptionsCounterCoroutineRepository.increase(
+                key = SubscriptionsCounterPrimaryKey(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    subscriberId = subscriberId,
                 )
             )
 
@@ -168,12 +186,21 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType
                 it.key.subscriptionType shouldBe subscriptionType
                 it.key.targetId shouldBe targetId
+                it.count shouldBe 1L
+            }
+
+            val subscriberCounters = subscriptionsCounterCoroutineRepository.findAll().toList()
+            subscriberCounters shouldHaveSize 1
+            subscriberCounters[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.subscriberId shouldBe subscriberId
                 it.count shouldBe 1L
             }
 
@@ -217,11 +244,19 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriberCounterCoroutineRepository.increase(
-                key = SubscriberCounterPrimaryKey(
+            subscribersCounterCoroutineRepository.increase(
+                key = SubscribersCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
+                )
+            )
+
+            subscriptionsCounterCoroutineRepository.increase(
+                key = SubscriptionsCounterPrimaryKey(
+                    serviceType = serviceType,
+                    subscriptionType = subscriptionType,
+                    subscriberId = subscriberId,
                 )
             )
 
@@ -268,12 +303,21 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType
                 it.key.subscriptionType shouldBe subscriptionType
                 it.key.targetId shouldBe targetId
+                it.count shouldBe 1L
+            }
+
+            val subscriberCounters = subscriptionsCounterCoroutineRepository.findAll().toList()
+            subscriberCounters shouldHaveSize 1
+            subscriberCounters[0].also {
+                it.key.serviceType shouldBe serviceType
+                it.key.subscriptionType shouldBe subscriptionType
+                it.key.subscriberId shouldBe subscriberId
                 it.count shouldBe 1L
             }
 
@@ -352,7 +396,7 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscriberCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType

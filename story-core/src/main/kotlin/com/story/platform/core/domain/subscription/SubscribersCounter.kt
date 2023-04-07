@@ -12,10 +12,10 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table(SubscriptionTableNames.SUBSCRIBER_COUNT)
-data class SubscriberCounter(
+@Table(SubscriptionTableNames.SUBSCRIBERS_COUNTER)
+data class SubscribersCounter(
     @field:PrimaryKey
-    val key: SubscriberCounterPrimaryKey,
+    val key: SubscribersCounterPrimaryKey,
 
     @field:Column(value = "count")
     @field:CassandraType(type = COUNTER)
@@ -24,7 +24,7 @@ data class SubscriberCounter(
 
 
 @PrimaryKeyClass
-data class SubscriberCounterPrimaryKey(
+data class SubscribersCounterPrimaryKey(
     @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED, ordering = Ordering.DESCENDING, ordinal = 1)
     @field:CassandraType(type = TEXT)
     val serviceType: ServiceType,

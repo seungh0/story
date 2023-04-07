@@ -11,7 +11,7 @@ internal class SubscriptionRetrieverTest(
     private val subscriptionRetriever: SubscriptionRetriever,
     private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
     private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
-    private val subscriberCounterCoroutineRepository: SubscriberCounterCoroutineRepository,
+    private val subscribersCounterCoroutineRepository: SubscribersCounterCoroutineRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -119,8 +119,8 @@ internal class SubscriptionRetrieverTest(
             subscriberCoroutineRepository.save(subscription)
             subscriptionCoroutineRepository.save(subscriptionReverse)
 
-            subscriberCounterCoroutineRepository.increase(
-                key = SubscriberCounterPrimaryKey(
+            subscribersCounterCoroutineRepository.increase(
+                key = SubscribersCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
