@@ -89,7 +89,6 @@ class KafkaProducerConfig(
         config[ProducerConfig.RETRIES_CONFIG] = retries
         config[ProducerConfig.MAX_REQUEST_SIZE_CONFIG] = maxRequestSize
         config[ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG] = requestTimeoutMs
-        config[ProducerConfig.PARTITIONER_CLASS_CONFIG] = "org.apache.kafka.clients.producer.UniformStickyPartitioner"
         return config
     }
 
