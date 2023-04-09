@@ -1,22 +1,15 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
-import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
-import com.story.platform.core.infrastructure.kafka.TopicType
-import com.story.platform.core.support.json.toJson
 import kotlinx.coroutines.reactor.awaitSingleOrNull
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
-import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
 @Service
 class PostRemover(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    @Qualifier(KafkaProducerConfig.POST_KAFKA_TEMPLATE)
-    private val kafkaTemplate: KafkaTemplate<String, String>,
     private val postRepository: PostRepository,
     private val postReverseRepository: PostReverseRepository,
+    private val postEventPublisher: PostEventPublisher,
 ) {
 
     suspend fun remove(
@@ -47,14 +40,11 @@ class PostRemover(
             .execute()
             .awaitSingleOrNull()
 
-        val event = PostEvent.deleted(
-            serviceType = postSpaceKey.serviceType,
-            spaceType = postSpaceKey.spaceType,
-            spaceId = postSpaceKey.spaceId,
+        postEventPublisher.publishDeletedEvent(
+            postSpaceKey = postSpaceKey,
             postId = postId,
             accountId = accountId,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
     }
 
 }

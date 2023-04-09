@@ -34,7 +34,7 @@ data class Post(
         return this.accountId == accountId
     }
 
-    fun update(
+    fun modify(
         title: String,
         content: String,
         extraJson: String?,

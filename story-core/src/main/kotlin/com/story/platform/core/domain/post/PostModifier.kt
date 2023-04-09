@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 class PostModifier(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val postRepository: PostRepository,
+    private val postEventPublisher: PostEventPublisher,
 ) {
 
     suspend fun modify(
@@ -33,7 +34,7 @@ class PostModifier(
             throw ForbiddenException("계정($accountId)는 해당하는 포스트($postSpaceKey-$postId)를 수정할 권한이 없습니다")
         }
 
-        post.update(
+        post.modify(
             title = title,
             content = content,
             extraJson = extraJson,
@@ -44,6 +45,15 @@ class PostModifier(
             .insert(PostReverse.of(post))
             .execute()
             .awaitSingleOrNull()
+
+        postEventPublisher.publishUpdatedEvent(
+            postSpaceKey = postSpaceKey,
+            accountId = accountId,
+            postId = postId,
+            title = title,
+            content = content,
+            extraJson = extraJson,
+        )
     }
 
 }
