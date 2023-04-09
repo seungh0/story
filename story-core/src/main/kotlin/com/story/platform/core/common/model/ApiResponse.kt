@@ -17,10 +17,10 @@ data class ApiResponse<T>(
         fun <T> success(result: T): ApiResponse<T> =
             ApiResponse(result = result)
 
-        fun fail(
+        fun <T> error(
             error: ErrorCode,
             message: String? = null,
-        ): ApiResponse<Nothing> = ApiResponse(
+        ): ApiResponse<T> = ApiResponse(
             code = "${error.httpStatusCode}${error.minorStatusCode}",
             message = message ?: error.errorMessage,
             result = null,

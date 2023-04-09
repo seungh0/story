@@ -73,4 +73,9 @@ enum class ErrorCode(
      */
     E501_NOT_IMPLEMENTED(httpStatusCode = 501, minorStatusCode = "000", errorMessage = "Not Implemented"),
 
+    /**
+     * 503 Service UnAvailable
+     */
+    E503_SERVICE_UNAVAILABLE(httpStatusCode = 503, minorStatusCode = "000", errorMessage = "Service Unavailable"),
+
 }
