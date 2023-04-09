@@ -11,7 +11,7 @@ import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 
 @IntegrationTest
 class SubscriptionDistributedExecutorTest(
-    private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
+    private val subscriberDistributedRepository: SubscriberDistributedRepository,
     private val subscriberDistributedExecutor: SubscriberDistributedExecutor,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val testCleaner: TestCleaner,
@@ -75,7 +75,7 @@ class SubscriptionDistributedExecutorTest(
                 distributedKey = distributedKey,
                 targetId = "다른 구독 대상자",
             )
-            subscriberDistributedCoroutineRepository.save(subscription)
+            subscriberDistributedRepository.save(subscription)
 
             // when
             subscriberDistributedExecutor.executeToTargetSubscribers(
@@ -108,7 +108,7 @@ class SubscriptionDistributedExecutorTest(
                 distributedKey = "002",
                 targetId = targetId,
             )
-            subscriberDistributedCoroutineRepository.save(subscription)
+            subscriberDistributedRepository.save(subscription)
 
             // when
             subscriberDistributedExecutor.executeToTargetSubscribers(

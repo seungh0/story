@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class SubscriptionCounterManager(
-    private val subscribersCounterCoroutineRepository: SubscribersCounterCoroutineRepository,
-    private val subscriptionsCounterCoroutineRepository: SubscriptionsCounterCoroutineRepository,
+    private val subscribersCounterRepository: SubscribersCounterRepository,
+    private val subscriptionsCounterRepository: SubscriptionsCounterRepository,
 ) {
 
     suspend fun increase(
@@ -23,7 +23,7 @@ class SubscriptionCounterManager(
         val jobs = mutableListOf<Job>()
         withContext(Dispatchers.IO) {
             jobs += launch {
-                subscriptionsCounterCoroutineRepository.increase(
+                subscriptionsCounterRepository.increase(
                     SubscriptionsCounterPrimaryKey(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
@@ -33,7 +33,7 @@ class SubscriptionCounterManager(
             }
 
             jobs += launch {
-                subscribersCounterCoroutineRepository.increase(
+                subscribersCounterRepository.increase(
                     SubscribersCounterPrimaryKey(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
@@ -54,7 +54,7 @@ class SubscriptionCounterManager(
         val jobs = mutableListOf<Job>()
         withContext(Dispatchers.IO) {
             jobs += launch {
-                subscriptionsCounterCoroutineRepository.decrease(
+                subscriptionsCounterRepository.decrease(
                     SubscriptionsCounterPrimaryKey(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,
@@ -64,7 +64,7 @@ class SubscriptionCounterManager(
             }
 
             jobs += launch {
-                subscribersCounterCoroutineRepository.decrease(
+                subscribersCounterRepository.decrease(
                     SubscribersCounterPrimaryKey(
                         serviceType = serviceType,
                         subscriptionType = subscriptionType,

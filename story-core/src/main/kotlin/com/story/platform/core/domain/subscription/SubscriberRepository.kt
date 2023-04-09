@@ -2,11 +2,11 @@ package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
-import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface SubscriberReactiveRepository : ReactiveCassandraRepository<Subscriber, SubscriberPrimaryKey> {
+interface SubscriberRepository : CoroutineCrudRepository<Subscriber, SubscriberPrimaryKey> {
 
     suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
         serviceType: ServiceType,

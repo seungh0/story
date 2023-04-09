@@ -9,23 +9,23 @@ import kotlinx.coroutines.flow.toList
 @IntegrationTest
 internal class PostRemoverTest(
     private val postRemover: PostRemover,
-    private val postCoroutineRepository: PostCoroutineRepository,
-    private val postReverseCoroutineRepository: PostReverseCoroutineRepository,
+    private val postRepository: PostRepository,
+    private val postReverseRepository: PostReverseRepository,
 ) : FunSpec({
 
     afterEach {
-        postCoroutineRepository.deleteAll()
-        postReverseCoroutineRepository.deleteAll()
+        postRepository.deleteAll()
+        postReverseRepository.deleteAll()
     }
 
     context("등록된 포스트를 삭제한다") {
         test("기존에 등록된 포스트를 삭제한다") {
             // given
             val post = PostFixture.create()
-            postCoroutineRepository.save(post)
+            postRepository.save(post)
 
             val postReverse = PostReverse.of(post)
-            postReverseCoroutineRepository.save(postReverse)
+            postReverseRepository.save(postReverse)
 
             // when
             postRemover.remove(
@@ -39,10 +39,10 @@ internal class PostRemoverTest(
             )
 
             // then
-            val posts = postCoroutineRepository.findAll().toList()
+            val posts = postRepository.findAll().toList()
             posts shouldHaveSize 0
 
-            val postReverses = postReverseCoroutineRepository.findAll().toList()
+            val postReverses = postReverseRepository.findAll().toList()
             postReverses shouldHaveSize 0
         }
 
@@ -59,10 +59,10 @@ internal class PostRemoverTest(
             )
 
             // then
-            val posts = postCoroutineRepository.findAll().toList()
+            val posts = postRepository.findAll().toList()
             posts shouldHaveSize 0
 
-            val postReverses = postReverseCoroutineRepository.findAll().toList()
+            val postReverses = postReverseRepository.findAll().toList()
             postReverses shouldHaveSize 0
         }
     }

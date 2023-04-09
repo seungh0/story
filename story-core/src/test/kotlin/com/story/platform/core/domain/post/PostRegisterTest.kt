@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.toList
 @IntegrationTest
 internal class PostRegisterTest(
     private val postRegister: PostRegister,
-    private val postCoroutineRepository: PostCoroutineRepository,
-    private val postReverseCoroutineRepository: PostReverseCoroutineRepository,
+    private val postRepository: PostRepository,
+    private val postReverseRepository: PostReverseRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -51,7 +51,7 @@ internal class PostRegisterTest(
             )
 
             // then
-            val posts = postCoroutineRepository.findAll().toList()
+            val posts = postRepository.findAll().toList()
             posts shouldHaveSize 1
             posts[0].also {
                 it.key.serviceType shouldBe postSpaceKey.serviceType
@@ -65,7 +65,7 @@ internal class PostRegisterTest(
                 it.extraJson shouldBe extraJson
             }
 
-            val postReverses = postReverseCoroutineRepository.findAll().toList()
+            val postReverses = postReverseRepository.findAll().toList()
             postReverses shouldHaveSize 1
             postReverses[0].also {
                 it.key.serviceType shouldBe postSpaceKey.serviceType

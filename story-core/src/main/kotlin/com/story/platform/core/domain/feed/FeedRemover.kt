@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class FeedRemover(
     private val subscriberDistributedExecutor: SubscriberDistributedExecutor,
-    private val feedCoroutineRepository: FeedCoroutineRepository,
+    private val feedRepository: FeedRepository,
 ) {
 
     suspend fun removePostFeed(
@@ -34,7 +34,7 @@ class FeedRemover(
                         postId = postId,
                     )
                 }
-                feedCoroutineRepository.deleteAll(feeds) // TODO: 부하 심할거 같은데 확인..
+                feedRepository.deleteAll(feeds) // TODO: 부하 심할거 같은데 확인..
             }
         )
     }
@@ -60,7 +60,7 @@ class FeedRemover(
                         subscriberId = subscriberId,
                     )
                 }
-                feedCoroutineRepository.deleteAll(feeds) // TODO: 부하 심할거 같은데 확인..
+                feedRepository.deleteAll(feeds) // TODO: 부하 심할거 같은데 확인..
             }
         )
     }

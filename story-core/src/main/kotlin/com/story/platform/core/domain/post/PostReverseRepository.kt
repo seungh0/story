@@ -3,7 +3,7 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface PostReverseCoroutineRepository : CoroutineCrudRepository<PostReverse, PostReversePrimaryKey> {
+interface PostReverseRepository : CoroutineCrudRepository<PostReverse, PostReversePrimaryKey> {
 
     suspend fun findByKeyServiceTypeAndKeyAccountIdAndKeyPostIdAndKeySpaceTypeAndKeySpaceId(
         serviceType: ServiceType,

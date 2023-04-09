@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class FeedRegister(
     private val subscriberDistributedExecutor: SubscriberDistributedExecutor,
-    private val feedCoroutineRepository: FeedCoroutineRepository,
+    private val feedRepository: FeedRepository,
 ) {
 
     suspend fun addPostFeed(
@@ -35,7 +35,7 @@ class FeedRegister(
                         postId = postId,
                     )
                 }
-                feedCoroutineRepository.saveAll(feeds).toList()
+                feedRepository.saveAll(feeds).toList()
             }
         )
     }
@@ -61,7 +61,7 @@ class FeedRegister(
                         subscriberId = subscriberId,
                     )
                 }
-                feedCoroutineRepository.saveAll(feeds).toList()
+                feedRepository.saveAll(feeds).toList()
             }
         )
     }

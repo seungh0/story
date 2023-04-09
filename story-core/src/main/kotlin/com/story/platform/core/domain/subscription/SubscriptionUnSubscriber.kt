@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionUnSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
-    private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
-    private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
+    private val subscriptionRepository: SubscriptionRepository,
+    private val subscriberRepository: SubscriberRepository,
+    private val subscriberDistributedRepository: SubscriberDistributedRepository,
     private val subscriptionCounterManager: SubscriptionCounterManager,
     private val subscriptionEventPublisher: SubscriptionEventPublisher,
 ) {
@@ -21,7 +21,7 @@ class SubscriptionUnSubscriber(
         targetId: String,
         subscriberId: String,
     ) {
-        val subscriptionReverse = subscriptionCoroutineRepository.findById(
+        val subscriptionReverse = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
@@ -34,7 +34,7 @@ class SubscriptionUnSubscriber(
             return
         }
 
-        val subscription = subscriberCoroutineRepository.findById(
+        val subscription = subscriberRepository.findById(
             SubscriberPrimaryKey(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
@@ -45,7 +45,7 @@ class SubscriptionUnSubscriber(
         )
         subscriptionReverse.delete()
 
-        val subscriptionDistributed = subscriberDistributedCoroutineRepository.findById(
+        val subscriptionDistributed = subscriberDistributedRepository.findById(
             SubscriberDistributedPrimaryKey.of(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,

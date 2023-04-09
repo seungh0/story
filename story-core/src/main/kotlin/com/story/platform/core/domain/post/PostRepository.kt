@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface PostCoroutineRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
+interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
 
     suspend fun findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
         serviceType: ServiceType,

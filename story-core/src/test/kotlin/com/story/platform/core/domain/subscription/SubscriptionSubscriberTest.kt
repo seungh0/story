@@ -11,11 +11,11 @@ import kotlinx.coroutines.flow.toList
 @IntegrationTest
 internal class SubscriptionSubscriberTest(
     private val subscriptionSubscriber: SubscriptionSubscriber,
-    private val subscriberCoroutineRepository: SubscriberCoroutineRepository,
-    private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
-    private val subscribersCounterCoroutineRepository: SubscribersCounterCoroutineRepository,
-    private val subscriptionsCounterCoroutineRepository: SubscriptionsCounterCoroutineRepository,
-    private val subscriberDistributedCoroutineRepository: SubscriberDistributedCoroutineRepository,
+    private val subscriberRepository: SubscriberRepository,
+    private val subscriptionRepository: SubscriptionRepository,
+    private val subscribersCounterRepository: SubscribersCounterRepository,
+    private val subscriptionsCounterRepository: SubscriptionsCounterRepository,
+    private val subscriberDistributedRepository: SubscriberDistributedRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -42,7 +42,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // then
-            val subscriptions = subscriberCoroutineRepository.findAll().toList()
+            val subscriptions = subscriberRepository.findAll().toList()
             subscriptions shouldHaveSize 1
             subscriptions[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -54,7 +54,7 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
+            val subscriptionReverses = subscriptionRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 1
             subscriptionReverses[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -66,7 +66,7 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -75,7 +75,7 @@ internal class SubscriptionSubscriberTest(
                 it.count shouldBe 1L
             }
 
-            val subscriberCounters = subscriptionsCounterCoroutineRepository.findAll().toList()
+            val subscriberCounters = subscriptionsCounterRepository.findAll().toList()
             subscriberCounters shouldHaveSize 1
             subscriberCounters[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -84,7 +84,7 @@ internal class SubscriptionSubscriberTest(
                 it.count shouldBe 1L
             }
 
-            val subscriptionDistributed = subscriberDistributedCoroutineRepository.findAll().toList()
+            val subscriptionDistributed = subscriberDistributedRepository.findAll().toList()
             subscriptionDistributed shouldHaveSize 1
             subscriptionDistributed[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -104,7 +104,7 @@ internal class SubscriptionSubscriberTest(
             val subscriberId = "2000"
             val alarm = true
 
-            subscriberCoroutineRepository.save(
+            subscriberRepository.save(
                 SubscriptionFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -115,7 +115,7 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriptionCoroutineRepository.save(
+            subscriptionRepository.save(
                 SubscriptionReverseFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -126,7 +126,7 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscribersCounterCoroutineRepository.increase(
+            subscribersCounterRepository.increase(
                 key = SubscribersCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -134,7 +134,7 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriptionsCounterCoroutineRepository.increase(
+            subscriptionsCounterRepository.increase(
                 key = SubscriptionsCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -142,7 +142,7 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriberDistributedCoroutineRepository.save(
+            subscriberDistributedRepository.save(
                 SubscriptionDistributorFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -162,7 +162,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // then
-            val subscribers: List<Subscriber> = subscriberCoroutineRepository.findAll().toList()
+            val subscribers: List<Subscriber> = subscriberRepository.findAll().toList()
 
             subscribers shouldHaveSize 1
             subscribers[0].also {
@@ -174,7 +174,7 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
+            val subscriptionReverses = subscriptionRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 1
             subscriptionReverses[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -186,7 +186,7 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -195,7 +195,7 @@ internal class SubscriptionSubscriberTest(
                 it.count shouldBe 1L
             }
 
-            val subscriberCounters = subscriptionsCounterCoroutineRepository.findAll().toList()
+            val subscriberCounters = subscriptionsCounterRepository.findAll().toList()
             subscriberCounters shouldHaveSize 1
             subscriberCounters[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -204,7 +204,7 @@ internal class SubscriptionSubscriberTest(
                 it.count shouldBe 1L
             }
 
-            val subscriptionDistributed = subscriberDistributedCoroutineRepository.findAll().toList()
+            val subscriptionDistributed = subscriberDistributedRepository.findAll().toList()
             subscriptionDistributed shouldHaveSize 1
             subscriptionDistributed[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -224,7 +224,7 @@ internal class SubscriptionSubscriberTest(
             val subscriberId = "2000"
             val alarm = true
 
-            subscriberCoroutineRepository.save(
+            subscriberRepository.save(
                 SubscriptionFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -234,7 +234,7 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriptionCoroutineRepository.save(
+            subscriptionRepository.save(
                 SubscriptionReverseFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -244,7 +244,7 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscribersCounterCoroutineRepository.increase(
+            subscribersCounterRepository.increase(
                 key = SubscribersCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -252,7 +252,7 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriptionsCounterCoroutineRepository.increase(
+            subscriptionsCounterRepository.increase(
                 key = SubscriptionsCounterPrimaryKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -260,7 +260,7 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriberDistributedCoroutineRepository.save(
+            subscriberDistributedRepository.save(
                 SubscriptionDistributorFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -279,7 +279,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // then
-            val subscribers: List<Subscriber> = subscriberCoroutineRepository.findAll().toList()
+            val subscribers: List<Subscriber> = subscriberRepository.findAll().toList()
 
             subscribers shouldHaveSize 1
             subscribers[0].also {
@@ -291,7 +291,7 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
+            val subscriptionReverses = subscriptionRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 1
             subscriptionReverses[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -303,7 +303,7 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -312,7 +312,7 @@ internal class SubscriptionSubscriberTest(
                 it.count shouldBe 1L
             }
 
-            val subscriberCounters = subscriptionsCounterCoroutineRepository.findAll().toList()
+            val subscriberCounters = subscriptionsCounterRepository.findAll().toList()
             subscriberCounters shouldHaveSize 1
             subscriberCounters[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -321,7 +321,7 @@ internal class SubscriptionSubscriberTest(
                 it.count shouldBe 1L
             }
 
-            val subscriptionDistributed = subscriberDistributedCoroutineRepository.findAll().toList()
+            val subscriptionDistributed = subscriberDistributedRepository.findAll().toList()
             subscriptionDistributed shouldHaveSize 1
             subscriptionDistributed[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -341,7 +341,7 @@ internal class SubscriptionSubscriberTest(
             val subscriberId = "2000"
             val alarm = true
 
-            subscriberCoroutineRepository.save(
+            subscriberRepository.save(
                 SubscriptionFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -351,7 +351,7 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriptionCoroutineRepository.save(
+            subscriptionRepository.save(
                 SubscriptionReverseFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
@@ -372,7 +372,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // then
-            val subscribers: List<Subscriber> = subscriberCoroutineRepository.findAll().toList()
+            val subscribers: List<Subscriber> = subscriberRepository.findAll().toList()
 
             subscribers shouldHaveSize 1
             subscribers[0].also {
@@ -384,7 +384,7 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionReverses = subscriptionCoroutineRepository.findAll().toList()
+            val subscriptionReverses = subscriptionRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 1
             subscriptionReverses[0].also {
                 it.key.serviceType shouldBe serviceType
@@ -396,7 +396,7 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscribersCounterCoroutineRepository.findAll().toList()
+            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
             subscriptionCounters shouldHaveSize 1
             subscriptionCounters[0].also {
                 it.key.serviceType shouldBe serviceType

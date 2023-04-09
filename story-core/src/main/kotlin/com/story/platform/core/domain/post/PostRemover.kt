@@ -15,8 +15,8 @@ class PostRemover(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     @Qualifier(KafkaProducerConfig.POST_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
-    private val postCoroutineRepository: PostCoroutineRepository,
-    private val postReverseCoroutineRepository: PostReverseCoroutineRepository,
+    private val postRepository: PostRepository,
+    private val postReverseRepository: PostReverseRepository,
 ) {
 
     suspend fun remove(
@@ -25,7 +25,7 @@ class PostRemover(
         postId: Long,
     ) {
         val postReverse =
-            postReverseCoroutineRepository.findByKeyServiceTypeAndKeyAccountIdAndKeyPostIdAndKeySpaceTypeAndKeySpaceId(
+            postReverseRepository.findByKeyServiceTypeAndKeyAccountIdAndKeyPostIdAndKeySpaceTypeAndKeySpaceId(
                 serviceType = postSpaceKey.serviceType,
                 accountId = accountId,
                 postId = postId,
@@ -33,7 +33,7 @@ class PostRemover(
                 spaceId = postSpaceKey.spaceId,
             ) ?: return
 
-        val post = postCoroutineRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,

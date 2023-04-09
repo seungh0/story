@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class PostRetriever(
-    private val postCoroutineRepository: PostCoroutineRepository,
+    private val postRepository: PostRepository,
     private val postIdGenerator: PostIdGenerator,
 ) {
 
@@ -19,7 +19,7 @@ class PostRetriever(
         postSpaceKey: PostSpaceKey,
         postId: Long,
     ): Post {
-        return postCoroutineRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+        return postRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
@@ -50,7 +50,7 @@ class PostRetriever(
         if (cursorRequest.cursor == null) {
             val lastSlotId =
                 PostSlotAssigner.assign(postId = postIdGenerator.getLastPostId(postSpaceKey = postSpaceKey))
-            return postCoroutineRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
+            return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
                 serviceType = postSpaceKey.serviceType,
                 spaceType = postSpaceKey.spaceType,
                 spaceId = postSpaceKey.spaceId,
@@ -60,7 +60,7 @@ class PostRetriever(
         }
 
         val currentSlot = PostSlotAssigner.assign(postId = cursorRequest.cursor.toLong())
-        return postCoroutineRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
+        return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
@@ -76,7 +76,7 @@ class PostRetriever(
     ): Slice<Post> {
         if (cursorRequest.cursor == null) {
             val firstSlotId = PostSlotAssigner.FIRST_SLOT_ID
-            return postCoroutineRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
+            return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
                 serviceType = postSpaceKey.serviceType,
                 spaceType = postSpaceKey.spaceType,
                 spaceId = postSpaceKey.spaceId,
@@ -85,7 +85,7 @@ class PostRetriever(
             )
         }
         val currentSlot = PostSlotAssigner.assign(postId = cursorRequest.cursor.toLong())
-        return postCoroutineRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
+        return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,

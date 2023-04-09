@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.toList
 @IntegrationTest
 internal class PostModifierTest(
     private val postModifier: PostModifier,
-    private val postCoroutineRepository: PostCoroutineRepository,
-    private val postReverseCoroutineRepository: PostReverseCoroutineRepository,
+    private val postRepository: PostRepository,
+    private val postReverseRepository: PostReverseRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -40,8 +40,8 @@ internal class PostModifierTest(
             val post = PostFixture.create()
             val postRev = PostReverse.of(post)
 
-            postCoroutineRepository.save(post)
-            postReverseCoroutineRepository.save(postRev)
+            postRepository.save(post)
+            postReverseRepository.save(postRev)
 
             // when
             postModifier.modify(
@@ -58,7 +58,7 @@ internal class PostModifierTest(
             )
 
             // then
-            val posts = postCoroutineRepository.findAll().toList()
+            val posts = postRepository.findAll().toList()
             posts shouldHaveSize 1
             posts[0].also {
                 it.key.serviceType shouldBe post.key.serviceType
@@ -72,7 +72,7 @@ internal class PostModifierTest(
                 it.extraJson shouldBe extraJson
             }
 
-            val postReverses = postReverseCoroutineRepository.findAll().toList()
+            val postReverses = postReverseRepository.findAll().toList()
             postReverses shouldHaveSize 1
             postReverses[0].also {
                 it.key.serviceType shouldBe post.key.serviceType
@@ -118,8 +118,8 @@ internal class PostModifierTest(
             val post = PostFixture.create(accountId = "accountId")
             val postRev = PostReverse.of(post)
 
-            postCoroutineRepository.save(post)
-            postReverseCoroutineRepository.save(postRev)
+            postRepository.save(post)
+            postReverseRepository.save(postRev)
 
             // when & then
             shouldThrowExactly<ForbiddenException> {

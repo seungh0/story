@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class PostModifier(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val postCoroutineRepository: PostCoroutineRepository,
+    private val postRepository: PostRepository,
 ) {
 
     suspend fun modify(
@@ -21,7 +21,7 @@ class PostModifier(
         extraJson: String? = null,
     ) {
         val slotId = PostSlotAssigner.assign(postId)
-        val post = postCoroutineRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,

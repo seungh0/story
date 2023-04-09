@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class SubscriberDistributedExecutor(
-    private val subscriberDistributedReactiveRepository: SubscriberDistributedReactiveRepository,
+    private val subscriberDistributedReactiveRepository: SubscriberDistributedRepository,
 ) {
 
     suspend fun executeToTargetSubscribers(

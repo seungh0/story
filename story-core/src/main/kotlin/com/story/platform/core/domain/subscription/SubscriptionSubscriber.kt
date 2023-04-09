@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val subscriptionCoroutineRepository: SubscriptionCoroutineRepository,
+    private val subscriptionRepository: SubscriptionRepository,
     private val subscriberIdGenerator: SubscriberIdGenerator,
     private val subscriptionCounterManager: SubscriptionCounterManager,
     private val subscriptionEventPublisher: SubscriptionEventPublisher,
@@ -27,7 +27,7 @@ class SubscriptionSubscriber(
         subscriberId: String,
         alarm: Boolean,
     ) {
-        val subscriptionReverse = subscriptionCoroutineRepository.findById(
+        val subscriptionReverse = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
