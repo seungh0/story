@@ -14,4 +14,5 @@
 | 500 | 000 | Internal Server Error
 | 500 | 001 | Init failed
 | 501 | 000 | Not Implemented
+| 503 | 000 | Service Unavailable
 |===
