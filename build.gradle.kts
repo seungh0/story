@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val kotlinLoggingJvmVersion = "3.0.5"
 val kotlinxCoroutinesTestVersion = "1.6.4"
 val springMockkVersion = "4.0.2"
-val kotestVersion = "5.6.0"
+val kotestVersion = "5.6.1"
 val kotestSpringExtensionVersion = "1.1.2"
 
 plugins {
