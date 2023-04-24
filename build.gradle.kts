@@ -6,7 +6,7 @@ val kotlinLoggingJvmVersion = "3.0.5"
 val kotlinxCoroutinesTestVersion = "1.6.4"
 val springMockkVersion = "4.0.2"
 val kotestVersion = "5.6.1"
-val kotestSpringExtensionVersion = "1.1.2"
+val kotestSpringExtensionVersion = "1.1.3"
 
 plugins {
     id("org.springframework.boot") version "3.0.6"
