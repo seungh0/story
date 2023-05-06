@@ -18,7 +18,4 @@ suspend fun ProceedingJoinPoint.proceedCoroutine(
 fun ProceedingJoinPoint.runCoroutine(
     runner: suspend () -> Any?,
 ): Any? =
-    runner.startCoroutineUninterceptedOrReturn(this.coroutineContinuation)
-
-private val ProceedingJoinPoint.coroutineContinuation: Continuation<Any?>
-    get() = this.args.last() as Continuation<Any?>
+    runner.startCoroutineUninterceptedOrReturn(this.args.last() as Continuation<Any?>)

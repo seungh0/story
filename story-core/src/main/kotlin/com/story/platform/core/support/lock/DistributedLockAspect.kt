@@ -21,17 +21,19 @@ class DistributeLockAspect(
         val methodSignature = joinPoint.signature as MethodSignature
         val distributeLock = methodSignature.method.getAnnotation(DistributeLock::class.java)
 
-        val lockKey = SpringExpressionParser.parseString(
-            methodSignature.parameterNames,
-            joinPoint.coroutineArgs,
-            distributeLock.key
-        )
-        return redissonDistributedLock.executeInCriticalSection(
-            distributeLock = distributeLock,
-            lockKey = "lock:${distributeLock.lockType.prefix}:$lockKey}",
-        ) {
-            return@executeInCriticalSection joinPoint.runCoroutine {
-                return@runCoroutine joinPoint.proceedCoroutine(joinPoint.coroutineArgs)
+        return joinPoint.runCoroutine {
+            val lockKey = SpringExpressionParser.parseString(
+                methodSignature.parameterNames,
+                joinPoint.coroutineArgs,
+                distributeLock.key
+            )
+            return@runCoroutine redissonDistributedLock.executeInCriticalSection(
+                distributeLock = distributeLock,
+                lockKey = "lock:${distributeLock.lockType.prefix}:$lockKey}",
+            ) {
+                return@executeInCriticalSection joinPoint.runCoroutine {
+                    return@runCoroutine joinPoint.proceedCoroutine(joinPoint.coroutineArgs)
+                }
             }
         }
     }

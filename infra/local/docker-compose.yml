@@ -16,9 +16,9 @@ services:
   redis-1:
     container_name: story-platform-redis
     image: redis:6.0
-    command: redis-server --port 6379
+    command: redis-server --port 6380
     ports:
-      - '6379:6379'
+      - '6380:6380'
     restart: unless-stopped
     volumes:
       - redis_data:/data

@@ -14,7 +14,7 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
 ) : StringRedisRepository<K, V> {
 
     override suspend fun exists(key: K): Boolean {
-        return redisTemplate.opsForValue().get(key.makeKeyString()).awaitSingleOrNull() != null
+        return redisTemplate.opsForValue()[key.makeKeyString()].awaitSingleOrNull() != null
     }
 
     override suspend fun existsBulk(keys: List<K>): Map<K, Boolean> {
@@ -34,7 +34,7 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
     }
 
     override suspend fun get(key: K): V? {
-        return key.deserializeValue(redisTemplate.opsForValue().get(key.makeKeyString()).awaitSingleOrNull())
+        return key.deserializeValue(redisTemplate.opsForValue()[key.makeKeyString()].awaitSingleOrNull())
     }
 
     override suspend fun getBulk(keys: List<K>): List<V> {

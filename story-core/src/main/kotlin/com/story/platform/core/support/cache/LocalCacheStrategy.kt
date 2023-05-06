@@ -19,7 +19,7 @@ class LocalCacheStrategy(
         val cache = cacheManager.getCache(cacheType.key)
             ?: return null
 
-        val cacheValueWrapper = cache.get(cacheKey)
+        val cacheValueWrapper = cache[cacheKey]
             ?: return null
 
         val cacheValue = cacheValueWrapper.get()

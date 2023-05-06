@@ -15,6 +15,7 @@ plugins {
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.spring") version "1.8.21"
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.2"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -118,6 +119,19 @@ subprojects {
         group = "verification"
         useJUnitPlatform {
             includeTags("docs-test")
+        }
+    }
+
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        version.set("0.45.2")
+        debug.set(false)
+        verbose.set(true)
+        android.set(false)
+        outputToConsole.set(true)
+        outputColorName.set("RED")
+        filter {
+            exclude("**/generated/**")
+            include("**/kotlin/**")
         }
     }
 }

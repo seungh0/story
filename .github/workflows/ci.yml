@@ -34,6 +34,9 @@ jobs:
           distribution: adopt
           cache: gradle
 
+      - name: KtLint Check
+        run: ./gradlew ktlintCheck
+
       - name: Test w/ coverage
         run: ./gradlew clean build
 

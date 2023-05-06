@@ -42,7 +42,13 @@ class PostRemoveApiTest(
 
         // when
         val exchange = webTestClient.delete()
-            .uri("/v1/space/{spaceType}/{spaceId}/post/{postId}?accountId={accountId}", postSpaceKey.spaceType, postSpaceKey.spaceId, postId, accountId)
+            .uri(
+                "/v1/space/{spaceType}/{spaceId}/post/{postId}?accountId={accountId}",
+                postSpaceKey.spaceType,
+                postSpaceKey.spaceId,
+                postId,
+                accountId
+            )
             .headers(WebClientUtils.commonHeaders)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()

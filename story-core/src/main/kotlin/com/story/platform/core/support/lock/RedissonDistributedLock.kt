@@ -11,7 +11,7 @@ class RedissonDistributedLock(
     private val redissonClient: RedissonClient,
 ) {
 
-    fun executeInCriticalSection(
+    suspend fun executeInCriticalSection(
         distributeLock: DistributeLock,
         lockKey: String,
         runnable: () -> Any?,

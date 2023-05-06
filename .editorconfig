@@ -14,12 +14,14 @@ max_line_length = 120
 ij_kotlin_allow_trailing_comma = true
 ij_kotlin_name_count_to_use_star_import = 2147483647
 ij_kotlin_name_count_to_use_star_import_for_members = 2147483647
+disabled_rules = no-blank-line-before-rbrace
+ij_kotlin_packages_to_use_import_on_demand = none-of-wildcard
 
 [*.md]
 trim_trailing_whitespace = false
 
-[{*.yml, *.yaml}]
+[{*.yml,*.yaml}]
 indent_size = 2
 
-[{*.cql, *.properties}]
+[{*.sql,*.properties,*cql}]
 ij_formatter_enabled = false

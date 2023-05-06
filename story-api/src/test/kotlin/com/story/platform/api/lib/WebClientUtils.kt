@@ -1,7 +1,7 @@
 package com.story.platform.api.lib
 
 import org.springframework.http.HttpHeaders
-import java.util.*
+import java.util.UUID
 import java.util.function.Consumer
 
 object WebClientUtils {
