@@ -37,6 +37,7 @@ subprojects {
     apply(plugin = "application")
     apply(plugin = "java-test-fixtures")
     apply(plugin = "org.asciidoctor.jvm.convert")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
         // Spring
@@ -65,7 +66,7 @@ subprojects {
         testImplementation("io.projectreactor:reactor-test")
 
         // Spring MockK
-        testImplementation("com.ninja-squad:springmockk:${springMockkVersion}")
+        testImplementation("com.ninja-squad:springmockk:$springMockkVersion")
 
         // Kotest
         testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")

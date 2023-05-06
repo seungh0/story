@@ -43,7 +43,8 @@ object JsonUtils {
                     "역직렬화 중 에러가 발생하였습니다. input: (%s) toClass: (%s)",
                     input,
                     toClass.simpleName
-                ), exception
+                ),
+                exception
             )
         }
     }
@@ -94,7 +95,8 @@ object JsonUtils {
         return try {
             DEFAULT_OBJECT_MAPPER.readValue(
                 json,
-                object : TypeReference<LinkedHashMap<K, V>>() {})
+                object : TypeReference<LinkedHashMap<K, V>>() {}
+            )
         } catch (exception: Exception) {
             throw InternalServerException(String.format("Map 직렬화 중 에러가 발생하였습니다. input: (%s)", json), exception)
         }

@@ -12,13 +12,13 @@ class RedissonDistributedLock(
 ) {
 
     suspend fun executeInCriticalSection(
-        distributeLock: DistributeLock,
+        distributedLock: DistributedLock,
         lockKey: String,
         runnable: () -> Any?,
     ): Any? {
         val redisLock: RLock = redissonClient.getLock(lockKey)
 
-        val acquired = redisLock.tryLock(distributeLock.waitTime, distributeLock.leaseTime, distributeLock.timeUnit)
+        val acquired = redisLock.tryLock(distributedLock.waitTime, distributedLock.leaseTime, distributedLock.timeUnit)
         if (!acquired) {
             throw InternalServerException("분산 락($lockKey)을 획득하는데 실패하였습니다.", ErrorCode.E500_INTERNAL_SERVER_ERROR)
         }

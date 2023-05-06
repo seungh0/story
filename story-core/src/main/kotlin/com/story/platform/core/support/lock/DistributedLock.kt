@@ -4,7 +4,7 @@ import org.intellij.lang.annotations.Language
 import java.util.concurrent.TimeUnit
 
 @Target(AnnotationTarget.FUNCTION)
-annotation class DistributeLock(
+annotation class DistributedLock(
     val lockType: DistributedLockType,
 
     @Language(value = "SpEL")

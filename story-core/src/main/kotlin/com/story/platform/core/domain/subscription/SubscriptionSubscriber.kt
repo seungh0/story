@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.support.lock.DistributeLock
+import com.story.platform.core.support.lock.DistributedLock
 import com.story.platform.core.support.lock.DistributedLockType
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
@@ -16,7 +16,7 @@ class SubscriptionSubscriber(
     private val subscriptionEventPublisher: SubscriptionEventPublisher,
 ) {
 
-    @DistributeLock(
+    @DistributedLock(
         lockType = DistributedLockType.SUBSCRIBE,
         key = "'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
     )

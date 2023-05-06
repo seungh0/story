@@ -7,7 +7,6 @@ import org.springframework.cache.caffeine.CaffeineCache
 import org.springframework.cache.support.SimpleCacheManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import java.util.*
 
 @EnableCaching
 @Configuration
@@ -24,7 +23,8 @@ class LocalCacheConfig {
         return CacheType.LOCAL_CACHE_TYPES
             .map { cache ->
                 CaffeineCache(
-                    cache.key, Caffeine.newBuilder()
+                    cache.key,
+                    Caffeine.newBuilder()
                         .expireAfterWrite(cache.localCacheTtl!!)
                         .build()
                 )

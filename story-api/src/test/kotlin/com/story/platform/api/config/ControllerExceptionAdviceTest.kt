@@ -1,7 +1,7 @@
 package com.story.platform.api.config
 
 import com.ninjasquad.springmockk.SpykBean
-import com.story.platform.api.domain.HealthCheckController
+import com.story.platform.api.domain.HealthController
 import com.story.platform.core.common.error.ConflictException
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @WebFluxTest(
-    HealthCheckController::class,
+    HealthController::class,
     ControllerExceptionAdvice::class
 )
 internal class ControllerExceptionAdviceTest(
@@ -69,4 +69,3 @@ internal class ControllerExceptionAdviceTest(
     }
 
 })
-

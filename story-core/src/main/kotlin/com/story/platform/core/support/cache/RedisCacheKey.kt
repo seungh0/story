@@ -8,7 +8,7 @@ data class RedisCacheKey(
     val cacheKey: String,
 ) : StringRedisKey<RedisCacheKey, String> {
 
-    override fun makeKeyString(): String = "${getCachePrefix(cacheType)}${cacheKey}"
+    override fun makeKeyString(): String = "${getCachePrefix(cacheType)}$cacheKey"
 
     override fun serializeValue(value: String): String = value
 

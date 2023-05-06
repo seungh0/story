@@ -18,7 +18,7 @@ internal class ErrorCodeDocsGeneratorTest : FunSpec({
             |===
             | Http status | Minor Status Code | Error Description
 
-            """.trimIndent()
+        """.trimIndent()
 
         ErrorCode.values()
             .forEach { errorCode ->

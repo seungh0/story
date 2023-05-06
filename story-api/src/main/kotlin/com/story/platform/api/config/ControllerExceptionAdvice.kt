@@ -1,7 +1,7 @@
 package com.story.platform.api.config
 
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
-import com.story.platform.core.common.error.ErrorCode.*
+import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.utils.LoggerUtilsExtension.log
@@ -25,21 +25,21 @@ class ControllerExceptionAdvice {
             .mapNotNull { fieldError -> fieldError.defaultMessage?.plus(" [${fieldError.field}]") }
             .joinToString(separator = "\n")
         log.warn(exception) { errorMessage }
-        return ApiResponse.error(E400_BAD_REQUEST, errorMessage)
+        return ApiResponse.error(ErrorCode.E400_BAD_REQUEST, errorMessage)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServerWebInputException::class)
     private fun handleServerWebInputException(exception: ServerWebInputException): ApiResponse<Nothing> {
         log.warn(exception) { exception.message }
-        return ApiResponse.error(E400_BAD_REQUEST)
+        return ApiResponse.error(ErrorCode.E400_BAD_REQUEST)
     }
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(MethodNotAllowedException::class)
     private fun handleMethodNotAllowedException(exception: MethodNotAllowedException): ApiResponse<Nothing> {
         log.warn(exception) { exception.message }
-        return ApiResponse.error(E405_METHOD_NOT_ALLOWED)
+        return ApiResponse.error(ErrorCode.E405_METHOD_NOT_ALLOWED)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -49,11 +49,11 @@ class ControllerExceptionAdvice {
         if (exception.rootCause is MissingKotlinParameterException) {
             val parameterName = (exception.rootCause as MissingKotlinParameterException).parameter.name
             return ApiResponse.error(
-                E400_BAD_REQUEST,
+                ErrorCode.E400_BAD_REQUEST,
                 "Parameter ($parameterName) is Missing"
             )
         }
-        return ApiResponse.error(E400_BAD_REQUEST)
+        return ApiResponse.error(ErrorCode.E400_BAD_REQUEST)
     }
 
     @ExceptionHandler(StoryBaseException::class)
@@ -67,7 +67,7 @@ class ControllerExceptionAdvice {
     @ExceptionHandler(Throwable::class)
     private fun handleInternalServerException(throwable: Throwable): ApiResponse<Nothing> {
         log.error(throwable) { throwable.message }
-        return ApiResponse.error(E500_INTERNAL_SERVER_ERROR)
+        return ApiResponse.error(ErrorCode.E500_INTERNAL_SERVER_ERROR)
     }
 
 }

@@ -10,7 +10,7 @@ import org.springframework.boot.availability.LivenessState
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@WebFluxTest(HealthCheckController::class)
+@WebFluxTest(HealthController::class)
 internal class HealthCheckControllerTest(
     private val webClient: WebTestClient,
 

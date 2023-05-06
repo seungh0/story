@@ -22,7 +22,6 @@ data class SubscribersCounter(
     val count: Long,
 )
 
-
 @PrimaryKeyClass
 data class SubscribersCounterPrimaryKey(
     @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED, ordering = Ordering.DESCENDING, ordinal = 1)

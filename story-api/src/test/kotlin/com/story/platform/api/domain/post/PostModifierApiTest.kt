@@ -9,7 +9,6 @@ import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
-import org.junit.jupiter.api.Assertions.*
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -35,7 +34,7 @@ internal class PostModifierApiTest(
                     끼야아아~
                     내가 만든 쿠키~
                     너를 위해 구워찌이
-                """.trimIndent()
+            """.trimIndent()
         )
 
         coEvery {

@@ -46,7 +46,6 @@ data class Subscriber(
 
 }
 
-
 @PrimaryKeyClass
 data class SubscriberPrimaryKey(
     @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED, ordinal = 1)

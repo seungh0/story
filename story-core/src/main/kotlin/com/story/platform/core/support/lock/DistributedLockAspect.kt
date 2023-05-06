@@ -12,24 +12,24 @@ import org.springframework.stereotype.Component
 
 @Aspect
 @Component
-class DistributeLockAspect(
+class DistributedLockAspect(
     private val redissonDistributedLock: RedissonDistributedLock,
 ) {
 
-    @Around("args(.., kotlin.coroutines.Continuation) && @annotation(DistributeLock)")
+    @Around("args(.., kotlin.coroutines.Continuation) && @annotation(DistributedLock)")
     fun handleDistributedLock(joinPoint: ProceedingJoinPoint): Any? {
         val methodSignature = joinPoint.signature as MethodSignature
-        val distributeLock = methodSignature.method.getAnnotation(DistributeLock::class.java)
+        val distributedLock = methodSignature.method.getAnnotation(DistributedLock::class.java)
 
         return joinPoint.runCoroutine {
             val lockKey = SpringExpressionParser.parseString(
                 methodSignature.parameterNames,
                 joinPoint.coroutineArgs,
-                distributeLock.key
+                distributedLock.key
             )
             return@runCoroutine redissonDistributedLock.executeInCriticalSection(
-                distributeLock = distributeLock,
-                lockKey = "lock:${distributeLock.lockType.prefix}:$lockKey}",
+                distributedLock = distributedLock,
+                lockKey = "lock:${distributedLock.lockType.prefix}:$lockKey}",
             ) {
                 return@executeInCriticalSection joinPoint.runCoroutine {
                     return@runCoroutine joinPoint.proceedCoroutine(joinPoint.coroutineArgs)

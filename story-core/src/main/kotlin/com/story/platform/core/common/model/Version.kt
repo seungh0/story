@@ -23,7 +23,6 @@ data class Version(
             .dropLastWhile { it.isEmpty() }
             .toTypedArray()
 
-
         for (i in 0..versionArray.size.coerceAtLeast(targetVersionArray.size)) {
             val version: Int = getVersion(versionArray, i)
             val targetVersion: Int = getVersion(targetVersionArray, i)
