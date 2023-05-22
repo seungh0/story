@@ -20,11 +20,11 @@ class PostRetrieveApi(
     /**
      * 특정 포스트를 조회한다
      */
-    @GetMapping("/v1/space/{spaceType}/{spaceId}/post/{postId}")
+    @GetMapping("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}")
     suspend fun getPost(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
-        @PathVariable postId: Long,
+        @PathVariable postId: String,
     ): ApiResponse<PostResponse> {
         val post = postRetriever.findPost(
             postSpaceKey = PostSpaceKey(
@@ -40,12 +40,12 @@ class PostRetrieveApi(
     /**
      * 포스트 목록을 조회한다
      */
-    @GetMapping("/v1/space/{spaceType}/{spaceId}/posts")
+    @GetMapping("/v1/spaces/{spaceType}/{spaceId}/posts")
     suspend fun getPosts(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @Valid cursorRequest: CursorRequest,
-    ): ApiResponse<CursorResult<PostResponse, Long>> {
+    ): ApiResponse<CursorResult<PostResponse, String>> {
         val posts = postRetriever.findPosts(
             postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,

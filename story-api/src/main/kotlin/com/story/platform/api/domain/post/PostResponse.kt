@@ -3,7 +3,7 @@ package com.story.platform.api.domain.post
 import com.story.platform.core.domain.post.Post
 
 data class PostResponse(
-    val postId: Long,
+    val postId: String,
     val title: String,
     val content: String,
     val extraJson: String?,

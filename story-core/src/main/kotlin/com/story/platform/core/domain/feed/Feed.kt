@@ -33,7 +33,7 @@ data class Feed(
             accountId: String,
             spaceType: PostSpaceType,
             spaceId: String,
-            postId: Long,
+            postId: String,
         ) = Feed(
             key = FeedPrimaryKey(
                 serviceType = serviceType,

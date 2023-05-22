@@ -36,14 +36,14 @@ class PostRemoveApiTest(
             postRemover.remove(
                 postSpaceKey = postSpaceKey,
                 accountId = accountId,
-                postId = postId,
+                postId = postId.toString(),
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/space/{spaceType}/{spaceId}/post/{postId}?accountId={accountId}",
+                "/v1/spaces/{spaceType}/{spaceId}/posts/{postId}?accountId={accountId}",
                 postSpaceKey.spaceType,
                 postSpaceKey.spaceId,
                 postId,

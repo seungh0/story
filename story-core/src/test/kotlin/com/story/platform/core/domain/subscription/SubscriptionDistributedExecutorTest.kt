@@ -4,9 +4,10 @@ import com.datastax.oss.driver.api.core.cql.BatchType
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.helper.TestCleaner
+import com.story.platform.core.infrastructure.cassandra.executeCoroutine
+import com.story.platform.core.infrastructure.cassandra.upsert
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 
 @IntegrationTest
@@ -38,9 +39,8 @@ class SubscriptionDistributedExecutorTest(
             }
 
             reactiveCassandraOperations.batchOps(BatchType.UNLOGGED)
-                .insert(subscriptions)
-                .execute()
-                .awaitSingleOrNull()
+                .upsert(subscriptions)
+                .executeCoroutine()
 
             var subscribersCount = 0L
             var executeCount = 0L

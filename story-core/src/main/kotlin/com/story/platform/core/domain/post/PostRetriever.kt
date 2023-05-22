@@ -17,7 +17,7 @@ class PostRetriever(
 
     suspend fun findPost(
         postSpaceKey: PostSpaceKey,
-        postId: Long,
+        postId: String,
     ): Post {
         return postRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
             serviceType = postSpaceKey.serviceType,
@@ -32,7 +32,7 @@ class PostRetriever(
     suspend fun findPosts(
         postSpaceKey: PostSpaceKey,
         cursorRequest: CursorRequest,
-    ): CursorResult<Post, Long> {
+    ): CursorResult<Post, String> {
         val posts = when (cursorRequest.direction) {
             CursorDirection.NEXT -> getNextPosts(cursorRequest, postSpaceKey)
             CursorDirection.PREVIOUS -> getPreviousPosts(cursorRequest, postSpaceKey)
@@ -59,14 +59,14 @@ class PostRetriever(
             )
         }
 
-        val currentSlot = PostSlotAssigner.assign(postId = cursorRequest.cursor.toLong())
+        val currentSlot = PostSlotAssigner.assign(postId = cursorRequest.cursor)
         return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             slotId = currentSlot,
             pageable = CassandraPageRequest.first(cursorRequest.pageSize),
-            postId = cursorRequest.cursor.toLong(),
+            postId = cursorRequest.cursor,
         )
     }
 
@@ -84,18 +84,18 @@ class PostRetriever(
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize),
             )
         }
-        val currentSlot = PostSlotAssigner.assign(postId = cursorRequest.cursor.toLong())
+        val currentSlot = PostSlotAssigner.assign(postId = cursorRequest.cursor)
         return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             slotId = currentSlot,
-            postId = cursorRequest.cursor.toLong(),
+            postId = cursorRequest.cursor,
             pageable = CassandraPageRequest.first(cursorRequest.pageSize),
         )
     }
 
-    private fun getCursor(posts: Slice<Post>): Cursor<Long> {
+    private fun getCursor(posts: Slice<Post>): Cursor<String> {
         if (posts.hasNext()) {
             return Cursor(cursor = posts.content.last().key.postId)
         }

@@ -16,7 +16,7 @@ class PostEventPublisher(
 
     suspend fun publishCreatedEvent(
         postSpaceKey: PostSpaceKey,
-        postId: Long,
+        postId: String,
         accountId: String,
         title: String,
         content: String,
@@ -37,7 +37,7 @@ class PostEventPublisher(
 
     suspend fun publishUpdatedEvent(
         postSpaceKey: PostSpaceKey,
-        postId: Long,
+        postId: String,
         accountId: String,
         title: String,
         content: String,
@@ -58,7 +58,7 @@ class PostEventPublisher(
 
     suspend fun publishDeletedEvent(
         postSpaceKey: PostSpaceKey,
-        postId: Long,
+        postId: String,
         accountId: String,
     ) {
         val event = PostEvent.deleted(

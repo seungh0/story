@@ -18,11 +18,11 @@ class PostRemoveApi(
     /**
      * 포스트를 삭제한다
      */
-    @DeleteMapping("/v1/space/{spaceType}/{spaceId}/post/{postId}")
+    @DeleteMapping("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}")
     suspend fun remove(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
-        @PathVariable postId: Long,
+        @PathVariable postId: String,
         @RequestParam accountId: String,
     ): ApiResponse<String> {
         postRemover.remove(

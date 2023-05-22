@@ -19,7 +19,7 @@ class PostRegisterApi(
     /**
      * 신규 포스트를 등록한다
      */
-    @PostMapping("/v1/space/{spaceType}/{spaceId}/post")
+    @PostMapping("/v1/spaces/{spaceType}/{spaceId}/posts")
     suspend fun register(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,

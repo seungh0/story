@@ -19,7 +19,7 @@ class FeedRegister(
         distributedKey: String,
         spaceType: PostSpaceType,
         spaceId: String,
-        postId: Long,
+        postId: String,
     ) {
         subscriberDistributedExecutor.executeToTargetSubscribers(
             serviceType = serviceType,

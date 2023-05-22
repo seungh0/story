@@ -1,7 +1,8 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
-import kotlinx.coroutines.reactor.awaitSingleOrNull
+import com.story.platform.core.infrastructure.cassandra.executeCoroutine
+import com.story.platform.core.infrastructure.cassandra.upsert
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -56,10 +57,9 @@ class SubscriptionUnSubscriber(
 
         reactiveCassandraOperations.batchOps()
             .delete(subscription)
-            .insert(subscriptionReverse)
+            .upsert(subscriptionReverse)
             .delete(subscriptionDistributed)
-            .execute()
-            .awaitSingleOrNull()
+            .executeCoroutine()
 
         unsubscriptionPostProcessor(
             serviceType = serviceType,

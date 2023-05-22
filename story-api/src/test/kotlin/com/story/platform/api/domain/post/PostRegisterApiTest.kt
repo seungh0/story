@@ -51,7 +51,7 @@ class PostRegisterApiTest(
 
         // when
         val exchange = webTestClient.post()
-            .uri("/v1/space/{spaceType}/{spaceId}/post", spaceType, spaceId)
+            .uri("/v1/spaces/{spaceType}/{spaceId}/posts", spaceType, spaceId)
             .headers(WebClientUtils.commonHeaders)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)

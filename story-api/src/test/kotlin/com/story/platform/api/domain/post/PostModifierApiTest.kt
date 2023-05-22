@@ -44,7 +44,7 @@ internal class PostModifierApiTest(
                     spaceId = spaceId,
                     spaceType = spaceType,
                 ),
-                postId = postId,
+                postId = postId.toString(),
                 accountId = spaceId,
                 title = request.title,
                 content = request.content,
@@ -54,7 +54,7 @@ internal class PostModifierApiTest(
 
         // when
         val exchange = webTestClient.put()
-            .uri("/v1/space/{spaceType}/{spaceId}/post/{postId}", spaceType, spaceId, postId)
+            .uri("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}", spaceType, spaceId, postId)
             .headers(WebClientUtils.commonHeaders)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)

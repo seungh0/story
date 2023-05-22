@@ -100,7 +100,7 @@ internal class PostModifierTest(
                         spaceType = PostSpaceType.ACCOUNT,
                         spaceId = "50000",
                     ),
-                    postId = 10000L,
+                    postId = "10000",
                     accountId = "accountId",
                     title = title,
                     content = content,

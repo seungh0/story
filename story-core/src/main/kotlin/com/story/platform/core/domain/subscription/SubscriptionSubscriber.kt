@@ -1,9 +1,10 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.infrastructure.cassandra.executeCoroutine
+import com.story.platform.core.infrastructure.cassandra.upsert
 import com.story.platform.core.support.lock.DistributedLock
 import com.story.platform.core.support.lock.DistributedLockType
-import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -88,11 +89,10 @@ class SubscriptionSubscriber(
         )
 
         reactiveCassandraOperations.batchOps()
-            .insert(subscriber)
-            .insert(Subscription.of(subscriber = subscriber))
-            .insert(SubscriberDistributed.of(subscriber = subscriber))
-            .execute()
-            .awaitSingleOrNull()
+            .upsert(subscriber)
+            .upsert(Subscription.of(subscriber = subscriber))
+            .upsert(SubscriberDistributed.of(subscriber = subscriber))
+            .executeCoroutine()
     }
 
     private suspend fun newSubscriptionPostProcessor(

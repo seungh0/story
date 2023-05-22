@@ -18,7 +18,7 @@ class SubscriptionSubscribeApi(
     /**
      * 구독을 등록한다
      */
-    @PostMapping("/v1/subscription/{subscriptionType}/subscriber/{subscriberId}/target/{targetId}")
+    @PostMapping("/v1/subscriptions/{subscriptionType}/subscribers/{subscriberId}/targets/{targetId}")
     suspend fun subscribe(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,

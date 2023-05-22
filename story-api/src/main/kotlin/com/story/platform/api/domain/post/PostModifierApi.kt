@@ -19,11 +19,11 @@ class PostModifierApi(
     /**
      * 포스트 정보를 수정한다
      */
-    @PutMapping("/v1/space/{spaceType}/{spaceId}/post/{postId}")
+    @PutMapping("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}")
     suspend fun modify(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
-        @PathVariable postId: Long,
+        @PathVariable postId: String,
         @Valid @RequestBody request: PostModifyApiRequest,
     ): ApiResponse<String> {
         postModifier.modify(

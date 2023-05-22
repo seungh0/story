@@ -64,8 +64,8 @@ data class PostReversePrimaryKey(
     val accountId: String,
 
     @field:PrimaryKeyColumn(value = "post_id", type = CLUSTERED, ordering = DESCENDING, ordinal = 3)
-    @field:CassandraType(type = BIGINT)
-    val postId: Long,
+    @field:CassandraType(type = TEXT)
+    val postId: String,
 
     @field:PrimaryKeyColumn(value = "space_type", type = CLUSTERED, ordering = DESCENDING, ordinal = 4)
     @field:CassandraType(type = TEXT)

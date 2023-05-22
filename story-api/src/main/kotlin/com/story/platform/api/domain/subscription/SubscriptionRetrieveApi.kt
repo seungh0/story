@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/subscription/{subscriptionType}")
+@RequestMapping("/v1/subscriptions/{subscriptionType}")
 @RestController
 class SubscriptionRetrieveApi(
     private val subscriptionRetriever: SubscriptionRetriever,
@@ -21,7 +21,7 @@ class SubscriptionRetrieveApi(
     /**
      * 대상자의 구독자인지 확인한다
      */
-    @GetMapping("/subscriber/{subscriberId}/target/{targetId}/exists")
+    @GetMapping("/subscribers/{subscriberId}/targets/{targetId}/exists")
     suspend fun isSubscriber(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
@@ -41,7 +41,7 @@ class SubscriptionRetrieveApi(
     /**
      * 구독자 수를 조회한다
      */
-    @GetMapping("/target/{targetId}/subscribers/count")
+    @GetMapping("/targets/{targetId}/subscribers/count")
     suspend fun countSubscribers(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
@@ -59,7 +59,7 @@ class SubscriptionRetrieveApi(
     /**
      * 구독 대상자 수를 조회한다
      */
-    @GetMapping("/subscriber/{subscriberId}/subscriptions/count")
+    @GetMapping("/subscribers/{subscriberId}/subscriptions/count")
     suspend fun countSubscriptions(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
@@ -77,7 +77,7 @@ class SubscriptionRetrieveApi(
     /**
      * 구독자 목록을 조회한다
      */
-    @GetMapping("/target/{targetId}/subscribers")
+    @GetMapping("/targets/{targetId}/subscribers")
     suspend fun getSubscribers(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
@@ -102,7 +102,7 @@ class SubscriptionRetrieveApi(
     /**
      * 구독중인 대상자 목록을 조회한다
      */
-    @GetMapping("/subscriber/{subscriberId}/targets")
+    @GetMapping("/subscribers/{subscriberId}/targets")
     suspend fun getSubscriptionTargets(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,

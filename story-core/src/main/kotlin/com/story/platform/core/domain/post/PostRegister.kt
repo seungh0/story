@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.post
 
-import kotlinx.coroutines.reactor.awaitSingleOrNull
+import com.story.platform.core.infrastructure.cassandra.executeCoroutine
+import com.story.platform.core.infrastructure.cassandra.upsert
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -28,10 +29,9 @@ class PostRegister(
             extraJson = extraJson,
         )
         reactiveCassandraOperations.batchOps()
-            .insert(post)
-            .insert(PostReverse.of(post))
-            .execute()
-            .awaitSingleOrNull()
+            .upsert(post)
+            .upsert(PostReverse.of(post))
+            .executeCoroutine()
 
         postEventPublisher.publishCreatedEvent(
             postSpaceKey = postSpaceKey,

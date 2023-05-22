@@ -16,7 +16,7 @@ class SubscriptionUnsubscribeApi(
     /**
      * 구독을 취소한다
      */
-    @DeleteMapping("/v1/subscription/{subscriptionType}/subscriber/{subscriberId}/target/{targetId}")
+    @DeleteMapping("/v1/subscriptions/{subscriptionType}/subscribers/{subscriberId}/targets/{targetId}")
     suspend fun unsubscribe(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,

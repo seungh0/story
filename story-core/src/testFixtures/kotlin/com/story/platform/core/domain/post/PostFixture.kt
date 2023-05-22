@@ -10,7 +10,7 @@ object PostFixture {
         spaceType: PostSpaceType = RandomGenerator.generateEnum(PostSpaceType::class.java),
         spaceId: String = RandomGenerator.generateString(),
         accountId: String = RandomGenerator.generateString(),
-        postId: Long = RandomGenerator.generateLong(),
+        postId: String = RandomGenerator.generateLong().toString(),
         title: String = RandomGenerator.generateString(),
         content: String = RandomGenerator.generateString(),
         extraJson: String? = RandomGenerator.generateString(),

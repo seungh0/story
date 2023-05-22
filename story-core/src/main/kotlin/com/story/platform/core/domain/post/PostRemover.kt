@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.post
 
-import kotlinx.coroutines.reactor.awaitSingleOrNull
+import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -15,7 +15,7 @@ class PostRemover(
     suspend fun remove(
         postSpaceKey: PostSpaceKey,
         accountId: String,
-        postId: Long,
+        postId: String,
     ) {
         val postReverse =
             postReverseRepository.findByKeyServiceTypeAndKeyAccountIdAndKeyPostIdAndKeySpaceTypeAndKeySpaceId(
@@ -35,10 +35,8 @@ class PostRemover(
         )
 
         reactiveCassandraOperations.batchOps()
-            .delete(post)
-            .delete(postReverse)
-            .execute()
-            .awaitSingleOrNull()
+            .delete(post, postReverse)
+            .executeCoroutine()
 
         postEventPublisher.publishDeletedEvent(
             postSpaceKey = postSpaceKey,

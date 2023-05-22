@@ -2,7 +2,8 @@ package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.error.ForbiddenException
 import com.story.platform.core.common.error.NotFoundException
-import kotlinx.coroutines.reactor.awaitSingleOrNull
+import com.story.platform.core.infrastructure.cassandra.executeCoroutine
+import com.story.platform.core.infrastructure.cassandra.upsert
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -16,7 +17,7 @@ class PostModifier(
     suspend fun modify(
         postSpaceKey: PostSpaceKey,
         accountId: String,
-        postId: Long,
+        postId: String,
         title: String,
         content: String,
         extraJson: String? = null,
@@ -41,10 +42,9 @@ class PostModifier(
         )
 
         reactiveCassandraOperations.batchOps()
-            .insert(post)
-            .insert(PostReverse.of(post))
-            .execute()
-            .awaitSingleOrNull()
+            .upsert(post)
+            .upsert(PostReverse.of(post))
+            .executeCoroutine()
 
         postEventPublisher.publishUpdatedEvent(
             postSpaceKey = postSpaceKey,
