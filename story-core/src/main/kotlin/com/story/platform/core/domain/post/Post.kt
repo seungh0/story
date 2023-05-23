@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.model.AuditingTime
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -8,6 +9,7 @@ import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
 import org.springframework.data.cassandra.core.mapping.Column
+import org.springframework.data.cassandra.core.mapping.Embedded
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
@@ -33,6 +35,9 @@ data class Post(
     @field:Column(value = "extra_json")
     @field:CassandraType(type = TEXT)
     var extraJson: String?,
+
+    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    val auditingTime: AuditingTime,
 ) {
 
     fun isOwner(accountId: String): Boolean {
@@ -47,6 +52,7 @@ data class Post(
         this.title = title
         this.content = content
         this.extraJson = extraJson
+        this.auditingTime.updated()
     }
 
     companion object {
@@ -66,6 +72,7 @@ data class Post(
             title = title,
             content = content,
             extraJson = extraJson,
+            auditingTime = AuditingTime.newEntity(),
         )
     }
 

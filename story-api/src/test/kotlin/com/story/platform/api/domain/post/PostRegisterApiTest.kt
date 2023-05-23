@@ -1,9 +1,9 @@
 package com.story.platform.api.domain.post
 
 import com.ninjasquad.springmockk.MockkBean
+import com.story.platform.api.config.AccountIdResolver
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostRegister
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@WebFluxTest(PostRegisterApi::class)
+@WebFluxTest(PostRegisterApi::class, AccountIdResolver::class)
 class PostRegisterApiTest(
     private val webTestClient: WebTestClient,
 
@@ -47,7 +47,7 @@ class PostRegisterApiTest(
                 content = request.content,
                 extraJson = request.extraJson,
             )
-        } returns Unit
+        } returns "1"
 
         // when
         val exchange = webTestClient.post()
@@ -61,7 +61,7 @@ class PostRegisterApiTest(
         // then
         exchange.expectStatus().isOk
             .expectBody()
-            .jsonPath("$.result").isEqualTo(ApiResponse.OK.result!!)
+            .jsonPath("$.result.postId").isEqualTo("1")
     }
 
 })

@@ -24,8 +24,8 @@ class PostRegisterApi(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @Valid @RequestBody request: PostRegisterApiRequest,
-    ): ApiResponse<String> {
-        postRegister.register(
+    ): ApiResponse<PostRegisterApiResponse> {
+        val postId = postRegister.register(
             postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,
                 spaceType = spaceType,
@@ -36,7 +36,7 @@ class PostRegisterApi(
             content = request.content,
             extraJson = request.extraJson,
         )
-        return ApiResponse.OK
+        return ApiResponse.success(PostRegisterApiResponse(postId = postId))
     }
 
 }

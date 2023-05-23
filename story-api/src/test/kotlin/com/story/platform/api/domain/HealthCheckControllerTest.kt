@@ -1,6 +1,7 @@
 package com.story.platform.api.domain
 
 import com.ninjasquad.springmockk.MockkBean
+import com.story.platform.api.config.AccountIdResolver
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.ApiResponse
 import io.kotest.core.spec.style.FunSpec
@@ -10,7 +11,7 @@ import org.springframework.boot.availability.LivenessState
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@WebFluxTest(HealthController::class)
+@WebFluxTest(HealthController::class, AccountIdResolver::class)
 internal class HealthCheckControllerTest(
     private val webClient: WebTestClient,
 

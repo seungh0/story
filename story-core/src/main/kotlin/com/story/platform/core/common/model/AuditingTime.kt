@@ -12,4 +12,20 @@ data class AuditingTime(
     @field:Column("updated_at")
     @field:CassandraType(type = CassandraType.Name.TIMESTAMP)
     val updatedAt: LocalDateTime,
-)
+) {
+
+    fun updated() = this.copy(
+        updatedAt = LocalDateTime.now()
+    )
+
+    companion object {
+        fun newEntity(): AuditingTime {
+            val now = LocalDateTime.now()
+            return AuditingTime(
+                createdAt = now,
+                updatedAt = now,
+            )
+        }
+    }
+
+}

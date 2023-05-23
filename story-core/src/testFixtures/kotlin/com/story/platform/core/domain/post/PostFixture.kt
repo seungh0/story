@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.model.AuditingTime
 import com.story.platform.core.support.RandomGenerator
 
 object PostFixture {
@@ -27,6 +28,7 @@ object PostFixture {
         title = title,
         content = content,
         extraJson = extraJson,
+        auditingTime = AuditingTime.newEntity(),
     )
 
 }

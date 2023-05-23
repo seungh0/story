@@ -15,7 +15,7 @@ data class CursorResult<E, K>(
 
         fun <E, K> lastCursor(
             data: List<E>,
-        ) = CursorResult(data = data, cursor = Cursor<K>(cursor = null))
+        ) = CursorResult(data = data, cursor = Cursor.of(cursor = null))
     }
 
 }

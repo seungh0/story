@@ -32,7 +32,7 @@ class PostEventPublisher(
             content = content,
             extraJson = extraJson,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId, event.toJson())
     }
 
     suspend fun publishUpdatedEvent(
@@ -53,7 +53,7 @@ class PostEventPublisher(
             content = content,
             extraJson = extraJson,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId, event.toJson())
     }
 
     suspend fun publishDeletedEvent(
@@ -68,7 +68,7 @@ class PostEventPublisher(
             postId = postId,
             accountId = accountId,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId, event.toJson())
     }
 
 }

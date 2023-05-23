@@ -26,15 +26,15 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
-    ): ApiResponse<SubscriptionExistsResponse> {
-        val exists = subscriptionRetriever.isSubscriber(
+    ): ApiResponse<SubscriptionCheckApiResponse> {
+        val isSubscriber = subscriptionRetriever.isSubscriber(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
         )
         return ApiResponse.success(
-            result = SubscriptionExistsResponse(exists = exists)
+            result = SubscriptionCheckApiResponse(isSubscriber = isSubscriber)
         )
     }
 
@@ -45,14 +45,14 @@ class SubscriptionRetrieveApi(
     suspend fun countSubscribers(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
-    ): ApiResponse<SubscribersCountResponse> {
+    ): ApiResponse<SubscribersCountApiResponse> {
         val subscribersCount = subscriptionRetriever.countSubscribers(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
         return ApiResponse.success(
-            result = SubscribersCountResponse(count = subscribersCount)
+            result = SubscribersCountApiResponse(subscribersCount = subscribersCount)
         )
     }
 
@@ -63,14 +63,14 @@ class SubscriptionRetrieveApi(
     suspend fun countSubscriptions(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
-    ): ApiResponse<SubscriptionsCountResponse> {
+    ): ApiResponse<SubscriptionsCountApiResponse> {
         val subscribersCount = subscriptionRetriever.countSubscriptions(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
         )
         return ApiResponse.success(
-            result = SubscriptionsCountResponse(count = subscribersCount)
+            result = SubscriptionsCountApiResponse(subscriptionsCount = subscribersCount)
         )
     }
 
@@ -82,7 +82,7 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
         @Valid cursorRequest: CursorRequest,
-    ): ApiResponse<CursorResult<SubscriberResponse, String>> {
+    ): ApiResponse<CursorResult<SubscriberApiResponse, String>> {
         val subscriptionReverses = subscriptionRetriever.getSubscribers(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
@@ -92,7 +92,7 @@ class SubscriptionRetrieveApi(
         return ApiResponse.success(
             result = CursorResult.of(
                 data = subscriptionReverses.data.map { subscriptionReverse ->
-                    SubscriberResponse.of(subscriptionReverse)
+                    SubscriberApiResponse.of(subscriptionReverse)
                 },
                 cursor = subscriptionReverses.cursor,
             )
@@ -107,7 +107,7 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
-    ): ApiResponse<CursorResult<SubscriptionTargetResponse, String>> {
+    ): ApiResponse<CursorResult<SubscriptionTargetApiResponse, String>> {
         val subscriptions = subscriptionRetriever.getSubscriptionTargets(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
@@ -117,7 +117,7 @@ class SubscriptionRetrieveApi(
         return ApiResponse.success(
             result = CursorResult.of(
                 data = subscriptions.data.map { subscription ->
-                    SubscriptionTargetResponse.of(subscription)
+                    SubscriptionTargetApiResponse.of(subscription)
                 },
                 cursor = subscriptions.cursor,
             )

@@ -144,7 +144,7 @@ class SubscriptionRetriever(
         if (!subscriptionSlice.hasNext() && subscriptionSlice.size >= cursorRequest.pageSize) {
             return CursorResult.of(
                 data = subscriptionSlice.content,
-                cursor = Cursor(cursor = previousCursor),
+                cursor = Cursor.of(cursor = previousCursor),
             )
         }
 
@@ -175,7 +175,7 @@ class SubscriptionRetriever(
 
         return CursorResult.of(
             data = subscribers,
-            cursor = Cursor(cursor = previousCursor)
+            cursor = Cursor.of(cursor = previousCursor)
         )
     }
 
@@ -230,7 +230,7 @@ class SubscriptionRetriever(
         if (subscriptionSlice.size >= cursorRequest.pageSize) {
             return CursorResult.of(
                 data = subscriptionSlice.content,
-                cursor = Cursor(cursor = nextCursor),
+                cursor = Cursor.of(cursor = nextCursor),
             )
         }
 
@@ -260,7 +260,7 @@ class SubscriptionRetriever(
 
         return CursorResult.of(
             data = subscribers,
-            cursor = Cursor(cursor = nextCursor)
+            cursor = Cursor.of(cursor = nextCursor)
         )
     }
 
@@ -340,9 +340,9 @@ class SubscriptionRetriever(
 
     private fun getCursor(subscriptions: Slice<Subscription>): Cursor<String> {
         if (subscriptions.hasNext()) {
-            return Cursor(cursor = subscriptions.content.last().key.targetId)
+            return Cursor.of(cursor = subscriptions.content.last().key.targetId)
         }
-        return Cursor(cursor = null)
+        return Cursor.of(cursor = null)
     }
 
 }

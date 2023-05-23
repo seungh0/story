@@ -97,9 +97,9 @@ class PostRetriever(
 
     private fun getCursor(posts: Slice<Post>): Cursor<String> {
         if (posts.hasNext()) {
-            return Cursor(cursor = posts.content.last().key.postId)
+            return Cursor.of(cursor = posts.content.last().key.postId)
         }
-        return Cursor(cursor = null)
+        return Cursor.of(cursor = null)
     }
 
 }

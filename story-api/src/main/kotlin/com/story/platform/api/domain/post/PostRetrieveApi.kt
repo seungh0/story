@@ -25,7 +25,7 @@ class PostRetrieveApi(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
-    ): ApiResponse<PostResponse> {
+    ): ApiResponse<PostApiResponse> {
         val post = postRetriever.findPost(
             postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,
@@ -34,7 +34,7 @@ class PostRetrieveApi(
             ),
             postId = postId,
         )
-        return ApiResponse.success(PostResponse.of(post))
+        return ApiResponse.success(PostApiResponse.of(post))
     }
 
     /**
@@ -45,7 +45,7 @@ class PostRetrieveApi(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @Valid cursorRequest: CursorRequest,
-    ): ApiResponse<CursorResult<PostResponse, String>> {
+    ): ApiResponse<CursorResult<PostApiResponse, String>> {
         val posts = postRetriever.findPosts(
             postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,
@@ -56,7 +56,7 @@ class PostRetrieveApi(
         )
 
         val result = CursorResult.of(
-            data = posts.data.map { post -> PostResponse.of(post) },
+            data = posts.data.map { post -> PostApiResponse.of(post) },
             cursor = posts.cursor,
         )
 
