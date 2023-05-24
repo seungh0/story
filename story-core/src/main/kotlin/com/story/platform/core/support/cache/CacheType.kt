@@ -14,11 +14,6 @@ enum class CacheType(
         key = "subscribers-count:v1",
         globalCacheTtl = Duration.ofMinutes(1),
     ),
-    SUBSCRIPTION_COUNT(
-        description = "구독 대상 수",
-        key = "subscription-count:v1",
-        globalCacheTtl = Duration.ofMinutes(1),
-    ),
     ;
 
     fun enableLocalCache(): Boolean {

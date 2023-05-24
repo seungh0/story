@@ -53,10 +53,6 @@ class SubscriptionRetriever(
         return subscribersCounterRepository.findById(primaryKey)?.count ?: 0L
     }
 
-    @Cacheable(
-        cacheType = CacheType.SUBSCRIPTION_COUNT,
-        key = "'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':subscriberId:' + {#subscriberId}",
-    )
     suspend fun countSubscriptions(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
