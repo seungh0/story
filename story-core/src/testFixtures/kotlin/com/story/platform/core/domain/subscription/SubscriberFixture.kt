@@ -6,7 +6,7 @@ import com.story.platform.core.support.RandomGenerator.generateEnum
 import com.story.platform.core.support.RandomGenerator.generateLong
 import com.story.platform.core.support.RandomGenerator.generateString
 
-object SubscriptionReverseFixture {
+object SubscriberFixture {
 
     fun create(
         serviceType: ServiceType = generateEnum(ServiceType::class.java),
@@ -14,17 +14,15 @@ object SubscriptionReverseFixture {
         targetId: String = generateString(),
         slotId: Long = generateLong(),
         subscriberId: String = generateString(),
-        status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
         alarm: Boolean = generateBoolean(),
-    ) = Subscription(
-        key = SubscriptionPrimaryKey(
+    ) = Subscriber(
+        key = SubscriberPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
+            slotId = slotId,
             subscriberId = subscriberId,
         ),
-        slotId = slotId,
-        status = status,
         alarm = alarm,
     )
 

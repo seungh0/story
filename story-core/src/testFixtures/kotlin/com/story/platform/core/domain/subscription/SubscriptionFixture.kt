@@ -14,15 +14,17 @@ object SubscriptionFixture {
         targetId: String = generateString(),
         slotId: Long = generateLong(),
         subscriberId: String = generateString(),
+        status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
         alarm: Boolean = generateBoolean(),
-    ) = Subscriber(
-        key = SubscriberPrimaryKey(
+    ) = Subscription(
+        key = SubscriptionPrimaryKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
-            slotId = slotId,
             subscriberId = subscriberId,
         ),
+        slotId = slotId,
+        status = status,
         alarm = alarm,
     )
 

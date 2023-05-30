@@ -2,7 +2,7 @@ package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.utils.SlotAssigner
 
-object SubscriberSlotAssigner {
+object SubscriptionSlotAssigner {
 
     fun assign(
         subscriptionId: Long,

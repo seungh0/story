@@ -30,7 +30,7 @@ class SubscriptionDistributedExecutorTest(
             val distributedKey = "001"
 
             val subscriptions = IntRange(start = 1, endInclusive = 20).map {
-                SubscriptionDistributorFixture.create(
+                SubscriberDistributedFixture.create(
                     serviceType = serviceType,
                     subscriptionType = SubscriptionType.FOLLOW,
                     distributedKey = distributedKey,
@@ -69,7 +69,7 @@ class SubscriptionDistributedExecutorTest(
             val serviceType = ServiceType.TWEETER
             val distributedKey = "001"
 
-            val subscription = SubscriptionDistributorFixture.create(
+            val subscription = SubscriberDistributedFixture.create(
                 serviceType = serviceType,
                 subscriptionType = SubscriptionType.FOLLOW,
                 distributedKey = distributedKey,
@@ -102,7 +102,7 @@ class SubscriptionDistributedExecutorTest(
             val targetId = "targetId"
             val distributedKey = "001"
 
-            val subscription = SubscriptionDistributorFixture.create(
+            val subscription = SubscriberDistributedFixture.create(
                 serviceType = serviceType,
                 subscriptionType = SubscriptionType.FOLLOW,
                 distributedKey = "002",

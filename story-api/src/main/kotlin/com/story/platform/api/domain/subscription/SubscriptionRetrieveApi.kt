@@ -78,12 +78,12 @@ class SubscriptionRetrieveApi(
      * 구독자 목록을 조회한다
      */
     @GetMapping("/targets/{targetId}/subscribers")
-    suspend fun getSubscribers(
+    suspend fun listTargetSubscribers(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
         @Valid cursorRequest: CursorRequest,
     ): ApiResponse<CursorResult<SubscriberApiResponse, String>> {
-        val subscriptionReverses = subscriptionRetriever.getSubscribers(
+        val subscriptionReverses = subscriptionRetriever.listTargetSubscribers(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
@@ -103,12 +103,12 @@ class SubscriptionRetrieveApi(
      * 구독중인 대상자 목록을 조회한다
      */
     @GetMapping("/subscribers/{subscriberId}/targets")
-    suspend fun getSubscriptionTargets(
+    suspend fun listSubscriberTargets(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
     ): ApiResponse<CursorResult<SubscriptionTargetApiResponse, String>> {
-        val subscriptions = subscriptionRetriever.getSubscriptionTargets(
+        val subscriptions = subscriptionRetriever.listSubscriberTargets(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,

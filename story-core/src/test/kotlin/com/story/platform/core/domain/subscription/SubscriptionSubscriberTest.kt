@@ -105,7 +105,7 @@ internal class SubscriptionSubscriberTest(
             val alarm = true
 
             subscriberRepository.save(
-                SubscriptionFixture.create(
+                SubscriberFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
@@ -116,7 +116,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             subscriptionRepository.save(
-                SubscriptionReverseFixture.create(
+                SubscriptionFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
@@ -143,7 +143,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             subscriberDistributedRepository.save(
-                SubscriptionDistributorFixture.create(
+                SubscriberDistributedFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
@@ -225,7 +225,7 @@ internal class SubscriptionSubscriberTest(
             val alarm = true
 
             subscriberRepository.save(
-                SubscriptionFixture.create(
+                SubscriberFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
@@ -235,7 +235,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             subscriptionRepository.save(
-                SubscriptionReverseFixture.create(
+                SubscriptionFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
@@ -261,7 +261,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             subscriberDistributedRepository.save(
-                SubscriptionDistributorFixture.create(
+                SubscriberDistributedFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
@@ -342,7 +342,7 @@ internal class SubscriptionSubscriberTest(
             val alarm = true
 
             subscriberRepository.save(
-                SubscriptionFixture.create(
+                SubscriberFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
@@ -352,7 +352,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             subscriptionRepository.save(
-                SubscriptionReverseFixture.create(
+                SubscriptionFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,

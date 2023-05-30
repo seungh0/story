@@ -41,7 +41,7 @@ class PostRetrieveApi(
      * 포스트 목록을 조회한다
      */
     @GetMapping("/v1/spaces/{spaceType}/{spaceId}/posts")
-    suspend fun getPosts(
+    suspend fun listPosts(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @Valid cursorRequest: CursorRequest,

@@ -1,7 +1,7 @@
 package com.story.platform.core.common.model
 
 data class Cursor<T>(
-    val cursor: T?,
+    val nextCursor: T?,
     val hasNext: Boolean,
 ) {
 
@@ -9,7 +9,7 @@ data class Cursor<T>(
         fun <T> of(
             cursor: T?,
         ) = Cursor(
-            cursor = cursor,
+            nextCursor = cursor,
             hasNext = cursor != null,
         )
     }

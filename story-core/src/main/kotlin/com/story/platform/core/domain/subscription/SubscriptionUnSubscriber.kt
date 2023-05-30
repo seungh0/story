@@ -3,6 +3,8 @@ package com.story.platform.core.domain.subscription
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
+import com.story.platform.core.support.lock.DistributedLock
+import com.story.platform.core.support.lock.DistributedLockType
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -16,6 +18,10 @@ class SubscriptionUnSubscriber(
     private val subscriptionEventPublisher: SubscriptionEventPublisher,
 ) {
 
+    @DistributedLock(
+        lockType = DistributedLockType.SUBSCRIBE,
+        key = "'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
+    )
     suspend fun unsubscribe(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,

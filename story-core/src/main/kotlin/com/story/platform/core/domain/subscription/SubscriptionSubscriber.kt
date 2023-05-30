@@ -52,7 +52,7 @@ class SubscriptionSubscriber(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
-            slotId = subscriptionReverse?.slotId ?: SubscriberSlotAssigner.assign(
+            slotId = subscriptionReverse?.slotId ?: SubscriptionSlotAssigner.assign(
                 subscriberIdGenerator.generate(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,

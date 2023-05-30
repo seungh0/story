@@ -32,7 +32,7 @@ internal class SubscriptionUnSubscriberTest(
             val subscriberId = "2000"
 
             subscriberRepository.save(
-                SubscriptionFixture.create(
+                SubscriberFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
@@ -42,7 +42,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             subscriptionRepository.save(
-                SubscriptionReverseFixture.create(
+                SubscriptionFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
@@ -68,7 +68,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             subscriberDistributedRepository.save(
-                SubscriptionDistributorFixture.create(
+                SubscriberDistributedFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
@@ -155,7 +155,7 @@ internal class SubscriptionUnSubscriberTest(
             val subscriberId = "2000"
 
             subscriptionRepository.save(
-                SubscriptionReverseFixture.create(
+                SubscriptionFixture.create(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
