@@ -1,19 +1,22 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.utils.SlotAssigner
 
+/**
+ * 300byte * 10_000 = 3MB
+ * - 한 파티션을 약 3MB로 유지하기 위한 슬롯 정책
+ */
 object PostSlotAssigner {
 
     fun assign(
-        postId: String,
+        postId: Long,
     ) = SlotAssigner.assign(
-        id = postId.toLongOrNull() ?: throw BadRequestException("Invalid PostId($postId)"),
+        id = postId,
         firstSlotId = FIRST_SLOT_ID,
         slotSize = SLOT_SIZE,
     )
 
-    private const val SLOT_SIZE = 15_000
+    private const val SLOT_SIZE = 10_000
     const val FIRST_SLOT_ID = 1L
 
 }

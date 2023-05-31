@@ -13,7 +13,7 @@ data class PostApiResponse(
     companion object {
         fun of(post: Post): PostApiResponse {
             val response = PostApiResponse(
-                postId = post.key.postId,
+                postId = post.key.postId.toString(),
                 title = post.title,
                 content = post.content,
                 extraJson = post.extraJson,

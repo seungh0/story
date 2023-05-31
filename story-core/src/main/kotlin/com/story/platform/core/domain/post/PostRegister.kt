@@ -18,7 +18,7 @@ class PostRegister(
         title: String,
         content: String,
         extraJson: String? = null,
-    ): String {
+    ): Long {
         val postId = postIdGenerator.generate(postSpaceKey = postSpaceKey)
         val post = Post.of(
             postSpaceKey = postSpaceKey,

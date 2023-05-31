@@ -17,7 +17,7 @@ class PostModifier(
     suspend fun modify(
         postSpaceKey: PostSpaceKey,
         accountId: String,
-        postId: String,
+        postId: Long,
         title: String,
         content: String,
         extraJson: String? = null,

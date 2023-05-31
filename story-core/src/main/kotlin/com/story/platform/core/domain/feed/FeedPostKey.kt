@@ -6,5 +6,5 @@ data class FeedPostKey(
     val spaceType: PostSpaceType,
     val spaceId: String,
     val slotId: Long,
-    val postId: String,
+    val postId: Long,
 )

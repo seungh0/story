@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
@@ -26,13 +27,13 @@ class PostRetrieveApi(
         @PathVariable spaceId: String,
         @PathVariable postId: String,
     ): ApiResponse<PostApiResponse> {
-        val post = postRetriever.findPost(
+        val post = postRetriever.getPost(
             postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),
-            postId = postId,
+            postId = postId.toLongOrNull() ?: throw BadRequestException("잘못된 PostId($postId)이 요청되었습니다"),
         )
         return ApiResponse.success(PostApiResponse.of(post))
     }
@@ -46,7 +47,7 @@ class PostRetrieveApi(
         @PathVariable spaceId: String,
         @Valid cursorRequest: CursorRequest,
     ): ApiResponse<CursorResult<PostApiResponse, String>> {
-        val posts = postRetriever.findPosts(
+        val posts = postRetriever.listPosts(
             postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,
                 spaceType = spaceType,

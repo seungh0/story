@@ -8,7 +8,7 @@ interface PostReverseRepository : CoroutineCrudRepository<PostReverse, PostRever
     suspend fun findByKeyServiceTypeAndKeyAccountIdAndKeyPostIdAndKeySpaceTypeAndKeySpaceId(
         serviceType: ServiceType,
         accountId: String,
-        postId: String,
+        postId: Long,
         spaceType: PostSpaceType,
         spaceId: String,
     ): PostReverse?

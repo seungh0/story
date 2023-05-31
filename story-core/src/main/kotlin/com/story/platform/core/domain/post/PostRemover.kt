@@ -15,7 +15,7 @@ class PostRemover(
     suspend fun remove(
         postSpaceKey: PostSpaceKey,
         accountId: String,
-        postId: String,
+        postId: Long,
     ) {
         val postReverse =
             postReverseRepository.findByKeyServiceTypeAndKeyAccountIdAndKeyPostIdAndKeySpaceTypeAndKeySpaceId(

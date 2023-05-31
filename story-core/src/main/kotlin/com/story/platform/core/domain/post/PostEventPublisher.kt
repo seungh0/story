@@ -16,7 +16,7 @@ class PostEventPublisher(
 
     suspend fun publishCreatedEvent(
         postSpaceKey: PostSpaceKey,
-        postId: String,
+        postId: Long,
         accountId: String,
         title: String,
         content: String,
@@ -32,12 +32,12 @@ class PostEventPublisher(
             content = content,
             extraJson = extraJson,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId, event.toJson())
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
     }
 
     suspend fun publishUpdatedEvent(
         postSpaceKey: PostSpaceKey,
-        postId: String,
+        postId: Long,
         accountId: String,
         title: String,
         content: String,
@@ -53,12 +53,12 @@ class PostEventPublisher(
             content = content,
             extraJson = extraJson,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId, event.toJson())
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
     }
 
     suspend fun publishDeletedEvent(
         postSpaceKey: PostSpaceKey,
-        postId: String,
+        postId: Long,
         accountId: String,
     ) {
         val event = PostEvent.deleted(
@@ -68,7 +68,7 @@ class PostEventPublisher(
             postId = postId,
             accountId = accountId,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId, event.toJson())
+        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
     }
 
 }

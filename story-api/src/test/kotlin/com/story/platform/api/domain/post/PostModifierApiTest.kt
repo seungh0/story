@@ -45,7 +45,7 @@ internal class PostModifierApiTest(
                     spaceId = spaceId,
                     spaceType = spaceType,
                 ),
-                postId = postId.toString(),
+                postId = postId,
                 accountId = spaceId,
                 title = request.title,
                 content = request.content,

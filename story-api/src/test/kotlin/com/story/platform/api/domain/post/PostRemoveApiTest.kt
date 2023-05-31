@@ -37,7 +37,7 @@ class PostRemoveApiTest(
             postRemover.remove(
                 postSpaceKey = postSpaceKey,
                 accountId = accountId,
-                postId = postId.toString(),
+                postId = postId,
             )
         } returns Unit
 

@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostModifier
 import com.story.platform.core.domain.post.PostSpaceKey
@@ -32,7 +33,7 @@ class PostModifierApi(
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),
-            postId = postId,
+            postId = postId.toLongOrNull() ?: throw BadRequestException("잘못된 PostId($postId)가 요청되었습니다"),
             accountId = request.accountId,
             title = request.title,
             content = request.content,

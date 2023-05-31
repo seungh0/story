@@ -59,7 +59,7 @@ data class Post(
         fun of(
             postSpaceKey: PostSpaceKey,
             accountId: String,
-            postId: String,
+            postId: Long,
             title: String,
             content: String,
             extraJson: String?,
@@ -97,14 +97,14 @@ data class PostPrimaryKey(
     val slotId: Long,
 
     @field:PrimaryKeyColumn(value = "post_id", type = CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
-    @field:CassandraType(type = TEXT)
-    val postId: String,
+    @field:CassandraType(type = BIGINT)
+    val postId: Long,
 ) {
 
     companion object {
         fun of(
             postSpaceKey: PostSpaceKey,
-            postId: String,
+            postId: Long,
         ) = PostPrimaryKey(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,

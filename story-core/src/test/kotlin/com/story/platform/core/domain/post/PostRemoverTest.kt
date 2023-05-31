@@ -54,7 +54,7 @@ internal class PostRemoverTest(
                     spaceType = PostSpaceType.POST_COMMENT,
                     spaceId = "포스트 작성 공간 ID",
                 ),
-                postId = "-1",
+                postId = -1L,
                 accountId = "포스트 작성자 ID",
             )
 

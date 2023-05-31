@@ -47,7 +47,7 @@ class PostRegisterApiTest(
                 content = request.content,
                 extraJson = request.extraJson,
             )
-        } returns "1"
+        } returns 1
 
         // when
         val exchange = webTestClient.post()

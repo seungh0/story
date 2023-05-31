@@ -8,18 +8,27 @@ class PostIdGenerator(
     private val postIdRepository: StringRedisRepository<PostIdGeneratorKey, Long>,
 ) {
 
-    suspend fun generate(postSpaceKey: PostSpaceKey): String {
-        val postId = postIdRepository.incr(
+    suspend fun generate(postSpaceKey: PostSpaceKey): Long {
+        return postIdRepository.incr(
             key = PostIdGeneratorKey(postSpaceKey = postSpaceKey)
         )
-        return postId.toString()
     }
 
-    suspend fun getLastPostId(postSpaceKey: PostSpaceKey): String {
-        val postId = postIdRepository.get(
+    suspend fun set(postSpaceKey: PostSpaceKey, count: Long) {
+        postIdRepository.set(
+            key = PostIdGeneratorKey(postSpaceKey = postSpaceKey),
+            value = count,
+        )
+    }
+
+    suspend fun del(postSpaceKey: PostSpaceKey) {
+        postIdRepository.del(key = PostIdGeneratorKey(postSpaceKey = postSpaceKey))
+    }
+
+    suspend fun getLastPostId(postSpaceKey: PostSpaceKey): Long {
+        return postIdRepository.get(
             key = PostIdGeneratorKey(postSpaceKey = postSpaceKey)
         ) ?: INIT_POST_ID
-        return postId.toString()
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostRemover
 import com.story.platform.core.domain.post.PostSpaceKey
@@ -32,7 +33,7 @@ class PostRemoveApi(
                 spaceId = spaceId,
             ),
             accountId = accountId,
-            postId = postId,
+            postId = postId?.toLongOrNull() ?: throw BadRequestException("잘못된 PostId($postId)가 요청되었습니다"),
         )
 
         return ApiResponse.OK

@@ -36,7 +36,7 @@ class PostRegisterApi(
             content = request.content,
             extraJson = request.extraJson,
         )
-        return ApiResponse.success(PostRegisterApiResponse(postId = postId))
+        return ApiResponse.success(PostRegisterApiResponse.of(postId = postId))
     }
 
 }

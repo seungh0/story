@@ -12,7 +12,7 @@ interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
         spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
-        postId: String,
+        postId: Long,
     ): Post?
 
     suspend fun findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
@@ -28,7 +28,7 @@ interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
         spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
-        postId: String,
+        postId: Long,
         pageable: Pageable,
     ): Slice<Post>
 
@@ -45,7 +45,7 @@ interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
         spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
-        postId: String,
+        postId: Long,
         pageable: Pageable,
     ): Slice<Post>
 

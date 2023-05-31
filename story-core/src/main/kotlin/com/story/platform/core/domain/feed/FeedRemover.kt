@@ -18,7 +18,7 @@ class FeedRemover(
         distributedKey: String,
         spaceType: PostSpaceType,
         spaceId: String,
-        postId: String,
+        postId: Long,
     ) {
         subscriberDistributedExecutor.executeToTargetSubscribers(
             serviceType = serviceType,
