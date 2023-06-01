@@ -1,5 +1,6 @@
 package com.story.platform.apiconsumer.domain.feed
 
+import com.story.platform.core.common.constants.CoroutineConstants
 import com.story.platform.core.domain.feed.FeedRegister
 import com.story.platform.core.domain.feed.FeedRemover
 import com.story.platform.core.domain.post.PostEvent
@@ -12,6 +13,7 @@ import com.story.platform.core.support.json.JsonUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Headers
@@ -38,30 +40,32 @@ class FeedHandlerConsumer(
 
         runBlocking {
             withContext(Dispatchers.IO) {
-                when (event.eventType) {
-                    PostEventType.CREATED -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
-                        feedRegister.addPostFeed(
-                            serviceType = event.serviceType,
-                            targetId = event.accountId,
-                            distributedKey = distributedKey.key,
-                            spaceType = event.spaceType,
-                            spaceId = event.spaceId,
-                            postId = event.postId,
-                        )
-                    }
+                withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
+                    when (event.eventType) {
+                        PostEventType.CREATED -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
+                            feedRegister.addPostFeed(
+                                serviceType = event.serviceType,
+                                targetId = event.accountId,
+                                distributedKey = distributedKey.key,
+                                spaceType = event.spaceType,
+                                spaceId = event.spaceId,
+                                postId = event.postId,
+                            )
+                        }
 
-                    PostEventType.DELETED -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
-                        feedRemover.removePostFeed(
-                            serviceType = event.serviceType,
-                            targetId = event.accountId,
-                            distributedKey = distributedKey.key,
-                            spaceType = event.spaceType,
-                            spaceId = event.spaceId,
-                            postId = event.postId,
-                        )
-                    }
+                        PostEventType.DELETED -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
+                            feedRemover.removePostFeed(
+                                serviceType = event.serviceType,
+                                targetId = event.accountId,
+                                distributedKey = distributedKey.key,
+                                spaceType = event.spaceType,
+                                spaceId = event.spaceId,
+                                postId = event.postId,
+                            )
+                        }
 
-                    else -> return@withContext
+                        else -> return@withTimeout
+                    }
                 }
             }
         }
@@ -81,25 +85,27 @@ class FeedHandlerConsumer(
 
         runBlocking {
             withContext(Dispatchers.IO) {
-                when (event.eventType) {
-                    SubscriptionEventType.UPSERT -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
-                        feedRegister.addSubscriptionFeed(
-                            serviceType = event.serviceType,
-                            subscriptionType = event.subscriptionType,
-                            distributedKey = distributedKey.key,
-                            targetId = event.targetId,
-                            subscriberId = event.subscriberId,
-                        )
-                    }
+                withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
+                    when (event.eventType) {
+                        SubscriptionEventType.UPSERT -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
+                            feedRegister.addSubscriptionFeed(
+                                serviceType = event.serviceType,
+                                subscriptionType = event.subscriptionType,
+                                distributedKey = distributedKey.key,
+                                targetId = event.targetId,
+                                subscriberId = event.subscriberId,
+                            )
+                        }
 
-                    SubscriptionEventType.DELETE -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
-                        feedRemover.removeSubscriptionFeed(
-                            serviceType = event.serviceType,
-                            subscriptionType = event.subscriptionType,
-                            distributedKey = distributedKey.key,
-                            targetId = event.targetId,
-                            subscriberId = event.subscriberId,
-                        )
+                        SubscriptionEventType.DELETE -> SubscriberDistributedKeyGenerator.KEYS.map { distributedKey ->
+                            feedRemover.removeSubscriptionFeed(
+                                serviceType = event.serviceType,
+                                subscriptionType = event.subscriptionType,
+                                distributedKey = distributedKey.key,
+                                targetId = event.targetId,
+                                subscriberId = event.subscriberId,
+                            )
+                        }
                     }
                 }
             }
