@@ -2,9 +2,9 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.domain.post.PostRegister
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
+import com.story.platform.core.handler.post.PostRegisterHandler
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class PostRegisterApi(
-    private val postRegister: PostRegister,
+    private val postRegisterHandler: PostRegisterHandler,
 ) {
 
     /**
@@ -25,7 +25,7 @@ class PostRegisterApi(
         @PathVariable spaceId: String,
         @Valid @RequestBody request: PostRegisterApiRequest,
     ): ApiResponse<PostRegisterApiResponse> {
-        val postId = postRegister.register(
+        val postId = postRegisterHandler.register(
             postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,
                 spaceType = spaceType,

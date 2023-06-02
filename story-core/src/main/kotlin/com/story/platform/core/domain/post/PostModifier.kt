@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service
 class PostModifier(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val postRepository: PostRepository,
-    private val postEventPublisher: PostEventPublisher,
 ) {
 
     suspend fun modify(
@@ -45,15 +44,6 @@ class PostModifier(
             .upsert(post)
             .upsert(PostReverse.of(post))
             .executeCoroutine()
-
-        postEventPublisher.publishUpdatedEvent(
-            postSpaceKey = postSpaceKey,
-            accountId = accountId,
-            postId = postId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
-        )
     }
 
 }

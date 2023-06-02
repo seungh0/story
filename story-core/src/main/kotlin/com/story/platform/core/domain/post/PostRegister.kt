@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service
 class PostRegister(
     private val postIdGenerator: PostIdGenerator,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val postEventPublisher: PostEventPublisher,
 ) {
 
     suspend fun register(
@@ -32,15 +31,6 @@ class PostRegister(
             .upsert(post)
             .upsert(PostReverse.of(post))
             .executeCoroutine()
-
-        postEventPublisher.publishCreatedEvent(
-            postSpaceKey = postSpaceKey,
-            accountId = accountId,
-            postId = postId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
-        )
 
         return postId
     }

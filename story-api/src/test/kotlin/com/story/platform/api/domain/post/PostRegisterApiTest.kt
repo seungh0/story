@@ -4,9 +4,9 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.AccountIdResolver
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.domain.post.PostRegister
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
+import com.story.platform.core.handler.post.PostRegisterHandler
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -18,7 +18,7 @@ class PostRegisterApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val postRegister: PostRegister,
+    private val postRegisterHandler: PostRegisterHandler,
 ) : FunSpec({
 
     test("새로운 포스트를 등록한다") {
@@ -36,7 +36,7 @@ class PostRegisterApiTest(
         )
 
         coEvery {
-            postRegister.register(
+            postRegisterHandler.register(
                 postSpaceKey = PostSpaceKey(
                     serviceType = ServiceType.TWEETER,
                     spaceId = spaceId,

@@ -3,9 +3,9 @@ package com.story.platform.api.domain.post
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.domain.post.PostRemover
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
+import com.story.platform.core.handler.post.PostRemoveHandler
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class PostRemoveApi(
-    private val postRemover: PostRemover,
+    private val postRemoveHandler: PostRemoveHandler,
 ) {
 
     /**
@@ -26,14 +26,14 @@ class PostRemoveApi(
         @PathVariable postId: String,
         @RequestParam accountId: String,
     ): ApiResponse<String> {
-        postRemover.remove(
+        postRemoveHandler.remove(
             postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),
             accountId = accountId,
-            postId = postId?.toLongOrNull() ?: throw BadRequestException("잘못된 PostId($postId)가 요청되었습니다"),
+            postId = postId.toLongOrNull() ?: throw BadRequestException("잘못된 PostId($postId)가 요청되었습니다"),
         )
 
         return ApiResponse.OK

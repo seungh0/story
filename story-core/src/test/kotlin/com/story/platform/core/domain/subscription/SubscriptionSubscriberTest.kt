@@ -13,8 +13,6 @@ internal class SubscriptionSubscriberTest(
     private val subscriptionSubscriber: SubscriptionSubscriber,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
-    private val subscribersCounterRepository: SubscribersCounterRepository,
-    private val subscriptionsCounterRepository: SubscriptionsCounterRepository,
     private val subscriberDistributedRepository: SubscriberDistributedRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
@@ -66,24 +64,6 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
-            subscriptionCounters shouldHaveSize 1
-            subscriptionCounters[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.targetId shouldBe targetId
-                it.count shouldBe 1L
-            }
-
-            val subscriberCounters = subscriptionsCounterRepository.findAll().toList()
-            subscriberCounters shouldHaveSize 1
-            subscriberCounters[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.subscriberId shouldBe subscriberId
-                it.count shouldBe 1L
-            }
-
             val subscriptionDistributed = subscriberDistributedRepository.findAll().toList()
             subscriptionDistributed shouldHaveSize 1
             subscriptionDistributed[0].also {
@@ -126,22 +106,6 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscribersCounterRepository.increase(
-                key = SubscribersCounterPrimaryKey(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                )
-            )
-
-            subscriptionsCounterRepository.increase(
-                key = SubscriptionsCounterPrimaryKey(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    subscriberId = subscriberId,
-                )
-            )
-
             subscriberDistributedRepository.save(
                 SubscriberDistributedFixture.create(
                     serviceType = serviceType,
@@ -186,24 +150,6 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
-            subscriptionCounters shouldHaveSize 1
-            subscriptionCounters[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.targetId shouldBe targetId
-                it.count shouldBe 1L
-            }
-
-            val subscriberCounters = subscriptionsCounterRepository.findAll().toList()
-            subscriberCounters shouldHaveSize 1
-            subscriberCounters[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.subscriberId shouldBe subscriberId
-                it.count shouldBe 1L
-            }
-
             val subscriptionDistributed = subscriberDistributedRepository.findAll().toList()
             subscriptionDistributed shouldHaveSize 1
             subscriptionDistributed[0].also {
@@ -241,22 +187,6 @@ internal class SubscriptionSubscriberTest(
                     subscriberId = subscriberId,
                     targetId = targetId,
                     slotId = 1L,
-                )
-            )
-
-            subscribersCounterRepository.increase(
-                key = SubscribersCounterPrimaryKey(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                )
-            )
-
-            subscriptionsCounterRepository.increase(
-                key = SubscriptionsCounterPrimaryKey(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    subscriberId = subscriberId,
                 )
             )
 
@@ -301,24 +231,6 @@ internal class SubscriptionSubscriberTest(
                 it.slotId shouldBe 1L
                 it.status shouldBe SubscriptionStatus.ACTIVE
                 it.alarm shouldBe alarm
-            }
-
-            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
-            subscriptionCounters shouldHaveSize 1
-            subscriptionCounters[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.targetId shouldBe targetId
-                it.count shouldBe 1L
-            }
-
-            val subscriberCounters = subscriptionsCounterRepository.findAll().toList()
-            subscriberCounters shouldHaveSize 1
-            subscriberCounters[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.subscriberId shouldBe subscriberId
-                it.count shouldBe 1L
             }
 
             val subscriptionDistributed = subscriberDistributedRepository.findAll().toList()
@@ -394,15 +306,6 @@ internal class SubscriptionSubscriberTest(
                 it.slotId shouldBe 1L
                 it.status shouldBe SubscriptionStatus.ACTIVE
                 it.alarm shouldBe alarm
-            }
-
-            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
-            subscriptionCounters shouldHaveSize 1
-            subscriptionCounters[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.targetId shouldBe targetId
-                it.count shouldBe 1L
             }
         }
     }

@@ -4,6 +4,7 @@ import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.domain.subscription.SubscriptionCountRetriever
 import com.story.platform.core.domain.subscription.SubscriptionRetriever
 import com.story.platform.core.domain.subscription.SubscriptionType
 import jakarta.validation.Valid
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class SubscriptionRetrieveApi(
     private val subscriptionRetriever: SubscriptionRetriever,
+    private val subscriptionCountRetriever: SubscriptionCountRetriever,
 ) {
 
     /**
@@ -46,7 +48,7 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
     ): ApiResponse<SubscribersCountApiResponse> {
-        val subscribersCount = subscriptionRetriever.countSubscribers(
+        val subscribersCount = subscriptionCountRetriever.countSubscribers(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             targetId = targetId,
@@ -64,7 +66,7 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
     ): ApiResponse<SubscriptionsCountApiResponse> {
-        val subscribersCount = subscriptionRetriever.countSubscriptions(
+        val subscribersCount = subscriptionCountRetriever.countSubscriptions(
             serviceType = ServiceType.TWEETER,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,

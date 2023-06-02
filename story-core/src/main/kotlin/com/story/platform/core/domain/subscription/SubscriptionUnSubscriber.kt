@@ -14,8 +14,7 @@ class SubscriptionUnSubscriber(
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberRepository: SubscriberRepository,
     private val subscriberDistributedRepository: SubscriberDistributedRepository,
-    private val subscriptionCounterManager: SubscriptionCounterManager,
-    private val subscriptionEventPublisher: SubscriptionEventPublisher,
+
 ) {
 
     @DistributedLock(
@@ -27,7 +26,7 @@ class SubscriptionUnSubscriber(
         subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
-    ) {
+    ): Boolean {
         val subscriptionReverse = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
                 serviceType = serviceType,
@@ -38,7 +37,7 @@ class SubscriptionUnSubscriber(
         )
 
         if (subscriptionReverse == null || subscriptionReverse.isDeleted()) {
-            return
+            return false
         }
 
         val subscription = subscriberRepository.findById(
@@ -67,33 +66,7 @@ class SubscriptionUnSubscriber(
             .delete(subscriptionDistributed)
             .executeCoroutine()
 
-        unsubscriptionPostProcessor(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            targetId = targetId,
-            subscriberId = subscriberId,
-        )
-    }
-
-    private suspend fun unsubscriptionPostProcessor(
-        serviceType: ServiceType,
-        subscriptionType: SubscriptionType,
-        targetId: String,
-        subscriberId: String,
-    ) {
-        subscriptionCounterManager.decrease(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            targetId = targetId,
-            subscriberId = subscriberId,
-        )
-
-        subscriptionEventPublisher.publishUnsubscriptionEvent(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            subscriberId = subscriberId,
-            targetId = targetId,
-        )
+        return true
     }
 
 }

@@ -9,7 +9,6 @@ class PostRemover(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val postRepository: PostRepository,
     private val postReverseRepository: PostReverseRepository,
-    private val postEventPublisher: PostEventPublisher,
 ) {
 
     suspend fun remove(
@@ -37,12 +36,6 @@ class PostRemover(
         reactiveCassandraOperations.batchOps()
             .delete(post, postReverse)
             .executeCoroutine()
-
-        postEventPublisher.publishDeletedEvent(
-            postSpaceKey = postSpaceKey,
-            postId = postId,
-            accountId = accountId,
-        )
     }
 
 }

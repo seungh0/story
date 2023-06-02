@@ -5,8 +5,6 @@ import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
-import com.story.platform.core.support.cache.CacheType
-import com.story.platform.core.support.cache.Cacheable
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
@@ -15,8 +13,6 @@ import org.springframework.stereotype.Service
 class SubscriptionRetriever(
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberRepository: SubscriberRepository,
-    private val subscribersCounterRepository: SubscribersCounterRepository,
-    private val subscriptionsCounterRepository: SubscriptionsCounterRepository,
     private val subscriberIdGenerator: SubscriberIdGenerator,
 ) {
 
@@ -34,36 +30,6 @@ class SubscriptionRetriever(
         )
         val subscription = subscriptionRepository.findById(primaryKey)
         return subscription != null && subscription.isActivated()
-    }
-
-    @Cacheable(
-        cacheType = CacheType.SUBSCRIBERS_COUNT,
-        key = "'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId}",
-    )
-    suspend fun countSubscribers(
-        serviceType: ServiceType,
-        subscriptionType: SubscriptionType,
-        targetId: String,
-    ): Long {
-        val primaryKey = SubscribersCounterPrimaryKey(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            targetId = targetId,
-        )
-        return subscribersCounterRepository.findById(primaryKey)?.count ?: 0L
-    }
-
-    suspend fun countSubscriptions(
-        serviceType: ServiceType,
-        subscriptionType: SubscriptionType,
-        subscriberId: String,
-    ): Long {
-        val primaryKey = SubscriptionsCounterPrimaryKey(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            subscriberId = subscriberId,
-        )
-        return subscriptionsCounterRepository.findById(primaryKey)?.count ?: 0L
     }
 
     suspend fun listTargetSubscribers(

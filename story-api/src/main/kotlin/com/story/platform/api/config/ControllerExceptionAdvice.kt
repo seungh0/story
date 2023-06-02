@@ -65,8 +65,8 @@ class ControllerExceptionAdvice {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable::class)
-    private fun handleInternalServerException(throwable: Throwable): ApiResponse<Nothing> {
-        log.error(throwable) { throwable.message }
+    private fun handleException(exception: Exception): ApiResponse<Nothing> {
+        log.error(exception) { exception.message }
         return ApiResponse.error(ErrorCode.E500_INTERNAL_SERVER_ERROR)
     }
 

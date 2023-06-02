@@ -13,8 +13,6 @@ internal class SubscriptionUnSubscriberTest(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
-    private val subscribersCounterRepository: SubscribersCounterRepository,
-    private val subscriptionsCounterRepository: SubscriptionsCounterRepository,
     private val subscriberDistributedRepository: SubscriberDistributedRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
@@ -51,22 +49,6 @@ internal class SubscriptionUnSubscriberTest(
                 )
             )
 
-            subscribersCounterRepository.increase(
-                key = SubscribersCounterPrimaryKey(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                )
-            )
-
-            subscriptionsCounterRepository.increase(
-                key = SubscriptionsCounterPrimaryKey(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    subscriberId = subscriberId,
-                )
-            )
-
             subscriberDistributedRepository.save(
                 SubscriberDistributedFixture.create(
                     serviceType = serviceType,
@@ -98,24 +80,6 @@ internal class SubscriptionUnSubscriberTest(
                 it.slotId shouldBe 1L
                 it.status shouldBe SubscriptionStatus.DELETED
             }
-
-            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
-            subscriptionCounters shouldHaveSize 1
-            subscriptionCounters[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.targetId shouldBe targetId
-                it.count shouldBe 0L
-            }
-
-            val subscriberCounters = subscriptionsCounterRepository.findAll().toList()
-            subscriberCounters shouldHaveSize 1
-            subscriberCounters[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.subscriberId shouldBe subscriberId
-                it.count shouldBe 0L
-            }
         }
 
         test("구독 정보가 없을 때 구독 정보를 취소하는 경우 멱등성을 갖는다") {
@@ -139,12 +103,6 @@ internal class SubscriptionUnSubscriberTest(
 
             val subscriptionReverses = subscriptionRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 0
-
-            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
-            subscriptionCounters shouldHaveSize 0
-
-            val subscriberCounters = subscriptionsCounterRepository.findAll().toList()
-            subscriberCounters shouldHaveSize 0
         }
 
         test("구독 취소시 이미 구독 취소 이력이 있다면 멱등성을 갖는다") {
@@ -187,12 +145,6 @@ internal class SubscriptionUnSubscriberTest(
                 it.slotId shouldBe 1L
                 it.status shouldBe SubscriptionStatus.DELETED
             }
-
-            val subscriptionCounters = subscribersCounterRepository.findAll().toList()
-            subscriptionCounters shouldHaveSize 0
-
-            val subscriberCounters = subscriptionsCounterRepository.findAll().toList()
-            subscriberCounters shouldHaveSize 0
         }
     }
 

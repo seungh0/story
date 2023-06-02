@@ -13,8 +13,6 @@ class SubscriptionSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberIdGenerator: SubscriberIdGenerator,
-    private val subscriptionCounterManager: SubscriptionCounterManager,
-    private val subscriptionEventPublisher: SubscriptionEventPublisher,
 ) {
 
     @DistributedLock(
@@ -27,7 +25,7 @@ class SubscriptionSubscriber(
         targetId: String,
         subscriberId: String,
         alarm: Boolean,
-    ) {
+    ): Boolean {
         val subscriptionReverse = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
                 serviceType = serviceType,
@@ -45,30 +43,27 @@ class SubscriptionSubscriber(
                 subscriberId = subscriberId,
                 alarm = alarm,
             )
-            return
+            return false
         }
+
+        val slotId = subscriptionReverse?.slotId ?: SubscriptionSlotAssigner.assign(
+            subscriberIdGenerator.generate(
+                serviceType = serviceType,
+                subscriptionType = subscriptionType,
+                targetId = targetId
+            )
+        )
 
         saveSubscription(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
-            slotId = subscriptionReverse?.slotId ?: SubscriptionSlotAssigner.assign(
-                subscriberIdGenerator.generate(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId
-                )
-            ),
+            slotId = slotId,
             subscriberId = subscriberId,
             alarm = alarm,
         )
 
-        newSubscriptionPostProcessor(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            targetId = targetId,
-            subscriberId = subscriberId,
-        )
+        return true
     }
 
     private suspend fun saveSubscription(
@@ -93,27 +88,6 @@ class SubscriptionSubscriber(
             .upsert(Subscription.of(subscriber = subscriber))
             .upsert(SubscriberDistributed.of(subscriber = subscriber))
             .executeCoroutine()
-    }
-
-    private suspend fun newSubscriptionPostProcessor(
-        serviceType: ServiceType,
-        subscriptionType: SubscriptionType,
-        subscriberId: String,
-        targetId: String,
-    ) {
-        subscriptionCounterManager.increase(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            targetId = targetId,
-            subscriberId = subscriberId,
-        )
-
-        subscriptionEventPublisher.publishSubscriptionEvent(
-            serviceType = serviceType,
-            subscriptionType = subscriptionType,
-            subscriberId = subscriberId,
-            targetId = targetId,
-        )
     }
 
 }

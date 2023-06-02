@@ -15,7 +15,6 @@ internal class SubscriptionRetrieverTest(
     private val subscriptionRetriever: SubscriptionRetriever,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
-    private val subscribersCounterRepository: SubscribersCounterRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -100,93 +99,6 @@ internal class SubscriptionRetrieverTest(
 
             // then
             isSubscriber shouldBe false
-        }
-    }
-
-    context("대상자의 구독자 수를 조회한다") {
-        test("대상자의 구독자 수를 조회한다") {
-            // given
-            val serviceType = ServiceType.TWEETER
-            val subscriptionType = SubscriptionType.FOLLOW
-            val targetId = "구독 대상자"
-            val subscriberId = "구독자"
-            val count = 999L
-
-            val subscription = SubscriberFixture.create(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
-                slotId = 1L,
-                subscriberId = subscriberId,
-            )
-            val subscriptionReverse = Subscription.of(subscription)
-            subscriberRepository.save(subscription)
-            subscriptionRepository.save(subscriptionReverse)
-
-            subscribersCounterRepository.increase(
-                key = SubscribersCounterPrimaryKey(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                ),
-                count = count,
-            )
-
-            // when
-            val subscribersCount = subscriptionRetriever.countSubscribers(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
-            )
-
-            // then
-            subscribersCount shouldBe count
-        }
-
-        test("대상자의 구독자가 없는 경우 구독자 수가 0명으로 표기된다") {
-            // given
-            val serviceType = ServiceType.TWEETER
-            val subscriptionType = SubscriptionType.FOLLOW
-            val targetId = "구독 대상자"
-            val subscriberId = "구독자"
-
-            val subscription = SubscriberFixture.create(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
-                slotId = 1L,
-                subscriberId = subscriberId,
-            )
-            val subscriptionReverse = Subscription.of(subscription)
-            subscriberRepository.save(subscription)
-            subscriptionRepository.save(subscriptionReverse)
-
-            // when
-            val subscribersCount = subscriptionRetriever.countSubscribers(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
-            )
-
-            // then
-            subscribersCount shouldBe 0L
-        }
-
-        test("대상자가 없는 경우 구독자 수가 0으로 표기된다") {
-            // given
-            val serviceType = ServiceType.TWEETER
-            val subscriptionType = SubscriptionType.FOLLOW
-            val targetId = "구독 대상자"
-
-            // when
-            val subscribersCount = subscriptionRetriever.countSubscribers(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
-            )
-
-            // then
-            subscribersCount shouldBe 0L
         }
     }
 

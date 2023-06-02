@@ -5,9 +5,9 @@ import com.story.platform.api.config.AccountIdResolver
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.domain.post.PostRemover
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
+import com.story.platform.core.handler.post.PostRemoveHandler
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -19,7 +19,7 @@ class PostRemoveApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val postRemover: PostRemover,
+    private val postRemoveHandler: PostRemoveHandler,
 ) : FunSpec({
 
     test("기존에 등록된 포스트를 삭제한다") {
@@ -34,7 +34,7 @@ class PostRemoveApiTest(
         val postId = 30000L
 
         coEvery {
-            postRemover.remove(
+            postRemoveHandler.remove(
                 postSpaceKey = postSpaceKey,
                 accountId = accountId,
                 postId = postId,
