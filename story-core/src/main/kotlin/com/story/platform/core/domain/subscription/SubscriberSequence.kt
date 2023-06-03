@@ -4,14 +4,14 @@ import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.infrastructure.redis.StringRedisKey
 import java.time.Duration
 
-data class SubscriberIdGeneratorKey(
+data class SubscriberSequence(
     val serviceType: ServiceType,
     val subscriptionType: SubscriptionType,
     val targetId: String,
-) : StringRedisKey<SubscriberIdGeneratorKey, Long> {
+) : StringRedisKey<SubscriberSequence, Long> {
 
     override fun makeKeyString(): String =
-        "subscription-id:service:$serviceType:subscription:$subscriptionType:target:$targetId"
+        "subscription-sequence:service:$serviceType:subscription:$subscriptionType:target:$targetId"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

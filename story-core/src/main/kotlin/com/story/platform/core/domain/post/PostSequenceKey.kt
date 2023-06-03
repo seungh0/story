@@ -3,12 +3,12 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.infrastructure.redis.StringRedisKey
 import java.time.Duration
 
-data class PostIdGeneratorKey(
+data class PostSequenceKey(
     val postSpaceKey: PostSpaceKey,
-) : StringRedisKey<PostIdGeneratorKey, Long> {
+) : StringRedisKey<PostSequenceKey, Long> {
 
     override fun makeKeyString(): String =
-        "post-id:service:${postSpaceKey.serviceType}:space:${postSpaceKey.spaceType}:${postSpaceKey.spaceId}"
+        "post-sequence:service:${postSpaceKey.serviceType}:space:${postSpaceKey.spaceType}:${postSpaceKey.spaceId}"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

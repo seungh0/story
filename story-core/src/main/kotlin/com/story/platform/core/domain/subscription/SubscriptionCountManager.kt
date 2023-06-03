@@ -13,9 +13,9 @@ import kotlinx.coroutines.withTimeout
 import org.springframework.stereotype.Service
 
 @Service
-class SubscriptionCounterManager(
-    private val subscribersCounterRepository: SubscribersCounterRepository,
-    private val subscriptionsCounterRepository: SubscriptionsCounterRepository,
+class SubscriptionCountManager(
+    private val subscribersCountRepository: SubscribersCountRepository,
+    private val subscriptionCountRepository: SubscriptionCountRepository,
 ) {
 
     suspend fun increase(
@@ -29,8 +29,8 @@ class SubscriptionCounterManager(
             jobs += launch {
                 withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
                     try {
-                        subscriptionsCounterRepository.increase(
-                            SubscriptionsCounterPrimaryKey(
+                        subscriptionCountRepository.increase(
+                            SubscriptionCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 subscriberId = subscriberId,
@@ -45,8 +45,8 @@ class SubscriptionCounterManager(
             jobs += launch {
                 withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
                     try {
-                        subscribersCounterRepository.increase(
-                            SubscribersCounterPrimaryKey(
+                        subscribersCountRepository.increase(
+                            SubscribersCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 targetId = targetId,
@@ -72,8 +72,8 @@ class SubscriptionCounterManager(
             jobs += launch {
                 withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
                     try {
-                        subscriptionsCounterRepository.decrease(
-                            SubscriptionsCounterPrimaryKey(
+                        subscriptionCountRepository.decrease(
+                            SubscriptionCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 subscriberId = subscriberId,
@@ -88,8 +88,8 @@ class SubscriptionCounterManager(
             jobs += launch {
                 withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
                     try {
-                        subscribersCounterRepository.decrease(
-                            SubscribersCounterPrimaryKey(
+                        subscribersCountRepository.decrease(
+                            SubscribersCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 targetId = targetId,

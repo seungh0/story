@@ -21,7 +21,7 @@ class SubscriptionEventPublisher(
         subscriberId: String,
         targetId: String,
     ) {
-        val event = SubscriptionEvent.created(
+        val event = SubscriptionEvent.subscribed(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
@@ -36,7 +36,7 @@ class SubscriptionEventPublisher(
         subscriberId: String,
         targetId: String,
     ) {
-        val event = SubscriptionEvent.deleted(
+        val event = SubscriptionEvent.unsubscribed(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 @Service
 class PostRetriever(
     private val postRepository: PostRepository,
-    private val postIdGenerator: PostIdGenerator,
+    private val postSequenceGenerator: PostSequenceGenerator,
 ) {
 
     suspend fun getPost(
@@ -80,7 +80,7 @@ class PostRetriever(
     ): Pair<List<Post>, Long> {
         if (cursorRequest.cursor == null) {
             val lastSlotId =
-                PostSlotAssigner.assign(postId = postIdGenerator.getLastPostId(postSpaceKey = postSpaceKey))
+                PostSlotAssigner.assign(postId = postSequenceGenerator.lastSequence(postSpaceKey = postSpaceKey))
             return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
                 serviceType = postSpaceKey.serviceType,
                 spaceType = postSpaceKey.spaceType,

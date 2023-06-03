@@ -1,7 +1,7 @@
 package com.story.platform.core.handler.subscription
 
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.domain.subscription.SubscriptionCounterManager
+import com.story.platform.core.domain.subscription.SubscriptionCountManager
 import com.story.platform.core.domain.subscription.SubscriptionEventPublisher
 import com.story.platform.core.domain.subscription.SubscriptionSubscriber
 import com.story.platform.core.domain.subscription.SubscriptionType
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionSubscribeHandler(
     private val subscriptionSubscriber: SubscriptionSubscriber,
-    private val subscriptionCounterManager: SubscriptionCounterManager,
+    private val subscriptionCountManager: SubscriptionCountManager,
     private val subscriptionEventPublisher: SubscriptionEventPublisher,
 ) {
 
@@ -30,7 +30,7 @@ class SubscriptionSubscribeHandler(
         )
 
         if (isNewSubscriber) {
-            subscriptionCounterManager.increase(
+            subscriptionCountManager.increase(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,

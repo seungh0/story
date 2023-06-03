@@ -15,7 +15,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table(PostTableNames.POST)
+@Table("post_v1")
 data class Post(
     @field:PrimaryKey
     val key: PostPrimaryKey,

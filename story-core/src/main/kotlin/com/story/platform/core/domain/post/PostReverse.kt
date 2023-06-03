@@ -13,7 +13,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table(PostTableNames.POST_REVERSE)
+@Table("post_reverse_v1")
 data class PostReverse(
     @field:PrimaryKey
     val key: PostReversePrimaryKey,

@@ -1,7 +1,7 @@
 package com.story.platform.core.handler.subscription
 
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.domain.subscription.SubscriptionCounterManager
+import com.story.platform.core.domain.subscription.SubscriptionCountManager
 import com.story.platform.core.domain.subscription.SubscriptionEventPublisher
 import com.story.platform.core.domain.subscription.SubscriptionType
 import com.story.platform.core.domain.subscription.SubscriptionUnSubscriber
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionUnSubscribeHandler(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
-    private val subscriptionCounterManager: SubscriptionCounterManager,
+    private val subscriptionCountManager: SubscriptionCountManager,
     private val subscriptionEventPublisher: SubscriptionEventPublisher,
 ) {
 
@@ -28,7 +28,7 @@ class SubscriptionUnSubscribeHandler(
         )
 
         if (isUnSubscribe) {
-            subscriptionCounterManager.decrease(
+            subscriptionCountManager.decrease(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,

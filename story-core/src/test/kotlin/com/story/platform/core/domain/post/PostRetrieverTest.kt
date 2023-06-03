@@ -16,12 +16,12 @@ class PostRetrieverTest(
     private val postReverseRepository: PostReverseRepository,
     private val postRetriever: PostRetriever,
     private val testCleaner: TestCleaner,
-    private val postIdGenerator: PostIdGenerator,
+    private val postSequenceGenerator: PostSequenceGenerator,
 ) : FunSpec({
 
     afterEach {
         testCleaner.cleanUp()
-        postIdGenerator.del(POST_SPACE_KEY)
+        postSequenceGenerator.del(POST_SPACE_KEY)
     }
 
     context("특정 공간에 업로드되어 있는 포스트 목록을 조회한다 - NEXT 방향 조회") {
@@ -138,7 +138,7 @@ class PostRetrieverTest(
         context("첫 페이지 멀티 슬롯 조회") {
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다") {
                 // given
-                postIdGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
+                postSequenceGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -177,7 +177,7 @@ class PostRetrieverTest(
 
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다 (without 다음 커서)") {
                 // given
-                postIdGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
+                postSequenceGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -329,7 +329,7 @@ class PostRetrieverTest(
         context("커서 기준 멀티 슬롯 조회") {
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다") {
                 // given
-                postIdGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
+                postSequenceGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -368,7 +368,7 @@ class PostRetrieverTest(
 
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다 (without 다음 커서)") {
                 // given
-                postIdGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
+                postSequenceGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -521,7 +521,7 @@ class PostRetrieverTest(
         context("첫 페이지 멀티 슬롯 조회") {
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다") {
                 // given
-                postIdGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
+                postSequenceGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -560,7 +560,7 @@ class PostRetrieverTest(
 
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다 (without 다음 커서)") {
                 // given
-                postIdGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
+                postSequenceGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -711,7 +711,7 @@ class PostRetrieverTest(
         context("커서 기준 멀티 슬롯 조회") {
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다") {
                 // given
-                postIdGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
+                postSequenceGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -750,7 +750,7 @@ class PostRetrieverTest(
 
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다 (without 다음 커서)") {
                 // given
-                postIdGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
+                postSequenceGenerator.set(postSpaceKey = POST_SPACE_KEY, count = 10001L)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()

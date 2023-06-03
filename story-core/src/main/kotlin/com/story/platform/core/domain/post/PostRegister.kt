@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class PostRegister(
-    private val postIdGenerator: PostIdGenerator,
+    private val postSequenceGenerator: PostSequenceGenerator,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
@@ -18,7 +18,7 @@ class PostRegister(
         content: String,
         extraJson: String? = null,
     ): Long {
-        val postId = postIdGenerator.generate(postSpaceKey = postSpaceKey)
+        val postId = postSequenceGenerator.generate(postSpaceKey = postSpaceKey)
         val post = Post.of(
             postSpaceKey = postSpaceKey,
             accountId = accountId,

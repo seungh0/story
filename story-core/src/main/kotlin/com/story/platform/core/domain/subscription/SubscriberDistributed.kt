@@ -10,7 +10,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table(SubscriptionTableNames.SUBSCRIBER_DISTRIBUTED)
+@Table("subscriber_distributed_v1")
 data class SubscriberDistributed(
     @field:PrimaryKey
     val key: SubscriberDistributedPrimaryKey,

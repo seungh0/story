@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class SubscriptionSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val subscriptionRepository: SubscriptionRepository,
-    private val subscriberIdGenerator: SubscriberIdGenerator,
+    private val subscriberSequenceGenerator: SubscriberSequenceGenerator,
 ) {
 
     @DistributedLock(
@@ -47,7 +47,7 @@ class SubscriptionSubscriber(
         }
 
         val slotId = subscriptionReverse?.slotId ?: SubscriptionSlotAssigner.assign(
-            subscriberIdGenerator.generate(
+            subscriberSequenceGenerator.generate(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId

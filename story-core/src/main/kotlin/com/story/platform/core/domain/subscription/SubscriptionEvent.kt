@@ -11,38 +11,31 @@ data class SubscriptionEvent(
 ) {
 
     companion object {
-        fun created(
+        fun subscribed(
             serviceType: ServiceType,
             subscriptionType: SubscriptionType,
             subscriberId: String,
             targetId: String,
         ) = SubscriptionEvent(
-            eventType = SubscriptionEventType.UPSERT,
+            eventType = SubscriptionEventType.SUBSCRIBED,
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
             targetId = targetId,
         )
 
-        fun deleted(
+        fun unsubscribed(
             serviceType: ServiceType,
             subscriptionType: SubscriptionType,
             subscriberId: String,
             targetId: String,
         ) = SubscriptionEvent(
-            eventType = SubscriptionEventType.DELETE,
+            eventType = SubscriptionEventType.UNSUBSCRIBED,
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
             targetId = targetId,
         )
     }
-
-}
-
-enum class SubscriptionEventType {
-
-    UPSERT,
-    DELETE,
 
 }
