@@ -1,8 +1,8 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.constants.CoroutineConstants
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.InternalServerException
+import com.story.platform.core.support.coroutine.CoroutineConfigConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
@@ -27,7 +27,7 @@ class SubscriptionCountManager(
         val jobs = mutableListOf<Job>()
         withContext(Dispatchers.IO) {
             jobs += launch {
-                withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
+                withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
                     try {
                         subscriptionCountRepository.increase(
                             SubscriptionCountKey(
@@ -43,7 +43,7 @@ class SubscriptionCountManager(
             }
 
             jobs += launch {
-                withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
+                withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
                     try {
                         subscribersCountRepository.increase(
                             SubscribersCountKey(
@@ -70,7 +70,7 @@ class SubscriptionCountManager(
         val jobs = mutableListOf<Job>()
         withContext(Dispatchers.IO) {
             jobs += launch {
-                withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
+                withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
                     try {
                         subscriptionCountRepository.decrease(
                             SubscriptionCountKey(
@@ -86,7 +86,7 @@ class SubscriptionCountManager(
             }
 
             jobs += launch {
-                withTimeout(CoroutineConstants.DEFAULT_TIMEOUT_MS) {
+                withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
                     try {
                         subscribersCountRepository.decrease(
                             SubscribersCountKey(

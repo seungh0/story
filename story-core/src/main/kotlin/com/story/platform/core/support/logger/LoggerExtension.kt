@@ -1,9 +1,9 @@
-package com.story.platform.core.common.utils
+package com.story.platform.core.support.logger
 
 import mu.KLogger
 import mu.KotlinLogging
 
-object LoggerUtilsExtension {
+object LoggerExtension {
 
     val log: KLogger
         inline get() = KotlinLogging.logger {}

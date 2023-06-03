@@ -1,4 +1,4 @@
-package com.story.platform.core.support.spring
+package com.story.platform.core.support.coroutine
 
 import org.aspectj.lang.ProceedingJoinPoint
 import kotlin.coroutines.Continuation

@@ -1,8 +1,5 @@
-package com.story.platform.core.handler.post
+package com.story.platform.core.domain.post
 
-import com.story.platform.core.domain.post.PostEventPublisher
-import com.story.platform.core.domain.post.PostModifier
-import com.story.platform.core.domain.post.PostSpaceKey
 import org.springframework.stereotype.Service
 
 @Service

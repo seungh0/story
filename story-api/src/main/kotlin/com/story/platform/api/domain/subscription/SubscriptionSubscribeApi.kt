@@ -2,8 +2,8 @@ package com.story.platform.api.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.domain.subscription.SubscriptionSubscribeHandler
 import com.story.platform.core.domain.subscription.SubscriptionType
-import com.story.platform.core.handler.subscription.SubscriptionSubscribeHandler
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

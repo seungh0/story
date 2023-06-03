@@ -1,41 +1,39 @@
-package com.story.platform.core.handler.subscription
+package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.domain.subscription.SubscriptionCountManager
-import com.story.platform.core.domain.subscription.SubscriptionEventPublisher
-import com.story.platform.core.domain.subscription.SubscriptionType
-import com.story.platform.core.domain.subscription.SubscriptionUnSubscriber
 import org.springframework.stereotype.Service
 
 @Service
-class SubscriptionUnSubscribeHandler(
-    private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
+class SubscriptionSubscribeHandler(
+    private val subscriptionSubscriber: SubscriptionSubscriber,
     private val subscriptionCountManager: SubscriptionCountManager,
     private val subscriptionEventPublisher: SubscriptionEventPublisher,
 ) {
 
-    suspend fun unsubscribe(
+    suspend fun subscribe(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
+        alarm: Boolean,
     ) {
-        val isUnSubscribe = subscriptionUnSubscriber.unsubscribe(
+        val isNewSubscriber = subscriptionSubscriber.subscribe(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
+            alarm = alarm,
         )
 
-        if (isUnSubscribe) {
-            subscriptionCountManager.decrease(
+        if (isNewSubscriber) {
+            subscriptionCountManager.increase(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
             )
 
-            subscriptionEventPublisher.publishUnsubscriptionEvent(
+            subscriptionEventPublisher.publishSubscriptionEvent(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,

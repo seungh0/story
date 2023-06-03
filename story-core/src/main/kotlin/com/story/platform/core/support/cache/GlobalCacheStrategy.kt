@@ -1,9 +1,9 @@
 package com.story.platform.core.support.cache
 
 import com.story.platform.core.common.model.ReflectionType
-import com.story.platform.core.common.utils.LoggerUtilsExtension.log
 import com.story.platform.core.support.json.JsonUtils
 import com.story.platform.core.support.json.toJson
+import com.story.platform.core.support.logger.LoggerExtension.log
 import org.springframework.stereotype.Repository
 
 @Repository

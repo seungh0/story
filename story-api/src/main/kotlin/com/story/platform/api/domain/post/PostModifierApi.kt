@@ -3,9 +3,9 @@ package com.story.platform.api.domain.post
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.domain.post.PostModifyHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
-import com.story.platform.core.handler.post.PostModifyHandler
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
