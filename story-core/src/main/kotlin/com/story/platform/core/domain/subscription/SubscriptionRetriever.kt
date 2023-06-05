@@ -39,14 +39,14 @@ class SubscriptionRetriever(
         cursorRequest: CursorRequest,
     ): CursorResult<Subscriber, String> {
         return when (cursorRequest.direction) {
-            CursorDirection.NEXT -> getSubscribersNextDirection(
+            CursorDirection.NEXT -> listNextSubscribers(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 cursorRequest = cursorRequest,
             )
 
-            CursorDirection.PREVIOUS -> getSubscribersPreviousDirection(
+            CursorDirection.PREVIOUS -> listPreviousSubscribers(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -55,7 +55,7 @@ class SubscriptionRetriever(
         }
     }
 
-    private suspend fun getSubscribersPreviousDirection(
+    private suspend fun listPreviousSubscribers(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         targetId: String,
@@ -141,7 +141,7 @@ class SubscriptionRetriever(
         )
     }
 
-    private suspend fun getSubscribersNextDirection(
+    private suspend fun listNextSubscribers(
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
         targetId: String,
@@ -233,14 +233,14 @@ class SubscriptionRetriever(
         cursorRequest: CursorRequest,
     ): CursorResult<Subscription, String> {
         val subscriptions = when (cursorRequest.direction) {
-            CursorDirection.NEXT -> getSubscriptionTargetsNextDirection(
+            CursorDirection.NEXT -> listNextSubscriptions(
                 cursorRequest = cursorRequest,
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
             ).content
 
-            CursorDirection.PREVIOUS -> getSubscriptionTargetsPreviousDirection(
+            CursorDirection.PREVIOUS -> listPreviousSubscriptions(
                 cursorRequest = cursorRequest,
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
@@ -264,7 +264,7 @@ class SubscriptionRetriever(
         )
     }
 
-    private suspend fun getSubscriptionTargetsNextDirection(
+    private suspend fun listNextSubscriptions(
         cursorRequest: CursorRequest,
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,
@@ -287,7 +287,7 @@ class SubscriptionRetriever(
         )
     }
 
-    private suspend fun getSubscriptionTargetsPreviousDirection(
+    private suspend fun listPreviousSubscriptions(
         cursorRequest: CursorRequest,
         serviceType: ServiceType,
         subscriptionType: SubscriptionType,

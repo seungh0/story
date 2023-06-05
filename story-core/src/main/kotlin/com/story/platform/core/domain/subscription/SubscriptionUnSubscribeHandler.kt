@@ -16,14 +16,14 @@ class SubscriptionUnSubscribeHandler(
         targetId: String,
         subscriberId: String,
     ) {
-        val isUnSubscribe = subscriptionUnSubscriber.unsubscribe(
+        val isUnsubscribed = subscriptionUnSubscriber.unsubscribe(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
         )
 
-        if (isUnSubscribe) {
+        if (isUnsubscribed) {
             subscriptionCountManager.decrease(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,

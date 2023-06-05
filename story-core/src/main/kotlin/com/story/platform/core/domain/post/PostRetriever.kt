@@ -33,8 +33,8 @@ class PostRetriever(
         cursorRequest: CursorRequest,
     ): CursorResult<Post, String> {
         val (posts, slot: Long) = when (cursorRequest.direction) {
-            CursorDirection.NEXT -> getNextPosts(cursorRequest, postSpaceKey)
-            CursorDirection.PREVIOUS -> getPreviousPosts(cursorRequest, postSpaceKey)
+            CursorDirection.NEXT -> listNextPosts(cursorRequest, postSpaceKey)
+            CursorDirection.PREVIOUS -> listPreviousPosts(cursorRequest, postSpaceKey)
         }
 
         if (posts.size > cursorRequest.pageSize) {
@@ -74,7 +74,7 @@ class PostRetriever(
         )
     }
 
-    private suspend fun getNextPosts(
+    private suspend fun listNextPosts(
         cursorRequest: CursorRequest,
         postSpaceKey: PostSpaceKey,
     ): Pair<List<Post>, Long> {
@@ -105,7 +105,7 @@ class PostRetriever(
         ).content to currentSlot
     }
 
-    private suspend fun getPreviousPosts(
+    private suspend fun listPreviousPosts(
         cursorRequest: CursorRequest,
         postSpaceKey: PostSpaceKey,
     ): Pair<List<Post>, Long> {

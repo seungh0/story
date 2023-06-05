@@ -1,9 +1,10 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.common.enums.EventType
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.model.EventRecord
 
 data class PostEvent(
-    val eventType: PostEventType,
     val serviceType: ServiceType,
     val spaceType: PostSpaceType,
     val spaceId: String,
@@ -24,16 +25,18 @@ data class PostEvent(
             title: String,
             content: String,
             extraJson: String?,
-        ) = PostEvent(
-            eventType = PostEventType.CREATED,
-            serviceType = serviceType,
-            spaceType = spaceType,
-            spaceId = spaceId,
-            postId = postId,
-            accountId = accountId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
+        ) = EventRecord(
+            eventType = EventType.POST_CREATED,
+            payload = PostEvent(
+                serviceType = serviceType,
+                spaceType = spaceType,
+                spaceId = spaceId,
+                postId = postId,
+                accountId = accountId,
+                title = title,
+                content = content,
+                extraJson = extraJson,
+            ),
         )
 
         fun updated(
@@ -45,16 +48,18 @@ data class PostEvent(
             title: String,
             content: String,
             extraJson: String?,
-        ) = PostEvent(
-            eventType = PostEventType.UPDATED,
-            serviceType = serviceType,
-            spaceType = spaceType,
-            spaceId = spaceId,
-            postId = postId,
-            accountId = accountId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
+        ) = EventRecord(
+            eventType = EventType.POST_UPDATED,
+            payload = PostEvent(
+                serviceType = serviceType,
+                spaceType = spaceType,
+                spaceId = spaceId,
+                postId = postId,
+                accountId = accountId,
+                title = title,
+                content = content,
+                extraJson = extraJson,
+            ),
         )
 
         fun deleted(
@@ -63,16 +68,18 @@ data class PostEvent(
             spaceId: String,
             postId: Long,
             accountId: String,
-        ) = PostEvent(
-            eventType = PostEventType.DELETED,
-            serviceType = serviceType,
-            spaceType = spaceType,
-            spaceId = spaceId,
-            postId = postId,
-            accountId = accountId,
-            title = "",
-            content = "",
-            extraJson = null,
+        ) = EventRecord(
+            eventType = EventType.POST_DELETED,
+            payload = PostEvent(
+                serviceType = serviceType,
+                spaceType = spaceType,
+                spaceId = spaceId,
+                postId = postId,
+                accountId = accountId,
+                title = "",
+                content = "",
+                extraJson = null,
+            ),
         )
     }
 

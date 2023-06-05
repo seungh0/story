@@ -17,7 +17,7 @@ class SubscriptionSubscribeHandler(
         subscriberId: String,
         alarm: Boolean,
     ) {
-        val isNewSubscriber = subscriptionSubscriber.subscribe(
+        val isSubscribed = subscriptionSubscriber.subscribe(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
@@ -25,7 +25,7 @@ class SubscriptionSubscribeHandler(
             alarm = alarm,
         )
 
-        if (isNewSubscriber) {
+        if (isSubscribed) {
             subscriptionCountManager.increase(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
