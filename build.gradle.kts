@@ -14,7 +14,7 @@ plugins {
     id("application")
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.8.22"
-    kotlin("plugin.spring") version "1.8.21"
+    kotlin("plugin.spring") version "1.8.22"
     id("org.jlleitschuh.gradle.ktlint") version "11.4.0"
 }
 
