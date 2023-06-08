@@ -7,5 +7,6 @@ enum class TopicType(
 
     SUBSCRIPTION(description = "구독", property = "story.kafka.subscription.topic"),
     POST(description = "포스팅", property = "story.kafka.post.topic"),
+    SUBSCRIBER_DISTRIBUTOR(description = "구독자 분산", property = "story.kafka.subscriber.distributor.topic")
 
 }

@@ -9,5 +9,6 @@ enum class EventType(
     POST_DELETED(description = "포스트 삭제"),
     SUBSCRIPTION_CREATED(description = "구독 생성"),
     SUBSCRIPTION_DELETED(description = "구독 취소"),
+    FEED_PUBLISH(description = "피드 발행"),
 
 }

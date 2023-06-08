@@ -13,7 +13,6 @@ internal class SubscriptionSubscriberTest(
     private val subscriptionSubscriber: SubscriptionSubscriber,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
-    private val subscriberDistributedRepository: SubscriberDistributedRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -63,17 +62,6 @@ internal class SubscriptionSubscriberTest(
                 it.status shouldBe SubscriptionStatus.ACTIVE
                 it.alarm shouldBe alarm
             }
-
-            val subscriptionDistributed = subscriberDistributedRepository.findAll().toList()
-            subscriptionDistributed shouldHaveSize 1
-            subscriptionDistributed[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.distributedKey shouldBe SubscriberDistributedKeyGenerator.generate(subscriberId)
-                it.key.targetId shouldBe targetId
-                it.key.subscriberId shouldBe subscriberId
-                it.alarm shouldBe alarm
-            }
         }
 
         test("기존에 등록된 구독의 알람 설정을 변경한다") {
@@ -106,16 +94,6 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriberDistributedRepository.save(
-                SubscriberDistributedFixture.create(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                    subscriberId = subscriberId,
-                    alarm = false,
-                )
-            )
-
             // when
             subscriptionSubscriber.subscribe(
                 serviceType = serviceType,
@@ -147,17 +125,6 @@ internal class SubscriptionSubscriberTest(
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
                 it.status shouldBe SubscriptionStatus.ACTIVE
-                it.alarm shouldBe alarm
-            }
-
-            val subscriptionDistributed = subscriberDistributedRepository.findAll().toList()
-            subscriptionDistributed shouldHaveSize 1
-            subscriptionDistributed[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.distributedKey shouldBe SubscriberDistributedKeyGenerator.generate(subscriberId)
-                it.key.targetId shouldBe targetId
-                it.key.subscriberId shouldBe subscriberId
                 it.alarm shouldBe alarm
             }
         }
@@ -190,15 +157,6 @@ internal class SubscriptionSubscriberTest(
                 )
             )
 
-            subscriberDistributedRepository.save(
-                SubscriberDistributedFixture.create(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                    subscriberId = subscriberId,
-                )
-            )
-
             // when
             subscriptionSubscriber.subscribe(
                 serviceType = serviceType,
@@ -230,17 +188,6 @@ internal class SubscriptionSubscriberTest(
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
                 it.status shouldBe SubscriptionStatus.ACTIVE
-                it.alarm shouldBe alarm
-            }
-
-            val subscriptionDistributed = subscriberDistributedRepository.findAll().toList()
-            subscriptionDistributed shouldHaveSize 1
-            subscriptionDistributed[0].also {
-                it.key.serviceType shouldBe serviceType
-                it.key.subscriptionType shouldBe subscriptionType
-                it.key.distributedKey shouldBe SubscriberDistributedKeyGenerator.generate(subscriberId)
-                it.key.targetId shouldBe targetId
-                it.key.subscriberId shouldBe subscriberId
                 it.alarm shouldBe alarm
             }
         }

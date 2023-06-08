@@ -6,6 +6,10 @@ story:
     post:
       topic: post_v1
       group-id: story-worker-post
+    subscriber:
+      distributor:
+        topic: subscriber_distributor_v1
+        group-id: story-worker-subscriber-distributor
 
 ---
 spring.config:

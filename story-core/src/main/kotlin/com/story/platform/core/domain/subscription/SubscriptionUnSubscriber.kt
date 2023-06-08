@@ -13,7 +13,6 @@ class SubscriptionUnSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberRepository: SubscriberRepository,
-    private val subscriberDistributedRepository: SubscriberDistributedRepository,
 
 ) {
 
@@ -51,19 +50,9 @@ class SubscriptionUnSubscriber(
         )
         subscriptionReverse.delete()
 
-        val subscriptionDistributed = subscriberDistributedRepository.findById(
-            SubscriberDistributedPrimaryKey.of(
-                serviceType = serviceType,
-                subscriptionType = subscriptionType,
-                targetId = targetId,
-                subscriberId = subscriberId,
-            )
-        )
-
         reactiveCassandraOperations.batchOps()
             .delete(subscription)
             .upsert(subscriptionReverse)
-            .delete(subscriptionDistributed)
             .executeCoroutine()
 
         return true

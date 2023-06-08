@@ -53,7 +53,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_CREATE_TOPICS: "subscription_v1:3:1,post_v1:3:1"
+      KAFKA_CREATE_TOPICS: "subscription_v1:3:1,post_v1:3:1,subscriber_distributor_v1:20:1"
     volumes:
       - kafka_data:/var/lib/kafka/data
 

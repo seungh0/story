@@ -5,9 +5,9 @@ import com.story.platform.core.common.utils.SlotAssigner
 object SubscriptionSlotAssigner {
 
     fun assign(
-        subscriptionId: Long,
+        sequence: Long,
     ) = SlotAssigner.assign(
-        id = subscriptionId,
+        id = sequence,
         firstSlotId = FIRST_SLOT_ID,
         slotSize = SLOT_SIZE,
     )

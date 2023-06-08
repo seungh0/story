@@ -2,11 +2,12 @@ package com.story.platform.apiconsumer.domain.feed
 
 import com.story.platform.core.common.model.EventRecord
 import com.story.platform.core.domain.post.PostEvent
+import com.story.platform.core.domain.subscription.SubscriberDistributor
 import com.story.platform.core.domain.subscription.SubscriptionEvent
+import com.story.platform.core.domain.subscription.SubscriptionType
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
 import com.story.platform.core.support.json.JsonUtils
 import com.story.platform.core.support.json.toJson
-import com.story.platform.core.support.logger.LoggerExtension.log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -18,7 +19,9 @@ import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Service
 
 @Service
-class FeedEventConsumer {
+class FeedEventConsumer(
+    private val subscriberDistributor: SubscriberDistributor,
+) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val dispatcher = Dispatchers.IO
@@ -38,11 +41,14 @@ class FeedEventConsumer {
                 ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
             val payload = JsonUtils.toObject(event.payload.toJson(), PostEvent::class.java)
-
-            log.info { "record: $event" }
+                ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
             withContext(dispatcher) {
-                // TODO: 구현
+                subscriberDistributor.distribute(
+                    serviceType = payload.serviceType,
+                    subscriptionType = SubscriptionType.FOLLOW,
+                    targetId = payload.spaceId,
+                )
             }
         }
     }
@@ -61,11 +67,14 @@ class FeedEventConsumer {
                 ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
             val payload = JsonUtils.toObject(event.payload.toJson(), SubscriptionEvent::class.java)
-
-            log.info { "record: $event" }
+                ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
             withContext(dispatcher) {
-                // TODO: 구현
+                subscriberDistributor.distribute(
+                    serviceType = payload.serviceType,
+                    subscriptionType = SubscriptionType.FOLLOW,
+                    targetId = payload.subscriberId,
+                )
             }
         }
     }

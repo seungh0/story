@@ -86,7 +86,6 @@ class SubscriptionSubscriber(
         reactiveCassandraOperations.batchOps()
             .upsert(subscriber)
             .upsert(Subscription.of(subscriber = subscriber))
-            .upsert(SubscriberDistributed.of(subscriber = subscriber))
             .executeCoroutine()
     }
 

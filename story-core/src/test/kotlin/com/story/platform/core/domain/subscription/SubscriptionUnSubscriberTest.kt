@@ -13,7 +13,6 @@ internal class SubscriptionUnSubscriberTest(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
-    private val subscriberDistributedRepository: SubscriberDistributedRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -46,15 +45,6 @@ internal class SubscriptionUnSubscriberTest(
                     subscriberId = subscriberId,
                     targetId = targetId,
                     slotId = 1L,
-                )
-            )
-
-            subscriberDistributedRepository.save(
-                SubscriberDistributedFixture.create(
-                    serviceType = serviceType,
-                    subscriptionType = subscriptionType,
-                    targetId = targetId,
-                    subscriberId = subscriberId,
                 )
             )
 
