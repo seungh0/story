@@ -6,10 +6,10 @@ import com.story.platform.core.domain.subscription.SubscriberDistributor
 import com.story.platform.core.domain.subscription.SubscriptionEvent
 import com.story.platform.core.domain.subscription.SubscriptionType
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
+import com.story.platform.core.support.coroutine.IOBound
 import com.story.platform.core.support.json.JsonUtils
 import com.story.platform.core.support.json.toJson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.apache.kafka.clients.consumer.ConsumerRecord
@@ -21,11 +21,10 @@ import org.springframework.stereotype.Service
 @Service
 class FeedEventConsumer(
     private val subscriberDistributor: SubscriberDistributor,
-) {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val dispatcher = Dispatchers.IO
-        .limitedParallelism(parallelism = 100)
+    @IOBound
+    private val dispatcher: CoroutineDispatcher,
+) {
 
     @KafkaListener(
         topics = ["\${story.kafka.post.topic}"],

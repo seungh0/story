@@ -2,8 +2,9 @@ package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.InternalServerException
-import com.story.platform.core.support.coroutine.CoroutineConfigConstants
-import kotlinx.coroutines.Dispatchers
+import com.story.platform.core.support.coroutine.CoroutineConfig.Companion.DEFAULT_TIMEOUT_MS
+import com.story.platform.core.support.coroutine.IOBound
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.joinAll
@@ -15,7 +16,10 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionCountManager(
     private val subscribersCountRepository: SubscribersCountRepository,
-    private val subscriptionCountRepository: SubscriptionCountRepository,
+    private val subscriptionsCountRepository: SubscriptionsCountRepository,
+
+    @IOBound
+    private val dispatcher: CoroutineDispatcher,
 ) {
 
     suspend fun increase(
@@ -25,12 +29,12 @@ class SubscriptionCountManager(
         subscriberId: String,
     ) {
         val jobs = mutableListOf<Job>()
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             jobs += launch {
-                withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
+                withTimeout(DEFAULT_TIMEOUT_MS) {
                     try {
-                        subscriptionCountRepository.increase(
-                            SubscriptionCountKey(
+                        subscriptionsCountRepository.increase(
+                            SubscriptionsCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 subscriberId = subscriberId,
@@ -43,10 +47,10 @@ class SubscriptionCountManager(
             }
 
             jobs += launch {
-                withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
+                withTimeout(DEFAULT_TIMEOUT_MS) {
                     try {
                         subscribersCountRepository.increase(
-                            SubscriberCountKey(
+                            SubscribersCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 targetId = targetId,
@@ -68,12 +72,12 @@ class SubscriptionCountManager(
         subscriberId: String,
     ) {
         val jobs = mutableListOf<Job>()
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             jobs += launch {
-                withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
+                withTimeout(DEFAULT_TIMEOUT_MS) {
                     try {
-                        subscriptionCountRepository.decrease(
-                            SubscriptionCountKey(
+                        subscriptionsCountRepository.decrease(
+                            SubscriptionsCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 subscriberId = subscriberId,
@@ -86,10 +90,10 @@ class SubscriptionCountManager(
             }
 
             jobs += launch {
-                withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
+                withTimeout(DEFAULT_TIMEOUT_MS) {
                     try {
                         subscribersCountRepository.decrease(
-                            SubscriberCountKey(
+                            SubscribersCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 targetId = targetId,

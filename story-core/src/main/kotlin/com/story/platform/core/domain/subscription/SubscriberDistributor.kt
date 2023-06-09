@@ -5,9 +5,10 @@ import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
-import com.story.platform.core.support.coroutine.CoroutineConfigConstants
+import com.story.platform.core.support.coroutine.CoroutineConfig.Companion.DEFAULT_TIMEOUT_MS
+import com.story.platform.core.support.coroutine.IOBound
 import com.story.platform.core.support.json.toJson
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,6 +23,9 @@ class SubscriberDistributor(
 
     @Qualifier(KafkaProducerConfig.DEFAULT_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
+
+    @IOBound
+    private val dispatcher: CoroutineDispatcher,
 ) {
 
     suspend fun distribute(
@@ -30,7 +34,7 @@ class SubscriberDistributor(
         targetId: String,
     ) {
         val subscribersCount = subscribersCountRepository.get(
-            key = SubscriberCountKey(
+            key = SubscribersCountKey(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -40,9 +44,9 @@ class SubscriberDistributor(
         val lastSlot = SubscriptionSlotAssigner.assign(sequence = subscribersCount)
 
         for (slot in SubscriptionSlotAssigner.FIRST_SLOT_ID..lastSlot) {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 launch {
-                    withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
+                    withTimeout(DEFAULT_TIMEOUT_MS) {
                         try {
                             val event = SubscriberDistributedEvent(
                                 serviceType = serviceType,

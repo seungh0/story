@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 @Service
 class SubscriptionCountRetriever(
     private val subscribersCountRepository: SubscribersCountRepository,
-    private val subscriptionCountRepository: SubscriptionCountRepository,
+    private val subscriptionsCountRepository: SubscriptionsCountRepository,
 ) {
 
     suspend fun countSubscribers(
@@ -14,7 +14,7 @@ class SubscriptionCountRetriever(
         subscriptionType: SubscriptionType,
         targetId: String,
     ): Long {
-        val key = SubscriberCountKey(
+        val key = SubscribersCountKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
@@ -27,12 +27,12 @@ class SubscriptionCountRetriever(
         subscriptionType: SubscriptionType,
         subscriberId: String,
     ): Long {
-        val key = SubscriptionCountKey(
+        val key = SubscriptionsCountKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
         )
-        return subscriptionCountRepository.get(key)
+        return subscriptionsCountRepository.get(key)
     }
 
 }
