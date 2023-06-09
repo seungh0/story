@@ -30,7 +30,7 @@ class SubscriberDistributor(
         targetId: String,
     ) {
         val subscribersCount = subscribersCountRepository.get(
-            key = SubscribersCountKey(
+            key = SubscriberCountKey(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,

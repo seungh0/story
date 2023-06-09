@@ -29,8 +29,8 @@ data class RedisCacheKey(
 
         fun fromKeyString(cacheType: CacheType, keyString: String): RedisCacheKey {
             val prefix = getCachePrefix(cacheType)
-            if (!keyString.startsWith(prefix)) {
-                throw IllegalArgumentException("해당 keyString($keyString)은 cacheType($cacheType)에 해당하는 레디스 키가 아닙니다")
+            require(keyString.startsWith(prefix)) {
+                "해당 keyString($keyString)은 cacheType($cacheType)에 해당하는 레디스 키가 아닙니다"
             }
 
             return RedisCacheKey(

@@ -13,7 +13,7 @@ class SubscriptionCountRetrieverTest(
 
     afterEach {
         subscribersCountRepository.delete(
-            key = SubscribersCountKey(
+            key = SubscriberCountKey(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
@@ -27,7 +27,7 @@ class SubscriptionCountRetrieverTest(
             val count = 999L
 
             subscribersCountRepository.increase(
-                key = SubscribersCountKey(
+                key = SubscriberCountKey(
                     serviceType = serviceType,
                     subscriptionType = subscriptionType,
                     targetId = targetId,

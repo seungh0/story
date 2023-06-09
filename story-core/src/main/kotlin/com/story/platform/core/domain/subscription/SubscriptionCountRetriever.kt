@@ -14,7 +14,7 @@ class SubscriptionCountRetriever(
         subscriptionType: SubscriptionType,
         targetId: String,
     ): Long {
-        val key = SubscribersCountKey(
+        val key = SubscriberCountKey(
             serviceType = serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,

@@ -10,8 +10,7 @@ data class SubscriptionCountKey(
     val subscriberId: String,
 ) : StringRedisKey<SubscriptionCountKey, Long> {
 
-    override fun makeKeyString(): String =
-        "subscribers-count:service:$serviceType:subscription:$subscriptionType:subscriber:$subscriberId:"
+    override fun makeKeyString(): String = "subscriptions-count:v1:$serviceType:$subscriptionType:$subscriberId"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

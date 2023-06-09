@@ -8,7 +8,7 @@ data class PostSequenceKey(
 ) : StringRedisKey<PostSequenceKey, Long> {
 
     override fun makeKeyString(): String =
-        "post-sequence:service:${postSpaceKey.serviceType}:space:${postSpaceKey.spaceType}:${postSpaceKey.spaceId}"
+        "post-sequence:v1:${postSpaceKey.serviceType}:${postSpaceKey.spaceType}:${postSpaceKey.spaceId}"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

@@ -46,7 +46,7 @@ class SubscriptionCountManager(
                 withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
                     try {
                         subscribersCountRepository.increase(
-                            SubscribersCountKey(
+                            SubscriberCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 targetId = targetId,
@@ -89,7 +89,7 @@ class SubscriptionCountManager(
                 withTimeout(CoroutineConfigConstants.DEFAULT_TIMEOUT_MS) {
                     try {
                         subscribersCountRepository.decrease(
-                            SubscribersCountKey(
+                            SubscriberCountKey(
                                 serviceType = serviceType,
                                 subscriptionType = subscriptionType,
                                 targetId = targetId,
