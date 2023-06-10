@@ -8,7 +8,6 @@ import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
-import org.springframework.data.cassandra.core.mapping.Column
 import org.springframework.data.cassandra.core.mapping.Embedded
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
@@ -20,19 +19,15 @@ data class Post(
     @field:PrimaryKey
     val key: PostPrimaryKey,
 
-    @field:Column(value = "account_id")
     @field:CassandraType(type = TEXT)
     val accountId: String,
 
-    @field:Column(value = "title")
     @field:CassandraType(type = TEXT)
     var title: String,
 
-    @field:Column(value = "content")
     @field:CassandraType(type = TEXT)
     var content: String,
 
-    @field:Column(value = "extra_json")
     @field:CassandraType(type = TEXT)
     var extraJson: String?,
 
@@ -80,23 +75,23 @@ data class Post(
 
 @PrimaryKeyClass
 data class PostPrimaryKey(
-    @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED, ordinal = 1)
+    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 1)
     @field:CassandraType(type = TEXT)
     val serviceType: ServiceType,
 
-    @field:PrimaryKeyColumn(value = "space_type", type = PARTITIONED, ordinal = 2)
+    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 2)
     @field:CassandraType(type = TEXT)
     val spaceType: PostSpaceType,
 
-    @field:PrimaryKeyColumn(value = "space_id", type = PARTITIONED, ordinal = 3)
+    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 3)
     @field:CassandraType(type = TEXT)
     val spaceId: String,
 
-    @field:PrimaryKeyColumn(value = "slot_id", type = PARTITIONED, ordinal = 4)
+    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 4)
     @field:CassandraType(type = BIGINT)
     val slotId: Long,
 
-    @field:PrimaryKeyColumn(value = "post_id", type = CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
+    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     @field:CassandraType(type = BIGINT)
     val postId: Long,
 ) {

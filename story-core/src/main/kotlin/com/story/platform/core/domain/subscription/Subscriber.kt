@@ -8,7 +8,6 @@ import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BIGINT
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.BOOLEAN
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name.TEXT
-import org.springframework.data.cassandra.core.mapping.Column
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
@@ -19,7 +18,6 @@ data class Subscriber(
     @field:PrimaryKey
     val key: SubscriberPrimaryKey,
 
-    @field:Column
     @field:CassandraType(type = BOOLEAN)
     val alarm: Boolean,
 ) {
@@ -48,23 +46,23 @@ data class Subscriber(
 
 @PrimaryKeyClass
 data class SubscriberPrimaryKey(
-    @field:PrimaryKeyColumn(value = "service_type", type = PARTITIONED, ordinal = 1)
+    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 1)
     @field:CassandraType(type = TEXT)
     val serviceType: ServiceType,
 
-    @field:PrimaryKeyColumn(value = "subscription_type", type = PARTITIONED, ordinal = 2)
+    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 2)
     @field:CassandraType(type = TEXT)
     val subscriptionType: SubscriptionType,
 
-    @field:PrimaryKeyColumn(value = "target_id", type = PARTITIONED, ordinal = 3)
+    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 3)
     @field:CassandraType(type = TEXT)
     val targetId: String,
 
-    @field:PrimaryKeyColumn(value = "slot_id", type = PARTITIONED, ordinal = 4)
+    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 4)
     @field:CassandraType(type = BIGINT)
     val slotId: Long,
 
-    @field:PrimaryKeyColumn(value = "subscriber_id", type = CLUSTERED, ordering = ASCENDING, ordinal = 5)
+    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = ASCENDING, ordinal = 5)
     @field:CassandraType(type = TEXT)
     val subscriberId: String,
 )

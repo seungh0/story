@@ -46,38 +46,23 @@ data class Feed(
 
 @PrimaryKeyClass
 data class FeedPrimaryKey(
-    @field:PrimaryKeyColumn(value = "service_type", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
     @field:CassandraType(type = CassandraType.Name.TEXT)
     val serviceType: ServiceType,
 
-    @field:PrimaryKeyColumn(value = "account_id", type = PrimaryKeyType.PARTITIONED, ordinal = 2)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
     @field:CassandraType(type = CassandraType.Name.TEXT)
     val accountId: String,
 
-    @field:PrimaryKeyColumn(
-        value = "created_at",
-        type = PrimaryKeyType.CLUSTERED,
-        ordering = Ordering.DESCENDING,
-        ordinal = 3,
-    )
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 3)
     @field:CassandraType(type = CassandraType.Name.TIMESTAMP)
     val createdAt: LocalDateTime,
 
-    @field:PrimaryKeyColumn(
-        value = "feed_type",
-        type = PrimaryKeyType.CLUSTERED,
-        ordering = Ordering.DESCENDING,
-        ordinal = 4,
-    )
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
     @field:CassandraType(type = CassandraType.Name.TEXT)
     val feedType: FeedType,
 
-    @field:PrimaryKeyColumn(
-        value = "feed_id",
-        type = PrimaryKeyType.CLUSTERED,
-        ordering = Ordering.DESCENDING,
-        ordinal = 5,
-    )
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     @field:CassandraType(type = CassandraType.Name.TEXT)
     val feedId: String,
 )
