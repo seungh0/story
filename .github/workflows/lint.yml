@@ -1,4 +1,4 @@
-name: "CI"
+name: "Lint"
 
 on:
   pull_request:
@@ -41,12 +41,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Setup Integration Test Containers
-        run: docker-compose -f "infra/test/docker-compose.yml" up -d --build
-
-      - name: Test w/ coverage
-        run: ./gradlew clean build
-
-      - name: Stop Integration Test Containers
-        if: always()
-        run: docker-compose -f "infra/test/docker-compose.yml" down
+      - name: KtLint Check
+        run: ./gradlew ktlintCheck
