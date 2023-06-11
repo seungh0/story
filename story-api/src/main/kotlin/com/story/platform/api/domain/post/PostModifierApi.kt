@@ -7,8 +7,8 @@ import com.story.platform.core.domain.post.PostModifyHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
 import jakarta.validation.Valid
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
@@ -20,14 +20,14 @@ class PostModifierApi(
     /**
      * 포스트 정보를 수정한다
      */
-    @PutMapping("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}")
+    @PatchMapping("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}")
     suspend fun modify(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
-        @Valid @RequestBody request: PostModifyApiRequest,
+        @Valid @RequestBody request: PostModifyPatchApiRequest,
     ): ApiResponse<String> {
-        postModifyHandler.modify(
+        postModifyHandler.patch(
             postSpaceKey = PostSpaceKey(
                 serviceType = ServiceType.TWEETER,
                 spaceType = spaceType,

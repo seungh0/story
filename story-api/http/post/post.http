@@ -18,7 +18,7 @@ Content-Type: application/json
 
 
 ### 포스팅 수정
-PUT {{api}}/v1/spaces/ACCOUNT/{{ACCOUNT}}/posts/{{POST_ID}}
+PATCH {{api}}/v1/spaces/ACCOUNT/{{ACCOUNT}}/posts/{{POST_ID}}
 Content-Type: application/json
 
 {

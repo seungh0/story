@@ -1,10 +1,8 @@
 package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.common.model.AuditingTime
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
-import org.springframework.data.cassandra.core.mapping.Embedded
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
@@ -20,9 +18,6 @@ import java.time.LocalDateTime
 data class Feed(
     @field:PrimaryKey
     val key: FeedPrimaryKey,
-
-    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
-    val auditingTime: AuditingTime,
 )
 
 @PrimaryKeyClass

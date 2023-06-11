@@ -8,15 +8,15 @@ class PostModifyHandler(
     private val postEventPublisher: PostEventPublisher,
 ) {
 
-    suspend fun modify(
+    suspend fun patch(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         postId: Long,
-        title: String,
-        content: String,
-        extraJson: String? = null,
+        title: String?,
+        content: String?,
+        extraJson: String?,
     ) {
-        postModifier.modify(
+        val (post: Post, hasChanged: Boolean) = postModifier.patch(
             postSpaceKey = postSpaceKey,
             accountId = accountId,
             postId = postId,
@@ -24,13 +24,18 @@ class PostModifyHandler(
             content = content,
             extraJson = extraJson,
         )
-        postEventPublisher.publishUpdatedEvent(
+
+        if (!hasChanged) {
+            return
+        }
+
+        postEventPublisher.publishModifiedEvent(
             postSpaceKey = postSpaceKey,
             accountId = accountId,
             postId = postId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
+            title = post.title,
+            content = post.content,
+            extraJson = post.extraJson,
         )
     }
 

@@ -35,7 +35,7 @@ class PostEventPublisher(
         kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
     }
 
-    suspend fun publishUpdatedEvent(
+    suspend fun publishModifiedEvent(
         postSpaceKey: PostSpaceKey,
         postId: Long,
         accountId: String,
@@ -43,7 +43,7 @@ class PostEventPublisher(
         content: String,
         extraJson: String?,
     ) {
-        val event = PostEvent.updated(
+        val event = PostEvent.modified(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,

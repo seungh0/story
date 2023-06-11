@@ -28,7 +28,7 @@ internal class PostModifierApiTest(
         val spaceId = "계정의 ID"
         val spaceType = PostSpaceType.ACCOUNT
 
-        val request = PostModifyApiRequest(
+        val request = PostModifyPatchApiRequest(
             accountId = spaceId,
             title = "토끼가 너무 좋아요",
             content = """
@@ -39,7 +39,7 @@ internal class PostModifierApiTest(
         )
 
         coEvery {
-            postModifyHandler.modify(
+            postModifyHandler.patch(
                 postSpaceKey = PostSpaceKey(
                     serviceType = ServiceType.TWEETER,
                     spaceId = spaceId,
@@ -54,7 +54,7 @@ internal class PostModifierApiTest(
         } returns Unit
 
         // when
-        val exchange = webTestClient.put()
+        val exchange = webTestClient.patch()
             .uri("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}", spaceType, spaceId, postId)
             .headers(WebClientUtils.commonHeaders)
             .contentType(MediaType.APPLICATION_JSON)

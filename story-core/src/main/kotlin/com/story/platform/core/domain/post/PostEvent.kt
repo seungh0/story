@@ -39,7 +39,7 @@ data class PostEvent(
             ),
         )
 
-        fun updated(
+        fun modified(
             serviceType: ServiceType,
             spaceType: PostSpaceType,
             spaceId: String,

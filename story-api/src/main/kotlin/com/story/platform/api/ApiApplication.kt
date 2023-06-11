@@ -7,8 +7,8 @@ import org.springframework.boot.runApplication
 
 @ConfigurationPropertiesScan(basePackages = [BASE_PACKAGE])
 @SpringBootApplication(scanBasePackages = [BASE_PACKAGE])
-class StoryApiApplication
+class ApiApplication
 
 fun main(args: Array<String>) {
-    runApplication<StoryApiApplication>(*args)
+    runApplication<ApiApplication>(*args)
 }

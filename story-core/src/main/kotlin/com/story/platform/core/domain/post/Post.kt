@@ -29,15 +29,32 @@ data class Post(
         return this.accountId == accountId
     }
 
-    fun modify(
-        title: String,
-        content: String,
+    fun patch(
+        title: String?,
+        content: String?,
         extraJson: String?,
-    ) {
-        this.title = title
-        this.content = content
-        this.extraJson = extraJson
-        this.auditingTime.updated()
+    ): Boolean {
+        var hasChanged = false
+        if (title != null) {
+            hasChanged = hasChanged || this.title != title
+            this.title = title
+        }
+
+        if (content != null) {
+            hasChanged = hasChanged || this.content != content
+            this.content = content
+        }
+
+        if (extraJson != null) {
+            hasChanged = hasChanged || this.extraJson != extraJson
+            this.extraJson = extraJson
+        }
+
+        if (hasChanged) {
+            this.auditingTime.updated()
+        }
+
+        return hasChanged
     }
 
     companion object {

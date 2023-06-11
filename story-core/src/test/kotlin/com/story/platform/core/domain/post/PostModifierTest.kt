@@ -44,7 +44,7 @@ internal class PostModifierTest(
             postReverseRepository.save(postRev)
 
             // when
-            postModifier.modify(
+            postModifier.patch(
                 postSpaceKey = PostSpaceKey(
                     serviceType = post.key.serviceType,
                     spaceType = post.key.spaceType,
@@ -94,7 +94,7 @@ internal class PostModifierTest(
 
             // when & then
             shouldThrowExactly<NotFoundException> {
-                postModifier.modify(
+                postModifier.patch(
                     postSpaceKey = PostSpaceKey(
                         serviceType = ServiceType.TWEETER,
                         spaceType = PostSpaceType.ACCOUNT,
@@ -123,7 +123,7 @@ internal class PostModifierTest(
 
             // when & then
             shouldThrowExactly<ForbiddenException> {
-                postModifier.modify(
+                postModifier.patch(
                     postSpaceKey = PostSpaceKey(
                         serviceType = post.key.serviceType,
                         spaceType = post.key.spaceType,

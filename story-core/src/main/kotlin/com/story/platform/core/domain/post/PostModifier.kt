@@ -13,15 +13,16 @@ class PostModifier(
     private val postRepository: PostRepository,
 ) {
 
-    suspend fun modify(
+    suspend fun patch(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         postId: Long,
-        title: String,
-        content: String,
-        extraJson: String? = null,
-    ) {
+        title: String?,
+        content: String?,
+        extraJson: String?,
+    ): PostModifyResult {
         val slotId = PostSlotAssigner.assign(postId)
+
         val post = postRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
             serviceType = postSpaceKey.serviceType,
             spaceType = postSpaceKey.spaceType,
@@ -34,16 +35,22 @@ class PostModifier(
             throw ForbiddenException("계정($accountId)는 해당하는 포스트($postSpaceKey-$postId)를 수정할 권한이 없습니다")
         }
 
-        post.modify(
+        val hasChanged = post.patch(
             title = title,
             content = content,
             extraJson = extraJson,
         )
 
+        if (!hasChanged) {
+            return PostModifyResult(post = post, hasChanged = false)
+        }
+
         reactiveCassandraOperations.batchOps()
             .upsert(post)
             .upsert(PostReverse.of(post))
             .executeCoroutine()
+
+        return PostModifyResult(post = post, hasChanged = true)
     }
 
 }
