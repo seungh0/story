@@ -5,5 +5,6 @@ enum class SubscriptionType(
 ) {
 
     FOLLOW(description = "팔로우"),
+    LIKE(description = "좋아요"),
 
 }

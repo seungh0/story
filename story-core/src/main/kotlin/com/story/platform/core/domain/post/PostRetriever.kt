@@ -1,11 +1,21 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.CursorDirection
+import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.BadRequestException
+import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.support.coroutine.CoroutineConfig
+import com.story.platform.core.support.coroutine.IOBound
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 
@@ -13,6 +23,9 @@ import org.springframework.stereotype.Service
 class PostRetriever(
     private val postRepository: PostRepository,
     private val postSequenceGenerator: PostSequenceGenerator,
+
+    @IOBound
+    private val dispatcher: CoroutineDispatcher,
 ) {
 
     suspend fun getPost(
@@ -26,6 +39,36 @@ class PostRetriever(
             slotId = PostSlotAssigner.assign(postId),
             postId = postId,
         ) ?: throw NotFoundException("해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
+    }
+
+    suspend fun listPosts(
+        serviceType: ServiceType,
+        keys: Collection<PostKey>,
+    ): List<Post> {
+        return withContext(dispatcher) {
+            val posts = keys.map { key ->
+                async {
+                    withTimeout(CoroutineConfig.DEFAULT_TIMEOUT_MS) {
+                        try {
+                            postRepository.findById(
+                                PostPrimaryKey.of(
+                                    postSpaceKey = PostSpaceKey(
+                                        serviceType = serviceType,
+                                        spaceId = key.spaceId,
+                                        spaceType = key.spaceType,
+                                    ),
+                                    postId = key.postId,
+                                )
+                            )
+                        } catch (exception: TimeoutCancellationException) {
+                            throw InternalServerException(exception.message ?: "Coroutine Timeout Exception", exception)
+                        }
+                    }
+                }
+            }
+
+            return@withContext posts.awaitAll().filterNotNull()
+        }
     }
 
     suspend fun listPosts(

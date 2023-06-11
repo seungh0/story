@@ -10,7 +10,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 /**
  *  고민 사항: 피드에 노출될 정보를 비정규화로 가지고 있을지.. target 정보를 토대로 받아와서 보여주는 것이 좋을지 고민해야봐야 함...
@@ -37,13 +37,13 @@ data class FeedPrimaryKey(
     val createdDate: LocalDate,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
-    val createdTime: LocalTime,
+    val createdAt: LocalDateTime,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val sourceType: FeedSourceType,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
-    val sourceId: String,
+    val sourceKey: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
     val feedId: String,

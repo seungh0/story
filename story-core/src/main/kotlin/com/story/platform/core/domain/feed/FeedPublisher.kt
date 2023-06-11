@@ -2,6 +2,8 @@ package com.story.platform.core.domain.feed
 
 import com.story.platform.core.domain.subscription.SubscriberDistributedEvent
 import com.story.platform.core.domain.subscription.SubscriberRepository
+import com.story.platform.core.domain.subscription.SubscribersCountRepository
+import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service
 @Service
 class FeedPublisher(
     private val subscriberRepository: SubscriberRepository,
+    private val subscribersCountRepository: SubscribersCountRepository,
+    private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
     suspend fun createFeed(event: SubscriberDistributedEvent) {
