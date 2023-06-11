@@ -21,6 +21,15 @@ class DistributedLockAspect(
         val methodSignature = joinPoint.signature as MethodSignature
         val distributedLock = methodSignature.method.getAnnotation(DistributedLock::class.java)
 
+        if (!precondition(
+                joinPoint = joinPoint,
+                methodSignature = methodSignature,
+                distributedLock = distributedLock
+            )
+        ) {
+            return joinPoint.proceed(joinPoint.args)
+        }
+
         return joinPoint.runCoroutine {
             val lockKey = SpringExpressionParser.parseString(
                 methodSignature.parameterNames,
@@ -36,6 +45,26 @@ class DistributedLockAspect(
                 }
             }
         }
+    }
+
+    private fun precondition(
+        joinPoint: ProceedingJoinPoint,
+        methodSignature: MethodSignature,
+        distributedLock: DistributedLock,
+    ): Boolean {
+        val unless = SpringExpressionParser.parseBoolean(
+            parameterNames = methodSignature.parameterNames,
+            args = joinPoint.args,
+            key = distributedLock.unless,
+        )
+
+        val condition = SpringExpressionParser.parseBoolean(
+            parameterNames = methodSignature.parameterNames,
+            args = joinPoint.args,
+            key = distributedLock.condition,
+        )
+
+        return (unless == null || !unless) && (condition == null || condition)
     }
 
 }

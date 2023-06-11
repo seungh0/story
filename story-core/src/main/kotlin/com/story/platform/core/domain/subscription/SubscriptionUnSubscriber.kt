@@ -13,7 +13,6 @@ class SubscriptionUnSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberRepository: SubscriberRepository,
-
 ) {
 
     @DistributedLock(

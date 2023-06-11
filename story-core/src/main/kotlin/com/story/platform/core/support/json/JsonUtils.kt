@@ -12,7 +12,6 @@ import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import com.story.platform.core.common.error.InternalServerException
-import java.lang.reflect.Type
 
 object JsonUtils {
 
@@ -30,11 +29,7 @@ object JsonUtils {
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
         .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
-        .registerModules(
-            JavaTimeModule(),
-            ParameterNamesModule(),
-            kotlinModule
-        )
+        .registerModules(JavaTimeModule(), ParameterNamesModule(), kotlinModule)
 
     fun <T> toObject(input: String, toClass: Class<T>): T? {
         return try {
@@ -110,22 +105,6 @@ object JsonUtils {
         } catch (exception: Exception) {
             throw InternalServerException(String.format("JsonNode 직렬화 중 에러가 발생하였습니다. input: (%s)", json), exception)
         }
-    }
-
-    fun deserialize(returnType: Class<*>, actualType: Type = returnType, jsonString: String): Any? {
-        if (String::class.java == returnType) {
-            return jsonString
-        }
-
-        if (List::class.java.isAssignableFrom(returnType) && actualType is Class<*>) {
-            return toList(jsonString, actualType)
-        }
-
-        if (Set::class.java.isAssignableFrom(returnType) && actualType is Class<*>) {
-            return toSet(jsonString, actualType)
-        }
-
-        return toObject(jsonString, returnType)
     }
 
 }

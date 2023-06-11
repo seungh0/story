@@ -10,4 +10,10 @@ annotation class CacheEvict(
     val key: String = "",
 
     val allEntries: Boolean = false,
+
+    @Language(value = "SpEL")
+    val condition: String = "",
+
+    @Language(value = "SpEL")
+    val unless: String = "",
 )

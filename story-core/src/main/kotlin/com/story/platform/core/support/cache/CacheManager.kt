@@ -1,6 +1,5 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.common.model.ReflectionType
 import com.story.platform.core.support.logger.LoggerExtension.log
 import org.springframework.stereotype.Component
 
@@ -9,12 +8,11 @@ class CacheManager(
     private val cacheStrategyDelegator: CacheStrategyDelegator,
 ) {
 
-    suspend fun getCacheFromLayeredCache(cacheType: CacheType, cacheKey: String, returnType: ReflectionType): Any? {
+    suspend fun getCacheFromLayeredCache(cacheType: CacheType, cacheKey: String): Any? {
         val localCacheValue = cacheStrategyDelegator.getCache(
             cacheStrategyType = CacheStrategyType.LOCAL,
             cacheType = cacheType,
             cacheKey = cacheKey,
-            returnType = returnType
         )
         if (localCacheValue != null) {
             return localCacheValue
@@ -25,7 +23,6 @@ class CacheManager(
                 cacheStrategyType = CacheStrategyType.GLOBAL,
                 cacheType = cacheType,
                 cacheKey = cacheKey,
-                returnType = returnType
             )
             if (globalCacheValue != null) {
                 cacheStrategyDelegator.refreshCache(

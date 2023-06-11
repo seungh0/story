@@ -1,6 +1,5 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.common.model.ReflectionType
 import com.story.platform.core.support.json.JsonUtils
 import com.story.platform.core.support.json.toJson
 import com.story.platform.core.support.logger.LoggerExtension.log
@@ -13,7 +12,7 @@ class GlobalCacheStrategy(
 
     override fun cacheStrategy(): CacheStrategyType = CacheStrategyType.GLOBAL
 
-    override suspend fun getCache(cacheType: CacheType, cacheKey: String, returnType: ReflectionType): Any? {
+    override suspend fun getCache(cacheType: CacheType, cacheKey: String): Any? {
         if (!cacheType.enableGlobalCache() || redisCacheRepository.isEarlyRecomputedRequired(
                 cacheType = cacheType,
                 cacheKey = cacheKey
@@ -27,13 +26,9 @@ class GlobalCacheStrategy(
             return null
         }
 
-        val globalCacheValue = JsonUtils.deserialize(
-            returnType = returnType.returnType,
-            actualType = returnType.actualType,
-            jsonString = redisCacheValueJson
-        )
+        val globalCacheValue = JsonUtils.toObject(redisCacheValueJson, cacheType.cacheClazz)
 
-        log.info { "글로벌 캐시로부터 데이터를 가져옵니다 [key:$cacheKey value: $globalCacheValue]" }
+        log.debug { "글로벌 캐시로부터 데이터를 가져옵니다 [key:$cacheKey value: $globalCacheValue]" }
 
         return globalCacheValue
     }
@@ -43,7 +38,7 @@ class GlobalCacheStrategy(
             return
         }
         redisCacheRepository.setCache(cacheType = cacheType, cacheKey = cacheKey, value = value.toJson())
-        log.info { "글로벌 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
+        log.debug { "글로벌 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
     }
 
     override suspend fun evict(cacheType: CacheType, cacheKey: String) {

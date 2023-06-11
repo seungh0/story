@@ -1,7 +1,6 @@
 package com.story.platform.core.support.cache
 
 import com.story.platform.core.common.error.InternalServerException
-import com.story.platform.core.common.model.ReflectionType
 import com.story.platform.core.support.coroutine.coroutineArgs
 import com.story.platform.core.support.coroutine.proceedCoroutine
 import com.story.platform.core.support.coroutine.runCoroutine
@@ -41,7 +40,6 @@ class CacheableAspect(
             val cacheValue = cacheManager.getCacheFromLayeredCache(
                 cacheType = cacheable.cacheType,
                 cacheKey = cacheKey,
-                returnType = ReflectionType.getType(methodSignature = methodSignature)
             )
             if (cacheValue != null) {
                 return@runCoroutine cacheValue

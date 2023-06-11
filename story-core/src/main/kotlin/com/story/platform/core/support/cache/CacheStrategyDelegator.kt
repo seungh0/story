@@ -1,7 +1,6 @@
 package com.story.platform.core.support.cache
 
 import com.story.platform.core.common.error.NotImplementedException
-import com.story.platform.core.common.model.ReflectionType
 import com.story.platform.core.support.spring.SpringBeanProvider
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
@@ -16,10 +15,9 @@ class CacheStrategyDelegator(
         cacheStrategyType: CacheStrategyType,
         cacheType: CacheType,
         cacheKey: String,
-        returnType: ReflectionType,
     ): Any? {
         val cacheStrategy = findCacheStrategy(cacheStrategyType)
-        return cacheStrategy.getCache(cacheType = cacheType, cacheKey = cacheKey, returnType = returnType)
+        return cacheStrategy.getCache(cacheType = cacheType, cacheKey = cacheKey)
     }
 
     suspend fun refreshCache(

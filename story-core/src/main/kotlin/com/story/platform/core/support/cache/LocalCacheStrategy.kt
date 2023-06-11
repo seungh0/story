@@ -1,6 +1,5 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.common.model.ReflectionType
 import com.story.platform.core.support.logger.LoggerExtension.log
 import org.springframework.cache.CacheManager
 import org.springframework.stereotype.Repository
@@ -12,7 +11,7 @@ class LocalCacheStrategy(
 
     override fun cacheStrategy(): CacheStrategyType = CacheStrategyType.LOCAL
 
-    override suspend fun getCache(cacheType: CacheType, cacheKey: String, returnType: ReflectionType): Any? {
+    override suspend fun getCache(cacheType: CacheType, cacheKey: String): Any? {
         if (!cacheType.enableLocalCache()) {
             return null
         }
