@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.feed
 
-enum class FeedType(
+enum class FeedSourceType(
     private val description: String,
 ) {
 

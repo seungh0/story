@@ -1,46 +1,28 @@
 package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.common.model.AuditingTime
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
+import org.springframework.data.cassandra.core.mapping.Embedded
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 
 /**
- * Feed, Feed_Heavy
- * - Feed
- * - FeedHeavy: 슬롯이 1만개로 분산... (50000 * 10000 = 500,000,000 (5억)
- *
- * Feed (유저별로 보이는 피드...)
- * - service_type
- * - subscriber_id
- * - created_at
- * - space_id
- * - feed_id
- * - title
- * - contents
- *
- * FeedSlot (피드 슬롯 정보)
- * - service_type
- * - target_id: 대상자의 ID
- * - feed_id: 피드 ID
- * - slotCount: 슬롯 갯수
- *
- * FeedSubscriber (피드가 보여질 대상 구독자들)
- * - service_type
- * - space_id
- * - feed_id
- * - slot
- * - subscriber_id
+ *  고민 사항: 피드에 노출될 정보를 비정규화로 가지고 있을지.. target 정보를 토대로 받아와서 보여주는 것이 좋을지 고민해야봐야 함...
+ *  - 피드 폼이 바뀔때마다 대응하기 위해서는 피드 source
  */
-
 @Table("feed_v1")
 data class Feed(
     @field:PrimaryKey
     val key: FeedPrimaryKey,
+
+    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    val auditingTime: AuditingTime,
 )
 
 @PrimaryKeyClass
@@ -51,12 +33,18 @@ data class FeedPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
     val accountId: String,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 3)
-    val createdAt: LocalDateTime,
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
+    val createdDate: LocalDate,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
-    val feedType: FeedType,
+    val createdTime: LocalTime,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
+    val sourceType: FeedSourceType,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
+    val sourceId: String,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
     val feedId: String,
 )

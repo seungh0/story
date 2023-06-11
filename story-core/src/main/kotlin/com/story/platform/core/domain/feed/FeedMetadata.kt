@@ -1,39 +1,31 @@
 package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.enums.ServiceType
-import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
-import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
-import java.time.LocalDateTime
 
-@Table("feed_reverse_v1")
-data class FeedReverse(
+@Table("feed_metadata_v1")
+data class FeedMetadata(
     @field:PrimaryKey
-    val key: FeedReversePrimaryKey,
+    val key: FeedMetadataPrimaryKey,
 
-    @field:CassandraType(type = CassandraType.Name.TIMESTAMP)
-    val createdAt: LocalDateTime,
+    val slotCount: Long,
 )
 
 @PrimaryKeyClass
-data class FeedReversePrimaryKey(
+data class FeedMetadataPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
-    @field:CassandraType(type = CassandraType.Name.TEXT)
     val serviceType: ServiceType,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
-    @field:CassandraType(type = CassandraType.Name.TEXT)
-    val accountId: String,
+    val sourceType: FeedSourceType,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    @field:CassandraType(type = CassandraType.Name.TEXT)
-    val feedType: FeedType,
+    val sourceId: String,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
-    @field:CassandraType(type = CassandraType.Name.TEXT)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
     val feedId: String,
 )
