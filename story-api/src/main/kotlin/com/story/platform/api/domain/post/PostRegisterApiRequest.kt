@@ -9,7 +9,6 @@ data class PostRegisterApiRequest(
     @field:NotBlank
     val title: String = "",
 
-    @field:NotBlank
     val content: String = "",
 
     val extraJson: String? = null,

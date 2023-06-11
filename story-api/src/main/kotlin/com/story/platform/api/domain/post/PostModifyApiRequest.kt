@@ -3,7 +3,7 @@ package com.story.platform.api.domain.post
 import com.story.platform.core.common.error.BadRequestException
 import jakarta.validation.constraints.NotBlank
 
-data class PostModifyPatchApiRequest(
+data class PostModifyApiRequest(
     @field:NotBlank
     val accountId: String = "",
     val title: String?,
@@ -13,7 +13,11 @@ data class PostModifyPatchApiRequest(
 
     init {
         if (title == null && content == null && extraJson == null) {
-            throw BadRequestException("Post Patch API 호출시 모든 필드가 null일 수 없습니다. accountId: $accountId")
+            throw BadRequestException("Patch API에서 모든 필드가 null일 수 없습니다. accountId: $accountId")
+        }
+
+        if (title != null && title.isBlank()) {
+            throw BadRequestException("title($title)가 빈 값일 수 없습니다")
         }
     }
 

@@ -21,11 +21,11 @@ class PostModifierApi(
      * 포스트 정보를 수정한다
      */
     @PatchMapping("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}")
-    suspend fun modify(
+    suspend fun patch(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
-        @Valid @RequestBody request: PostModifyPatchApiRequest,
+        @Valid @RequestBody request: PostModifyApiRequest,
     ): ApiResponse<String> {
         postModifyHandler.patch(
             postSpaceKey = PostSpaceKey(

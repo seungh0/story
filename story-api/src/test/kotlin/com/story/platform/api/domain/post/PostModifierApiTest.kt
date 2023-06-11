@@ -28,7 +28,7 @@ internal class PostModifierApiTest(
         val spaceId = "계정의 ID"
         val spaceType = PostSpaceType.ACCOUNT
 
-        val request = PostModifyPatchApiRequest(
+        val request = PostModifyApiRequest(
             accountId = spaceId,
             title = "토끼가 너무 좋아요",
             content = """

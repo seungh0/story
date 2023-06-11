@@ -35,7 +35,7 @@ data class Post(
         extraJson: String?,
     ): Boolean {
         var hasChanged = false
-        if (title != null) {
+        if (!title.isNullOrBlank()) {
             hasChanged = hasChanged || this.title != title
             this.title = title
         }
