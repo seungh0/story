@@ -9,11 +9,14 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindException
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.bind.support.WebExchangeBindException
 import org.springframework.web.server.MethodNotAllowedException
 import org.springframework.web.server.ServerWebInputException
+import java.util.stream.Collectors
 
 @RestControllerAdvice
 class ControllerExceptionAdvice {
@@ -25,6 +28,16 @@ class ControllerExceptionAdvice {
             .mapNotNull { fieldError -> fieldError.defaultMessage?.plus(" [${fieldError.field}]") }
             .joinToString(separator = "\n")
         log.warn(exception) { errorMessage }
+        return ApiResponse.error(ErrorCode.E400_BAD_REQUEST, errorMessage)
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(WebExchangeBindException::class)
+    private fun handleWebExchangeBindException(exception: WebExchangeBindException): ApiResponse<Nothing> {
+        val errorMessage = exception.bindingResult.fieldErrors.stream()
+            .map { fieldError: FieldError -> fieldError.field + " " + fieldError.defaultMessage }
+            .collect(Collectors.joining("\n"))
+        log.error("WebExchangeBindException: {}", errorMessage)
         return ApiResponse.error(ErrorCode.E400_BAD_REQUEST, errorMessage)
     }
 
