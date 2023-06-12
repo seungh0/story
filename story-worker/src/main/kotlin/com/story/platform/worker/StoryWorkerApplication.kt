@@ -1,4 +1,4 @@
-package com.story.platform.apiconsumer
+package com.story.platform.worker
 
 import com.story.platform.core.common.constants.StoryPackageConst.BASE_PACKAGE
 import org.springframework.boot.autoconfigure.SpringBootApplication

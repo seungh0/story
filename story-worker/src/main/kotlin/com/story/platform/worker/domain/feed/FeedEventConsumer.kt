@@ -1,4 +1,4 @@
-package com.story.platform.apiconsumer.domain.feed
+package com.story.platform.worker.domain.feed
 
 import com.story.platform.core.common.model.EventRecord
 import com.story.platform.core.domain.post.PostEvent

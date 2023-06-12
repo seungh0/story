@@ -1,6 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 val kotlinLoggingJvmVersion = "3.0.5"
 val kotlinxCoroutinesTestVersion = "1.7.1"
@@ -123,7 +124,7 @@ subprojects {
         }
     }
 
-    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    configure<KtlintExtension> {
         version.set("0.45.2")
         debug.set(false)
         verbose.set(true)

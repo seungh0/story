@@ -1,4 +1,4 @@
-package com.story.platform.apiconsumer.domain
+package com.story.platform.worker.domain
 
 import com.story.platform.core.common.model.ApiResponse
 import org.springframework.web.bind.annotation.GetMapping

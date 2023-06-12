@@ -1,6 +1,6 @@
 val asciidoctorExtensions: Configuration by configurations.creating
 
-val springRedisDocsAsciidoctorVersion = "3.0.0"
+val springRestDocsAsciidoctorVersion = "3.0.0"
 
 tasks.test {
     outputs.dir("build/generated-snippets")
@@ -21,7 +21,7 @@ dependencies {
 
     // Spring Rest Docs
     testImplementation("org.springframework.restdocs:spring-restdocs-webtestclient")
-    asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor:$springRedisDocsAsciidoctorVersion")
+    asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor:$springRestDocsAsciidoctorVersion")
 }
 
 tasks.bootJar {
