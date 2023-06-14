@@ -1,4 +1,4 @@
-package com.story.platform.core.common.utils
+package com.story.platform.core.domain.event
 
 import java.util.UUID
 

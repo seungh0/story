@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service
 class SubscriptionEventPublisher(
     @Qualifier(KafkaProducerConfig.SUBSCRIPTION_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
+    private val eventHistoryManager: EventHistoryManager,
 ) {
 
     suspend fun publishSubscriptionEvent(
@@ -27,7 +29,13 @@ class SubscriptionEventPublisher(
             subscriberId = subscriberId,
             targetId = targetId,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
+
+        eventHistoryManager.withSaveEventHistory(
+            serviceType = serviceType,
+            event = event,
+        ) {
+            kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
+        }
     }
 
     suspend fun publishUnsubscriptionEvent(
@@ -42,7 +50,13 @@ class SubscriptionEventPublisher(
             subscriberId = subscriberId,
             targetId = targetId,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
+
+        eventHistoryManager.withSaveEventHistory(
+            serviceType = serviceType,
+            event = event,
+        ) {
+            kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
+        }
     }
 
 }

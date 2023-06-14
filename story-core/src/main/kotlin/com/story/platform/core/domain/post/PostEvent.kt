@@ -2,7 +2,7 @@ package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.EventType
 import com.story.platform.core.common.enums.ServiceType
-import com.story.platform.core.common.model.EventRecord
+import com.story.platform.core.domain.event.EventRecord
 
 data class PostEvent(
     val serviceType: ServiceType,

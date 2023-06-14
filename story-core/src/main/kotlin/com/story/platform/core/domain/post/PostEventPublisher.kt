@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service
 class PostEventPublisher(
     @Qualifier(KafkaProducerConfig.POST_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
+    private val eventHistoryManager: EventHistoryManager,
 ) {
 
     suspend fun publishCreatedEvent(
@@ -32,7 +34,12 @@ class PostEventPublisher(
             content = content,
             extraJson = extraJson,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+        eventHistoryManager.withSaveEventHistory(
+            serviceType = postSpaceKey.serviceType,
+            event = event,
+        ) {
+            kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+        }
     }
 
     suspend fun publishModifiedEvent(
@@ -53,7 +60,12 @@ class PostEventPublisher(
             content = content,
             extraJson = extraJson,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+        eventHistoryManager.withSaveEventHistory(
+            serviceType = postSpaceKey.serviceType,
+            event = event,
+        ) {
+            kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+        }
     }
 
     suspend fun publishDeletedEvent(
@@ -68,7 +80,12 @@ class PostEventPublisher(
             postId = postId,
             accountId = accountId,
         )
-        kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+        eventHistoryManager.withSaveEventHistory(
+            serviceType = postSpaceKey.serviceType,
+            event = event,
+        ) {
+            kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+        }
     }
 
 }

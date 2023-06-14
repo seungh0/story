@@ -1,6 +1,6 @@
 package com.story.platform.worker.domain.feed
 
-import com.story.platform.core.common.model.EventRecord
+import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.subscription.SubscriberDistributor
 import com.story.platform.core.domain.subscription.SubscriptionEvent

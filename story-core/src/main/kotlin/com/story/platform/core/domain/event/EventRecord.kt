@@ -1,7 +1,6 @@
-package com.story.platform.core.common.model
+package com.story.platform.core.domain.event
 
 import com.story.platform.core.common.enums.EventType
-import com.story.platform.core.common.utils.EventIdGenerator
 import java.time.LocalDateTime
 
 data class EventRecord<T>(
