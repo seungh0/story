@@ -12,6 +12,11 @@ import org.springframework.data.cassandra.core.mapping.Table
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+/**
+ * TTL: 30일
+ * - compaction: Time Window Compaction Strategy
+ * - gc seconds: 적정 값 찾기..
+ */
 @Table("event_history_v1")
 data class EventHistory(
     @field:PrimaryKey
