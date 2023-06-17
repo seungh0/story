@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.core.common.model.AuditingTimeResponse
-import com.story.platform.core.domain.post.Post
+import com.story.platform.core.domain.post.PostResponse
 
 data class PostApiResponse(
     val postId: String,
@@ -11,14 +11,14 @@ data class PostApiResponse(
 ) : AuditingTimeResponse() {
 
     companion object {
-        fun of(post: Post): PostApiResponse {
+        fun of(post: PostResponse): PostApiResponse {
             val response = PostApiResponse(
-                postId = post.key.postId.toString(),
+                postId = post.postId.toString(),
                 title = post.title,
                 content = post.content,
                 extraJson = post.extraJson,
             )
-            response.from(post.auditingTime)
+            response.from(post)
             return response
         }
     }

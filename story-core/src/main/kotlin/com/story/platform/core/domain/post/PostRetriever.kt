@@ -31,20 +31,22 @@ class PostRetriever(
     suspend fun getPost(
         postSpaceKey: PostSpaceKey,
         postId: Long,
-    ): Post {
-        return postRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
-            serviceType = postSpaceKey.serviceType,
-            spaceType = postSpaceKey.spaceType,
-            spaceId = postSpaceKey.spaceId,
-            slotId = PostSlotAssigner.assign(postId),
-            postId = postId,
-        ) ?: throw NotFoundException("해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
+    ): PostResponse {
+        return PostResponse.of(
+            postRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+                serviceType = postSpaceKey.serviceType,
+                spaceType = postSpaceKey.spaceType,
+                spaceId = postSpaceKey.spaceId,
+                slotId = PostSlotAssigner.assign(postId),
+                postId = postId,
+            ) ?: throw NotFoundException("해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
+        )
     }
 
     suspend fun listPosts(
         serviceType: ServiceType,
         keys: Collection<PostKey>,
-    ): List<Post> {
+    ): List<PostResponse> {
         return withContext(dispatcher) {
             val posts = keys.map { key ->
                 async {
@@ -67,14 +69,14 @@ class PostRetriever(
                 }
             }
 
-            return@withContext posts.awaitAll().filterNotNull()
+            return@withContext posts.awaitAll().filterNotNull().map { post -> PostResponse.of(post) }
         }
     }
 
     suspend fun listPosts(
         postSpaceKey: PostSpaceKey,
         cursorRequest: CursorRequest,
-    ): CursorResult<Post, String> {
+    ): CursorResult<PostResponse, String> {
         val (posts, slot: Long) = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextPosts(cursorRequest, postSpaceKey)
             CursorDirection.PREVIOUS -> listPreviousPosts(cursorRequest, postSpaceKey)
@@ -82,7 +84,8 @@ class PostRetriever(
 
         if (posts.size > cursorRequest.pageSize) {
             return CursorResult(
-                data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size)),
+                data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
+                    .map { post -> PostResponse.of(post) },
                 cursor = getCursor(posts = posts, pageSize = cursorRequest.pageSize),
             )
         }
@@ -112,7 +115,7 @@ class PostRetriever(
         val data = posts + morePosts.subList(0, (cursorRequest.pageSize - posts.size).coerceAtMost(morePosts.size))
 
         return CursorResult(
-            data = data,
+            data = data.map { post -> PostResponse.of(post) },
             cursor = getCursor(posts = morePosts, pageSize = cursorRequest.pageSize - posts.size),
         )
     }

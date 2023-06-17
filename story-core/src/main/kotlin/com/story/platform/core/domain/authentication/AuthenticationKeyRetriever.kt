@@ -16,12 +16,14 @@ class AuthenticationKeyRetriever(
     )
     suspend fun getAuthenticationKey(
         apiKey: String,
-    ): AuthenticationReverseKey {
-        return authenticationReverseKeyRepository.findById(
-            AuthenticationReverseKeyPrimaryKey(
-                apiKey = apiKey,
-            )
-        ) ?: throw NotFoundException("등록되지 않은 API-Key($apiKey) 입니다")
+    ): AuthenticationResponse {
+        return AuthenticationResponse.of(
+            authenticationReverseKeyRepository.findById(
+                AuthenticationReverseKeyPrimaryKey(
+                    apiKey = apiKey,
+                )
+            ) ?: throw NotFoundException("등록되지 않은 API-Key($apiKey) 입니다")
+        )
     }
 
 }

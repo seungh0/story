@@ -37,8 +37,8 @@ class SubscriptionRetriever(
         subscriptionType: SubscriptionType,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<Subscriber, String> {
-        return when (cursorRequest.direction) {
+    ): CursorResult<SubscriptionResponse, String> {
+        val response = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextSubscribers(
                 serviceType = serviceType,
                 subscriptionType = subscriptionType,
@@ -53,6 +53,10 @@ class SubscriptionRetriever(
                 cursorRequest = cursorRequest,
             )
         }
+        return CursorResult.of(
+            data = response.data.map { subscriber -> SubscriptionResponse.of(subscriber) },
+            cursor = response.cursor,
+        )
     }
 
     private suspend fun listPreviousSubscribers(
@@ -231,7 +235,7 @@ class SubscriptionRetriever(
         subscriptionType: SubscriptionType,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<Subscription, String> {
+    ): CursorResult<SubscriptionResponse, String> {
         val subscriptions = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextSubscriptions(
                 cursorRequest = cursorRequest,
@@ -257,7 +261,7 @@ class SubscriptionRetriever(
         }
 
         return CursorResult.of(
-            data = data,
+            data = data.map { subscription -> SubscriptionResponse.of(subscription) },
             cursor = Cursor.of(
                 cursor = getNextCursor(subscriptions = subscriptions, cursorRequest = cursorRequest),
             )

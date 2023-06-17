@@ -1,6 +1,6 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.domain.authentication.AuthenticationReverseKey
+import com.story.platform.core.domain.authentication.AuthenticationResponse
 import java.time.Duration
 
 enum class CacheType(
@@ -22,7 +22,7 @@ enum class CacheType(
         key = "authentication-key:v1",
         globalCacheTtl = Duration.ofHours(1),
         localCacheTtl = Duration.ofSeconds(10),
-        cacheClazz = AuthenticationReverseKey::class.java,
+        cacheClazz = AuthenticationResponse::class.java,
     ),
     ;
 

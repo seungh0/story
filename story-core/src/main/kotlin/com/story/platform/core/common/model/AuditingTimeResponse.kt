@@ -16,4 +16,9 @@ abstract class AuditingTimeResponse {
         this.updatedAt = auditingTime.updatedAt
     }
 
+    fun from(auditingTimeResponse: AuditingTimeResponse) {
+        this.createdAt = auditingTimeResponse.createdAt
+        this.updatedAt = auditingTimeResponse.updatedAt
+    }
+
 }

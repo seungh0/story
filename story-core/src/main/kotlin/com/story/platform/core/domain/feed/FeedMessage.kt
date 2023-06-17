@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.feed
 
-import com.story.platform.core.domain.post.Post
+import com.story.platform.core.domain.post.PostResponse
 
 data class FeedMessage(
     val title: String,
@@ -9,7 +9,7 @@ data class FeedMessage(
 ) {
 
     companion object {
-        fun of(post: Post) = FeedMessage(
+        fun of(post: PostResponse) = FeedMessage(
             title = post.title,
             content = post.content,
             imageUrl = null,

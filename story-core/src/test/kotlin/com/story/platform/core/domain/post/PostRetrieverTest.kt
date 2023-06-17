@@ -54,9 +54,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 9
-                sut.data[1].key.postId shouldBe 8
-                sut.data[2].key.postId shouldBe 7
+                sut.data[0].postId shouldBe 9
+                sut.data[1].postId shouldBe 8
+                sut.data[2].postId shouldBe 7
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "7"
@@ -90,9 +90,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 3
-                sut.data[1].key.postId shouldBe 2
-                sut.data[2].key.postId shouldBe 1
+                sut.data[0].postId shouldBe 3
+                sut.data[1].postId shouldBe 2
+                sut.data[2].postId shouldBe 1
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -126,9 +126,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 3
-                sut.data[1].key.postId shouldBe 2
-                sut.data[2].key.postId shouldBe 1
+                sut.data[0].postId shouldBe 3
+                sut.data[1].postId shouldBe 2
+                sut.data[2].postId shouldBe 1
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -167,9 +167,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 10001
-                sut.data[1].key.postId shouldBe 10000
-                sut.data[2].key.postId shouldBe 9999
+                sut.data[0].postId shouldBe 10001
+                sut.data[1].postId shouldBe 10000
+                sut.data[2].postId shouldBe 9999
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "9999"
@@ -206,9 +206,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 10001
-                sut.data[1].key.postId shouldBe 10000
-                sut.data[2].key.postId shouldBe 9999
+                sut.data[0].postId shouldBe 10001
+                sut.data[1].postId shouldBe 10000
+                sut.data[2].postId shouldBe 9999
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -245,9 +245,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 6
-                sut.data[1].key.postId shouldBe 5
-                sut.data[2].key.postId shouldBe 4
+                sut.data[0].postId shouldBe 6
+                sut.data[1].postId shouldBe 5
+                sut.data[2].postId shouldBe 4
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "4"
@@ -281,9 +281,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 3
-                sut.data[1].key.postId shouldBe 2
-                sut.data[2].key.postId shouldBe 1
+                sut.data[0].postId shouldBe 3
+                sut.data[1].postId shouldBe 2
+                sut.data[2].postId shouldBe 1
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -317,9 +317,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 3
-                sut.data[1].key.postId shouldBe 2
-                sut.data[2].key.postId shouldBe 1
+                sut.data[0].postId shouldBe 3
+                sut.data[1].postId shouldBe 2
+                sut.data[2].postId shouldBe 1
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -358,9 +358,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 10001
-                sut.data[1].key.postId shouldBe 10000
-                sut.data[2].key.postId shouldBe 9999
+                sut.data[0].postId shouldBe 10001
+                sut.data[1].postId shouldBe 10000
+                sut.data[2].postId shouldBe 9999
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "9999"
@@ -397,9 +397,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 10001
-                sut.data[1].key.postId shouldBe 10000
-                sut.data[2].key.postId shouldBe 9999
+                sut.data[0].postId shouldBe 10001
+                sut.data[1].postId shouldBe 10000
+                sut.data[2].postId shouldBe 9999
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -437,9 +437,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 1
-                sut.data[1].key.postId shouldBe 2
-                sut.data[2].key.postId shouldBe 3
+                sut.data[0].postId shouldBe 1
+                sut.data[1].postId shouldBe 2
+                sut.data[2].postId shouldBe 3
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "3"
@@ -473,9 +473,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 1
-                sut.data[1].key.postId shouldBe 2
-                sut.data[2].key.postId shouldBe 3
+                sut.data[0].postId shouldBe 1
+                sut.data[1].postId shouldBe 2
+                sut.data[2].postId shouldBe 3
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -509,9 +509,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 1
-                sut.data[1].key.postId shouldBe 2
-                sut.data[2].key.postId shouldBe 3
+                sut.data[0].postId shouldBe 1
+                sut.data[1].postId shouldBe 2
+                sut.data[2].postId shouldBe 3
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -550,9 +550,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 9999
-                sut.data[1].key.postId shouldBe 10000
-                sut.data[2].key.postId shouldBe 10001
+                sut.data[0].postId shouldBe 9999
+                sut.data[1].postId shouldBe 10000
+                sut.data[2].postId shouldBe 10001
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "10001"
@@ -589,9 +589,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 9999
-                sut.data[1].key.postId shouldBe 10000
-                sut.data[2].key.postId shouldBe 10001
+                sut.data[0].postId shouldBe 9999
+                sut.data[1].postId shouldBe 10000
+                sut.data[2].postId shouldBe 10001
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -627,9 +627,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 3
-                sut.data[1].key.postId shouldBe 4
-                sut.data[2].key.postId shouldBe 5
+                sut.data[0].postId shouldBe 3
+                sut.data[1].postId shouldBe 4
+                sut.data[2].postId shouldBe 5
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "5"
@@ -663,9 +663,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 7
-                sut.data[1].key.postId shouldBe 8
-                sut.data[2].key.postId shouldBe 9
+                sut.data[0].postId shouldBe 7
+                sut.data[1].postId shouldBe 8
+                sut.data[2].postId shouldBe 9
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -699,9 +699,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 7
-                sut.data[1].key.postId shouldBe 8
-                sut.data[2].key.postId shouldBe 9
+                sut.data[0].postId shouldBe 7
+                sut.data[1].postId shouldBe 8
+                sut.data[2].postId shouldBe 9
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -740,9 +740,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 9999
-                sut.data[1].key.postId shouldBe 10000
-                sut.data[2].key.postId shouldBe 10001
+                sut.data[0].postId shouldBe 9999
+                sut.data[1].postId shouldBe 10000
+                sut.data[2].postId shouldBe 10001
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "10001"
@@ -779,9 +779,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].key.postId shouldBe 9999
-                sut.data[1].key.postId shouldBe 10000
-                sut.data[2].key.postId shouldBe 10001
+                sut.data[0].postId shouldBe 9999
+                sut.data[1].postId shouldBe 10000
+                sut.data[2].postId shouldBe 10001
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null

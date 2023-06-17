@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.subscription
 
-import com.story.platform.core.domain.subscription.Subscription
+import com.story.platform.core.domain.subscription.SubscriptionResponse
 
 data class SubscriptionTargetApiResponse(
     val targetId: String,
@@ -8,8 +8,8 @@ data class SubscriptionTargetApiResponse(
 ) {
 
     companion object {
-        fun of(subscription: Subscription) = SubscriptionTargetApiResponse(
-            targetId = subscription.key.targetId,
+        fun of(subscription: SubscriptionResponse) = SubscriptionTargetApiResponse(
+            targetId = subscription.targetId,
             alarm = subscription.alarm,
         )
     }

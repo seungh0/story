@@ -2,7 +2,7 @@ package com.story.platform.api.domain.authentication
 
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationReverseKey
+import com.story.platform.core.domain.authentication.AuthenticationResponse
 
 data class AuthenticationKeyApiResponse(
     val serviceType: ServiceType,
@@ -12,10 +12,10 @@ data class AuthenticationKeyApiResponse(
 
     companion object {
         fun of(
-            authenticationKey: AuthenticationReverseKey,
+            authenticationKey: AuthenticationResponse,
         ) = AuthenticationKeyApiResponse(
             serviceType = authenticationKey.serviceType,
-            apiKey = authenticationKey.key.apiKey,
+            apiKey = authenticationKey.apiKey,
             status = authenticationKey.status,
         )
     }
