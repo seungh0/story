@@ -1,5 +1,6 @@
 package com.story.platform.api.domain.authentication
 
+import com.story.platform.core.common.enums.HttpHeaderType
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.common.error.UnAuthorizedException
 import com.story.platform.core.common.utils.getApiKey
@@ -15,7 +16,7 @@ class AuthenticationHandler(
 
     suspend fun handleAuthentication(serverWebExchange: ServerWebExchange): AuthenticationResponse {
         val apiKey = serverWebExchange.getApiKey()
-            ?: throw UnAuthorizedException("인증 헤더(X-Story-Api-Key)가 비어있습니다")
+            ?: throw UnAuthorizedException("인증 헤더(${HttpHeaderType.X_STORY_API_KEY.header})가 비어있습니다")
 
         try {
             val authentication = authenticationKeyRetriever.getAuthenticationKey(apiKey = apiKey)
