@@ -102,26 +102,22 @@ subprojects {
     task<Test>("unitTest") {
         description = "Unit Test"
         group = "verification"
-        useJUnitPlatform {
-            excludeTags("integration-test")
-            excludeTags("docs-test")
-        }
+        useJUnitPlatform()
+        systemProperty("kotest.tags", "!integration-test & !docs-test")
     }
 
     task<Test>("integrationTest") {
         description = "Integration Test"
         group = "verification"
-        useJUnitPlatform {
-            includeTags("integration-test")
-        }
+        useJUnitPlatform()
+        systemProperty("kotest.tags", "integration-test")
     }
 
     task<Test>("docsTest") {
         description = "Docs Test"
         group = "verification"
-        useJUnitPlatform {
-            includeTags("docs-test")
-        }
+        useJUnitPlatform()
+        systemProperty("kotest.tags", "docs-test")
     }
 
     configure<KtlintExtension> {

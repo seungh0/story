@@ -1,17 +1,21 @@
 package com.story.platform.api.lib
 
-import com.story.platform.api.RestDocsTest
+import com.story.platform.api.DocsTest
 import com.story.platform.core.common.error.ErrorCode
 import io.kotest.core.spec.style.FunSpec
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
 
-@RestDocsTest
+@DocsTest
 internal class ErrorCodeDocsGeneratorTest : FunSpec({
 
     test("에러코드 Asciidoctor 생성") {
         val file = File(FILE_PATH_NAME)
         if (!file.exists()) {
-            file.createNewFile()
+            withContext(Dispatchers.IO) {
+                file.createNewFile()
+            }
         }
         var asciidoctorText = """
             [cols="3%,10%,70%"]

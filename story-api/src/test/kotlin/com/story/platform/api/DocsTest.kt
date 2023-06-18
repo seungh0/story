@@ -7,4 +7,4 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 @Tags("docs-test")
 @AutoConfigureWebTestClient
 @AutoConfigureRestDocs
-internal annotation class RestDocsTest
+internal annotation class DocsTest

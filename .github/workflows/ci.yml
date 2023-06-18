@@ -16,13 +16,89 @@ on:
   workflow_dispatch:
 
 jobs:
-  ci:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: checkout@v3
         uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          fetch-depth: 0
+          java-version: 17
+          distribution: adopt
+          cache: gradle
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build w/o test
+        run: ./gradlew clean build -x check -x ktlintCheck --warning-mode all
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout@v3
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: adopt
+          cache: gradle
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Lint Check
+        run: ./gradlew ktlintCheck
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout@v3
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: adopt
+          cache: gradle
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Unit Test
+        run: ./gradlew unitTest
+
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout@v3
+        uses: actions/checkout@v3
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -44,8 +120,8 @@ jobs:
       - name: Setup Integration Test Containers
         run: docker-compose -f "infra/test/docker-compose.yml" up -d --build
 
-      - name: Test w/ coverage
-        run: ./gradlew clean build
+      - name: Integration Test
+        run: ./gradlew integrationTest
 
       - name: Stop Integration Test Containers
         if: always()
