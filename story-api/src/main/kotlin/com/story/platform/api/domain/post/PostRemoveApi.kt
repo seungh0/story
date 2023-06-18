@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.post
 
-import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostRemoveHandler
@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ServerWebExchange
 
 @RestController
 class PostRemoveApi(
     private val postRemoveHandler: PostRemoveHandler,
+    private val authenticationHandler: AuthenticationHandler,
 ) {
 
     /**
@@ -25,10 +27,12 @@ class PostRemoveApi(
         @PathVariable spaceId: String,
         @PathVariable postId: String,
         @RequestParam accountId: String,
+        serverWebExchange: ServerWebExchange,
     ): ApiResponse<String> {
+        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         postRemoveHandler.remove(
             postSpaceKey = PostSpaceKey(
-                serviceType = ServiceType.TWEETER,
+                serviceType = authentication.serviceType,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),

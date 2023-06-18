@@ -21,4 +21,4 @@ Content-Type: application/json
 
 ### 서비스의 인증 키 정보를 조회합니다
 GET {{api}}/v1/authentication/key
-X-Story-Api-Key: api-key
+X-Story-Api-Key: {{API_KEY}}

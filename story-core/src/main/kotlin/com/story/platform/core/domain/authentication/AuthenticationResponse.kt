@@ -8,6 +8,8 @@ data class AuthenticationResponse(
     val status: AuthenticationKeyStatus,
 ) {
 
+    fun isActivated() = this.status.isActivated
+
     companion object {
         fun of(authenticationReverseKey: AuthenticationReverseKey) = AuthenticationResponse(
             serviceType = authenticationReverseKey.serviceType,

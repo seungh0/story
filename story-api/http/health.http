@@ -5,5 +5,6 @@ GET {{api}}/health/readiness
     client.test("200 OK", () => {
         client.global.set("ACCOUNT", "koyerim")
         client.global.set("TARGET", "toto")
+        client.global.set("API_KEY", "api-key")
     });
 %}

@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.post
 
-import com.story.platform.core.common.enums.ServiceType
+import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostModifyHandler
@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ServerWebExchange
 
 @RestController
 class PostModifierApi(
     private val postModifyHandler: PostModifyHandler,
+    private val authenticationHandler: AuthenticationHandler,
 ) {
 
     /**
@@ -26,10 +28,12 @@ class PostModifierApi(
         @PathVariable spaceId: String,
         @PathVariable postId: String,
         @Valid @RequestBody request: PostModifyApiRequest,
+        serverWebExchange: ServerWebExchange,
     ): ApiResponse<String> {
+        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         postModifyHandler.patch(
             postSpaceKey = PostSpaceKey(
-                serviceType = ServiceType.TWEETER,
+                serviceType = authentication.serviceType,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),

@@ -2,9 +2,12 @@ package com.story.platform.api.domain.post
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.AccountIdResolver
+import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
+import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.post.PostModifyHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.post.PostSpaceType
@@ -20,7 +23,18 @@ internal class PostModifierApiTest(
 
     @MockkBean
     private val postModifyHandler: PostModifyHandler,
+
+    @MockkBean
+    private val authenticationHandler: AuthenticationHandler,
 ) : FunSpec({
+
+    beforeEach {
+        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+            serviceType = ServiceType.TWEETER,
+            apiKey = "api-key",
+            status = AuthenticationKeyStatus.ENABLED,
+        )
+    }
 
     test("기존 포스트를 수정합니다") {
         // given
