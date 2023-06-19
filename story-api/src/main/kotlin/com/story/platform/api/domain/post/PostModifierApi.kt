@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.post
 
-import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.config.AuthContext
+import com.story.platform.api.config.RequestAuthContext
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostModifyHandler
@@ -11,12 +12,10 @@ import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ServerWebExchange
 
 @RestController
 class PostModifierApi(
     private val postModifyHandler: PostModifyHandler,
-    private val authenticationHandler: AuthenticationHandler,
 ) {
 
     /**
@@ -28,12 +27,11 @@ class PostModifierApi(
         @PathVariable spaceId: String,
         @PathVariable postId: String,
         @Valid @RequestBody request: PostModifyApiRequest,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<String> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         postModifyHandler.patch(
             postSpaceKey = PostSpaceKey(
-                serviceType = authentication.serviceType,
+                serviceType = authContext.serviceType,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),

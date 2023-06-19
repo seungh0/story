@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.subscription
 
-import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.config.AuthContext
+import com.story.platform.api.config.RequestAuthContext
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
@@ -12,14 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ServerWebExchange
 
 @RequestMapping("/v1/subscriptions/{subscriptionType}")
 @RestController
 class SubscriptionRetrieveApi(
     private val subscriptionRetriever: SubscriptionRetriever,
     private val subscriptionCountRetriever: SubscriptionCountRetriever,
-    private val authenticationHandler: AuthenticationHandler,
 ) {
 
     /**
@@ -30,11 +29,10 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionCheckApiResponse> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         val isSubscriber = subscriptionRetriever.isSubscriber(
-            serviceType = authentication.serviceType,
+            serviceType = authContext.serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
@@ -51,11 +49,10 @@ class SubscriptionRetrieveApi(
     suspend fun countSubscribers(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscribersCountApiResponse> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         val subscribersCount = subscriptionCountRetriever.countSubscribers(
-            serviceType = authentication.serviceType,
+            serviceType = authContext.serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
@@ -71,11 +68,10 @@ class SubscriptionRetrieveApi(
     suspend fun countSubscriptions(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionsCountApiResponse> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         val subscribersCount = subscriptionCountRetriever.countSubscriptions(
-            serviceType = authentication.serviceType,
+            serviceType = authContext.serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
         )
@@ -92,11 +88,10 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable targetId: String,
         @Valid cursorRequest: CursorRequest,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriberApiResponse, String>> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         val subscriptionReverses = subscriptionRetriever.listTargetSubscribers(
-            serviceType = authentication.serviceType,
+            serviceType = authContext.serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
             cursorRequest = cursorRequest,
@@ -119,11 +114,10 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriptionType: SubscriptionType,
         @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriptionTargetApiResponse, String>> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         val subscriptions = subscriptionRetriever.listSubscriberTargets(
-            serviceType = authentication.serviceType,
+            serviceType = authContext.serviceType,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
             cursorRequest = cursorRequest,

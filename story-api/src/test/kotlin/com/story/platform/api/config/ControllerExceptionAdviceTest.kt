@@ -2,10 +2,14 @@ package com.story.platform.api.config
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.domain.HealthController
+import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.core.common.AvailabilityChecker
+import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.ConflictException
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
+import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
+import com.story.platform.core.domain.authentication.AuthenticationResponse
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -15,15 +19,27 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @WebFluxTest(
     HealthController::class,
     ControllerExceptionAdvice::class,
+    AuthContextMethodArgumentResolver::class,
 )
 internal class ControllerExceptionAdviceTest(
     private val webClient: WebTestClient,
 
     @MockkBean
     private val applicationAvailability: AvailabilityChecker,
+
+    @MockkBean
+    private val authenticationHandler: AuthenticationHandler,
 ) : FunSpec({
 
-    test("잘못된 HTTPMethod로 요청이 들어온경우 Method_Not_Allowed를 반환한다") {
+    beforeEach {
+        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+            serviceType = ServiceType.TWEETER,
+            apiKey = "api-key",
+            status = AuthenticationKeyStatus.ENABLED,
+        )
+    }
+
+    test("잘못된 HTTP Method로 요청이 들어온경우 Method_Not_Allowed를 반환한다") {
         // when
         val exchange = webClient.post()
             .uri("/health/liveness")

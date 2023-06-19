@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.subscription
 
-import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.config.AuthContext
+import com.story.platform.api.config.RequestAuthContext
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.subscription.SubscriptionSubscribeHandler
 import com.story.platform.core.domain.subscription.SubscriptionType
@@ -9,12 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ServerWebExchange
 
 @RestController
 class SubscriptionSubscribeApi(
     private val subscriptionSubscribeHandler: SubscriptionSubscribeHandler,
-    private val authenticationHandler: AuthenticationHandler,
 ) {
 
     /**
@@ -26,11 +25,10 @@ class SubscriptionSubscribeApi(
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
         @Valid @RequestBody request: SubscriptionSubscribeApiRequest,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<String> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         subscriptionSubscribeHandler.subscribe(
-            serviceType = authentication.serviceType,
+            serviceType = authContext.serviceType,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,

@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.post
 
-import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.config.AuthContext
+import com.story.platform.api.config.RequestAuthContext
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostRegisterHandler
 import com.story.platform.core.domain.post.PostSpaceKey
@@ -10,12 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ServerWebExchange
 
 @RestController
 class PostRegisterApi(
     private val postRegisterHandler: PostRegisterHandler,
-    private val authenticationHandler: AuthenticationHandler,
 ) {
 
     /**
@@ -26,12 +25,11 @@ class PostRegisterApi(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @Valid @RequestBody request: PostRegisterApiRequest,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<PostRegisterApiResponse> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         val postId = postRegisterHandler.register(
             postSpaceKey = PostSpaceKey(
-                serviceType = authentication.serviceType,
+                serviceType = authContext.serviceType,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),

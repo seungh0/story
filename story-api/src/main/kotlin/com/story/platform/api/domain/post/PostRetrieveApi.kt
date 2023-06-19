@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.post
 
-import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.config.AuthContext
+import com.story.platform.api.config.RequestAuthContext
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
@@ -12,12 +13,10 @@ import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ServerWebExchange
 
 @RestController
 class PostRetrieveApi(
     private val postRetriever: PostRetriever,
-    private val authenticationHandler: AuthenticationHandler,
 ) {
 
     /**
@@ -28,12 +27,11 @@ class PostRetrieveApi(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<PostApiResponse> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         val post = postRetriever.getPost(
             postSpaceKey = PostSpaceKey(
-                serviceType = authentication.serviceType,
+                serviceType = authContext.serviceType,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),
@@ -50,12 +48,11 @@ class PostRetrieveApi(
         @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @Valid cursorRequest: CursorRequest,
-        serverWebExchange: ServerWebExchange,
+        @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<PostApiResponse, String>> {
-        val authentication = authenticationHandler.handleAuthentication(serverWebExchange = serverWebExchange)
         val posts = postRetriever.listPosts(
             postSpaceKey = PostSpaceKey(
-                serviceType = authentication.serviceType,
+                serviceType = authContext.serviceType,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),
