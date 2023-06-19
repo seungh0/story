@@ -1,7 +1,6 @@
 package com.story.platform.api.domain.post
 
 import com.ninjasquad.springmockk.MockkBean
-import com.story.platform.api.config.AccountIdResolver
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.enums.ServiceType
@@ -17,7 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@WebFluxTest(PostRemoveApi::class, AccountIdResolver::class)
+@WebFluxTest(PostRemoveApi::class)
 class PostRemoveApiTest(
     private val webTestClient: WebTestClient,
 

@@ -15,7 +15,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @WebFluxTest(
     HealthController::class,
     ControllerExceptionAdvice::class,
-    AccountIdResolver::class,
 )
 internal class ControllerExceptionAdviceTest(
     private val webClient: WebTestClient,

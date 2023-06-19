@@ -11,17 +11,9 @@ import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.validation.Validator
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import org.springframework.web.reactive.config.WebFluxConfigurer
-import org.springframework.web.reactive.result.method.HandlerMethodArgumentResolver
-import org.springframework.web.reactive.result.method.annotation.ArgumentResolverConfigurer
 
 @Configuration
-class WebFluxConfig(
-    private val accountIdResolver: AccountIdResolver,
-) : WebFluxConfigurer {
-
-    override fun configureArgumentResolvers(configurer: ArgumentResolverConfigurer) {
-        configurer.addCustomResolver(accountIdResolver as HandlerMethodArgumentResolver)
-    }
+class WebFluxConfig : WebFluxConfigurer {
 
     override fun configureHttpMessageCodecs(configurer: ServerCodecConfigurer) {
         val objectMapper = JsonUtils.DEFAULT_OBJECT_MAPPER
