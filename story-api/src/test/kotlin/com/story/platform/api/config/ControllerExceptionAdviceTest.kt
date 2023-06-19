@@ -1,13 +1,13 @@
 package com.story.platform.api.config
 
-import com.ninjasquad.springmockk.SpykBean
+import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.domain.HealthController
+import com.story.platform.core.common.AvailabilityChecker
 import com.story.platform.core.common.error.ConflictException
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
 import io.kotest.core.spec.style.FunSpec
-import io.mockk.every
-import org.springframework.boot.availability.ApplicationAvailabilityBean
+import io.mockk.coEvery
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -20,8 +20,8 @@ import org.springframework.test.web.reactive.server.WebTestClient
 internal class ControllerExceptionAdviceTest(
     private val webClient: WebTestClient,
 
-    @SpykBean
-    private val applicationAvailability: ApplicationAvailabilityBean,
+    @MockkBean
+    private val applicationAvailability: AvailabilityChecker,
 ) : FunSpec({
 
     test("잘못된 HTTPMethod로 요청이 들어온경우 Method_Not_Allowed를 반환한다") {
@@ -36,7 +36,7 @@ internal class ControllerExceptionAdviceTest(
 
     test("지정된 에러가 발생하면, 해당 에러에 맞는 Http Status Code를 반환한다") {
         // given
-        every { applicationAvailability.livenessState } throws ConflictException(message = "중복이 발생하였습니다")
+        coEvery { applicationAvailability.livenessCheck() } throws ConflictException(message = "중복이 발생하였습니다")
 
         // when
         val exchange = webClient.get()
@@ -52,7 +52,7 @@ internal class ControllerExceptionAdviceTest(
 
     test("알 수 없는 에러가 발생하는 경우, Internal Server를 반환한다") {
         // given
-        every { applicationAvailability.livenessState } throws InternalServerException(
+        coEvery { applicationAvailability.livenessCheck() } throws InternalServerException(
             message = "서버 내부에서 에러가 발생하였습니다"
         )
 
