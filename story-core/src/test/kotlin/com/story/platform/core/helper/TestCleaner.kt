@@ -1,5 +1,6 @@
 package com.story.platform.core.helper
 
+import kotlinx.coroutines.joinAll
 import org.springframework.stereotype.Component
 
 @Component
@@ -9,8 +10,10 @@ class TestCleaner(
 ) {
 
     suspend fun cleanUp() {
-        cacheCleaner.cleanUp()
-        cassandraCleaner.cleanUp()
+        val cacheCleanJob = cacheCleaner.cleanUp()
+        val cassandraCleanJob = cassandraCleaner.cleanUp()
+        cacheCleanJob.joinAll()
+        cassandraCleanJob.joinAll()
     }
 
 }
