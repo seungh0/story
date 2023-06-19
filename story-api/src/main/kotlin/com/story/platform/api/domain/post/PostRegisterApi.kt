@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.post
 
-import com.story.platform.api.config.AuthContext
-import com.story.platform.api.config.RequestAuthContext
+import com.story.platform.api.config.auth.AuthContext
+import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostRegisterHandler
 import com.story.platform.core.domain.post.PostSpaceKey

@@ -1,4 +1,4 @@
-package com.story.platform.api.config
+package com.story.platform.api.config.auth
 
 import com.story.platform.core.common.error.InternalServerException
 import org.springframework.core.MethodParameter
@@ -20,7 +20,7 @@ class AuthContextMethodArgumentResolver : HandlerMethodArgumentResolver {
         bindingContext: BindingContext,
         exchange: ServerWebExchange,
     ): Mono<Any> {
-        val authContext: AuthContext = exchange.getAttribute(AuthFilter.AUTH_CONTEXT)
+        val authContext: AuthContext = exchange.getAttribute(AuthenticationHandlerFilter.AUTH_CONTEXT)
             ?: throw InternalServerException("AuthContext을 가져올 수 없습니다")
         return Mono.just(authContext)
     }

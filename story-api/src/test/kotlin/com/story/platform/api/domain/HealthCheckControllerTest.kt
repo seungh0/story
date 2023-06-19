@@ -1,7 +1,7 @@
 package com.story.platform.api.domain
 
 import com.ninjasquad.springmockk.MockkBean
-import com.story.platform.api.config.AuthContextMethodArgumentResolver
+import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.AvailabilityChecker

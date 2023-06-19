@@ -1,5 +1,6 @@
 package com.story.platform.api.config
 
+import com.story.platform.api.config.auth.AuthenticationWhitelistChecker
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.data.forAll
 import io.kotest.data.headers
@@ -21,7 +22,7 @@ internal class AuthWhiteListCheckerTest : FunSpec({
             )
         ) { uri, expected ->
             // when
-            val sut = AuthWhiteListChecker.checkNoAuthentication(uri)
+            val sut = AuthenticationWhitelistChecker.checkNoAuthentication(uri)
 
             // then
             sut shouldBe expected
@@ -42,7 +43,7 @@ internal class AuthWhiteListCheckerTest : FunSpec({
             stopWatcher.start()
 
             // when
-            AuthWhiteListChecker.checkNoAuthentication(uri)
+            AuthenticationWhitelistChecker.checkNoAuthentication(uri)
 
             // then
             stopWatcher.stop()

@@ -1,8 +1,8 @@
-package com.story.platform.api.config
+package com.story.platform.api.config.auth
 
 import java.util.regex.Pattern
 
-object AuthWhiteListChecker {
+object AuthenticationWhitelistChecker {
 
     private val WHITELIST_PATHS_EXACTLY = setOf<String>(
         // 필요시 추가

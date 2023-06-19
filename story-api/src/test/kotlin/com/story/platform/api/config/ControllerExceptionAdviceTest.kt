@@ -1,6 +1,7 @@
 package com.story.platform.api.config
 
 import com.ninjasquad.springmockk.MockkBean
+import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.HealthController
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.core.common.AvailabilityChecker

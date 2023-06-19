@@ -6,5 +6,6 @@ enum class HttpHeaderType(
 ) {
 
     X_STORY_API_KEY(header = "X-Story-Api-Key", description = "인증 키 헤더"),
+    X_REQUEST_ID(header = "X-Request-Id", description = "Request-Id"),
 
 }
