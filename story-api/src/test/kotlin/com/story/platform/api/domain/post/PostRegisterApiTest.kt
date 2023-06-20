@@ -38,6 +38,7 @@ class PostRegisterApiTest(
 
     test("새로운 포스트를 등록한다") {
         // given
+        val componentId = "post"
         val spaceId = "계정의 ID"
 
         val request = PostRegisterApiRequest(
@@ -53,6 +54,7 @@ class PostRegisterApiTest(
             postRegisterHandler.register(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = "twitter",
+                    componentId = componentId,
                     spaceId = spaceId,
                 ),
                 accountId = spaceId,
@@ -64,7 +66,7 @@ class PostRegisterApiTest(
 
         // when
         val exchange = webTestClient.post()
-            .uri("/v1/spaces/{spaceId}/posts", spaceId)
+            .uri("/v1/posts/{componentId}/spaces/{spaceId}/posts", componentId, spaceId)
             .headers(WebClientUtils.commonHeaders)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)

@@ -16,11 +16,11 @@ class SubscriptionSubscriber(
 
     @DistributedLock(
         lockType = DistributedLockType.SUBSCRIBE,
-        key = "'workspaceId:' + {#workspaceId} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
+        key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
     )
     suspend fun subscribe(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         subscriberId: String,
         alarm: Boolean,
@@ -28,7 +28,7 @@ class SubscriptionSubscriber(
         val subscriptionReverse = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 subscriberId = subscriberId,
                 targetId = targetId,
             )
@@ -36,7 +36,7 @@ class SubscriptionSubscriber(
         if ((subscriptionReverse != null) && subscriptionReverse.isActivated()) {
             saveSubscription(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 slotId = subscriptionReverse.slotId,
                 subscriberId = subscriberId,
@@ -48,14 +48,14 @@ class SubscriptionSubscriber(
         val slotId = subscriptionReverse?.slotId ?: SubscriptionSlotAssigner.assign(
             subscriberSequenceGenerator.generate(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId
             )
         )
 
         saveSubscription(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
             slotId = slotId,
             subscriberId = subscriberId,
@@ -67,7 +67,7 @@ class SubscriptionSubscriber(
 
     private suspend fun saveSubscription(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         slotId: Long,
         subscriberId: String,
@@ -75,7 +75,7 @@ class SubscriptionSubscriber(
     ) {
         val subscriber = Subscriber.of(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
             slotId = slotId,
             subscriberId = subscriberId,

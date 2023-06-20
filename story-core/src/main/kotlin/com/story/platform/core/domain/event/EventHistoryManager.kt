@@ -11,6 +11,7 @@ class EventHistoryManager(
 
     suspend fun <T> withSaveEventHistory(
         workspaceId: String,
+        componentId: String,
         event: EventRecord<T>,
         publishEvent: () -> Unit,
     ) {
@@ -19,6 +20,7 @@ class EventHistoryManager(
         } catch (exception: Exception) {
             val eventHistory = EventHistory.of(
                 workspaceId = workspaceId,
+                componentId = componentId,
                 eventRecord = event,
                 status = EventStatus.ERROR
             )
@@ -32,6 +34,7 @@ class EventHistoryManager(
 
         val eventHistory = EventHistory.of(
             workspaceId = workspaceId,
+            componentId = componentId,
             eventRecord = event,
             status = EventStatus.PUBLISHED
         )

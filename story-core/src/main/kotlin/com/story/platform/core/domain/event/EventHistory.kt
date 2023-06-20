@@ -27,17 +27,19 @@ data class EventHistory(
 ) {
 
     companion object {
-        fun <T> of(workspaceId: String, eventRecord: EventRecord<T>, status: EventStatus) = EventHistory(
-            key = EventHistoryPrimaryKey(
-                workspaceId = workspaceId,
-                eventType = eventRecord.eventType,
-                eventDate = eventRecord.timestamp.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'hh:mm")),
-                timestamp = eventRecord.timestamp,
-                eventId = eventRecord.eventId,
-            ),
-            status = status,
-            payloadJson = eventRecord.payload.toJson(),
-        )
+        fun <T> of(workspaceId: String, componentId: String, eventRecord: EventRecord<T>, status: EventStatus) =
+            EventHistory(
+                key = EventHistoryPrimaryKey(
+                    workspaceId = workspaceId,
+                    componentId = componentId,
+                    eventType = eventRecord.eventType,
+                    eventDate = eventRecord.timestamp.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'hh:mm")),
+                    timestamp = eventRecord.timestamp,
+                    eventId = eventRecord.eventId,
+                ),
+                status = status,
+                payloadJson = eventRecord.payload.toJson(),
+            )
     }
 
 }
@@ -48,14 +50,17 @@ data class EventHistoryPrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
-    val eventType: EventType,
+    val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
+    val eventType: EventType,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
     val eventDate: String, // yyyyMMddTHH:mm -> 1분 단위?
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val timestamp: LocalDateTime,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
     val eventId: String,
 )

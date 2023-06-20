@@ -39,7 +39,7 @@ data class Subscription(
         ) = Subscription(
             key = SubscriptionPrimaryKey(
                 workspaceId = subscriber.key.workspaceId,
-                subscriptionType = subscriber.key.subscriptionType,
+                componentId = subscriber.key.componentId,
                 subscriberId = subscriber.key.subscriberId,
                 targetId = subscriber.key.targetId,
             ),
@@ -57,7 +57,7 @@ data class SubscriptionPrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 2)
-    val subscriptionType: SubscriptionType,
+    val componentId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 3)
     val subscriberId: String,

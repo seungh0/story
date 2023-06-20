@@ -7,14 +7,13 @@ import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.subscription.SubscriptionCountRetriever
 import com.story.platform.core.domain.subscription.SubscriptionRetriever
-import com.story.platform.core.domain.subscription.SubscriptionType
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/subscriptions/{subscriptionType}")
+@RequestMapping("/v1/subscriptions/{componentId}")
 @RestController
 class SubscriptionRetrieveApi(
     private val subscriptionRetriever: SubscriptionRetriever,
@@ -24,16 +23,16 @@ class SubscriptionRetrieveApi(
     /**
      * 대상자의 구독자인지 확인한다
      */
-    @GetMapping("/subscribers/{subscriberId}/targets/{targetId}/exists")
+    @GetMapping("/subscribers/{subscriberId}/targets/{targetId}")
     suspend fun isSubscriber(
-        @PathVariable subscriptionType: SubscriptionType,
+        @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionCheckApiResponse> {
         val isSubscriber = subscriptionRetriever.isSubscriber(
             workspaceId = authContext.workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
             subscriberId = subscriberId,
         )
@@ -47,13 +46,13 @@ class SubscriptionRetrieveApi(
      */
     @GetMapping("/targets/{targetId}/subscribers/count")
     suspend fun countSubscribers(
-        @PathVariable subscriptionType: SubscriptionType,
+        @PathVariable componentId: String,
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscribersCountApiResponse> {
         val subscribersCount = subscriptionCountRetriever.countSubscribers(
             workspaceId = authContext.workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
         )
         return ApiResponse.success(
@@ -66,13 +65,13 @@ class SubscriptionRetrieveApi(
      */
     @GetMapping("/subscribers/{subscriberId}/subscriptions/count")
     suspend fun countSubscriptions(
-        @PathVariable subscriptionType: SubscriptionType,
+        @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionsCountApiResponse> {
         val subscribersCount = subscriptionCountRetriever.countSubscriptions(
             workspaceId = authContext.workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             subscriberId = subscriberId,
         )
         return ApiResponse.success(
@@ -85,14 +84,14 @@ class SubscriptionRetrieveApi(
      */
     @GetMapping("/targets/{targetId}/subscribers")
     suspend fun listTargetSubscribers(
-        @PathVariable subscriptionType: SubscriptionType,
+        @PathVariable componentId: String,
         @PathVariable targetId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriberApiResponse, String>> {
         val subscriptionReverses = subscriptionRetriever.listTargetSubscribers(
             workspaceId = authContext.workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
             cursorRequest = cursorRequest,
         )
@@ -111,14 +110,14 @@ class SubscriptionRetrieveApi(
      */
     @GetMapping("/subscribers/{subscriberId}/targets")
     suspend fun listSubscriberTargets(
-        @PathVariable subscriptionType: SubscriptionType,
+        @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriptionTargetApiResponse, String>> {
         val subscriptions = subscriptionRetriever.listSubscriberTargets(
             workspaceId = authContext.workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             subscriberId = subscriberId,
             cursorRequest = cursorRequest,
         )

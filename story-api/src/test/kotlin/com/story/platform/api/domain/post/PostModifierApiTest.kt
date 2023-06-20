@@ -39,6 +39,7 @@ internal class PostModifierApiTest(
 
     test("기존 포스트를 수정합니다") {
         // given
+        val componentId = "post"
         val postId = 100000L
         val spaceId = "계정의 ID"
 
@@ -56,6 +57,7 @@ internal class PostModifierApiTest(
             postModifyHandler.patch(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = "twitter",
+                    componentId = componentId,
                     spaceId = spaceId,
                 ),
                 postId = postId,
@@ -68,7 +70,7 @@ internal class PostModifierApiTest(
 
         // when
         val exchange = webTestClient.patch()
-            .uri("/v1/spaces/{spaceId}/posts/{postId}", spaceId, postId)
+            .uri("/v1/posts/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
             .headers(WebClientUtils.commonHeaders)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)

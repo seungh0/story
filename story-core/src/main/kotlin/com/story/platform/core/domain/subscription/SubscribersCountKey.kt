@@ -5,11 +5,11 @@ import java.time.Duration
 
 data class SubscribersCountKey(
     val workspaceId: String,
-    val subscriptionType: SubscriptionType,
+    val componentId: String,
     val targetId: String,
 ) : StringRedisKey<SubscribersCountKey, Long> {
 
-    override fun makeKeyString(): String = "subscribers-count:v1:$workspaceId:$subscriptionType:$targetId"
+    override fun makeKeyString(): String = "subscribers-count:v1:$workspaceId:$componentId:$targetId"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

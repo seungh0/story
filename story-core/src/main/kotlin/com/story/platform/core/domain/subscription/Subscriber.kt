@@ -19,7 +19,7 @@ data class Subscriber(
     companion object {
         fun of(
             workspaceId: String,
-            subscriptionType: SubscriptionType,
+            componentId: String,
             targetId: String,
             slotId: Long,
             subscriberId: String,
@@ -27,7 +27,7 @@ data class Subscriber(
         ) = Subscriber(
             key = SubscriberPrimaryKey(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 slotId = slotId,
                 subscriberId = subscriberId,
@@ -44,7 +44,7 @@ data class SubscriberPrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 2)
-    val subscriptionType: SubscriptionType,
+    val componentId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 3)
     val targetId: String,

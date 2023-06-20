@@ -31,6 +31,7 @@ class PostRetrieverTest(
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -66,6 +67,7 @@ class PostRetrieverTest(
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -101,6 +103,7 @@ class PostRetrieverTest(
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -141,6 +144,7 @@ class PostRetrieverTest(
                 (9998..10001).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -179,6 +183,7 @@ class PostRetrieverTest(
                 (9999..10001).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -217,6 +222,7 @@ class PostRetrieverTest(
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -252,6 +258,7 @@ class PostRetrieverTest(
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -287,6 +294,7 @@ class PostRetrieverTest(
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -327,6 +335,7 @@ class PostRetrieverTest(
                 (9998..10002).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -365,6 +374,7 @@ class PostRetrieverTest(
                 (9999..10002).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -404,6 +414,7 @@ class PostRetrieverTest(
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -439,6 +450,7 @@ class PostRetrieverTest(
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -474,6 +486,7 @@ class PostRetrieverTest(
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -514,6 +527,7 @@ class PostRetrieverTest(
                 (9999..10002).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -552,6 +566,7 @@ class PostRetrieverTest(
                 (9999..10001).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -589,6 +604,7 @@ class PostRetrieverTest(
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -624,6 +640,7 @@ class PostRetrieverTest(
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -659,6 +676,7 @@ class PostRetrieverTest(
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -699,6 +717,7 @@ class PostRetrieverTest(
                 (9998..10002).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -737,6 +756,7 @@ class PostRetrieverTest(
                 (9998..10001).forEach { postId ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
+                        componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
                     )
@@ -772,6 +792,7 @@ class PostRetrieverTest(
     companion object {
         val POST_SPACE_KEY = PostSpaceKey(
             workspaceId = "workspaceId",
+            componentId = "post",
             spaceId = "account-id",
         )
     }

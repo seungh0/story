@@ -3,8 +3,8 @@ GET {{api}}/health/readiness
 
 > {%
     client.test("200 OK", () => {
-        client.global.set("ACCOUNT", "koyerim")
-        client.global.set("TARGET", "toto")
+        client.global.set("ACCOUNT_ID", "koyerim")
+        client.global.set("TARGET_ID", "toto")
         client.global.set("API_KEY", "api-key")
     });
 %}

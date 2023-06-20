@@ -41,6 +41,7 @@ class PostRemoveApiTest(
         // given
         val postSpaceKey = PostSpaceKey(
             workspaceId = "twitter",
+            componentId = "post",
             spaceId = "게시글 공간 ID"
         )
 
@@ -58,7 +59,8 @@ class PostRemoveApiTest(
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/spaces/{spaceId}/posts/{postId}?accountId={accountId}",
+                "/v1/posts/{componentId}/spaces/{spaceId}/posts/{postId}?accountId={accountId}",
+                postSpaceKey.componentId,
                 postSpaceKey.spaceId,
                 postId,
                 accountId

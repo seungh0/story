@@ -18,19 +18,20 @@ class SubscriptionEventPublisher(
 
     suspend fun publishSubscriptionEvent(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
         targetId: String,
     ) {
         val event = SubscriptionEvent.subscribed(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             subscriberId = subscriberId,
             targetId = targetId,
         )
 
         eventHistoryManager.withSaveEventHistory(
             workspaceId = workspaceId,
+            componentId = componentId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
@@ -39,19 +40,20 @@ class SubscriptionEventPublisher(
 
     suspend fun publishUnsubscriptionEvent(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
         targetId: String,
     ) {
         val event = SubscriptionEvent.unsubscribed(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             subscriberId = subscriberId,
             targetId = targetId,
         )
 
         eventHistoryManager.withSaveEventHistory(
             workspaceId = workspaceId,
+            componentId = componentId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())

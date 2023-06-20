@@ -13,10 +13,15 @@ class PostFeedSourceImporter(
 
     override fun sourceType() = FeedSourceType.NEW_POST
 
-    override suspend fun fetch(workspaceId: String, sourceIds: Collection<String>): List<FeedMessage> {
+    override suspend fun fetch(
+        workspaceId: String,
+        componentId: String,
+        sourceIds: Collection<String>,
+    ): List<FeedMessage> {
         val postKeys = sourceIds.map { postKey -> PostKey.of(postKey) }
         val posts = postRetriever.listPosts(
             workspaceId = workspaceId,
+            componentId = componentId,
             keys = postKeys,
         )
 

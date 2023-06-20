@@ -19,8 +19,9 @@ class PostRegisterApi(
     /**
      * 신규 포스트를 등록한다
      */
-    @PostMapping("/v1/spaces/{spaceId}/posts")
+    @PostMapping("/v1/posts/{componentId}/spaces/{spaceId}/posts")
     suspend fun register(
+        @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @Valid @RequestBody request: PostRegisterApiRequest,
         @RequestAuthContext authContext: AuthContext,
@@ -28,6 +29,7 @@ class PostRegisterApi(
         val postId = postRegisterHandler.register(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
+                componentId = componentId,
                 spaceId = spaceId,
             ),
             accountId = request.accountId,

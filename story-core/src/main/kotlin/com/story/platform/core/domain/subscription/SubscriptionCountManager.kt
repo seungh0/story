@@ -23,7 +23,7 @@ class SubscriptionCountManager(
 
     suspend fun increase(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         subscriberId: String,
     ) {
@@ -35,7 +35,7 @@ class SubscriptionCountManager(
                         subscriptionsCountRepository.increase(
                             SubscriptionsCountKey(
                                 workspaceId = workspaceId,
-                                subscriptionType = subscriptionType,
+                                componentId = componentId,
                                 subscriberId = subscriberId,
                             )
                         )
@@ -51,7 +51,7 @@ class SubscriptionCountManager(
                         subscribersCountRepository.increase(
                             SubscribersCountKey(
                                 workspaceId = workspaceId,
-                                subscriptionType = subscriptionType,
+                                componentId = componentId,
                                 targetId = targetId,
                             )
                         )
@@ -66,7 +66,7 @@ class SubscriptionCountManager(
 
     suspend fun decrease(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         subscriberId: String,
     ) {
@@ -78,7 +78,7 @@ class SubscriptionCountManager(
                         subscriptionsCountRepository.decrease(
                             SubscriptionsCountKey(
                                 workspaceId = workspaceId,
-                                subscriptionType = subscriptionType,
+                                componentId = componentId,
                                 subscriberId = subscriberId,
                             )
                         )
@@ -94,7 +94,7 @@ class SubscriptionCountManager(
                         subscribersCountRepository.decrease(
                             SubscribersCountKey(
                                 workspaceId = workspaceId,
-                                subscriptionType = subscriptionType,
+                                componentId = componentId,
                                 targetId = targetId,
                             )
                         )

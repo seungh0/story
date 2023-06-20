@@ -30,6 +30,7 @@ internal class PostRemoverTest(
             postRemover.remove(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = post.key.workspaceId,
+                    componentId = post.key.componentId,
                     spaceId = post.key.spaceId,
                 ),
                 postId = post.key.postId,
@@ -49,6 +50,7 @@ internal class PostRemoverTest(
             postRemover.remove(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = "twitter",
+                    componentId = "post",
                     spaceId = "포스트 작성 공간 ID",
                 ),
                 postId = -1L,

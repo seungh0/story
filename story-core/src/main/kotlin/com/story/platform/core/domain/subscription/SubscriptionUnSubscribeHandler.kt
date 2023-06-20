@@ -11,13 +11,13 @@ class SubscriptionUnSubscribeHandler(
 
     suspend fun unsubscribe(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         subscriberId: String,
     ) {
         val isUnsubscribed = subscriptionUnSubscriber.unsubscribe(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
             subscriberId = subscriberId,
         )
@@ -25,14 +25,14 @@ class SubscriptionUnSubscribeHandler(
         if (isUnsubscribed) {
             subscriptionCountManager.decrease(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 subscriberId = subscriberId,
             )
 
             subscriptionEventPublisher.publishUnsubscriptionEvent(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 subscriberId = subscriberId,
                 targetId = targetId,
             )

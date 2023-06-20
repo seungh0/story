@@ -29,6 +29,7 @@ data class EventHistoryReverse(
         ) = EventHistoryReverse(
             key = EventHistoryReversePrimaryKey(
                 workspaceId = eventHistory.key.workspaceId,
+                componentId = eventHistory.key.componentId,
                 eventType = eventHistory.key.eventType,
                 eventId = eventHistory.key.eventId,
                 eventDate = eventHistory.key.eventDate,
@@ -47,14 +48,17 @@ data class EventHistoryReversePrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
-    val eventType: EventType,
+    val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
+    val eventType: EventType,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
     val eventId: String,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val eventDate: String, // yyyyMMddTHH:mm -> 1분 단위?
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
     val timestamp: LocalDateTime,
 )

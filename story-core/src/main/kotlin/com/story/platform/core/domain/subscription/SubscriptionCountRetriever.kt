@@ -10,12 +10,12 @@ class SubscriptionCountRetriever(
 
     suspend fun countSubscribers(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
     ): Long {
         val key = SubscribersCountKey(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
         )
         return subscribersCountRepository.get(key)
@@ -23,12 +23,12 @@ class SubscriptionCountRetriever(
 
     suspend fun countSubscriptions(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
     ): Long {
         val key = SubscriptionsCountKey(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             subscriberId = subscriberId,
         )
         return subscriptionsCountRepository.get(key)

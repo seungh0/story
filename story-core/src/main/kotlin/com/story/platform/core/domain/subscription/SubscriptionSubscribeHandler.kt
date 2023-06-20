@@ -11,14 +11,14 @@ class SubscriptionSubscribeHandler(
 
     suspend fun subscribe(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         subscriberId: String,
         alarm: Boolean,
     ) {
         val isSubscribed = subscriptionSubscriber.subscribe(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
             subscriberId = subscriberId,
             alarm = alarm,
@@ -27,14 +27,14 @@ class SubscriptionSubscribeHandler(
         if (isSubscribed) {
             subscriptionCountManager.increase(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 subscriberId = subscriberId,
             )
 
             subscriptionEventPublisher.publishSubscriptionEvent(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 subscriberId = subscriberId,
                 targetId = targetId,
             )

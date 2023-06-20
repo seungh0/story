@@ -17,13 +17,13 @@ class SubscriptionRetriever(
 
     suspend fun isSubscriber(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         subscriberId: String,
     ): Boolean {
         val primaryKey = SubscriptionPrimaryKey(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             subscriberId = subscriberId,
             targetId = targetId,
         )
@@ -33,21 +33,21 @@ class SubscriptionRetriever(
 
     suspend fun listTargetSubscribers(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<SubscriptionResponse, String> {
         val response = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextSubscribers(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 cursorRequest = cursorRequest,
             )
 
             CursorDirection.PREVIOUS -> listPreviousSubscribers(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 cursorRequest = cursorRequest,
             )
@@ -60,40 +60,40 @@ class SubscriptionRetriever(
 
     private suspend fun listPreviousSubscribers(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<Subscriber, String> {
         val firstSlotId = SubscriptionSlotAssigner.FIRST_SLOT_ID
         val lastSlotId = SubscriptionSlotAssigner.assign(
             subscriberSequenceGenerator.lastSequence(
-                workspaceId,
-                subscriptionType,
-                targetId
+                workspaceId = workspaceId,
+                componentId = componentId,
+                targetId = targetId
             )
         )
 
         var currentSlotId: Long = cursorRequest.cursor?.let { cursor ->
-            subscriptionRepository.findByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetId(
+            subscriptionRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetId(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 subscriberId = cursor,
             )?.slotId
         } ?: lastSlotId
 
         val subscriptionSlice = if (cursorRequest.cursor == null) {
-            subscriberRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdLessThan(
+            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdLessThan(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 slotId = currentSlotId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize)
             )
         } else {
-            subscriberRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
+            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 slotId = currentSlotId,
                 subscriberId = cursorRequest.cursor,
@@ -118,9 +118,9 @@ class SubscriptionRetriever(
         while (subscribers.size < cursorRequest.pageSize && --currentSlotId >= firstSlotId) {
             val needMoreSize = cursorRequest.pageSize - subscribers.size
             val subscriptionsInCurrentSlot =
-                subscriberRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
+                subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
                     workspaceId = workspaceId,
-                    subscriptionType = subscriptionType,
+                    componentId = componentId,
                     targetId = targetId,
                     slotId = lastSlotId,
                     pageable = CassandraPageRequest.first(needMoreSize + 1)
@@ -146,7 +146,7 @@ class SubscriptionRetriever(
 
     private suspend fun listNextSubscribers(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<Subscriber, String> {
@@ -154,32 +154,32 @@ class SubscriptionRetriever(
         val lastSlotId = SubscriptionSlotAssigner.assign(
             subscriberSequenceGenerator.lastSequence(
                 workspaceId,
-                subscriptionType,
+                componentId,
                 targetId
             )
         )
 
         var currentSlotId: Long = cursorRequest.cursor?.let { cursor ->
-            subscriptionRepository.findByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetId(
+            subscriptionRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetId(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 subscriberId = cursor,
             )?.slotId
         } ?: firstSlotId
 
         val subscriptionSlice = if (cursorRequest.cursor == null) {
-            subscriberRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
+            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 slotId = currentSlotId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize)
             )
         } else {
-            subscriberRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
+            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 slotId = currentSlotId,
                 subscriberId = cursorRequest.cursor,
@@ -204,9 +204,9 @@ class SubscriptionRetriever(
         while (cursorRequest.pageSize > subscribers.size && ++currentSlotId <= lastSlotId) {
             val needMoreSize = cursorRequest.pageSize - subscribers.size
             val subscriptionsInCurrentSlot =
-                subscriberRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
+                subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
                     workspaceId = workspaceId,
-                    subscriptionType = subscriptionType,
+                    componentId = componentId,
                     targetId = targetId,
                     slotId = currentSlotId,
                     pageable = CassandraPageRequest.first(needMoreSize + 1)
@@ -231,7 +231,7 @@ class SubscriptionRetriever(
 
     suspend fun listSubscriberTargets(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<SubscriptionResponse, String> {
@@ -239,14 +239,14 @@ class SubscriptionRetriever(
             CursorDirection.NEXT -> listNextSubscriptions(
                 cursorRequest = cursorRequest,
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 subscriberId = subscriberId,
             ).content
 
             CursorDirection.PREVIOUS -> listPreviousSubscriptions(
                 cursorRequest = cursorRequest,
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 subscriberId = subscriberId
             ).content
         }
@@ -270,20 +270,20 @@ class SubscriptionRetriever(
     private suspend fun listNextSubscriptions(
         cursorRequest: CursorRequest,
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
     ): Slice<Subscription> {
         if (cursorRequest.cursor == null) {
-            return subscriptionRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdOrderByKeyTargetIdAsc(
+            return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdAsc(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
         }
-        return subscriptionRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
+        return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             subscriberId = subscriberId,
             targetId = cursorRequest.cursor,
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
@@ -293,21 +293,21 @@ class SubscriptionRetriever(
     private suspend fun listPreviousSubscriptions(
         cursorRequest: CursorRequest,
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
     ): Slice<Subscription> {
         if (cursorRequest.cursor == null) {
-            return subscriptionRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdOrderByKeyTargetIdDesc(
+            return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdDesc(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
         }
 
-        return subscriptionRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
+        return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             subscriberId = subscriberId,
             targetId = cursorRequest.cursor,
             pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)

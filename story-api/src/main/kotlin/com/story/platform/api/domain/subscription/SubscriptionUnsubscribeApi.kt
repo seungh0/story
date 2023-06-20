@@ -3,12 +3,13 @@ package com.story.platform.api.domain.subscription
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.domain.subscription.SubscriptionType
 import com.story.platform.core.domain.subscription.SubscriptionUnSubscribeHandler
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+@RequestMapping("/v1/subscriptions/{componentId}")
 @RestController
 class SubscriptionUnsubscribeApi(
     private val subscriptionUnSubscribeHandler: SubscriptionUnSubscribeHandler,
@@ -17,16 +18,16 @@ class SubscriptionUnsubscribeApi(
     /**
      * 구독을 취소한다
      */
-    @DeleteMapping("/v1/subscriptions/{subscriptionType}/subscribers/{subscriberId}/targets/{targetId}")
+    @DeleteMapping("/subscribers/{subscriberId}/targets/{targetId}")
     suspend fun unsubscribe(
-        @PathVariable subscriptionType: SubscriptionType,
+        @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<String> {
         subscriptionUnSubscribeHandler.unsubscribe(
             workspaceId = authContext.workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
             subscriberId = subscriberId,
         )

@@ -23,8 +23,9 @@ class PostModifier(
     ): PostModifyResult {
         val slotId = PostSlotAssigner.assign(postId)
 
-        val post = postRepository.findByKeyWorkspaceIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
             workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
             slotId = slotId,
             postId = postId,

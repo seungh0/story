@@ -8,9 +8,11 @@ import com.story.platform.core.domain.post.PostRemoveHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+@RequestMapping("/v1/posts/{componentId}")
 @RestController
 class PostRemoveApi(
     private val postRemoveHandler: PostRemoveHandler,
@@ -19,8 +21,9 @@ class PostRemoveApi(
     /**
      * 포스트를 삭제한다
      */
-    @DeleteMapping("/v1/spaces/{spaceId}/posts/{postId}")
+    @DeleteMapping("/spaces/{spaceId}/posts/{postId}")
     suspend fun remove(
+        @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
         @RequestParam accountId: String,
@@ -29,6 +32,7 @@ class PostRemoveApi(
         postRemoveHandler.remove(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
+                componentId = componentId,
                 spaceId = spaceId,
             ),
             accountId = accountId,

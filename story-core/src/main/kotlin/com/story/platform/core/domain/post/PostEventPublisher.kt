@@ -26,6 +26,7 @@ class PostEventPublisher(
     ) {
         val event = PostEvent.created(
             workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
             accountId = accountId,
@@ -35,6 +36,7 @@ class PostEventPublisher(
         )
         eventHistoryManager.withSaveEventHistory(
             workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
@@ -51,6 +53,7 @@ class PostEventPublisher(
     ) {
         val event = PostEvent.modified(
             workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
             accountId = accountId,
@@ -60,6 +63,7 @@ class PostEventPublisher(
         )
         eventHistoryManager.withSaveEventHistory(
             workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
@@ -73,12 +77,14 @@ class PostEventPublisher(
     ) {
         val event = PostEvent.deleted(
             workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
             accountId = accountId,
         )
         eventHistoryManager.withSaveEventHistory(
             workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())

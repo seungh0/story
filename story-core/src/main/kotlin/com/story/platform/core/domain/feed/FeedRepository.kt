@@ -7,8 +7,9 @@ import java.time.LocalDateTime
 
 interface FeedRepository : CoroutineCrudRepository<Feed, FeedPrimaryKey> {
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyAccountIdAndKeyCreatedDateAndKeyCreatedAtLessThan(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyCreatedDateAndKeyCreatedAtLessThan(
         workspaceId: String,
+        componentId: String,
         accountId: String,
         createdDate: LocalDate,
         createdAt: LocalDateTime,

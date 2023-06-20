@@ -19,17 +19,20 @@ data class FeedRecipientPrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
-    val sourceType: FeedSourceType,
+    val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val sourceId: String,
+    val sourceType: FeedSourceType,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
-    val feedId: String,
+    val sourceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 5)
+    val feedId: String,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 6)
     val slot: String,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
     val accountId: String,
 )

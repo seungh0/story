@@ -29,13 +29,13 @@ class SubscriberDistributor(
 
     suspend fun distribute(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
     ) {
         val subscribersCount = subscribersCountRepository.get(
             key = SubscribersCountKey(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
             )
         )
@@ -49,7 +49,7 @@ class SubscriberDistributor(
                         try {
                             val event = SubscriberDistributedEvent(
                                 workspaceId = workspaceId,
-                                subscriptionType = subscriptionType,
+                                componentId = componentId,
                                 targetId = targetId,
                                 slot = slot,
                             )

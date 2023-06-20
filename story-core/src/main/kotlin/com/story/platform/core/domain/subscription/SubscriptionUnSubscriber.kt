@@ -16,18 +16,18 @@ class SubscriptionUnSubscriber(
 
     @DistributedLock(
         lockType = DistributedLockType.SUBSCRIBE,
-        key = "'workspaceId:' + {#workspaceId} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
+        key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
     )
     suspend fun unsubscribe(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         subscriberId: String,
     ): Boolean {
         val subscriptionReverse = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 subscriberId = subscriberId,
                 targetId = targetId,
             )
@@ -40,7 +40,7 @@ class SubscriptionUnSubscriber(
         val subscription = subscriberRepository.findById(
             SubscriberPrimaryKey(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
                 slotId = subscriptionReverse.slotId,
                 subscriberId = subscriberId,

@@ -7,6 +7,6 @@ interface FeedSourceImporter {
 
     fun sourceType(): FeedSourceType
 
-    suspend fun fetch(workspaceId: String, sourceIds: Collection<String>): List<FeedMessage>
+    suspend fun fetch(workspaceId: String, componentId: String, sourceIds: Collection<String>): List<FeedMessage>
 
 }

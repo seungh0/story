@@ -20,11 +20,14 @@ data class FeedMetadataPrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
-    val sourceType: FeedSourceType,
+    val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val sourceId: String,
+    val sourceType: FeedSourceType,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
+    val sourceId: String,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 5)
     val feedId: String,
 )

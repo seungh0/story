@@ -7,43 +7,43 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface SubscriberRepository : CoroutineCrudRepository<Subscriber, SubscriberPrimaryKey> {
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         slotId: Long,
         pageable: Pageable,
     ): Slice<Subscriber>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
-        targetId: String,
-        slotId: Long,
-        subscriberId: String,
-        pageable: Pageable,
-    ): Slice<Subscriber>
-
-    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
-        workspaceId: String,
-        subscriptionType: SubscriptionType,
-        targetId: String,
-        slotId: Long,
-        pageable: Pageable,
-    ): Slice<Subscriber>
-
-    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
-        workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
         slotId: Long,
         subscriberId: String,
         pageable: Pageable,
     ): Slice<Subscriber>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdLessThan(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
+        targetId: String,
+        slotId: Long,
+        pageable: Pageable,
+    ): Slice<Subscriber>
+
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
+        workspaceId: String,
+        componentId: String,
+        targetId: String,
+        slotId: Long,
+        subscriberId: String,
+        pageable: Pageable,
+    ): Slice<Subscriber>
+
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdLessThan(
+        workspaceId: String,
+        componentId: String,
         targetId: String,
         slotId: Long,
         pageable: CassandraPageRequest,

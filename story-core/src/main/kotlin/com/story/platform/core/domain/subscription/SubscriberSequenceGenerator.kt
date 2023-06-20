@@ -10,24 +10,24 @@ class SubscriberSequenceGenerator(
 
     suspend fun generate(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
     ) = subscriptionSequenceRepository.incr(
         key = SubscriberSequence(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
         )
     )
 
     suspend fun lastSequence(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         targetId: String,
     ) = subscriptionSequenceRepository.get(
         key = SubscriberSequence(
             workspaceId = workspaceId,
-            subscriptionType = subscriptionType,
+            componentId = componentId,
             targetId = targetId,
         )
     ) ?: START_SUBSCRIBER_SEQUENCE

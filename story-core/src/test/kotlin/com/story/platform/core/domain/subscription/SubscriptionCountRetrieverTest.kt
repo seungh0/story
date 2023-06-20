@@ -14,7 +14,7 @@ class SubscriptionCountRetrieverTest(
         subscribersCountRepository.delete(
             key = SubscribersCountKey(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
             )
         )
@@ -28,7 +28,7 @@ class SubscriptionCountRetrieverTest(
             subscribersCountRepository.increase(
                 key = SubscribersCountKey(
                     workspaceId = workspaceId,
-                    subscriptionType = subscriptionType,
+                    componentId = componentId,
                     targetId = targetId,
                 ),
                 count = count,
@@ -37,7 +37,7 @@ class SubscriptionCountRetrieverTest(
             // when
             val subscribersCount = subscriptionCountRetriever.countSubscribers(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
             )
 
@@ -49,7 +49,7 @@ class SubscriptionCountRetrieverTest(
             // when
             val subscribersCount = subscriptionCountRetriever.countSubscribers(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
             )
 
@@ -61,7 +61,7 @@ class SubscriptionCountRetrieverTest(
             // when
             val subscribersCount = subscriptionCountRetriever.countSubscribers(
                 workspaceId = workspaceId,
-                subscriptionType = subscriptionType,
+                componentId = componentId,
                 targetId = targetId,
             )
 
@@ -73,8 +73,8 @@ class SubscriptionCountRetrieverTest(
 }) {
 
     companion object {
-        private val workspaceId = "twitter"
-        private val subscriptionType = SubscriptionType.FOLLOW
+        private const val workspaceId = "twitter"
+        private const val componentId = "follow"
         private const val targetId = "구독 대상자"
     }
 

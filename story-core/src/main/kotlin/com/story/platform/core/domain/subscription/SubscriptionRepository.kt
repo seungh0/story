@@ -7,38 +7,38 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 interface SubscriptionRepository :
     CoroutineCrudRepository<Subscription, SubscriptionPrimaryKey> {
 
-    suspend fun findByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetId(
+    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetId(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
         targetId: String,
     ): Subscription?
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdOrderByKeyTargetIdDesc(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdDesc(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
         targetId: String,
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdOrderByKeyTargetIdAsc(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdAsc(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
         pageable: Pageable,
     ): Slice<Subscription>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
         workspaceId: String,
-        subscriptionType: SubscriptionType,
+        componentId: String,
         subscriberId: String,
         targetId: String,
         pageable: Pageable,
