@@ -25,7 +25,6 @@ data class PostReverse(
                 workspaceId = post.key.workspaceId,
                 accountId = post.accountId,
                 postId = post.key.postId,
-                spaceType = post.key.spaceType,
                 spaceId = post.key.spaceId,
             ),
             slotId = post.key.slotId,
@@ -47,9 +46,6 @@ data class PostReversePrimaryKey(
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 3)
     val postId: Long,
-
-    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 4)
-    val spaceType: PostSpaceType,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 5)
     val spaceId: String,

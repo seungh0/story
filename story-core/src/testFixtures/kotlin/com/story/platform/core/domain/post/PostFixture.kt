@@ -7,7 +7,6 @@ object PostFixture {
 
     fun create(
         workspaceId: String = RandomGenerator.generateString(),
-        spaceType: PostSpaceType = RandomGenerator.generateEnum(PostSpaceType::class.java),
         spaceId: String = RandomGenerator.generateString(),
         accountId: String = RandomGenerator.generateString(),
         postId: Long = RandomGenerator.generateLong(),
@@ -18,7 +17,6 @@ object PostFixture {
         key = PostPrimaryKey.of(
             postSpaceKey = PostSpaceKey(
                 workspaceId = workspaceId,
-                spaceType = spaceType,
                 spaceId = spaceId,
             ),
             postId = postId,

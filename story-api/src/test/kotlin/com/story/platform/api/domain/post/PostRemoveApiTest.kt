@@ -9,7 +9,6 @@ import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.post.PostRemoveHandler
 import com.story.platform.core.domain.post.PostSpaceKey
-import com.story.platform.core.domain.post.PostSpaceType
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -42,7 +41,6 @@ class PostRemoveApiTest(
         // given
         val postSpaceKey = PostSpaceKey(
             workspaceId = "twitter",
-            spaceType = PostSpaceType.POST_COMMENT,
             spaceId = "게시글 공간 ID"
         )
 
@@ -60,8 +58,7 @@ class PostRemoveApiTest(
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/spaces/{spaceType}/{spaceId}/posts/{postId}?accountId={accountId}",
-                postSpaceKey.spaceType,
+                "/v1/spaces/{spaceId}/posts/{postId}?accountId={accountId}",
                 postSpaceKey.spaceId,
                 postId,
                 accountId

@@ -5,7 +5,6 @@ import com.story.platform.core.domain.event.EventRecord
 
 data class PostEvent(
     val workspaceId: String,
-    val spaceType: PostSpaceType,
     val spaceId: String,
     val postId: Long,
     val accountId: String,
@@ -17,7 +16,6 @@ data class PostEvent(
     companion object {
         fun created(
             workspaceId: String,
-            spaceType: PostSpaceType,
             spaceId: String,
             postId: Long,
             accountId: String,
@@ -28,7 +26,6 @@ data class PostEvent(
             eventType = EventType.POST_CREATED,
             payload = PostEvent(
                 workspaceId = workspaceId,
-                spaceType = spaceType,
                 spaceId = spaceId,
                 postId = postId,
                 accountId = accountId,
@@ -40,7 +37,6 @@ data class PostEvent(
 
         fun modified(
             workspaceId: String,
-            spaceType: PostSpaceType,
             spaceId: String,
             postId: Long,
             accountId: String,
@@ -51,7 +47,6 @@ data class PostEvent(
             eventType = EventType.POST_UPDATED,
             payload = PostEvent(
                 workspaceId = workspaceId,
-                spaceType = spaceType,
                 spaceId = spaceId,
                 postId = postId,
                 accountId = accountId,
@@ -63,7 +58,6 @@ data class PostEvent(
 
         fun deleted(
             workspaceId: String,
-            spaceType: PostSpaceType,
             spaceId: String,
             postId: Long,
             accountId: String,
@@ -71,7 +65,6 @@ data class PostEvent(
             eventType = EventType.POST_DELETED,
             payload = PostEvent(
                 workspaceId = workspaceId,
-                spaceType = spaceType,
                 spaceId = spaceId,
                 postId = postId,
                 accountId = accountId,

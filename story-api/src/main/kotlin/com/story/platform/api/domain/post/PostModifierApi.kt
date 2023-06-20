@@ -6,7 +6,6 @@ import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostModifyHandler
 import com.story.platform.core.domain.post.PostSpaceKey
-import com.story.platform.core.domain.post.PostSpaceType
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,9 +20,8 @@ class PostModifierApi(
     /**
      * 포스트 정보를 수정한다
      */
-    @PatchMapping("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}")
+    @PatchMapping("/v1/spaces/{spaceId}/posts/{postId}")
     suspend fun patch(
-        @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
         @Valid @RequestBody request: PostModifyApiRequest,
@@ -32,7 +30,6 @@ class PostModifierApi(
         postModifyHandler.patch(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
-                spaceType = spaceType,
                 spaceId = spaceId,
             ),
             postId = postId.toLongOrNull() ?: throw BadRequestException("잘못된 PostId($postId)가 요청되었습니다"),

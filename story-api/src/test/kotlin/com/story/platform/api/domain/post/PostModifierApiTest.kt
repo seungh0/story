@@ -9,7 +9,6 @@ import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.post.PostModifyHandler
 import com.story.platform.core.domain.post.PostSpaceKey
-import com.story.platform.core.domain.post.PostSpaceType
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -42,7 +41,6 @@ internal class PostModifierApiTest(
         // given
         val postId = 100000L
         val spaceId = "계정의 ID"
-        val spaceType = PostSpaceType.ACCOUNT
 
         val request = PostModifyApiRequest(
             accountId = spaceId,
@@ -59,7 +57,6 @@ internal class PostModifierApiTest(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = "twitter",
                     spaceId = spaceId,
-                    spaceType = spaceType,
                 ),
                 postId = postId,
                 accountId = spaceId,
@@ -71,7 +68,7 @@ internal class PostModifierApiTest(
 
         // when
         val exchange = webTestClient.patch()
-            .uri("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}", spaceType, spaceId, postId)
+            .uri("/v1/spaces/{spaceId}/posts/{postId}", spaceId, postId)
             .headers(WebClientUtils.commonHeaders)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)

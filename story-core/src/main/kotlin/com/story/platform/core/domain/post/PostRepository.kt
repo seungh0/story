@@ -6,42 +6,37 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
 
-    suspend fun findByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+    suspend fun findByKeyWorkspaceIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
         workspaceId: String,
-        spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
         postId: Long,
     ): Post?
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
+    suspend fun findAllByKeyWorkspaceIdAndKeySpaceIdAndKeySlotId(
         workspaceId: String,
-        spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
         pageable: Pageable,
     ): Slice<Post>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
+    suspend fun findAllByKeyWorkspaceIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
         workspaceId: String,
-        spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
         postId: Long,
         pageable: Pageable,
     ): Slice<Post>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
+    suspend fun findAllByKeyWorkspaceIdAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
         workspaceId: String,
-        spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
         pageable: Pageable,
     ): Slice<Post>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
+    suspend fun findAllByKeyWorkspaceIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
         workspaceId: String,
-        spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
         postId: Long,

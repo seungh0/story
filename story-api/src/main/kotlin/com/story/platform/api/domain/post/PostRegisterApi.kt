@@ -5,7 +5,6 @@ import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.post.PostRegisterHandler
 import com.story.platform.core.domain.post.PostSpaceKey
-import com.story.platform.core.domain.post.PostSpaceType
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,9 +19,8 @@ class PostRegisterApi(
     /**
      * 신규 포스트를 등록한다
      */
-    @PostMapping("/v1/spaces/{spaceType}/{spaceId}/posts")
+    @PostMapping("/v1/spaces/{spaceId}/posts")
     suspend fun register(
-        @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @Valid @RequestBody request: PostRegisterApiRequest,
         @RequestAuthContext authContext: AuthContext,
@@ -30,7 +28,6 @@ class PostRegisterApi(
         val postId = postRegisterHandler.register(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
-                spaceType = spaceType,
                 spaceId = spaceId,
             ),
             accountId = request.accountId,

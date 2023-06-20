@@ -25,7 +25,6 @@ internal class PostRegisterTest(
             // given
             val postSpaceKey = PostSpaceKey(
                 workspaceId = "twitter",
-                spaceType = PostSpaceType.ACCOUNT,
                 spaceId = "commentId",
             )
             val accountId = "accountId"
@@ -54,7 +53,6 @@ internal class PostRegisterTest(
             posts shouldHaveSize 1
             posts[0].also {
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
-                it.key.spaceType shouldBe postSpaceKey.spaceType
                 it.key.spaceId shouldBe postSpaceKey.spaceId
                 it.key.slotId shouldBe 1L
                 it.key.postId shouldNotBe null
@@ -69,7 +67,6 @@ internal class PostRegisterTest(
             postReverses[0].also {
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.accountId shouldBe accountId
-                it.key.spaceType shouldBe postSpaceKey.spaceType
                 it.key.spaceId shouldBe postSpaceKey.spaceId
                 it.key.postId shouldNotBe null
                 it.title shouldBe title

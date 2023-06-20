@@ -26,7 +26,6 @@ class PostEventPublisher(
     ) {
         val event = PostEvent.created(
             workspaceId = postSpaceKey.workspaceId,
-            spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
             accountId = accountId,
@@ -52,7 +51,6 @@ class PostEventPublisher(
     ) {
         val event = PostEvent.modified(
             workspaceId = postSpaceKey.workspaceId,
-            spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
             accountId = accountId,
@@ -75,7 +73,6 @@ class PostEventPublisher(
     ) {
         val event = PostEvent.deleted(
             workspaceId = postSpaceKey.workspaceId,
-            spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
             accountId = accountId,

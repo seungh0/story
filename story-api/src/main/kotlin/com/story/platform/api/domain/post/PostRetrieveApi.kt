@@ -8,7 +8,6 @@ import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.post.PostRetriever
 import com.story.platform.core.domain.post.PostSpaceKey
-import com.story.platform.core.domain.post.PostSpaceType
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -22,9 +21,8 @@ class PostRetrieveApi(
     /**
      * 특정 포스트를 조회한다
      */
-    @GetMapping("/v1/spaces/{spaceType}/{spaceId}/posts/{postId}")
+    @GetMapping("/v1/spaces/{spaceId}/posts/{postId}")
     suspend fun getPost(
-        @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
         @RequestAuthContext authContext: AuthContext,
@@ -32,7 +30,6 @@ class PostRetrieveApi(
         val post = postRetriever.getPost(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
-                spaceType = spaceType,
                 spaceId = spaceId,
             ),
             postId = postId.toLongOrNull() ?: throw BadRequestException("잘못된 PostId($postId)이 요청되었습니다"),
@@ -43,9 +40,8 @@ class PostRetrieveApi(
     /**
      * 포스트 목록을 조회한다
      */
-    @GetMapping("/v1/spaces/{spaceType}/{spaceId}/posts")
+    @GetMapping("/v1/spaces//{spaceId}/posts")
     suspend fun listPosts(
-        @PathVariable spaceType: PostSpaceType,
         @PathVariable spaceId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
@@ -53,7 +49,6 @@ class PostRetrieveApi(
         val posts = postRetriever.listPosts(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
-                spaceType = spaceType,
                 spaceId = spaceId,
             ),
             cursorRequest = cursorRequest,

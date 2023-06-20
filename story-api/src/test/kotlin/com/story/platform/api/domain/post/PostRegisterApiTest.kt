@@ -8,7 +8,6 @@ import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.post.PostRegisterHandler
 import com.story.platform.core.domain.post.PostSpaceKey
-import com.story.platform.core.domain.post.PostSpaceType
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -40,7 +39,6 @@ class PostRegisterApiTest(
     test("새로운 포스트를 등록한다") {
         // given
         val spaceId = "계정의 ID"
-        val spaceType = PostSpaceType.ACCOUNT
 
         val request = PostRegisterApiRequest(
             accountId = spaceId,
@@ -56,7 +54,6 @@ class PostRegisterApiTest(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = "twitter",
                     spaceId = spaceId,
-                    spaceType = spaceType,
                 ),
                 accountId = spaceId,
                 title = request.title,
@@ -67,7 +64,7 @@ class PostRegisterApiTest(
 
         // when
         val exchange = webTestClient.post()
-            .uri("/v1/spaces/{spaceType}/{spaceId}/posts", spaceType, spaceId)
+            .uri("/v1/spaces/{spaceId}/posts", spaceId)
             .headers(WebClientUtils.commonHeaders)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)

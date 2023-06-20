@@ -46,7 +46,6 @@ internal class PostModifierTest(
             postModifier.patch(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = post.key.workspaceId,
-                    spaceType = post.key.spaceType,
                     spaceId = post.key.spaceId,
                 ),
                 postId = post.key.postId,
@@ -61,7 +60,6 @@ internal class PostModifierTest(
             posts shouldHaveSize 1
             posts[0].also {
                 it.key.workspaceId shouldBe post.key.workspaceId
-                it.key.spaceType shouldBe post.key.spaceType
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.slotId shouldBe post.key.slotId
                 it.key.postId shouldBe post.key.postId
@@ -76,7 +74,6 @@ internal class PostModifierTest(
             postReverses[0].also {
                 it.key.workspaceId shouldBe post.key.workspaceId
                 it.key.accountId shouldBe post.accountId
-                it.key.spaceType shouldBe post.key.spaceType
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.postId shouldBe post.key.postId
                 it.title shouldBe title
@@ -96,7 +93,6 @@ internal class PostModifierTest(
                 postModifier.patch(
                     postSpaceKey = PostSpaceKey(
                         workspaceId = "twitter",
-                        spaceType = PostSpaceType.ACCOUNT,
                         spaceId = "50000",
                     ),
                     postId = 10000L,
@@ -125,7 +121,6 @@ internal class PostModifierTest(
                 postModifier.patch(
                     postSpaceKey = PostSpaceKey(
                         workspaceId = post.key.workspaceId,
-                        spaceType = post.key.spaceType,
                         spaceId = post.key.spaceId,
                     ),
                     postId = post.key.postId,

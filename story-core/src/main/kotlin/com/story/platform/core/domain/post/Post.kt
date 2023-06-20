@@ -84,9 +84,6 @@ data class PostPrimaryKey(
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 1)
     val workspaceId: String,
 
-    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 2)
-    val spaceType: PostSpaceType,
-
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 3)
     val spaceId: String,
 
@@ -103,7 +100,6 @@ data class PostPrimaryKey(
             postId: Long,
         ) = PostPrimaryKey(
             workspaceId = postSpaceKey.workspaceId,
-            spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             slotId = PostSlotAssigner.assign(postId),
             postId = postId,
