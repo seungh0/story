@@ -8,7 +8,7 @@ tasks.jar {
 
 val commonsLang3Version = "3.12.0"
 val caffeineCacheVersion = "3.1.6"
-val redissonVersion = "3.22.0"
+val redissonVersion = "3.22.1"
 
 dependencies {
     // CommonsLang3
