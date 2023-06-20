@@ -20,8 +20,8 @@ class FeedPublisher(
 
         do {
             val subscribers =
-                subscriberRepository.findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
-                    serviceType = event.serviceType,
+                subscriberRepository.findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
+                    workspaceId = event.workspaceId,
                     subscriptionType = event.subscriptionType,
                     targetId = event.targetId,
                     slotId = event.slot,

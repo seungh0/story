@@ -25,7 +25,7 @@ class SubscriptionUnsubscribeApi(
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<String> {
         subscriptionUnSubscribeHandler.unsubscribe(
-            serviceType = authContext.serviceType,
+            workspaceId = authContext.workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,

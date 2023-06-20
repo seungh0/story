@@ -44,7 +44,7 @@ class FeedEventConsumer(
 
             withContext(dispatcher) {
                 subscriberDistributor.distribute(
-                    serviceType = payload.serviceType,
+                    workspaceId = payload.workspaceId,
                     subscriptionType = SubscriptionType.FOLLOW,
                     targetId = payload.spaceId,
                 )
@@ -70,7 +70,7 @@ class FeedEventConsumer(
 
             withContext(dispatcher) {
                 subscriberDistributor.distribute(
-                    serviceType = payload.serviceType,
+                    workspaceId = payload.workspaceId,
                     subscriptionType = SubscriptionType.FOLLOW,
                     targetId = payload.subscriberId,
                 )

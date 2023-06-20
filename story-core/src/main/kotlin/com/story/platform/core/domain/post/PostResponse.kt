@@ -1,10 +1,9 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.AuditingTimeResponse
 
 data class PostResponse(
-    val serviceType: ServiceType,
+    val workspaceId: String,
     val spaceType: PostSpaceType,
     val spaceId: String,
     val postId: Long,
@@ -17,7 +16,7 @@ data class PostResponse(
     companion object {
         fun of(post: Post): PostResponse {
             val response = PostResponse(
-                serviceType = post.key.serviceType,
+                workspaceId = post.key.workspaceId,
                 spaceType = post.key.spaceType,
                 spaceId = post.key.spaceId,
                 postId = post.key.postId,

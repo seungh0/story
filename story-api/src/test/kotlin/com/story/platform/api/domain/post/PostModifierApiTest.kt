@@ -4,7 +4,6 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
@@ -33,7 +32,7 @@ internal class PostModifierApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            serviceType = ServiceType.TWEETER,
+            workspaceId = "twitter",
             apiKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
         )
@@ -58,7 +57,7 @@ internal class PostModifierApiTest(
         coEvery {
             postModifyHandler.patch(
                 postSpaceKey = PostSpaceKey(
-                    serviceType = ServiceType.TWEETER,
+                    workspaceId = "twitter",
                     spaceId = spaceId,
                     spaceType = spaceType,
                 ),

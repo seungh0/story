@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,14 +10,14 @@ class SubscriptionSubscribeHandler(
 ) {
 
     suspend fun subscribe(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
         alarm: Boolean,
     ) {
         val isSubscribed = subscriptionSubscriber.subscribe(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
@@ -27,14 +26,14 @@ class SubscriptionSubscribeHandler(
 
         if (isSubscribed) {
             subscriptionCountManager.increase(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
             )
 
             subscriptionEventPublisher.publishSubscriptionEvent(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,

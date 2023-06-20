@@ -5,7 +5,6 @@ import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.HealthController
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.core.common.AvailabilityChecker
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.ConflictException
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
@@ -34,7 +33,7 @@ internal class ControllerExceptionAdviceTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            serviceType = ServiceType.TWEETER,
+            workspaceId = "twitter",
             apiKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
         )

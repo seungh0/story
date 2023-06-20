@@ -1,6 +1,7 @@
 ### 서비스의 인증 키를 등록합니다
-POST {{api}}/v1/service/TWEETER/authentication/key
+POST {{api}}/v1/authentication/key
 Content-Type: application/json
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "apiKey": "api-key",
@@ -9,8 +10,9 @@ Content-Type: application/json
 
 
 ### 서비스의 인증 키 정보를 수정합니다
-PATCH {{api}}/v1/service/TWEETER/authentication/key
+PATCH {{api}}/v1/authentication/key
 Content-Type: application/json
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "apiKey": "api-key",
@@ -20,5 +22,5 @@ Content-Type: application/json
 
 
 ### 서비스의 인증 키 정보를 조회합니다
-GET {{api}}/v1/authentication/key
+GET {{api}}/v1/authentication/key/api-key
 X-Story-Api-Key: {{API_KEY}}

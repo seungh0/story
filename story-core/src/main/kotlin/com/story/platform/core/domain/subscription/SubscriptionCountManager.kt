@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.support.coroutine.CoroutineConfig.Companion.DEFAULT_TIMEOUT_MS
 import com.story.platform.core.support.coroutine.IOBound
@@ -23,7 +22,7 @@ class SubscriptionCountManager(
 ) {
 
     suspend fun increase(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
@@ -35,7 +34,7 @@ class SubscriptionCountManager(
                     try {
                         subscriptionsCountRepository.increase(
                             SubscriptionsCountKey(
-                                serviceType = serviceType,
+                                workspaceId = workspaceId,
                                 subscriptionType = subscriptionType,
                                 subscriberId = subscriberId,
                             )
@@ -51,7 +50,7 @@ class SubscriptionCountManager(
                     try {
                         subscribersCountRepository.increase(
                             SubscribersCountKey(
-                                serviceType = serviceType,
+                                workspaceId = workspaceId,
                                 subscriptionType = subscriptionType,
                                 targetId = targetId,
                             )
@@ -66,7 +65,7 @@ class SubscriptionCountManager(
     }
 
     suspend fun decrease(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
@@ -78,7 +77,7 @@ class SubscriptionCountManager(
                     try {
                         subscriptionsCountRepository.decrease(
                             SubscriptionsCountKey(
-                                serviceType = serviceType,
+                                workspaceId = workspaceId,
                                 subscriptionType = subscriptionType,
                                 subscriberId = subscriberId,
                             )
@@ -94,7 +93,7 @@ class SubscriptionCountManager(
                     try {
                         subscribersCountRepository.decrease(
                             SubscribersCountKey(
-                                serviceType = serviceType,
+                                workspaceId = workspaceId,
                                 subscriptionType = subscriptionType,
                                 targetId = targetId,
                             )

@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
@@ -18,20 +17,20 @@ class SubscriptionEventPublisher(
 ) {
 
     suspend fun publishSubscriptionEvent(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         subscriberId: String,
         targetId: String,
     ) {
         val event = SubscriptionEvent.subscribed(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
             targetId = targetId,
         )
 
         eventHistoryManager.withSaveEventHistory(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
@@ -39,20 +38,20 @@ class SubscriptionEventPublisher(
     }
 
     suspend fun publishUnsubscriptionEvent(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         subscriberId: String,
         targetId: String,
     ) {
         val event = SubscriptionEvent.unsubscribed(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
             targetId = targetId,
         )
 
         eventHistoryManager.withSaveEventHistory(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())

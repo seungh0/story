@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
@@ -8,33 +7,16 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface SubscriberRepository : CoroutineCrudRepository<Subscriber, SubscriberPrimaryKey> {
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
-        serviceType: ServiceType,
+    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotId(
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         slotId: Long,
         pageable: Pageable,
     ): Slice<Subscriber>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
-        serviceType: ServiceType,
-        subscriptionType: SubscriptionType,
-        targetId: String,
-        slotId: Long,
-        subscriberId: String,
-        pageable: Pageable,
-    ): Slice<Subscriber>
-
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
-        serviceType: ServiceType,
-        subscriptionType: SubscriptionType,
-        targetId: String,
-        slotId: Long,
-        pageable: Pageable,
-    ): Slice<Subscriber>
-
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
-        serviceType: ServiceType,
+    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         slotId: Long,
@@ -42,8 +24,25 @@ interface SubscriberRepository : CoroutineCrudRepository<Subscriber, SubscriberP
         pageable: Pageable,
     ): Slice<Subscriber>
 
-    suspend fun findAllByKeyServiceTypeAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdLessThan(
-        serviceType: ServiceType,
+    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
+        workspaceId: String,
+        subscriptionType: SubscriptionType,
+        targetId: String,
+        slotId: Long,
+        pageable: Pageable,
+    ): Slice<Subscriber>
+
+    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
+        workspaceId: String,
+        subscriptionType: SubscriptionType,
+        targetId: String,
+        slotId: Long,
+        subscriberId: String,
+        pageable: Pageable,
+    ): Slice<Subscriber>
+
+    suspend fun findAllByKeyWorkspaceIdAndKeySubscriptionTypeAndKeyTargetIdAndKeySlotIdLessThan(
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         slotId: Long,

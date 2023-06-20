@@ -30,7 +30,7 @@ class PostRemoveApi(
     ): ApiResponse<String> {
         postRemoveHandler.remove(
             postSpaceKey = PostSpaceKey(
-                serviceType = authContext.serviceType,
+                workspaceId = authContext.workspaceId,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),

@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.ForbiddenException
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.helper.TestCleaner
@@ -46,7 +45,7 @@ internal class PostModifierTest(
             // when
             postModifier.patch(
                 postSpaceKey = PostSpaceKey(
-                    serviceType = post.key.serviceType,
+                    workspaceId = post.key.workspaceId,
                     spaceType = post.key.spaceType,
                     spaceId = post.key.spaceId,
                 ),
@@ -61,7 +60,7 @@ internal class PostModifierTest(
             val posts = postRepository.findAll().toList()
             posts shouldHaveSize 1
             posts[0].also {
-                it.key.serviceType shouldBe post.key.serviceType
+                it.key.workspaceId shouldBe post.key.workspaceId
                 it.key.spaceType shouldBe post.key.spaceType
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.slotId shouldBe post.key.slotId
@@ -75,7 +74,7 @@ internal class PostModifierTest(
             val postReverses = postReverseRepository.findAll().toList()
             postReverses shouldHaveSize 1
             postReverses[0].also {
-                it.key.serviceType shouldBe post.key.serviceType
+                it.key.workspaceId shouldBe post.key.workspaceId
                 it.key.accountId shouldBe post.accountId
                 it.key.spaceType shouldBe post.key.spaceType
                 it.key.spaceId shouldBe post.key.spaceId
@@ -96,7 +95,7 @@ internal class PostModifierTest(
             shouldThrowExactly<NotFoundException> {
                 postModifier.patch(
                     postSpaceKey = PostSpaceKey(
-                        serviceType = ServiceType.TWEETER,
+                        workspaceId = "twitter",
                         spaceType = PostSpaceType.ACCOUNT,
                         spaceId = "50000",
                     ),
@@ -125,7 +124,7 @@ internal class PostModifierTest(
             shouldThrowExactly<ForbiddenException> {
                 postModifier.patch(
                     postSpaceKey = PostSpaceKey(
-                        serviceType = post.key.serviceType,
+                        workspaceId = post.key.workspaceId,
                         spaceType = post.key.spaceType,
                         spaceId = post.key.spaceId,
                     ),

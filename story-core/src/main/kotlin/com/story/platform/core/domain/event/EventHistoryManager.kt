@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.event
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
@@ -11,7 +10,7 @@ class EventHistoryManager(
 ) {
 
     suspend fun <T> withSaveEventHistory(
-        serviceType: ServiceType,
+        workspaceId: String,
         event: EventRecord<T>,
         publishEvent: () -> Unit,
     ) {
@@ -19,7 +18,7 @@ class EventHistoryManager(
             publishEvent.invoke()
         } catch (exception: Exception) {
             val eventHistory = EventHistory.of(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 eventRecord = event,
                 status = EventStatus.ERROR
             )
@@ -32,7 +31,7 @@ class EventHistoryManager(
         }
 
         val eventHistory = EventHistory.of(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             eventRecord = event,
             status = EventStatus.PUBLISHED
         )

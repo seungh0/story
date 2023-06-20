@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.helper.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -23,14 +22,14 @@ internal class SubscriptionUnSubscriberTest(
     context("구독을 취소한다") {
         test("기존의 구독 정보를 취소한다") {
             // given
-            val serviceType = ServiceType.TWEETER
+            val workspaceId = "twitter"
             val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
 
             subscriberRepository.save(
                 SubscriberFixture.create(
-                    serviceType = serviceType,
+                    workspaceId = workspaceId,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
                     targetId = targetId,
@@ -40,7 +39,7 @@ internal class SubscriptionUnSubscriberTest(
 
             subscriptionRepository.save(
                 SubscriptionFixture.create(
-                    serviceType = serviceType,
+                    workspaceId = workspaceId,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
                     targetId = targetId,
@@ -50,7 +49,7 @@ internal class SubscriptionUnSubscriberTest(
 
             // when
             subscriptionUnSubscriber.unsubscribe(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
@@ -63,7 +62,7 @@ internal class SubscriptionUnSubscriberTest(
             val subscriptionReverses = subscriptionRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 1
             subscriptionReverses[0].also {
-                it.key.serviceType shouldBe serviceType
+                it.key.workspaceId shouldBe workspaceId
                 it.key.subscriptionType shouldBe subscriptionType
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId
@@ -74,14 +73,14 @@ internal class SubscriptionUnSubscriberTest(
 
         test("구독 정보가 없을 때 구독 정보를 취소하는 경우 멱등성을 갖는다") {
             // given
-            val serviceType = ServiceType.TWEETER
+            val workspaceId = "twitter"
             val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
 
             // when
             subscriptionUnSubscriber.unsubscribe(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
@@ -97,14 +96,14 @@ internal class SubscriptionUnSubscriberTest(
 
         test("구독 취소시 이미 구독 취소 이력이 있다면 멱등성을 갖는다") {
             // given
-            val serviceType = ServiceType.TWEETER
+            val workspaceId = "twitter"
             val subscriptionType = SubscriptionType.FOLLOW
             val targetId = "10000"
             val subscriberId = "2000"
 
             subscriptionRepository.save(
                 SubscriptionFixture.create(
-                    serviceType = serviceType,
+                    workspaceId = workspaceId,
                     subscriptionType = subscriptionType,
                     subscriberId = subscriberId,
                     targetId = targetId,
@@ -115,7 +114,7 @@ internal class SubscriptionUnSubscriberTest(
 
             // when
             subscriptionUnSubscriber.unsubscribe(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
@@ -128,7 +127,7 @@ internal class SubscriptionUnSubscriberTest(
             val subscriptionReverses = subscriptionRepository.findAll().toList()
             subscriptionReverses shouldHaveSize 1
             subscriptionReverses[0].also {
-                it.key.serviceType shouldBe serviceType
+                it.key.workspaceId shouldBe workspaceId
                 it.key.subscriptionType shouldBe subscriptionType
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId

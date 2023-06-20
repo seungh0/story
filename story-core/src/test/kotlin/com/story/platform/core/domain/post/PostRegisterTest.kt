@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.helper.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -25,7 +24,7 @@ internal class PostRegisterTest(
         test("유저가 새로운 포스트를 등록합니다") {
             // given
             val postSpaceKey = PostSpaceKey(
-                serviceType = ServiceType.TWEETER,
+                workspaceId = "twitter",
                 spaceType = PostSpaceType.ACCOUNT,
                 spaceId = "commentId",
             )
@@ -54,7 +53,7 @@ internal class PostRegisterTest(
             val posts = postRepository.findAll().toList()
             posts shouldHaveSize 1
             posts[0].also {
-                it.key.serviceType shouldBe postSpaceKey.serviceType
+                it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.spaceType shouldBe postSpaceKey.spaceType
                 it.key.spaceId shouldBe postSpaceKey.spaceId
                 it.key.slotId shouldBe 1L
@@ -68,7 +67,7 @@ internal class PostRegisterTest(
             val postReverses = postReverseRepository.findAll().toList()
             postReverses shouldHaveSize 1
             postReverses[0].also {
-                it.key.serviceType shouldBe postSpaceKey.serviceType
+                it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.accountId shouldBe accountId
                 it.key.spaceType shouldBe postSpaceKey.spaceType
                 it.key.spaceId shouldBe postSpaceKey.spaceId

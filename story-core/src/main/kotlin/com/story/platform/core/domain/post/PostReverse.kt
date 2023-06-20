@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -23,7 +22,7 @@ data class PostReverse(
     companion object {
         fun of(post: Post) = PostReverse(
             key = PostReversePrimaryKey(
-                serviceType = post.key.serviceType,
+                workspaceId = post.key.workspaceId,
                 accountId = post.accountId,
                 postId = post.key.postId,
                 spaceType = post.key.spaceType,
@@ -41,7 +40,7 @@ data class PostReverse(
 @PrimaryKeyClass
 data class PostReversePrimaryKey(
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 1)
-    val serviceType: ServiceType,
+    val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 2)
     val accountId: String,

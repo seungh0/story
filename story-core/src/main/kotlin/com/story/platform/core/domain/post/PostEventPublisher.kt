@@ -25,7 +25,7 @@ class PostEventPublisher(
         extraJson: String?,
     ) {
         val event = PostEvent.created(
-            serviceType = postSpaceKey.serviceType,
+            workspaceId = postSpaceKey.workspaceId,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
@@ -35,7 +35,7 @@ class PostEventPublisher(
             extraJson = extraJson,
         )
         eventHistoryManager.withSaveEventHistory(
-            serviceType = postSpaceKey.serviceType,
+            workspaceId = postSpaceKey.workspaceId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
@@ -51,7 +51,7 @@ class PostEventPublisher(
         extraJson: String?,
     ) {
         val event = PostEvent.modified(
-            serviceType = postSpaceKey.serviceType,
+            workspaceId = postSpaceKey.workspaceId,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
@@ -61,7 +61,7 @@ class PostEventPublisher(
             extraJson = extraJson,
         )
         eventHistoryManager.withSaveEventHistory(
-            serviceType = postSpaceKey.serviceType,
+            workspaceId = postSpaceKey.workspaceId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
@@ -74,14 +74,14 @@ class PostEventPublisher(
         accountId: String,
     ) {
         val event = PostEvent.deleted(
-            serviceType = postSpaceKey.serviceType,
+            workspaceId = postSpaceKey.workspaceId,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
             accountId = accountId,
         )
         eventHistoryManager.withSaveEventHistory(
-            serviceType = postSpaceKey.serviceType,
+            workspaceId = postSpaceKey.workspaceId,
             event = event,
         ) {
             kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())

@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.infrastructure.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 
@@ -10,24 +9,24 @@ class SubscriberSequenceGenerator(
 ) {
 
     suspend fun generate(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
     ) = subscriptionSequenceRepository.incr(
         key = SubscriberSequence(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
     )
 
     suspend fun lastSequence(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
     ) = subscriptionSequenceRepository.get(
         key = SubscriberSequence(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )

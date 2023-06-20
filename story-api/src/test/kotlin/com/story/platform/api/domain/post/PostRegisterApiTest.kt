@@ -4,7 +4,6 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.post.PostRegisterHandler
@@ -32,7 +31,7 @@ class PostRegisterApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            serviceType = ServiceType.TWEETER,
+            workspaceId = "twitter",
             apiKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
         )
@@ -55,7 +54,7 @@ class PostRegisterApiTest(
         coEvery {
             postRegisterHandler.register(
                 postSpaceKey = PostSpaceKey(
-                    serviceType = ServiceType.TWEETER,
+                    workspaceId = "twitter",
                     spaceId = spaceId,
                     spaceType = spaceType,
                 ),

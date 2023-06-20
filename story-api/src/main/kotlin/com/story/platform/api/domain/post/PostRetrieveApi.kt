@@ -31,7 +31,7 @@ class PostRetrieveApi(
     ): ApiResponse<PostApiResponse> {
         val post = postRetriever.getPost(
             postSpaceKey = PostSpaceKey(
-                serviceType = authContext.serviceType,
+                workspaceId = authContext.workspaceId,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),
@@ -52,7 +52,7 @@ class PostRetrieveApi(
     ): ApiResponse<CursorResult<PostApiResponse, String>> {
         val posts = postRetriever.listPosts(
             postSpaceKey = PostSpaceKey(
-                serviceType = authContext.serviceType,
+                workspaceId = authContext.workspaceId,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),

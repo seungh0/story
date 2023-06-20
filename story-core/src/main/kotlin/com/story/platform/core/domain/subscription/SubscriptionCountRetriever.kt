@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,12 +9,12 @@ class SubscriptionCountRetriever(
 ) {
 
     suspend fun countSubscribers(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
     ): Long {
         val key = SubscribersCountKey(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
@@ -23,12 +22,12 @@ class SubscriptionCountRetriever(
     }
 
     suspend fun countSubscriptions(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         subscriberId: String,
     ): Long {
         val key = SubscriptionsCountKey(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
         )

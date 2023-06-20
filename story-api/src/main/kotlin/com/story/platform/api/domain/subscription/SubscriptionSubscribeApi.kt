@@ -28,7 +28,7 @@ class SubscriptionSubscribeApi(
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<String> {
         subscriptionSubscribeHandler.subscribe(
-            serviceType = authContext.serviceType,
+            workspaceId = authContext.workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,

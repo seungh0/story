@@ -32,7 +32,7 @@ class SubscriptionRetrieveApi(
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionCheckApiResponse> {
         val isSubscriber = subscriptionRetriever.isSubscriber(
-            serviceType = authContext.serviceType,
+            workspaceId = authContext.workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
@@ -52,7 +52,7 @@ class SubscriptionRetrieveApi(
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscribersCountApiResponse> {
         val subscribersCount = subscriptionCountRetriever.countSubscribers(
-            serviceType = authContext.serviceType,
+            workspaceId = authContext.workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
         )
@@ -71,7 +71,7 @@ class SubscriptionRetrieveApi(
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionsCountApiResponse> {
         val subscribersCount = subscriptionCountRetriever.countSubscriptions(
-            serviceType = authContext.serviceType,
+            workspaceId = authContext.workspaceId,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
         )
@@ -91,7 +91,7 @@ class SubscriptionRetrieveApi(
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriberApiResponse, String>> {
         val subscriptionReverses = subscriptionRetriever.listTargetSubscribers(
-            serviceType = authContext.serviceType,
+            workspaceId = authContext.workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
             cursorRequest = cursorRequest,
@@ -117,7 +117,7 @@ class SubscriptionRetrieveApi(
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriptionTargetApiResponse, String>> {
         val subscriptions = subscriptionRetriever.listSubscriberTargets(
-            serviceType = authContext.serviceType,
+            workspaceId = authContext.workspaceId,
             subscriptionType = subscriptionType,
             subscriberId = subscriberId,
             cursorRequest = cursorRequest,

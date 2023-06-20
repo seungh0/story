@@ -2,7 +2,6 @@ package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.enums.CursorDirection
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.helper.TestCleaner
 import io.kotest.core.spec.style.FunSpec
@@ -31,7 +30,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -67,7 +66,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -103,7 +102,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -144,7 +143,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (9998..10001).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -183,7 +182,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (9999..10001).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -222,7 +221,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -258,7 +257,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -294,7 +293,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -335,7 +334,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (9998..10002).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -374,7 +373,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (9999..10002).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -414,7 +413,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -450,7 +449,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -486,7 +485,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -527,7 +526,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (9999..10002).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -566,7 +565,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (9999..10001).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -604,7 +603,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -640,7 +639,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -676,7 +675,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -717,7 +716,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (9998..10002).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -756,7 +755,7 @@ class PostRetrieverTest(
                 val postReverses = mutableListOf<PostReverse>()
                 (9998..10001).forEach { postId ->
                     val post = PostFixture.create(
-                        serviceType = POST_SPACE_KEY.serviceType,
+                        workspaceId = POST_SPACE_KEY.workspaceId,
                         spaceType = POST_SPACE_KEY.spaceType,
                         spaceId = POST_SPACE_KEY.spaceId,
                         postId = postId.toLong(),
@@ -792,7 +791,7 @@ class PostRetrieverTest(
 
     companion object {
         val POST_SPACE_KEY = PostSpaceKey(
-            serviceType = ServiceType.TWEETER,
+            workspaceId = "workspaceId",
             spaceType = PostSpaceType.ACCOUNT,
             spaceId = "account-id",
         )

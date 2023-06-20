@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.authentication
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.AuditingTime
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -13,7 +12,7 @@ data class AuthenticationReverseKey(
     @field:PrimaryKey
     val key: AuthenticationReverseKeyPrimaryKey,
 
-    val serviceType: ServiceType,
+    val workspaceId: String,
     var status: AuthenticationKeyStatus,
 ) {
 
@@ -30,13 +29,13 @@ data class AuthenticationReverseKey(
 
     companion object {
         fun of(
-            serviceType: ServiceType,
+            workspaceId: String,
             apiKey: String,
             status: AuthenticationKeyStatus = AuthenticationKeyStatus.ENABLED,
             description: String,
         ) = AuthenticationKey(
             key = AuthenticationKeyPrimaryKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 apiKey = apiKey,
             ),
             description = description,
@@ -48,7 +47,7 @@ data class AuthenticationReverseKey(
             key = AuthenticationReverseKeyPrimaryKey(
                 apiKey = authenticationKey.key.apiKey,
             ),
-            serviceType = authenticationKey.key.serviceType,
+            workspaceId = authenticationKey.key.workspaceId,
             status = authenticationKey.status,
         )
     }

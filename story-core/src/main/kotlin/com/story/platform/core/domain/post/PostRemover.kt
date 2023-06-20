@@ -17,16 +17,16 @@ class PostRemover(
         postId: Long,
     ) {
         val postReverse =
-            postReverseRepository.findByKeyServiceTypeAndKeyAccountIdAndKeyPostIdAndKeySpaceTypeAndKeySpaceId(
-                serviceType = postSpaceKey.serviceType,
+            postReverseRepository.findByKeyWorkspaceIdAndKeyAccountIdAndKeyPostIdAndKeySpaceTypeAndKeySpaceId(
+                workspaceId = postSpaceKey.workspaceId,
                 accountId = accountId,
                 postId = postId,
                 spaceType = postSpaceKey.spaceType,
                 spaceId = postSpaceKey.spaceId,
             ) ?: return
 
-        val post = postRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
-            serviceType = postSpaceKey.serviceType,
+        val post = postRepository.findByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+            workspaceId = postSpaceKey.workspaceId,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             slotId = postReverse.slotId,

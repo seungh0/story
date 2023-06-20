@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.enums.ServiceType
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
@@ -14,7 +13,7 @@ class SubscriptionCountRetrieverTest(
     afterEach {
         subscribersCountRepository.delete(
             key = SubscribersCountKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
             )
@@ -28,7 +27,7 @@ class SubscriptionCountRetrieverTest(
 
             subscribersCountRepository.increase(
                 key = SubscribersCountKey(
-                    serviceType = serviceType,
+                    workspaceId = workspaceId,
                     subscriptionType = subscriptionType,
                     targetId = targetId,
                 ),
@@ -37,7 +36,7 @@ class SubscriptionCountRetrieverTest(
 
             // when
             val subscribersCount = subscriptionCountRetriever.countSubscribers(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
             )
@@ -49,7 +48,7 @@ class SubscriptionCountRetrieverTest(
         test("대상자의 구독자가 없는 경우 구독자 수가 0명으로 표기된다") {
             // when
             val subscribersCount = subscriptionCountRetriever.countSubscribers(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
             )
@@ -61,7 +60,7 @@ class SubscriptionCountRetrieverTest(
         test("대상자가 없는 경우 구독자 수가 0으로 표기된다") {
             // when
             val subscribersCount = subscriptionCountRetriever.countSubscribers(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
             )
@@ -74,7 +73,7 @@ class SubscriptionCountRetrieverTest(
 }) {
 
     companion object {
-        private val serviceType = ServiceType.TWEETER
+        private val workspaceId = "twitter"
         private val subscriptionType = SubscriptionType.FOLLOW
         private const val targetId = "구독 대상자"
     }

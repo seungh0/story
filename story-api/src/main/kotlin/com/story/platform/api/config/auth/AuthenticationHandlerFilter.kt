@@ -19,7 +19,7 @@ class AuthenticationHandlerFilter(
         }
         val authentication = authenticationHandler.handleAuthentication(serverWebExchange = exchange)
         exchange.attributes[AUTH_CONTEXT] = AuthContext(
-            serviceType = authentication.serviceType,
+            workspaceId = authentication.workspaceId,
             requestId = exchange.getRequestId() ?: RequestIdGenerator.generate(),
         )
         return chain.filter(exchange)

@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,13 +10,13 @@ class SubscriptionUnSubscribeHandler(
 ) {
 
     suspend fun unsubscribe(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
     ) {
         val isUnsubscribed = subscriptionUnSubscriber.unsubscribe(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
             subscriberId = subscriberId,
@@ -25,14 +24,14 @@ class SubscriptionUnSubscribeHandler(
 
         if (isUnsubscribed) {
             subscriptionCountManager.decrease(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 subscriberId = subscriberId,
             )
 
             subscriptionEventPublisher.publishUnsubscriptionEvent(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,

@@ -1,13 +1,12 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.AuditingTime
 import com.story.platform.core.support.RandomGenerator
 
 object PostFixture {
 
     fun create(
-        serviceType: ServiceType = RandomGenerator.generateEnum(ServiceType::class.java),
+        workspaceId: String = RandomGenerator.generateString(),
         spaceType: PostSpaceType = RandomGenerator.generateEnum(PostSpaceType::class.java),
         spaceId: String = RandomGenerator.generateString(),
         accountId: String = RandomGenerator.generateString(),
@@ -18,7 +17,7 @@ object PostFixture {
     ) = Post(
         key = PostPrimaryKey.of(
             postSpaceKey = PostSpaceKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),

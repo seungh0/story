@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.support.RandomGenerator.generateBoolean
 import com.story.platform.core.support.RandomGenerator.generateEnum
 import com.story.platform.core.support.RandomGenerator.generateLong
@@ -9,7 +8,7 @@ import com.story.platform.core.support.RandomGenerator.generateString
 object SubscriberFixture {
 
     fun create(
-        serviceType: ServiceType = generateEnum(ServiceType::class.java),
+        workspaceId: String = generateString(),
         subscriptionType: SubscriptionType = generateEnum(SubscriptionType::class.java),
         targetId: String = generateString(),
         slotId: Long = generateLong(),
@@ -17,7 +16,7 @@ object SubscriberFixture {
         alarm: Boolean = generateBoolean(),
     ) = Subscriber(
         key = SubscriberPrimaryKey(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
             slotId = slotId,

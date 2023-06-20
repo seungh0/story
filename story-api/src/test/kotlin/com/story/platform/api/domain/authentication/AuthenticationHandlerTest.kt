@@ -2,7 +2,6 @@ package com.story.platform.api.domain.authentication
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.core.common.enums.HttpHeaderType
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.common.error.UnAuthorizedException
 import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
@@ -28,7 +27,7 @@ class AuthenticationHandlerTest(
 
             // given
             coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
-                serviceType = ServiceType.TWEETER,
+                workspaceId = "twitter",
                 apiKey = apiKey,
                 status = AuthenticationKeyStatus.ENABLED,
             )
@@ -42,7 +41,7 @@ class AuthenticationHandlerTest(
             )
 
             // then
-            sut.serviceType shouldBe ServiceType.TWEETER
+            sut.workspaceId shouldBe "twitter"
             sut.apiKey shouldBe apiKey
             sut.status shouldBe AuthenticationKeyStatus.ENABLED
         }
@@ -51,7 +50,7 @@ class AuthenticationHandlerTest(
             // given
             val apiKey = "api-key"
             coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
-                serviceType = ServiceType.TWEETER,
+                workspaceId = "twitter",
                 apiKey = apiKey,
                 status = AuthenticationKeyStatus.DISABLED,
             )

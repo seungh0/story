@@ -1,30 +1,29 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
 
-    suspend fun findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
-        serviceType: ServiceType,
+    suspend fun findByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+        workspaceId: String,
         spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
         postId: Long,
     ): Post?
 
-    suspend fun findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
-        serviceType: ServiceType,
+    suspend fun findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
+        workspaceId: String,
         spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
         pageable: Pageable,
     ): Slice<Post>
 
-    suspend fun findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
-        serviceType: ServiceType,
+    suspend fun findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
+        workspaceId: String,
         spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
@@ -32,16 +31,16 @@ interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
         pageable: Pageable,
     ): Slice<Post>
 
-    suspend fun findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
-        serviceType: ServiceType,
+    suspend fun findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
+        workspaceId: String,
         spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,
         pageable: Pageable,
     ): Slice<Post>
 
-    suspend fun findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
-        serviceType: ServiceType,
+    suspend fun findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
+        workspaceId: String,
         spaceType: PostSpaceType,
         spaceId: String,
         slotId: Long,

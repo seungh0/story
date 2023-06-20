@@ -1,11 +1,10 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.EventType
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.domain.event.EventRecord
 
 data class PostEvent(
-    val serviceType: ServiceType,
+    val workspaceId: String,
     val spaceType: PostSpaceType,
     val spaceId: String,
     val postId: Long,
@@ -17,7 +16,7 @@ data class PostEvent(
 
     companion object {
         fun created(
-            serviceType: ServiceType,
+            workspaceId: String,
             spaceType: PostSpaceType,
             spaceId: String,
             postId: Long,
@@ -28,7 +27,7 @@ data class PostEvent(
         ) = EventRecord(
             eventType = EventType.POST_CREATED,
             payload = PostEvent(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 spaceType = spaceType,
                 spaceId = spaceId,
                 postId = postId,
@@ -40,7 +39,7 @@ data class PostEvent(
         )
 
         fun modified(
-            serviceType: ServiceType,
+            workspaceId: String,
             spaceType: PostSpaceType,
             spaceId: String,
             postId: Long,
@@ -51,7 +50,7 @@ data class PostEvent(
         ) = EventRecord(
             eventType = EventType.POST_UPDATED,
             payload = PostEvent(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 spaceType = spaceType,
                 spaceId = spaceId,
                 postId = postId,
@@ -63,7 +62,7 @@ data class PostEvent(
         )
 
         fun deleted(
-            serviceType: ServiceType,
+            workspaceId: String,
             spaceType: PostSpaceType,
             spaceId: String,
             postId: Long,
@@ -71,7 +70,7 @@ data class PostEvent(
         ) = EventRecord(
             eventType = EventType.POST_DELETED,
             payload = PostEvent(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 spaceType = spaceType,
                 spaceId = spaceId,
                 postId = postId,

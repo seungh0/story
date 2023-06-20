@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
 import com.story.platform.core.support.lock.DistributedLock
@@ -17,10 +16,10 @@ class SubscriptionSubscriber(
 
     @DistributedLock(
         lockType = DistributedLockType.SUBSCRIBE,
-        key = "'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
+        key = "'workspaceId:' + {#workspaceId} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
     )
     suspend fun subscribe(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
@@ -28,7 +27,7 @@ class SubscriptionSubscriber(
     ): Boolean {
         val subscriptionReverse = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,
@@ -36,7 +35,7 @@ class SubscriptionSubscriber(
         )
         if ((subscriptionReverse != null) && subscriptionReverse.isActivated()) {
             saveSubscription(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 slotId = subscriptionReverse.slotId,
@@ -48,14 +47,14 @@ class SubscriptionSubscriber(
 
         val slotId = subscriptionReverse?.slotId ?: SubscriptionSlotAssigner.assign(
             subscriberSequenceGenerator.generate(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId
             )
         )
 
         saveSubscription(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
             slotId = slotId,
@@ -67,7 +66,7 @@ class SubscriptionSubscriber(
     }
 
     private suspend fun saveSubscription(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         slotId: Long,
@@ -75,7 +74,7 @@ class SubscriptionSubscriber(
         alarm: Boolean,
     ) {
         val subscriber = Subscriber.of(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             subscriptionType = subscriptionType,
             targetId = targetId,
             slotId = slotId,

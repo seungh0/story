@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.cassandra.core.cql.Ordering.ASCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -19,7 +18,7 @@ data class Subscriber(
 
     companion object {
         fun of(
-            serviceType: ServiceType,
+            workspaceId: String,
             subscriptionType: SubscriptionType,
             targetId: String,
             slotId: Long,
@@ -27,7 +26,7 @@ data class Subscriber(
             alarm: Boolean,
         ) = Subscriber(
             key = SubscriberPrimaryKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 slotId = slotId,
@@ -42,7 +41,7 @@ data class Subscriber(
 @PrimaryKeyClass
 data class SubscriberPrimaryKey(
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 1)
-    val serviceType: ServiceType,
+    val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 2)
     val subscriptionType: SubscriptionType,

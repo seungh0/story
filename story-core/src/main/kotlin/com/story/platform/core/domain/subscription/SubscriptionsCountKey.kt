@@ -1,16 +1,15 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.infrastructure.redis.StringRedisKey
 import java.time.Duration
 
 data class SubscriptionsCountKey(
-    val serviceType: ServiceType,
+    val workspaceId: String,
     val subscriptionType: SubscriptionType,
     val subscriberId: String,
 ) : StringRedisKey<SubscriptionsCountKey, Long> {
 
-    override fun makeKeyString(): String = "subscriptions-count:v1:$serviceType:$subscriptionType:$subscriberId"
+    override fun makeKeyString(): String = "subscriptions-count:v1:$workspaceId:$subscriptionType:$subscriberId"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

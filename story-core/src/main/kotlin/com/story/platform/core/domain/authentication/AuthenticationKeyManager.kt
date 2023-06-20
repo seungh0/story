@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.authentication
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.ConflictException
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
@@ -16,16 +15,16 @@ class AuthenticationKeyManager(
 ) {
 
     suspend fun register(
-        serviceType: ServiceType,
+        workspaceId: String,
         apiKey: String,
         description: String,
     ) {
-        if (isAlreadyRegisterKey(serviceType = serviceType, apiKey = apiKey)) {
-            throw ConflictException("이미 등록된 서비스($serviceType) API-Key($apiKey)입니다")
+        if (isAlreadyRegisterKey(workspaceId = workspaceId, apiKey = apiKey)) {
+            throw ConflictException("이미 등록된 워크스페이스($workspaceId)의 API-Key($apiKey)입니다")
         }
 
         val authenticationKey = AuthenticationKey.of(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             apiKey = apiKey,
             description = description,
         )
@@ -37,12 +36,12 @@ class AuthenticationKeyManager(
     }
 
     private suspend fun isAlreadyRegisterKey(
-        serviceType: ServiceType,
+        workspaceId: String,
         apiKey: String,
     ): Boolean {
         return authenticationKeyRepository.existsById(
             AuthenticationKeyPrimaryKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 apiKey = apiKey,
             )
         )
@@ -50,16 +49,16 @@ class AuthenticationKeyManager(
 
     @CacheEvict(
         cacheType = CacheType.AUTHENTICATION_REVERSE_KEY,
-        key = "'serviceType:' + {#serviceType} + ':apiKey:' + {#apiKey}",
+        key = "'workspaceId:' + {#workspaceId} + ':apiKey:' + {#apiKey}",
         condition = "#status != null"
     )
     suspend fun modify(
-        serviceType: ServiceType,
+        workspaceId: String,
         apiKey: String,
         description: String?,
         status: AuthenticationKeyStatus?,
     ) {
-        val authenticationKey = findAuthenticationKey(serviceType = serviceType, apiKey = apiKey)
+        val authenticationKey = findAuthenticationKey(workspaceId = workspaceId, apiKey = apiKey)
 
         val hasChanged = authenticationKey.patch(
             description = description,
@@ -76,13 +75,13 @@ class AuthenticationKeyManager(
             .executeCoroutine()
     }
 
-    private suspend fun findAuthenticationKey(serviceType: ServiceType, apiKey: String): AuthenticationKey {
+    private suspend fun findAuthenticationKey(workspaceId: String, apiKey: String): AuthenticationKey {
         return authenticationKeyRepository.findById(
             AuthenticationKeyPrimaryKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 apiKey = apiKey,
             )
-        ) ?: throw NotFoundException("서비스($serviceType)에 등록되지 않은 API-Key($apiKey) 입니다")
+        ) ?: throw NotFoundException("워크스페이스($workspaceId)에 등록되지 않은 API-Key($apiKey) 입니다")
     }
 
 }

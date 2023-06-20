@@ -31,7 +31,7 @@ class PostModifierApi(
     ): ApiResponse<String> {
         postModifyHandler.patch(
             postSpaceKey = PostSpaceKey(
-                serviceType = authContext.serviceType,
+                workspaceId = authContext.workspaceId,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),

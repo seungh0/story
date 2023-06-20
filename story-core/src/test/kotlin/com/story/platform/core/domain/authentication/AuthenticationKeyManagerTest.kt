@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.authentication
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.ConflictException
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.helper.TestCleaner
@@ -26,13 +25,13 @@ class AuthenticationKeyManagerTest(
     context("신규 서비스 인증 키를 등록한다") {
         test("새로운 인증 키를 등록한다") {
             // given
-            val serviceType = ServiceType.TWEETER
+            val workspaceId = "twitter"
             val apiKey = "api-key"
             val description = "트위터 피드 API Key"
 
             // when
             authenticationKeyManager.register(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 apiKey = apiKey,
                 description = description,
             )
@@ -41,7 +40,7 @@ class AuthenticationKeyManagerTest(
             val authenticationKeys = authenticationKeyRepository.findAll().toList()
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
-                it.key.serviceType shouldBe serviceType
+                it.key.workspaceId shouldBe workspaceId
                 it.key.apiKey shouldBe apiKey
                 it.description shouldBe description
                 it.status shouldBe AuthenticationKeyStatus.ENABLED
@@ -58,7 +57,7 @@ class AuthenticationKeyManagerTest(
             // when & then
             shouldThrowExactly<ConflictException> {
                 authenticationKeyManager.register(
-                    serviceType = authenticationKey.key.serviceType,
+                    workspaceId = authenticationKey.key.workspaceId,
                     apiKey = authenticationKey.key.apiKey,
                     description = "",
                 )
@@ -76,7 +75,7 @@ class AuthenticationKeyManagerTest(
 
             // when
             authenticationKeyManager.modify(
-                serviceType = authenticationKey.key.serviceType,
+                workspaceId = authenticationKey.key.workspaceId,
                 apiKey = authenticationKey.key.apiKey,
                 description = description,
                 status = null,
@@ -86,7 +85,7 @@ class AuthenticationKeyManagerTest(
             val authenticationKeys = authenticationKeyRepository.findAll().toList()
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
-                it.key.serviceType shouldBe authenticationKey.key.serviceType
+                it.key.workspaceId shouldBe authenticationKey.key.workspaceId
                 it.key.apiKey shouldBe authenticationKey.key.apiKey
                 it.description shouldBe description
                 it.status shouldBe authenticationKey.status
@@ -105,7 +104,7 @@ class AuthenticationKeyManagerTest(
 
             // when
             authenticationKeyManager.modify(
-                serviceType = authenticationKey.key.serviceType,
+                workspaceId = authenticationKey.key.workspaceId,
                 apiKey = authenticationKey.key.apiKey,
                 description = null,
                 status = AuthenticationKeyStatus.DISABLED,
@@ -115,7 +114,7 @@ class AuthenticationKeyManagerTest(
             val authenticationKeys = authenticationKeyRepository.findAll().toList()
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
-                it.key.serviceType shouldBe authenticationKey.key.serviceType
+                it.key.workspaceId shouldBe authenticationKey.key.workspaceId
                 it.key.apiKey shouldBe authenticationKey.key.apiKey
                 it.description shouldBe authenticationKey.description
                 it.status shouldBe AuthenticationKeyStatus.DISABLED
@@ -134,7 +133,7 @@ class AuthenticationKeyManagerTest(
 
             // when
             authenticationKeyManager.modify(
-                serviceType = authenticationKey.key.serviceType,
+                workspaceId = authenticationKey.key.workspaceId,
                 apiKey = authenticationKey.key.apiKey,
                 description = authenticationKey.description,
                 status = authenticationKey.status,
@@ -144,7 +143,7 @@ class AuthenticationKeyManagerTest(
             val authenticationKeys = authenticationKeyRepository.findAll().toList()
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
-                it.key.serviceType shouldBe authenticationKey.key.serviceType
+                it.key.workspaceId shouldBe authenticationKey.key.workspaceId
                 it.key.apiKey shouldBe authenticationKey.key.apiKey
                 it.description shouldBe authenticationKey.description
                 it.status shouldBe authenticationKey.status
@@ -154,10 +153,13 @@ class AuthenticationKeyManagerTest(
         }
 
         test("서비스에 등록되어 있지 않은 API-Key인 경우 변경할 수 없다") {
+            // given
+            val workspaceId = "twitter"
+
             // when & then
             shouldThrowExactly<NotFoundException> {
                 authenticationKeyManager.modify(
-                    serviceType = ServiceType.TWEETER,
+                    workspaceId = workspaceId,
                     apiKey = "api-key",
                     description = "",
                     status = null,
@@ -168,14 +170,14 @@ class AuthenticationKeyManagerTest(
         test("API-Key는 각 서비스별로 독립적으로 관리된다") {
             // given
             val authenticationKey = AuthenticationKeyFixture.create(
-                serviceType = ServiceType.TWEETER,
+                workspaceId = "twitter",
             )
             authenticationKeyRepository.save(authenticationKey)
 
             // when & then
             shouldThrowExactly<NotFoundException> {
                 authenticationKeyManager.modify(
-                    serviceType = ServiceType.INSTAGRAM,
+                    workspaceId = "instagram",
                     apiKey = authenticationKey.key.apiKey,
                     description = "",
                     status = null,

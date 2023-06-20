@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.authentication
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.AuditingTime
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
@@ -46,13 +45,13 @@ data class AuthenticationKey(
 
     companion object {
         fun of(
-            serviceType: ServiceType,
+            workspaceId: String,
             apiKey: String,
             status: AuthenticationKeyStatus = AuthenticationKeyStatus.ENABLED,
             description: String,
         ) = AuthenticationKey(
             key = AuthenticationKeyPrimaryKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 apiKey = apiKey,
             ),
             description = description,
@@ -66,7 +65,7 @@ data class AuthenticationKey(
 @PrimaryKeyClass
 data class AuthenticationKeyPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
-    val serviceType: ServiceType,
+    val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 2)
     val apiKey: String,

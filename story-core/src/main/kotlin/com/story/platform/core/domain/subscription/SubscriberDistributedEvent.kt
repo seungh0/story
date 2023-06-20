@@ -1,9 +1,7 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
-
 data class SubscriberDistributedEvent(
-    val serviceType: ServiceType,
+    val workspaceId: String,
     val subscriptionType: SubscriptionType,
     val targetId: String,
     val slot: Long,

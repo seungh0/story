@@ -1,11 +1,10 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.enums.EventType
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.domain.event.EventRecord
 
 data class SubscriptionEvent(
-    val serviceType: ServiceType,
+    val workspaceId: String,
     val subscriptionType: SubscriptionType,
     val subscriberId: String,
     val targetId: String,
@@ -13,14 +12,14 @@ data class SubscriptionEvent(
 
     companion object {
         fun subscribed(
-            serviceType: ServiceType,
+            workspaceId: String,
             subscriptionType: SubscriptionType,
             subscriberId: String,
             targetId: String,
         ) = EventRecord(
             eventType = EventType.SUBSCRIPTION_CREATED,
             payload = SubscriptionEvent(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,
@@ -28,14 +27,14 @@ data class SubscriptionEvent(
         )
 
         fun unsubscribed(
-            serviceType: ServiceType,
+            workspaceId: String,
             subscriptionType: SubscriptionType,
             subscriberId: String,
             targetId: String,
         ) = EventRecord(
             eventType = EventType.SUBSCRIPTION_DELETED,
             payload = SubscriptionEvent(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,

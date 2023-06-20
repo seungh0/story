@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
@@ -29,13 +28,13 @@ class SubscriberDistributor(
 ) {
 
     suspend fun distribute(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
     ) {
         val subscribersCount = subscribersCountRepository.get(
             key = SubscribersCountKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
             )
@@ -49,7 +48,7 @@ class SubscriberDistributor(
                     withTimeout(DEFAULT_TIMEOUT_MS) {
                         try {
                             val event = SubscriberDistributedEvent(
-                                serviceType = serviceType,
+                                workspaceId = workspaceId,
                                 subscriptionType = subscriptionType,
                                 targetId = targetId,
                                 slot = slot,

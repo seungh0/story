@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.feed.source
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.domain.feed.FeedMessage
 import com.story.platform.core.domain.feed.FeedSourceType
 import com.story.platform.core.domain.post.PostKey
@@ -14,10 +13,10 @@ class PostFeedSourceImporter(
 
     override fun sourceType() = FeedSourceType.NEW_POST
 
-    override suspend fun fetch(serviceType: ServiceType, sourceIds: Collection<String>): List<FeedMessage> {
+    override suspend fun fetch(workspaceId: String, sourceIds: Collection<String>): List<FeedMessage> {
         val postKeys = sourceIds.map { postKey -> PostKey.of(postKey) }
         val posts = postRetriever.listPosts(
-            serviceType = serviceType,
+            workspaceId = workspaceId,
             keys = postKeys,
         )
 

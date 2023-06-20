@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
 import com.story.platform.core.support.lock.DistributedLock
@@ -17,17 +16,17 @@ class SubscriptionUnSubscriber(
 
     @DistributedLock(
         lockType = DistributedLockType.SUBSCRIBE,
-        key = "'serviceType:' + {#serviceType} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
+        key = "'workspaceId:' + {#workspaceId} + ':subscriptionType:' + {#subscriptionType} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
     )
     suspend fun unsubscribe(
-        serviceType: ServiceType,
+        workspaceId: String,
         subscriptionType: SubscriptionType,
         targetId: String,
         subscriberId: String,
     ): Boolean {
         val subscriptionReverse = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 subscriberId = subscriberId,
                 targetId = targetId,
@@ -40,7 +39,7 @@ class SubscriptionUnSubscriber(
 
         val subscription = subscriberRepository.findById(
             SubscriberPrimaryKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 subscriptionType = subscriptionType,
                 targetId = targetId,
                 slotId = subscriptionReverse.slotId,

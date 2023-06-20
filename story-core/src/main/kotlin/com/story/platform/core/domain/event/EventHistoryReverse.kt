@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.event
 
 import com.story.platform.core.common.enums.EventType
-import com.story.platform.core.common.enums.ServiceType
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -29,7 +28,7 @@ data class EventHistoryReverse(
             eventHistory: EventHistory,
         ) = EventHistoryReverse(
             key = EventHistoryReversePrimaryKey(
-                serviceType = eventHistory.key.serviceType,
+                workspaceId = eventHistory.key.workspaceId,
                 eventType = eventHistory.key.eventType,
                 eventId = eventHistory.key.eventId,
                 eventDate = eventHistory.key.eventDate,
@@ -45,7 +44,7 @@ data class EventHistoryReverse(
 @PrimaryKeyClass
 data class EventHistoryReversePrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
-    val serviceType: ServiceType,
+    val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
     val eventType: EventType,

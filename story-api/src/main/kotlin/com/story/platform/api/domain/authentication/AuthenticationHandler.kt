@@ -21,7 +21,7 @@ class AuthenticationHandler(
         try {
             val authentication = authenticationKeyRetriever.getAuthenticationKey(apiKey = apiKey)
             if (!authentication.isActivated()) {
-                throw UnAuthorizedException("[서비스(${authentication.serviceType})] 사용할 수 없는 인증 키(${authentication.apiKey})입니다. 현재 상태: ${authentication.status}")
+                throw UnAuthorizedException("[워크스페이스(${authentication.workspaceId})] 사용할 수 없는 인증 키(${authentication.apiKey})입니다. 현재 상태: ${authentication.status}")
             }
             return authentication
         } catch (exception: NotFoundException) {

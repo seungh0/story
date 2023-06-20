@@ -29,7 +29,7 @@ class PostRegisterApi(
     ): ApiResponse<PostRegisterApiResponse> {
         val postId = postRegisterHandler.register(
             postSpaceKey = PostSpaceKey(
-                serviceType = authContext.serviceType,
+                workspaceId = authContext.workspaceId,
                 spaceType = spaceType,
                 spaceId = spaceId,
             ),

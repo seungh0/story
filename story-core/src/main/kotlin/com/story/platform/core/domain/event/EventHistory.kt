@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.event
 
 import com.story.platform.core.common.enums.EventType
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.support.json.toJson
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
@@ -28,9 +27,9 @@ data class EventHistory(
 ) {
 
     companion object {
-        fun <T> of(serviceType: ServiceType, eventRecord: EventRecord<T>, status: EventStatus) = EventHistory(
+        fun <T> of(workspaceId: String, eventRecord: EventRecord<T>, status: EventStatus) = EventHistory(
             key = EventHistoryPrimaryKey(
-                serviceType = serviceType,
+                workspaceId = workspaceId,
                 eventType = eventRecord.eventType,
                 eventDate = eventRecord.timestamp.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'hh:mm")),
                 timestamp = eventRecord.timestamp,
@@ -46,7 +45,7 @@ data class EventHistory(
 @PrimaryKeyClass
 data class EventHistoryPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
-    val serviceType: ServiceType,
+    val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
     val eventType: EventType,

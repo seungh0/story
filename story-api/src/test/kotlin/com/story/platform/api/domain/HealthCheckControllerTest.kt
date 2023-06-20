@@ -5,7 +5,6 @@ import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.AvailabilityChecker
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
@@ -31,7 +30,7 @@ internal class HealthCheckControllerTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            serviceType = ServiceType.TWEETER,
+            workspaceId = "twitter",
             apiKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
         )

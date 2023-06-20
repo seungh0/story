@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.CursorDirection
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.common.error.NotFoundException
@@ -33,8 +32,8 @@ class PostRetriever(
         postId: Long,
     ): PostResponse {
         return PostResponse.of(
-            postRepository.findByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
-                serviceType = postSpaceKey.serviceType,
+            postRepository.findByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+                workspaceId = postSpaceKey.workspaceId,
                 spaceType = postSpaceKey.spaceType,
                 spaceId = postSpaceKey.spaceId,
                 slotId = PostSlotAssigner.assign(postId),
@@ -44,7 +43,7 @@ class PostRetriever(
     }
 
     suspend fun listPosts(
-        serviceType: ServiceType,
+        workspaceId: String,
         keys: Collection<PostKey>,
     ): List<PostResponse> {
         return withContext(dispatcher) {
@@ -55,7 +54,7 @@ class PostRetriever(
                             postRepository.findById(
                                 PostPrimaryKey.of(
                                     postSpaceKey = PostSpaceKey(
-                                        serviceType = serviceType,
+                                        workspaceId = workspaceId,
                                         spaceId = key.spaceId,
                                         spaceType = key.spaceType,
                                     ),
@@ -92,8 +91,8 @@ class PostRetriever(
 
         val morePosts = when (cursorRequest.direction) {
             CursorDirection.NEXT -> {
-                postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
-                    serviceType = postSpaceKey.serviceType,
+                postRepository.findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
+                    workspaceId = postSpaceKey.workspaceId,
                     spaceType = postSpaceKey.spaceType,
                     spaceId = postSpaceKey.spaceId,
                     slotId = slot - 1,
@@ -102,8 +101,8 @@ class PostRetriever(
             }
 
             CursorDirection.PREVIOUS -> {
-                postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
-                    serviceType = postSpaceKey.serviceType,
+                postRepository.findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
+                    workspaceId = postSpaceKey.workspaceId,
                     spaceType = postSpaceKey.spaceType,
                     spaceId = postSpaceKey.spaceId,
                     slotId = slot + 1,
@@ -127,8 +126,8 @@ class PostRetriever(
         if (cursorRequest.cursor == null) {
             val lastSlotId =
                 PostSlotAssigner.assign(postId = postSequenceGenerator.lastSequence(postSpaceKey = postSpaceKey))
-            return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
-                serviceType = postSpaceKey.serviceType,
+            return postRepository.findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotId(
+                workspaceId = postSpaceKey.workspaceId,
                 spaceType = postSpaceKey.spaceType,
                 spaceId = postSpaceKey.spaceId,
                 slotId = lastSlotId,
@@ -140,8 +139,8 @@ class PostRetriever(
             postId = cursorRequest.cursor.toLongOrNull()
                 ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다")
         )
-        return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
-            serviceType = postSpaceKey.serviceType,
+        return postRepository.findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
+            workspaceId = postSpaceKey.workspaceId,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             slotId = currentSlot,
@@ -157,8 +156,8 @@ class PostRetriever(
     ): Pair<List<Post>, Long> {
         if (cursorRequest.cursor == null) {
             val firstSlotId = PostSlotAssigner.FIRST_SLOT_ID
-            return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
-                serviceType = postSpaceKey.serviceType,
+            return postRepository.findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
+                workspaceId = postSpaceKey.workspaceId,
                 spaceType = postSpaceKey.spaceType,
                 spaceId = postSpaceKey.spaceId,
                 slotId = firstSlotId,
@@ -169,8 +168,8 @@ class PostRetriever(
             postId = cursorRequest.cursor.toLongOrNull()
                 ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
         )
-        return postRepository.findAllByKeyServiceTypeAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
-            serviceType = postSpaceKey.serviceType,
+        return postRepository.findAllByKeyWorkspaceIdAndKeySpaceTypeAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
+            workspaceId = postSpaceKey.workspaceId,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             slotId = currentSlot,

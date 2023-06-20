@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.enums.ServiceType
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import kotlinx.coroutines.flow.toList
@@ -30,7 +29,7 @@ internal class PostRemoverTest(
             // when
             postRemover.remove(
                 postSpaceKey = PostSpaceKey(
-                    serviceType = post.key.serviceType,
+                    workspaceId = post.key.workspaceId,
                     spaceType = post.key.spaceType,
                     spaceId = post.key.spaceId,
                 ),
@@ -50,7 +49,7 @@ internal class PostRemoverTest(
             // when
             postRemover.remove(
                 postSpaceKey = PostSpaceKey(
-                    serviceType = ServiceType.TWEETER,
+                    workspaceId = "twitter",
                     spaceType = PostSpaceType.POST_COMMENT,
                     spaceId = "포스트 작성 공간 ID",
                 ),

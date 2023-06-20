@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.AuditingTime
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
@@ -83,7 +82,7 @@ data class Post(
 @PrimaryKeyClass
 data class PostPrimaryKey(
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 1)
-    val serviceType: ServiceType,
+    val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 2)
     val spaceType: PostSpaceType,
@@ -103,7 +102,7 @@ data class PostPrimaryKey(
             postSpaceKey: PostSpaceKey,
             postId: Long,
         ) = PostPrimaryKey(
-            serviceType = postSpaceKey.serviceType,
+            workspaceId = postSpaceKey.workspaceId,
             spaceType = postSpaceKey.spaceType,
             spaceId = postSpaceKey.spaceId,
             slotId = PostSlotAssigner.assign(postId),

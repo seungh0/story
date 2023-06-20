@@ -4,7 +4,6 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.common.enums.ServiceType
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
@@ -33,7 +32,7 @@ class PostRemoveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            serviceType = ServiceType.TWEETER,
+            workspaceId = "twitter",
             apiKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
         )
@@ -42,7 +41,7 @@ class PostRemoveApiTest(
     test("기존에 등록된 포스트를 삭제한다") {
         // given
         val postSpaceKey = PostSpaceKey(
-            serviceType = ServiceType.TWEETER,
+            workspaceId = "twitter",
             spaceType = PostSpaceType.POST_COMMENT,
             spaceId = "게시글 공간 ID"
         )
