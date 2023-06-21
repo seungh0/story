@@ -31,6 +31,5 @@
 
 - Kotlin, Kotlin Coroutine
 - Spring Webflux
-- Reactive Cassandra, Reactive Redis
-- Kafka
+- Reactive Cassandra, Reactive Redis, Kafka
 
