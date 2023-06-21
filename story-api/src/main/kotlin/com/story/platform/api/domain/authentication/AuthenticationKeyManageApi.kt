@@ -18,7 +18,7 @@ class AuthenticationKeyManageApi(
     /**
      * 신규 서비스 인증 키를 등록합니다
      */
-    @PostMapping("/v1/authentication/key")
+    @PostMapping("/v1/authentication-keys")
     suspend fun register(
         @RequestAuthContext authContext: AuthContext,
         @Valid @RequestBody request: AuthenticationKeyRegisterApiRequest,
@@ -34,7 +34,7 @@ class AuthenticationKeyManageApi(
     /**
      * 서비스 인증 키의 정보를 수정합니다
      */
-    @PatchMapping("/v1/authentication/key")
+    @PatchMapping("/v1/authentication-keys")
     suspend fun modify(
         @RequestAuthContext authContext: AuthContext,
         @Valid @RequestBody request: AuthenticationKeyModifyApiRequest,

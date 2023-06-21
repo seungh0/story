@@ -2,9 +2,11 @@ package com.story.platform.api.domain.subscription
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
+import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.domain.component.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountRetriever
 import com.story.platform.core.domain.subscription.SubscriptionRetriever
 import jakarta.validation.Valid
@@ -13,11 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/subscriptions/{componentId}")
+@RequestMapping("/v1/subscriptions/components/{componentId}")
 @RestController
 class SubscriptionRetrieveApi(
     private val subscriptionRetriever: SubscriptionRetriever,
     private val subscriptionCountRetriever: SubscriptionCountRetriever,
+    private val componentHandler: ComponentHandler,
 ) {
 
     /**
@@ -30,6 +33,12 @@ class SubscriptionRetrieveApi(
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionCheckApiResponse> {
+        componentHandler.validateComponent(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.SUBSCRIPTIONS,
+            componentId = componentId,
+        )
+
         val isSubscriber = subscriptionRetriever.isSubscriber(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -50,6 +59,12 @@ class SubscriptionRetrieveApi(
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscribersCountApiResponse> {
+        componentHandler.validateComponent(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.SUBSCRIPTIONS,
+            componentId = componentId,
+        )
+
         val subscribersCount = subscriptionCountRetriever.countSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -69,6 +84,12 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriberId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionsCountApiResponse> {
+        componentHandler.validateComponent(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.SUBSCRIPTIONS,
+            componentId = componentId,
+        )
+
         val subscribersCount = subscriptionCountRetriever.countSubscriptions(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -89,6 +110,12 @@ class SubscriptionRetrieveApi(
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriberApiResponse, String>> {
+        componentHandler.validateComponent(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.SUBSCRIPTIONS,
+            componentId = componentId,
+        )
+
         val subscriptionReverses = subscriptionRetriever.listTargetSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -115,6 +142,12 @@ class SubscriptionRetrieveApi(
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriptionTargetApiResponse, String>> {
+        componentHandler.validateComponent(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.SUBSCRIPTIONS,
+            componentId = componentId,
+        )
+
         val subscriptions = subscriptionRetriever.listSubscriberTargets(
             workspaceId = authContext.workspaceId,
             componentId = componentId,

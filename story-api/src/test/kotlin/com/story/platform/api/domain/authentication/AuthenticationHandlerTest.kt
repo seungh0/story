@@ -28,7 +28,7 @@ class AuthenticationHandlerTest(
             // given
             coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
                 workspaceId = "twitter",
-                apiKey = apiKey,
+                authenticationKey = apiKey,
                 status = AuthenticationKeyStatus.ENABLED,
             )
 
@@ -36,13 +36,13 @@ class AuthenticationHandlerTest(
             val sut = authenticationHandler.handleAuthentication(
                 serverWebExchange = MockServerWebExchange.from(
                     MockServerHttpRequest.get("/test")
-                        .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
+                        .header(HttpHeaderType.X_STORY_AUTHENTICATION_KEY.header, apiKey)
                 )
             )
 
             // then
             sut.workspaceId shouldBe "twitter"
-            sut.apiKey shouldBe apiKey
+            sut.authenticationKey shouldBe apiKey
             sut.status shouldBe AuthenticationKeyStatus.ENABLED
         }
 
@@ -51,7 +51,7 @@ class AuthenticationHandlerTest(
             val apiKey = "api-key"
             coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
                 workspaceId = "twitter",
-                apiKey = apiKey,
+                authenticationKey = apiKey,
                 status = AuthenticationKeyStatus.DISABLED,
             )
 
@@ -60,7 +60,7 @@ class AuthenticationHandlerTest(
                 authenticationHandler.handleAuthentication(
                     serverWebExchange = MockServerWebExchange.from(
                         MockServerHttpRequest.get("/test")
-                            .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
+                            .header(HttpHeaderType.X_STORY_AUTHENTICATION_KEY.header, apiKey)
                     )
                 )
             }
@@ -76,7 +76,7 @@ class AuthenticationHandlerTest(
                 authenticationHandler.handleAuthentication(
                     serverWebExchange = MockServerWebExchange.from(
                         MockServerHttpRequest.get("/test")
-                            .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
+                            .header(HttpHeaderType.X_STORY_AUTHENTICATION_KEY.header, apiKey)
                     )
                 )
             }

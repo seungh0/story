@@ -14,7 +14,7 @@ object AuthenticationKeyFixture {
     ) = AuthenticationKey(
         key = AuthenticationKeyPrimaryKey(
             workspaceId = workspaceId,
-            apiKey = apiKey,
+            authenticationKey = apiKey,
         ),
         description = description,
         status = status,

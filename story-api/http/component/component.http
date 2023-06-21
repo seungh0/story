@@ -1,0 +1,44 @@
+### 컴포넌트 등록
+POST {{api}}/v1/resources/subscriptions/components/follow
+Content-Type: application/json
+X-Story-Authentication-Key: {{AUTHENTICATION_KEY}}
+
+{
+    "description": "팔로워 시스템"
+}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+        client.global.set("POST_ID", response.body["result"]["postId"])
+    });
+%}
+
+
+### 컴포넌트 수정
+PATCH {{api}}/v1/resources/subscriptions/components/follow
+Content-Type: application/json
+X-Story-Authentication-Key: {{AUTHENTICATION_KEY}}
+
+{
+    "description": "팔로잉 시스템",
+    "status": "ENABLED"
+}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+
+
+### 컴포넌트 목록 조회
+GET {{api}}/v1/resources/subscriptions/components?pageSize=10
+Content-Type: application/json
+X-Story-Authentication-Key: {{AUTHENTICATION_KEY}}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}

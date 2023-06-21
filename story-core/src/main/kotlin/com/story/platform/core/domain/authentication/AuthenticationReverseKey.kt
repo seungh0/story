@@ -36,7 +36,7 @@ data class AuthenticationReverseKey(
         ) = AuthenticationKey(
             key = AuthenticationKeyPrimaryKey(
                 workspaceId = workspaceId,
-                apiKey = apiKey,
+                authenticationKey = apiKey,
             ),
             description = description,
             status = status,
@@ -45,7 +45,7 @@ data class AuthenticationReverseKey(
 
         fun from(authenticationKey: AuthenticationKey) = AuthenticationReverseKey(
             key = AuthenticationReverseKeyPrimaryKey(
-                apiKey = authenticationKey.key.apiKey,
+                authenticationKey = authenticationKey.key.authenticationKey,
             ),
             workspaceId = authenticationKey.key.workspaceId,
             status = authenticationKey.status,
@@ -57,5 +57,5 @@ data class AuthenticationReverseKey(
 @PrimaryKeyClass
 data class AuthenticationReverseKeyPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
-    val apiKey: String,
+    val authenticationKey: String,
 )

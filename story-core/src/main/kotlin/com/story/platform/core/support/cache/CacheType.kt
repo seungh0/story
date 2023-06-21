@@ -1,6 +1,7 @@
 package com.story.platform.core.support.cache
 
 import com.story.platform.core.domain.authentication.AuthenticationResponse
+import com.story.platform.core.domain.component.ComponentResponse
 import java.time.Duration
 
 enum class CacheType(
@@ -23,6 +24,13 @@ enum class CacheType(
         globalCacheTtl = Duration.ofHours(1),
         localCacheTtl = Duration.ofSeconds(10),
         cacheClazz = AuthenticationResponse::class.java,
+    ),
+    COMPONENT(
+        description = "컴포넌트 정보",
+        key = "component:v1",
+        globalCacheTtl = Duration.ofHours(1),
+        localCacheTtl = Duration.ofSeconds(10),
+        cacheClazz = ComponentResponse::class.java,
     ),
     ;
 

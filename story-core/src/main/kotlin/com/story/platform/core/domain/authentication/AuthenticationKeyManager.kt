@@ -42,7 +42,7 @@ class AuthenticationKeyManager(
         return authenticationKeyRepository.existsById(
             AuthenticationKeyPrimaryKey(
                 workspaceId = workspaceId,
-                apiKey = apiKey,
+                authenticationKey = apiKey,
             )
         )
     }
@@ -79,7 +79,7 @@ class AuthenticationKeyManager(
         return authenticationKeyRepository.findById(
             AuthenticationKeyPrimaryKey(
                 workspaceId = workspaceId,
-                apiKey = apiKey,
+                authenticationKey = apiKey,
             )
         ) ?: throw NotFoundException("워크스페이스($workspaceId)에 등록되지 않은 API-Key($apiKey) 입니다")
     }

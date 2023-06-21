@@ -2,8 +2,10 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
+import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.domain.component.ResourceId
 import com.story.platform.core.domain.post.PostModifyHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import jakarta.validation.Valid
@@ -13,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/posts/{componentId}")
+@RequestMapping("/v1/posts/components/{componentId}")
 @RestController
 class PostModifierApi(
     private val postModifyHandler: PostModifyHandler,
+    private val componentHandler: ComponentHandler,
 ) {
 
     /**
@@ -30,6 +33,12 @@ class PostModifierApi(
         @Valid @RequestBody request: PostModifyApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<String> {
+        componentHandler.validateComponent(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.POSTS,
+            componentId = componentId,
+        )
+
         postModifyHandler.patch(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,

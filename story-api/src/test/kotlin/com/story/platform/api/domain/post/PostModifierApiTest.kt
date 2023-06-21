@@ -3,6 +3,7 @@ package com.story.platform.api.domain.post
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
@@ -27,14 +28,19 @@ internal class PostModifierApiTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
+
+    @MockkBean
+    private val componentHandler: ComponentHandler,
 ) : FunSpec({
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
             workspaceId = "twitter",
-            apiKey = "api-key",
+            authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
         )
+
+        coEvery { componentHandler.validateComponent(any(), any(), any()) } returns Unit
     }
 
     test("기존 포스트를 수정합니다") {
@@ -70,7 +76,7 @@ internal class PostModifierApiTest(
 
         // when
         val exchange = webTestClient.patch()
-            .uri("/v1/posts/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
+            .uri("/v1/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
             .headers(WebClientUtils.commonHeaders)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)

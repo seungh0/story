@@ -3,6 +3,7 @@ package com.story.platform.api.domain
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.AvailabilityChecker
 import com.story.platform.core.common.model.ApiResponse
@@ -26,14 +27,19 @@ internal class HealthCheckControllerTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
+
+    @MockkBean
+    private val componentHandler: ComponentHandler,
 ) : FunSpec({
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
             workspaceId = "twitter",
-            apiKey = "api-key",
+            authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
         )
+
+        coEvery { componentHandler.validateComponent(any(), any(), any()) } returns Unit
     }
 
     test("Health Check API") {

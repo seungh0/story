@@ -2,10 +2,12 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
+import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.domain.component.ResourceId
 import com.story.platform.core.domain.post.PostRetriever
 import com.story.platform.core.domain.post.PostSpaceKey
 import jakarta.validation.Valid
@@ -14,10 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/posts/{componentId}")
+@RequestMapping("/v1/posts/components/{componentId}")
 @RestController
 class PostRetrieveApi(
     private val postRetriever: PostRetriever,
+    private val componentHandler: ComponentHandler,
 ) {
 
     /**
@@ -30,6 +33,12 @@ class PostRetrieveApi(
         @PathVariable postId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<PostApiResponse> {
+        componentHandler.validateComponent(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.POSTS,
+            componentId = componentId,
+        )
+
         val post = postRetriever.getPost(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
@@ -51,6 +60,12 @@ class PostRetrieveApi(
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<PostApiResponse, String>> {
+        componentHandler.validateComponent(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.POSTS,
+            componentId = componentId,
+        )
+
         val posts = postRetriever.listPosts(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,

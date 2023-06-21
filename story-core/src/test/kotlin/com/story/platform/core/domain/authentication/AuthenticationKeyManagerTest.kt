@@ -41,7 +41,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
                 it.key.workspaceId shouldBe workspaceId
-                it.key.apiKey shouldBe apiKey
+                it.key.authenticationKey shouldBe apiKey
                 it.description shouldBe description
                 it.status shouldBe AuthenticationKeyStatus.ENABLED
                 it.auditingTime.createdAt shouldNotBe null
@@ -58,7 +58,7 @@ class AuthenticationKeyManagerTest(
             shouldThrowExactly<ConflictException> {
                 authenticationKeyManager.register(
                     workspaceId = authenticationKey.key.workspaceId,
-                    apiKey = authenticationKey.key.apiKey,
+                    apiKey = authenticationKey.key.authenticationKey,
                     description = "",
                 )
             }
@@ -76,7 +76,7 @@ class AuthenticationKeyManagerTest(
             // when
             authenticationKeyManager.modify(
                 workspaceId = authenticationKey.key.workspaceId,
-                apiKey = authenticationKey.key.apiKey,
+                apiKey = authenticationKey.key.authenticationKey,
                 description = description,
                 status = null,
             )
@@ -86,7 +86,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
                 it.key.workspaceId shouldBe authenticationKey.key.workspaceId
-                it.key.apiKey shouldBe authenticationKey.key.apiKey
+                it.key.authenticationKey shouldBe authenticationKey.key.authenticationKey
                 it.description shouldBe description
                 it.status shouldBe authenticationKey.status
                 it.auditingTime.createdAt shouldNotBe null
@@ -105,7 +105,7 @@ class AuthenticationKeyManagerTest(
             // when
             authenticationKeyManager.modify(
                 workspaceId = authenticationKey.key.workspaceId,
-                apiKey = authenticationKey.key.apiKey,
+                apiKey = authenticationKey.key.authenticationKey,
                 description = null,
                 status = AuthenticationKeyStatus.DISABLED,
             )
@@ -115,7 +115,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
                 it.key.workspaceId shouldBe authenticationKey.key.workspaceId
-                it.key.apiKey shouldBe authenticationKey.key.apiKey
+                it.key.authenticationKey shouldBe authenticationKey.key.authenticationKey
                 it.description shouldBe authenticationKey.description
                 it.status shouldBe AuthenticationKeyStatus.DISABLED
                 it.auditingTime.createdAt shouldNotBe null
@@ -134,7 +134,7 @@ class AuthenticationKeyManagerTest(
             // when
             authenticationKeyManager.modify(
                 workspaceId = authenticationKey.key.workspaceId,
-                apiKey = authenticationKey.key.apiKey,
+                apiKey = authenticationKey.key.authenticationKey,
                 description = authenticationKey.description,
                 status = authenticationKey.status,
             )
@@ -144,7 +144,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
                 it.key.workspaceId shouldBe authenticationKey.key.workspaceId
-                it.key.apiKey shouldBe authenticationKey.key.apiKey
+                it.key.authenticationKey shouldBe authenticationKey.key.authenticationKey
                 it.description shouldBe authenticationKey.description
                 it.status shouldBe authenticationKey.status
                 it.auditingTime.createdAt shouldNotBe null
@@ -178,7 +178,7 @@ class AuthenticationKeyManagerTest(
             shouldThrowExactly<NotFoundException> {
                 authenticationKeyManager.modify(
                     workspaceId = "instagram",
-                    apiKey = authenticationKey.key.apiKey,
+                    apiKey = authenticationKey.key.authenticationKey,
                     description = "",
                     status = null,
                 )

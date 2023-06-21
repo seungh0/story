@@ -12,17 +12,17 @@ class AuthenticationKeyRetriever(
 
     @Cacheable(
         cacheType = CacheType.AUTHENTICATION_REVERSE_KEY,
-        key = "'apiKey:' + {#apiKey}",
+        key = "'authenticationKey:' + {#authenticationKey}",
     )
     suspend fun getAuthenticationKey(
-        apiKey: String,
+        authenticationKey: String,
     ): AuthenticationResponse {
         return AuthenticationResponse.of(
             authenticationReverseKeyRepository.findById(
                 AuthenticationReverseKeyPrimaryKey(
-                    apiKey = apiKey,
+                    authenticationKey = authenticationKey,
                 )
-            ) ?: throw NotFoundException("등록되지 않은 API-Key($apiKey) 입니다")
+            ) ?: throw NotFoundException("등록되지 않은 인증 키($authenticationKey) 입니다")
         )
     }
 

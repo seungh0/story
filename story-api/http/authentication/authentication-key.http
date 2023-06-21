@@ -1,7 +1,7 @@
 ### 서비스의 인증 키를 등록합니다
-POST {{api}}/v1/authentication/key
+POST {{api}}/v1/authentication-keys
 Content-Type: application/json
-X-Story-Api-Key: {{API_KEY}}
+X-Story-Authentication-Key: {{AUTHENTICATION_KEY}}
 
 {
     "apiKey": "api-key",
@@ -10,9 +10,9 @@ X-Story-Api-Key: {{API_KEY}}
 
 
 ### 서비스의 인증 키 정보를 수정합니다
-PATCH {{api}}/v1/authentication/key
+PATCH {{api}}/v1/authentication-keys
 Content-Type: application/json
-X-Story-Api-Key: {{API_KEY}}
+X-Story-Authentication-Key: {{AUTHENTICATION_KEY}}
 
 {
     "apiKey": "api-key",
@@ -22,5 +22,5 @@ X-Story-Api-Key: {{API_KEY}}
 
 
 ### 서비스의 인증 키 정보를 조회합니다
-GET {{api}}/v1/authentication/key/api-key
-X-Story-Api-Key: {{API_KEY}}
+GET {{api}}/v1/authentication-keys/api-key
+X-Story-Authentication-Key: {{AUTHENTICATION_KEY}}

@@ -34,7 +34,7 @@ internal class ControllerExceptionAdviceTest(
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
             workspaceId = "twitter",
-            apiKey = "api-key",
+            authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
         )
     }

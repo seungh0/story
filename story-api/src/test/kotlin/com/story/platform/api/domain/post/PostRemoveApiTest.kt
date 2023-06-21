@@ -3,6 +3,7 @@ package com.story.platform.api.domain.post
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
 import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
@@ -27,14 +28,19 @@ class PostRemoveApiTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
+
+    @MockkBean
+    private val componentHandler: ComponentHandler,
 ) : FunSpec({
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
             workspaceId = "twitter",
-            apiKey = "api-key",
+            authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
         )
+
+        coEvery { componentHandler.validateComponent(any(), any(), any()) } returns Unit
     }
 
     test("기존에 등록된 포스트를 삭제한다") {
@@ -59,7 +65,7 @@ class PostRemoveApiTest(
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/posts/{componentId}/spaces/{spaceId}/posts/{postId}?accountId={accountId}",
+                "/v1/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}?accountId={accountId}",
                 postSpaceKey.componentId,
                 postSpaceKey.spaceId,
                 postId,

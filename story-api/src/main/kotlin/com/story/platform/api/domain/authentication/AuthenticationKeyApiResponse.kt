@@ -14,7 +14,7 @@ data class AuthenticationKeyApiResponse(
             authenticationKey: AuthenticationResponse,
         ) = AuthenticationKeyApiResponse(
             workspaceId = authenticationKey.workspaceId,
-            apiKey = authenticationKey.apiKey,
+            apiKey = authenticationKey.authenticationKey,
             status = authenticationKey.status,
         )
     }

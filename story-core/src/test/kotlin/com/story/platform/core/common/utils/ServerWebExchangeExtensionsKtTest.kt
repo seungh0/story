@@ -14,7 +14,7 @@ class ServerWebExchangeExtensionsKtTest : FunSpec({
 
         val exchange = MockServerWebExchange.from(
             MockServerHttpRequest.get("/test")
-                .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
+                .header(HttpHeaderType.X_STORY_AUTHENTICATION_KEY.header, apiKey)
         )
 
         // when

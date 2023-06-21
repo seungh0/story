@@ -2,7 +2,7 @@ package com.story.platform.core.domain.authentication
 
 data class AuthenticationResponse(
     val workspaceId: String,
-    val apiKey: String,
+    val authenticationKey: String,
     val status: AuthenticationKeyStatus,
 ) {
 
@@ -11,7 +11,7 @@ data class AuthenticationResponse(
     companion object {
         fun of(authenticationReverseKey: AuthenticationReverseKey) = AuthenticationResponse(
             workspaceId = authenticationReverseKey.workspaceId,
-            apiKey = authenticationReverseKey.key.apiKey,
+            authenticationKey = authenticationReverseKey.key.authenticationKey,
             status = authenticationReverseKey.status,
         )
     }

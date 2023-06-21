@@ -16,12 +16,12 @@ class AuthenticationHandler(
 
     suspend fun handleAuthentication(serverWebExchange: ServerWebExchange): AuthenticationResponse {
         val apiKey = serverWebExchange.getApiKey()
-            ?: throw UnAuthorizedException("인증 헤더(${HttpHeaderType.X_STORY_API_KEY.header})가 비어있습니다")
+            ?: throw UnAuthorizedException("인증 헤더(${HttpHeaderType.X_STORY_AUTHENTICATION_KEY.header})가 비어있습니다")
 
         try {
-            val authentication = authenticationKeyRetriever.getAuthenticationKey(apiKey = apiKey)
+            val authentication = authenticationKeyRetriever.getAuthenticationKey(authenticationKey = apiKey)
             if (!authentication.isActivated()) {
-                throw UnAuthorizedException("[워크스페이스(${authentication.workspaceId})] 사용할 수 없는 인증 키(${authentication.apiKey})입니다. 현재 상태: ${authentication.status}")
+                throw UnAuthorizedException("[워크스페이스(${authentication.workspaceId})] 사용할 수 없는 인증 키(${authentication.authenticationKey})입니다. 현재 상태: ${authentication.status}")
             }
             return authentication
         } catch (exception: NotFoundException) {

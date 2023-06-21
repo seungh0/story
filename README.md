@@ -19,13 +19,13 @@
    functions and
    methods for easier integration of our components into your application.
 
-## List of currently available components
+## List of currently available resources
 
-| Component    | -                                                                                   | Since    |
-|--------------|-------------------------------------------------------------------------------------|----------|
-| Subscription | You can utilize components such as "Follow" and "Like"                              | 2023-06~ |
-| Posting      |                                                                                     | 2023-06~ | 
-| Feed         | It can be utilized for features such as timelines and other related functionalities | 2023-06~ |
+| Component     | -                                                                                   | Since    |
+|---------------|-------------------------------------------------------------------------------------|----------|
+| Subscriptions | You can utilize components such as "Follow" and "Like"                              | 2023-06~ |
+| Posts         |                                                                                     | 2023-06~ | 
+| Feeds         | It can be utilized for features such as timelines and other related functionalities | 2023-06~ |
 
 ## Skills
 
