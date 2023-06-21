@@ -5,6 +5,7 @@ import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.support.cache.CacheType
 import com.story.platform.core.support.cache.Cacheable
 import org.springframework.data.cassandra.core.query.CassandraPageRequest

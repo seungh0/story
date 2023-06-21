@@ -6,7 +6,7 @@ import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
-import com.story.platform.core.domain.component.ResourceId
+import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountRetriever
 import com.story.platform.core.domain.subscription.SubscriptionRetriever
 import jakarta.validation.Valid

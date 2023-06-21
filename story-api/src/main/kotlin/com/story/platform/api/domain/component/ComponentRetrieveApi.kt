@@ -7,7 +7,7 @@ import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.component.ComponentResponse
 import com.story.platform.core.domain.component.ComponentRetriever
-import com.story.platform.core.domain.component.ResourceId
+import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

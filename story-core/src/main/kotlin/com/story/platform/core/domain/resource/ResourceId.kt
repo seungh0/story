@@ -1,4 +1,4 @@
-package com.story.platform.core.domain.component
+package com.story.platform.core.domain.resource
 
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.NotFoundException

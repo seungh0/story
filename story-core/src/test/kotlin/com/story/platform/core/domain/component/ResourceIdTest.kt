@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.component
 
 import com.story.platform.core.common.error.NotFoundException
+import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe

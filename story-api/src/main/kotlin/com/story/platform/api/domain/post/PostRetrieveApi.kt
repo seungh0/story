@@ -7,9 +7,9 @@ import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
-import com.story.platform.core.domain.component.ResourceId
 import com.story.platform.core.domain.post.PostRetriever
 import com.story.platform.core.domain.post.PostSpaceKey
+import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

@@ -41,38 +41,23 @@ enum class ErrorCode(
     E405_METHOD_NOT_ALLOWED(httpStatusCode = 405, minorStatusCode = "000", errorMessage = "Method Not Allowed"),
 
     /**
-     * 406 Not Acceptable
-     */
-    E406_NOT_ACCEPTABLE(httpStatusCode = 406, minorStatusCode = "000", errorMessage = "Not Acceptable"),
-
-    /**
      * 409 Conflict
      */
     E409_CONFLICT(httpStatusCode = 409, minorStatusCode = "000", errorMessage = "Conflict"),
     E409_CONFLICT_AUTHENTICATION_KEY(
         httpStatusCode = 409,
         minorStatusCode = "001",
-        errorMessage = "Duplicate Authentication Key"
+        errorMessage = "Conflict Authentication Key"
     ),
-    E409_CONFLICT_COMPONENT(httpStatusCode = 409, minorStatusCode = "003", errorMessage = "Duplicate Component"),
+    E409_CONFLICT_COMPONENT(httpStatusCode = 409, minorStatusCode = "003", errorMessage = "Conflict Component"),
 
     E413_PAYLOAD_TOO_LARGE(httpStatusCode = 413, minorStatusCode = "000", errorMessage = "Payload is too Large"),
     E413_FILE_SIZE_TOO_LARGE(httpStatusCode = 413, minorStatusCode = "001", errorMessage = "File Size is Too Large"),
 
     /**
-     * 406 Not Acceptable
-     */
-    E415_UNSUPPORTED_MEDIA_TYPE(
-        httpStatusCode = 415,
-        minorStatusCode = "000",
-        errorMessage = "UnSupported MediaType"
-    ),
-
-    /**
      * 500 InternalServerError
      */
     E500_INTERNAL_SERVER_ERROR(httpStatusCode = 500, minorStatusCode = "000", errorMessage = "Internal Server Error"),
-    E501_INIT_FAILED(httpStatusCode = 500, minorStatusCode = "001", errorMessage = "Init failed"),
 
     /**
      * 501 NotImplemented

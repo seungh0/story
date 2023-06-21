@@ -3,6 +3,7 @@ package com.story.platform.core.domain.component
 import com.story.platform.core.common.error.ConflictException
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.NotFoundException
+import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.stereotype.Service
 
 @Service

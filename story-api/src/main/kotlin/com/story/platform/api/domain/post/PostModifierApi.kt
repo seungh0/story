@@ -5,9 +5,9 @@ import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.domain.component.ResourceId
 import com.story.platform.core.domain.post.PostModifyHandler
 import com.story.platform.core.domain.post.PostSpaceKey
+import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable

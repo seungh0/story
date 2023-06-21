@@ -5,14 +5,18 @@
 | 401 | 000 | UnAuthorized Request
 | 403 | 000 | Forbidden
 | 404 | 000 | Not Found
+| 404 | 001 | Not Found Workspace
+| 404 | 002 | Not Found Authentication Key
+| 404 | 003 | Not Found Component
+| 404 | 004 | Not Found Resource
+| 404 | 005 | Not Found Post
 | 405 | 000 | Method Not Allowed
-| 406 | 000 | Not Acceptable
 | 409 | 000 | Conflict
+| 409 | 001 | Conflict Authentication Key
+| 409 | 003 | Conflict Component
 | 413 | 000 | Payload is too Large
 | 413 | 001 | File Size is Too Large
-| 415 | 000 | UnSupported MediaType
 | 500 | 000 | Internal Server Error
-| 500 | 001 | Init failed
 | 501 | 000 | Not Implemented
 | 503 | 000 | Service Unavailable
 |===
