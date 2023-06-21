@@ -25,6 +25,15 @@ enum class ErrorCode(
      * 404 NotFound
      */
     E404_NOT_FOUND(httpStatusCode = 404, minorStatusCode = "000", errorMessage = "Not Found"),
+    E404_NOT_FOUND_WORKSPACE(httpStatusCode = 404, minorStatusCode = "001", errorMessage = "Not Found Workspace"),
+    E404_NOT_FOUND_AUTHENTICATION_KEY(
+        httpStatusCode = 404,
+        minorStatusCode = "002",
+        errorMessage = "Not Found Authentication Key"
+    ),
+    E404_NOT_FOUND_COMPONENT(httpStatusCode = 404, minorStatusCode = "003", errorMessage = "Not Found Component"),
+    E404_NOT_FOUND_RESOURCE(httpStatusCode = 404, minorStatusCode = "004", errorMessage = "Not Found Resource"),
+    E404_NOT_FOUND_POST(httpStatusCode = 404, minorStatusCode = "005", errorMessage = "Not Found Post"),
 
     /**
      * 405 Method Not Allowed
@@ -40,6 +49,12 @@ enum class ErrorCode(
      * 409 Conflict
      */
     E409_CONFLICT(httpStatusCode = 409, minorStatusCode = "000", errorMessage = "Conflict"),
+    E409_CONFLICT_AUTHENTICATION_KEY(
+        httpStatusCode = 409,
+        minorStatusCode = "001",
+        errorMessage = "Duplicate Authentication Key"
+    ),
+    E409_CONFLICT_COMPONENT(httpStatusCode = 409, minorStatusCode = "003", errorMessage = "Duplicate Component"),
 
     E413_PAYLOAD_TOO_LARGE(httpStatusCode = 413, minorStatusCode = "000", errorMessage = "Payload is too Large"),
     E413_FILE_SIZE_TOO_LARGE(httpStatusCode = 413, minorStatusCode = "001", errorMessage = "File Size is Too Large"),

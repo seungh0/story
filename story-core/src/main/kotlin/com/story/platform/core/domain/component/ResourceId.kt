@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.component
 
+import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.NotFoundException
 
 /**
@@ -16,10 +17,18 @@ enum class ResourceId(
     ;
 
     companion object {
-        // Map으로 개선
+        private val cachedResourceIdMap = mutableMapOf<String, ResourceId>()
+
+        init {
+            values().forEach { resourceId -> cachedResourceIdMap[resourceId.code.lowercase()] = resourceId }
+        }
+
         fun findByCode(code: String): ResourceId {
-            return ResourceId.values().find { resourceId -> resourceId.code == code }
-                ?: throw NotFoundException("해당하는 리소스($code)는 존재하지 않습니다")
+            return cachedResourceIdMap[code.lowercase()]
+                ?: throw NotFoundException(
+                    message = "해당하는 리소스($code)는 존재하지 않습니다",
+                    errorCode = ErrorCode.E404_NOT_FOUND_RESOURCE,
+                )
         }
     }
 

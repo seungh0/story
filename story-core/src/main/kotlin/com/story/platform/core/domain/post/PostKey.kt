@@ -14,7 +14,7 @@ data class PostKey(
 
             return PostKey(
                 spaceId = spaceId,
-                postId = postId.toLongOrNull() ?: throw IllegalArgumentException("")
+                postId = postId.toLongOrNull() ?: throw IllegalArgumentException("잘못된 PostId 입니다")
             )
         }
     }

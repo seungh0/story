@@ -79,7 +79,7 @@ data class Version(
 
         fun of(version: String?): Version {
             if (version.isNullOrBlank()) {
-                return Version.EMPTY
+                return EMPTY
             }
             return Version(
                 version = version,

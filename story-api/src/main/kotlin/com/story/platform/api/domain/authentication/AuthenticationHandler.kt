@@ -21,11 +21,11 @@ class AuthenticationHandler(
         try {
             val authentication = authenticationKeyRetriever.getAuthenticationKey(authenticationKey = apiKey)
             if (!authentication.isActivated()) {
-                throw UnAuthorizedException("[워크스페이스(${authentication.workspaceId})] 사용할 수 없는 인증 키(${authentication.authenticationKey})입니다. 현재 상태: ${authentication.status}")
+                throw UnAuthorizedException("사용할 수 없는 인증 키(${authentication.authenticationKey})입니다. [워크스페이스(${authentication.workspaceId}) 현재 상태: ${authentication.status}]")
             }
             return authentication
         } catch (exception: NotFoundException) {
-            throw UnAuthorizedException("apiKey($apiKey)는 등록된 인증 키가 아닙니다")
+            throw UnAuthorizedException("등록되지 않은 인증키($apiKey)입니다")
         }
     }
 

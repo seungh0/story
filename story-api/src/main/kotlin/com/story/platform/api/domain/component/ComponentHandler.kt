@@ -1,5 +1,6 @@
 package com.story.platform.api.domain.component
 
+import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.domain.component.ComponentRetriever
 import com.story.platform.core.domain.component.ResourceId
@@ -21,7 +22,10 @@ class ComponentHandler(
             componentId = componentId,
         )
         if (!component.isActivated()) {
-            throw NotFoundException("비활성화된 워크스페이스($workspaceId)의 컴포넌트($resourceId-$componentId)입니다")
+            throw NotFoundException(
+                message = "비활성화된 컴포넌트($componentId)입니다. [워크스페이스: ($workspaceId), 리소스: ($resourceId)]",
+                errorCode = ErrorCode.E404_NOT_FOUND_COMPONENT,
+            )
         }
     }
 

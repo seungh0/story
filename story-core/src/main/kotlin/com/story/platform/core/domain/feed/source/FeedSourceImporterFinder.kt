@@ -14,7 +14,7 @@ class FeedSourceImporterFinder(
 
     fun findImporter(feedSourceType: FeedSourceType): FeedSourceImporter {
         return feedSourcesMap[feedSourceType]
-            ?: throw NotImplementedException("FeedSourceType($feedSourceType)에 등록된 Importer가 존재하지 않습니다")
+            ?: throw NotImplementedException("피드 SourceType($feedSourceType)에 등록된 Importer가 존재하지 않습니다")
     }
 
     @PostConstruct

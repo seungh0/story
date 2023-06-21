@@ -2,6 +2,7 @@ package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.CursorDirection
 import com.story.platform.core.common.error.BadRequestException
+import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.common.model.Cursor
@@ -38,7 +39,10 @@ class PostRetriever(
                 spaceId = postSpaceKey.spaceId,
                 slotId = PostSlotAssigner.assign(postId),
                 postId = postId,
-            ) ?: throw NotFoundException("해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
+            ) ?: throw NotFoundException(
+                message = "해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다",
+                errorCode = ErrorCode.E404_NOT_FOUND_POST,
+            )
         )
     }
 

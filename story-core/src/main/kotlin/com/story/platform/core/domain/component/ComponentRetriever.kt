@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.component
 
+import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorRequest
@@ -30,7 +31,10 @@ class ComponentRetriever(
                 resourceId = resourceId,
                 componentId = componentId,
             )
-        ) ?: throw NotFoundException("워크스페이스($workspaceId)에 등록되지 않은 컴포넌트($resourceId-$componentId)입니다")
+        ) ?: throw NotFoundException(
+            message = "워크스페이스($workspaceId)에 등록되지 않은 컴포넌트($resourceId-$componentId)입니다",
+            errorCode = ErrorCode.E404_NOT_FOUND_COMPONENT,
+        )
 
         return ComponentResponse.of(component = component)
     }

@@ -25,7 +25,7 @@ class AuthenticationKeyManageApi(
     ): ApiResponse<String> {
         authenticationKeyManager.register(
             workspaceId = authContext.workspaceId,
-            apiKey = request.apiKey,
+            authenticationKey = request.apiKey,
             description = request.description,
         )
         return ApiResponse.OK
@@ -41,7 +41,7 @@ class AuthenticationKeyManageApi(
     ): ApiResponse<String> {
         authenticationKeyManager.modify(
             workspaceId = authContext.workspaceId,
-            apiKey = request.apiKey,
+            authenticationKey = request.apiKey,
             description = request.description,
             status = request.status,
         )

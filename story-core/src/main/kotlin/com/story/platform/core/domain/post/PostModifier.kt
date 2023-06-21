@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.ForbiddenException
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
@@ -29,10 +30,13 @@ class PostModifier(
             spaceId = postSpaceKey.spaceId,
             slotId = slotId,
             postId = postId,
-        ) ?: throw NotFoundException("해당하는 포스트($postSpaceKey-$postId)는 존재하지 않습니다")
+        ) ?: throw NotFoundException(
+            message = "해당하는 포스트($postId)는 존재하지 않습니다 [postSpaceKey: $postSpaceKey]",
+            errorCode = ErrorCode.E404_NOT_FOUND_POST,
+        )
 
         if (!post.isOwner(accountId)) {
-            throw ForbiddenException("계정($accountId)는 해당하는 포스트($postSpaceKey-$postId)를 수정할 권한이 없습니다")
+            throw ForbiddenException("계정($accountId)는 해당하는 포스트($postId)를 수정할 권한이 없습니다 [postSpaceKey: $postSpaceKey]")
         }
 
         val hasChanged = post.patch(

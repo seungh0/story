@@ -1,6 +1,5 @@
 package com.story.platform.core.support.lock
 
-import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
 import org.redisson.api.RLock
 import org.redisson.api.RedissonClient
@@ -20,7 +19,7 @@ class RedissonDistributedLock(
 
         val acquired = redisLock.tryLock(distributedLock.waitTime, distributedLock.leaseTime, distributedLock.timeUnit)
         if (!acquired) {
-            throw InternalServerException("분산 락($lockKey)을 획득하는데 실패하였습니다.", ErrorCode.E500_INTERNAL_SERVER_ERROR)
+            throw InternalServerException("락($lockKey)을 선점하는데 실패하였습니다.")
         }
 
         return try {

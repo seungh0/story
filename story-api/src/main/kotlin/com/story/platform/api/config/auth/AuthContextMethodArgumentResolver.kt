@@ -21,7 +21,7 @@ class AuthContextMethodArgumentResolver : HandlerMethodArgumentResolver {
         exchange: ServerWebExchange,
     ): Mono<Any> {
         val authContext: AuthContext = exchange.getAttribute(AuthenticationHandlerFilter.AUTH_CONTEXT)
-            ?: throw InternalServerException("AuthContext을 가져올 수 없습니다")
+            ?: throw InternalServerException("[예상치 못한 에러가 발생하였습니다] AuthContext을 가져올 수 없습니다")
         return Mono.just(authContext)
     }
 

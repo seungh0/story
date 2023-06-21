@@ -32,7 +32,7 @@ class AuthenticationKeyManagerTest(
             // when
             authenticationKeyManager.register(
                 workspaceId = workspaceId,
-                apiKey = apiKey,
+                authenticationKey = apiKey,
                 description = description,
             )
 
@@ -58,7 +58,7 @@ class AuthenticationKeyManagerTest(
             shouldThrowExactly<ConflictException> {
                 authenticationKeyManager.register(
                     workspaceId = authenticationKey.key.workspaceId,
-                    apiKey = authenticationKey.key.authenticationKey,
+                    authenticationKey = authenticationKey.key.authenticationKey,
                     description = "",
                 )
             }
@@ -76,7 +76,7 @@ class AuthenticationKeyManagerTest(
             // when
             authenticationKeyManager.modify(
                 workspaceId = authenticationKey.key.workspaceId,
-                apiKey = authenticationKey.key.authenticationKey,
+                authenticationKey = authenticationKey.key.authenticationKey,
                 description = description,
                 status = null,
             )
@@ -105,7 +105,7 @@ class AuthenticationKeyManagerTest(
             // when
             authenticationKeyManager.modify(
                 workspaceId = authenticationKey.key.workspaceId,
-                apiKey = authenticationKey.key.authenticationKey,
+                authenticationKey = authenticationKey.key.authenticationKey,
                 description = null,
                 status = AuthenticationKeyStatus.DISABLED,
             )
@@ -134,7 +134,7 @@ class AuthenticationKeyManagerTest(
             // when
             authenticationKeyManager.modify(
                 workspaceId = authenticationKey.key.workspaceId,
-                apiKey = authenticationKey.key.authenticationKey,
+                authenticationKey = authenticationKey.key.authenticationKey,
                 description = authenticationKey.description,
                 status = authenticationKey.status,
             )
@@ -160,7 +160,7 @@ class AuthenticationKeyManagerTest(
             shouldThrowExactly<NotFoundException> {
                 authenticationKeyManager.modify(
                     workspaceId = workspaceId,
-                    apiKey = "api-key",
+                    authenticationKey = "api-key",
                     description = "",
                     status = null,
                 )
@@ -178,7 +178,7 @@ class AuthenticationKeyManagerTest(
             shouldThrowExactly<NotFoundException> {
                 authenticationKeyManager.modify(
                     workspaceId = "instagram",
-                    apiKey = authenticationKey.key.authenticationKey,
+                    authenticationKey = authenticationKey.key.authenticationKey,
                     description = "",
                     status = null,
                 )
