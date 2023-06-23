@@ -9,12 +9,10 @@ import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.support.coroutine.CoroutineConfig
-import com.story.platform.core.support.coroutine.IOBound
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withTimeout
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
@@ -23,9 +21,6 @@ import org.springframework.stereotype.Service
 class PostRetriever(
     private val postRepository: PostRepository,
     private val postSequenceGenerator: PostSequenceGenerator,
-
-    @IOBound
-    private val dispatcher: CoroutineDispatcher,
 ) {
 
     suspend fun getPost(
@@ -50,31 +45,29 @@ class PostRetriever(
         workspaceId: String,
         componentId: String,
         keys: Collection<PostKey>,
-    ): List<PostResponse> {
-        return withContext(dispatcher) {
-            val posts = keys.map { key ->
-                async {
-                    withTimeout(CoroutineConfig.DEFAULT_TIMEOUT_MS) {
-                        try {
-                            postRepository.findById(
-                                PostPrimaryKey.of(
-                                    postSpaceKey = PostSpaceKey(
-                                        workspaceId = workspaceId,
-                                        componentId = componentId,
-                                        spaceId = key.spaceId,
-                                    ),
-                                    postId = key.postId,
-                                )
+    ): List<PostResponse> = coroutineScope {
+        val posts = keys.map { key ->
+            async {
+                withTimeout(CoroutineConfig.DEFAULT_TIMEOUT_MS) {
+                    try {
+                        postRepository.findById(
+                            PostPrimaryKey.of(
+                                postSpaceKey = PostSpaceKey(
+                                    workspaceId = workspaceId,
+                                    componentId = componentId,
+                                    spaceId = key.spaceId,
+                                ),
+                                postId = key.postId,
                             )
-                        } catch (exception: TimeoutCancellationException) {
-                            throw InternalServerException(exception.message ?: "Coroutine Timeout Exception", exception)
-                        }
+                        )
+                    } catch (exception: TimeoutCancellationException) {
+                        throw InternalServerException(exception.message ?: "Coroutine Timeout Exception", exception)
                     }
                 }
             }
-
-            return@withContext posts.awaitAll().filterNotNull().map { post -> PostResponse.of(post) }
         }
+        return@coroutineScope posts.awaitAll().filterNotNull()
+            .map { post -> PostResponse.of(post) }
     }
 
     suspend fun listPosts(
