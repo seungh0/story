@@ -12,12 +12,6 @@ enum class CacheType(
     val cacheClazz: Class<out Any?>,
 ) {
 
-    SUBSCRIBERS_COUNT(
-        description = "구독자 수",
-        key = "subscribers-count:v1",
-        globalCacheTtl = Duration.ofMinutes(1),
-        cacheClazz = Long::class.java,
-    ),
     AUTHENTICATION_REVERSE_KEY(
         description = "인증 키 정보",
         key = "authentication-key:v1",

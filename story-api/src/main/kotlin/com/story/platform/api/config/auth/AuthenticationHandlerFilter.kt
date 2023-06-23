@@ -22,7 +22,7 @@ class AuthenticationHandlerFilter(
             workspaceId = authentication.workspaceId,
             requestId = exchange.getRequestId() ?: RequestIdGenerator.generate(),
         )
-        return chain.filter(exchange)
+        return chain.filter(exchange = exchange)
     }
 
     companion object {
