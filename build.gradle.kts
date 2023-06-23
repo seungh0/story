@@ -10,7 +10,7 @@ val kotestVersion = "5.6.2"
 val kotestSpringExtensionVersion = "1.1.3"
 
 plugins {
-    id("org.springframework.boot") version "3.1.0"
+    id("org.springframework.boot") version "3.1.1"
     id("io.spring.dependency-management") version "1.1.0"
     id("application")
     id("org.asciidoctor.jvm.convert") version "3.3.2"
