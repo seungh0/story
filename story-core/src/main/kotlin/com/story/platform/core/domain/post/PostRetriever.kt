@@ -3,17 +3,13 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.common.enums.CursorDirection
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.error.ErrorCode
-import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
-import com.story.platform.core.support.coroutine.CoroutineConfig
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withTimeout
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 
@@ -48,22 +44,16 @@ class PostRetriever(
     ): List<PostResponse> = coroutineScope {
         val posts = keys.map { key ->
             async {
-                withTimeout(CoroutineConfig.DEFAULT_TIMEOUT_MS) {
-                    try {
-                        postRepository.findById(
-                            PostPrimaryKey.of(
-                                postSpaceKey = PostSpaceKey(
-                                    workspaceId = workspaceId,
-                                    componentId = componentId,
-                                    spaceId = key.spaceId,
-                                ),
-                                postId = key.postId,
-                            )
-                        )
-                    } catch (exception: TimeoutCancellationException) {
-                        throw InternalServerException(exception.message ?: "Coroutine Timeout Exception", exception)
-                    }
-                }
+                postRepository.findById(
+                    PostPrimaryKey.of(
+                        postSpaceKey = PostSpaceKey(
+                            workspaceId = workspaceId,
+                            componentId = componentId,
+                            spaceId = key.spaceId,
+                        ),
+                        postId = key.postId,
+                    )
+                )
             }
         }
         return@coroutineScope posts.awaitAll().filterNotNull()

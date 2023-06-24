@@ -13,7 +13,7 @@ class EventHistoryManager(
         workspaceId: String,
         componentId: String,
         event: EventRecord<T>,
-        publishEvent: () -> Unit,
+        publishEvent: suspend () -> Unit,
     ) {
         try {
             publishEvent.invoke()
