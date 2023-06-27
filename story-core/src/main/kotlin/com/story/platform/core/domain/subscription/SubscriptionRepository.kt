@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.subscription
 
+import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface SubscriptionRepository :
@@ -14,34 +14,34 @@ interface SubscriptionRepository :
         targetId: String,
     ): Subscription?
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdDesc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdDesc(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
         pageable: Pageable,
-    ): Slice<Subscription>
+    ): Flow<Subscription>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
         targetId: String,
         pageable: Pageable,
-    ): Slice<Subscription>
+    ): Flow<Subscription>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdAsc(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
         pageable: Pageable,
-    ): Slice<Subscription>
+    ): Flow<Subscription>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
         targetId: String,
         pageable: Pageable,
-    ): Slice<Subscription>
+    ): Flow<Subscription>
 
 }

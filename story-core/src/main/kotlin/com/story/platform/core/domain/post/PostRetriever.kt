@@ -10,6 +10,7 @@ import com.story.platform.core.common.model.CursorResult
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 
@@ -64,7 +65,7 @@ class PostRetriever(
         postSpaceKey: PostSpaceKey,
         cursorRequest: CursorRequest,
     ): CursorResult<PostResponse, String> {
-        val (posts, slot: Long) = when (cursorRequest.direction) {
+        val (slot: Long, posts: List<Post>) = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextPosts(cursorRequest, postSpaceKey)
             CursorDirection.PREVIOUS -> listPreviousPosts(cursorRequest, postSpaceKey)
         }
@@ -85,7 +86,7 @@ class PostRetriever(
                     spaceId = postSpaceKey.spaceId,
                     slotId = slot - 1,
                     pageable = CassandraPageRequest.first(cursorRequest.pageSize - posts.size + 1),
-                ).content
+                ).toList()
             }
 
             CursorDirection.PREVIOUS -> {
@@ -95,7 +96,7 @@ class PostRetriever(
                     spaceId = postSpaceKey.spaceId,
                     slotId = slot + 1,
                     pageable = CassandraPageRequest.first(cursorRequest.pageSize - posts.size + 1),
-                ).content
+                ).toList()
             }
         }
 
@@ -110,24 +111,24 @@ class PostRetriever(
     private suspend fun listNextPosts(
         cursorRequest: CursorRequest,
         postSpaceKey: PostSpaceKey,
-    ): Pair<List<Post>, Long> {
+    ): Pair<Long, List<Post>> {
         if (cursorRequest.cursor == null) {
             val lastSlotId =
                 PostSlotAssigner.assign(postId = postSequenceGenerator.lastSequence(postSpaceKey = postSpaceKey))
-            return postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotId(
+            return lastSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 spaceId = postSpaceKey.spaceId,
                 slotId = lastSlotId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
-            ).content to lastSlotId
+            ).toList()
         }
 
         val currentSlot = PostSlotAssigner.assign(
             postId = cursorRequest.cursor.toLongOrNull()
                 ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다")
         )
-        return postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
+        return currentSlot to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
@@ -135,28 +136,28 @@ class PostRetriever(
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
             postId = cursorRequest.cursor.toLongOrNull()
                 ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
-        ).content to currentSlot
+        ).toList()
     }
 
     private suspend fun listPreviousPosts(
         cursorRequest: CursorRequest,
         postSpaceKey: PostSpaceKey,
-    ): Pair<List<Post>, Long> {
+    ): Pair<Long, List<Post>> {
         if (cursorRequest.cursor == null) {
             val firstSlotId = PostSlotAssigner.FIRST_SLOT_ID
-            return postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
+            return firstSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 spaceId = postSpaceKey.spaceId,
                 slotId = firstSlotId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
-            ).content to firstSlotId
+            ).toList()
         }
         val currentSlot = PostSlotAssigner.assign(
             postId = cursorRequest.cursor.toLongOrNull()
                 ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
         )
-        return postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
+        return currentSlot to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
@@ -164,7 +165,7 @@ class PostRetriever(
             postId = cursorRequest.cursor.toLongOrNull()
                 ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
-        ).content to currentSlot
+        ).toList()
     }
 
     private fun getCursor(posts: List<Post>, pageSize: Int): Cursor<String> {

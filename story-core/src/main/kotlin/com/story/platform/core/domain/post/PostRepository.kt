@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.post
 
+import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
@@ -14,38 +14,38 @@ interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
         postId: Long,
     ): Post?
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotId(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotId(
         workspaceId: String,
         componentId: String,
         spaceId: String,
         slotId: Long,
         pageable: Pageable,
-    ): Slice<Post>
+    ): Flow<Post>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
         workspaceId: String,
         componentId: String,
         spaceId: String,
         slotId: Long,
         postId: Long,
         pageable: Pageable,
-    ): Slice<Post>
+    ): Flow<Post>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdOrderByKeyPostIdAsc(
         workspaceId: String,
         componentId: String,
         spaceId: String,
         slotId: Long,
         pageable: Pageable,
-    ): Slice<Post>
+    ): Flow<Post>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
         workspaceId: String,
         componentId: String,
         spaceId: String,
         slotId: Long,
         postId: Long,
         pageable: Pageable,
-    ): Slice<Post>
+    ): Flow<Post>
 
 }

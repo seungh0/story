@@ -8,8 +8,8 @@ import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.support.cache.CacheType
 import com.story.platform.core.support.cache.Cacheable
+import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
-import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
 
 @Service
@@ -50,7 +50,7 @@ class ComponentRetriever(
             resourceId = resourceId,
             componentId = cursorRequest.cursor,
             pageSize = cursorRequest.pageSize,
-        ).content
+        )
 
         return CursorResult.of(
             data = components.subList(0, cursorRequest.pageSize.coerceAtMost(components.size))
@@ -73,13 +73,13 @@ class ComponentRetriever(
         resourceId: ResourceId,
         componentId: String?,
         pageSize: Int,
-    ): Slice<Component> {
+    ): List<Component> {
         if (componentId == null) {
             return componentRepository.findAllByKeyWorkspaceIdAndKeyResourceId(
                 workspaceId = workspaceId,
                 resourceId = resourceId,
                 pageable = CassandraPageRequest.first(pageSize + 1),
-            )
+            ).toList()
         }
 
         return componentRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdLessThan(
@@ -87,7 +87,7 @@ class ComponentRetriever(
             resourceId = resourceId,
             componentId = componentId,
             pageable = CassandraPageRequest.first(pageSize + 1),
-        )
+        ).toList()
     }
 
 }
