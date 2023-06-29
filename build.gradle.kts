@@ -42,6 +42,7 @@ subprojects {
 
     dependencies {
         // Spring
+        implementation("org.springframework.boot:spring-boot-starter")
         implementation("org.springframework.boot:spring-boot-starter-validation")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -96,6 +97,10 @@ subprojects {
             showCauses = true
             showStackTraces = true
             events = setOf(FAILED)
+        }
+        reports {
+            html.required.set(false)
+            junitXml.required.set(false)
         }
     }
 

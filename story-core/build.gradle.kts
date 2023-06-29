@@ -15,7 +15,7 @@ dependencies {
     api("org.apache.commons:commons-lang3:$commonsLang3Version")
 
     // Cassandra
-    api("org.springframework.boot:spring-boot-starter-data-cassandra-reactive")
+    implementation("org.springframework.boot:spring-boot-starter-data-cassandra-reactive")
 
     // Kafka
     api("org.springframework.kafka:spring-kafka")
