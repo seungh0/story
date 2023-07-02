@@ -1,8 +1,19 @@
+val micrometerPrometheusVersion = "1.11.1"
+
 dependencies {
     implementation(project(":story-core"))
 
     // Webflux
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    // Spring Actuator
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    // Micrometer Prometheus
+    implementation("io.micrometer:micrometer-registry-prometheus:$micrometerPrometheusVersion")
+
+    // Spring Security
+    implementation("org.springframework.boot:spring-boot-starter-security")
 }
 
 tasks.bootJar {

@@ -9,6 +9,7 @@ object AuthenticationWhitelistChecker {
     )
     private val WHITELIST_PATH_PATTERN = listOf<Pattern>(
         Pattern.compile("/api/health/.*"),
+        Pattern.compile("/monitoring/.*"),
     )
 
     fun checkNoAuthentication(path: String): Boolean {

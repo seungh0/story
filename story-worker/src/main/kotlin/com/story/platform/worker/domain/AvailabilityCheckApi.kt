@@ -1,4 +1,4 @@
-package com.story.platform.api.domain
+package com.story.platform.worker.domain
 
 import com.story.platform.core.common.AvailabilityChecker
 import com.story.platform.core.common.model.ApiResponse
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class HealthController(
+class AvailabilityCheckApi(
     private val availabilityChecker: AvailabilityChecker,
 ) {
 

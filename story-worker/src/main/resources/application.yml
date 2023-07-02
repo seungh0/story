@@ -4,6 +4,7 @@ spring.config:
     - classpath:/application-kafka.yml
     - classpath:/application-cassandra.yml
     - classpath:/application-redis.yml
+    - classpath:/application-monitoring.yml
     - optional:classpath:/application-secret.yml
 
 server:

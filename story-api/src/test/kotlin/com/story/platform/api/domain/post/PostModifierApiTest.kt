@@ -2,6 +2,7 @@ package com.story.platform.api.domain.post
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
+import com.story.platform.api.config.security.HttpSecurityConfig
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
@@ -18,7 +19,8 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @WebFluxTest(
     PostModifierApi::class,
-    AuthContextMethodArgumentResolver::class
+    AuthContextMethodArgumentResolver::class,
+    HttpSecurityConfig::class,
 )
 internal class PostModifierApiTest(
     private val webTestClient: WebTestClient,

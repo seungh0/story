@@ -2,6 +2,7 @@ package com.story.platform.api.domain
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
+import com.story.platform.api.config.security.HttpSecurityConfig
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
@@ -16,10 +17,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @WebFluxTest(
-    HealthController::class,
+    AvailabilityCheckApi::class,
     AuthContextMethodArgumentResolver::class,
+    HttpSecurityConfig::class,
 )
-internal class HealthCheckControllerTest(
+internal class AvailabilityCheckApiTest(
     private val webClient: WebTestClient,
 
     @MockkBean
