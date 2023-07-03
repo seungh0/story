@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 val kotlinLoggingJvmVersion = "3.0.5"
-val kotlinxCoroutinesTestVersion = "1.7.1"
+val kotlinxCoroutinesTestVersion = "1.7.2"
 val springMockkVersion = "4.0.2"
 val kotestVersion = "5.6.2"
 val kotestSpringExtensionVersion = "1.1.3"
