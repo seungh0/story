@@ -3,7 +3,9 @@ package com.story.platform.core.domain.post
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.stereotype.Repository
 
+@Repository
 interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
 
     suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(

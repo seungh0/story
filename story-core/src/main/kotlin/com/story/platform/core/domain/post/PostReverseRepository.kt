@@ -1,7 +1,9 @@
 package com.story.platform.core.domain.post
 
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.stereotype.Repository
 
+@Repository
 interface PostReverseRepository : CoroutineCrudRepository<PostReverse, PostReversePrimaryKey> {
 
     suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyPostIdAndKeySpaceId(

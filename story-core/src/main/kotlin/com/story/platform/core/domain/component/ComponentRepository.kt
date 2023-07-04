@@ -4,7 +4,9 @@ import com.story.platform.core.domain.resource.ResourceId
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.stereotype.Repository
 
+@Repository
 interface ComponentRepository : CoroutineCrudRepository<Component, ComponentPrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdLessThan(

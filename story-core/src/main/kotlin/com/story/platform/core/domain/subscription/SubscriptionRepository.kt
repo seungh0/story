@@ -3,7 +3,9 @@ package com.story.platform.core.domain.subscription
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import org.springframework.stereotype.Repository
 
+@Repository
 interface SubscriptionRepository :
     CoroutineCrudRepository<Subscription, SubscriptionPrimaryKey> {
 
