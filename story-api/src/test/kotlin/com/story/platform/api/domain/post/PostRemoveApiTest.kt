@@ -1,8 +1,7 @@
 package com.story.platform.api.domain.post
 
 import com.ninjasquad.springmockk.MockkBean
-import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
-import com.story.platform.api.config.security.HttpSecurityConfig
+import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
@@ -13,15 +12,10 @@ import com.story.platform.core.domain.post.PostRemoveHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@WebFluxTest(
-    PostRemoveApi::class,
-    AuthContextMethodArgumentResolver::class,
-    HttpSecurityConfig::class,
-)
+@ApiTest(PostRemoveApi::class)
 class PostRemoveApiTest(
     private val webTestClient: WebTestClient,
 

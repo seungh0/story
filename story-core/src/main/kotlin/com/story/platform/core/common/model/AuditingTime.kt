@@ -4,7 +4,6 @@ import java.time.LocalDateTime
 
 data class AuditingTime(
     val createdAt: LocalDateTime,
-
     val updatedAt: LocalDateTime,
 ) {
 

@@ -1,8 +1,7 @@
 package com.story.platform.api.domain
 
 import com.ninjasquad.springmockk.MockkBean
-import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
-import com.story.platform.api.config.security.HttpSecurityConfig
+import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
@@ -12,15 +11,10 @@ import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.http.ResponseEntity
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@WebFluxTest(
-    AvailabilityCheckApi::class,
-    AuthContextMethodArgumentResolver::class,
-    HttpSecurityConfig::class,
-)
+@ApiTest(AvailabilityCheckApi::class)
 internal class AvailabilityCheckApiTest(
     private val webClient: WebTestClient,
 
