@@ -1,5 +1,3 @@
-val micrometerPrometheusVersion = "1.11.1"
-
 dependencies {
     implementation(project(":story-core"))
 
@@ -10,7 +8,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     // Micrometer Prometheus
-    implementation("io.micrometer:micrometer-registry-prometheus:$micrometerPrometheusVersion")
+    implementation("io.micrometer:micrometer-registry-prometheus")
 
     // Spring Security
     implementation("org.springframework.boot:spring-boot-starter-security")

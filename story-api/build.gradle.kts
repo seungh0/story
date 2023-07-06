@@ -1,8 +1,5 @@
 val asciidoctorExtensions: Configuration by configurations.creating
 
-val springRestDocsAsciidoctorVersion = "3.0.0"
-val micrometerPrometheusVersion = "1.11.1"
-
 tasks.test {
     outputs.dir("build/generated-snippets")
 }
@@ -24,14 +21,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     // Micrometer Prometheus
-    implementation("io.micrometer:micrometer-registry-prometheus:$micrometerPrometheusVersion")
+    implementation("io.micrometer:micrometer-registry-prometheus")
 
     // Spring Security
     implementation("org.springframework.boot:spring-boot-starter-security")
 
     // Spring Rest Docs
     testImplementation("org.springframework.restdocs:spring-restdocs-webtestclient")
-    asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor:$springRestDocsAsciidoctorVersion")
+    asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor")
 }
 
 tasks.bootJar {

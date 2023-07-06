@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 val kotlinLoggingJvmVersion = "3.0.5"
-val kotlinxCoroutinesTestVersion = "1.7.2"
 val springMockkVersion = "4.0.2"
 val kotestVersion = "5.6.2"
 val kotestSpringExtensionVersion = "1.1.3"
@@ -55,16 +54,16 @@ subprojects {
         // Kotlin Logging
         implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
 
-        // Coroutines
-        implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-        testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesTestVersion")
+        // Kotlinx Coroutines
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+        testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
 
         // Jackson
         implementation("org.springframework.boot:spring-boot-starter-json")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
         // Reactor
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
         testImplementation("io.projectreactor:reactor-test")
 
         // Spring MockK
