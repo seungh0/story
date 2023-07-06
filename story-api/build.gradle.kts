@@ -1,16 +1,5 @@
 val asciidoctorExtensions: Configuration by configurations.creating
 
-tasks.test {
-    outputs.dir("build/generated-snippets")
-}
-
-tasks.asciidoctor {
-    inputs.dir("build/generated-snippets")
-    dependsOn(tasks.docsTest)
-    configurations(asciidoctorExtensions.name)
-    baseDirFollowsSourceFile()
-}
-
 dependencies {
     implementation(project(":story-core"))
 
@@ -37,6 +26,17 @@ tasks.bootJar {
 
 tasks.jar {
     enabled = true
+}
+
+tasks.test {
+    outputs.dir("build/generated-snippets")
+}
+
+tasks.asciidoctor {
+    inputs.dir("build/generated-snippets")
+    dependsOn(tasks.docsTest)
+    configurations(asciidoctorExtensions.name)
+    baseDirFollowsSourceFile()
 }
 
 application {

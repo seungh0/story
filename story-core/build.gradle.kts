@@ -1,11 +1,3 @@
-tasks.bootJar {
-    enabled = false
-}
-
-tasks.jar {
-    enabled = true
-}
-
 val redissonVersion = "3.22.1"
 
 dependencies {
@@ -28,4 +20,12 @@ dependencies {
     implementation("org.redisson:redisson:$redissonVersion")
 
     testImplementation(testFixtures(project(":story-core")))
+}
+
+tasks.bootJar {
+    enabled = false
+}
+
+tasks.jar {
+    enabled = true
 }
