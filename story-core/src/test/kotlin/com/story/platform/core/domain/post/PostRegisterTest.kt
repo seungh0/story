@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
 internal class PostRegisterTest(
-    private val postRegister: PostRegister,
+    private val postCreator: PostCreator,
     private val postRepository: PostRepository,
     private val postReverseRepository: PostReverseRepository,
     private val testCleaner: TestCleaner,
@@ -41,7 +41,7 @@ internal class PostRegisterTest(
             """.trimIndent()
 
             // when
-            postRegister.register(
+            postCreator.create(
                 postSpaceKey = postSpaceKey,
                 accountId = accountId,
                 title = title,

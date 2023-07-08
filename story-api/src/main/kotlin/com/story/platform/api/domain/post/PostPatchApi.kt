@@ -5,7 +5,7 @@ import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.domain.post.PostModifyHandler
+import com.story.platform.core.domain.post.PostPatchHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RequestMapping("/v1/posts/components/{componentId}")
 @RestController
-class PostModifierApi(
-    private val postModifyHandler: PostModifyHandler,
+class PostPatchApi(
+    private val postPatchHandler: PostPatchHandler,
     private val componentHandler: ComponentHandler,
 ) {
 
@@ -26,11 +26,11 @@ class PostModifierApi(
      * 포스트 정보를 수정한다
      */
     @PatchMapping("/spaces/{spaceId}/posts/{postId}")
-    suspend fun patch(
+    suspend fun patchPost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
-        @Valid @RequestBody request: PostModifyApiRequest,
+        @Valid @RequestBody request: PostPatchApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<String> {
         componentHandler.validateComponent(
@@ -39,7 +39,7 @@ class PostModifierApi(
             componentId = componentId,
         )
 
-        postModifyHandler.patch(
+        postPatchHandler.patchPost(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
                 componentId = componentId,

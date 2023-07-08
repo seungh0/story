@@ -15,7 +15,7 @@ class AuthenticationKeyManager(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
-    suspend fun register(
+    suspend fun createAuthenticationKey(
         workspaceId: String,
         authenticationKey: String,
         description: String,
@@ -56,7 +56,7 @@ class AuthenticationKeyManager(
         key = "'workspaceId:' + {#workspaceId} + ':authenticationKey:' + {#authenticationKey}",
         condition = "#status != null"
     )
-    suspend fun modify(
+    suspend fun patchAuthenticationKey(
         workspaceId: String,
         authenticationKey: String,
         description: String?,

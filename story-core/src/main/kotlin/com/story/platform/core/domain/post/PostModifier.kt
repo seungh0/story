@@ -21,7 +21,7 @@ class PostModifier(
         title: String?,
         content: String?,
         extraJson: String?,
-    ): PostModifyResult {
+    ): PostPatchResponse {
         val slotId = PostSlotAssigner.assign(postId)
 
         val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
@@ -46,7 +46,7 @@ class PostModifier(
         )
 
         if (!hasChanged) {
-            return PostModifyResult(post = post, hasChanged = false)
+            return PostPatchResponse(post = post, hasChanged = false)
         }
 
         reactiveCassandraOperations.batchOps()
@@ -54,7 +54,7 @@ class PostModifier(
             .upsert(PostReverse.of(post))
             .executeCoroutine()
 
-        return PostModifyResult(post = post, hasChanged = true)
+        return PostPatchResponse(post = post, hasChanged = true)
     }
 
 }

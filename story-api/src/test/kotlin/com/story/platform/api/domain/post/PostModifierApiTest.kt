@@ -8,19 +8,19 @@ import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
-import com.story.platform.core.domain.post.PostModifyHandler
+import com.story.platform.core.domain.post.PostPatchHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@ApiTest(PostModifierApi::class)
+@ApiTest(PostPatchApi::class)
 class PostModifierApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val postModifyHandler: PostModifyHandler,
+    private val postPatchHandler: PostPatchHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -45,7 +45,7 @@ class PostModifierApiTest(
         val postId = 100000L
         val spaceId = "계정의 ID"
 
-        val request = PostModifyApiRequest(
+        val request = PostPatchApiRequest(
             accountId = spaceId,
             title = "토끼가 너무 좋아요",
             content = """
@@ -56,7 +56,7 @@ class PostModifierApiTest(
         )
 
         coEvery {
-            postModifyHandler.patch(
+            postPatchHandler.patchPost(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = "twitter",
                     componentId = componentId,

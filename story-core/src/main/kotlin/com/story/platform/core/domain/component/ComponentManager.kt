@@ -11,7 +11,7 @@ class ComponentManager(
     private val componentRepository: ComponentRepository,
 ) {
 
-    suspend fun create(
+    suspend fun createComponent(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
@@ -42,7 +42,7 @@ class ComponentManager(
         componentRepository.save(component)
     }
 
-    suspend fun patch(
+    suspend fun patchComponent(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,

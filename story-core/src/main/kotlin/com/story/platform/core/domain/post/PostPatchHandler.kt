@@ -3,12 +3,12 @@ package com.story.platform.core.domain.post
 import org.springframework.stereotype.Service
 
 @Service
-class PostModifyHandler(
+class PostPatchHandler(
     private val postModifier: PostModifier,
     private val postEventPublisher: PostEventPublisher,
 ) {
 
-    suspend fun patch(
+    suspend fun patchPost(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         postId: Long,

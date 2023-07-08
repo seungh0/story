@@ -6,12 +6,12 @@ import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
 @Service
-class PostRegister(
+class PostCreator(
     private val postSequenceGenerator: PostSequenceGenerator,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
-    suspend fun register(
+    suspend fun create(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         title: String,

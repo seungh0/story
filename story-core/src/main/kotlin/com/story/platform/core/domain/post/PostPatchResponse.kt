@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.post
 
-data class PostModifyResult(
+data class PostPatchResponse(
     val post: Post,
     val hasChanged: Boolean,
 )

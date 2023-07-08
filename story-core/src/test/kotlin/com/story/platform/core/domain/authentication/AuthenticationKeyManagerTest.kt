@@ -30,7 +30,7 @@ class AuthenticationKeyManagerTest(
             val description = "트위터 피드 API Key"
 
             // when
-            authenticationKeyManager.register(
+            authenticationKeyManager.createAuthenticationKey(
                 workspaceId = workspaceId,
                 authenticationKey = apiKey,
                 description = description,
@@ -56,7 +56,7 @@ class AuthenticationKeyManagerTest(
 
             // when & then
             shouldThrowExactly<ConflictException> {
-                authenticationKeyManager.register(
+                authenticationKeyManager.createAuthenticationKey(
                     workspaceId = authenticationKey.key.workspaceId,
                     authenticationKey = authenticationKey.key.authenticationKey,
                     description = "",
@@ -74,7 +74,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeyRepository.save(authenticationKey)
 
             // when
-            authenticationKeyManager.modify(
+            authenticationKeyManager.patchAuthenticationKey(
                 workspaceId = authenticationKey.key.workspaceId,
                 authenticationKey = authenticationKey.key.authenticationKey,
                 description = description,
@@ -103,7 +103,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeyRepository.save(authenticationKey)
 
             // when
-            authenticationKeyManager.modify(
+            authenticationKeyManager.patchAuthenticationKey(
                 workspaceId = authenticationKey.key.workspaceId,
                 authenticationKey = authenticationKey.key.authenticationKey,
                 description = null,
@@ -132,7 +132,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeyRepository.save(authenticationKey)
 
             // when
-            authenticationKeyManager.modify(
+            authenticationKeyManager.patchAuthenticationKey(
                 workspaceId = authenticationKey.key.workspaceId,
                 authenticationKey = authenticationKey.key.authenticationKey,
                 description = authenticationKey.description,
@@ -158,7 +158,7 @@ class AuthenticationKeyManagerTest(
 
             // when & then
             shouldThrowExactly<NotFoundException> {
-                authenticationKeyManager.modify(
+                authenticationKeyManager.patchAuthenticationKey(
                     workspaceId = workspaceId,
                     authenticationKey = "api-key",
                     description = "",
@@ -176,7 +176,7 @@ class AuthenticationKeyManagerTest(
 
             // when & then
             shouldThrowExactly<NotFoundException> {
-                authenticationKeyManager.modify(
+                authenticationKeyManager.patchAuthenticationKey(
                     workspaceId = "instagram",
                     authenticationKey = authenticationKey.key.authenticationKey,
                     description = "",

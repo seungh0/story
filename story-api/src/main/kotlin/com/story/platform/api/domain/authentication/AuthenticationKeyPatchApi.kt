@@ -6,40 +6,23 @@ import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyManager
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class AuthenticationKeyManageApi(
+class AuthenticationKeyPatchApi(
     private val authenticationKeyManager: AuthenticationKeyManager,
 ) {
-
-    /**
-     * 신규 서비스 인증 키를 등록합니다
-     */
-    @PostMapping("/v1/authentication-keys")
-    suspend fun register(
-        @RequestAuthContext authContext: AuthContext,
-        @Valid @RequestBody request: AuthenticationKeyRegisterApiRequest,
-    ): ApiResponse<String> {
-        authenticationKeyManager.register(
-            workspaceId = authContext.workspaceId,
-            authenticationKey = request.apiKey,
-            description = request.description,
-        )
-        return ApiResponse.OK
-    }
 
     /**
      * 서비스 인증 키의 정보를 수정합니다
      */
     @PatchMapping("/v1/authentication-keys")
-    suspend fun modify(
+    suspend fun patch(
         @RequestAuthContext authContext: AuthContext,
-        @Valid @RequestBody request: AuthenticationKeyModifyApiRequest,
+        @Valid @RequestBody request: AuthenticationKeyPatchApiRequest,
     ): ApiResponse<String> {
-        authenticationKeyManager.modify(
+        authenticationKeyManager.patchAuthenticationKey(
             workspaceId = authContext.workspaceId,
             authenticationKey = request.apiKey,
             description = request.description,

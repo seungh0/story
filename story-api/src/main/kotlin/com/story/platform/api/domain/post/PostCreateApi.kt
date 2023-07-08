@@ -4,7 +4,7 @@ import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.domain.post.PostRegisterHandler
+import com.story.platform.core.domain.post.PostCreateHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class PostRegisterApi(
-    private val postRegisterHandler: PostRegisterHandler,
+class PostCreateApi(
+    private val postCreateHandler: PostCreateHandler,
     private val componentHandler: ComponentHandler,
 ) {
 
@@ -23,19 +23,19 @@ class PostRegisterApi(
      * 신규 포스트를 등록한다
      */
     @PostMapping("/v1/posts/components/{componentId}/spaces/{spaceId}/posts")
-    suspend fun register(
+    suspend fun createPost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @Valid @RequestBody request: PostRegisterApiRequest,
+        @Valid @RequestBody request: PostCreateApiRequest,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<PostRegisterApiResponse> {
+    ): ApiResponse<PostCreateApiResponse> {
         componentHandler.validateComponent(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.POSTS,
             componentId = componentId,
         )
 
-        val postId = postRegisterHandler.register(
+        val postId = postCreateHandler.createPost(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
                 componentId = componentId,
@@ -46,7 +46,7 @@ class PostRegisterApi(
             content = request.content,
             extraJson = request.extraJson,
         )
-        return ApiResponse.success(PostRegisterApiResponse.of(postId = postId))
+        return ApiResponse.success(PostCreateApiResponse.of(postId = postId))
     }
 
 }

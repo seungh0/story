@@ -3,7 +3,7 @@ package com.story.platform.api.domain.post
 import com.story.platform.core.common.error.BadRequestException
 import jakarta.validation.constraints.NotBlank
 
-data class PostModifyApiRequest(
+data class PostPatchApiRequest(
     @field:NotBlank
     val accountId: String = "",
     val title: String?,

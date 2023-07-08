@@ -1,13 +1,13 @@
 package com.story.platform.api.domain.post
 
-data class PostRegisterApiResponse(
+data class PostCreateApiResponse(
     val postId: String,
 ) {
 
     companion object {
         fun of(
             postId: Long,
-        ) = PostRegisterApiResponse(
+        ) = PostCreateApiResponse(
             postId = postId.toString(),
         )
     }
