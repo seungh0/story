@@ -45,16 +45,12 @@ class PostModifier(
             extraJson = extraJson,
         )
 
-        if (!hasChanged) {
-            return PostPatchResponse(post = post, hasChanged = false)
-        }
-
         reactiveCassandraOperations.batchOps()
             .upsert(post)
             .upsert(PostReverse.of(post))
             .executeCoroutine()
 
-        return PostPatchResponse(post = post, hasChanged = true)
+        return PostPatchResponse(post = post, hasChanged = hasChanged)
     }
 
 }

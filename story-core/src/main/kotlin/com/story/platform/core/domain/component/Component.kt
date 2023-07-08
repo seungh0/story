@@ -31,6 +31,7 @@ data class Component(
         if (status != null) {
             this.status = status
         }
+
         this.auditingTime = auditingTime.updated()
     }
 

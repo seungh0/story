@@ -64,14 +64,10 @@ class AuthenticationKeyManager(
     ) {
         val authenticationKey = findAuthenticationKey(workspaceId = workspaceId, authenticationKey = authenticationKey)
 
-        val hasChanged = authenticationKey.patch(
+        authenticationKey.patch(
             description = description,
             status = status,
         )
-
-        if (!hasChanged) {
-            return
-        }
 
         reactiveCassandraOperations.batchOps()
             .insert(authenticationKey)

@@ -16,17 +16,6 @@ data class AuthenticationReverseKey(
     var status: AuthenticationKeyStatus,
 ) {
 
-    fun patch(
-        status: AuthenticationKeyStatus?,
-    ): Boolean {
-        var hasChanged = false
-        if (status != null) {
-            hasChanged = hasChanged || this.status != status
-            this.status = status
-        }
-        return hasChanged
-    }
-
     companion object {
         fun of(
             workspaceId: String,

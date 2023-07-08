@@ -24,23 +24,16 @@ data class AuthenticationKey(
     fun patch(
         description: String?,
         status: AuthenticationKeyStatus?,
-    ): Boolean {
-        var hasChanged = false
+    ) {
         if (description != null) {
-            hasChanged = hasChanged || this.description != description
             this.description = description
         }
 
         if (status != null) {
-            hasChanged = hasChanged || this.status != status
             this.status = status
         }
 
-        if (hasChanged) {
-            this.auditingTime = this.auditingTime.updated()
-        }
-
-        return hasChanged
+        this.auditingTime = this.auditingTime.updated()
     }
 
     companion object {

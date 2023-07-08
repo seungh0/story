@@ -49,9 +49,7 @@ data class Post(
             this.extraJson = extraJson
         }
 
-        if (hasChanged) {
-            this.auditingTime.updated()
-        }
+        this.auditingTime.updated()
 
         return hasChanged
     }
