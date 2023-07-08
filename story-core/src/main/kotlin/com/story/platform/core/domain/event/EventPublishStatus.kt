@@ -1,8 +1,8 @@
 package com.story.platform.core.domain.event
 
-enum class EventPublishedStatus {
+enum class EventPublishStatus {
 
     SUCCESS,
-    ERROR,
+    FAILED,
 
 }

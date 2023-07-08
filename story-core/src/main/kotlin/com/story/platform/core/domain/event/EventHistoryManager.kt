@@ -1,12 +1,10 @@
 package com.story.platform.core.domain.event
 
-import com.story.platform.core.infrastructure.cassandra.executeCoroutine
-import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
 @Service
 class EventHistoryManager(
-    private val reactiveCassandraOperations: ReactiveCassandraOperations,
+    private val eventHistoryRepository: EventHistoryRepository,
 ) {
 
     suspend fun <T> withSaveEventHistory(
@@ -18,30 +16,22 @@ class EventHistoryManager(
         try {
             publishEvent.invoke()
         } catch (exception: Exception) {
-            val eventHistory = EventHistory.of(
+            val eventHistory = EventHistory.failed(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 eventRecord = event,
-                status = EventPublishedStatus.ERROR
+                exception = exception,
             )
-            reactiveCassandraOperations.batchOps()
-                .insert(eventHistory)
-                .insert(EventHistoryReverse.of(eventHistory))
-                .executeCoroutine()
-
+            eventHistoryRepository.save(eventHistory)
             throw exception
         }
 
-        val eventHistory = EventHistory.of(
+        val eventHistory = EventHistory.success(
             workspaceId = workspaceId,
             componentId = componentId,
             eventRecord = event,
-            status = EventPublishedStatus.SUCCESS,
         )
-        reactiveCassandraOperations.batchOps()
-            .insert(eventHistory)
-            .insert(EventHistoryReverse.of(eventHistory))
-            .executeCoroutine()
+        eventHistoryRepository.save(eventHistory)
     }
 
 }

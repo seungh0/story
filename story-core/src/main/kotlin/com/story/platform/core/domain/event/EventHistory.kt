@@ -20,16 +20,17 @@ import java.time.format.DateTimeFormatter
 data class EventHistory(
     @field:PrimaryKey
     val key: EventHistoryPrimaryKey,
-    val publishedStatus: EventPublishedStatus,
+
+    val publishStatus: EventPublishStatus,
+    val failureReason: String = "",
     val payloadJson: String,
 ) {
 
     companion object {
-        fun <T> of(
+        fun <T> success(
             workspaceId: String,
             componentId: String,
             eventRecord: EventRecord<T>,
-            status: EventPublishedStatus,
         ) =
             EventHistory(
                 key = EventHistoryPrimaryKey(
@@ -41,8 +42,29 @@ data class EventHistory(
                     timestamp = eventRecord.timestamp,
                     eventId = eventRecord.eventId,
                 ),
-                publishedStatus = status,
+                publishStatus = EventPublishStatus.SUCCESS,
                 payloadJson = eventRecord.payload.toJson(),
+            )
+
+        fun <T> failed(
+            workspaceId: String,
+            componentId: String,
+            eventRecord: EventRecord<T>,
+            exception: Exception,
+        ) =
+            EventHistory(
+                key = EventHistoryPrimaryKey(
+                    workspaceId = workspaceId,
+                    componentId = componentId,
+                    resourceId = eventRecord.resourceId,
+                    eventAction = eventRecord.eventAction,
+                    eventDate = eventRecord.timestamp.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'hh:mm")),
+                    timestamp = eventRecord.timestamp,
+                    eventId = eventRecord.eventId,
+                ),
+                publishStatus = EventPublishStatus.FAILED,
+                payloadJson = eventRecord.payload.toJson(),
+                failureReason = exception.message ?: "${exception.javaClass.name} 에러가 발생하였습니다",
             )
     }
 
@@ -54,10 +76,10 @@ data class EventHistoryPrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
-    val componentId: String,
+    val resourceId: ResourceId,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val resourceId: ResourceId,
+    val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
     val eventAction: EventAction,
