@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.event
 
-import com.story.platform.core.common.enums.EventType
+import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.support.json.toJson
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
@@ -20,24 +20,28 @@ import java.time.format.DateTimeFormatter
 data class EventHistory(
     @field:PrimaryKey
     val key: EventHistoryPrimaryKey,
-
-    val status: EventStatus,
-
+    val publishedStatus: EventPublishedStatus,
     val payloadJson: String,
 ) {
 
     companion object {
-        fun <T> of(workspaceId: String, componentId: String, eventRecord: EventRecord<T>, status: EventStatus) =
+        fun <T> of(
+            workspaceId: String,
+            componentId: String,
+            eventRecord: EventRecord<T>,
+            status: EventPublishedStatus,
+        ) =
             EventHistory(
                 key = EventHistoryPrimaryKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
-                    eventType = eventRecord.eventType,
+                    resourceId = eventRecord.resourceId,
+                    eventAction = eventRecord.eventAction,
                     eventDate = eventRecord.timestamp.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'hh:mm")),
                     timestamp = eventRecord.timestamp,
                     eventId = eventRecord.eventId,
                 ),
-                status = status,
+                publishedStatus = status,
                 payloadJson = eventRecord.payload.toJson(),
             )
     }
@@ -53,14 +57,17 @@ data class EventHistoryPrimaryKey(
     val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val eventType: EventType,
+    val resourceId: ResourceId,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
+    val eventAction: EventAction,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 5)
     val eventDate: String, // yyyyMMddTHH:mm -> 1분 단위?
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
     val timestamp: LocalDateTime,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
     val eventId: String,
 )

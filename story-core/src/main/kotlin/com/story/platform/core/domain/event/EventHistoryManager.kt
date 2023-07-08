@@ -22,7 +22,7 @@ class EventHistoryManager(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 eventRecord = event,
-                status = EventStatus.ERROR
+                status = EventPublishedStatus.ERROR
             )
             reactiveCassandraOperations.batchOps()
                 .insert(eventHistory)
@@ -36,7 +36,7 @@ class EventHistoryManager(
             workspaceId = workspaceId,
             componentId = componentId,
             eventRecord = event,
-            status = EventStatus.PUBLISHED
+            status = EventPublishedStatus.SUCCESS,
         )
         reactiveCassandraOperations.batchOps()
             .insert(eventHistory)

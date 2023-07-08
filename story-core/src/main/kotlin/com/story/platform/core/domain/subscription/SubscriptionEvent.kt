@@ -1,7 +1,8 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.EventType
+import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
+import com.story.platform.core.domain.resource.ResourceId
 
 data class SubscriptionEvent(
     val workspaceId: String,
@@ -17,7 +18,8 @@ data class SubscriptionEvent(
             subscriberId: String,
             targetId: String,
         ) = EventRecord(
-            eventType = EventType.SUBSCRIPTION_CREATED,
+            resourceId = ResourceId.SUBSCRIPTIONS,
+            eventAction = EventAction.CREATED,
             payload = SubscriptionEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -32,7 +34,8 @@ data class SubscriptionEvent(
             subscriberId: String,
             targetId: String,
         ) = EventRecord(
-            eventType = EventType.SUBSCRIPTION_DELETED,
+            resourceId = ResourceId.SUBSCRIPTIONS,
+            eventAction = EventAction.DELETED,
             payload = SubscriptionEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,

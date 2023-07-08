@@ -1,7 +1,8 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.enums.EventType
+import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
+import com.story.platform.core.domain.resource.ResourceId
 
 data class PostEvent(
     val workspaceId: String,
@@ -25,7 +26,8 @@ data class PostEvent(
             content: String,
             extraJson: String?,
         ) = EventRecord(
-            eventType = EventType.POST_CREATED,
+            resourceId = ResourceId.POSTS,
+            eventAction = EventAction.CREATED,
             payload = PostEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -48,7 +50,8 @@ data class PostEvent(
             content: String,
             extraJson: String?,
         ) = EventRecord(
-            eventType = EventType.POST_UPDATED,
+            resourceId = ResourceId.POSTS,
+            eventAction = EventAction.UPDATED,
             payload = PostEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -68,7 +71,8 @@ data class PostEvent(
             postId: Long,
             accountId: String,
         ) = EventRecord(
-            eventType = EventType.POST_DELETED,
+            resourceId = ResourceId.POSTS,
+            eventAction = EventAction.DELETED,
             payload = PostEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,

@@ -13,7 +13,6 @@ enum class ResourceId(
 
     SUBSCRIPTIONS(code = "subscriptions", description = "구독"),
     POSTS(code = "posts", description = "포스팅"),
-    FEEDS(code = "feeds", description = "피드"),
     ;
 
     companion object {

@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.event
 
-import com.story.platform.core.common.enums.EventType
+import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -18,8 +18,7 @@ import java.time.LocalDateTime
 data class EventHistoryReverse(
     @field:PrimaryKey
     val key: EventHistoryReversePrimaryKey,
-
-    val status: EventStatus,
+    val publishedStatus: EventPublishedStatus,
     val payloadJson: String,
 ) {
 
@@ -30,12 +29,13 @@ data class EventHistoryReverse(
             key = EventHistoryReversePrimaryKey(
                 workspaceId = eventHistory.key.workspaceId,
                 componentId = eventHistory.key.componentId,
-                eventType = eventHistory.key.eventType,
+                resourceId = eventHistory.key.resourceId,
+                eventAction = eventHistory.key.eventAction,
                 eventId = eventHistory.key.eventId,
                 eventDate = eventHistory.key.eventDate,
                 timestamp = eventHistory.key.timestamp,
             ),
-            status = eventHistory.status,
+            publishedStatus = eventHistory.publishedStatus,
             payloadJson = eventHistory.payloadJson,
         )
     }
@@ -51,14 +51,17 @@ data class EventHistoryReversePrimaryKey(
     val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val eventType: EventType,
+    val resourceId: ResourceId,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
+    val eventAction: EventAction,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 5)
     val eventId: String,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
     val eventDate: String, // yyyyMMddTHH:mm -> 1분 단위?
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
     val timestamp: LocalDateTime,
 )
