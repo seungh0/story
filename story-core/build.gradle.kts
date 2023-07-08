@@ -1,4 +1,4 @@
-val redissonVersion = "3.22.1"
+val redissonVersion: String by project.extra
 
 dependencies {
     // CommonsLang3

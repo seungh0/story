@@ -3,10 +3,10 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
-val kotlinLoggingJvmVersion = "3.0.5"
-val springMockkVersion = "4.0.2"
-val kotestVersion = "5.6.2"
-val kotestSpringExtensionVersion = "1.1.3"
+val kotlinLoggingJvmVersion: String by project.extra
+val springMockkVersion: String by project.extra
+val kotestVersion: String by project.extra
+val kotestSpringExtensionVersion: String by project.extra
 
 plugins {
     id("org.springframework.boot") version "3.1.1"
