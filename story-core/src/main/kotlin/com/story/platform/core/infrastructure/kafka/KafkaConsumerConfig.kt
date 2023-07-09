@@ -1,6 +1,6 @@
 package com.story.platform.core.infrastructure.kafka
 
-import com.story.platform.core.support.logger.LoggerExtension.log
+import com.story.platform.core.common.logger.LoggerExtension.log
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties

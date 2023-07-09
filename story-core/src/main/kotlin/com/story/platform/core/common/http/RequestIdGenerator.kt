@@ -1,4 +1,4 @@
-package com.story.platform.core.common.utils
+package com.story.platform.core.common.http
 
 import java.util.UUID
 

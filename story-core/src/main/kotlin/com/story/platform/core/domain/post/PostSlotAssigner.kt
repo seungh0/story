@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.utils.SlotAssigner
+import com.story.platform.core.common.distribution.SlotAssigner
 
 /**
  * 300byte * 10_000 = 3MB

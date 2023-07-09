@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.authentication
 
-import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

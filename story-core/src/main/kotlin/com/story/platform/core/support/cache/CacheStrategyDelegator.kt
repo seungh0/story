@@ -1,7 +1,7 @@
 package com.story.platform.core.support.cache
 
 import com.story.platform.core.common.error.NotSupportedException
-import com.story.platform.core.support.spring.SpringBeanProvider
+import com.story.platform.core.common.spring.SpringBeanProvider
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import java.util.EnumMap

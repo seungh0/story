@@ -1,8 +1,8 @@
 package com.story.platform.core.infrastructure.cassandra
 
 import com.story.platform.core.CoreRoot
-import com.story.platform.core.common.converter.VersionReadConverter
-import com.story.platform.core.common.converter.VersionWriteConverter
+import com.story.platform.core.infrastructure.cassandra.converter.VersionReadConverter
+import com.story.platform.core.infrastructure.cassandra.converter.VersionWriteConverter
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

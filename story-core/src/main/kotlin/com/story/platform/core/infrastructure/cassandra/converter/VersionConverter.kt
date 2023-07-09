@@ -1,4 +1,4 @@
-package com.story.platform.core.common.converter
+package com.story.platform.core.infrastructure.cassandra.converter
 
 import com.story.platform.core.common.model.Version
 import org.springframework.core.convert.converter.Converter

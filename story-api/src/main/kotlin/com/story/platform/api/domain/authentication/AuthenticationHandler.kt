@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.authentication
 
-import com.story.platform.core.common.enums.HttpHeaderType
-import com.story.platform.core.common.utils.getApiKey
+import com.story.platform.core.common.http.HttpHeaderType
+import com.story.platform.core.common.http.getApiKey
 import com.story.platform.core.domain.authentication.AuthenticationKeyEmptyException
 import com.story.platform.core.domain.authentication.AuthenticationKeyInactivatedException
 import com.story.platform.core.domain.authentication.AuthenticationKeyInvalidException

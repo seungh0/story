@@ -1,6 +1,6 @@
-package com.story.platform.core.common.model
+package com.story.platform.core.common.model.dto
 
-import com.story.platform.core.common.enums.CursorDirection
+import com.story.platform.core.common.model.CursorDirection
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
 

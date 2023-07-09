@@ -3,7 +3,7 @@ package com.story.platform.api.domain.subscription
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.api.domain.component.ComponentHandler
-import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionUnSubscribeHandler
 import org.springframework.web.bind.annotation.DeleteMapping

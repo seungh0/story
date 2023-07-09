@@ -1,8 +1,8 @@
 package com.story.platform.api.config.auth
 
 import com.story.platform.api.domain.authentication.AuthenticationHandler
-import com.story.platform.core.common.utils.RequestIdGenerator
-import com.story.platform.core.common.utils.getRequestId
+import com.story.platform.core.common.http.RequestIdGenerator
+import com.story.platform.core.common.http.getRequestId
 import org.springframework.stereotype.Component
 import org.springframework.web.server.CoWebFilter
 import org.springframework.web.server.CoWebFilterChain

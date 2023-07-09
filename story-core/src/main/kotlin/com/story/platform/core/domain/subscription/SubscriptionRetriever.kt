@@ -1,9 +1,9 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.enums.CursorDirection
 import com.story.platform.core.common.model.Cursor
-import com.story.platform.core.common.model.CursorRequest
+import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.dto.CursorRequest
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service

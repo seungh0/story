@@ -1,6 +1,6 @@
 package com.story.platform.api
 
-import com.story.platform.core.common.constants.StoryPackageConst.BASE_PACKAGE
+import com.story.platform.core.common.StoryPackageConst.BASE_PACKAGE
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication

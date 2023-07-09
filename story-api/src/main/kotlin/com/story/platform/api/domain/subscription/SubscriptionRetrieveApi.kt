@@ -3,9 +3,9 @@ package com.story.platform.api.domain.subscription
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.api.domain.component.ComponentHandler
-import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.dto.ApiResponse
+import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountRetriever
 import com.story.platform.core.domain.subscription.SubscriptionRetriever

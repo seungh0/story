@@ -4,7 +4,9 @@
 | 400 | invalid_arguments | 
 | 400 | invalid_cursor | 
 | 400 | invalid_post_id | 
-| 401 | invalid_auth | 
+| 401 | invalid_authentication_key | 
+| 401 | inactivated_authentication_key | 
+| 401 | empty_authentication_key | 
 | 403 | no_permission | 
 | 404 | not_exists_authentication_key | 
 | 404 | not_exists_component | 
@@ -14,9 +16,7 @@
 | 405 | method_not_allowed | 
 | 409 | already_exists_authentication_key | 
 | 409 | already_exists_component | 
-| 409 | already_connect_mapping_feed | 
-| 413 | payload_too_large | 
-| 413 | file_size_is | 
+| 409 | already_connected_feed_mapping | 
 | 500 | internal_error | 
 | 501 | not_supported | 
 | 503 | service_unavailable | 

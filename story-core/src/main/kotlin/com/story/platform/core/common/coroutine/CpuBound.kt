@@ -1,4 +1,4 @@
-package com.story.platform.core.support.coroutine
+package com.story.platform.core.common.coroutine
 
 import org.springframework.beans.factory.annotation.Qualifier
 

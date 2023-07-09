@@ -3,8 +3,8 @@ package com.story.platform.api.config
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
-import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.support.logger.LoggerExtension.log
+import com.story.platform.core.common.logger.LoggerExtension.log
+import com.story.platform.core.common.model.dto.ApiResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException

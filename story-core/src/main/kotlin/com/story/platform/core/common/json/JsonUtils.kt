@@ -1,4 +1,4 @@
-package com.story.platform.core.support.json
+package com.story.platform.core.common.json
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature

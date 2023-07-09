@@ -5,9 +5,9 @@ import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.AvailabilityCheckApi
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.isFalse
-import com.story.platform.core.common.AvailabilityChecker
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
+import com.story.platform.core.common.spring.AvailabilityChecker
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.component.ComponentAlreadyExistsException

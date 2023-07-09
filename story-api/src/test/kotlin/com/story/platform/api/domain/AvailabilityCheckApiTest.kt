@@ -6,8 +6,8 @@ import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.api.lib.isTrue
-import com.story.platform.core.common.AvailabilityChecker
-import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.common.model.dto.ApiResponse
+import com.story.platform.core.common.spring.AvailabilityChecker
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import io.kotest.core.spec.style.FunSpec

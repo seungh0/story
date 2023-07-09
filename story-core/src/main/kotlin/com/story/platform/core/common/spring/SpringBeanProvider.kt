@@ -1,6 +1,6 @@
-package com.story.platform.core.support.spring
+package com.story.platform.core.common.spring
 
-import com.story.platform.core.support.logger.LoggerExtension.log
+import com.story.platform.core.common.logger.LoggerExtension.log
 import org.springframework.boot.SpringApplication
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.DependsOn

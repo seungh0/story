@@ -1,4 +1,4 @@
-package com.story.platform.core.support.logger
+package com.story.platform.core.common.logger
 
 import mu.KLogger
 import mu.KotlinLogging

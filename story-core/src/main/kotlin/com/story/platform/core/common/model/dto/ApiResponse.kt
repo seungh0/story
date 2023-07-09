@@ -1,4 +1,4 @@
-package com.story.platform.core.common.model
+package com.story.platform.core.common.model.dto
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.story.platform.core.common.error.ErrorCode

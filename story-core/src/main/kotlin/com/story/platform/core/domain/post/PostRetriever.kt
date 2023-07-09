@@ -1,10 +1,10 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.enums.CursorDirection
 import com.story.platform.core.common.error.InvalidCursorException
 import com.story.platform.core.common.model.Cursor
-import com.story.platform.core.common.model.CursorRequest
+import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.dto.CursorRequest
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope

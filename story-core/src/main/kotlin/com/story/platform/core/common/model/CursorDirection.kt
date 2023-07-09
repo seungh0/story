@@ -1,4 +1,4 @@
-package com.story.platform.core.common.enums
+package com.story.platform.core.common.model
 
 enum class CursorDirection {
 

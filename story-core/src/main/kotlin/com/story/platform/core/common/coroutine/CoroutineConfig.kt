@@ -1,4 +1,4 @@
-package com.story.platform.core.support.coroutine
+package com.story.platform.core.common.coroutine
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

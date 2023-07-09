@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.event
 
+import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.resource.ResourceId
-import com.story.platform.core.support.json.toJson
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey

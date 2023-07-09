@@ -1,6 +1,5 @@
-package com.story.platform.core.common.utils
+package com.story.platform.core.common.http
 
-import com.story.platform.core.common.enums.HttpHeaderType
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest

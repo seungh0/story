@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.component
 
-import com.story.platform.core.common.model.AuditingTimeResponse
+import com.story.platform.core.common.model.dto.AuditingTimeResponse
 import com.story.platform.core.domain.component.ComponentResponse
 import com.story.platform.core.domain.component.ComponentStatus
 

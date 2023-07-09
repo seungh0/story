@@ -1,6 +1,5 @@
-package com.story.platform.core.common.utils
+package com.story.platform.core.common.http
 
-import com.story.platform.core.common.enums.HttpHeaderType
 import org.springframework.web.server.ServerWebExchange
 
 fun ServerWebExchange.getApiKey(): String? {

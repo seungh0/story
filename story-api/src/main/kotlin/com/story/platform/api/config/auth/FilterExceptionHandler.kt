@@ -2,9 +2,9 @@ package com.story.platform.api.config.auth
 
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
-import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.support.json.JsonUtils
-import com.story.platform.core.support.logger.LoggerExtension.log
+import com.story.platform.core.common.json.JsonUtils
+import com.story.platform.core.common.logger.LoggerExtension.log
+import com.story.platform.core.common.model.dto.ApiResponse
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
 import org.springframework.core.io.buffer.DataBufferFactory
 import org.springframework.http.HttpStatus

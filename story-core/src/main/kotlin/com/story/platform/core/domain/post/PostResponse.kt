@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.model.AuditingTimeResponse
+import com.story.platform.core.common.model.dto.AuditingTimeResponse
 
 data class PostResponse(
     val workspaceId: String,

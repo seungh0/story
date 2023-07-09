@@ -2,7 +2,7 @@ package com.story.platform.api.domain.authentication
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
-import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyManager
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PostMapping

@@ -1,8 +1,8 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.enums.CursorDirection
-import com.story.platform.core.common.model.CursorRequest
+import com.story.platform.core.common.model.CursorDirection
+import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.helper.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize

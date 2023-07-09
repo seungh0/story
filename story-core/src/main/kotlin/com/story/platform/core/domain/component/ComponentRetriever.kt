@@ -1,8 +1,8 @@
 package com.story.platform.core.domain.component
 
 import com.story.platform.core.common.model.Cursor
-import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.support.cache.CacheType
 import com.story.platform.core.support.cache.Cacheable

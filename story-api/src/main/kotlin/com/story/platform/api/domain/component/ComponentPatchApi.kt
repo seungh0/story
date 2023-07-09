@@ -2,7 +2,7 @@ package com.story.platform.api.domain.component
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
-import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.domain.component.ComponentManager
 import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid

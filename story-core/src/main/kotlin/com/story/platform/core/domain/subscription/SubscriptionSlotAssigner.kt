@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.utils.SlotAssigner
+import com.story.platform.core.common.distribution.SlotAssigner
 
 object SubscriptionSlotAssigner {
 

@@ -1,7 +1,7 @@
 package com.story.platform.api.config
 
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
-import com.story.platform.core.support.json.JsonUtils
+import com.story.platform.core.common.json.JsonUtils
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

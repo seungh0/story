@@ -1,6 +1,7 @@
-package com.story.platform.core.common.model
+package com.story.platform.core.common.model.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.story.platform.core.common.model.AuditingTime
 import java.time.LocalDateTime
 
 abstract class AuditingTimeResponse {

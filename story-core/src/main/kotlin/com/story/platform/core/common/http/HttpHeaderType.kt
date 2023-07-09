@@ -1,4 +1,4 @@
-package com.story.platform.core.common.enums
+package com.story.platform.core.common.http
 
 enum class HttpHeaderType(
     val header: String,

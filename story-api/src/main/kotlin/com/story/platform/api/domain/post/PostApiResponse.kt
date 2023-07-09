@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.post
 
-import com.story.platform.core.common.model.AuditingTimeResponse
+import com.story.platform.core.common.model.dto.AuditingTimeResponse
 import com.story.platform.core.domain.post.PostResponse
 
 data class PostApiResponse(

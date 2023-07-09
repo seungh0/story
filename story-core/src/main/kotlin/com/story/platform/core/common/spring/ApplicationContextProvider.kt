@@ -1,4 +1,4 @@
-package com.story.platform.core.support.spring
+package com.story.platform.core.common.spring
 
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware

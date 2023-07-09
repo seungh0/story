@@ -1,11 +1,11 @@
-package com.story.platform.core.common
+package com.story.platform.core.common.spring
 
+import com.story.platform.core.common.coroutine.CoroutineConfig
+import com.story.platform.core.common.coroutine.CpuBound
+import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
-import com.story.platform.core.common.model.ApiResponse
-import com.story.platform.core.support.coroutine.CoroutineConfig
-import com.story.platform.core.support.coroutine.CpuBound
-import com.story.platform.core.support.coroutine.IOBound
+import com.story.platform.core.common.model.dto.ApiResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withContext

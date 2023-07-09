@@ -1,6 +1,6 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.support.logger.LoggerExtension.log
+import com.story.platform.core.common.logger.LoggerExtension.log
 import org.springframework.stereotype.Component
 
 @Component

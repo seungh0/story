@@ -1,4 +1,4 @@
-package com.story.platform.core.common.constants
+package com.story.platform.core.common
 
 object StoryPackageConst {
 
