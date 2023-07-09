@@ -29,7 +29,7 @@ class PostRetriever(
                 spaceId = postSpaceKey.spaceId,
                 slotId = PostSlotAssigner.assign(postId),
                 postId = postId,
-            ) ?: throw PostNotFoundException(message = "해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
+            ) ?: throw PostNotExistsException(message = "해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
         )
     }
 

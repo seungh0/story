@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.component
 
 import com.story.platform.core.domain.resource.ResourceId
-import com.story.platform.core.domain.resource.ResourceNotFoundException
+import com.story.platform.core.domain.resource.ResourceNotExistsException
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -26,7 +26,7 @@ class ResourceIdTest : FunSpec({
 
     test("존재하지 않는 ResourceId code인 경우 NotFoundException") {
         // when & then
-        shouldThrowExactly<ResourceNotFoundException> {
+        shouldThrowExactly<ResourceNotExistsException> {
             ResourceId.findByCode("Unknown")
         }
     }

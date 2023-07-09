@@ -21,7 +21,7 @@ class AuthenticationKeyRetriever(
                 AuthenticationReverseKeyPrimaryKey(
                     authenticationKey = authenticationKey,
                 )
-            ) ?: throw AuthenticationKeyNotFoundException(message = "등록되지 않은 인증 키($authenticationKey) 입니다")
+            ) ?: throw AuthenticationKeyNotExistsException(message = "등록되지 않은 인증 키($authenticationKey) 입니다")
         )
     }
 

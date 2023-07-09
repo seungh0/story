@@ -16,7 +16,9 @@ enum class ErrorCode(
     /**
      * 401 UnAuthorized
      */
-    E401_UNAUTHORIZED(httpStatusCode = 401, code = "invalid_auth"),
+    E401_INVALID_AUTHENTICATION_KEY(httpStatusCode = 401, code = "invalid_authentication_key"),
+    E401_INACTIVATED_AUTHENTICATION_KEY(httpStatusCode = 401, code = "inactivated_authentication_key"),
+    E401_EMPTY_AUTHENTICATION_KEY(httpStatusCode = 401, code = "empty_authentication_key"),
 
     /**
      * 403 Forbidden
@@ -42,18 +44,12 @@ enum class ErrorCode(
      */
     E409_ALREADY_EXISTS_AUTHENTICATION_KEY(httpStatusCode = 409, code = "already_exists_authentication_key"),
     E409_ALREADY_EXISTS_COMPONENT(httpStatusCode = 409, code = "already_exists_component"),
-    E409_ALREADY_CONNECT_FEED_MAPPING(httpStatusCode = 409, code = "already_connect_mapping_feed"),
-
-    E413_PAYLOAD_TOO_LARGE(httpStatusCode = 413, code = "payload_too_large"),
-    E413_FILE_SIZE_TOO_LARGE(httpStatusCode = 413, code = "file_size_is"),
+    E409_ALREADY_CONNECTED_FEED_MAPPING(httpStatusCode = 409, code = "already_connected_feed_mapping"),
 
     /**
-     * 500 InternalServerError
+     * 500 Internal Server Error
      */
-    E500_INTERNAL_ERROR(
-        httpStatusCode = 500,
-        code = "internal_error",
-    ),
+    E500_INTERNAL_ERROR(httpStatusCode = 500, code = "internal_error"),
 
     /**
      * 501 NotImplemented
@@ -63,9 +59,6 @@ enum class ErrorCode(
     /**
      * 503 Service UnAvailable
      */
-    E503_SERVICE_UNAVAILABLE(
-        httpStatusCode = 503,
-        code = "service_unavailable",
-    ),
+    E503_SERVICE_UNAVAILABLE(httpStatusCode = 503, code = "service_unavailable"),
 
 }

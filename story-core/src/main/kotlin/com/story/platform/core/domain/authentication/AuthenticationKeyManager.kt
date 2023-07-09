@@ -18,7 +18,7 @@ class AuthenticationKeyManager(
         description: String,
     ) {
         if (isAlreadyRegisterKey(workspaceId = workspaceId, authenticationKey = authenticationKey)) {
-            throw AuthenticationKeyConflictException(message = "워크스페이스($workspaceId)에 이미 등록된 인증 키($authenticationKey)입니다")
+            throw AuthenticationKeyAlreadyExistsException(message = "워크스페이스($workspaceId)에 이미 등록된 인증 키($authenticationKey)입니다")
         }
 
         val authenticationKey = AuthenticationKey.of(
@@ -76,7 +76,7 @@ class AuthenticationKeyManager(
                 authenticationKey = authenticationKey,
             )
         )
-            ?: throw AuthenticationKeyNotFoundException(message = "워크스페이스($workspaceId)에 등록되지 않은 인증 키($authenticationKey) 입니다")
+            ?: throw AuthenticationKeyNotExistsException(message = "워크스페이스($workspaceId)에 등록되지 않은 인증 키($authenticationKey) 입니다")
     }
 
 }

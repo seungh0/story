@@ -10,7 +10,7 @@ import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
-import com.story.platform.core.domain.component.ComponentConflictException
+import com.story.platform.core.domain.component.ComponentAlreadyExistsException
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.HttpStatus
@@ -51,7 +51,7 @@ internal class ControllerExceptionAdviceTest(
 
     test("지정된 에러가 발생하면, 해당 에러에 맞는 Http Status Code를 반환한다") {
         // given
-        coEvery { applicationAvailability.livenessCheck() } throws ComponentConflictException(message = "이미 존재하는 컴포넌트 입니다")
+        coEvery { applicationAvailability.livenessCheck() } throws ComponentAlreadyExistsException(message = "이미 존재하는 컴포넌트 입니다")
 
         // when
         val exchange = webClient.get()

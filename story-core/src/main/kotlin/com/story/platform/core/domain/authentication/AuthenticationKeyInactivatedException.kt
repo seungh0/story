@@ -3,11 +3,8 @@ package com.story.platform.core.domain.authentication
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
 
-data class AuthenticationKeyNotFoundException(
+data class AuthenticationKeyInactivatedException(
     override val message: String,
+    override val errorCode: ErrorCode = ErrorCode.E401_INACTIVATED_AUTHENTICATION_KEY,
     override val cause: Throwable? = null,
-) : StoryBaseException(
-    message = message,
-    errorCode = ErrorCode.E404_NOT_EXISTS_AUTHENTICATION_KEY,
-    cause = cause,
-)
+) : StoryBaseException(message = message, errorCode = errorCode, cause = cause)

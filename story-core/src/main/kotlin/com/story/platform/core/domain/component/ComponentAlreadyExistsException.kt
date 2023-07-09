@@ -3,11 +3,11 @@ package com.story.platform.core.domain.component
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
 
-data class ComponentNotFoundException(
+data class ComponentAlreadyExistsException(
     override val message: String,
     override val cause: Throwable? = null,
 ) : StoryBaseException(
     message = message,
-    errorCode = ErrorCode.E404_NOT_EXISTS_COMPONENT,
+    errorCode = ErrorCode.E409_ALREADY_EXISTS_COMPONENT,
     cause = cause,
 )

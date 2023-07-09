@@ -90,7 +90,7 @@ internal class PostModifierTest(
             val extraJson = null
 
             // when & then
-            shouldThrowExactly<PostNotFoundException> {
+            shouldThrowExactly<PostNotExistsException> {
                 postModifier.patch(
                     postSpaceKey = PostSpaceKey(
                         workspaceId = "twitter",

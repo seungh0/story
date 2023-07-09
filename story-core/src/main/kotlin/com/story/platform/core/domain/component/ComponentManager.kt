@@ -23,7 +23,7 @@ class ComponentManager(
         )
 
         if (exists) {
-            throw ComponentConflictException(message = "워크스페이스($workspaceId)에 이미 등록된 리소스($resourceId) 컴포넌트($componentId)입니다.")
+            throw ComponentAlreadyExistsException(message = "워크스페이스($workspaceId)에 이미 등록된 리소스($resourceId) 컴포넌트($componentId)입니다.")
         }
 
         val component = Component.of(
@@ -52,7 +52,7 @@ class ComponentManager(
                 componentId = componentId,
             )
         )
-            ?: throw ComponentNotFoundException(message = "워크스페이스($workspaceId)에 등록되지 않은 리소스($resourceId) 컴포넌트($componentId)입니다.")
+            ?: throw ComponentNotExistsException(message = "워크스페이스($workspaceId)에 등록되지 않은 리소스($resourceId) 컴포넌트($componentId)입니다.")
 
         component.patch(description = description, status = status)
 

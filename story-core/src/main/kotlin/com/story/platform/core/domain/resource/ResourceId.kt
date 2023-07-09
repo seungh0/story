@@ -21,7 +21,7 @@ enum class ResourceId(
 
         fun findByCode(code: String): ResourceId {
             return cachedResourceIdMap[code.lowercase()]
-                ?: throw ResourceNotFoundException(message = "해당하는 리소스($code)는 존재하지 않습니다")
+                ?: throw ResourceNotExistsException(message = "해당하는 리소스($code)는 존재하지 않습니다")
         }
     }
 

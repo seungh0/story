@@ -31,7 +31,7 @@ class ComponentRetriever(
                 componentId = componentId,
             )
         )
-            ?: throw ComponentNotFoundException(message = "워크스페이스($workspaceId)에 등록되지 않은 컴포넌트($resourceId-$componentId)입니다")
+            ?: throw ComponentNotExistsException(message = "워크스페이스($workspaceId)에 등록되지 않은 컴포넌트($resourceId-$componentId)입니다")
 
         return ComponentResponse.of(component = component)
     }

@@ -2,8 +2,10 @@ package com.story.platform.api.domain.authentication
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.core.common.enums.HttpHeaderType
-import com.story.platform.core.common.error.UnAuthorizedException
-import com.story.platform.core.domain.authentication.AuthenticationKeyNotFoundException
+import com.story.platform.core.domain.authentication.AuthenticationKeyEmptyException
+import com.story.platform.core.domain.authentication.AuthenticationKeyInactivatedException
+import com.story.platform.core.domain.authentication.AuthenticationKeyInvalidException
+import com.story.platform.core.domain.authentication.AuthenticationKeyNotExistsException
 import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
@@ -58,7 +60,7 @@ class AuthenticationHandlerTest(
             )
 
             // when & then
-            shouldThrowExactly<UnAuthorizedException> {
+            shouldThrowExactly<AuthenticationKeyInactivatedException> {
                 authenticationHandler.handleAuthentication(
                     serverWebExchange = MockServerWebExchange.from(
                         MockServerHttpRequest.get("/test")
@@ -71,12 +73,12 @@ class AuthenticationHandlerTest(
         test("등록되지 않은 API-Key 인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } throws AuthenticationKeyNotFoundException(
+            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } throws AuthenticationKeyNotExistsException(
                 "등록되지 않은 인증 키 입니다"
             )
 
             // when & then
-            shouldThrowExactly<UnAuthorizedException> {
+            shouldThrowExactly<AuthenticationKeyInvalidException> {
                 authenticationHandler.handleAuthentication(
                     serverWebExchange = MockServerWebExchange.from(
                         MockServerHttpRequest.get("/test")
@@ -88,7 +90,7 @@ class AuthenticationHandlerTest(
 
         test("인증 헤더가 비어있는 경우 인증 키 조회 전에 인증에 실패한다") {
             // when & then
-            shouldThrowExactly<UnAuthorizedException> {
+            shouldThrowExactly<AuthenticationKeyEmptyException> {
                 authenticationHandler.handleAuthentication(
                     serverWebExchange = MockServerWebExchange.from(
                         MockServerHttpRequest.get("/test")

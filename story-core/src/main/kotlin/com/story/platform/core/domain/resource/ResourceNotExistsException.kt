@@ -3,7 +3,7 @@ package com.story.platform.core.domain.resource
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
 
-data class ResourceNotFoundException(
+data class ResourceNotExistsException(
     override val message: String,
     override val cause: Throwable? = null,
 ) : StoryBaseException(

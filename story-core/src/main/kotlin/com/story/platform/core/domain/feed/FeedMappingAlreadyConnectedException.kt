@@ -1,13 +1,13 @@
-package com.story.platform.core.domain.post
+package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
 
-data class PostNotFoundException(
+data class FeedMappingAlreadyConnectedException(
     override val message: String,
     override val cause: Throwable? = null,
 ) : StoryBaseException(
     message = message,
-    errorCode = ErrorCode.E404_NOT_EXISTS_POST,
+    errorCode = ErrorCode.E409_ALREADY_CONNECTED_FEED_MAPPING,
     cause = cause,
 )

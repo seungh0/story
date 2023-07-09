@@ -53,7 +53,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeyRepository.save(authenticationKey)
 
             // when & then
-            shouldThrowExactly<AuthenticationKeyConflictException> {
+            shouldThrowExactly<AuthenticationKeyAlreadyExistsException> {
                 authenticationKeyManager.createAuthenticationKey(
                     workspaceId = authenticationKey.key.workspaceId,
                     authenticationKey = authenticationKey.key.authenticationKey,
@@ -127,7 +127,7 @@ class AuthenticationKeyManagerTest(
             val workspaceId = "twitter"
 
             // when & then
-            shouldThrowExactly<AuthenticationKeyNotFoundException> {
+            shouldThrowExactly<AuthenticationKeyNotExistsException> {
                 authenticationKeyManager.patchAuthenticationKey(
                     workspaceId = workspaceId,
                     authenticationKey = "api-key",
@@ -145,7 +145,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeyRepository.save(authenticationKey)
 
             // when & then
-            shouldThrowExactly<AuthenticationKeyNotFoundException> {
+            shouldThrowExactly<AuthenticationKeyNotExistsException> {
                 authenticationKeyManager.patchAuthenticationKey(
                     workspaceId = "instagram",
                     authenticationKey = authenticationKey.key.authenticationKey,
