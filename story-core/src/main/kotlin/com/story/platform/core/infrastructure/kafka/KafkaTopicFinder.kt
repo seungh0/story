@@ -1,6 +1,6 @@
 package com.story.platform.core.infrastructure.kafka
 
-import com.story.platform.core.common.error.NotImplementedException
+import com.story.platform.core.common.error.NotSupportedException
 import com.story.platform.core.support.spring.ApplicationContextProvider
 
 object KafkaTopicFinder {
@@ -16,7 +16,7 @@ object KafkaTopicFinder {
 
     fun getTopicName(topicType: TopicType): String {
         return KAFKA_TOPIC_MAP[topicType]
-            ?: throw NotImplementedException("등록된 카프카 토픽($topicType)이 존재하지 않습니다")
+            ?: throw NotSupportedException("등록된 카프카 토픽($topicType)이 존재하지 않습니다")
     }
 
 }

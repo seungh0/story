@@ -3,8 +3,8 @@ package com.story.platform.api.domain.post
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.api.domain.component.ComponentHandler
-import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.core.domain.post.PostIdInvalidException
 import com.story.platform.core.domain.post.PostPatchHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.resource.ResourceId
@@ -32,7 +32,7 @@ class PostPatchApi(
         @PathVariable postId: String,
         @Valid @RequestBody request: PostPatchApiRequest,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<String> {
+    ): ApiResponse<Nothing?> {
         componentHandler.validateComponent(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.POSTS,
@@ -45,7 +45,7 @@ class PostPatchApi(
                 componentId = componentId,
                 spaceId = spaceId,
             ),
-            postId = postId.toLongOrNull() ?: throw BadRequestException("잘못된 PostId($postId)가 요청되었습니다"),
+            postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)가 요청되었습니다"),
             accountId = request.accountId,
             title = request.title,
             content = request.content,

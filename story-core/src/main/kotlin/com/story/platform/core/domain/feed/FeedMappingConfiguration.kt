@@ -16,12 +16,49 @@ data class FeedMappingConfiguration(
     @field:PrimaryKey
     val key: FeedMappingConfigurationPrimaryKey,
 
-    val description: String = "",
-    var extraJson: String?,
+    var description: String = "",
+    var status: FeedMappingConfigurationStatus,
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
-    val auditingTime: AuditingTime,
-)
+    var auditingTime: AuditingTime,
+) {
+
+    fun patch(description: String?, status: FeedMappingConfigurationStatus?) {
+        if (description != null) {
+            this.description = description
+        }
+
+        if (status != null) {
+            this.status = status
+        }
+
+        this.auditingTime = this.auditingTime.updated()
+    }
+
+    companion object {
+        fun of(
+            workspaceId: String,
+            resourceId: ResourceId,
+            componentId: String,
+            eventAction: EventAction,
+            subscriptionComponentId: String,
+            description: String,
+            status: FeedMappingConfigurationStatus = FeedMappingConfigurationStatus.ENABLED,
+        ) = FeedMappingConfiguration(
+            key = FeedMappingConfigurationPrimaryKey(
+                workspaceId = workspaceId,
+                resourceId = resourceId,
+                componentId = componentId,
+                eventAction = eventAction,
+                subscriptionComponentId = subscriptionComponentId,
+            ),
+            description = description,
+            auditingTime = AuditingTime.newEntity(),
+            status = status,
+        )
+    }
+
+}
 
 @PrimaryKeyClass
 data class FeedMappingConfigurationPrimaryKey(

@@ -16,7 +16,7 @@ class PostPatchHandler(
         content: String?,
         extraJson: String?,
     ) {
-        val (post: Post, hasChanged: Boolean) = postModifier.patch(
+        val (post: PostResponse, hasChanged: Boolean) = postModifier.patch(
             postSpaceKey = postSpaceKey,
             accountId = accountId,
             postId = postId,

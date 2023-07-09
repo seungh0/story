@@ -25,7 +25,7 @@ class ComponentCreateApi(
         @PathVariable componentId: String,
         @RequestAuthContext authContext: AuthContext,
         @Valid @RequestBody request: ComponentCreateApiRequest,
-    ): ApiResponse<String> {
+    ): ApiResponse<Nothing?> {
         componentManager.createComponent(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),

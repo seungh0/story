@@ -1,7 +1,5 @@
 package com.story.platform.core.domain.authentication
 
-import com.story.platform.core.common.error.ErrorCode
-import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.support.cache.CacheType
 import com.story.platform.core.support.cache.Cacheable
 import org.springframework.stereotype.Service
@@ -23,10 +21,7 @@ class AuthenticationKeyRetriever(
                 AuthenticationReverseKeyPrimaryKey(
                     authenticationKey = authenticationKey,
                 )
-            ) ?: throw NotFoundException(
-                message = "등록되지 않은 인증 키($authenticationKey) 입니다",
-                errorCode = ErrorCode.E404_NOT_FOUND_AUTHENTICATION_KEY
-            )
+            ) ?: throw AuthenticationKeyNotFoundException(message = "등록되지 않은 인증 키($authenticationKey) 입니다")
         )
     }
 

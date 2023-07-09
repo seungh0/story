@@ -23,20 +23,20 @@ class FilterExceptionHandler : ErrorWebExceptionHandler {
 
         when (exception) {
             is StoryBaseException -> {
-                result = ApiResponse.error(error = exception.errorCode)
+                result = ApiResponse.fail(error = exception.errorCode)
                 exchange.response.statusCode = HttpStatusCode.valueOf(exception.errorCode.httpStatusCode)
                 exchange.response.rawStatusCode = exception.errorCode.httpStatusCode
             }
 
             is ResponseStatusException -> {
-                result = ApiResponse.error(error = ErrorCode.E500_INTERNAL_SERVER_ERROR)
+                result = ApiResponse.fail(error = ErrorCode.E500_INTERNAL_ERROR)
                 exception.message.let { message = it }
                 exchange.response.statusCode = HttpStatus.INTERNAL_SERVER_ERROR
                 exchange.response.rawStatusCode = HttpStatus.INTERNAL_SERVER_ERROR.value()
             }
 
             else -> {
-                result = ApiResponse.error(error = ErrorCode.E500_INTERNAL_SERVER_ERROR)
+                result = ApiResponse.fail(error = ErrorCode.E500_INTERNAL_ERROR)
                 exception.message?.let { message = it }
                 exchange.response.statusCode = HttpStatus.INTERNAL_SERVER_ERROR
                 exchange.response.rawStatusCode = HttpStatus.INTERNAL_SERVER_ERROR.value()

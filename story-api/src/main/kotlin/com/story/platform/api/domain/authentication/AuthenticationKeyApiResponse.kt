@@ -7,6 +7,7 @@ data class AuthenticationKeyApiResponse(
     val workspaceId: String,
     val apiKey: String,
     val status: AuthenticationKeyStatus,
+    val description: String,
 ) {
 
     companion object {
@@ -16,6 +17,7 @@ data class AuthenticationKeyApiResponse(
             workspaceId = authenticationKey.workspaceId,
             apiKey = authenticationKey.authenticationKey,
             status = authenticationKey.status,
+            description = authenticationKey.description,
         )
     }
 

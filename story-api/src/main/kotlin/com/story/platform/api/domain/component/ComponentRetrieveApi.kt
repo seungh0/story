@@ -5,7 +5,6 @@ import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
-import com.story.platform.core.domain.component.ComponentResponse
 import com.story.platform.core.domain.component.ComponentRetriever
 import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
@@ -26,13 +25,18 @@ class ComponentRetrieveApi(
         @PathVariable resourceId: String,
         @RequestAuthContext authContext: AuthContext,
         @Valid cursorRequest: CursorRequest,
-    ): ApiResponse<CursorResult<ComponentResponse, String>> {
+    ): ApiResponse<CursorResult<ComponentApiResponse, String>> {
         val response = componentRetriever.listComponents(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),
             cursorRequest = cursorRequest,
         )
-        return ApiResponse.success(response)
+        return ApiResponse.ok(
+            CursorResult.of(
+                data = response.data.map { component -> ComponentApiResponse.of(component) },
+                cursor = response.cursor,
+            )
+        )
     }
 
 }

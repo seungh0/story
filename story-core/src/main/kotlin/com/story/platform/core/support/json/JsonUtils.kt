@@ -36,12 +36,12 @@ object JsonUtils {
             DEFAULT_OBJECT_MAPPER.readValue(input, toClass)
         } catch (exception: Exception) {
             throw InternalServerException(
-                String.format(
+                message = String.format(
                     "역직렬화 중 에러가 발생하였습니다. input: (%s) toClass: (%s)",
                     input,
                     toClass.simpleName
                 ),
-                exception
+                cause = exception
             )
         }
     }
@@ -50,7 +50,7 @@ object JsonUtils {
         return try {
             DEFAULT_OBJECT_MAPPER.writeValueAsString(input)
         } catch (exception: Exception) {
-            throw InternalServerException(String.format("직렬화 중 에러가 발생하였습니다. input: (%s)", input), exception)
+            throw InternalServerException(message = "직렬화 중 에러가 발생하였습니다. input: ($input)", cause = exception)
         }
     }
 
@@ -67,7 +67,7 @@ object JsonUtils {
             val listValue = reader.readValue<List<T>>(jsonNode)
             listValue ?: listOf()
         } catch (exception: Exception) {
-            throw InternalServerException(String.format("List 직렬화 중 에러가 발생하였습니다. input: (%s)", jsonNode), exception)
+            throw InternalServerException(message = "List 직렬화 중 에러가 발생하였습니다. input: ($jsonNode)", cause = exception)
         }
     }
 
@@ -84,7 +84,7 @@ object JsonUtils {
             val setValue = reader.readValue<Set<T>>(jsonNode)
             setValue ?: setOf()
         } catch (exception: Exception) {
-            throw InternalServerException(String.format("Set 직렬화 중 에러가 발생하였습니다. input: (%s)", jsonNode), exception)
+            throw InternalServerException("Set 직렬화 중 에러가 발생하였습니다. input: ($jsonNode)", cause = exception)
         }
     }
 
@@ -95,7 +95,7 @@ object JsonUtils {
                 object : TypeReference<LinkedHashMap<K, V>>() {}
             )
         } catch (exception: Exception) {
-            throw InternalServerException(String.format("Map 직렬화 중 에러가 발생하였습니다. input: (%s)", json), exception)
+            throw InternalServerException("Map 직렬화 중 에러가 발생하였습니다. input: ($json)", cause = exception)
         }
     }
 
@@ -103,7 +103,7 @@ object JsonUtils {
         return try {
             DEFAULT_OBJECT_MAPPER.readTree(json)
         } catch (exception: Exception) {
-            throw InternalServerException(String.format("JsonNode 직렬화 중 에러가 발생하였습니다. input: (%s)", json), exception)
+            throw InternalServerException("JsonNode 직렬화 중 에러가 발생하였습니다. input: ($json)", cause = exception)
         }
     }
 

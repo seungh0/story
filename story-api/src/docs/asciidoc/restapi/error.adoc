@@ -1,22 +1,23 @@
 [cols="3%,10%,70%"]
 |===
 | Http status | Minor Status Code | Error Description
-| 400 | 000 | Bad Request
-| 401 | 000 | UnAuthorized Request
-| 403 | 000 | Forbidden
-| 404 | 000 | Not Found
-| 404 | 001 | Not Found Workspace
-| 404 | 002 | Not Found Authentication Key
-| 404 | 003 | Not Found Component
-| 404 | 004 | Not Found Resource
-| 404 | 005 | Not Found Post
-| 405 | 000 | Method Not Allowed
-| 409 | 000 | Conflict
-| 409 | 001 | Conflict Authentication Key
-| 409 | 003 | Conflict Component
-| 413 | 000 | Payload is too Large
-| 413 | 001 | File Size is Too Large
-| 500 | 000 | Internal Server Error
-| 501 | 000 | Not Implemented
-| 503 | 000 | Service Unavailable
+| 400 | invalid_arguments | 
+| 400 | invalid_cursor | 
+| 400 | invalid_post_id | 
+| 401 | invalid_auth | 
+| 403 | no_permission | 
+| 404 | not_exists_authentication_key | 
+| 404 | not_exists_component | 
+| 404 | not_exists_resource | 
+| 404 | not_exists_post | 
+| 404 | not_exists_connect_mapping_feed | 
+| 405 | method_not_allowed | 
+| 409 | already_exists_authentication_key | 
+| 409 | already_exists_component | 
+| 409 | already_connect_mapping_feed | 
+| 413 | payload_too_large | 
+| 413 | file_size_is | 
+| 500 | internal_error | 
+| 501 | not_supported | 
+| 503 | service_unavailable | 
 |===

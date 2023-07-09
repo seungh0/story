@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.event
 
-import com.story.platform.core.common.error.ForbiddenException
+import com.story.platform.core.common.error.NotSupportedException
 import com.story.platform.core.domain.resource.ResourceId
 
 enum class EventAction(
@@ -15,7 +15,7 @@ enum class EventAction(
 
     fun validateActionForResource(resourceId: ResourceId) {
         if (!this.resourceIds.contains(resourceId)) {
-            throw ForbiddenException("리소스($resourceId)에서 사용할 수 없는 EventAction(${this.name})입니다")
+            throw NotSupportedException("리소스($resourceId)에서 사용할 수 없는 EventAction(${this.name})입니다")
         }
     }
 

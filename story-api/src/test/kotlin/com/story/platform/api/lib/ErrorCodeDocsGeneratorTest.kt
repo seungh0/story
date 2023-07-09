@@ -28,7 +28,7 @@ internal class ErrorCodeDocsGeneratorTest : FunSpec({
             .forEach { errorCode ->
                 asciidoctorText +=
                     """
-                    | ${errorCode.httpStatusCode} | ${errorCode.minorStatusCode} | ${errorCode.errorMessage}
+                    | ${errorCode.httpStatusCode} | ${errorCode.code} | ${errorCode.description}
 
                     """.trimIndent()
             }

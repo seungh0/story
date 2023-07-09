@@ -27,7 +27,7 @@ class SubscriptionUnsubscribeApi(
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<String> {
+    ): ApiResponse<Nothing?> {
         componentHandler.validateComponent(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,

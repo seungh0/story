@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.event
 
-import com.story.platform.core.common.error.ForbiddenException
+import com.story.platform.core.common.error.NotSupportedException
 import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrowExactly
@@ -19,13 +19,13 @@ class EventActionTest : FunSpec({
             shouldNotThrowAny { eventAction.validateActionForResource(resourceId) }
         }
 
-        test("사용할 수 없는 이벤트 액션인 경우 Forbidden 예외가 발생한다") {
+        test("사용할 수 없는 이벤트 액션인 경우 NotImplemented 예외가 발생한다") {
             // given
             val resourceId = ResourceId.SUBSCRIPTIONS
             val eventAction = EventAction.UPDATED
 
             // when & then
-            shouldThrowExactly<ForbiddenException> { eventAction.validateActionForResource(resourceId) }
+            shouldThrowExactly<NotSupportedException> { eventAction.validateActionForResource(resourceId) }
         }
     }
 

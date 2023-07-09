@@ -14,6 +14,7 @@ data class AuthenticationReverseKey(
 
     val workspaceId: String,
     var status: AuthenticationKeyStatus,
+    val description: String,
 ) {
 
     companion object {
@@ -38,6 +39,7 @@ data class AuthenticationReverseKey(
             ),
             workspaceId = authenticationKey.key.workspaceId,
             status = authenticationKey.status,
+            description = authenticationKey.description,
         )
     }
 

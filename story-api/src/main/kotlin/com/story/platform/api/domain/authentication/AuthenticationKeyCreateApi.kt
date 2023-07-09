@@ -21,7 +21,7 @@ class AuthenticationKeyCreateApi(
     suspend fun create(
         @RequestAuthContext authContext: AuthContext,
         @Valid @RequestBody request: AuthenticationKeyCreateApiRequest,
-    ): ApiResponse<String> {
+    ): ApiResponse<Nothing?> {
         authenticationKeyManager.createAuthenticationKey(
             workspaceId = authContext.workspaceId,
             authenticationKey = request.apiKey,

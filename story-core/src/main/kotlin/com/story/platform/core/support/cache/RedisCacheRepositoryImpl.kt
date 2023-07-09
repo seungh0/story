@@ -1,6 +1,6 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.common.error.NotImplementedException
+import com.story.platform.core.common.error.NotSupportedException
 import com.story.platform.core.infrastructure.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 import java.time.Duration
@@ -12,7 +12,7 @@ class RedisCacheRepositoryImpl(
 
     override suspend fun getCache(cacheType: CacheType, cacheKey: String): String? {
         if (!cacheType.enableGlobalCache()) {
-            throw NotImplementedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
+            throw NotSupportedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
         }
         val redisCacheKey = RedisCacheKey.of(cacheType = cacheType, cacheKey = cacheKey)
         return stringRedisRepository.get(redisCacheKey)
@@ -20,7 +20,7 @@ class RedisCacheRepositoryImpl(
 
     override suspend fun setCache(cacheType: CacheType, cacheKey: String, value: String) {
         if (!cacheType.enableGlobalCache()) {
-            throw NotImplementedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
+            throw NotSupportedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
         }
         val redisCacheKey = RedisCacheKey.of(cacheType = cacheType, cacheKey = cacheKey)
         stringRedisRepository.setWithTtl(redisCacheKey, value, cacheType.globalCacheTtl)
@@ -28,7 +28,7 @@ class RedisCacheRepositoryImpl(
 
     override suspend fun evict(cacheType: CacheType, cacheKey: String) {
         if (!cacheType.enableGlobalCache()) {
-            throw NotImplementedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
+            throw NotSupportedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
         }
         val redisCacheKey = RedisCacheKey.of(cacheType = cacheType, cacheKey = cacheKey)
         stringRedisRepository.del(redisCacheKey)
@@ -39,7 +39,7 @@ class RedisCacheRepositoryImpl(
         cacheKey: String,
     ): Boolean {
         val totalExpiredTtl: Duration = cacheType.globalCacheTtl
-            ?: throw NotImplementedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
+            ?: throw NotSupportedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
         val currentExpiredTtl = getTtl(cacheType = cacheType, cacheKey = cacheKey)
         return CachePerUtils.isEarlyRecomputeRequired(
             currentTtl = currentExpiredTtl,
@@ -49,7 +49,7 @@ class RedisCacheRepositoryImpl(
 
     override suspend fun getTtl(cacheType: CacheType, cacheKey: String): Duration {
         if (!cacheType.enableGlobalCache()) {
-            throw NotImplementedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
+            throw NotSupportedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
         }
         val redisCacheKey = RedisCacheKey.of(cacheType = cacheType, cacheKey = cacheKey)
         return stringRedisRepository.getTtl(redisCacheKey)
@@ -57,7 +57,7 @@ class RedisCacheRepositoryImpl(
 
     override suspend fun evictAll(cacheType: CacheType) {
         if (!cacheType.enableGlobalCache()) {
-            throw NotImplementedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
+            throw NotSupportedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
         }
         val keyPrefix = RedisCacheKey.getCachePrefix(cacheType)
         val keyStrings = stringRedisRepository.scan(keyPrefix)

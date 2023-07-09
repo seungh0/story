@@ -4,12 +4,13 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.AvailabilityCheckApi
 import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.lib.isFalse
 import com.story.platform.core.common.AvailabilityChecker
-import com.story.platform.core.common.error.ConflictException
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
+import com.story.platform.core.domain.component.ComponentConflictException
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.HttpStatus
@@ -34,6 +35,7 @@ internal class ControllerExceptionAdviceTest(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
+            description = ""
         )
     }
 
@@ -49,7 +51,7 @@ internal class ControllerExceptionAdviceTest(
 
     test("지정된 에러가 발생하면, 해당 에러에 맞는 Http Status Code를 반환한다") {
         // given
-        coEvery { applicationAvailability.livenessCheck() } throws ConflictException(message = "중복이 발생하였습니다")
+        coEvery { applicationAvailability.livenessCheck() } throws ComponentConflictException(message = "이미 존재하는 컴포넌트 입니다")
 
         // when
         val exchange = webClient.get()
@@ -59,8 +61,8 @@ internal class ControllerExceptionAdviceTest(
         // then
         exchange.expectStatus().isEqualTo(HttpStatus.CONFLICT)
             .expectBody()
-            .jsonPath("$.code").isEqualTo("409000")
-            .jsonPath("$.message").isEqualTo(ErrorCode.E409_CONFLICT.errorMessage)
+            .jsonPath("$.ok").isFalse()
+            .jsonPath("$.error").isEqualTo(ErrorCode.E409_ALREADY_EXISTS_COMPONENT.code)
     }
 
     test("알 수 없는 에러가 발생하는 경우, Internal Server를 반환한다") {
@@ -77,9 +79,8 @@ internal class ControllerExceptionAdviceTest(
         // then
         exchange.expectStatus().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
             .expectBody()
-            .jsonPath("$.code").isEqualTo("500000")
-            .jsonPath("$.message")
-            .isEqualTo(ErrorCode.E500_INTERNAL_SERVER_ERROR.errorMessage)
+            .jsonPath("$.ok").isFalse()
+            .jsonPath("$.error").isEqualTo(ErrorCode.E500_INTERNAL_ERROR.code)
     }
 
 })

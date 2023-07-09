@@ -1,6 +1,6 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.common.error.NotImplementedException
+import com.story.platform.core.common.error.NotSupportedException
 import com.story.platform.core.support.spring.SpringBeanProvider
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
@@ -41,7 +41,7 @@ class CacheStrategyDelegator(
 
     private fun findCacheStrategy(cacheStrategyType: CacheStrategyType): CacheStrategy {
         return cacheStrategyEnumMap[cacheStrategyType]
-            ?: throw NotImplementedException("지원하지 않는 캐시 전략($cacheStrategyType) 입니다")
+            ?: throw NotSupportedException("지원하지 않는 캐시 전략($cacheStrategyType) 입니다")
     }
 
     suspend fun evictAll(cacheStrategyType: CacheStrategyType, cacheType: CacheType) {

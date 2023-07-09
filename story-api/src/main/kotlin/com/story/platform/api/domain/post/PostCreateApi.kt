@@ -46,7 +46,7 @@ class PostCreateApi(
             content = request.content,
             extraJson = request.extraJson,
         )
-        return ApiResponse.success(PostCreateApiResponse.of(postId = postId))
+        return ApiResponse.ok(PostCreateApiResponse.of(postId = postId))
     }
 
 }

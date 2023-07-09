@@ -3,10 +3,10 @@ package com.story.platform.api.domain.post
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.api.domain.component.ComponentHandler
-import com.story.platform.core.common.error.BadRequestException
 import com.story.platform.core.common.model.ApiResponse
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.domain.post.PostIdInvalidException
 import com.story.platform.core.domain.post.PostRetriever
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.resource.ResourceId
@@ -45,9 +45,9 @@ class PostRetrieveApi(
                 componentId = componentId,
                 spaceId = spaceId,
             ),
-            postId = postId.toLongOrNull() ?: throw BadRequestException("잘못된 PostId($postId)이 요청되었습니다"),
+            postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)이 요청되었습니다"),
         )
-        return ApiResponse.success(PostApiResponse.of(post))
+        return ApiResponse.ok(PostApiResponse.of(post))
     }
 
     /**
@@ -80,7 +80,7 @@ class PostRetrieveApi(
             cursor = posts.cursor,
         )
 
-        return ApiResponse.success(result)
+        return ApiResponse.ok(result)
     }
 
 }

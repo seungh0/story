@@ -19,7 +19,7 @@ class ResourceRetrieveApi {
                 description = resourceId.description,
             )
         }
-        return ApiResponse.success(resourceTypes)
+        return ApiResponse.ok(resourceTypes)
     }
 
 }

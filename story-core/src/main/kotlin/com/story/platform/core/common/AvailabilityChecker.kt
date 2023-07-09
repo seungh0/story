@@ -28,20 +28,23 @@ class AvailabilityChecker(
     private val cpuBoundCoroutineDispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun livenessCheck(): ResponseEntity<ApiResponse<String>> {
+    suspend fun livenessCheck(): ResponseEntity<ApiResponse<Nothing?>> {
         val isIoBoundLivenessCorrect = withContext(ioBoundCoroutineDispatcher) {
             return@withContext withTimeout(timeMillis = CoroutineConfig.DEFAULT_TIMEOUT_MS) {
                 try {
                     return@withTimeout applicationAvailability.livenessState != LivenessState.BROKEN
                 } catch (exception: TimeoutCancellationException) {
-                    throw InternalServerException("Liveness Probe 체크 중 Coroutine Timeout이 발생하였습니다", exception)
+                    throw InternalServerException(
+                        message = "Liveness Probe 체크 중 Coroutine Timeout이 발생하였습니다",
+                        cause = exception
+                    )
                 }
             }
         }
 
         if (!isIoBoundLivenessCorrect) {
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                .body(ApiResponse.error(ErrorCode.E503_SERVICE_UNAVAILABLE))
+                .body(ApiResponse.fail(ErrorCode.E503_SERVICE_UNAVAILABLE))
         }
 
         val isCpuBoundLivenessCorrect = withContext(cpuBoundCoroutineDispatcher) {
@@ -49,33 +52,39 @@ class AvailabilityChecker(
                 try {
                     return@withTimeout applicationAvailability.livenessState != LivenessState.BROKEN
                 } catch (exception: TimeoutCancellationException) {
-                    throw InternalServerException("Liveness Probe 체크 중 Coroutine Timeout이 발생하였습니다", exception)
+                    throw InternalServerException(
+                        message = "Liveness Probe 체크 중 Coroutine Timeout이 발생하였습니다",
+                        cause = exception
+                    )
                 }
             }
         }
 
         if (!isCpuBoundLivenessCorrect) {
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                .body(ApiResponse.error(ErrorCode.E503_SERVICE_UNAVAILABLE))
+                .body(ApiResponse.fail(ErrorCode.E503_SERVICE_UNAVAILABLE))
         }
 
         return ResponseEntity.ok(ApiResponse.OK)
     }
 
-    suspend fun readinessCheck(): ResponseEntity<ApiResponse<String>> {
+    suspend fun readinessCheck(): ResponseEntity<ApiResponse<Nothing?>> {
         val isIoBoundAcceptingTraffic = withContext(ioBoundCoroutineDispatcher) {
             return@withContext withTimeout(timeMillis = CoroutineConfig.DEFAULT_TIMEOUT_MS) {
                 try {
                     return@withTimeout applicationAvailability.readinessState != ReadinessState.REFUSING_TRAFFIC
                 } catch (exception: TimeoutCancellationException) {
-                    throw InternalServerException("Readiness Probe 체크 중 Coroutine Timeout이 발생하였습니다", exception)
+                    throw InternalServerException(
+                        message = "Readiness Probe 체크 중 Coroutine Timeout이 발생하였습니다",
+                        cause = exception
+                    )
                 }
             }
         }
 
         if (!isIoBoundAcceptingTraffic) {
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                .body(ApiResponse.error(ErrorCode.E503_SERVICE_UNAVAILABLE))
+                .body(ApiResponse.fail(ErrorCode.E503_SERVICE_UNAVAILABLE))
         }
 
         val isCpuBoundAcceptingTraffic = withContext(cpuBoundCoroutineDispatcher) {
@@ -83,14 +92,17 @@ class AvailabilityChecker(
                 try {
                     return@withTimeout applicationAvailability.readinessState != ReadinessState.REFUSING_TRAFFIC
                 } catch (exception: TimeoutCancellationException) {
-                    throw InternalServerException("Readiness Probe 체크 중 Coroutine Timeout이 발생하였습니다", exception)
+                    throw InternalServerException(
+                        message = "Readiness Probe 체크 중 Coroutine Timeout이 발생하였습니다",
+                        cause = exception
+                    )
                 }
             }
         }
 
         if (!isCpuBoundAcceptingTraffic) {
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                .body(ApiResponse.error(ErrorCode.E503_SERVICE_UNAVAILABLE))
+                .body(ApiResponse.fail(ErrorCode.E503_SERVICE_UNAVAILABLE))
         }
 
         return ResponseEntity.ok(ApiResponse.OK)

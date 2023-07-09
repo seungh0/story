@@ -30,7 +30,7 @@ class SubscriptionSubscribeApi(
         @PathVariable targetId: String,
         @Valid @RequestBody request: SubscriptionSubscribeApiRequest,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<String> {
+    ): ApiResponse<Nothing?> {
         componentHandler.validateComponent(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,

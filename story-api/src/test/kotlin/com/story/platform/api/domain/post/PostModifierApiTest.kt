@@ -5,7 +5,7 @@ import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.common.model.ApiResponse
+import com.story.platform.api.lib.isTrue
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.post.PostPatchHandler
@@ -34,6 +34,7 @@ class PostModifierApiTest(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
+            description = "",
         )
 
         coEvery { componentHandler.validateComponent(any(), any(), any()) } returns Unit
@@ -82,7 +83,7 @@ class PostModifierApiTest(
         // then
         exchange.expectStatus().isOk
             .expectBody()
-            .jsonPath("$.result").isEqualTo(ApiResponse.OK.result!!)
+            .jsonPath("$.ok").isTrue()
     }
 
 })

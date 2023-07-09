@@ -1,9 +1,7 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.enums.CursorDirection
-import com.story.platform.core.common.error.BadRequestException
-import com.story.platform.core.common.error.ErrorCode
-import com.story.platform.core.common.error.NotFoundException
+import com.story.platform.core.common.error.InvalidCursorException
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorRequest
 import com.story.platform.core.common.model.CursorResult
@@ -31,10 +29,7 @@ class PostRetriever(
                 spaceId = postSpaceKey.spaceId,
                 slotId = PostSlotAssigner.assign(postId),
                 postId = postId,
-            ) ?: throw NotFoundException(
-                message = "해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다",
-                errorCode = ErrorCode.E404_NOT_FOUND_POST,
-            )
+            ) ?: throw PostNotFoundException(message = "해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
         )
     }
 
@@ -126,7 +121,7 @@ class PostRetriever(
 
         val currentSlot = PostSlotAssigner.assign(
             postId = cursorRequest.cursor.toLongOrNull()
-                ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다")
+                ?: throw InvalidCursorException("잘못된 Cursor(${cursorRequest.cursor})입니다")
         )
         return currentSlot to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdLessThan(
             workspaceId = postSpaceKey.workspaceId,
@@ -135,7 +130,7 @@ class PostRetriever(
             slotId = currentSlot,
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
             postId = cursorRequest.cursor.toLongOrNull()
-                ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
+                ?: throw InvalidCursorException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
         ).toList()
     }
 
@@ -155,7 +150,7 @@ class PostRetriever(
         }
         val currentSlot = PostSlotAssigner.assign(
             postId = cursorRequest.cursor.toLongOrNull()
-                ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
+                ?: throw InvalidCursorException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
         )
         return currentSlot to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
             workspaceId = postSpaceKey.workspaceId,
@@ -163,7 +158,7 @@ class PostRetriever(
             spaceId = postSpaceKey.spaceId,
             slotId = currentSlot,
             postId = cursorRequest.cursor.toLongOrNull()
-                ?: throw BadRequestException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
+                ?: throw InvalidCursorException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
         ).toList()
     }

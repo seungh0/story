@@ -2,8 +2,8 @@ package com.story.platform.api.domain.authentication
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.core.common.enums.HttpHeaderType
-import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.common.error.UnAuthorizedException
+import com.story.platform.core.domain.authentication.AuthenticationKeyNotFoundException
 import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
@@ -30,6 +30,7 @@ class AuthenticationHandlerTest(
                 workspaceId = "twitter",
                 authenticationKey = apiKey,
                 status = AuthenticationKeyStatus.ENABLED,
+                description = "",
             )
 
             // when
@@ -53,6 +54,7 @@ class AuthenticationHandlerTest(
                 workspaceId = "twitter",
                 authenticationKey = apiKey,
                 status = AuthenticationKeyStatus.DISABLED,
+                description = "",
             )
 
             // when & then
@@ -69,7 +71,9 @@ class AuthenticationHandlerTest(
         test("등록되지 않은 API-Key 인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } throws NotFoundException("등록되지 않은 인증 키 입니다")
+            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } throws AuthenticationKeyNotFoundException(
+                "등록되지 않은 인증 키 입니다"
+            )
 
             // when & then
             shouldThrowExactly<UnAuthorizedException> {

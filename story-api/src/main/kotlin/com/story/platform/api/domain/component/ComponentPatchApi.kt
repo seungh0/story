@@ -25,7 +25,7 @@ class ComponentPatchApi(
         @PathVariable componentId: String,
         @RequestAuthContext authContext: AuthContext,
         @Valid @RequestBody request: ComponentPatchApiRequest,
-    ): ApiResponse<String> {
+    ): ApiResponse<Nothing?> {
         componentManager.patchComponent(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),

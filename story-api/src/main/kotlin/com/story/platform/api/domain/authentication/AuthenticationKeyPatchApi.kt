@@ -21,7 +21,7 @@ class AuthenticationKeyPatchApi(
     suspend fun patch(
         @RequestAuthContext authContext: AuthContext,
         @Valid @RequestBody request: AuthenticationKeyPatchApiRequest,
-    ): ApiResponse<String> {
+    ): ApiResponse<Nothing?> {
         authenticationKeyManager.patchAuthenticationKey(
             workspaceId = authContext.workspaceId,
             authenticationKey = request.apiKey,

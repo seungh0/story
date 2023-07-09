@@ -19,7 +19,7 @@ class AuthenticationKeyRetrieveApi(
         @PathVariable authenticationKey: String,
     ): ApiResponse<AuthenticationKeyApiResponse> {
         val response = authenticationKeyManager.getAuthenticationKey(authenticationKey = authenticationKey)
-        return ApiResponse.success(AuthenticationKeyApiResponse.of(response))
+        return ApiResponse.ok(AuthenticationKeyApiResponse.of(response))
     }
 
 }

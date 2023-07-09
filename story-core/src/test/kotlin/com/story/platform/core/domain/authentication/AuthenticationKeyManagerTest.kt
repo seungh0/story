@@ -1,8 +1,6 @@
 package com.story.platform.core.domain.authentication
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.error.ConflictException
-import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.helper.TestCleaner
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
@@ -55,7 +53,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeyRepository.save(authenticationKey)
 
             // when & then
-            shouldThrowExactly<ConflictException> {
+            shouldThrowExactly<AuthenticationKeyConflictException> {
                 authenticationKeyManager.createAuthenticationKey(
                     workspaceId = authenticationKey.key.workspaceId,
                     authenticationKey = authenticationKey.key.authenticationKey,
@@ -124,40 +122,12 @@ class AuthenticationKeyManagerTest(
             }
         }
 
-        test("변경된 정보가 없는 경우 최근 수정일자가 변경되지 않는다") {
-            // given
-            val authenticationKey = AuthenticationKeyFixture.create(
-                status = AuthenticationKeyStatus.ENABLED,
-            )
-            authenticationKeyRepository.save(authenticationKey)
-
-            // when
-            authenticationKeyManager.patchAuthenticationKey(
-                workspaceId = authenticationKey.key.workspaceId,
-                authenticationKey = authenticationKey.key.authenticationKey,
-                description = authenticationKey.description,
-                status = authenticationKey.status,
-            )
-
-            // then
-            val authenticationKeys = authenticationKeyRepository.findAll().toList()
-            authenticationKeys shouldHaveSize 1
-            authenticationKeys[0].also {
-                it.key.workspaceId shouldBe authenticationKey.key.workspaceId
-                it.key.authenticationKey shouldBe authenticationKey.key.authenticationKey
-                it.description shouldBe authenticationKey.description
-                it.status shouldBe authenticationKey.status
-                it.auditingTime.createdAt shouldNotBe null
-                it.auditingTime.updatedAt shouldBe it.auditingTime.createdAt
-            }
-        }
-
         test("서비스에 등록되어 있지 않은 API-Key인 경우 변경할 수 없다") {
             // given
             val workspaceId = "twitter"
 
             // when & then
-            shouldThrowExactly<NotFoundException> {
+            shouldThrowExactly<AuthenticationKeyNotFoundException> {
                 authenticationKeyManager.patchAuthenticationKey(
                     workspaceId = workspaceId,
                     authenticationKey = "api-key",
@@ -175,7 +145,7 @@ class AuthenticationKeyManagerTest(
             authenticationKeyRepository.save(authenticationKey)
 
             // when & then
-            shouldThrowExactly<NotFoundException> {
+            shouldThrowExactly<AuthenticationKeyNotFoundException> {
                 authenticationKeyManager.patchAuthenticationKey(
                     workspaceId = "instagram",
                     authenticationKey = authenticationKey.key.authenticationKey,

@@ -1,8 +1,5 @@
 package com.story.platform.core.domain.resource
 
-import com.story.platform.core.common.error.ErrorCode
-import com.story.platform.core.common.error.NotFoundException
-
 /**
  * 매퍼 추가
  */
@@ -24,10 +21,7 @@ enum class ResourceId(
 
         fun findByCode(code: String): ResourceId {
             return cachedResourceIdMap[code.lowercase()]
-                ?: throw NotFoundException(
-                    message = "해당하는 리소스($code)는 존재하지 않습니다",
-                    errorCode = ErrorCode.E404_NOT_FOUND_RESOURCE,
-                )
+                ?: throw ResourceNotFoundException(message = "해당하는 리소스($code)는 존재하지 않습니다")
         }
     }
 

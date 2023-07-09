@@ -45,7 +45,7 @@ class SubscriptionRetrieveApi(
             targetId = targetId,
             subscriberId = subscriberId,
         )
-        return ApiResponse.success(
+        return ApiResponse.ok(
             result = SubscriptionCheckApiResponse(isSubscriber = isSubscriber)
         )
     }
@@ -70,7 +70,7 @@ class SubscriptionRetrieveApi(
             componentId = componentId,
             targetId = targetId,
         )
-        return ApiResponse.success(
+        return ApiResponse.ok(
             result = SubscribersCountApiResponse(subscribersCount = subscribersCount)
         )
     }
@@ -95,7 +95,7 @@ class SubscriptionRetrieveApi(
             componentId = componentId,
             subscriberId = subscriberId,
         )
-        return ApiResponse.success(
+        return ApiResponse.ok(
             result = SubscriptionsCountApiResponse(subscriptionsCount = subscribersCount)
         )
     }
@@ -122,7 +122,7 @@ class SubscriptionRetrieveApi(
             targetId = targetId,
             cursorRequest = cursorRequest,
         )
-        return ApiResponse.success(
+        return ApiResponse.ok(
             result = CursorResult.of(
                 data = subscriptionReverses.data.map { subscriptionReverse ->
                     SubscriberApiResponse.of(subscriptionReverse)
@@ -154,7 +154,7 @@ class SubscriptionRetrieveApi(
             subscriberId = subscriberId,
             cursorRequest = cursorRequest,
         )
-        return ApiResponse.success(
+        return ApiResponse.ok(
             result = CursorResult.of(
                 data = subscriptions.data.map { subscription ->
                     SubscriptionTargetApiResponse.of(subscription)

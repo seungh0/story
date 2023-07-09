@@ -28,7 +28,7 @@ class ControllerExceptionAdvice {
             .mapNotNull { fieldError -> fieldError.defaultMessage?.plus(" [${fieldError.field}]") }
             .joinToString(separator = "\n")
         log.warn(exception) { errorMessage }
-        return ApiResponse.error(ErrorCode.E400_BAD_REQUEST, errorMessage)
+        return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, errorMessage)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -38,21 +38,21 @@ class ControllerExceptionAdvice {
             .map { fieldError: FieldError -> fieldError.field + " " + fieldError.defaultMessage }
             .collect(Collectors.joining("\n"))
         log.error("WebExchangeBindException: {}", errorMessage)
-        return ApiResponse.error(ErrorCode.E400_BAD_REQUEST, errorMessage)
+        return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, errorMessage)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServerWebInputException::class)
     private fun handleServerWebInputException(exception: ServerWebInputException): ApiResponse<Nothing> {
         log.warn(exception) { exception.message }
-        return ApiResponse.error(ErrorCode.E400_BAD_REQUEST)
+        return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS)
     }
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(MethodNotAllowedException::class)
     private fun handleMethodNotAllowedException(exception: MethodNotAllowedException): ApiResponse<Nothing> {
         log.warn(exception) { exception.message }
-        return ApiResponse.error(ErrorCode.E405_METHOD_NOT_ALLOWED)
+        return ApiResponse.fail(ErrorCode.E405_METHOD_NOT_ALLOWED)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -61,26 +61,26 @@ class ControllerExceptionAdvice {
         log.warn(exception) { exception.message }
         if (exception.rootCause is MissingKotlinParameterException) {
             val parameterName = (exception.rootCause as MissingKotlinParameterException).parameter.name
-            return ApiResponse.error(
-                ErrorCode.E400_BAD_REQUEST,
+            return ApiResponse.fail(
+                ErrorCode.E400_INVALID_ARGUMENTS,
                 "Parameter ($parameterName) is Missing"
             )
         }
-        return ApiResponse.error(ErrorCode.E400_BAD_REQUEST)
+        return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS)
     }
 
     @ExceptionHandler(StoryBaseException::class)
     private fun handleBaseException(exception: StoryBaseException): ResponseEntity<ApiResponse<Nothing>> {
         log.error(exception) { exception.message }
         return ResponseEntity.status(exception.errorCode.httpStatusCode)
-            .body(ApiResponse.error(error = exception.errorCode))
+            .body(ApiResponse.fail(error = exception.errorCode))
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable::class)
     private fun handleException(exception: Exception): ApiResponse<Nothing> {
         log.error(exception) { exception.message }
-        return ApiResponse.error(ErrorCode.E500_INTERNAL_SERVER_ERROR)
+        return ApiResponse.fail(ErrorCode.E500_INTERNAL_ERROR)
     }
 
 }

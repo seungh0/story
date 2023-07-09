@@ -1,8 +1,7 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.error.ForbiddenException
-import com.story.platform.core.common.error.NotFoundException
+import com.story.platform.core.common.error.NoPermissionException
 import com.story.platform.core.helper.TestCleaner
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
@@ -91,7 +90,7 @@ internal class PostModifierTest(
             val extraJson = null
 
             // when & then
-            shouldThrowExactly<NotFoundException> {
+            shouldThrowExactly<PostNotFoundException> {
                 postModifier.patch(
                     postSpaceKey = PostSpaceKey(
                         workspaceId = "twitter",
@@ -120,7 +119,7 @@ internal class PostModifierTest(
             postReverseRepository.save(postRev)
 
             // when & then
-            shouldThrowExactly<ForbiddenException> {
+            shouldThrowExactly<NoPermissionException> {
                 postModifier.patch(
                     postSpaceKey = PostSpaceKey(
                         workspaceId = post.key.workspaceId,

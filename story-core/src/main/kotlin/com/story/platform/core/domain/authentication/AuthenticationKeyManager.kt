@@ -1,8 +1,5 @@
 package com.story.platform.core.domain.authentication
 
-import com.story.platform.core.common.error.ConflictException
-import com.story.platform.core.common.error.ErrorCode
-import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.support.cache.CacheEvict
 import com.story.platform.core.support.cache.CacheType
@@ -21,10 +18,7 @@ class AuthenticationKeyManager(
         description: String,
     ) {
         if (isAlreadyRegisterKey(workspaceId = workspaceId, authenticationKey = authenticationKey)) {
-            throw ConflictException(
-                message = "워크스페이스($workspaceId)에 이미 등록된 인증 키($authenticationKey)입니다",
-                errorCode = ErrorCode.E409_CONFLICT_AUTHENTICATION_KEY,
-            )
+            throw AuthenticationKeyConflictException(message = "워크스페이스($workspaceId)에 이미 등록된 인증 키($authenticationKey)입니다")
         }
 
         val authenticationKey = AuthenticationKey.of(
@@ -81,10 +75,8 @@ class AuthenticationKeyManager(
                 workspaceId = workspaceId,
                 authenticationKey = authenticationKey,
             )
-        ) ?: throw NotFoundException(
-            message = "워크스페이스($workspaceId)에 등록되지 않은 인증 키($authenticationKey) 입니다",
-            errorCode = ErrorCode.E404_NOT_FOUND_AUTHENTICATION_KEY,
         )
+            ?: throw AuthenticationKeyNotFoundException(message = "워크스페이스($workspaceId)에 등록되지 않은 인증 키($authenticationKey) 입니다")
     }
 
 }

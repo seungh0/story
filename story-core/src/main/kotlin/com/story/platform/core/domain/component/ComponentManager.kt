@@ -1,8 +1,5 @@
 package com.story.platform.core.domain.component
 
-import com.story.platform.core.common.error.ConflictException
-import com.story.platform.core.common.error.ErrorCode
-import com.story.platform.core.common.error.NotFoundException
 import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.stereotype.Service
 
@@ -16,7 +13,7 @@ class ComponentManager(
         resourceId: ResourceId,
         componentId: String,
         description: String,
-    ) {
+    ): ComponentResponse {
         val exists = componentRepository.existsById(
             ComponentPrimaryKey(
                 workspaceId = workspaceId,
@@ -26,10 +23,7 @@ class ComponentManager(
         )
 
         if (exists) {
-            throw ConflictException(
-                message = "워크스페이스($workspaceId)에 이미 등록된 리소스($resourceId) 컴포넌트($componentId)입니다.",
-                errorCode = ErrorCode.E404_NOT_FOUND_COMPONENT,
-            )
+            throw ComponentConflictException(message = "워크스페이스($workspaceId)에 이미 등록된 리소스($resourceId) 컴포넌트($componentId)입니다.")
         }
 
         val component = Component.of(
@@ -40,6 +34,8 @@ class ComponentManager(
             status = ComponentStatus.ENABLED
         )
         componentRepository.save(component)
+
+        return ComponentResponse.of(component)
     }
 
     suspend fun patchComponent(
@@ -48,21 +44,21 @@ class ComponentManager(
         componentId: String,
         description: String?,
         status: ComponentStatus?,
-    ) {
-        val workspaceComponent = componentRepository.findById(
+    ): ComponentResponse {
+        val component = componentRepository.findById(
             ComponentPrimaryKey(
                 workspaceId = workspaceId,
                 resourceId = resourceId,
                 componentId = componentId,
             )
-        ) ?: throw NotFoundException(
-            message = "워크스페이스($workspaceId)에 등록되지 않은 리소스($resourceId) 컴포넌트($componentId)입니다.",
-            errorCode = ErrorCode.E404_NOT_FOUND_COMPONENT,
         )
+            ?: throw ComponentNotFoundException(message = "워크스페이스($workspaceId)에 등록되지 않은 리소스($resourceId) 컴포넌트($componentId)입니다.")
 
-        workspaceComponent.patch(description = description, status = status)
+        component.patch(description = description, status = status)
 
-        componentRepository.save(workspaceComponent)
+        componentRepository.save(component)
+
+        return ComponentResponse.of(component)
     }
 
 }

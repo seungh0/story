@@ -12,9 +12,9 @@ class AvailabilityCheckApi(
 ) {
 
     @GetMapping("/health/liveness")
-    suspend fun livenessCheck(): ResponseEntity<ApiResponse<String>> = availabilityChecker.livenessCheck()
+    suspend fun livenessCheck(): ResponseEntity<ApiResponse<Nothing?>> = availabilityChecker.livenessCheck()
 
     @GetMapping("/health/readiness")
-    suspend fun readinessCheck(): ResponseEntity<ApiResponse<String>> = availabilityChecker.readinessCheck()
+    suspend fun readinessCheck(): ResponseEntity<ApiResponse<Nothing?>> = availabilityChecker.readinessCheck()
 
 }

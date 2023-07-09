@@ -33,6 +33,7 @@ class PostRegisterApiTest(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
+            description = "",
         )
 
         coEvery { componentHandler.validateComponent(any(), any(), any()) } returns Unit
