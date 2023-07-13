@@ -10,7 +10,7 @@ val kotestSpringExtensionVersion: String by project.extra
 
 plugins {
     id("org.springframework.boot") version "3.1.1"
-    id("io.spring.dependency-management") version "1.1.0"
+    id("io.spring.dependency-management") version "1.1.1"
     id("application")
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.9.0"
