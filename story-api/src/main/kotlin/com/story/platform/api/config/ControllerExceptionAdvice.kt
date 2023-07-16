@@ -1,6 +1,6 @@
 package com.story.platform.api.config
 
-import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
 import com.story.platform.core.common.logger.LoggerExtension.log
@@ -58,13 +58,13 @@ class ControllerExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException::class)
     private fun handleHttpMessageNotReadableException(exception: HttpMessageNotReadableException): ApiResponse<Nothing> {
-        log.warn(exception) { exception.message }
-        if (exception.rootCause is MissingKotlinParameterException) {
-            val parameterName = (exception.rootCause as MissingKotlinParameterException).parameter.name
-            return ApiResponse.fail(
-                ErrorCode.E400_INVALID_ARGUMENTS,
-                "Parameter ($parameterName) is Missing"
-            )
+        log.warn(exception.message)
+        if (exception.rootCause is MismatchedInputException) {
+            val parameterName = (exception.rootCause as MismatchedInputException).path.joinToString(separator = ",") { path -> path.fieldName }
+            if (parameterName.isBlank()) {
+                return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS)
+            }
+            return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, "필수 파라미터 ($parameterName)을 입력해주세요")
         }
         return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS)
     }

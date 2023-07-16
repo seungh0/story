@@ -15,6 +15,7 @@ suspend fun ProceedingJoinPoint.proceedCoroutine(
         this.proceed(args + continuation)
     }
 
+@Suppress("unchecked_cast")
 fun ProceedingJoinPoint.runCoroutine(
     runner: suspend () -> Any?,
 ): Any? =

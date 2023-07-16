@@ -33,21 +33,19 @@ class FeedEventConsumer(
     fun handlePostEvent(
         @Payload record: ConsumerRecord<String, String>,
         @Headers headers: Map<String, Any>,
-    ) {
-        runBlocking {
-            val event: EventRecord<*> = JsonUtils.toObject(record.value(), EventRecord::class.java)
-                ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
+    ) = runBlocking {
+        val event = JsonUtils.toObject(record.value(), EventRecord::class.java)
+            ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
-            val payload = JsonUtils.toObject(event.payload.toJson(), PostEvent::class.java)
-                ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
+        val payload = JsonUtils.toObject(event.payload.toJson(), PostEvent::class.java)
+            ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
-            withContext(dispatcher) {
-                subscriberDistributor.distribute(
-                    workspaceId = payload.workspaceId,
-                    componentId = payload.componentId,
-                    targetId = payload.spaceId,
-                )
-            }
+        withContext(dispatcher) {
+            subscriberDistributor.distribute(
+                workspaceId = payload.workspaceId,
+                componentId = payload.componentId,
+                targetId = payload.spaceId,
+            )
         }
     }
 
@@ -59,21 +57,19 @@ class FeedEventConsumer(
     fun handleSubscriptionEvent(
         @Payload record: ConsumerRecord<String, String>,
         @Headers headers: Map<String, Any>,
-    ) {
-        runBlocking {
-            val event: EventRecord<*> = JsonUtils.toObject(record.value(), EventRecord::class.java)
-                ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
+    ) = runBlocking {
+        val event = JsonUtils.toObject(record.value(), EventRecord::class.java)
+            ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
-            val payload = JsonUtils.toObject(event.payload.toJson(), SubscriptionEvent::class.java)
-                ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
+        val payload = JsonUtils.toObject(event.payload.toJson(), SubscriptionEvent::class.java)
+            ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
-            withContext(dispatcher) {
-                subscriberDistributor.distribute(
-                    workspaceId = payload.workspaceId,
-                    componentId = payload.componentId,
-                    targetId = payload.subscriberId,
-                )
-            }
+        withContext(dispatcher) {
+            subscriberDistributor.distribute(
+                workspaceId = payload.workspaceId,
+                componentId = payload.componentId,
+                targetId = payload.subscriberId,
+            )
         }
     }
 
