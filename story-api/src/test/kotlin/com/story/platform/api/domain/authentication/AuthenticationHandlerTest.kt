@@ -39,7 +39,7 @@ class AuthenticationHandlerTest(
             val sut = authenticationHandler.handleAuthentication(
                 serverWebExchange = MockServerWebExchange.from(
                     MockServerHttpRequest.get("/test")
-                        .header(HttpHeaderType.X_STORY_AUTHENTICATION_KEY.header, apiKey)
+                        .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
                 )
             )
 
@@ -64,7 +64,7 @@ class AuthenticationHandlerTest(
                 authenticationHandler.handleAuthentication(
                     serverWebExchange = MockServerWebExchange.from(
                         MockServerHttpRequest.get("/test")
-                            .header(HttpHeaderType.X_STORY_AUTHENTICATION_KEY.header, apiKey)
+                            .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
                     )
                 )
             }
@@ -82,7 +82,7 @@ class AuthenticationHandlerTest(
                 authenticationHandler.handleAuthentication(
                     serverWebExchange = MockServerWebExchange.from(
                         MockServerHttpRequest.get("/test")
-                            .header(HttpHeaderType.X_STORY_AUTHENTICATION_KEY.header, apiKey)
+                            .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
                     )
                 )
             }

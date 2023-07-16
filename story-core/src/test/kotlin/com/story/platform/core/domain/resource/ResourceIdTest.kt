@@ -1,7 +1,5 @@
-package com.story.platform.core.domain.component
+package com.story.platform.core.domain.resource
 
-import com.story.platform.core.domain.resource.ResourceId
-import com.story.platform.core.domain.resource.ResourceNotExistsException
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe

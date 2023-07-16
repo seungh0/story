@@ -29,7 +29,7 @@ internal class AuthWhiteListCheckerTest : FunSpec({
         }
     }
 
-    test("BenchMarker") {
+    test("BenchMark") {
         forAll(
             table(
                 headers("uri"),

@@ -35,7 +35,7 @@ class ControllerExceptionAdvice {
     @ExceptionHandler(WebExchangeBindException::class)
     private fun handleWebExchangeBindException(exception: WebExchangeBindException): ApiResponse<Nothing> {
         val errorMessage = exception.bindingResult.fieldErrors.stream()
-            .map { fieldError: FieldError -> fieldError.field + " " + fieldError.defaultMessage }
+            .map { fieldError: FieldError -> "${fieldError.field}: ${fieldError.defaultMessage}" }
             .collect(Collectors.joining("\n"))
         log.error("WebExchangeBindException: {}", errorMessage)
         return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, errorMessage)

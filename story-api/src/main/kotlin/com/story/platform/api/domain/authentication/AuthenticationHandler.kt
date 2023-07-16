@@ -18,7 +18,7 @@ class AuthenticationHandler(
 
     suspend fun handleAuthentication(serverWebExchange: ServerWebExchange): AuthenticationResponse {
         val apiKey = serverWebExchange.getApiKey()
-            ?: throw AuthenticationKeyEmptyException("인증 헤더(${HttpHeaderType.X_STORY_AUTHENTICATION_KEY.header})가 비어있습니다")
+            ?: throw AuthenticationKeyEmptyException("API Key 헤더(${HttpHeaderType.X_STORY_API_KEY.header})가 비어있습니다")
 
         try {
             val authentication = authenticationKeyRetriever.getAuthenticationKey(authenticationKey = apiKey)
@@ -27,7 +27,7 @@ class AuthenticationHandler(
             }
             return authentication
         } catch (exception: AuthenticationKeyNotExistsException) {
-            throw AuthenticationKeyInvalidException("등록되지 않은 인증키($apiKey)입니다")
+            throw AuthenticationKeyInvalidException("등록되지 않은 ApiKey($apiKey)입니다")
         }
     }
 
