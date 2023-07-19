@@ -2,12 +2,11 @@ version: "3.9"
 
 services:
   cassandra:
-    image: cassandra:4
+    image: cassandra:4.1
     ports:
       - "9042:9042"
-    restart: always
     tmpfs:
-      - /var/lib/cassandra/data
+      - /var/lib/cassandra
 
   redis:
     image: redis:6.0
