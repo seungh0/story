@@ -15,10 +15,9 @@ spring.config:
 spring:
   cassandra:
     keyspace-name: story_platform_local
-    contact-points: localhost
-    local-datacenter: datacenter1
+    contact-points: localhost:9042
+    local-datacenter: dc1
     schema-action: create_if_not_exists
-    port: 9042
 
 logging:
   level:
@@ -49,8 +48,7 @@ spring.config:
 spring:
   cassandra:
     keyspace-name: story_platform_test
-    contact-points: localhost
-    port: 9042
+    contact-points: localhost:9042
     local-datacenter: datacenter1
 
 logging:

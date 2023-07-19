@@ -1,12 +1,13 @@
 version: "3.9"
 
 services:
-  cassandra:
-    container_name: story-platform-cassandra
+  cassandra-1:
+    container_name: story-platform-cassandra-1
     image: cassandra:4.1
     ports:
       - "9042:9042"
     environment:
+      - "CASSANDRA_SEEDS=cassandra-1"
       - "CASSANDRA_CLUSTER_NAME=cluster"
       - "CASSANDRA_NUM_TOKENS=16"
       - "CASSANDRA_DC=dc1"
@@ -16,7 +17,42 @@ services:
       - "HEAP_NEWSIZE=256M"
     restart: on-failure
     volumes:
-      - cassandra_data:/var/lib/cassandra
+      - cassandra_data-1:/var/lib/cassandra
+
+  cassandra-2:
+    container_name: story-platform-cassandra-2
+    image: cassandra:4.1
+    ports:
+      - "9043:9042"
+    environment:
+      - "CASSANDRA_SEEDS=cassandra-1"
+      - "CASSANDRA_CLUSTER_NAME=cluster"
+      - "CASSANDRA_NUM_TOKENS=16"
+      - "CASSANDRA_DC=dc1"
+      - "CASSANDRA_RACK=rack2"
+      - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
+      - "MAX_HEAP_SIZE=512M"
+      - "HEAP_NEWSIZE=256M"
+    restart: on-failure
+    volumes:
+      - cassandra_data-2:/var/lib/cassandra
+  cassandra-3:
+    container_name: story-platform-cassandra-3
+    image: cassandra:4.1
+    ports:
+      - "9044:9042"
+    environment:
+      - "CASSANDRA_SEEDS=cassandra-1,cassandra-2"
+      - "CASSANDRA_CLUSTER_NAME=cluster"
+      - "CASSANDRA_NUM_TOKENS=16"
+      - "CASSANDRA_DC=dc1"
+      - "CASSANDRA_RACK=rack3"
+      - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
+      - "MAX_HEAP_SIZE=512M"
+      - "HEAP_NEWSIZE=256M"
+    restart: on-failure
+    volumes:
+      - cassandra_data-3:/var/lib/cassandra-3
 
   redis-1:
     container_name: story-platform-redis
@@ -37,9 +73,9 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
+    restart: on-failure
     ports:
       - "22181:2181"
-    restart: on-failure
     volumes:
       - zookeeper_data:/var/lib/zookeeper/data
       - zookeeper_log:/var/lib/zookeeper/log
@@ -67,6 +103,7 @@ services:
   kafka-manager:
     container_name: kafka-manager
     image: hlebalbau/kafka-manager:stable
+    restart: on-failure
     depends_on:
       - kafka
       - zookeeper
@@ -74,12 +111,15 @@ services:
       ZK_HOSTS: zookeeper:2181
       APPLICATION_SECRET: "random-secret"
       KM_ARGS: -Djava.net.preferIPv4Stack=true
-    restart: on-failure
     ports:
       - "9000:9000"
 
 volumes:
-  cassandra_data:
+  cassandra_data-1:
+    driver: local
+  cassandra_data-2:
+    driver: local
+  cassandra_data-3:
     driver: local
   redis_data:
     driver: local
