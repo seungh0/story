@@ -34,11 +34,11 @@ data class EventHistory(
             return EventHistory(
                 key = EventHistoryPrimaryKey(
                     workspaceId = workspaceId,
-                    componentId = componentId,
-                    resourceId = eventRecord.resourceId,
-                    eventAction = eventRecord.eventAction,
                     slotId = slotId,
                     eventId = eventRecord.eventId,
+                    resourceId = eventRecord.resourceId,
+                    componentId = componentId,
+                    eventAction = eventRecord.eventAction,
                 ),
                 publishStatus = EventPublishStatus.SUCCESS,
                 payloadJson = eventRecord.payload.toJson(),
@@ -55,11 +55,11 @@ data class EventHistory(
             return EventHistory(
                 key = EventHistoryPrimaryKey(
                     workspaceId = workspaceId,
-                    componentId = componentId,
-                    resourceId = eventRecord.resourceId,
-                    eventAction = eventRecord.eventAction,
                     slotId = slotId,
                     eventId = eventRecord.eventId,
+                    resourceId = eventRecord.resourceId,
+                    componentId = componentId,
+                    eventAction = eventRecord.eventAction,
                 ),
                 publishStatus = EventPublishStatus.SUCCESS,
                 payloadJson = eventRecord.payload.toJson(),
@@ -76,17 +76,17 @@ data class EventHistoryPrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
-    val resourceId: ResourceId,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val componentId: String,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
-    val eventAction: EventAction,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 5)
     val slotId: Long,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 3)
     val eventId: Long,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
+    val resourceId: ResourceId,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
+    val componentId: String,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
+    val eventAction: EventAction,
 )
