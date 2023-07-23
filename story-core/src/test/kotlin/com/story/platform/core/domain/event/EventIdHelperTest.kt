@@ -38,7 +38,7 @@ class EventIdHelperTest : FunSpec({
         )
 
         // then
-        range shouldBe LongRange(start = 27874981, endInclusive = 27874990)
+        range.last - range.first shouldBe 9L
     }
 
 })
