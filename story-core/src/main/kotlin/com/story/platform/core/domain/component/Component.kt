@@ -50,7 +50,7 @@ data class Component(
             ),
             status = status,
             description = description,
-            auditingTime = AuditingTime.newEntity(),
+            auditingTime = AuditingTime.created(),
         )
     }
 

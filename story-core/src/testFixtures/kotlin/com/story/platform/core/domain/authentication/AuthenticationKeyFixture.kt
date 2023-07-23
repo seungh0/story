@@ -18,7 +18,7 @@ object AuthenticationKeyFixture {
         ),
         description = description,
         status = status,
-        auditingTime = AuditingTime.newEntity(),
+        auditingTime = AuditingTime.created(),
     )
 
 }

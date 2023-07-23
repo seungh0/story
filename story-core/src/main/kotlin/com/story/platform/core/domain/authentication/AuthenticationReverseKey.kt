@@ -30,7 +30,7 @@ data class AuthenticationReverseKey(
             ),
             description = description,
             status = status,
-            auditingTime = AuditingTime.newEntity(),
+            auditingTime = AuditingTime.created(),
         )
 
         fun from(authenticationKey: AuthenticationKey) = AuthenticationReverseKey(

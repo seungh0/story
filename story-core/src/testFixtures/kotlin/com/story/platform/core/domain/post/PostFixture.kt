@@ -27,7 +27,7 @@ object PostFixture {
         title = title,
         content = content,
         extraJson = extraJson,
-        auditingTime = AuditingTime.newEntity(),
+        auditingTime = AuditingTime.created(),
     )
 
 }

@@ -53,7 +53,7 @@ data class FeedMappingConfiguration(
                 subscriptionComponentId = subscriptionComponentId,
             ),
             description = description,
-            auditingTime = AuditingTime.newEntity(),
+            auditingTime = AuditingTime.created(),
             status = status,
         )
     }

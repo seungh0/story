@@ -12,7 +12,7 @@ data class AuditingTime(
     )
 
     companion object {
-        fun newEntity(): AuditingTime {
+        fun created(): AuditingTime {
             val now = LocalDateTime.now()
             return AuditingTime(
                 createdAt = now,

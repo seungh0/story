@@ -71,7 +71,7 @@ data class Post(
             title = title,
             content = content,
             extraJson = extraJson,
-            auditingTime = AuditingTime.newEntity(),
+            auditingTime = AuditingTime.created(),
         )
     }
 
