@@ -8,8 +8,6 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 /**
  * TTL: 30일
@@ -31,41 +29,43 @@ data class EventHistory(
             workspaceId: String,
             componentId: String,
             eventRecord: EventRecord<T>,
-        ) =
-            EventHistory(
+        ): EventHistory {
+            val slotId = EventIdHelper.getSlot(snowflake = eventRecord.eventId)
+            return EventHistory(
                 key = EventHistoryPrimaryKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     resourceId = eventRecord.resourceId,
                     eventAction = eventRecord.eventAction,
-                    eventDate = eventRecord.timestamp.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'hh:mm")),
-                    timestamp = eventRecord.timestamp,
+                    slotId = slotId,
                     eventId = eventRecord.eventId,
                 ),
                 publishStatus = EventPublishStatus.SUCCESS,
                 payloadJson = eventRecord.payload.toJson(),
             )
+        }
 
         fun <T> failed(
             workspaceId: String,
             componentId: String,
             eventRecord: EventRecord<T>,
             exception: Exception,
-        ) =
-            EventHistory(
+        ): EventHistory {
+            val slotId = EventIdHelper.getSlot(snowflake = eventRecord.eventId)
+            return EventHistory(
                 key = EventHistoryPrimaryKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     resourceId = eventRecord.resourceId,
                     eventAction = eventRecord.eventAction,
-                    eventDate = eventRecord.timestamp.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'hh:mm")),
-                    timestamp = eventRecord.timestamp,
+                    slotId = slotId,
                     eventId = eventRecord.eventId,
                 ),
-                publishStatus = EventPublishStatus.FAILED,
+                publishStatus = EventPublishStatus.SUCCESS,
                 payloadJson = eventRecord.payload.toJson(),
                 failureReason = exception.message ?: "${exception.javaClass.name} 에러가 발생하였습니다",
             )
+        }
     }
 
 }
@@ -85,11 +85,8 @@ data class EventHistoryPrimaryKey(
     val eventAction: EventAction,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 5)
-    val eventDate: String, // yyyyMMddTHH:mm -> 1분 단위?
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
-    val timestamp: LocalDateTime,
+    val slotId: Long,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
-    val eventId: String,
+    val eventId: Long,
 )

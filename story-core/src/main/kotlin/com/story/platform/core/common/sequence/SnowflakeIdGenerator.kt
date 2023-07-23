@@ -1,12 +1,10 @@
 package com.story.platform.core.common.sequence
 
-import org.springframework.stereotype.Component
 import java.net.NetworkInterface
 import java.security.SecureRandom
 import java.time.Instant
 
-@Component
-class SnowflakeIdGenerator : IdGenerator {
+class SnowflakeIdGenerator {
 
     private val nodeId: Long
     private val customEpoch: Long
@@ -17,22 +15,14 @@ class SnowflakeIdGenerator : IdGenerator {
     @Volatile
     private var sequence = 0L
 
-    @JvmOverloads
-    constructor(nodeId: Long, customEpoch: Long = DEFAULT_CUSTOM_EPOCH) {
-        require(!(nodeId < 0 || nodeId > maxNodeId)) { "NodeId must be between 0 and $maxNodeId" }
-        this.nodeId = nodeId
-        this.customEpoch = customEpoch
-    }
-
-    // Let SnowflakeIdGenerator generate a nodeId
-    constructor() {
+    init {
         nodeId = createNodeId()
         customEpoch = DEFAULT_CUSTOM_EPOCH
     }
 
     @Synchronized
-    override fun nextId(): Long {
-        var currentTimestamp = timestamp()
+    fun nextId(timestamp: Long = timestamp()): Long {
+        var currentTimestamp = timestamp
         check(currentTimestamp >= lastTimestamp) { "Invalid System Clock! current: ($currentTimestamp) last: ($lastTimestamp)" }
         if (currentTimestamp == lastTimestamp) {
             sequence = sequence + 1 and maxSequence
@@ -104,8 +94,8 @@ class SnowflakeIdGenerator : IdGenerator {
         private const val maxNodeId = (1L shl NODE_ID_BITS) - 1
         private const val maxSequence = (1L shl SEQUENCE_BITS) - 1
 
-        // Custom Epoch (January 1, 2020 Midnight UTC = 2020-01-01T00:00:00Z)
-        private const val DEFAULT_CUSTOM_EPOCH = 1_577_836_800_000L
+        // 2023/07/01 00:00:00
+        private const val DEFAULT_CUSTOM_EPOCH = 1_688_137_200_000L
     }
 
 }

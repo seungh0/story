@@ -11,10 +11,10 @@ class EventHistoryManager(
         workspaceId: String,
         componentId: String,
         event: EventRecord<T>,
-        publishEvent: suspend () -> Unit,
+        eventPublisher: suspend () -> Unit,
     ) {
         try {
-            publishEvent.invoke()
+            eventPublisher.invoke()
         } catch (exception: Exception) {
             val eventHistory = EventHistory.failed(
                 workspaceId = workspaceId,
@@ -25,7 +25,6 @@ class EventHistoryManager(
             eventHistoryRepository.save(eventHistory)
             throw exception
         }
-
         val eventHistory = EventHistory.success(
             workspaceId = workspaceId,
             componentId = componentId,

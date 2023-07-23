@@ -7,10 +7,7 @@ services:
     ports:
       - "9042:9042"
     environment:
-      - "CASSANDRA_CLUSTER_NAME=cluster"
       - "CASSANDRA_NUM_TOKENS=16"
-      - "CASSANDRA_DC=dc1"
-      - "CASSANDRA_RACK=rack1"
       - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
       - "MAX_HEAP_SIZE=512M"
       - "HEAP_NEWSIZE=256M"
