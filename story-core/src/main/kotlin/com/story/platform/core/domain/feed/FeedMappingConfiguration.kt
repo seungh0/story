@@ -38,19 +38,23 @@ data class FeedMappingConfiguration(
     companion object {
         fun of(
             workspaceId: String,
-            resourceId: ResourceId,
-            componentId: String,
+            feedComponentId: String,
+            sourceResourceId: ResourceId,
+            sourceComponentId: String,
             eventAction: EventAction,
-            subscriptionComponentId: String,
+            targetResourceId: ResourceId,
+            targetComponentId: String,
             description: String,
             status: FeedMappingConfigurationStatus = FeedMappingConfigurationStatus.ENABLED,
         ) = FeedMappingConfiguration(
             key = FeedMappingConfigurationPrimaryKey(
                 workspaceId = workspaceId,
-                resourceId = resourceId,
-                componentId = componentId,
+                feedComponentId = feedComponentId,
+                sourceResourceId = sourceResourceId,
+                sourceComponentId = sourceComponentId,
                 eventAction = eventAction,
-                subscriptionComponentId = subscriptionComponentId,
+                targetResourceId = targetResourceId,
+                targetComponentId = targetComponentId,
             ),
             description = description,
             auditingTime = AuditingTime.created(),
@@ -66,14 +70,20 @@ data class FeedMappingConfigurationPrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 2)
-    val resourceId: ResourceId,
+    val feedComponentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 3)
-    val componentId: String,
+    val sourceResourceId: ResourceId,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
-    val eventAction: EventAction,
+    val sourceComponentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
-    val subscriptionComponentId: String,
+    val eventAction: EventAction,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
+    val targetResourceId: ResourceId,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
+    val targetComponentId: String,
 )
