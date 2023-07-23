@@ -1,4 +1,4 @@
-package com.story.platform.core.domain.feed
+package com.story.platform.core.domain.feed.configuration
 
 import org.springframework.stereotype.Service
 

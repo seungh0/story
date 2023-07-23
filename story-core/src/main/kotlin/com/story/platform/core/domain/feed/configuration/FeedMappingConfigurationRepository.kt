@@ -1,4 +1,4 @@
-package com.story.platform.core.domain.feed
+package com.story.platform.core.domain.feed.configuration
 
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository

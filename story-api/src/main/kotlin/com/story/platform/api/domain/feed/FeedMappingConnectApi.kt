@@ -5,8 +5,8 @@ import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.error.NotSupportedException
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.domain.component.ComponentRetriever
-import com.story.platform.core.domain.feed.FeedMappingConnectRequest
-import com.story.platform.core.domain.feed.FeedMappingConnector
+import com.story.platform.core.domain.feed.configuration.FeedMappingConnectRequest
+import com.story.platform.core.domain.feed.configuration.FeedMappingConnector
 import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable

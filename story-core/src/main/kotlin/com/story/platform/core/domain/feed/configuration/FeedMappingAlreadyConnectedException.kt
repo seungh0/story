@@ -1,4 +1,4 @@
-package com.story.platform.core.domain.feed
+package com.story.platform.core.domain.feed.configuration
 
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
