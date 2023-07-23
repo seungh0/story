@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.domain.event.EventAction
+import com.story.platform.core.domain.event.EventKeyGenerator
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -20,6 +21,7 @@ data class SubscriptionEvent(
         ) = EventRecord(
             resourceId = ResourceId.SUBSCRIPTIONS,
             eventAction = EventAction.CREATED,
+            eventKey = EventKeyGenerator.subscription(subscriberId = subscriberId, targetId = targetId),
             payload = SubscriptionEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -36,6 +38,7 @@ data class SubscriptionEvent(
         ) = EventRecord(
             resourceId = ResourceId.SUBSCRIPTIONS,
             eventAction = EventAction.DELETED,
+            eventKey = EventKeyGenerator.subscription(subscriberId = subscriberId, targetId = targetId),
             payload = SubscriptionEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,

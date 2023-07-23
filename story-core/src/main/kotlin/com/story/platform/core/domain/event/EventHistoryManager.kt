@@ -1,10 +1,12 @@
 package com.story.platform.core.domain.event
 
+import com.story.platform.core.infrastructure.cassandra.executeCoroutine
+import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
 @Service
 class EventHistoryManager(
-    private val eventHistoryRepository: EventHistoryRepository,
+    private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
     suspend fun <T> withSaveEventHistory(
@@ -16,21 +18,42 @@ class EventHistoryManager(
         try {
             eventPublisher.invoke()
         } catch (exception: Exception) {
-            val eventHistory = EventHistory.failed(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                eventRecord = event,
-                exception = exception,
-            )
-            eventHistoryRepository.save(eventHistory)
+            reactiveCassandraOperations.batchOps()
+                .insert(
+                    EventHistory.failed(
+                        workspaceId = workspaceId,
+                        componentId = componentId,
+                        eventRecord = event,
+                        exception = exception,
+                    )
+                )
+                .insert(
+                    EventKeyIdMapping.of(
+                        workspaceId = workspaceId,
+                        eventKey = event.eventKey,
+                        eventId = event.eventId,
+                    )
+                )
+                .executeCoroutine()
             throw exception
         }
-        val eventHistory = EventHistory.success(
-            workspaceId = workspaceId,
-            componentId = componentId,
-            eventRecord = event,
-        )
-        eventHistoryRepository.save(eventHistory)
+
+        reactiveCassandraOperations.batchOps()
+            .insert(
+                EventHistory.success(
+                    workspaceId = workspaceId,
+                    componentId = componentId,
+                    eventRecord = event,
+                )
+            )
+            .insert(
+                EventKeyIdMapping.of(
+                    workspaceId = workspaceId,
+                    eventKey = event.eventKey,
+                    eventId = event.eventId,
+                )
+            )
+            .executeCoroutine()
     }
 
 }

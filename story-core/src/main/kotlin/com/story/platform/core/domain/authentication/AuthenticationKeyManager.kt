@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.authentication
 
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
+import com.story.platform.core.infrastructure.cassandra.upsert
 import com.story.platform.core.support.cache.CacheEvict
 import com.story.platform.core.support.cache.CacheType
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
@@ -64,8 +65,8 @@ class AuthenticationKeyManager(
         )
 
         reactiveCassandraOperations.batchOps()
-            .insert(authenticationKey)
-            .insert(AuthenticationReverseKey.from(authenticationKey))
+            .upsert(authenticationKey)
+            .upsert(AuthenticationReverseKey.from(authenticationKey))
             .executeCoroutine()
     }
 

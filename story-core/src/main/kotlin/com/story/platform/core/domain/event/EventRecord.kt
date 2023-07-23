@@ -7,6 +7,7 @@ data class EventRecord<T>(
     val resourceId: ResourceId,
     val eventAction: EventAction,
     val payload: T,
+    val eventKey: String,
     val eventId: Long = EventIdHelper.generate(),
     val timestamp: LocalDateTime = LocalDateTime.now(),
 )

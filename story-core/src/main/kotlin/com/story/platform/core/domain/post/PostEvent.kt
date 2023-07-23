@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.domain.event.EventAction
+import com.story.platform.core.domain.event.EventKeyGenerator
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -28,6 +29,7 @@ data class PostEvent(
         ) = EventRecord(
             resourceId = ResourceId.POSTS,
             eventAction = EventAction.CREATED,
+            eventKey = EventKeyGenerator.post(spaceId = spaceId, postId = postId),
             payload = PostEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -52,6 +54,7 @@ data class PostEvent(
         ) = EventRecord(
             resourceId = ResourceId.POSTS,
             eventAction = EventAction.UPDATED,
+            eventKey = EventKeyGenerator.post(spaceId = spaceId, postId = postId),
             payload = PostEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -73,6 +76,7 @@ data class PostEvent(
         ) = EventRecord(
             resourceId = ResourceId.POSTS,
             eventAction = EventAction.DELETED,
+            eventKey = EventKeyGenerator.post(spaceId = spaceId, postId = postId),
             payload = PostEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,

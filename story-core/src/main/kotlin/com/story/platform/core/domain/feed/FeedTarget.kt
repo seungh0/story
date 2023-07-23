@@ -7,6 +7,10 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
+/**
+ * 특정 피드에 대해서 변경 & 삭제를 해야할 경우
+ * eventId에 해당하는 대상자들을 조회해서 처리한다.
+ */
 @Table("feed_target_v1")
 data class FeedTarget(
     @field:PrimaryKey
