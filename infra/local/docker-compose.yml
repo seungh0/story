@@ -7,8 +7,6 @@ services:
     ports:
       - "9042:9042"
     environment:
-      - "CASSANDRA_NUM_TOKENS=16"
-      - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
       - "MAX_HEAP_SIZE=512M"
       - "HEAP_NEWSIZE=256M"
     restart: on-failure
