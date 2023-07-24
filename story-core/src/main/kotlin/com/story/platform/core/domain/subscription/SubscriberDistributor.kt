@@ -38,7 +38,7 @@ class SubscriberDistributor(
 
         val lastSlot = SubscriptionSlotAssigner.assign(sequence = subscribersCount)
 
-        withContext(dispatcher.limitedParallelism(10)) {
+        withContext(dispatcher) {
             for (slot in SubscriptionSlotAssigner.FIRST_SLOT_ID..lastSlot) {
                 launch {
                     val event = SubscriberDistributedEvent(

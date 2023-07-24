@@ -15,22 +15,15 @@ class PostCreateHandler(
         content: String,
         extraJson: String? = null,
     ): Long {
-        val postId = postCreator.create(
+        val post = postCreator.create(
             postSpaceKey = postSpaceKey,
             accountId = accountId,
             title = title,
             content = content,
             extraJson = extraJson,
         )
-        postEventPublisher.publishCreatedEvent(
-            postSpaceKey = postSpaceKey,
-            accountId = accountId,
-            postId = postId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
-        )
-        return postId
+        postEventPublisher.publishCreatedEvent(post = post)
+        return post.postId
     }
 
 }

@@ -17,7 +17,7 @@ class PostCreator(
         title: String,
         content: String,
         extraJson: String? = null,
-    ): Long {
+    ): PostResponse {
         val postId = postSequenceGenerator.generate(postSpaceKey = postSpaceKey)
         val post = Post.of(
             postSpaceKey = postSpaceKey,
@@ -32,7 +32,7 @@ class PostCreator(
             .upsert(PostReverse.of(post))
             .executeCoroutine()
 
-        return postId
+        return PostResponse.of(post = post)
     }
 
 }

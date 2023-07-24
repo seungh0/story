@@ -16,7 +16,7 @@ data class FeedMappingConfiguration(
     @field:PrimaryKey
     val key: FeedMappingConfigurationPrimaryKey,
 
-    var description: String = "",
+    var description: String,
     var status: FeedMappingConfigurationStatus,
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)

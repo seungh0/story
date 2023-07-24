@@ -1,16 +1,21 @@
 package com.story.platform.core.domain.resource
 
+import com.story.platform.core.domain.event.BaseEvent
+import com.story.platform.core.domain.post.PostEvent
+import com.story.platform.core.domain.subscription.SubscriptionEvent
+
 /**
  * 매퍼 추가
  */
 enum class ResourceId(
     val code: String,
     val description: String,
+    val eventClass: Class<out BaseEvent>?,
 ) {
 
-    SUBSCRIPTIONS(code = "subscriptions", description = "구독"),
-    POSTS(code = "posts", description = "포스팅"),
-    FEEDS(code = "feeds", description = "피드"),
+    SUBSCRIPTIONS(code = "subscriptions", description = "구독", eventClass = SubscriptionEvent::class.java),
+    POSTS(code = "posts", description = "포스팅", eventClass = PostEvent::class.java),
+    FEEDS(code = "feeds", description = "피드", eventClass = null),
     ;
 
     companion object {

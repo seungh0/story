@@ -22,60 +22,36 @@ class PostEventPublisher(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun publishCreatedEvent(
-        postSpaceKey: PostSpaceKey,
-        postId: Long,
-        accountId: String,
-        title: String,
-        content: String,
-        extraJson: String?,
-    ) {
-        val event = PostEvent.created(
-            workspaceId = postSpaceKey.workspaceId,
-            componentId = postSpaceKey.componentId,
-            spaceId = postSpaceKey.spaceId,
-            postId = postId,
-            accountId = accountId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
-        )
+    suspend fun publishCreatedEvent(post: PostResponse) {
+        val event = PostEvent.created(post = post)
         eventHistoryManager.withSaveEventHistory(
-            workspaceId = postSpaceKey.workspaceId,
-            componentId = postSpaceKey.componentId,
+            workspaceId = post.workspaceId,
+            componentId = post.componentId,
             event = event,
         ) {
             withContext(dispatcher) {
-                kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+                kafkaTemplate.send(
+                    KafkaTopicFinder.getTopicName(TopicType.POST),
+                    post.postId.toString(),
+                    event.toJson()
+                )
             }
         }
     }
 
-    suspend fun publishModifiedEvent(
-        postSpaceKey: PostSpaceKey,
-        postId: Long,
-        accountId: String,
-        title: String,
-        content: String,
-        extraJson: String?,
-    ) {
-        val event = PostEvent.modified(
-            workspaceId = postSpaceKey.workspaceId,
-            componentId = postSpaceKey.componentId,
-            spaceId = postSpaceKey.spaceId,
-            postId = postId,
-            accountId = accountId,
-            title = title,
-            content = content,
-            extraJson = extraJson,
-        )
+    suspend fun publishModifiedEvent(post: PostResponse) {
+        val event = PostEvent.modified(post = post)
         eventHistoryManager.withSaveEventHistory(
-            workspaceId = postSpaceKey.workspaceId,
-            componentId = postSpaceKey.componentId,
+            workspaceId = post.workspaceId,
+            componentId = post.componentId,
             event = event,
         ) {
             withContext(dispatcher) {
-                kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+                kafkaTemplate.send(
+                    KafkaTopicFinder.getTopicName(TopicType.POST),
+                    post.postId.toString(),
+                    event.toJson()
+                )
             }
         }
     }

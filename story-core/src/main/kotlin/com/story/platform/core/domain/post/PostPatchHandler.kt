@@ -29,14 +29,7 @@ class PostPatchHandler(
             return
         }
 
-        postEventPublisher.publishModifiedEvent(
-            postSpaceKey = postSpaceKey,
-            accountId = accountId,
-            postId = postId,
-            title = post.title,
-            content = post.content,
-            extraJson = post.extraJson,
-        )
+        postEventPublisher.publishModifiedEvent(post = post)
     }
 
 }
