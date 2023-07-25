@@ -14,16 +14,6 @@ data class FeedMappingConnectRequest(
     val description: String,
 ) {
 
-    fun toConfigurationKey() = FeedMappingConfigurationPrimaryKey(
-        workspaceId = workspaceId,
-        feedComponentId = feedComponentId,
-        sourceResourceId = resourceId,
-        sourceComponentId = componentId,
-        eventAction = eventAction,
-        targetResourceId = targetResourceId,
-        targetComponentId = targetComponentId,
-    )
-
     fun toConfiguration() = FeedMappingConfiguration.of(
         workspaceId = workspaceId,
         feedComponentId = feedComponentId,

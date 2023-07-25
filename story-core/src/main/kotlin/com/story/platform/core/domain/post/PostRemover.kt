@@ -34,7 +34,8 @@ class PostRemover(
         )
 
         reactiveCassandraOperations.batchOps()
-            .delete(post, postReverse)
+            .delete(post)
+            .delete(postReverse)
             .executeCoroutine()
     }
 

@@ -29,8 +29,8 @@ class AuthenticationKeyManager(
         )
 
         reactiveCassandraOperations.batchOps()
-            .insert(authenticationKey)
-            .insert(AuthenticationReverseKey.from(authenticationKey))
+            .upsert(authenticationKey)
+            .upsert(AuthenticationReverseKey.from(authenticationKey))
             .executeCoroutine()
     }
 

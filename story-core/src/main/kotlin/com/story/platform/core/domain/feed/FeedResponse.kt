@@ -14,7 +14,7 @@ data class FeedResponse<T : BaseEvent>(
 
     companion object {
         fun <T : BaseEvent> of(feed: Feed): FeedResponse<T> {
-            val payload = JsonUtils.toObject(feed.payloadJson, feed.sourceResourceId.eventClass!!) as T
+            val payload = JsonUtils.toObject(feed.payloadJson, feed.sourceResourceId.feedPayloadClazz!!) as T
             return FeedResponse(
                 resourceId = feed.sourceResourceId,
                 componentId = feed.sourceComponentId,

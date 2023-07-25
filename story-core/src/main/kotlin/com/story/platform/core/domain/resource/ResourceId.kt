@@ -10,12 +10,12 @@ import com.story.platform.core.domain.subscription.SubscriptionEvent
 enum class ResourceId(
     val code: String,
     val description: String,
-    val eventClass: Class<out BaseEvent>?,
+    val feedPayloadClazz: Class<out BaseEvent>?,
 ) {
 
-    SUBSCRIPTIONS(code = "subscriptions", description = "구독", eventClass = SubscriptionEvent::class.java),
-    POSTS(code = "posts", description = "포스팅", eventClass = PostEvent::class.java),
-    FEEDS(code = "feeds", description = "피드", eventClass = null),
+    SUBSCRIPTIONS(code = "subscriptions", description = "구독", feedPayloadClazz = SubscriptionEvent::class.java),
+    POSTS(code = "posts", description = "포스팅", feedPayloadClazz = PostEvent::class.java),
+    FEEDS(code = "feeds", description = "피드", feedPayloadClazz = null),
     ;
 
     companion object {
