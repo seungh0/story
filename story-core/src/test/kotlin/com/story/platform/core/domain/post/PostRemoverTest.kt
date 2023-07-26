@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
+import com.story.platform.core.helper.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import kotlinx.coroutines.flow.toList
@@ -10,11 +11,11 @@ internal class PostRemoverTest(
     private val postRemover: PostRemover,
     private val postRepository: PostRepository,
     private val postReverseRepository: PostReverseRepository,
+    private val testCleaner: TestCleaner,
 ) : FunSpec({
 
     afterEach {
-        postRepository.deleteAll()
-        postReverseRepository.deleteAll()
+        testCleaner.cleanUp()
     }
 
     context("등록된 포스트를 삭제한다") {
