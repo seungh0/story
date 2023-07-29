@@ -45,7 +45,11 @@ class CacheEvictAspect(
                 throw InternalServerException("@CacheEvict key can't be null. [cacheType: ${cacheEvict.cacheType} parameterNames: ${methodSignature.parameterNames} args: ${joinPoint.args} key: ${cacheEvict.key}]")
             }
 
-            cacheManager.evictCacheLayeredCache(cacheType = cacheType, cacheKey = cacheKeyString)
+            cacheManager.evictCacheLayeredCache(
+                cacheType = cacheType,
+                cacheKey = cacheKeyString,
+                targetCacheStrategies = cacheEvict.targetCacheStrategies.toSet()
+            )
 
             return@runCoroutine value
         }

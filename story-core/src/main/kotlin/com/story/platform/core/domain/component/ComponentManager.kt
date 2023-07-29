@@ -1,11 +1,15 @@
 package com.story.platform.core.domain.component
 
 import com.story.platform.core.domain.resource.ResourceId
+import com.story.platform.core.support.cache.CacheEvict
+import com.story.platform.core.support.cache.CacheStrategyType
+import com.story.platform.core.support.cache.CacheType
 import org.springframework.stereotype.Service
 
 @Service
 class ComponentManager(
     private val componentRepository: ComponentRepository,
+    private val componentLocalCacheEvictEventPublisher: ComponentLocalCacheEvictEventPublisher,
 ) {
 
     suspend fun createComponent(
@@ -38,6 +42,11 @@ class ComponentManager(
         return ComponentResponse.of(component)
     }
 
+    @CacheEvict(
+        cacheType = CacheType.COMPONENT,
+        key = "'workspaceId:' + {#workspaceId} + ':resourceId:' + {#resourceId} + ':componentId:' + {#componentId}",
+        targetCacheStrategies = [CacheStrategyType.GLOBAL],
+    )
     suspend fun patchComponent(
         workspaceId: String,
         resourceId: ResourceId,
@@ -57,6 +66,12 @@ class ComponentManager(
         component.patch(description = description, status = status)
 
         componentRepository.save(component)
+
+        componentLocalCacheEvictEventPublisher.publishedEvent(
+            workspaceId = workspaceId,
+            resourceId = resourceId,
+            componentId = componentId,
+        )
 
         return ComponentResponse.of(component)
     }

@@ -59,7 +59,11 @@ class CacheManager(
         }
     }
 
-    suspend fun evictCacheLayeredCache(cacheType: CacheType, cacheKey: String) {
+    suspend fun evictCacheLayeredCache(
+        cacheType: CacheType,
+        cacheKey: String,
+        targetCacheStrategies: Set<CacheStrategyType>,
+    ) {
         cacheStrategyDelegator.evict(
             cacheStrategyType = CacheStrategyType.LOCAL,
             cacheType = cacheType,

@@ -5,6 +5,7 @@ import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
+import com.story.platform.core.domain.component.ComponentResponse
 import com.story.platform.core.domain.component.ComponentRetriever
 import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
@@ -37,6 +38,20 @@ class ComponentRetrieveApi(
                 cursor = response.cursor,
             )
         )
+    }
+
+    @GetMapping("/v1/resources/{resourceId}/components/{componentId}")
+    suspend fun getComponent(
+        @PathVariable resourceId: String,
+        @PathVariable componentId: String,
+        @RequestAuthContext authContext: AuthContext,
+    ): ApiResponse<ComponentResponse> {
+        val component = componentRetriever.getComponent(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.findByCode(resourceId),
+            componentId = componentId,
+        )
+        return ApiResponse.ok(component)
     }
 
 }

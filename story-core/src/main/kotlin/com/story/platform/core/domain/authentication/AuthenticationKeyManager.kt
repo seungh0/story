@@ -3,6 +3,7 @@ package com.story.platform.core.domain.authentication
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
 import com.story.platform.core.support.cache.CacheEvict
+import com.story.platform.core.support.cache.CacheStrategyType
 import com.story.platform.core.support.cache.CacheType
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service
 class AuthenticationKeyManager(
     private val authenticationKeyRepository: AuthenticationKeyRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
+    private val authenticationKeyLocalCacheEvictEventPublisher: AuthenticationKeyLocalCacheEvictEventPublisher,
 ) {
 
     suspend fun createAuthenticationKey(
@@ -48,8 +50,8 @@ class AuthenticationKeyManager(
 
     @CacheEvict(
         cacheType = CacheType.AUTHENTICATION_REVERSE_KEY,
-        key = "'workspaceId:' + {#workspaceId} + ':authenticationKey:' + {#authenticationKey}",
-        condition = "#status != null"
+        key = "'authenticationKey:' + {#authenticationKey}",
+        targetCacheStrategies = [CacheStrategyType.GLOBAL],
     )
     suspend fun patchAuthenticationKey(
         workspaceId: String,
@@ -57,20 +59,22 @@ class AuthenticationKeyManager(
         description: String?,
         status: AuthenticationKeyStatus?,
     ) {
-        val authenticationKey = findAuthenticationKey(workspaceId = workspaceId, authenticationKey = authenticationKey)
+        val authentication = findAuthentication(workspaceId = workspaceId, authenticationKey = authenticationKey)
 
-        authenticationKey.patch(
+        authentication.patch(
             description = description,
             status = status,
         )
 
         reactiveCassandraOperations.batchOps()
-            .upsert(authenticationKey)
-            .upsert(AuthenticationReverseKey.from(authenticationKey))
+            .upsert(authentication)
+            .upsert(AuthenticationReverseKey.from(authentication))
             .executeCoroutine()
+
+        authenticationKeyLocalCacheEvictEventPublisher.publishedEvent(authenticationKey = authenticationKey)
     }
 
-    private suspend fun findAuthenticationKey(workspaceId: String, authenticationKey: String): AuthenticationKey {
+    private suspend fun findAuthentication(workspaceId: String, authenticationKey: String): AuthenticationKey {
         return authenticationKeyRepository.findById(
             AuthenticationKeyPrimaryKey(
                 workspaceId = workspaceId,

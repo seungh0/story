@@ -11,6 +11,8 @@ annotation class CacheEvict(
 
     val allEntries: Boolean = false,
 
+    val targetCacheStrategies: Array<CacheStrategyType> = [CacheStrategyType.LOCAL, CacheStrategyType.GLOBAL],
+
     @Language(value = "SpEL")
     val condition: String = "",
 
