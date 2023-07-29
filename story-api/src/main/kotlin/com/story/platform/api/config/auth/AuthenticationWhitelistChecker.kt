@@ -1,5 +1,7 @@
 package com.story.platform.api.config.auth
 
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpMethod.GET
 import java.util.regex.Pattern
 
 object AuthenticationWhitelistChecker {
@@ -7,17 +9,20 @@ object AuthenticationWhitelistChecker {
     private val WHITELIST_PATHS_EXACTLY = setOf<String>(
         // 필요시 추가
     )
-    private val WHITELIST_PATH_PATTERN = listOf<Pattern>(
-        Pattern.compile("/api/health/.*"),
-        Pattern.compile("/monitoring/.*"),
+    private val WHITELIST_PATH_PATTERN = listOf<Pair<HttpMethod, Pattern>>(
+        GET to Pattern.compile("/api/health/.*"),
+        GET to Pattern.compile("/monitoring/.*"),
+        GET to Pattern.compile("/api/v1/authentication-keys/.*")
     )
 
-    fun checkNoAuthentication(path: String): Boolean {
+    fun checkNoAuthentication(method: HttpMethod, path: String): Boolean {
         val isWhiteListExactly = WHITELIST_PATHS_EXACTLY.contains(path)
         if (isWhiteListExactly) {
             return true
         }
-        return WHITELIST_PATH_PATTERN.any { pathPattern -> pathPattern.matcher(path).matches() }
+        return WHITELIST_PATH_PATTERN.any { (httpMethod, pathPattern) ->
+            httpMethod == method && pathPattern.matcher(path).matches()
+        }
     }
 
 }

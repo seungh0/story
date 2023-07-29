@@ -8,21 +8,23 @@ import io.kotest.data.row
 import io.kotest.data.table
 import io.kotest.matchers.longs.shouldBeLessThanOrEqual
 import io.kotest.matchers.shouldBe
+import org.springframework.http.HttpMethod
 import org.springframework.util.StopWatch
 
-internal class AuthWhiteListCheckerTest : FunSpec({
+internal class AuthenticationWhitelistCheckerTest : FunSpec({
 
     test("WhiteList Path Regex Pattern") {
         forAll(
             table(
-                headers("uri", "expected"),
-                row("/api/health/readiness", true),
-                row("/api/health/liveness", true),
-                row("/api/test", false),
+                headers("method", "path", "expected"),
+                row(HttpMethod.GET, "/api/health/readiness", true),
+                row(HttpMethod.GET, "/api/health/liveness", true),
+                row(HttpMethod.PATCH, "/api/health/readiness", false),
+                row(HttpMethod.GET, "/api/test", false),
             )
-        ) { uri, expected ->
+        ) { method, path, expected ->
             // when
-            val sut = AuthenticationWhitelistChecker.checkNoAuthentication(uri)
+            val sut = AuthenticationWhitelistChecker.checkNoAuthentication(method = method, path = path)
 
             // then
             sut shouldBe expected
@@ -32,18 +34,18 @@ internal class AuthWhiteListCheckerTest : FunSpec({
     test("BenchMark") {
         forAll(
             table(
-                headers("uri"),
-                row("/api/health/readiness"),
-                row("/api/health/liveness"),
-                row("/api/test")
+                headers("method", "path"),
+                row(HttpMethod.GET, "/api/health/readiness"),
+                row(HttpMethod.GET, "/api/health/liveness"),
+                row(HttpMethod.GET, "/api/test")
             )
-        ) { uri ->
+        ) { method, path ->
             // given
             val stopWatcher = StopWatch()
             stopWatcher.start()
 
             // when
-            AuthenticationWhitelistChecker.checkNoAuthentication(uri)
+            AuthenticationWhitelistChecker.checkNoAuthentication(method = method, path = path)
 
             // then
             stopWatcher.stop()

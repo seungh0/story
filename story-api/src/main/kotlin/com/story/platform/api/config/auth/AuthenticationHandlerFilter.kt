@@ -14,7 +14,11 @@ class AuthenticationHandlerFilter(
 ) : CoWebFilter() {
 
     override suspend fun filter(exchange: ServerWebExchange, chain: CoWebFilterChain) {
-        if (AuthenticationWhitelistChecker.checkNoAuthentication(exchange.request.uri.path)) {
+        if (AuthenticationWhitelistChecker.checkNoAuthentication(
+                method = exchange.request.method,
+                path = exchange.request.uri.path
+            )
+        ) {
             return chain.filter(exchange)
         }
         val authentication = authenticationHandler.handleAuthentication(serverWebExchange = exchange)
