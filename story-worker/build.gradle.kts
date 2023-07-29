@@ -14,6 +14,9 @@ dependencies {
 
     // Spring Security
     implementation("org.springframework.boot:spring-boot-starter-security")
+
+    // Test Fixtures
+    testImplementation(testFixtures(project(":story-core")))
 }
 
 tasks.bootJar {

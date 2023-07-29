@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.IntegrationTest
+import com.story.platform.core.lib.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
@@ -8,16 +9,11 @@ import io.kotest.matchers.shouldBe
 class SubscriptionCountRetrieverTest(
     private val subscriptionCountRetriever: SubscriptionCountRetriever,
     private val subscribersCountRepository: SubscribersCountRepository,
+    private val testCleaner: TestCleaner,
 ) : FunSpec({
 
     afterEach {
-        subscribersCountRepository.delete(
-            key = SubscribersCountKey(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                targetId = targetId,
-            )
-        )
+        testCleaner.cleanUp()
     }
 
     context("대상자의 구독자 수를 조회한다") {

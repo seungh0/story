@@ -20,6 +20,9 @@ dependencies {
     // Spring Rest Docs
     testImplementation("org.springframework.restdocs:spring-restdocs-webtestclient")
     asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor")
+
+    // Test Fixtures
+    testImplementation(testFixtures(project(":story-core")))
 }
 
 tasks.bootJar {

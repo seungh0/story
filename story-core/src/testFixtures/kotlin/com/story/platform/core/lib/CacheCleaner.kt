@@ -1,4 +1,4 @@
-package com.story.platform.api.helper
+package com.story.platform.core.lib
 
 import com.story.platform.core.support.cache.CacheManager
 import com.story.platform.core.support.cache.CacheType

@@ -1,4 +1,4 @@
-package com.story.platform.api.helper
+package com.story.platform.core.lib
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope

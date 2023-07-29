@@ -2,7 +2,7 @@ package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.error.NoPermissionException
-import com.story.platform.core.helper.TestCleaner
+import com.story.platform.core.lib.TestCleaner
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize

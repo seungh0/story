@@ -3,7 +3,7 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.dto.CursorRequest
-import com.story.platform.core.helper.TestCleaner
+import com.story.platform.core.lib.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -20,7 +20,6 @@ class PostRetrieverTest(
 
     afterEach {
         testCleaner.cleanUp()
-        postSequenceGenerator.del(POST_SPACE_KEY)
     }
 
     context("특정 공간에 업로드되어 있는 포스트 목록을 조회한다 - NEXT 방향 조회") {

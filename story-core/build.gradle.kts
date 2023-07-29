@@ -16,10 +16,12 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine")
 
     // Redis
-    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+    api("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("org.redisson:redisson:$redissonVersion")
 
     testImplementation(testFixtures(project(":story-core")))
+    testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 }
 
 tasks.bootJar {
