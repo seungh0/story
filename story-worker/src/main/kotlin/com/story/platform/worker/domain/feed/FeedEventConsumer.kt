@@ -50,9 +50,9 @@ class FeedEventConsumer(
             var pageable: Pageable = CassandraPageRequest.first(100)
             do {
                 val mappingConfigurations = feedReverseMappingConfigurationRepository.findAllByKeyWorkspaceIdAndKeySourceResourceIdAndKeySourceComponentIdAndKeyEventActionAndKeyTargetResourceId(
-                    workspaceId = event.workspaceId,
-                    sourceResourceId = event.resourceId,
-                    sourceComponentId = event.componentId,
+                    workspaceId = payload.workspaceId,
+                    sourceResourceId = payload.resourceId,
+                    sourceComponentId = payload.componentId,
                     eventAction = event.eventAction,
                     targetResourceId = ResourceId.SUBSCRIPTIONS,
                     pageable = pageable,
@@ -61,7 +61,7 @@ class FeedEventConsumer(
                 for (mappingConfiguration in mappingConfigurations) {
                     launch {
                         subscriberDistributor.distribute(
-                            workspaceId = event.workspaceId,
+                            workspaceId = payload.workspaceId,
                             componentId = mappingConfiguration.key.targetComponentId,
                             targetId = payload.spaceId,
                         )
@@ -90,8 +90,8 @@ class FeedEventConsumer(
 
         withContext(dispatcher) {
             subscriberDistributor.distribute(
-                workspaceId = event.workspaceId,
-                componentId = event.componentId,
+                workspaceId = payload.workspaceId,
+                componentId = payload.componentId,
                 targetId = payload.subscriberId,
             )
         }

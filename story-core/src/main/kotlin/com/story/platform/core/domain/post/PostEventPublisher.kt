@@ -3,6 +3,7 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.event.EventHistoryManager
+import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
@@ -26,6 +27,7 @@ class PostEventPublisher(
         val event = PostEvent.created(post = post)
         eventHistoryManager.withSaveEventHistory(
             workspaceId = post.workspaceId,
+            resourceId = ResourceId.POSTS,
             componentId = post.componentId,
             event = event,
         ) {
@@ -43,6 +45,7 @@ class PostEventPublisher(
         val event = PostEvent.modified(post = post)
         eventHistoryManager.withSaveEventHistory(
             workspaceId = post.workspaceId,
+            resourceId = ResourceId.POSTS,
             componentId = post.componentId,
             event = event,
         ) {
@@ -70,6 +73,7 @@ class PostEventPublisher(
         )
         eventHistoryManager.withSaveEventHistory(
             workspaceId = postSpaceKey.workspaceId,
+            resourceId = ResourceId.POSTS,
             componentId = postSpaceKey.componentId,
             event = event,
         ) {

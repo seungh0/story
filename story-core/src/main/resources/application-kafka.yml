@@ -10,9 +10,12 @@ story:
       distributor:
         topic: subscriber_distributor_v1
         group-id: story-worker-subscriber-distributor
-    cache-evict:
-      topic: cache_evict_distributor_v1
-      group-id: ${random.uuid}
+    component:
+      topic: component_v1
+      group-id: story-worker-component
+    authentication-key:
+      topic: authentication_key_v1
+      group-id: story-worker-authentication-key
 
 
 ---

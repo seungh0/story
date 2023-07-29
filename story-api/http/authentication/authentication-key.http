@@ -12,10 +12,9 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 PATCH {{api}}/v1/authentication-keys/api-key
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
-
 {
     "description": "트위터 API 키",
-    "status": "ENABLED"
+    "status": "DISABLED"
 }
 
 

@@ -39,13 +39,13 @@ data class AuthenticationKey(
     companion object {
         fun of(
             workspaceId: String,
-            apiKey: String,
+            authenticationKey: String,
             status: AuthenticationKeyStatus = AuthenticationKeyStatus.ENABLED,
             description: String,
         ) = AuthenticationKey(
             key = AuthenticationKeyPrimaryKey(
                 workspaceId = workspaceId,
-                authenticationKey = apiKey,
+                authenticationKey = authenticationKey,
             ),
             description = description,
             status = status,

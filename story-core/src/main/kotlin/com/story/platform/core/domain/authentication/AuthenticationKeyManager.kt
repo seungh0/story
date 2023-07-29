@@ -1,18 +1,32 @@
 package com.story.platform.core.domain.authentication
 
+import com.story.platform.core.common.coroutine.IOBound
+import com.story.platform.core.common.json.toJson
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
+import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
+import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
+import com.story.platform.core.infrastructure.kafka.TopicType
 import com.story.platform.core.support.cache.CacheEvict
 import com.story.platform.core.support.cache.CacheStrategyType
 import com.story.platform.core.support.cache.CacheType
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
 @Service
 class AuthenticationKeyManager(
     private val authenticationKeyRepository: AuthenticationKeyRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val authenticationKeyLocalCacheEvictEventPublisher: AuthenticationKeyLocalCacheEvictEventPublisher,
+
+    @IOBound
+    private val dispatcher: CoroutineDispatcher,
+
+    @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_TEMPLATE)
+    private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 
     suspend fun createAuthenticationKey(
@@ -24,15 +38,15 @@ class AuthenticationKeyManager(
             throw AuthenticationKeyAlreadyExistsException(message = "워크스페이스($workspaceId)에 이미 등록된 인증 키($authenticationKey)입니다")
         }
 
-        val authenticationKey = AuthenticationKey.of(
+        val authentication = AuthenticationKey.of(
             workspaceId = workspaceId,
-            apiKey = authenticationKey,
+            authenticationKey = authenticationKey,
             description = description,
         )
 
         reactiveCassandraOperations.batchOps()
-            .upsert(authenticationKey)
-            .upsert(AuthenticationReverseKey.from(authenticationKey))
+            .upsert(authentication)
+            .upsert(AuthenticationReverseKey.from(authentication))
             .executeCoroutine()
     }
 
@@ -71,7 +85,12 @@ class AuthenticationKeyManager(
             .upsert(AuthenticationReverseKey.from(authentication))
             .executeCoroutine()
 
-        authenticationKeyLocalCacheEvictEventPublisher.publishedEvent(authenticationKey = authenticationKey)
+        withContext(dispatcher) {
+            kafkaTemplate.send(
+                KafkaTopicFinder.getTopicName(TopicType.AUTHENTICATION_KEY),
+                AuthenticationKeyEvent.updated(authenticationKey = authentication).toJson()
+            )
+        }
     }
 
     private suspend fun findAuthentication(workspaceId: String, authenticationKey: String): AuthenticationKey {

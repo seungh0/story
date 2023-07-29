@@ -8,6 +8,9 @@ import com.story.platform.core.domain.resource.ResourceId
 import java.time.LocalDateTime
 
 data class PostEvent(
+    val workspaceId: String,
+    val resourceId: ResourceId,
+    val componentId: String,
     val spaceId: String,
     val postId: Long,
     val accountId: String,
@@ -20,12 +23,12 @@ data class PostEvent(
 
     companion object {
         fun created(post: PostResponse) = EventRecord(
-            resourceId = ResourceId.POSTS,
             eventAction = EventAction.CREATED,
             eventKey = EventKeyGenerator.post(spaceId = post.spaceId, postId = post.postId),
-            workspaceId = post.workspaceId,
-            componentId = post.componentId,
             payload = PostEvent(
+                workspaceId = post.workspaceId,
+                resourceId = ResourceId.POSTS,
+                componentId = post.componentId,
                 spaceId = post.spaceId,
                 postId = post.postId,
                 accountId = post.accountId,
@@ -38,12 +41,12 @@ data class PostEvent(
         )
 
         fun modified(post: PostResponse) = EventRecord(
-            resourceId = ResourceId.POSTS,
             eventAction = EventAction.UPDATED,
             eventKey = EventKeyGenerator.post(spaceId = post.spaceId, postId = post.postId),
-            workspaceId = post.workspaceId,
-            componentId = post.componentId,
             payload = PostEvent(
+                workspaceId = post.workspaceId,
+                resourceId = ResourceId.POSTS,
+                componentId = post.componentId,
                 spaceId = post.spaceId,
                 postId = post.postId,
                 accountId = post.accountId,
@@ -62,12 +65,12 @@ data class PostEvent(
             postId: Long,
             accountId: String,
         ) = EventRecord(
-            resourceId = ResourceId.POSTS,
             eventAction = EventAction.DELETED,
-            workspaceId = workspaceId,
-            componentId = componentId,
             eventKey = EventKeyGenerator.post(spaceId = spaceId, postId = postId),
             payload = PostEvent(
+                workspaceId = workspaceId,
+                resourceId = ResourceId.POSTS,
+                componentId = componentId,
                 spaceId = spaceId,
                 postId = postId,
                 accountId = accountId,

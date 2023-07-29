@@ -3,6 +3,7 @@ package com.story.platform.core.domain.subscription
 import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.event.EventHistoryManager
+import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
@@ -37,6 +38,7 @@ class SubscriptionEventPublisher(
 
         eventHistoryManager.withSaveEventHistory(
             workspaceId = workspaceId,
+            resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
             event = event,
         ) {
@@ -61,6 +63,7 @@ class SubscriptionEventPublisher(
 
         eventHistoryManager.withSaveEventHistory(
             workspaceId = workspaceId,
+            resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
             event = event,
         ) {

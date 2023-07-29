@@ -1,12 +1,8 @@
 package com.story.platform.core.domain.event
 
-import com.story.platform.core.domain.resource.ResourceId
 import java.time.LocalDateTime
 
 data class EventRecord<T>(
-    val workspaceId: String,
-    val resourceId: ResourceId,
-    val componentId: String,
     val eventAction: EventAction,
     val payload: T,
     val eventKey: String,

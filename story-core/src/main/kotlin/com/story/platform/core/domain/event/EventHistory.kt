@@ -27,6 +27,7 @@ data class EventHistory(
     companion object {
         fun <T> success(
             workspaceId: String,
+            resourceId: ResourceId,
             componentId: String,
             eventRecord: EventRecord<T>,
         ): EventHistory {
@@ -36,7 +37,7 @@ data class EventHistory(
                     workspaceId = workspaceId,
                     slotId = slotId,
                     eventId = eventRecord.eventId,
-                    resourceId = eventRecord.resourceId,
+                    resourceId = resourceId,
                     componentId = componentId,
                     eventAction = eventRecord.eventAction,
                 ),
@@ -47,6 +48,7 @@ data class EventHistory(
 
         fun <T> failed(
             workspaceId: String,
+            resourceId: ResourceId,
             componentId: String,
             eventRecord: EventRecord<T>,
             exception: Exception,
@@ -57,7 +59,7 @@ data class EventHistory(
                     workspaceId = workspaceId,
                     slotId = slotId,
                     eventId = eventRecord.eventId,
-                    resourceId = eventRecord.resourceId,
+                    resourceId = resourceId,
                     componentId = componentId,
                     eventAction = eventRecord.eventAction,
                 ),

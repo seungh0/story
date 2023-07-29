@@ -8,6 +8,8 @@ enum class TopicType(
     SUBSCRIPTION(description = "구독", property = "story.kafka.subscription.topic"),
     POST(description = "포스팅", property = "story.kafka.post.topic"),
     SUBSCRIBER_DISTRIBUTOR(description = "구독자 분산", property = "story.kafka.subscriber.distributor.topic"),
-    LOCAL_CACHE_EVICT(description = "로컬 캐시 만료", property = "story.kafka.cache-evict.topic")
+    COMPONENT(description = "컴포넌트", property = "story.kafka.component.topic"),
+    AUTHENTICATION_KEY(description = "인증 키", property = "story.kafka.authentication-key.topic"),
+    ;
 
 }

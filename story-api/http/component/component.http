@@ -20,7 +20,7 @@ Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 {
-    "description": "팔로워123",
+    "description": "팔로잉",
     "status": "ENABLED"
 }
 

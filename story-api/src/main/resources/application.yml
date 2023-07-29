@@ -28,3 +28,6 @@ spring:
     user:
       name: ksh
       password: ksh
+
+story:
+  server-uid: ${random.uuid}
