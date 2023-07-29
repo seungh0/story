@@ -88,6 +88,7 @@ class AuthenticationKeyManager(
         withContext(dispatcher) {
             kafkaTemplate.send(
                 KafkaTopicFinder.getTopicName(TopicType.AUTHENTICATION_KEY),
+                authenticationKey,
                 AuthenticationKeyEvent.updated(authenticationKey = authentication).toJson()
             )
         }

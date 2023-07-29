@@ -84,6 +84,7 @@ class ComponentManager(
         withContext(dispatcher) {
             kafkaTemplate.send(
                 KafkaTopicFinder.getTopicName(TopicType.COMPONENT),
+                "$workspaceId:$resourceId:$component",
                 ComponentEvent.updated(component = component).toJson()
             )
         }
