@@ -3,11 +3,9 @@ package com.story.platform.api.domain.post
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
-import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
-import com.story.platform.core.domain.post.PostCreateHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
@@ -23,9 +21,6 @@ class PostRegisterApiTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
-
-    @MockkBean
-    private val componentHandler: ComponentHandler,
 ) : FunSpec({
 
     beforeEach {
@@ -35,8 +30,6 @@ class PostRegisterApiTest(
             status = AuthenticationKeyStatus.ENABLED,
             description = "",
         )
-
-        coEvery { componentHandler.validateComponent(any(), any(), any()) } returns Unit
     }
 
     test("새로운 포스트를 등록한다") {

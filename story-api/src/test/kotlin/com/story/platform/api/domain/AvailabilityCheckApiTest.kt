@@ -3,7 +3,7 @@ package com.story.platform.api.domain
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
-import com.story.platform.api.domain.component.ComponentHandler
+import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.api.lib.isTrue
 import com.story.platform.core.common.model.dto.ApiResponse
@@ -26,7 +26,7 @@ internal class AvailabilityCheckApiTest(
     private val authenticationHandler: AuthenticationHandler,
 
     @MockkBean
-    private val componentHandler: ComponentHandler,
+    private val componentCheckHandler: ComponentCheckHandler,
 ) : FunSpec({
 
     beforeEach {
@@ -37,7 +37,7 @@ internal class AvailabilityCheckApiTest(
             description = "",
         )
 
-        coEvery { componentHandler.validateComponent(any(), any(), any()) } returns Unit
+        coEvery { componentCheckHandler.validateComponent(any(), any(), any()) } returns Unit
     }
 
     test("Health Check API") {

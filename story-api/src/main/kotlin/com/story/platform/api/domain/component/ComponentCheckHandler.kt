@@ -6,7 +6,7 @@ import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.stereotype.Service
 
 @Service
-class ComponentHandler(
+class ComponentCheckHandler(
     private val componentRetriever: ComponentRetriever,
 ) {
 

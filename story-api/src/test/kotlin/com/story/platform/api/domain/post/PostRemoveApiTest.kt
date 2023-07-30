@@ -3,12 +3,10 @@ package com.story.platform.api.domain.post
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
-import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.api.lib.isTrue
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
-import com.story.platform.core.domain.post.PostRemoveHandler
 import com.story.platform.core.domain.post.PostSpaceKey
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
@@ -24,9 +22,6 @@ class PostRemoveApiTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
-
-    @MockkBean
-    private val componentHandler: ComponentHandler,
 ) : FunSpec({
 
     beforeEach {
@@ -36,8 +31,6 @@ class PostRemoveApiTest(
             status = AuthenticationKeyStatus.ENABLED,
             description = "",
         )
-
-        coEvery { componentHandler.validateComponent(any(), any(), any()) } returns Unit
     }
 
     test("기존에 등록된 포스트를 삭제한다") {

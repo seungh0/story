@@ -7,7 +7,6 @@ import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.event.BaseEvent
 import com.story.platform.core.domain.feed.FeedResponse
-import com.story.platform.core.domain.feed.FeedRetriever
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class FeedRetrieveApi(
-    private val feedRetriever: FeedRetriever,
+    private val feedRetrieveHandler: FeedRetrieveHandler,
 ) {
 
     @GetMapping("/v1/feeds/components/{componentId}/target/{targetId}")
@@ -25,7 +24,7 @@ class FeedRetrieveApi(
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<FeedResponse<out BaseEvent>, String>> {
-        val response = feedRetriever.listFeeds(
+        val response = feedRetrieveHandler.listFeeds(
             workspaceId = authContext.workspaceId,
             feedComponentId = componentId,
             targetId = targetId,

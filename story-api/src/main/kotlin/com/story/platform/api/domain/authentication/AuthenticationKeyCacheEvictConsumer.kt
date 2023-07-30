@@ -4,7 +4,7 @@ import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.JsonUtils
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.authentication.AuthenticationKeyEvent
-import com.story.platform.core.domain.authentication.AuthenticationKeyLocalCacheEvictionManager
+import com.story.platform.core.domain.authentication.AuthenticationKeyLocalCacheEvictManager
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
@@ -18,8 +18,8 @@ import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Service
 
 @Service
-class AuthenticationKeyLocalCacheEvictConsumer(
-    private val authenticationKeyLocalCacheEvictionManager: AuthenticationKeyLocalCacheEvictionManager,
+class AuthenticationKeyCacheEvictConsumer(
+    private val authenticationKeyLocalCacheEvictManager: AuthenticationKeyLocalCacheEvictManager,
 
     @IOBound
     private val dispatcher: CoroutineDispatcher,
@@ -45,7 +45,7 @@ class AuthenticationKeyLocalCacheEvictConsumer(
             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
         withContext(dispatcher) {
-            authenticationKeyLocalCacheEvictionManager.evictAuthenticationKey(
+            authenticationKeyLocalCacheEvictManager.evictAuthenticationKey(
                 authenticationKey = payload.authenticationKey,
             )
         }

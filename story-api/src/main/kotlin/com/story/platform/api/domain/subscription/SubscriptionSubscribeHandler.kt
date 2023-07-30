@@ -1,5 +1,10 @@
-package com.story.platform.core.domain.subscription
+package com.story.platform.api.domain.subscription
 
+import com.story.platform.api.domain.component.ComponentCheckHandler
+import com.story.platform.core.domain.resource.ResourceId
+import com.story.platform.core.domain.subscription.SubscriptionCountManager
+import com.story.platform.core.domain.subscription.SubscriptionEventPublisher
+import com.story.platform.core.domain.subscription.SubscriptionSubscriber
 import org.springframework.stereotype.Service
 
 @Service
@@ -7,6 +12,7 @@ class SubscriptionSubscribeHandler(
     private val subscriptionSubscriber: SubscriptionSubscriber,
     private val subscriptionCountManager: SubscriptionCountManager,
     private val subscriptionEventPublisher: SubscriptionEventPublisher,
+    private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
     suspend fun subscribe(
@@ -16,6 +22,12 @@ class SubscriptionSubscribeHandler(
         subscriberId: String,
         alarm: Boolean,
     ) {
+        componentCheckHandler.validateComponent(
+            workspaceId = workspaceId,
+            resourceId = ResourceId.SUBSCRIPTIONS,
+            componentId = componentId,
+        )
+
         val isSubscribed = subscriptionSubscriber.subscribe(
             workspaceId = workspaceId,
             componentId = componentId,

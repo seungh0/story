@@ -2,7 +2,7 @@ package com.story.platform.api.domain.authentication
 
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 
-data class AuthenticationKeyPatchApiRequest(
+data class AuthenticationKeyModifyApiRequest(
     val description: String?,
     val status: AuthenticationKeyStatus?,
 )

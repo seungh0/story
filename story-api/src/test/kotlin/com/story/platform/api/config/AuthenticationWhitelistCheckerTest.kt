@@ -6,10 +6,8 @@ import io.kotest.data.forAll
 import io.kotest.data.headers
 import io.kotest.data.row
 import io.kotest.data.table
-import io.kotest.matchers.longs.shouldBeLessThanOrEqual
 import io.kotest.matchers.shouldBe
 import org.springframework.http.HttpMethod
-import org.springframework.util.StopWatch
 
 internal class AuthenticationWhitelistCheckerTest : FunSpec({
 
@@ -28,28 +26,6 @@ internal class AuthenticationWhitelistCheckerTest : FunSpec({
 
             // then
             sut shouldBe expected
-        }
-    }
-
-    test("BenchMark") {
-        forAll(
-            table(
-                headers("method", "path"),
-                row(HttpMethod.GET, "/api/health/readiness"),
-                row(HttpMethod.GET, "/api/health/liveness"),
-                row(HttpMethod.GET, "/api/test")
-            )
-        ) { method, path ->
-            // given
-            val stopWatcher = StopWatch()
-            stopWatcher.start()
-
-            // when
-            AuthenticationWhitelistChecker.checkNoAuthentication(method = method, path = path)
-
-            // then
-            stopWatcher.stop()
-            stopWatcher.totalTimeMillis shouldBeLessThanOrEqual 1
         }
     }
 

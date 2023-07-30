@@ -3,7 +3,7 @@ package com.story.platform.api.domain.post
 import com.story.platform.core.common.error.InvalidArgumentsException
 import jakarta.validation.constraints.NotBlank
 
-data class PostPatchApiRequest(
+data class PostModifyApiRequest(
     @field:NotBlank
     val accountId: String = "",
     val title: String?,

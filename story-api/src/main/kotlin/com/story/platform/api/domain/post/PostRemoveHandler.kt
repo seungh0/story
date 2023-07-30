@@ -1,11 +1,17 @@
-package com.story.platform.core.domain.post
+package com.story.platform.api.domain.post
 
+import com.story.platform.api.domain.component.ComponentCheckHandler
+import com.story.platform.core.domain.post.PostEventPublisher
+import com.story.platform.core.domain.post.PostRemover
+import com.story.platform.core.domain.post.PostSpaceKey
+import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.stereotype.Service
 
 @Service
 class PostRemoveHandler(
     private val postRemover: PostRemover,
     private val postEventPublisher: PostEventPublisher,
+    private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
     suspend fun remove(
@@ -13,6 +19,12 @@ class PostRemoveHandler(
         accountId: String,
         postId: Long,
     ) {
+        componentCheckHandler.validateComponent(
+            workspaceId = postSpaceKey.workspaceId,
+            resourceId = ResourceId.POSTS,
+            componentId = postSpaceKey.componentId,
+        )
+
         postRemover.remove(
             postSpaceKey = postSpaceKey,
             accountId = accountId,

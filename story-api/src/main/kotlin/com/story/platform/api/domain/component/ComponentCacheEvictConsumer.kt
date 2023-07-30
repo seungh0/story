@@ -4,7 +4,7 @@ import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.JsonUtils
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.component.ComponentEvent
-import com.story.platform.core.domain.component.ComponentLocalCacheEvictionManager
+import com.story.platform.core.domain.component.ComponentLocalCacheEvictManager
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
@@ -18,8 +18,8 @@ import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Service
 
 @Service
-class ComponentLocalCacheEvictConsumer(
-    private val componentLocalCacheEvictionManager: ComponentLocalCacheEvictionManager,
+class ComponentCacheEvictConsumer(
+    private val componentLocalCacheEvictManager: ComponentLocalCacheEvictManager,
 
     @IOBound
     private val dispatcher: CoroutineDispatcher,
@@ -45,7 +45,7 @@ class ComponentLocalCacheEvictConsumer(
             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
         withContext(dispatcher) {
-            componentLocalCacheEvictionManager.evictComponent(
+            componentLocalCacheEvictManager.evictComponent(
                 workspaceId = payload.workspaceId,
                 resourceId = payload.resourceId,
                 componentId = payload.componentId,

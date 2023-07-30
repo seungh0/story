@@ -18,7 +18,7 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
 @Service
-class AuthenticationKeyManager(
+class AuthenticationKeyModifier(
     private val authenticationKeyRepository: AuthenticationKeyRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 
@@ -28,39 +28,6 @@ class AuthenticationKeyManager(
     @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
-
-    suspend fun createAuthenticationKey(
-        workspaceId: String,
-        authenticationKey: String,
-        description: String,
-    ) {
-        if (isAlreadyRegisterKey(workspaceId = workspaceId, authenticationKey = authenticationKey)) {
-            throw AuthenticationKeyAlreadyExistsException(message = "워크스페이스($workspaceId)에 이미 등록된 인증 키($authenticationKey)입니다")
-        }
-
-        val authentication = AuthenticationKey.of(
-            workspaceId = workspaceId,
-            authenticationKey = authenticationKey,
-            description = description,
-        )
-
-        reactiveCassandraOperations.batchOps()
-            .upsert(authentication)
-            .upsert(AuthenticationReverseKey.from(authentication))
-            .executeCoroutine()
-    }
-
-    private suspend fun isAlreadyRegisterKey(
-        workspaceId: String,
-        authenticationKey: String,
-    ): Boolean {
-        return authenticationKeyRepository.existsById(
-            AuthenticationKeyPrimaryKey(
-                workspaceId = workspaceId,
-                authenticationKey = authenticationKey,
-            )
-        )
-    }
 
     @CacheEvict(
         cacheType = CacheType.AUTHENTICATION_REVERSE_KEY,

@@ -14,16 +14,19 @@ data class ComponentEvent(
 
     companion object {
         fun updated(
-            component: Component,
+            workspaceId: String,
+            resourceId: ResourceId,
+            componentId: String,
+            status: ComponentStatus,
         ) = EventRecord(
             eventAction = EventAction.UPDATED,
             payload = ComponentEvent(
-                workspaceId = component.key.workspaceId,
-                resourceId = component.key.resourceId,
-                componentId = component.key.componentId,
-                status = component.status,
+                workspaceId = workspaceId,
+                resourceId = resourceId,
+                componentId = componentId,
+                status = status,
             ),
-            eventKey = EventKeyGenerator.component(componentId = component.key.componentId),
+            eventKey = EventKeyGenerator.component(componentId = componentId),
         )
     }
 

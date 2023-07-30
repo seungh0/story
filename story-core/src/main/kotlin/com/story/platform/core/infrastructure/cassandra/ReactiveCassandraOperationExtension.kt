@@ -1,6 +1,6 @@
 package com.story.platform.core.infrastructure.cassandra
 
-import kotlinx.coroutines.reactor.awaitSingleOrNull
+import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.data.cassandra.core.InsertOptions
 import org.springframework.data.cassandra.core.ReactiveCassandraBatchOperations
 
@@ -10,7 +10,7 @@ fun ReactiveCassandraBatchOperations.upsert(vararg entities: Any) = this.insert(
 
 fun ReactiveCassandraBatchOperations.upsert(entities: Iterable<*>) = this.insert(entities, upsertOptions)
 
-suspend fun ReactiveCassandraBatchOperations.executeCoroutine() = this.execute().awaitSingleOrNull()
+suspend fun ReactiveCassandraBatchOperations.executeCoroutine() = this.execute().awaitSingle()
 
 private val upsertOptions = InsertOptions.builder()
     .withInsertNulls()

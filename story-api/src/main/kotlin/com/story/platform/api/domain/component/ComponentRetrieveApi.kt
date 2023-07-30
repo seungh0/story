@@ -5,8 +5,6 @@ import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
-import com.story.platform.core.domain.component.ComponentResponse
-import com.story.platform.core.domain.component.ComponentRetriever
 import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ComponentRetrieveApi(
-    private val componentRetriever: ComponentRetriever,
+    private val componentRetrieveHandler: ComponentRetrieveHandler,
 ) {
 
     /**
@@ -27,17 +25,12 @@ class ComponentRetrieveApi(
         @RequestAuthContext authContext: AuthContext,
         @Valid cursorRequest: CursorRequest,
     ): ApiResponse<CursorResult<ComponentApiResponse, String>> {
-        val response = componentRetriever.listComponents(
+        val response = componentRetrieveHandler.listComponents(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),
             cursorRequest = cursorRequest,
         )
-        return ApiResponse.ok(
-            CursorResult.of(
-                data = response.data.map { component -> ComponentApiResponse.of(component) },
-                cursor = response.cursor,
-            )
-        )
+        return ApiResponse.ok(response)
     }
 
     @GetMapping("/v1/resources/{resourceId}/components/{componentId}")
@@ -45,8 +38,8 @@ class ComponentRetrieveApi(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<ComponentResponse> {
-        val component = componentRetriever.getComponent(
+    ): ApiResponse<ComponentApiResponse> {
+        val component = componentRetrieveHandler.getComponent(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),
             componentId = componentId,

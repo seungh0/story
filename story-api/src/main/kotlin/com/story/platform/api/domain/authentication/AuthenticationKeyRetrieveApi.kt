@@ -1,14 +1,13 @@
 package com.story.platform.api.domain.authentication
 
 import com.story.platform.core.common.model.dto.ApiResponse
-import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class AuthenticationKeyRetrieveApi(
-    private val authenticationKeyManager: AuthenticationKeyRetriever,
+    private val authenticationKeyRetrieveHandler: AuthenticationKeyRetrieveHandler,
 ) {
 
     /**
@@ -18,7 +17,7 @@ class AuthenticationKeyRetrieveApi(
     suspend fun getAuthenticationKey(
         @PathVariable authenticationKey: String,
     ): ApiResponse<AuthenticationKeyApiResponse> {
-        val response = authenticationKeyManager.getAuthenticationKey(authenticationKey = authenticationKey)
+        val response = authenticationKeyRetrieveHandler.getAuthenticationKey(authenticationKey = authenticationKey)
         return ApiResponse.ok(AuthenticationKeyApiResponse.of(response))
     }
 

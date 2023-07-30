@@ -2,14 +2,9 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
-import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
-import com.story.platform.core.domain.post.PostIdInvalidException
-import com.story.platform.core.domain.post.PostRetriever
-import com.story.platform.core.domain.post.PostSpaceKey
-import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/v1/posts/components/{componentId}")
 @RestController
 class PostRetrieveApi(
-    private val postRetriever: PostRetriever,
-    private val componentHandler: ComponentHandler,
+    private val postRetrieveHandler: PostRetrieveHandler,
 ) {
 
     /**
@@ -33,21 +27,13 @@ class PostRetrieveApi(
         @PathVariable postId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<PostApiResponse> {
-        componentHandler.validateComponent(
+        val response = postRetrieveHandler.getPost(
             workspaceId = authContext.workspaceId,
-            resourceId = ResourceId.POSTS,
             componentId = componentId,
+            spaceId = spaceId,
+            postId = postId,
         )
-
-        val post = postRetriever.getPost(
-            postSpaceKey = PostSpaceKey(
-                workspaceId = authContext.workspaceId,
-                componentId = componentId,
-                spaceId = spaceId,
-            ),
-            postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)이 요청되었습니다"),
-        )
-        return ApiResponse.ok(PostApiResponse.of(post))
+        return ApiResponse.ok(response)
     }
 
     /**
@@ -60,27 +46,13 @@ class PostRetrieveApi(
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<PostApiResponse, String>> {
-        componentHandler.validateComponent(
+        val response = postRetrieveHandler.listPosts(
             workspaceId = authContext.workspaceId,
-            resourceId = ResourceId.POSTS,
             componentId = componentId,
-        )
-
-        val posts = postRetriever.listPosts(
-            postSpaceKey = PostSpaceKey(
-                workspaceId = authContext.workspaceId,
-                componentId = componentId,
-                spaceId = spaceId,
-            ),
+            spaceId = spaceId,
             cursorRequest = cursorRequest,
         )
-
-        val result = CursorResult.of(
-            data = posts.data.map { post -> PostApiResponse.of(post) },
-            cursor = posts.cursor,
-        )
-
-        return ApiResponse.ok(result)
+        return ApiResponse.ok(response)
     }
 
 }

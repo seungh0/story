@@ -2,13 +2,9 @@ package com.story.platform.api.domain.subscription
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
-import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
-import com.story.platform.core.domain.resource.ResourceId
-import com.story.platform.core.domain.subscription.SubscriptionCountRetriever
-import com.story.platform.core.domain.subscription.SubscriptionRetriever
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/v1/subscriptions/components/{componentId}")
 @RestController
 class SubscriptionRetrieveApi(
-    private val subscriptionRetriever: SubscriptionRetriever,
-    private val subscriptionCountRetriever: SubscriptionCountRetriever,
-    private val componentHandler: ComponentHandler,
+    private val subscriptionRetrieveHandler: SubscriptionRetrieveHandler,
 ) {
 
     /**
@@ -33,21 +27,13 @@ class SubscriptionRetrieveApi(
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionCheckApiResponse> {
-        componentHandler.validateComponent(
-            workspaceId = authContext.workspaceId,
-            resourceId = ResourceId.SUBSCRIPTIONS,
-            componentId = componentId,
-        )
-
-        val isSubscriber = subscriptionRetriever.isSubscriber(
+        val response = subscriptionRetrieveHandler.isSubscriber(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             targetId = targetId,
             subscriberId = subscriberId,
         )
-        return ApiResponse.ok(
-            result = SubscriptionCheckApiResponse(isSubscriber = isSubscriber)
-        )
+        return ApiResponse.ok(result = response)
     }
 
     /**
@@ -59,20 +45,12 @@ class SubscriptionRetrieveApi(
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscribersCountApiResponse> {
-        componentHandler.validateComponent(
-            workspaceId = authContext.workspaceId,
-            resourceId = ResourceId.SUBSCRIPTIONS,
-            componentId = componentId,
-        )
-
-        val subscribersCount = subscriptionCountRetriever.countSubscribers(
+        val response = subscriptionRetrieveHandler.countSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             targetId = targetId,
         )
-        return ApiResponse.ok(
-            result = SubscribersCountApiResponse(subscribersCount = subscribersCount)
-        )
+        return ApiResponse.ok(result = response)
     }
 
     /**
@@ -84,20 +62,12 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriberId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionsCountApiResponse> {
-        componentHandler.validateComponent(
-            workspaceId = authContext.workspaceId,
-            resourceId = ResourceId.SUBSCRIPTIONS,
-            componentId = componentId,
-        )
-
-        val subscribersCount = subscriptionCountRetriever.countSubscriptions(
+        val response = subscriptionRetrieveHandler.countSubscriptions(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
         )
-        return ApiResponse.ok(
-            result = SubscriptionsCountApiResponse(subscriptionsCount = subscribersCount)
-        )
+        return ApiResponse.ok(result = response)
     }
 
     /**
@@ -110,26 +80,13 @@ class SubscriptionRetrieveApi(
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriberApiResponse, String>> {
-        componentHandler.validateComponent(
-            workspaceId = authContext.workspaceId,
-            resourceId = ResourceId.SUBSCRIPTIONS,
-            componentId = componentId,
-        )
-
-        val subscriptionReverses = subscriptionRetriever.listTargetSubscribers(
+        val response = subscriptionRetrieveHandler.listTargetSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             targetId = targetId,
             cursorRequest = cursorRequest,
         )
-        return ApiResponse.ok(
-            result = CursorResult.of(
-                data = subscriptionReverses.data.map { subscriptionReverse ->
-                    SubscriberApiResponse.of(subscriptionReverse)
-                },
-                cursor = subscriptionReverses.cursor,
-            )
-        )
+        return ApiResponse.ok(response)
     }
 
     /**
@@ -142,26 +99,13 @@ class SubscriptionRetrieveApi(
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<SubscriptionTargetApiResponse, String>> {
-        componentHandler.validateComponent(
-            workspaceId = authContext.workspaceId,
-            resourceId = ResourceId.SUBSCRIPTIONS,
-            componentId = componentId,
-        )
-
-        val subscriptions = subscriptionRetriever.listSubscriberTargets(
+        val response = subscriptionRetrieveHandler.listSubscriberTargets(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
             cursorRequest = cursorRequest,
         )
-        return ApiResponse.ok(
-            result = CursorResult.of(
-                data = subscriptions.data.map { subscription ->
-                    SubscriptionTargetApiResponse.of(subscription)
-                },
-                cursor = subscriptions.cursor,
-            )
-        )
+        return ApiResponse.ok(response)
     }
 
 }

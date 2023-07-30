@@ -7,7 +7,7 @@ import com.story.platform.core.support.cache.CacheType
 import org.springframework.stereotype.Service
 
 @Service
-class AuthenticationKeyLocalCacheEvictionManager {
+class AuthenticationKeyLocalCacheEvictManager {
 
     @CacheEvict(
         cacheType = CacheType.AUTHENTICATION_REVERSE_KEY,

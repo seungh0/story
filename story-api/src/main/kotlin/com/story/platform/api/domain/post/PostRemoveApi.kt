@@ -2,12 +2,9 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
-import com.story.platform.api.domain.component.ComponentHandler
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.domain.post.PostIdInvalidException
-import com.story.platform.core.domain.post.PostRemoveHandler
 import com.story.platform.core.domain.post.PostSpaceKey
-import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class PostRemoveApi(
     private val postRemoveHandler: PostRemoveHandler,
-    private val componentHandler: ComponentHandler,
 ) {
 
     /**
@@ -32,12 +28,6 @@ class PostRemoveApi(
         @RequestParam accountId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
-        componentHandler.validateComponent(
-            workspaceId = authContext.workspaceId,
-            resourceId = ResourceId.POSTS,
-            componentId = componentId,
-        )
-
         postRemoveHandler.remove(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,

@@ -8,7 +8,7 @@ import com.story.platform.core.support.cache.CacheType
 import org.springframework.stereotype.Service
 
 @Service
-class ComponentLocalCacheEvictionManager {
+class ComponentLocalCacheEvictManager {
 
     @CacheEvict(
         cacheType = CacheType.COMPONENT,
