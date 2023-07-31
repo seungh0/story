@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component
 
 @Component
 class RedisCleaner(
-    private val redisTemplate: ReactiveRedisTemplate<String, String>,
+    private val reactiveRedisTemplate: ReactiveRedisTemplate<String, String>,
 ) {
 
     suspend fun cleanup(): List<Job> {
-        val keyStrings = redisTemplate.execute { action ->
+        val keyStrings = reactiveRedisTemplate.execute { action ->
             action.keyCommands().scan(
                 ScanOptions.scanOptions()
                     .match("*")
@@ -26,7 +26,7 @@ class RedisCleaner(
         return coroutineScope {
             return@coroutineScope keyStrings.map {
                 launch {
-                    redisTemplate.execute { action ->
+                    reactiveRedisTemplate.execute { action ->
                         action.keyCommands().del(it)
                     }.awaitSingle()
                 }

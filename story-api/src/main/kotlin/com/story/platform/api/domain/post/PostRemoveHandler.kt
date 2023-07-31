@@ -30,6 +30,7 @@ class PostRemoveHandler(
             accountId = accountId,
             postId = postId,
         )
+
         postEventPublisher.publishDeletedEvent(
             postSpaceKey = postSpaceKey,
             postId = postId,
