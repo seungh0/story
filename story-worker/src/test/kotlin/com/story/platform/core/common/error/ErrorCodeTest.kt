@@ -1,13 +1,13 @@
 package com.story.platform.core.common.error
 
-import io.kotest.core.spec.style.FunSpec
+import io.kotest.core.spec.style.StringSpec
 import org.junit.jupiter.api.Assertions.fail
 
-class ErrorCodeTest : FunSpec({
+class ErrorCodeTest : StringSpec({
 
-    test("에러코드는 중복되지 않아야 한다") {
+    "에러코드는 중복되지 않아야 한다" {
         // given
-        val errorCodes: MutableSet<String> = HashSet()
+        val errorCodes = mutableSetOf<String>()
 
         // when & then
         for (errorCode in ErrorCode.values()) {
