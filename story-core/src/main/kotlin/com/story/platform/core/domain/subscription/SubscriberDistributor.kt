@@ -3,8 +3,8 @@ package com.story.platform.core.domain.subscription
 import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
-import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -49,8 +49,8 @@ class SubscriberDistributor(
                     )
 
                     kafkaTemplate.send(
-                        KafkaTopicFinder.getTopicName(TopicType.SUBSCRIBER_DISTRIBUTOR),
-                        event.toJson()
+                        topicType = TopicType.SUBSCRIBER_DISTRIBUTOR,
+                        data = event.toJson()
                     )
                 }
             }

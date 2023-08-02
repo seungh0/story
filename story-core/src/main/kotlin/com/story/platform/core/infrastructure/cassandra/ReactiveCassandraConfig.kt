@@ -17,7 +17,7 @@ import org.springframework.data.cassandra.repository.config.EnableReactiveCassan
 @EntityScan(basePackageClasses = [CoreRoot::class])
 @EnableReactiveCassandraRepositories(basePackageClasses = [CoreRoot::class])
 @Configuration
-class ReactiveCassandraJpaConfig {
+class ReactiveCassandraConfig {
 
     @Bean
     fun cassandraCustomConversions(

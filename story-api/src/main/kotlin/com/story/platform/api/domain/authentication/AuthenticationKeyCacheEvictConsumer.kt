@@ -1,8 +1,8 @@
 package com.story.platform.api.domain.authentication
 
 import com.story.platform.core.common.coroutine.IOBound
-import com.story.platform.core.common.json.JsonUtils
 import com.story.platform.core.common.json.toJson
+import com.story.platform.core.common.json.toObject
 import com.story.platform.core.domain.authentication.AuthenticationKeyEvent
 import com.story.platform.core.domain.authentication.AuthenticationKeyLocalCacheEvictManager
 import com.story.platform.core.domain.event.EventAction
@@ -34,14 +34,14 @@ class AuthenticationKeyCacheEvictConsumer(
         @Payload record: ConsumerRecord<String, String>,
         @Headers headers: Map<String, Any>,
     ) = runBlocking {
-        val event = JsonUtils.toObject(record.value(), EventRecord::class.java)
+        val event = record.value().toObject(EventRecord::class.java)
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
         if (event.eventAction == EventAction.CREATED) {
             return@runBlocking
         }
 
-        val payload = JsonUtils.toObject(event.payload.toJson(), AuthenticationKeyEvent::class.java)
+        val payload = event.payload.toJson().toObject(AuthenticationKeyEvent::class.java)
             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
         withContext(dispatcher) {

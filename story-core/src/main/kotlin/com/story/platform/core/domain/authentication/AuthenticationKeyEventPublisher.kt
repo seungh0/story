@@ -4,8 +4,8 @@ import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
-import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Qualifier
@@ -24,9 +24,9 @@ class AuthenticationKeyEventPublisher(
     suspend fun publishEvent(authenticationKey: String, event: EventRecord<AuthenticationKeyEvent>) {
         withContext(dispatcher) {
             kafkaTemplate.send(
-                KafkaTopicFinder.getTopicName(TopicType.AUTHENTICATION_KEY),
-                authenticationKey,
-                event.toJson()
+                topicType = TopicType.AUTHENTICATION_KEY,
+                key = authenticationKey,
+                data = event.toJson()
             )
         }
     }

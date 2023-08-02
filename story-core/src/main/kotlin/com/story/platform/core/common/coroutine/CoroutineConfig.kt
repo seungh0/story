@@ -13,7 +13,7 @@ class CoroutineConfig {
     @IOBound
     @Bean
     fun dispatcherIO(): CoroutineDispatcher = Dispatchers.IO
-        .limitedParallelism(100)
+        .limitedParallelism(parallelism = 200)
 
     @CpuBound
     @Bean

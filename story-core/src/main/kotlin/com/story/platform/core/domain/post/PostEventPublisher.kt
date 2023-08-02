@@ -5,8 +5,8 @@ import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
-import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Qualifier
@@ -33,9 +33,9 @@ class PostEventPublisher(
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    KafkaTopicFinder.getTopicName(TopicType.POST),
-                    post.postId.toString(),
-                    event.toJson()
+                    topicType = TopicType.POST,
+                    key = post.postId.toString(),
+                    data = event.toJson()
                 )
             }
         }
@@ -51,9 +51,9 @@ class PostEventPublisher(
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    KafkaTopicFinder.getTopicName(TopicType.POST),
-                    post.postId.toString(),
-                    event.toJson()
+                    topicType = TopicType.POST,
+                    key = post.postId.toString(),
+                    data = event.toJson()
                 )
             }
         }
@@ -78,7 +78,11 @@ class PostEventPublisher(
             event = event,
         ) {
             withContext(dispatcher) {
-                kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.POST), postId.toString(), event.toJson())
+                kafkaTemplate.send(
+                    topicType = TopicType.POST,
+                    key = postId.toString(),
+                    data = event.toJson()
+                )
             }
         }
     }

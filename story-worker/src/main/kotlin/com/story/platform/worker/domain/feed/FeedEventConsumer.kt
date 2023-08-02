@@ -1,8 +1,8 @@
 package com.story.platform.worker.domain.feed
 
 import com.story.platform.core.common.coroutine.IOBound
-import com.story.platform.core.common.json.JsonUtils
 import com.story.platform.core.common.json.toJson
+import com.story.platform.core.common.json.toObject
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.feed.configuration.FeedReverseMappingConfigurationRepository
 import com.story.platform.core.domain.post.PostEvent
@@ -40,10 +40,10 @@ class FeedEventConsumer(
         @Payload record: ConsumerRecord<String, String>,
         @Headers headers: Map<String, Any>,
     ) = runBlocking {
-        val event = JsonUtils.toObject(record.value(), EventRecord::class.java)
+        val event = record.value().toObject(EventRecord::class.java)
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
-        val payload = JsonUtils.toObject(event.payload.toJson(), PostEvent::class.java)
+        val payload = event.payload.toJson().toObject(PostEvent::class.java)
             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
         withContext(dispatcher) {
@@ -82,10 +82,10 @@ class FeedEventConsumer(
         @Payload record: ConsumerRecord<String, String>,
         @Headers headers: Map<String, Any>,
     ) = runBlocking {
-        val event = JsonUtils.toObject(record.value(), EventRecord::class.java)
+        val event = record.value().toObject(EventRecord::class.java)
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
-        val payload = JsonUtils.toObject(event.payload.toJson(), SubscriptionEvent::class.java)
+        val payload = event.payload.toJson().toObject(SubscriptionEvent::class.java)
             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
         withContext(dispatcher) {

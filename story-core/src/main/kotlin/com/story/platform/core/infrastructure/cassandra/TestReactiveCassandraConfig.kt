@@ -22,7 +22,7 @@ import org.springframework.data.cassandra.repository.config.EnableReactiveCassan
 @EntityScan(basePackageClasses = [CoreRoot::class])
 @EnableReactiveCassandraRepositories(basePackageClasses = [CoreRoot::class])
 @Configuration
-class TestReactiveCassandraJpaConfig(
+class TestReactiveCassandraConfig(
     private val cassandraProperties: CassandraProperties,
     private val versionWriteConverter: VersionWriteConverter,
     private val versionReadConverter: VersionReadConverter,

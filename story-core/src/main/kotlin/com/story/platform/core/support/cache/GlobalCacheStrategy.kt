@@ -1,7 +1,7 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.common.json.JsonUtils
 import com.story.platform.core.common.json.toJson
+import com.story.platform.core.common.json.toObject
 import com.story.platform.core.common.logger.LoggerExtension.log
 import org.springframework.stereotype.Repository
 
@@ -26,7 +26,7 @@ class GlobalCacheStrategy(
             return null
         }
 
-        val globalCacheValue = JsonUtils.toObject(redisCacheValueJson, cacheType.cacheClazz)
+        val globalCacheValue = redisCacheValueJson.toObject(cacheType.cacheClazz)
 
         log.debug { "글로벌 캐시로부터 데이터를 가져옵니다 [key:$cacheKey value: $globalCacheValue]" }
 

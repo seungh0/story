@@ -5,8 +5,8 @@ import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
-import com.story.platform.core.infrastructure.kafka.KafkaTopicFinder
 import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Qualifier
@@ -43,7 +43,7 @@ class SubscriptionEventPublisher(
             event = event,
         ) {
             withContext(dispatcher) {
-                kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
+                kafkaTemplate.send(topicType = TopicType.SUBSCRIPTION, key = subscriberId, data = event.toJson())
             }
         }
     }
@@ -68,7 +68,7 @@ class SubscriptionEventPublisher(
             event = event,
         ) {
             withContext(dispatcher) {
-                kafkaTemplate.send(KafkaTopicFinder.getTopicName(TopicType.SUBSCRIPTION), subscriberId, event.toJson())
+                kafkaTemplate.send(topicType = TopicType.SUBSCRIPTION, key = subscriberId, data = event.toJson())
             }
         }
     }
