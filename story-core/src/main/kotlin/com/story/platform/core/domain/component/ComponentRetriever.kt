@@ -61,7 +61,7 @@ class ComponentRetriever(
                 cursor = components.subList(0, pageSize.coerceAtMost(components.size)).lastOrNull()?.key?.componentId
             )
         }
-        return Cursor.of(null)
+        return Cursor.noMore()
     }
 
     private suspend fun listComponentsWithCursor(

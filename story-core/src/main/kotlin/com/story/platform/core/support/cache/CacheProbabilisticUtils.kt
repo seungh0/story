@@ -3,10 +3,10 @@ package com.story.platform.core.support.cache
 import java.time.Duration
 import kotlin.random.Random
 
-object CachePerUtils {
+object CacheProbabilisticUtils {
 
     /**
-     * Probablistic Early Recomputation
+     * Probabilistic Early Recomputation
      */
     fun isEarlyRecomputeRequired(
         currentTtl: Duration,

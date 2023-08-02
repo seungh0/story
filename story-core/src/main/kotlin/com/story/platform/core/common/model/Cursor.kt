@@ -12,6 +12,8 @@ data class Cursor<T>(
             nextCursor = cursor,
             hasNext = cursor != null,
         )
+
+        fun <T> noMore(): Cursor<T> = of(null)
     }
 
 }

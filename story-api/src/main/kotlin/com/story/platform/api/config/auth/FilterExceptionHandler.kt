@@ -30,7 +30,7 @@ class FilterExceptionHandler : ErrorWebExceptionHandler {
 
             is ResponseStatusException -> {
                 result = ApiResponse.fail(error = ErrorCode.E500_INTERNAL_ERROR)
-                exception.message.let { message = it }
+                message = exception.message
                 exchange.response.statusCode = HttpStatus.INTERNAL_SERVER_ERROR
                 exchange.response.rawStatusCode = HttpStatus.INTERNAL_SERVER_ERROR.value()
             }

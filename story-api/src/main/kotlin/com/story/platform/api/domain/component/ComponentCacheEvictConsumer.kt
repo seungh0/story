@@ -37,7 +37,7 @@ class ComponentCacheEvictConsumer(
         val event = JsonUtils.toObject(record.value(), EventRecord::class.java)
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
-        if (event.eventAction != EventAction.UPDATED) {
+        if (event.eventAction == EventAction.CREATED) {
             return@runBlocking
         }
 

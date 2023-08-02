@@ -41,7 +41,7 @@ class RedisCacheRepositoryImpl(
         val totalExpiredTtl: Duration = cacheType.globalCacheTtl
             ?: throw NotSupportedException("레디스 캐시를 지원하지 않는 캐시($cacheType) 입니다")
         val currentExpiredTtl = getTtl(cacheType = cacheType, cacheKey = cacheKey)
-        return CachePerUtils.isEarlyRecomputeRequired(
+        return CacheProbabilisticUtils.isEarlyRecomputeRequired(
             currentTtl = currentExpiredTtl,
             expiryGap = Duration.ofMillis(totalExpiredTtl.toMillis() / 10)
         )

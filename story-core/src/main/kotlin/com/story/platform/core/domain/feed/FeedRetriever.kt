@@ -96,7 +96,7 @@ class FeedRetriever(
                 cursor = feeds.subList(0, pageSize.coerceAtMost(feeds.size)).lastOrNull()?.key?.eventId?.toString()
             )
         }
-        return Cursor.of(null)
+        return Cursor.noMore()
     }
 
 }

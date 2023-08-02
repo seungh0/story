@@ -99,7 +99,7 @@ object JsonUtils {
         }
     }
 
-    fun toJsonNode(json: String): JsonNode {
+    private fun toJsonNode(json: String): JsonNode {
         return try {
             DEFAULT_OBJECT_MAPPER.readTree(json)
         } catch (exception: Exception) {

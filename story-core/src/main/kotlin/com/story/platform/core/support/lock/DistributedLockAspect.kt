@@ -41,7 +41,7 @@ class DistributedLockAspect(
                 lockKey = "lock:${distributedLock.lockType.prefix}:$lockKey}",
             ) {
                 return@executeInCriticalSection joinPoint.runCoroutine {
-                    return@runCoroutine joinPoint.proceedCoroutine(joinPoint.coroutineArgs)
+                    joinPoint.proceedCoroutine(joinPoint.coroutineArgs)
                 }
             }
         }
