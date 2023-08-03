@@ -1,4 +1,4 @@
-package com.story.platform.api.domain.component
+package com.story.platform.api.domain.subscription
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
@@ -9,9 +9,6 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
-import com.story.platform.core.domain.component.ComponentResponse
-import com.story.platform.core.domain.component.ComponentStatus
-import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
@@ -22,12 +19,12 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(ComponentCreateApi::class)
-class ComponentCreateApiTest(
+@ApiTest(SubscriptionSubscribeApi::class)
+class SubscriptionSubscribeApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val componentCreateHandler: ComponentCreateHandler,
+    private val subscriptionSubscribeHandler: SubscriptionSubscribeHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -42,32 +39,32 @@ class ComponentCreateApiTest(
         )
     }
 
-    "신규 컴포넌트를 등록합니다" {
+    "대상을 구독합니다" {
         // given
-        val resourceId = ResourceId.SUBSCRIPTIONS
         val componentId = "follow"
-        val description = "following"
+        val subscriberId = "subscriberId"
+        val targetId = "targetId"
 
-        val request = ComponentCreateApiRequest(
-            description = description,
+        val request = SubscriptionSubscribeApiRequest(
+            alarm = true,
         )
 
         coEvery {
-            componentCreateHandler.createComponent(
+            subscriptionSubscribeHandler.subscribe(
                 workspaceId = any(),
-                resourceId = resourceId,
                 componentId = componentId,
-                description = description,
+                targetId = targetId,
+                subscriberId = subscriberId,
+                alarm = request.alarm,
             )
-        } returns ComponentResponse(
-            componentId = componentId,
-            description = description,
-            status = ComponentStatus.ENABLED,
-        )
+        } returns Unit
 
         // when
         val exchange = webTestClient.post()
-            .uri("/v1/resources/{resourceId}/components/{componentId}", resourceId.code, componentId)
+            .uri(
+                "/v1/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
+                componentId, subscriberId, targetId,
+            )
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
@@ -79,17 +76,21 @@ class ComponentCreateApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "COMPONENT-CREATE-API",
+                    "SUBSCRIPTION-SUBSCRIBE-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
-                        RequestDocumentation.parameterWithName("componentId").description("Component Id"),
+                        RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
+                        RequestDocumentation.parameterWithName("subscriberId")
+                            .description("Subscription Subscriber Id"),
+                        RequestDocumentation.parameterWithName("targetId").description("Subscription Target Id"),
                     ),
                     PayloadDocumentation.requestFields(
-                        PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("Description").optional(),
+                        PayloadDocumentation.fieldWithPath("alarm").type(JsonFieldType.BOOLEAN)
+                            .description("alarm (true/false)")
+                            .optional()
+                            .attributes(RestDocsUtils.remarks("default true"))
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

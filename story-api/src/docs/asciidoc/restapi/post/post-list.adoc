@@ -1,0 +1,27 @@
+=== Post List API
+
+include::{snippets}/POST-LIST-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/POST-LIST-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/POST-LIST-API/path-parameters.adoc[]
+
+==== [Request Query Parameters]
+
+include::{snippets}/POST-LIST-API/query-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/POST-LIST-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/POST-LIST-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/POST-LIST-API/curl-request.adoc[]

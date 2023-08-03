@@ -107,7 +107,7 @@ subprojects {
         description = "Unit Test"
         group = "verification"
         useJUnitPlatform()
-        systemProperty("kotest.tags", "!integration-test & !docs-test")
+        systemProperty("kotest.tags", "!integration-test")
     }
 
     task<Test>("integrationTest") {

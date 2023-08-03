@@ -47,6 +47,11 @@ enum class ErrorCode(
     E409_ALREADY_CONNECTED_FEED_MAPPING(httpStatusCode = 409, code = "already_connected_feed_mapping"),
 
     /**
+     * 429 Too Many Request
+     */
+    E429_TOO_MANY_REQUEST(httpStatusCode = 429, code = "too_many_request"),
+
+    /**
      * 500 Internal Server Error
      */
     E500_INTERNAL_ERROR(httpStatusCode = 500, code = "internal_error"),

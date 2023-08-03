@@ -1,0 +1,3 @@
+include::./feed-mapping-connect.adoc[]
+include::./feed-list-post.adoc[]
+include::./feed-list-subscription.adoc[]

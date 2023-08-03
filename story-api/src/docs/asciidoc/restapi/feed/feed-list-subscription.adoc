@@ -1,0 +1,27 @@
+=== Feed List API (Subscription)
+
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/path-parameters.adoc[]
+
+==== [Request Query Parameters]
+
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/query-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/curl-request.adoc[]

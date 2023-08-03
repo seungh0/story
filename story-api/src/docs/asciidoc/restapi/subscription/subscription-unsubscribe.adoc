@@ -1,5 +1,23 @@
 === Subscription Unsubscribe API
 
-- TBD
+include::{snippets}/SUBSCRIPTION-UNSUBSCRIBE-API/request-path.adoc[]
 
----
+==== [Request]
+
+include::{snippets}/SUBSCRIPTION-UNSUBSCRIBE-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/SUBSCRIPTION-UNSUBSCRIBE-API/path-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/SUBSCRIPTION-UNSUBSCRIBE-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/SUBSCRIPTION-UNSUBSCRIBE-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/SUBSCRIPTION-UNSUBSCRIBE-API/curl-request.adoc[]

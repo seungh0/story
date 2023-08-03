@@ -1,4 +1,4 @@
-package com.story.platform.api.domain.component
+package com.story.platform.api.domain.post
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
@@ -13,7 +13,6 @@ import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.component.ComponentStatus
-import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
@@ -24,12 +23,12 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDateTime
 
 @DocsTest
-@ApiTest(ComponentRetrieveApi::class)
-class ComponentRetrieveApiTest(
+@ApiTest(PostRetrieveApi::class)
+class PostRetrieveApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val componentRetrieveHandler: ComponentRetrieveHandler,
+    private val postRetrieveHandler: PostRetrieveHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -44,32 +43,35 @@ class ComponentRetrieveApiTest(
         )
     }
 
-    "컴포넌트를 조회합니다" {
+    "포스트를 조회합니다" {
         // given
-        val resourceId = ResourceId.SUBSCRIPTIONS
-        val componentId = "follow"
-        val description = "following"
-        val status = ComponentStatus.ENABLED
+        val componentId = "account-post"
+        val title = "Post Title"
+        val content = "Post Content"
+        val spaceId = "spaceId"
+        val postId = "postId"
 
-        val component = ComponentApiResponse(
-            componentId = componentId,
-            description = description,
-            status = status
+        val post = PostApiResponse(
+            postId = postId,
+            title = title,
+            content = content,
+            extraJson = null,
         )
-        component.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
-        component.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
+        post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
+        post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
 
         coEvery {
-            componentRetrieveHandler.getComponent(
+            postRetrieveHandler.getPost(
                 workspaceId = "twitter",
-                resourceId = resourceId,
                 componentId = componentId,
+                spaceId = spaceId,
+                postId = postId,
             )
-        } returns component
+        } returns post
 
         // when
         val exchange = webTestClient.get()
-            .uri("/v1/resources/{resourceId}/components/{componentId}", resourceId.code, componentId)
+            .uri("/v1/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
             .headers(WebClientUtils.authenticationHeader)
             .exchange()
 
@@ -78,26 +80,29 @@ class ComponentRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "COMPONENT-GET-API",
+                    "POST-GET-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
                         RequestDocumentation.parameterWithName("componentId").description("Component Id"),
+                        RequestDocumentation.parameterWithName("spaceId").description("Post Space Id"),
+                        RequestDocumentation.parameterWithName("postId").description("Post Id"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.componentId")
-                            .type(JsonFieldType.STRING).description("Component Id"),
-                        PayloadDocumentation.fieldWithPath("result.status")
-                            .type(JsonFieldType.STRING).description("Component Status")
+                        PayloadDocumentation.fieldWithPath("result.postId")
+                            .type(JsonFieldType.STRING).description("Post Id"),
+                        PayloadDocumentation.fieldWithPath("result.title")
+                            .type(JsonFieldType.STRING).description("Post Title")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
-                        PayloadDocumentation.fieldWithPath("result.description")
-                            .type(JsonFieldType.STRING).description("Component Description"),
+                        PayloadDocumentation.fieldWithPath("result.content")
+                            .type(JsonFieldType.STRING).description("Post Content"),
+                        PayloadDocumentation.fieldWithPath("result.extraJson")
+                            .type(JsonFieldType.STRING).description("Post extraJson").optional(),
                         PayloadDocumentation.fieldWithPath("result.createdAt")
                             .type(JsonFieldType.STRING).description("CreatedAt"),
                         PayloadDocumentation.fieldWithPath("result.updatedAt")
@@ -107,32 +112,35 @@ class ComponentRetrieveApiTest(
             )
     }
 
-    "컴포넌트 목록을 조회한다" {
+    "포스트 목록을 조회합니다" {
         // given
-        val resourceId = ResourceId.SUBSCRIPTIONS
-        val componentId = "follow"
-        val description = "following"
-        val status = ComponentStatus.ENABLED
+        val componentId = "account-post"
+        val title = "Post Title"
+        val content = "Post Content"
+        val spaceId = "spaceId"
+        val postId = "postId"
         val cursor = "cursor"
         val direction = CursorDirection.NEXT
         val pageSize = 30
 
-        val component = ComponentApiResponse(
-            componentId = componentId,
-            description = description,
-            status = status
+        val post = PostApiResponse(
+            postId = postId,
+            title = title,
+            content = content,
+            extraJson = null,
         )
-        component.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
-        component.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
+        post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
+        post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
 
         coEvery {
-            componentRetrieveHandler.listComponents(
-                workspaceId = any(),
-                resourceId = resourceId,
+            postRetrieveHandler.listPosts(
+                workspaceId = "twitter",
+                componentId = componentId,
+                spaceId = spaceId,
                 cursorRequest = any(),
             )
         } returns CursorResult.of(
-            data = listOf(component),
+            data = listOf(post),
             cursor = Cursor(
                 nextCursor = "nextCursor",
                 hasNext = true,
@@ -142,8 +150,9 @@ class ComponentRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/{resourceId}/components?cursor=$cursor&direction=$direction&pageSize=$pageSize",
-                resourceId.code
+                "/v1/posts/components/{componentId}/spaces/{spaceId}/posts?cursor=$cursor&direction=$direction&pageSize=$pageSize",
+                componentId,
+                spaceId
             )
             .headers(WebClientUtils.authenticationHeader)
             .exchange()
@@ -153,12 +162,13 @@ class ComponentRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "COMPONENT-LIST-API",
+                    "POST-LIST-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
+                        RequestDocumentation.parameterWithName("componentId").description("Component Id"),
+                        RequestDocumentation.parameterWithName("spaceId").description("Post Space Id"),
                     ),
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()
@@ -174,14 +184,16 @@ class ComponentRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
                         PayloadDocumentation.fieldWithPath("result.data")
-                            .type(JsonFieldType.ARRAY).description("component list"),
-                        PayloadDocumentation.fieldWithPath("result.data[].componentId")
-                            .type(JsonFieldType.STRING).description("Component Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].status")
-                            .type(JsonFieldType.STRING).description("Component Status")
+                            .type(JsonFieldType.ARRAY).description("post list"),
+                        PayloadDocumentation.fieldWithPath("result.data[].postId")
+                            .type(JsonFieldType.STRING).description("Post Id"),
+                        PayloadDocumentation.fieldWithPath("result.data[].title")
+                            .type(JsonFieldType.STRING).description("Post Title")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
-                        PayloadDocumentation.fieldWithPath("result.data[].description")
-                            .type(JsonFieldType.STRING).description("Component Description"),
+                        PayloadDocumentation.fieldWithPath("result.data[].content")
+                            .type(JsonFieldType.STRING).description("Post Content"),
+                        PayloadDocumentation.fieldWithPath("result.data[].extraJson")
+                            .type(JsonFieldType.STRING).description("Post extraJson").optional(),
                         PayloadDocumentation.fieldWithPath("result.data[].createdAt")
                             .type(JsonFieldType.STRING).description("CreatedAt"),
                         PayloadDocumentation.fieldWithPath("result.data[].updatedAt")

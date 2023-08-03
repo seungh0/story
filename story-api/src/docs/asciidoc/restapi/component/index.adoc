@@ -1,0 +1,4 @@
+include::./component-create.adoc[]
+include::./component-modify.adoc[]
+include::./component-get.adoc[]
+include::./component-list.adoc[]

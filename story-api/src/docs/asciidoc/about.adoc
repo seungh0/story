@@ -1,0 +1,31 @@
+== About Platform
+
+=== 1. What is Story Platform?
+
+- "Story Platform" provides a component platform to enable you to easily develop your business services.
+
+=== 2. Who should use it?
+
+1. Startups or teams who want to quickly launch their products and validate market response.
+2. Individuals or teams who want to create their own business services without the cost and hassle of server development and management.
+
+=== 3. We provide the following integration methods:
+
+1. REST API: You can integrate our components into your project using RESTful APIs, allowing you to make HTTP requests to access and interact with the desired functionality.
+2. (TBD) SDKs: We offer SDKs in various programming languages that provide pre-built functions and methods for easier integration of our components into your application.
+
+=== 4. Available resources
+
+[cols="5%,30%,30%"]
+|===
+| Resource | Description | Current Version
+| Subscriptions | You can utilize components such as "Follow" and "Like"                              | v1
+| Posts         |                                                                                     | v1
+| Feeds         | It can be utilized for features such as timelines and other related functionalities | v1
+|===
+
+=== 5. What is Components?
+
+You can create and manage components for a single resource as needed.
+
+For example, through a subscription resource, you can add "Follow" and "Like" components to use.

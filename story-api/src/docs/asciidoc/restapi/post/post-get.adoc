@@ -1,0 +1,21 @@
+=== Post Get API
+
+==== [Request]
+
+include::{snippets}/POST-GET-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/POST-GET-API/path-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/POST-GET-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/POST-GET-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/POST-GET-API/curl-request.adoc[]

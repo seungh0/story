@@ -1,5 +1,27 @@
 === Feed Mapping Connect API
 
-- TBD
+include::{snippets}/FEED-MAPPING-CONNECT-API/request-path.adoc[]
 
----
+==== [Request]
+
+include::{snippets}/FEED-MAPPING-CONNECT-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/FEED-MAPPING-CONNECT-API/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/FEED-MAPPING-CONNECT-API/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/FEED-MAPPING-CONNECT-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/FEED-MAPPING-CONNECT-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/FEED-MAPPING-CONNECT-API/curl-request.adoc[]

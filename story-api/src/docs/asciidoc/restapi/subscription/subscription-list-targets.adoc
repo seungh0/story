@@ -1,3 +1,27 @@
 === Subscription List Targets API
 
-- TBD
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-LIST-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-LIST-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-LIST-API/path-parameters.adoc[]
+
+==== [Request Query Parameters]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-LIST-API/query-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-LIST-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-LIST-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-LIST-API/curl-request.adoc[]

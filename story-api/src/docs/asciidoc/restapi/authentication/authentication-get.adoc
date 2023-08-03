@@ -12,6 +12,8 @@ include::{snippets}/AUTHENTICATION-KEY-GET-API/path-parameters.adoc[]
 
 ==== [Response]
 
+include::{snippets}/AUTHENTICATION-KEY-GET-API/response-body.adoc[]
+
 ===== [Response Body Fields]
 
 include::{snippets}/AUTHENTICATION-KEY-GET-API/response-fields.adoc[]

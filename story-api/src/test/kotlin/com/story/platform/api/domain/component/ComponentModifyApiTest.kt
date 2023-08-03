@@ -46,7 +46,7 @@ class ComponentModifyApiTest(
         // given
         val resourceId = ResourceId.SUBSCRIPTIONS
         val componentId = "follow"
-        val description = "팔로잉 시스템"
+        val description = "following"
         val status = ComponentStatus.ENABLED
 
         val request = ComponentModifyApiRequest(
@@ -92,7 +92,8 @@ class ComponentModifyApiTest(
                     ),
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("Description").optional(),
+                            .description("Description")
+                            .optional(),
                         PayloadDocumentation.fieldWithPath("status").type(JsonFieldType.STRING)
                             .description("Component Status")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java)))

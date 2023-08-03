@@ -1,5 +1,0 @@
-=== Feed List API
-
-- TBD
-
----

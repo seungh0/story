@@ -1,0 +1,3 @@
+include::./authentication-create.adoc[]
+include::./authentication-modify.adoc[]
+include::./authentication-get.adoc[]

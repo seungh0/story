@@ -1,4 +1,4 @@
-package com.story.platform.api.domain.component
+package com.story.platform.api.domain.feed
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
@@ -9,8 +9,7 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
 import com.story.platform.core.domain.authentication.AuthenticationResponse
-import com.story.platform.core.domain.component.ComponentResponse
-import com.story.platform.core.domain.component.ComponentStatus
+import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
@@ -22,12 +21,12 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(ComponentCreateApi::class)
-class ComponentCreateApiTest(
+@ApiTest(FeedMappingConnectApi::class)
+class FeedMappingConnectApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val componentCreateHandler: ComponentCreateHandler,
+    private val feedMappingConnectHandler: FeedMappingConnectHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -42,32 +41,37 @@ class ComponentCreateApiTest(
         )
     }
 
-    "신규 컴포넌트를 등록합니다" {
+    "특정 컴포넌트를 피드 매핑 설정합니다" {
         // given
-        val resourceId = ResourceId.SUBSCRIPTIONS
-        val componentId = "follow"
-        val description = "following"
+        val feedComponentId = "timeline"
+        val sourceResourceId = ResourceId.POSTS
+        val sourceComponentId = "account-post"
+        val targetResourceId = ResourceId.SUBSCRIPTIONS
+        val targetComponentId = "follow"
 
-        val request = ComponentCreateApiRequest(
-            description = description,
+        val request = FeedMappingConnectApiRequest(
+            eventAction = EventAction.CREATED,
+            description = "포스트 등록시 피드 발행"
         )
 
         coEvery {
-            componentCreateHandler.createComponent(
+            feedMappingConnectHandler.connect(
                 workspaceId = any(),
-                resourceId = resourceId,
-                componentId = componentId,
-                description = description,
+                feedComponentId = feedComponentId,
+                targetResourceId = targetResourceId,
+                targetComponentId = targetComponentId,
+                sourceResourceId = sourceResourceId,
+                sourceComponentId = sourceComponentId,
+                request = request,
             )
-        } returns ComponentResponse(
-            componentId = componentId,
-            description = description,
-            status = ComponentStatus.ENABLED,
-        )
+        } returns Unit
 
         // when
         val exchange = webTestClient.post()
-            .uri("/v1/resources/{resourceId}/components/{componentId}", resourceId.code, componentId)
+            .uri(
+                "/v1/feeds/{feedComponentId}/connect/{sourceResourceId}/{sourceComponentId}/to/{targetResourceId}/{targetComponentId}",
+                feedComponentId, sourceResourceId.code, sourceComponentId, targetResourceId.code, targetComponentId,
+            )
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
@@ -79,17 +83,24 @@ class ComponentCreateApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "COMPONENT-CREATE-API",
+                    "FEED-MAPPING-CONNECT-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
-                        RequestDocumentation.parameterWithName("componentId").description("Component Id"),
+                        RequestDocumentation.parameterWithName("feedComponentId").description("Feed Component Id"),
+                        RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),
+                        RequestDocumentation.parameterWithName("sourceComponentId").description("Source Component Id"),
+                        RequestDocumentation.parameterWithName("targetResourceId").description("Target Resource Id"),
+                        RequestDocumentation.parameterWithName("targetComponentId").description("Target Component Id"),
                     ),
                     PayloadDocumentation.requestFields(
+                        PayloadDocumentation.fieldWithPath("eventAction").type(JsonFieldType.STRING)
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(EventAction::class.java)))
+                            .description("Event Action"),
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("Description").optional(),
+                            .description("description")
+                            .optional(),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

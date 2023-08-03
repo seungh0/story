@@ -1,5 +1,7 @@
 === Component Get API
 
+include::{snippets}/COMPONENT-GET-API/request-path.adoc[]
+
 ==== [Request]
 
 include::{snippets}/COMPONENT-GET-API/http-request.adoc[]

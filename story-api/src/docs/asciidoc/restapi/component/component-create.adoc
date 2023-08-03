@@ -1,5 +1,7 @@
 === Component Create API
 
+include::{snippets}/COMPONENT-CREATE-API/request-path.adoc[]
+
 ==== [Request]
 
 include::{snippets}/COMPONENT-CREATE-API/http-request.adoc[]

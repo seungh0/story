@@ -1,6 +1,6 @@
-[cols="3%,10%,70%"]
+[cols="5%,30%,30%"]
 |===
-| Http status | Minor Status Code | Error Description
+| Http status code | Error Code | Description
 | 400 | invalid_arguments | 
 | 400 | invalid_cursor | 
 | 400 | invalid_post_id | 
@@ -17,6 +17,7 @@
 | 409 | already_exists_authentication_key | 
 | 409 | already_exists_component | 
 | 409 | already_connected_feed_mapping | 
+| 429 | too_many_request | 
 | 500 | internal_error | 
 | 501 | not_supported | 
 | 503 | service_unavailable | 

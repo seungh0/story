@@ -1,15 +1,15 @@
 === API Response
 
-==== Response structure
+==== Response Body
 
 [cols="10%,10%,10%,70%"]
 |===
-| Key | Type | Mandatory | Description
+| Path | Type | Mandatory | Description
 
 | `ok`
 | Boolean
 | Y
-| API Success(true), Fail(false)
+| Success(true), Fail(false)
 
 | `result`
 | Object
@@ -24,8 +24,10 @@
 
 ==== API Success Example
 
-[source,json]
 ----
+HTTP/1.1 200 OK
+Content-Type: application/json
+
 {
     "ok": true,
     "result": {
@@ -36,8 +38,10 @@
 
 ==== API Fail Example
 
-[source,json]
 ----
+HTTP/1.1 500 Internal Server Error
+Content-Type: application/json
+
 {
   "ok": false,
   "error": "internal_error"

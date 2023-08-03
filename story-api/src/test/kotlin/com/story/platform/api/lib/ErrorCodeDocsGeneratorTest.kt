@@ -18,9 +18,9 @@ internal class ErrorCodeDocsGeneratorTest : FunSpec({
             }
         }
         var asciidoctorText = """
-            [cols="3%,10%,70%"]
+            [cols="5%,30%,30%"]
             |===
-            | Http status | Minor Status Code | Error Description
+            | Http status code | Error Code | Description
 
         """.trimIndent()
 

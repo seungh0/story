@@ -1,5 +1,23 @@
 === Subscription Get Targets Count API
 
-- TBD
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/request-path.adoc[]
 
----
+==== [Request]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/path-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/curl-request.adoc[]

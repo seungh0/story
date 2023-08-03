@@ -1,0 +1,5 @@
+include::./post-create.adoc[]
+include::./post-modify.adoc[]
+include::./post-remove.adoc[]
+include::./post-get.adoc[]
+include::./post-list.adoc[]

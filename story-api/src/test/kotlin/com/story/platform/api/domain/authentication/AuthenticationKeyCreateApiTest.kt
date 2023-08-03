@@ -41,7 +41,7 @@ class AuthenticationKeyCreateApiTest(
     "신규 인증 키를 등록합니다" {
         // given
         val authenticationKey = "authentication-key"
-        val description = "API 인증 키"
+        val description = "API-Key"
 
         val request = AuthenticationKeyCreateApiRequest(
             description = description,

@@ -40,7 +40,7 @@ class AuthenticationKeyRetrieveApiTest(
     "인증키 정보를 조회합니다" {
         // given
         val authenticationKey = "authentication-key"
-        val description = "API 인증 키"
+        val description = "API-Key"
 
         coEvery {
             authenticationKeyRetrieveHandler.getAuthenticationKey(

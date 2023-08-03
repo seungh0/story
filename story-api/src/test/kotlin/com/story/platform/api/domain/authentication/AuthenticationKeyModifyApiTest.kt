@@ -41,7 +41,7 @@ class AuthenticationKeyModifyApiTest(
     "인증 키에 대한 정보를 변경합니다" {
         // given
         val authenticationKey = "authentication-key"
-        val description = "API 인증 키"
+        val description = "API-Key"
         val status = AuthenticationKeyStatus.ENABLED
 
         val request = AuthenticationKeyModifyApiRequest(
@@ -85,7 +85,8 @@ class AuthenticationKeyModifyApiTest(
                             .optional(),
                         PayloadDocumentation.fieldWithPath("status").type(JsonFieldType.STRING)
                             .description("AuthenticationKey Status")
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationKeyStatus::class.java))),
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationKeyStatus::class.java)))
+                            .optional(),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
