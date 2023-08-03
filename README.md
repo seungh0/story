@@ -27,6 +27,9 @@
 | Posts         |                                                                                     | 2023-06~ | 
 | Feeds         | It can be utilized for features such as timelines and other related functionalities | 2023-06~ |
 
+## How to uses?
+- [Api Docs](https://seungh0.github.io/story-platform)
+
 ## Skills
 
 - Kotlin, Kotlin Coroutine

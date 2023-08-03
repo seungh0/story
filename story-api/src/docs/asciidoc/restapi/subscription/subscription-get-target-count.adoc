@@ -1,0 +1,5 @@
+=== Subscription Get Targets Count API
+
+- TBD
+
+---

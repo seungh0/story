@@ -10,8 +10,44 @@ endif::[]
 [[introduction]]
 = Story Platform
 
-=== REST API Reference
+== Common Documentation
 
-==== 에러 코드
+include::./restapi/common.adoc[]
 
-include::./restapi/error.adoc[]
+== Authentication
+
+include::./restapi/authentication/authentication-create.adoc[]
+include::./restapi/authentication/authentication-modify.adoc[]
+include::./restapi/authentication/authentication-get.adoc[]
+
+== Resource
+
+include::./restapi/resource/resource-list.adoc[]
+
+== Component
+
+include::./restapi/component/component-create.adoc[]
+include::./restapi/component/component-modify.adoc[]
+include::./restapi/component/component-get.adoc[]
+include::./restapi/component/component-list.adoc[]
+
+== Post
+
+include::./restapi/post/post-create.adoc[]
+include::./restapi/post/post-modify.adoc[]
+include::./restapi/post/post-remove.adoc[]
+
+== Subscription
+
+include::./restapi/subscription/subscription-subscribe.adoc[]
+include::./restapi/subscription/subscription-unsubscribe.adoc[]
+include::./restapi/subscription/subscription-is-subscriber.adoc[]
+include::./restapi/subscription/subscription-get-subscribers-count.adoc[]
+include::./restapi/subscription/subscription-get-target-count.adoc[]
+include::./restapi/subscription/subscription-list-subscribers.adoc[]
+include::./restapi/subscription/subscription-list-targets.adoc[]
+
+== Feed
+
+include::./restapi/feed/feed-mapping-connect.adoc[]
+include::./restapi/feed/feed-list.adoc[]

@@ -33,7 +33,7 @@ tasks.jar {
     enabled = true
 }
 
-tasks.test {
+tasks.docsTest {
     outputs.dir("build/generated-snippets")
 }
 

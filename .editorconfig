@@ -22,5 +22,5 @@ trim_trailing_whitespace = false
 [{*.yml,*.yaml}]
 indent_size = 2
 
-[{*.sql,*.properties,*cql}]
+[{*.sql,*.properties,*cql,*.snipeet}]
 ij_formatter_enabled = false

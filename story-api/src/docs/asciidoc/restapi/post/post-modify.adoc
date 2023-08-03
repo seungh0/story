@@ -1,0 +1,27 @@
+=== Post Modify API
+
+include::{snippets}/POST-MODIFY-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/POST-MODIFY-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/POST-MODIFY-API/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/POST-MODIFY-API/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/POST-MODIFY-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/POST-MODIFY-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/POST-MODIFY-API/curl-request.adoc[]

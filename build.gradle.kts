@@ -121,7 +121,7 @@ subprojects {
         description = "Docs Test"
         group = "verification"
         useJUnitPlatform()
-        systemProperty("kotest.tags", "docs-test")
+        systemProperty("kotest.tags", "docs-test & !integration-test")
     }
 
     configure<KtlintExtension> {

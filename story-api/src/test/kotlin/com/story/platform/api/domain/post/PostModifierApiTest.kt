@@ -2,7 +2,11 @@ package com.story.platform.api.domain.post
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
+import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
+import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
+import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.api.lib.isTrue
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
@@ -11,8 +15,16 @@ import com.story.platform.core.domain.post.PostSpaceKey
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
+import org.springframework.restdocs.payload.JsonFieldType
+import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document
 import org.springframework.test.web.reactive.server.WebTestClient
 
+@DocsTest
 @ApiTest(PostModifyApi::class)
 class PostModifierApiTest(
     private val webTestClient: WebTestClient,
@@ -36,16 +48,15 @@ class PostModifierApiTest(
     test("기존 포스트를 수정합니다") {
         // given
         val componentId = "post"
-        val postId = 100000L
-        val spaceId = "계정의 ID"
+        val postId = 10000L
+        val spaceId = "accountId"
 
-        val request = PostModifyApiRequest(
+        val request = PostCreateApiRequest(
             accountId = spaceId,
-            title = "토끼가 너무 좋아요",
+            title = "Post Title",
             content = """
-                    끼야아아~
-                    내가 만든 쿠키~
-                    너를 위해 구워찌이
+                    Post Content1
+                    Post Content2
             """.trimIndent()
         )
 
@@ -67,7 +78,7 @@ class PostModifierApiTest(
         // when
         val exchange = webTestClient.patch()
             .uri("/v1/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
-            .headers(WebClientUtils.commonHeaders)
+            .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -77,6 +88,33 @@ class PostModifierApiTest(
         exchange.expectStatus().isOk
             .expectBody()
             .jsonPath("$.ok").isTrue()
+            .consumeWith(
+                document(
+                    "POST-MODIFY-API",
+                    getDocumentRequest(),
+                    getDocumentResponse(),
+                    pageHeaderSnippet(),
+                    pathParameters(
+                        parameterWithName("componentId").description("Component Id"),
+                        parameterWithName("spaceId").description("Space Id"),
+                        parameterWithName("postId").description("Post Id")
+                    ),
+                    requestFields(
+                        fieldWithPath("accountId").type(JsonFieldType.STRING)
+                            .description("Post Owner"),
+                        fieldWithPath("title").type(JsonFieldType.STRING)
+                            .description("Post Title"),
+                        fieldWithPath("content").type(JsonFieldType.STRING)
+                            .description("Post content"),
+                        fieldWithPath("extraJson").type(JsonFieldType.STRING)
+                            .description("extra").optional(),
+                    ),
+                    responseFields(
+                        fieldWithPath("ok")
+                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                    )
+                )
+            )
     }
 
 })

@@ -1,0 +1,27 @@
+=== Authentication Key Create API
+
+include::{snippets}/AUTHENTICATION-KEY-CREATE-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/AUTHENTICATION-KEY-CREATE-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/AUTHENTICATION-KEY-CREATE-API/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/AUTHENTICATION-KEY-CREATE-API/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/AUTHENTICATION-KEY-CREATE-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/AUTHENTICATION-KEY-CREATE-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/AUTHENTICATION-KEY-CREATE-API/curl-request.adoc[]

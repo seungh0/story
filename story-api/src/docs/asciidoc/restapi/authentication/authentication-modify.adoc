@@ -1,0 +1,27 @@
+=== Authentication Key Modify API
+
+include::{snippets}/AUTHENTICATION-KEY-MODIFY-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/AUTHENTICATION-KEY-MODIFY-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/AUTHENTICATION-KEY-MODIFY-API/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/AUTHENTICATION-KEY-MODIFY-API/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/AUTHENTICATION-KEY-MODIFY-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/AUTHENTICATION-KEY-MODIFY-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/AUTHENTICATION-KEY-MODIFY-API/curl-request.adoc[]

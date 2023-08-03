@@ -1,0 +1,25 @@
+=== Component Create API
+
+==== [Request]
+
+include::{snippets}/COMPONENT-CREATE-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/COMPONENT-CREATE-API/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/COMPONENT-CREATE-API/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/COMPONENT-CREATE-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/COMPONENT-CREATE-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/COMPONENT-CREATE-API/curl-request.adoc[]

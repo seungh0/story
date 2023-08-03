@@ -1,0 +1,49 @@
+=== API Response
+
+==== Response structure
+
+[cols="10%,10%,10%,70%"]
+|===
+| Key | Type | Mandatory | Description
+
+| `ok`
+| Boolean
+| Y
+| API Success(true), Fail(false)
+
+| `result`
+| Object
+| N
+| Api Result
+
+| `error`
+| String
+| N
+| Error Code
+|===
+
+==== API Success Example
+
+[source,json]
+----
+{
+    "ok": true,
+    "result": {
+      "key": "value"
+    }
+}
+----
+
+==== API Fail Example
+
+[source,json]
+----
+{
+  "ok": false,
+  "error": "internal_error"
+}
+----
+
+=== Error Code
+
+include::./error.adoc[]

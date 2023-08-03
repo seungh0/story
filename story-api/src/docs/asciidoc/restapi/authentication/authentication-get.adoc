@@ -1,0 +1,21 @@
+=== Authentication Key Get API
+
+include::{snippets}/AUTHENTICATION-KEY-GET-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/AUTHENTICATION-KEY-GET-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/AUTHENTICATION-KEY-GET-API/path-parameters.adoc[]
+
+==== [Response]
+
+===== [Response Body Fields]
+
+include::{snippets}/AUTHENTICATION-KEY-GET-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/AUTHENTICATION-KEY-GET-API/curl-request.adoc[]

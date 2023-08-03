@@ -1,0 +1,27 @@
+=== Post Create API
+
+include::{snippets}/POST-CREATE-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/POST-CREATE-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/POST-CREATE-API/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/POST-CREATE-API/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/POST-CREATE-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/POST-CREATE-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/POST-CREATE-API/curl-request.adoc[]

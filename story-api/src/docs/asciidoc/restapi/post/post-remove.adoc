@@ -1,0 +1,31 @@
+=== Post Remove API
+
+include::{snippets}/POST-REMOVE-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/POST-REMOVE-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/POST-REMOVE-API/path-parameters.adoc[]
+
+===== [Request Query Parameter]
+
+include::{snippets}/POST-REMOVE-API/query-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/POST-REMOVE-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/POST-REMOVE-API/response-fields.adoc[]
+
+===== [Response Body Example]
+
+include::{snippets}/POST-REMOVE-API/response-body.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/POST-REMOVE-API/curl-request.adoc[]
