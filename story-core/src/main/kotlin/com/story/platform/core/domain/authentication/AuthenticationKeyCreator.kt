@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class AuthenticationKeyCreator(
-    private val authenticationKeyRepository: AuthenticationKeyRepository,
+    private val workspaceAuthenticationKeyRepository: WorkspaceAuthenticationKeyRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
@@ -20,7 +20,7 @@ class AuthenticationKeyCreator(
             throw AuthenticationKeyAlreadyExistsException(message = "워크스페이스($workspaceId)에 이미 등록된 인증 키($authenticationKey)입니다")
         }
 
-        val authentication = AuthenticationKey.of(
+        val authentication = WorkspaceAuthenticationKey.of(
             workspaceId = workspaceId,
             authenticationKey = authenticationKey,
             description = description,
@@ -28,7 +28,7 @@ class AuthenticationKeyCreator(
 
         reactiveCassandraOperations.batchOps()
             .upsert(authentication)
-            .upsert(AuthenticationReverseKey.from(authentication))
+            .upsert(AuthenticationKey.from(authentication))
             .executeCoroutine()
     }
 
@@ -36,8 +36,8 @@ class AuthenticationKeyCreator(
         workspaceId: String,
         authenticationKey: String,
     ): Boolean {
-        return authenticationKeyRepository.existsById(
-            AuthenticationKeyPrimaryKey(
+        return workspaceAuthenticationKeyRepository.existsById(
+            WorkspaceAuthenticationPrimaryKey(
                 workspaceId = workspaceId,
                 authenticationKey = authenticationKey,
             )

@@ -8,8 +8,8 @@ import com.story.platform.api.lib.isFalse
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.common.spring.AvailabilityChecker
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.component.ComponentAlreadyExistsException
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
@@ -31,7 +31,7 @@ internal class ControllerExceptionAdviceTest(
 ) : FunSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationKeyResponse(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,

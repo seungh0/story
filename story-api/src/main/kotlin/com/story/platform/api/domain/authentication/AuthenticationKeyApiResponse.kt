@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.authentication
 
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 
 data class AuthenticationKeyApiResponse(
     val workspaceId: String,
@@ -12,7 +12,7 @@ data class AuthenticationKeyApiResponse(
 
     companion object {
         fun of(
-            authenticationKey: AuthenticationResponse,
+            authenticationKey: AuthenticationKeyResponse,
         ) = AuthenticationKeyApiResponse(
             workspaceId = authenticationKey.workspaceId,
             apiKey = authenticationKey.authenticationKey,

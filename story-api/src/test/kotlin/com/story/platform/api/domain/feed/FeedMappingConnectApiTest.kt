@@ -7,8 +7,8 @@ import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.StringSpec
@@ -33,7 +33,7 @@ class FeedMappingConnectApiTest(
 ) : StringSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationKeyResponse(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,

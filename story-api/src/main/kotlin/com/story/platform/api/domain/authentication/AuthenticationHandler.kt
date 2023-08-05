@@ -6,8 +6,8 @@ import com.story.platform.core.domain.authentication.AuthenticationKeyEmptyExcep
 import com.story.platform.core.domain.authentication.AuthenticationKeyInactivatedException
 import com.story.platform.core.domain.authentication.AuthenticationKeyInvalidException
 import com.story.platform.core.domain.authentication.AuthenticationKeyNotExistsException
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ServerWebExchange
 
@@ -19,7 +19,7 @@ class AuthenticationHandler(
     suspend fun handleAuthentication(
         serverWebExchange: ServerWebExchange,
         allowedDisabledAuthenticationKey: Boolean = false,
-    ): AuthenticationResponse {
+    ): AuthenticationKeyResponse {
         val apiKey = serverWebExchange.getApiKey()
             ?: throw AuthenticationKeyEmptyException("API Key 헤더(${HttpHeaderType.X_STORY_API_KEY.header})가 비어있습니다")
 

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
 class AuthenticationKeyCreatorTest(
-    private val authenticationKeyRepository: AuthenticationKeyRepository,
+    private val workspaceAuthenticationKeyRepository: WorkspaceAuthenticationKeyRepository,
     private val authenticationKeyCreator: AuthenticationKeyCreator,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
@@ -35,7 +35,7 @@ class AuthenticationKeyCreatorTest(
             )
 
             // then
-            val authenticationKeys = authenticationKeyRepository.findAll().toList()
+            val authenticationKeys = workspaceAuthenticationKeyRepository.findAll().toList()
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
                 it.key.workspaceId shouldBe workspaceId
@@ -49,8 +49,8 @@ class AuthenticationKeyCreatorTest(
 
         test("사용하는 서비스에 이미 등록되어 있는 API-Key인 경우, 중복 등록할 수 없다") {
             // given
-            val authenticationKey = AuthenticationKeyFixture.create()
-            authenticationKeyRepository.save(authenticationKey)
+            val authenticationKey = WorkspaceAuthenticationKeyFixture.create()
+            workspaceAuthenticationKeyRepository.save(authenticationKey)
 
             // when & then
             shouldThrowExactly<AuthenticationKeyAlreadyExistsException> {

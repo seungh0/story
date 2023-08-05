@@ -12,15 +12,15 @@ data class AuthenticationKeyEvent(
 
     companion object {
         fun updated(
-            authenticationKey: AuthenticationKey,
+            workspaceAuthenticationKey: WorkspaceAuthenticationKey,
         ) = EventRecord(
             eventAction = EventAction.UPDATED,
             payload = AuthenticationKeyEvent(
-                workspaceId = authenticationKey.key.workspaceId,
-                authenticationKey = authenticationKey.key.authenticationKey,
-                status = authenticationKey.status,
+                workspaceId = workspaceAuthenticationKey.key.workspaceId,
+                authenticationKey = workspaceAuthenticationKey.key.authenticationKey,
+                status = workspaceAuthenticationKey.status,
             ),
-            eventKey = EventKeyGenerator.authenticationKey(authenticationKey = authenticationKey.key.authenticationKey),
+            eventKey = EventKeyGenerator.authenticationKey(authenticationKey = workspaceAuthenticationKey.key.authenticationKey),
         )
     }
 

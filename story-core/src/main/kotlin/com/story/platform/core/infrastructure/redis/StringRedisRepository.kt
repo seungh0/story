@@ -57,6 +57,8 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
 
     suspend fun getTtl(key: K): Duration
 
+    suspend fun setTtl(key: K, duration: Duration)
+
     suspend fun scan(prefix: String): List<String>
 
 }

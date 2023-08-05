@@ -6,9 +6,9 @@ import com.story.platform.core.domain.authentication.AuthenticationKeyEmptyExcep
 import com.story.platform.core.domain.authentication.AuthenticationKeyInactivatedException
 import com.story.platform.core.domain.authentication.AuthenticationKeyInvalidException
 import com.story.platform.core.domain.authentication.AuthenticationKeyNotExistsException
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -28,7 +28,7 @@ class AuthenticationHandlerTest(
             val apiKey = "api-key"
 
             // given
-            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
+            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationKeyResponse(
                 workspaceId = "twitter",
                 authenticationKey = apiKey,
                 status = AuthenticationKeyStatus.ENABLED,
@@ -52,7 +52,7 @@ class AuthenticationHandlerTest(
         test("비활성화되어 있는 인증 키인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
+            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationKeyResponse(
                 workspaceId = "twitter",
                 authenticationKey = apiKey,
                 status = AuthenticationKeyStatus.DISABLED,

@@ -10,8 +10,8 @@ import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.component.ComponentStatus
 import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.StringSpec
@@ -36,7 +36,7 @@ class ComponentRetrieveApiTest(
 ) : StringSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationKeyResponse(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,

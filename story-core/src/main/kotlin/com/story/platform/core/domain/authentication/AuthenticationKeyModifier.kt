@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class AuthenticationKeyModifier(
-    private val authenticationKeyRepository: AuthenticationKeyRepository,
+    private val workspaceAuthenticationKeyRepository: WorkspaceAuthenticationKeyRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val authenticationKeyEventPublisher: AuthenticationKeyEventPublisher,
 ) {
@@ -35,18 +35,18 @@ class AuthenticationKeyModifier(
 
         reactiveCassandraOperations.batchOps()
             .upsert(authentication)
-            .upsert(AuthenticationReverseKey.from(authentication))
+            .upsert(AuthenticationKey.from(authentication))
             .executeCoroutine()
 
         authenticationKeyEventPublisher.publishEvent(
             authenticationKey = authenticationKey,
-            event = AuthenticationKeyEvent.updated(authenticationKey = authentication),
+            event = AuthenticationKeyEvent.updated(workspaceAuthenticationKey = authentication),
         )
     }
 
-    private suspend fun findAuthentication(workspaceId: String, authenticationKey: String): AuthenticationKey {
-        return authenticationKeyRepository.findById(
-            AuthenticationKeyPrimaryKey(
+    private suspend fun findAuthentication(workspaceId: String, authenticationKey: String): WorkspaceAuthenticationKey {
+        return workspaceAuthenticationKeyRepository.findById(
+            WorkspaceAuthenticationPrimaryKey(
                 workspaceId = workspaceId,
                 authenticationKey = authenticationKey,
             )

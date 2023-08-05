@@ -11,8 +11,8 @@ import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.CursorRequest
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
@@ -35,7 +35,7 @@ class SubscriptionRetrieveApiTest(
 ) : StringSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationKeyResponse(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,

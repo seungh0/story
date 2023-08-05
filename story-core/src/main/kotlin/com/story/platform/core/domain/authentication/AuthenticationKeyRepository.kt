@@ -4,4 +4,5 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AuthenticationKeyRepository : CoroutineCrudRepository<AuthenticationKey, AuthenticationKeyPrimaryKey>
+interface AuthenticationKeyRepository :
+    CoroutineCrudRepository<AuthenticationKey, AuthenticationKeyPrimaryKey>

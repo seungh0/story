@@ -8,8 +8,8 @@ import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.post.PostSpaceKey
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
@@ -36,7 +36,7 @@ class PostRegisterApiTest(
 ) : FunSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationKeyResponse(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,

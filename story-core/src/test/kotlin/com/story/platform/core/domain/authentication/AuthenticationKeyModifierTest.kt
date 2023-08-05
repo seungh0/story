@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
 class AuthenticationKeyModifierTest(
-    private val authenticationKeyRepository: AuthenticationKeyRepository,
+    private val workspaceAuthenticationKeyRepository: WorkspaceAuthenticationKeyRepository,
     private val authenticationKeyModifier: AuthenticationKeyModifier,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
@@ -25,8 +25,8 @@ class AuthenticationKeyModifierTest(
             // given
             val description = "사용처에 대한 설명"
 
-            val authenticationKey = AuthenticationKeyFixture.create()
-            authenticationKeyRepository.save(authenticationKey)
+            val authenticationKey = WorkspaceAuthenticationKeyFixture.create()
+            workspaceAuthenticationKeyRepository.save(authenticationKey)
 
             // when
             authenticationKeyModifier.patchAuthenticationKey(
@@ -37,7 +37,7 @@ class AuthenticationKeyModifierTest(
             )
 
             // then
-            val authenticationKeys = authenticationKeyRepository.findAll().toList()
+            val authenticationKeys = workspaceAuthenticationKeyRepository.findAll().toList()
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
                 it.key.workspaceId shouldBe authenticationKey.key.workspaceId
@@ -52,10 +52,10 @@ class AuthenticationKeyModifierTest(
 
         test("서비스 인증 키를 사용 중지한다") {
             // given
-            val authenticationKey = AuthenticationKeyFixture.create(
+            val authenticationKey = WorkspaceAuthenticationKeyFixture.create(
                 status = AuthenticationKeyStatus.ENABLED,
             )
-            authenticationKeyRepository.save(authenticationKey)
+            workspaceAuthenticationKeyRepository.save(authenticationKey)
 
             // when
             authenticationKeyModifier.patchAuthenticationKey(
@@ -66,7 +66,7 @@ class AuthenticationKeyModifierTest(
             )
 
             // then
-            val authenticationKeys = authenticationKeyRepository.findAll().toList()
+            val authenticationKeys = workspaceAuthenticationKeyRepository.findAll().toList()
             authenticationKeys shouldHaveSize 1
             authenticationKeys[0].also {
                 it.key.workspaceId shouldBe authenticationKey.key.workspaceId
@@ -96,10 +96,10 @@ class AuthenticationKeyModifierTest(
 
         test("API-Key는 각 서비스별로 독립적으로 관리된다") {
             // given
-            val authenticationKey = AuthenticationKeyFixture.create(
+            val authenticationKey = WorkspaceAuthenticationKeyFixture.create(
                 workspaceId = "twitter",
             )
-            authenticationKeyRepository.save(authenticationKey)
+            workspaceAuthenticationKeyRepository.save(authenticationKey)
 
             // when & then
             shouldThrowExactly<AuthenticationKeyNotExistsException> {

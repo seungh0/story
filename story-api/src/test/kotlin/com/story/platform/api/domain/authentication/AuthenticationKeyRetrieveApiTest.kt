@@ -6,8 +6,8 @@ import com.story.platform.api.DocsTest
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
@@ -29,7 +29,7 @@ class AuthenticationKeyRetrieveApiTest(
 ) : StringSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationKeyResponse(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
@@ -46,7 +46,7 @@ class AuthenticationKeyRetrieveApiTest(
             authenticationKeyRetrieveHandler.getAuthenticationKey(
                 authenticationKey = authenticationKey,
             )
-        } returns AuthenticationResponse(
+        } returns AuthenticationKeyResponse(
             workspaceId = "workspaceId",
             authenticationKey = authenticationKey,
             status = AuthenticationKeyStatus.ENABLED,

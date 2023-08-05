@@ -100,6 +100,10 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
         return redisTemplate.getExpire(key.makeKeyString()).awaitSingleOrNull() ?: Duration.ZERO
     }
 
+    override suspend fun setTtl(key: K, duration: Duration) {
+        redisTemplate.expire(key.makeKeyString(), duration).awaitSingleOrNull()
+    }
+
     override suspend fun scan(prefix: String): List<String> {
         val keyByteArrays = redisTemplate.execute { action ->
             action.keyCommands().scan(

@@ -10,8 +10,8 @@ import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.component.ComponentStatus
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
@@ -35,7 +35,7 @@ class PostRetrieveApiTest(
 ) : StringSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationKeyResponse(
             workspaceId = "twitter",
             authenticationKey = "api-key",
             status = AuthenticationKeyStatus.ENABLED,
@@ -49,7 +49,7 @@ class PostRetrieveApiTest(
         val title = "Post Title"
         val content = "Post Content"
         val spaceId = "spaceId"
-        val postId = "postId"
+        val postId = "200000"
 
         val post = PostApiResponse(
             postId = postId,
@@ -118,7 +118,7 @@ class PostRetrieveApiTest(
         val title = "Post Title"
         val content = "Post Content"
         val spaceId = "spaceId"
-        val postId = "postId"
+        val postId = "20000"
         val cursor = "cursor"
         val direction = CursorDirection.NEXT
         val pageSize = 30

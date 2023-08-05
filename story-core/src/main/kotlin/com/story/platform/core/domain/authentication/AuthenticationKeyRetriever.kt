@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class AuthenticationKeyRetriever(
-    private val authenticationReverseKeyRepository: AuthenticationReverseKeyRepository,
+    private val authenticationKeyRepository: AuthenticationKeyRepository,
 ) {
 
     @Cacheable(
@@ -15,12 +15,10 @@ class AuthenticationKeyRetriever(
     )
     suspend fun getAuthenticationKey(
         authenticationKey: String,
-    ): AuthenticationResponse {
-        return AuthenticationResponse.of(
-            authenticationReverseKeyRepository.findById(
-                AuthenticationReverseKeyPrimaryKey(
-                    authenticationKey = authenticationKey,
-                )
+    ): AuthenticationKeyResponse {
+        return AuthenticationKeyResponse.of(
+            authenticationKeyRepository.findById(
+                AuthenticationKeyPrimaryKey(authenticationKey = authenticationKey)
             ) ?: throw AuthenticationKeyNotExistsException(message = "등록되지 않은 인증 키($authenticationKey) 입니다")
         )
     }

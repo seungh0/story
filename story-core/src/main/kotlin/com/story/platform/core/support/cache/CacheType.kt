@@ -1,7 +1,8 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.domain.authentication.AuthenticationResponse
+import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.component.ComponentResponse
+import com.story.platform.core.domain.workspace.WorkspaceResponse
 import java.time.Duration
 
 enum class CacheType(
@@ -16,16 +17,23 @@ enum class CacheType(
         description = "인증 키 정보",
         key = "authentication-key:v1",
         globalCacheTtl = Duration.ofHours(1),
-        localCacheTtl = Duration.ofSeconds(10),
-        cacheClazz = AuthenticationResponse::class.java,
+        localCacheTtl = Duration.ofMinutes(1),
+        cacheClazz = AuthenticationKeyResponse::class.java,
     ),
     COMPONENT(
         description = "컴포넌트 정보",
         key = "component:v1",
         globalCacheTtl = Duration.ofHours(1),
-        localCacheTtl = Duration.ofSeconds(10),
+        localCacheTtl = Duration.ofMinutes(1),
         cacheClazz = ComponentResponse::class.java,
     ),
+    WORKSPACE(
+        description = "워크스페이스",
+        key = "workspace:v1",
+        globalCacheTtl = Duration.ofHours(1),
+        localCacheTtl = Duration.ofMinutes(1),
+        cacheClazz = WorkspaceResponse::class.java,
+    )
     ;
 
     fun enableLocalCache(): Boolean {

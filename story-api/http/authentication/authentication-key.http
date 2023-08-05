@@ -1,10 +1,10 @@
 ### 서비스의 인증 키를 등록합니다
-POST {{api}}/v1/authentication-keys/api-key
+POST {{api}}/v1/authentication-keys/api-key1
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 {
-    "description": "트위터 API 키"
+    "description": "트위터 Internal API 키"
 }
 
 
@@ -12,6 +12,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 PATCH {{api}}/v1/authentication-keys/api-key
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+
 {
     "description": "트위터 API 키",
     "status": "DISABLED"
