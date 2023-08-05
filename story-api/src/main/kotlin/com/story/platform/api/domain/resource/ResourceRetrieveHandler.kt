@@ -1,9 +1,9 @@
 package com.story.platform.api.domain.resource
 
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class ResourceRetrieveHandler {
 
     suspend fun listResources(): List<ResourceApiResponse> {

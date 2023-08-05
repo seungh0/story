@@ -1,4 +1,4 @@
-package com.story.platform.core.domain.feed.configuration
+package com.story.platform.core.domain.feed.mapping
 
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.resource.ResourceId

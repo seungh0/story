@@ -1,13 +1,13 @@
 package com.story.platform.api.domain.subscription
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountManager
 import com.story.platform.core.domain.subscription.SubscriptionEventPublisher
 import com.story.platform.core.domain.subscription.SubscriptionUnSubscriber
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class SubscriptionUnSubscribeHandler(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
     private val subscriptionCountManager: SubscriptionCountManager,

@@ -1,4 +1,4 @@
-package com.story.platform.core.domain.feed.configuration
+package com.story.platform.core.domain.feed.mapping
 
 import com.story.platform.core.common.model.AuditingTime
 import com.story.platform.core.domain.event.EventAction

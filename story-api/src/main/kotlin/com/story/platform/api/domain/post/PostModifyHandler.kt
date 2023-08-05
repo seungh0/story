@@ -1,14 +1,14 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.post.PostEventPublisher
 import com.story.platform.core.domain.post.PostModifier
 import com.story.platform.core.domain.post.PostResponse
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.resource.ResourceId
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class PostModifyHandler(
     private val postModifier: PostModifier,
     private val postEventPublisher: PostEventPublisher,

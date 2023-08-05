@@ -1,11 +1,11 @@
 package com.story.platform.api.domain.component
 
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentNotExistsException
 import com.story.platform.core.domain.component.ComponentRetriever
 import com.story.platform.core.domain.resource.ResourceId
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class ComponentCheckHandler(
     private val componentRetriever: ComponentRetriever,
 ) {

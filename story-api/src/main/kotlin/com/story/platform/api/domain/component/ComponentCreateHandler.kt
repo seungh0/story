@@ -1,11 +1,11 @@
 package com.story.platform.api.domain.component
 
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentCreator
 import com.story.platform.core.domain.component.ComponentResponse
 import com.story.platform.core.domain.resource.ResourceId
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class ComponentCreateHandler(
     private val componentCreator: ComponentCreator,
 ) {

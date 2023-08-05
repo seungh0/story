@@ -1,9 +1,9 @@
 package com.story.platform.api.domain.workspace
 
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.workspace.WorkspaceRetriever
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class WorkspaceRetrieveHandler(
     private val workspaceRetriever: WorkspaceRetriever,
 ) {

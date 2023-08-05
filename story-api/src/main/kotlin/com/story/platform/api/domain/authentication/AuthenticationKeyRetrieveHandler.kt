@@ -1,10 +1,10 @@
 package com.story.platform.api.domain.authentication
 
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class AuthenticationKeyRetrieveHandler(
     private val authenticationKeyManager: AuthenticationKeyRetriever,
 ) {

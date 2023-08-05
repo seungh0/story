@@ -1,14 +1,14 @@
 package com.story.platform.api.domain.component
 
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentEvent
 import com.story.platform.core.domain.component.ComponentEventPublisher
 import com.story.platform.core.domain.component.ComponentModifier
 import com.story.platform.core.domain.component.ComponentResponse
 import com.story.platform.core.domain.component.ComponentStatus
 import com.story.platform.core.domain.resource.ResourceId
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class ComponentModifyHandler(
     private val componentModifier: ComponentModifier,
     private val componentEventPublisher: ComponentEventPublisher,

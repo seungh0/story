@@ -3,13 +3,13 @@ package com.story.platform.api.domain.feed
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.CursorRequest
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.event.BaseEvent
 import com.story.platform.core.domain.feed.FeedResponse
 import com.story.platform.core.domain.feed.FeedRetriever
 import com.story.platform.core.domain.resource.ResourceId
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class FeedRetrieveHandler(
     private val feedRetriever: FeedRetriever,
     private val componentCheckHandler: ComponentCheckHandler,

@@ -1,4 +1,4 @@
-package com.story.platform.core.domain.feed.configuration
+package com.story.platform.core.domain.feed.mapping
 
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert

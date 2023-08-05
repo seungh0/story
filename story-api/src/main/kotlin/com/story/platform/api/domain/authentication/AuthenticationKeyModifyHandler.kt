@@ -1,10 +1,10 @@
 package com.story.platform.api.domain.authentication
 
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.authentication.AuthenticationKeyModifier
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class AuthenticationKeyModifyHandler(
     private val authenticationKeyModifier: AuthenticationKeyModifier,
 ) {

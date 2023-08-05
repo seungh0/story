@@ -3,8 +3,9 @@ package com.story.platform.worker.domain.feed
 import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.json.toObject
+import com.story.platform.core.common.spring.EventConsumer
 import com.story.platform.core.domain.event.EventRecord
-import com.story.platform.core.domain.feed.configuration.FeedReverseMappingConfigurationRepository
+import com.story.platform.core.domain.feed.mapping.FeedReverseMappingConfigurationRepository
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriberDistributor
@@ -20,9 +21,8 @@ import org.springframework.data.domain.Pageable
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.messaging.handler.annotation.Payload
-import org.springframework.stereotype.Service
 
-@Service
+@EventConsumer
 class FeedEventConsumer(
     private val subscriberDistributor: SubscriberDistributor,
     private val feedReverseMappingConfigurationRepository: FeedReverseMappingConfigurationRepository,

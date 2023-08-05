@@ -1,13 +1,13 @@
 package com.story.platform.api.domain.feed
 
 import com.story.platform.core.common.error.NotSupportedException
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentRetriever
-import com.story.platform.core.domain.feed.configuration.FeedMappingConnectRequest
-import com.story.platform.core.domain.feed.configuration.FeedMappingConnector
+import com.story.platform.core.domain.feed.mapping.FeedMappingConnectRequest
+import com.story.platform.core.domain.feed.mapping.FeedMappingConnector
 import com.story.platform.core.domain.resource.ResourceId
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class FeedMappingConnectHandler(
     private val componentRetriever: ComponentRetriever,
     private val feedMappingConnector: FeedMappingConnector,

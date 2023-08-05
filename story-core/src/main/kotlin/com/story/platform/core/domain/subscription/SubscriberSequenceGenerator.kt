@@ -1,9 +1,9 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.infrastructure.redis.StringRedisRepository
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Service
 
-@Repository
+@Service
 class SubscriberSequenceGenerator(
     private val subscriptionSequenceRepository: StringRedisRepository<SubscriberSequence, Long>,
 ) {

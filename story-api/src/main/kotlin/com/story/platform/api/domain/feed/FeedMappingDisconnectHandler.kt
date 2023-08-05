@@ -1,13 +1,13 @@
 package com.story.platform.api.domain.feed
 
 import com.story.platform.core.common.error.NotSupportedException
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentRetriever
-import com.story.platform.core.domain.feed.configuration.FeedMappingDisconnectRequest
-import com.story.platform.core.domain.feed.configuration.FeedMappingDisconnector
+import com.story.platform.core.domain.feed.mapping.FeedMappingDisconnectRequest
+import com.story.platform.core.domain.feed.mapping.FeedMappingDisconnector
 import com.story.platform.core.domain.resource.ResourceId
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class FeedMappingDisconnectHandler(
     private val componentRetriever: ComponentRetriever,
     private val feedMappingDisconnector: FeedMappingDisconnector,

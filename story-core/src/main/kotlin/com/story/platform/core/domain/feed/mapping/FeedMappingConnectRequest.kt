@@ -1,9 +1,9 @@
-package com.story.platform.core.domain.feed.configuration
+package com.story.platform.core.domain.feed.mapping
 
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.resource.ResourceId
 
-data class FeedMappingDisconnectRequest(
+data class FeedMappingConnectRequest(
     val workspaceId: String,
     val feedComponentId: String,
     val resourceId: ResourceId,
@@ -11,9 +11,10 @@ data class FeedMappingDisconnectRequest(
     val eventAction: EventAction,
     val targetResourceId: ResourceId,
     val targetComponentId: String,
+    val description: String,
 ) {
 
-    fun toConfigurationPrimaryKey() = FeedMappingConfigurationPrimaryKey(
+    fun toConfiguration() = FeedMappingConfiguration.of(
         workspaceId = workspaceId,
         feedComponentId = feedComponentId,
         sourceResourceId = resourceId,
@@ -21,6 +22,7 @@ data class FeedMappingDisconnectRequest(
         eventAction = eventAction,
         targetResourceId = targetResourceId,
         targetComponentId = targetComponentId,
+        description = description,
     )
 
 }

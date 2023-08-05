@@ -3,12 +3,12 @@ package com.story.platform.api.domain.subscription
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.CursorRequest
+import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountRetriever
 import com.story.platform.core.domain.subscription.SubscriptionRetriever
-import org.springframework.stereotype.Service
 
-@Service
+@HandlerAdapter
 class SubscriptionRetrieveHandler(
     private val componentCheckHandler: ComponentCheckHandler,
     private val subscriptionRetriever: SubscriptionRetriever,

@@ -3,6 +3,7 @@ package com.story.platform.api.domain.authentication
 import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.json.toObject
+import com.story.platform.core.common.spring.EventConsumer
 import com.story.platform.core.domain.authentication.AuthenticationKeyEvent
 import com.story.platform.core.domain.authentication.AuthenticationKeyLocalCacheEvictManager
 import com.story.platform.core.domain.event.EventAction
@@ -15,9 +16,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.messaging.handler.annotation.Payload
-import org.springframework.stereotype.Service
 
-@Service
+@EventConsumer
 class AuthenticationKeyCacheEvictConsumer(
     private val authenticationKeyLocalCacheEvictManager: AuthenticationKeyLocalCacheEvictManager,
 
