@@ -4,6 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.component.ComponentCheckHandler
+import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.api.lib.isTrue
 import com.story.platform.core.common.model.dto.ApiResponse
@@ -27,6 +28,9 @@ internal class AvailabilityCheckApiTest(
 
     @MockkBean
     private val componentCheckHandler: ComponentCheckHandler,
+
+    @MockkBean
+    private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
 ) : FunSpec({
 
     beforeEach {
@@ -38,6 +42,7 @@ internal class AvailabilityCheckApiTest(
         )
 
         coEvery { componentCheckHandler.validateComponent(any(), any(), any()) } returns Unit
+        coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
     test("Health Check API") {

@@ -4,6 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils.authenticationHeader
@@ -25,6 +26,9 @@ class ResourceRetrieveApiTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
+
+    @MockkBean
+    private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
 ) : StringSpec({
 
     beforeEach {
@@ -34,6 +38,7 @@ class ResourceRetrieveApiTest(
             status = AuthenticationKeyStatus.ENABLED,
             description = "",
         )
+        coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
     "사용 가능한 리소스 조회 API" {

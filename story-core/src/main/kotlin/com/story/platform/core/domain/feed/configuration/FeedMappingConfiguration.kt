@@ -23,15 +23,16 @@ data class FeedMappingConfiguration(
     var auditingTime: AuditingTime,
 ) {
 
-    fun patch(description: String?, status: FeedMappingConfigurationStatus?) {
+    fun patch(description: String?) {
         if (description != null) {
             this.description = description
         }
 
-        if (status != null) {
-            this.status = status
-        }
+        this.auditingTime = this.auditingTime.updated()
+    }
 
+    fun disconnect() {
+        this.status = FeedMappingConfigurationStatus.DISABLED
         this.auditingTime = this.auditingTime.updated()
     }
 

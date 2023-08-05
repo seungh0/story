@@ -3,6 +3,7 @@ package com.story.platform.api.domain.authentication
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
+import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
@@ -27,6 +28,9 @@ class AuthenticationKeyCreateApiTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
+
+    @MockkBean
+    private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
 ) : StringSpec({
 
     beforeEach {
@@ -36,6 +40,7 @@ class AuthenticationKeyCreateApiTest(
             status = AuthenticationKeyStatus.ENABLED,
             description = "",
         )
+        coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
     "신규 인증 키를 등록합니다" {

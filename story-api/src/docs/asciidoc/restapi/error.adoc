@@ -4,6 +4,7 @@
 | 400 | invalid_arguments | 
 | 400 | invalid_cursor | 
 | 400 | invalid_post_id | 
+| 400 | inactivated_workspace | 
 | 401 | invalid_authentication_key | 
 | 401 | inactivated_authentication_key | 
 | 401 | empty_authentication_key | 
@@ -13,6 +14,7 @@
 | 404 | not_exists_resource | 
 | 404 | not_exists_post | 
 | 404 | not_exists_connect_mapping_feed | 
+| 404 | not_exists_workspace | 
 | 405 | method_not_allowed | 
 | 409 | already_exists_authentication_key | 
 | 409 | already_exists_component | 

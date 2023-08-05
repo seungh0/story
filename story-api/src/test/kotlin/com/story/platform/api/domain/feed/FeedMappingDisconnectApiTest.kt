@@ -22,12 +22,12 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(FeedMappingConnectApi::class)
-class FeedMappingConnectApiTest(
+@ApiTest(FeedMappingDisconnectApi::class)
+class FeedMappingDisconnectApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val feedMappingConnectHandler: FeedMappingConnectHandler,
+    private val feedMappingDisconnectHandler: FeedMappingDisconnectHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -46,7 +46,7 @@ class FeedMappingConnectApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    "특정 컴포넌트 간에 피드 매핑 설정합니다" {
+    "특정 컴포넌트 간의 피드 매핑을 해제합니다" {
         // given
         val feedComponentId = "timeline"
         val sourceResourceId = ResourceId.POSTS
@@ -54,13 +54,12 @@ class FeedMappingConnectApiTest(
         val targetResourceId = ResourceId.SUBSCRIPTIONS
         val targetComponentId = "follow"
 
-        val request = FeedMappingConnectApiRequest(
+        val request = FeedMappingDisconnectApiRequest(
             eventAction = EventAction.CREATED,
-            description = "포스트 등록시 피드 발행"
         )
 
         coEvery {
-            feedMappingConnectHandler.connect(
+            feedMappingDisconnectHandler.disconnect(
                 workspaceId = any(),
                 feedComponentId = feedComponentId,
                 targetResourceId = targetResourceId,
@@ -72,15 +71,13 @@ class FeedMappingConnectApiTest(
         } returns Unit
 
         // when
-        val exchange = webTestClient.post()
+        val exchange = webTestClient.delete()
             .uri(
-                "/v1/feeds/{feedComponentId}/connect/{sourceResourceId}/{sourceComponentId}/to/{targetResourceId}/{targetComponentId}",
+                "/v1/feeds/{feedComponentId}/connect/{sourceResourceId}/{sourceComponentId}/to/{targetResourceId}/{targetComponentId}?eventAction=${request.eventAction}",
                 feedComponentId, sourceResourceId.code, sourceComponentId, targetResourceId.code, targetComponentId,
             )
             .headers(WebClientUtils.authenticationHeader)
-            .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
-            .bodyValue(request)
             .exchange()
 
         // then
@@ -88,7 +85,7 @@ class FeedMappingConnectApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "FEED-MAPPING-CONNECT-API",
+                    "FEED-MAPPING-DISCONNECT-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
@@ -99,13 +96,9 @@ class FeedMappingConnectApiTest(
                         RequestDocumentation.parameterWithName("targetResourceId").description("Target Resource Id"),
                         RequestDocumentation.parameterWithName("targetComponentId").description("Target Component Id"),
                     ),
-                    PayloadDocumentation.requestFields(
-                        PayloadDocumentation.fieldWithPath("eventAction").type(JsonFieldType.STRING)
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(EventAction::class.java)))
-                            .description("Event Action"),
-                        PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("description")
-                            .optional(),
+                    RequestDocumentation.queryParameters(
+                        RequestDocumentation.parameterWithName("eventAction").description("EventAction")
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(EventAction::class.java))),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

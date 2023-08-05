@@ -4,6 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
@@ -34,6 +35,9 @@ class PostRemoveApiTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
+
+    @MockkBean
+    private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
 ) : FunSpec({
 
     beforeEach {
@@ -43,6 +47,7 @@ class PostRemoveApiTest(
             status = AuthenticationKeyStatus.ENABLED,
             description = "",
         )
+        coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
     test("기존에 등록된 포스트를 삭제한다") {

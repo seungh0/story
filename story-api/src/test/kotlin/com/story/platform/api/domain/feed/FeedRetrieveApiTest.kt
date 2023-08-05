@@ -4,6 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
@@ -37,6 +38,9 @@ class FeedRetrieveApiTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
+
+    @MockkBean
+    private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
 ) : StringSpec({
 
     beforeEach {
@@ -46,6 +50,7 @@ class FeedRetrieveApiTest(
             status = AuthenticationKeyStatus.ENABLED,
             description = "",
         )
+        coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
     "피드를 조회합니다 (Post)" {

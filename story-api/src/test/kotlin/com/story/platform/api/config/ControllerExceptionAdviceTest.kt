@@ -4,6 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.domain.AvailabilityCheckApi
 import com.story.platform.api.domain.authentication.AuthenticationHandler
+import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.isFalse
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
@@ -28,6 +29,9 @@ internal class ControllerExceptionAdviceTest(
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
+
+    @MockkBean
+    private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
 ) : FunSpec({
 
     beforeEach {
@@ -37,6 +41,7 @@ internal class ControllerExceptionAdviceTest(
             status = AuthenticationKeyStatus.ENABLED,
             description = ""
         )
+        coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
     test("잘못된 HTTP Method로 요청이 들어온경우 Method_Not_Allowed를 반환한다") {

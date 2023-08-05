@@ -1,0 +1,27 @@
+=== Feed Mapping Disconnect API
+
+include::{snippets}/FEED-MAPPING-DISCONNECT-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/FEED-MAPPING-DISCONNECT-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/FEED-MAPPING-DISCONNECT-API/path-parameters.adoc[]
+
+==== [Request Query Parameters]
+
+include::{snippets}/FEED-MAPPING-DISCONNECT-API/query-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/FEED-MAPPING-DISCONNECT-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/FEED-MAPPING-DISCONNECT-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/FEED-MAPPING-DISCONNECT-API/curl-request.adoc[]
