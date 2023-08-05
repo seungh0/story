@@ -12,30 +12,11 @@ endif::[]
 
 include::./about.adoc[]
 
-== Common Documentation
-
 include::./restapi/common.adoc[]
 
-== Authentication
-
 include::./restapi/authentication/index.adoc[]
-
-== Resource
-
-include::./restapi/resource/resource-list.adoc[]
-
-== Component
-
+include::./restapi/resource/index.adoc[]
 include::./restapi/component/index.adoc[]
-
-== Post
-
 include::./restapi/post/index.adoc[]
-
-== Subscription
-
 include::./restapi/subscription/index.adoc[]
-
-== Feed
-
 include::./restapi/feed/index.adoc[]

@@ -1,3 +1,5 @@
+== Common Documentation
+
 === API Response
 
 ==== Response Body
