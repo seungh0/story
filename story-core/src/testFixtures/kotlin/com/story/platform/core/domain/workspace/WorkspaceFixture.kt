@@ -9,14 +9,14 @@ object WorkspaceFixture {
     fun create(
         workspaceId: String = RandomGenerator.generateString(),
         name: String = RandomGenerator.generateString(),
-        pricePlan: WorkspacePricePlan = RandomGenerator.generateEnum(WorkspacePricePlan::class.java),
+        plan: WorkspacePricePlan = RandomGenerator.generateEnum(WorkspacePricePlan::class.java),
         status: WorkspaceStatus = RandomGenerator.generateEnum(WorkspaceStatus::class.java),
         createdAt: LocalDateTime = LocalDateTime.now(),
         updatedAt: LocalDateTime = LocalDateTime.now(),
     ) = Workspace(
         workspaceId = workspaceId,
         name = name,
-        pricePlan = pricePlan,
+        plan = plan,
         status = status,
         auditingTime = AuditingTime(createdAt = createdAt, updatedAt = updatedAt),
     )

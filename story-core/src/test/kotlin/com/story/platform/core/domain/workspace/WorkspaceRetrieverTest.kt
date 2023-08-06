@@ -29,7 +29,7 @@ class WorkspaceRetrieverTest(
         sut.workspaceId shouldBe workspace.workspaceId
         sut.status shouldBe workspace.status
         sut.name shouldBe workspace.name
-        sut.pricePlan shouldBe workspace.pricePlan
+        sut.plan shouldBe workspace.plan
     }
 
     "워크스페이스 조회시 없는 워크스페이스인 경우 throws NotExistsWorkspaceException" {

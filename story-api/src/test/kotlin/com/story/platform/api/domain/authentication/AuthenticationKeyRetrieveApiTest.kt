@@ -3,12 +3,13 @@ package com.story.platform.api.domain.authentication
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
+import com.story.platform.api.domain.workspace.WorkspaceApiResponse
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
-import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
 import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
+import com.story.platform.core.domain.workspace.WorkspacePricePlan
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
@@ -44,24 +45,26 @@ class AuthenticationKeyRetrieveApiTest(
 
     "인증키 정보를 조회합니다" {
         // given
-        val authenticationKey = "authentication-key"
-        val description = "API-Key"
+        val apiKey = "api-key"
 
         coEvery {
             authenticationKeyRetrieveHandler.getAuthenticationKey(
-                authenticationKey = authenticationKey,
+                apiKey = apiKey,
             )
-        } returns AuthenticationKeyResponse(
-            workspaceId = "workspaceId",
-            authenticationKey = authenticationKey,
+        } returns AuthenticationKeyApiResponse(
+            apiKey = apiKey,
             status = AuthenticationKeyStatus.ENABLED,
-            description = description,
+            description = "api-key",
+            workspace = WorkspaceApiResponse(
+                workspaceId = "workspaceId",
+                name = "twitter",
+                plan = WorkspacePricePlan.FREE,
+            )
         )
 
         // when
         val exchange = webTestClient.get()
-            .uri("/v1/authentication-keys/{authenticationKey}", authenticationKey)
-            .headers(WebClientUtils.authenticationHeader)
+            .uri("/v1/authentication-keys/{apiKey}", apiKey)
             .exchange()
 
         // then
@@ -74,22 +77,27 @@ class AuthenticationKeyRetrieveApiTest(
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("authenticationKey").description("Authentication Key"),
+                        RequestDocumentation.parameterWithName("apiKey").description("Api Key"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.workspaceId")
-                            .type(JsonFieldType.STRING).description("Workspace Id"),
                         PayloadDocumentation.fieldWithPath("result.apiKey")
-                            .type(JsonFieldType.STRING).description("Authentication Key"),
+                            .type(JsonFieldType.STRING).description("Api Key"),
                         PayloadDocumentation.fieldWithPath("result.status")
                             .type(JsonFieldType.STRING).description("Authentication Key Status")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationKeyStatus::class.java))),
                         PayloadDocumentation.fieldWithPath("result.description")
                             .type(JsonFieldType.STRING).description("Authentication Key Description"),
+                        PayloadDocumentation.fieldWithPath("result.workspace.workspaceId")
+                            .type(JsonFieldType.STRING).description("Workspace Id"),
+                        PayloadDocumentation.fieldWithPath("result.workspace.name")
+                            .type(JsonFieldType.STRING).description("Workspace Name"),
+                        PayloadDocumentation.fieldWithPath("result.workspace.plan")
+                            .type(JsonFieldType.STRING).description("Workspace Plan")
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(WorkspacePricePlan::class.java))),
                     )
                 )
             )

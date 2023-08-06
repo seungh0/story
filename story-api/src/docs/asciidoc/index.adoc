@@ -11,12 +11,4 @@ endif::[]
 = Story Platform
 
 include::./about.adoc[]
-
-include::./restapi/common.adoc[]
-
-include::./restapi/authentication/index.adoc[]
-include::./restapi/resource/index.adoc[]
-include::./restapi/component/index.adoc[]
-include::./restapi/post/index.adoc[]
-include::./restapi/subscription/index.adoc[]
-include::./restapi/feed/index.adoc[]
+include::./restapi/index.adoc[]

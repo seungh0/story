@@ -11,7 +11,7 @@ data class Workspace(
     val workspaceId: String,
 
     val name: String,
-    val pricePlan: WorkspacePricePlan,
+    val plan: WorkspacePricePlan,
     val status: WorkspaceStatus,
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)

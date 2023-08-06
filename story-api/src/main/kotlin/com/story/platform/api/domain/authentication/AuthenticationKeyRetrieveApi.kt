@@ -13,12 +13,12 @@ class AuthenticationKeyRetrieveApi(
     /**
      * 서비스 인증 키를 조회합니다
      */
-    @GetMapping("/v1/authentication-keys/{authenticationKey}")
+    @GetMapping("/v1/authentication-keys/{apiKey}")
     suspend fun getAuthenticationKey(
-        @PathVariable authenticationKey: String,
+        @PathVariable apiKey: String,
     ): ApiResponse<AuthenticationKeyApiResponse> {
-        val response = authenticationKeyRetrieveHandler.getAuthenticationKey(authenticationKey = authenticationKey)
-        return ApiResponse.ok(AuthenticationKeyApiResponse.of(response))
+        val response = authenticationKeyRetrieveHandler.getAuthenticationKey(apiKey = apiKey)
+        return ApiResponse.ok(response)
     }
 
 }
