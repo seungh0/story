@@ -17,7 +17,7 @@ class SubscriptionCountRetrieverTest(
     }
 
     context("대상자의 구독자 수를 조회한다") {
-        test("대상자의 구독자 수를 조회한다") {
+        test("특정 대상을 구독한 구독자 수를 조회한다") {
             // given
             val count = 999L
 
@@ -42,18 +42,6 @@ class SubscriptionCountRetrieverTest(
         }
 
         test("대상자의 구독자가 없는 경우 구독자 수가 0명으로 표기된다") {
-            // when
-            val subscribersCount = subscriptionCountRetriever.countSubscribers(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                targetId = targetId,
-            )
-
-            // then
-            subscribersCount shouldBe 0L
-        }
-
-        test("대상자가 없는 경우 구독자 수가 0으로 표기된다") {
             // when
             val subscribersCount = subscriptionCountRetriever.countSubscribers(
                 workspaceId = workspaceId,

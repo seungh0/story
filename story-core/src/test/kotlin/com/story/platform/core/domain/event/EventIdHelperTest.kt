@@ -25,7 +25,7 @@ class EventIdHelperTest : FunSpec({
         slot2 shouldBe slot3
     }
 
-    test("ID 범위의 슬롯 범위를 계산한다") {
+    test("EventID 범위가 있을때, EventId들의 슬롯 범위를 계산한다") {
         // given
         val idGenerator = SnowflakeIdGenerator()
         val one = LocalDateTime.of(2023, 1, 1, 0, 1, 0)

@@ -23,7 +23,7 @@ class PostModifyHandler(
         content: String?,
         extraJson: String?,
     ) {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,
             resourceId = ResourceId.POSTS,
             componentId = postSpaceKey.componentId,

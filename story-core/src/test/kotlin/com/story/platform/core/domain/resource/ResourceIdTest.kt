@@ -22,7 +22,7 @@ class ResourceIdTest : FunSpec({
         sut shouldBe ResourceId.POSTS
     }
 
-    test("존재하지 않는 ResourceId code인 경우 NotFoundException") {
+    test("존재하지 않는 ResourceId code인 경우 ResourceNotExistsException 를 반환한다") {
         // when & then
         shouldThrowExactly<ResourceNotExistsException> {
             ResourceId.findByCode("Unknown")

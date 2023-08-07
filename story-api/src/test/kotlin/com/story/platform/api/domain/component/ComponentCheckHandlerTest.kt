@@ -43,7 +43,7 @@ class ComponentCheckHandlerTest : FunSpec({
 
             // when & then
             shouldNotThrowAny {
-                componentCheckHandler.validateComponent(
+                componentCheckHandler.checkExistsComponent(
                     workspaceId = workspaceId,
                     resourceId = resourceId,
                     componentId = componentId,
@@ -51,7 +51,7 @@ class ComponentCheckHandlerTest : FunSpec({
             }
         }
 
-        test("비활성화 중인 컴포넌트인 경우 실패한다") {
+        test("비활성화 중인 컴포넌트인 경우 검증에 실패한다") {
             // given
             val workspaceId = "twitter"
             val resourceId = ResourceId.SUBSCRIPTIONS
@@ -74,7 +74,7 @@ class ComponentCheckHandlerTest : FunSpec({
 
             // when & then
             shouldThrowExactly<ComponentNotExistsException> {
-                componentCheckHandler.validateComponent(
+                componentCheckHandler.checkExistsComponent(
                     workspaceId = workspaceId,
                     resourceId = resourceId,
                     componentId = componentId,
@@ -82,7 +82,7 @@ class ComponentCheckHandlerTest : FunSpec({
             }
         }
 
-        test("컴포넌트가 없는 경우 실패한다") {
+        test("컴포넌트가 없는 경우 검증에 실패한다") {
             // given
             val workspaceId = "twitter"
             val resourceId = ResourceId.SUBSCRIPTIONS
@@ -98,7 +98,7 @@ class ComponentCheckHandlerTest : FunSpec({
 
             // when & then
             shouldThrowExactly<ComponentNotExistsException> {
-                componentCheckHandler.validateComponent(
+                componentCheckHandler.checkExistsComponent(
                     workspaceId = workspaceId,
                     resourceId = resourceId,
                     componentId = componentId,

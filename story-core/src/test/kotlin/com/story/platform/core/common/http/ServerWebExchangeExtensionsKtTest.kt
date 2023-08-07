@@ -7,7 +7,7 @@ import org.springframework.mock.web.server.MockServerWebExchange
 
 class ServerWebExchangeExtensionsKtTest : FunSpec({
 
-    test("헤더에서 인증 키 정보를 가져온다") {
+    test("HTTP 헤더에서 인증 키 정보를 가져온다") {
         // given
         val apiKey = "api-key"
 
@@ -23,7 +23,7 @@ class ServerWebExchangeExtensionsKtTest : FunSpec({
         sut shouldBe apiKey
     }
 
-    test("헤더에 인증 키가 없는 경우 null이 넘어온다") {
+    test("HTTP 헤더에 인증 키가 없는 경우 null이 넘어온다") {
         // given
         val exchange = MockServerWebExchange.from(
             MockServerHttpRequest.get("/test")

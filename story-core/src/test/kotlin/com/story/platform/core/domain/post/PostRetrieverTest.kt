@@ -22,7 +22,7 @@ class PostRetrieverTest(
         testCleaner.cleanUp()
     }
 
-    context("특정 공간에 업로드되어 있는 포스트 목록을 조회한다 - NEXT 방향 조회") {
+    context("특정 공간에 등록되어 있는 포스트 목록을 조회한다 - NEXT 방향 조회") {
         context("첫 페이지 단일 슬롯 조회") {
             test("첫 페이지 조회 with 다음 커서") {
                 val posts = mutableListOf<Post>()
@@ -214,7 +214,6 @@ class PostRetrieverTest(
         }
 
         context("커서 기준으로 단일 슬롯 조회") {
-
             test("커서 기준으로 페이지 조회 with 다음 커서") {
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -405,7 +404,7 @@ class PostRetrieverTest(
         }
     }
 
-    context("특정 공간에 업로드되어 있는 포스트 목록을 조회한다 - PREVIOUS 방향 조회") {
+    context("특정 공간에 등록되어 있는 포스트 목록을 조회한다 - PREVIOUS 방향 조회") {
         context("첫 페이지 단일 슬롯 조회") {
             test("첫 페이지 조회 with 이전 커서") {
                 val posts = mutableListOf<Post>()

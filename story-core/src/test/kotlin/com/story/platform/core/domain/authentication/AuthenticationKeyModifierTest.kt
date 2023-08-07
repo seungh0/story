@@ -20,8 +20,8 @@ class AuthenticationKeyModifierTest(
         testCleaner.cleanUp()
     }
 
-    context("등록되어 있는 서비스 키를 변경한다") {
-        test("등록된 서비스 인증 사용처에 대한 설명을 변경한다") {
+    context("등록되어 있는 인증 키를 변경한다") {
+        test("등록된 인증 키에 대한 설명을 변경한다") {
             // given
             val description = "사용처에 대한 설명"
 
@@ -79,7 +79,7 @@ class AuthenticationKeyModifierTest(
             }
         }
 
-        test("서비스에 등록되어 있지 않은 API-Key인 경우 변경할 수 없다") {
+        test("워크스페이스에 등록되어 있지 않은 인증키인 경우 변경할 수 없다") {
             // given
             val workspaceId = "twitter"
 
@@ -94,7 +94,7 @@ class AuthenticationKeyModifierTest(
             }
         }
 
-        test("API-Key는 각 서비스별로 독립적으로 관리된다") {
+        test("인증 키는 각 워크스페이스별로 독립적으로 관리된다") {
             // given
             val authenticationKey = WorkspaceAuthenticationKeyFixture.create(
                 workspaceId = "twitter",

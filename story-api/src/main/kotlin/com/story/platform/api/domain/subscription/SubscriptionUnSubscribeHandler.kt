@@ -21,7 +21,7 @@ class SubscriptionUnSubscribeHandler(
         targetId: String,
         subscriberId: String,
     ) {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,

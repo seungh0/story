@@ -1,7 +1,7 @@
 package com.story.platform.api.config
 
 import com.story.platform.api.config.auth.AuthenticationWhitelistChecker
-import io.kotest.core.spec.style.FunSpec
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.data.forAll
 import io.kotest.data.headers
 import io.kotest.data.row
@@ -9,9 +9,9 @@ import io.kotest.data.table
 import io.kotest.matchers.shouldBe
 import org.springframework.http.HttpMethod
 
-internal class AuthenticationWhitelistCheckerTest : FunSpec({
+internal class AuthenticationWhitelistCheckerTest : StringSpec({
 
-    test("WhiteList Path Regex Pattern") {
+    "인증 체크를 수행하지 않는 WhiteList Path에 대한 정규식 패턴을 검증한다" {
         forAll(
             table(
                 headers("method", "path", "expected"),

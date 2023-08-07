@@ -21,7 +21,7 @@ class SubscriptionRetrieveHandler(
         targetId: String,
         subscriberId: String,
     ): SubscriptionCheckApiResponse {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
@@ -42,7 +42,7 @@ class SubscriptionRetrieveHandler(
         targetId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<SubscriberApiResponse, String> {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
@@ -67,7 +67,7 @@ class SubscriptionRetrieveHandler(
         subscriberId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<SubscriptionTargetApiResponse, String> {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
@@ -92,7 +92,7 @@ class SubscriptionRetrieveHandler(
         componentId: String,
         targetId: String,
     ): SubscribersCountApiResponse {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
@@ -111,7 +111,7 @@ class SubscriptionRetrieveHandler(
         componentId: String,
         subscriberId: String,
     ): SubscriptionsCountApiResponse {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,

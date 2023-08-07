@@ -1,5 +1,8 @@
 package com.story.platform.core.infrastructure.redis
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.data.redis.core.ReactiveRedisTemplate
@@ -37,18 +40,18 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
         return key.deserializeValue(redisTemplate.opsForValue()[key.makeKeyString()].awaitSingleOrNull())
     }
 
-    override suspend fun getBulk(keys: List<K>): List<V> {
+    override suspend fun getBulk(keys: List<K>): List<V> = coroutineScope {
         if (keys.isEmpty()) {
-            return emptyList()
+            return@coroutineScope emptyList()
         }
         val actualType = keys[0]
-        val values: List<String> = keys.chunked(FETCH_SIZE)
-            .mapNotNull { keyList ->
+        val values: List<String> = keys.chunked(FETCH_SIZE).map { keyList ->
+            async {
                 redisTemplate.opsForValue().multiGet(keyList.map { key -> key.makeKeyString() }).awaitSingleOrNull()
             }
-            .flatten()
+        }.awaitAll().filterNotNull().flatten()
 
-        return values.mapNotNull { value -> actualType.deserializeValue(value) }
+        return@coroutineScope values.mapNotNull { value -> actualType.deserializeValue(value) }
     }
 
     override suspend fun setWithTtl(key: K, value: V, ttl: Duration?) {
@@ -59,33 +62,42 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
         redisTemplate.opsForValue().set(key.makeKeyString(), key.serializeValue(value), ttl).awaitSingleOrNull()
     }
 
-    override suspend fun setBulk(keyValues: Map<K, V>) {
+    override suspend fun setBulk(keyValues: Map<K, V>) = coroutineScope {
         if (keyValues.isEmpty()) {
-            return
+            return@coroutineScope
         }
+        keyValues.entries.chunked(FETCH_SIZE).map { chunkedEntries ->
+            async {
+                redisTemplate.opsForValue()
+                    .multiSet(chunkedEntries.associate { (key, value) -> key.makeKeyString() to key.serializeValue(value) })
+                    .awaitSingleOrNull()
 
-        redisTemplate.opsForValue()
-            .multiSet(keyValues.map { (key, value) -> key.toString() to value.toString() }.toMap())
-            .awaitSingleOrNull()
+                chunkedEntries.asSequence()
+                    .map { entry -> entry.key }
+                    .filter { key: K -> key.getTtl() != null }
+                    .forEach { key: K ->
+                        redisTemplate.expire(key.makeKeyString(), key.getTtl()!!).awaitSingleOrNull()
+                    }
+            }
+        }.awaitAll()
     }
 
     override suspend fun del(key: K) {
         redisTemplate.delete(key.makeKeyString()).awaitSingleOrNull()
     }
 
-    override suspend fun delBulk(keys: List<K>) {
+    override suspend fun delBulk(keys: List<K>) = coroutineScope {
         if (keys.isEmpty()) {
-            return
+            return@coroutineScope
         }
-
-        keys.asSequence()
-            .chunked(FETCH_SIZE)
-            .forEach { chunkedKeys ->
-                val targetKeySet = chunkedKeys.asSequence()
+        keys.chunked(FETCH_SIZE).map { chunkedKeys ->
+            async {
+                val chunkedKeyStrings = chunkedKeys.asSequence()
                     .map { key -> key.makeKeyString() }
                     .toSet()
-                redisTemplate.delete(*targetKeySet.toTypedArray()).awaitSingleOrNull()
+                redisTemplate.delete(*chunkedKeyStrings.toTypedArray()).awaitSingleOrNull()
             }
+        }.awaitAll()
     }
 
     override suspend fun incrBy(key: K, count: Long): Long {

@@ -10,7 +10,7 @@ class ComponentCheckHandler(
     private val componentRetriever: ComponentRetriever,
 ) {
 
-    suspend fun validateComponent(
+    suspend fun checkExistsComponent(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,

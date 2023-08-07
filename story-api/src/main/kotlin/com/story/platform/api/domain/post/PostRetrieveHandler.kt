@@ -21,7 +21,7 @@ class PostRetrieveHandler(
         spaceId: String,
         postId: String,
     ): PostApiResponse {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.POSTS,
             componentId = componentId,
@@ -44,7 +44,7 @@ class PostRetrieveHandler(
         spaceId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<PostApiResponse, String> {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.POSTS,
             componentId = componentId,

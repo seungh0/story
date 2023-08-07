@@ -70,7 +70,7 @@ internal class ControllerExceptionAdviceTest(
             .jsonPath("$.error").isEqualTo(ErrorCode.E409_ALREADY_EXISTS_COMPONENT.code)
     }
 
-    test("알 수 없는 에러가 발생하는 경우, Internal Server를 반환한다") {
+    test("알 수 없는 에러가 발생하는 경우, INTERNAL_SERVER_ERROR 를 반환한다") {
         // given
         coEvery { applicationAvailability.livenessCheck() } throws InternalServerException(
             message = "서버 내부에서 에러가 발생하였습니다"

@@ -41,7 +41,7 @@ internal class AvailabilityCheckApiTest(
             description = "",
         )
 
-        coEvery { componentCheckHandler.validateComponent(any(), any(), any()) } returns Unit
+        coEvery { componentCheckHandler.checkExistsComponent(any(), any(), any()) } returns Unit
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 

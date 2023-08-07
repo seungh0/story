@@ -32,7 +32,7 @@ class WorkspaceRetrieverTest(
         sut.plan shouldBe workspace.plan
     }
 
-    "워크스페이스 조회시 없는 워크스페이스인 경우 throws NotExistsWorkspaceException" {
+    "존재하지 않는 워크스페이스인 경우 throws NotExistsWorkspaceException" {
         // given
         val workspace = WorkspaceFixture.create()
 
@@ -42,7 +42,7 @@ class WorkspaceRetrieverTest(
         }
     }
 
-    "워크스페이스 삭제된 워크스페이스인 경우 throws NotExistsWorkspaceException" {
+    "삭제된 워크스페이스인 경우 throws NotExistsWorkspaceException" {
         // given
         val workspace = WorkspaceFixture.create(status = WorkspaceStatus.DELETED)
         workspaceRepository.save(workspace)

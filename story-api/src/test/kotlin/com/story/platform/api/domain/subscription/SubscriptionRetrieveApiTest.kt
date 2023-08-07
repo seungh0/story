@@ -48,7 +48,7 @@ class SubscriptionRetrieveApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    "대상을 구독했는지 여부를 확인합니다" {
+    "특정 대상을 구독했는지 여부를 확인합니다" {
         // given
         val componentId = "follow"
         val subscriberId = "subscriberId"
@@ -101,7 +101,7 @@ class SubscriptionRetrieveApiTest(
             )
     }
 
-    "구독자 수를 확인합니다" {
+    "구독자 수를 조회합니다" {
         // given
         val componentId = "follow"
         val targetId = "targetId"

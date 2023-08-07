@@ -21,7 +21,7 @@ class PostCreateHandler(
         content: String,
         extraJson: String? = null,
     ): Long {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,
             resourceId = ResourceId.POSTS,
             componentId = postSpaceKey.componentId,

@@ -19,7 +19,7 @@ class PostRemoveHandler(
         accountId: String,
         postId: Long,
     ) {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,
             resourceId = ResourceId.POSTS,
             componentId = postSpaceKey.componentId,

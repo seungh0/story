@@ -9,7 +9,7 @@ import io.kotest.matchers.shouldBe
 
 internal class VersionTest : FunSpec({
 
-    test("각 버전이_없는경우 0으로 인식된다") {
+    test("각 버전이 없는경우 0으로 인식된다") {
         forAll(
             table(
                 headers("versionString"),

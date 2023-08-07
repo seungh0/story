@@ -41,7 +41,7 @@ class ResourceRetrieveApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    "사용 가능한 리소스 조회 API" {
+    "사용 가능한 리소스 목록을 조회한다" {
         webTestClient.get()
             .uri("/v1/resources")
             .headers(authenticationHeader)

@@ -21,8 +21,8 @@ internal class SubscriptionRetrieverTest(
         testCleaner.cleanUp()
     }
 
-    context("유저가 대상에게 구독자인지 확인한다") {
-        test("대상자를 구독한 기록이 있으면, 구독자이다") {
+    context("특정 계정이 대상을 구독하였는지 확인한다") {
+        test("대상자를 구독한 기록이 있으면, 구독자로 판단한다") {
             // given
             val workspaceId = "twitter"
             val componentId = "follow"
@@ -52,7 +52,7 @@ internal class SubscriptionRetrieverTest(
             isSubscriber shouldBe true
         }
 
-        test("대상자를 구독한 기록이 없다면, 구독자가 아니다") {
+        test("대상자를 구독한 기록이 없다면, 구독자가 아니라고 판단한다") {
             // given
             val workspaceId = "twitter"
             val componentId = "follow"
@@ -71,7 +71,7 @@ internal class SubscriptionRetrieverTest(
             isSubscriber shouldBe false
         }
 
-        test("구독이 취소되어 있는 경우, 구독자가 아니다") {
+        test("구독이 취소되어 있는 경우, 구독자가 아니라고 판단한다") {
             // given
             val workspaceId = "twitter"
             val componentId = "follow"
@@ -101,7 +101,7 @@ internal class SubscriptionRetrieverTest(
         }
     }
 
-    context("구독 대상자를 조회한다") {
+    context("특정 대상을 구독한 구독자 목록을 조회한다") {
         test("첫 페이지를 조회할때 이후에 구독 정보가 더 있는 경우 다음 커서가 반환된다") {
             // given
             val workspaceId = "twitter"

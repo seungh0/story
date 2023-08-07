@@ -21,7 +21,7 @@ class FeedRetrieveHandler(
         targetId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<FeedResponse<out BaseEvent>, String> {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.FEEDS,
             componentId = feedComponentId,

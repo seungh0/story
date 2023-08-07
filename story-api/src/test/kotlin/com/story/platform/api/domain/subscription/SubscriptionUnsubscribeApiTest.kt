@@ -44,7 +44,7 @@ class SubscriptionUnsubscribeApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    "대상을 구독합니다" {
+    "대상을 구독 취소합니다" {
         // given
         val componentId = "follow"
         val subscriberId = "subscriberId"

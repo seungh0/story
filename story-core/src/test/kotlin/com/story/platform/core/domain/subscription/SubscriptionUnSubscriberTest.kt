@@ -20,7 +20,7 @@ internal class SubscriptionUnSubscriberTest(
     }
 
     context("구독을 취소한다") {
-        test("기존의 구독 정보를 취소한다") {
+        test("등록한 구독 정보를 취소한다") {
             // given
             val workspaceId = "twitter"
             val componentId = "follow"

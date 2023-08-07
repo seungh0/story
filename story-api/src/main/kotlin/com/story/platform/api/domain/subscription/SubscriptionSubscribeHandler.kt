@@ -22,7 +22,7 @@ class SubscriptionSubscribeHandler(
         subscriberId: String,
         alarm: Boolean,
     ) {
-        componentCheckHandler.validateComponent(
+        componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
