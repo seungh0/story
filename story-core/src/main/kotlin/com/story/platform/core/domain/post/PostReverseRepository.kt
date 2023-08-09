@@ -1,5 +1,7 @@
 package com.story.platform.core.domain.post
 
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 
@@ -14,5 +16,12 @@ interface PostReverseRepository : CoroutineCrudRepository<PostReverse, PostRever
         postId: Long,
         spaceId: String,
     ): PostReverse?
+
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
+        workspaceId: String,
+        componentId: String,
+        distributionKey: String,
+        pageable: Pageable,
+    ): Slice<PostReverse>
 
 }

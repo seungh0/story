@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.feed
 
+import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
@@ -51,16 +52,18 @@ class FeedRetriever(
         cursorRequest: CursorRequest,
     ): Flow<Feed> {
         if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyTargetId(
+            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetId(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
+                distributionKey = XLargeDistributionKey.fromKey(targetId).key,
                 targetId = targetId,
-                pageable = CassandraPageRequest.first(cursorRequest.pageSize)
+                pageable = CassandraPageRequest.first(cursorRequest.pageSize),
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyTargetIdAndKeyEventIdLessThan(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdAndKeyEventIdLessThan(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
+            distributionKey = XLargeDistributionKey.fromKey(targetId).key,
             targetId = targetId,
             eventId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize),
@@ -74,16 +77,18 @@ class FeedRetriever(
         cursorRequest: CursorRequest,
     ): Flow<Feed> {
         if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyTargetIdOrderByKeyEventIdAsc(
+            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdOrderByKeyEventIdAsc(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
+                distributionKey = XLargeDistributionKey.fromKey(targetId).key,
                 targetId = targetId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyTargetIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
+            distributionKey = XLargeDistributionKey.fromKey(targetId).key,
             targetId = targetId,
             eventId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),

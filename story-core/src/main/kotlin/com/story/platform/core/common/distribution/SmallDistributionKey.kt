@@ -13,21 +13,21 @@ data class SmallDistributionKey(
     companion object {
         private val TYPE = DistributionKeyType.SMALL
         private val DISTRIBUTION_KEY_PATTERN = Pattern.compile(TYPE.pattern)
-        private val ALL_KEYS: MutableList<SmallDistributionKey> = mutableListOf()
+        val ALL_KEYS: MutableList<SmallDistributionKey> = mutableListOf()
 
         init {
-            DistributionKeyUtils.makeAllDistributionKeys(ALL_KEYS, TYPE.digit) { key: String -> of(key) }
+            DistributionKeyUtils.makeAllDistributionKeys(ALL_KEYS, TYPE.digit) { key: String -> fromKey(key) }
         }
 
-        fun of(key: String): SmallDistributionKey {
+        fun fromKey(key: String): SmallDistributionKey {
             require(!(key.isBlank() || !DISTRIBUTION_KEY_PATTERN.matcher(key).matches())) {
                 "Not matching with DISTRIBUTION_KEY_PATTERN ( " + TYPE.pattern + " )."
             }
             return SmallDistributionKey(key)
         }
 
-        fun fromId(rawId: String): SmallDistributionKey {
-            return of(DistributionKeyUtils.hashing(TYPE.hashFormat, rawId, ALL_KEYS.size))
+        fun makeKey(rawId: String): SmallDistributionKey {
+            return fromKey(DistributionKeyUtils.hashing(TYPE.hashFormat, rawId, ALL_KEYS.size))
         }
     }
 

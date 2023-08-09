@@ -106,6 +106,14 @@ data class PostPrimaryKey(
             slotId = PostSlotAssigner.assign(postId),
             postId = postId,
         )
+
+        fun from(postReverse: PostReverse) = PostPrimaryKey(
+            workspaceId = postReverse.key.workspaceId,
+            componentId = postReverse.key.componentId,
+            spaceId = postReverse.key.spaceId,
+            slotId = PostSlotAssigner.assign(postId = postReverse.key.postId),
+            postId = postReverse.key.postId,
+        )
     }
 
 }

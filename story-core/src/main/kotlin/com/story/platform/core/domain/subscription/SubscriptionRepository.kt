@@ -2,6 +2,7 @@ package com.story.platform.core.domain.subscription
 
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 
@@ -16,6 +17,13 @@ interface SubscriptionRepository :
         subscriberId: String,
         targetId: String,
     ): Subscription?
+
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
+        workspaceId: String,
+        componentId: String,
+        distributionKey: String,
+        pageable: Pageable,
+    ): Slice<Subscription>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdDesc(
         workspaceId: String,

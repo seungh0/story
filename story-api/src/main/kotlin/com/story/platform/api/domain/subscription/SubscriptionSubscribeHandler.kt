@@ -44,7 +44,7 @@ class SubscriptionSubscribeHandler(
                 subscriberId = subscriberId,
             )
 
-            subscriptionEventPublisher.publishSubscriptionEvent(
+            subscriptionEventPublisher.publishSubscribedEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,

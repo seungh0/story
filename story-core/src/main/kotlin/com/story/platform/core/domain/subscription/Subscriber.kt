@@ -54,4 +54,16 @@ data class SubscriberPrimaryKey(
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = ASCENDING, ordinal = 5)
     val subscriberId: String,
-)
+) {
+
+    companion object {
+        fun from(subscription: Subscription) = SubscriberPrimaryKey(
+            workspaceId = subscription.key.workspaceId,
+            componentId = subscription.key.componentId,
+            targetId = subscription.key.targetId,
+            slotId = subscription.slotId,
+            subscriberId = subscription.key.subscriberId,
+        )
+    }
+
+}

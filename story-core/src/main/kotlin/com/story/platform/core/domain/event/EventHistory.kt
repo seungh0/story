@@ -51,7 +51,7 @@ data class EventHistory(
             resourceId: ResourceId,
             componentId: String,
             eventRecord: EventRecord<T>,
-            exception: Exception,
+            exception: Throwable,
         ): EventHistory {
             val slotId = EventIdHelper.getSlot(snowflake = eventRecord.eventId)
             return EventHistory(

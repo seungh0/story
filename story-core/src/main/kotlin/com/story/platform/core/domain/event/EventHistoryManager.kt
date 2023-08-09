@@ -2,6 +2,9 @@ package com.story.platform.core.domain.event
 
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -10,6 +13,28 @@ class EventHistoryManager(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
+    suspend fun <T> withSaveEventHistories(
+        workspaceId: String,
+        resourceId: ResourceId,
+        componentId: String,
+        events: Collection<EventRecord<T>>,
+        eventPublisher: suspend (EventRecord<T>) -> Unit,
+    ) = coroutineScope {
+        events.chunked(50).map { chunkedEvents ->
+            chunkedEvents.map { event ->
+                async {
+                    withSaveEventHistory(
+                        workspaceId = workspaceId,
+                        resourceId = resourceId,
+                        componentId = componentId,
+                        event = event,
+                        eventPublisher = eventPublisher,
+                    )
+                }
+            }.awaitAll()
+        }
+    }
+
     suspend fun <T> withSaveEventHistory(
         workspaceId: String,
         resourceId: ResourceId,
@@ -17,9 +42,27 @@ class EventHistoryManager(
         event: EventRecord<T>,
         eventPublisher: suspend (EventRecord<T>) -> Unit,
     ) {
-        try {
+        runCatching {
             eventPublisher.invoke(event)
-        } catch (exception: Exception) {
+        }.onSuccess {
+            reactiveCassandraOperations.batchOps()
+                .insert(
+                    EventHistory.success(
+                        workspaceId = workspaceId,
+                        resourceId = resourceId,
+                        componentId = componentId,
+                        eventRecord = event,
+                    )
+                )
+                .insert(
+                    EventKeyIdMapping.of(
+                        workspaceId = workspaceId,
+                        eventKey = event.eventKey,
+                        eventId = event.eventId,
+                    )
+                )
+                .executeCoroutine()
+        }.onFailure { exception ->
             reactiveCassandraOperations.batchOps()
                 .insert(
                     EventHistory.failed(
@@ -40,24 +83,6 @@ class EventHistoryManager(
                 .executeCoroutine()
             throw exception
         }
-
-        reactiveCassandraOperations.batchOps()
-            .insert(
-                EventHistory.success(
-                    workspaceId = workspaceId,
-                    resourceId = resourceId,
-                    componentId = componentId,
-                    eventRecord = event,
-                )
-            )
-            .insert(
-                EventKeyIdMapping.of(
-                    workspaceId = workspaceId,
-                    eventKey = event.eventKey,
-                    eventId = event.eventId,
-                )
-            )
-            .executeCoroutine()
     }
 
 }

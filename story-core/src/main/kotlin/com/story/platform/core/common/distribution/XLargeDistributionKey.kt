@@ -13,7 +13,7 @@ data class XLargeDistributionKey(
     companion object {
         private val TYPE = DistributionKeyType.XLARGE
         private val DISTRIBUTION_KEY_PATTERN = Pattern.compile(TYPE.pattern)
-        private val ALL_KEYS: MutableList<XLargeDistributionKey> = mutableListOf()
+        val ALL_KEYS: MutableList<XLargeDistributionKey> = mutableListOf()
 
         init {
             DistributionKeyUtils.makeAllDistributionKeys(ALL_KEYS, TYPE.digit) { key: String -> fromKey(key) }

@@ -6,31 +6,35 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface FeedRepository : CoroutineCrudRepository<Feed, FeedPrimaryKey> {
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyTargetId(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetId(
         workspaceId: String,
         feedComponentId: String,
+        distributionKey: String,
         targetId: String,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyTargetIdAndKeyEventIdLessThan(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdAndKeyEventIdLessThan(
         workspaceId: String,
         feedComponentId: String,
+        distributionKey: String,
         targetId: String,
         eventId: Long,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyTargetIdOrderByKeyEventIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdOrderByKeyEventIdAsc(
         workspaceId: String,
         feedComponentId: String,
+        distributionKey: String,
         targetId: String,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyTargetIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
         workspaceId: String,
         feedComponentId: String,
+        distributionKey: String,
         targetId: String,
         eventId: Long,
         pageable: Pageable,
