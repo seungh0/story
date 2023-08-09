@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.IntegrationTest
+import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.lib.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -38,23 +39,23 @@ internal class SubscriptionSubscriberTest(
             )
 
             // then
-            val subscriptions = subscriberRepository.findAll().toList()
-            subscriptions shouldHaveSize 1
-            subscriptions[0].also {
+            val subscribers = subscriberRepository.findAll().toList()
+            subscribers shouldHaveSize 1
+            subscribers[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
-                it.key.subscriberId shouldBe subscriberId
                 it.key.subscriberId shouldBe subscriberId
                 it.key.slotId shouldBe 1L
                 it.key.targetId shouldBe targetId
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionReverses = subscriptionRepository.findAll().toList()
-            subscriptionReverses shouldHaveSize 1
-            subscriptionReverses[0].also {
+            val subscriptions = subscriptionRepository.findAll().toList()
+            subscriptions shouldHaveSize 1
+            subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
+                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(subscriberId).key
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
@@ -115,11 +116,12 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionReverses = subscriptionRepository.findAll().toList()
-            subscriptionReverses shouldHaveSize 1
-            subscriptionReverses[0].also {
+            val subscriptions = subscriptionRepository.findAll().toList()
+            subscriptions shouldHaveSize 1
+            subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
+                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(subscriberId).key
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
@@ -178,11 +180,12 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionReverses = subscriptionRepository.findAll().toList()
-            subscriptionReverses shouldHaveSize 1
-            subscriptionReverses[0].also {
+            val subscriptions = subscriptionRepository.findAll().toList()
+            subscriptions shouldHaveSize 1
+            subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
+                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(subscriberId).key
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
@@ -243,11 +246,12 @@ internal class SubscriptionSubscriberTest(
                 it.alarm shouldBe alarm
             }
 
-            val subscriptionReverses = subscriptionRepository.findAll().toList()
-            subscriptionReverses shouldHaveSize 1
-            subscriptionReverses[0].also {
+            val subscriptions = subscriptionRepository.findAll().toList()
+            subscriptions shouldHaveSize 1
+            subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
+                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(subscriberId).key
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe slotId

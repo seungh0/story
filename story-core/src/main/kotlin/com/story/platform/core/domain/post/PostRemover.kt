@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
@@ -17,9 +18,10 @@ class PostRemover(
         postId: Long,
     ) {
         val postReverse =
-            postReverseRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyPostIdAndKeySpaceId(
+            postReverseRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyAccountIdAndKeyPostIdAndKeySpaceId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
+                distributionKey = XLargeDistributionKey.makeKey(accountId).key,
                 accountId = accountId,
                 postId = postId,
                 spaceId = postSpaceKey.spaceId,

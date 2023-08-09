@@ -9,38 +9,43 @@ import org.springframework.stereotype.Repository
 interface SubscriptionRepository :
     CoroutineCrudRepository<Subscription, SubscriptionPrimaryKey> {
 
-    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetId(
+    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetId(
         workspaceId: String,
         componentId: String,
+        distributionKey: String,
         subscriberId: String,
         targetId: String,
     ): Subscription?
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdDesc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdDesc(
         workspaceId: String,
         componentId: String,
+        distributionKey: String,
         subscriberId: String,
         pageable: Pageable,
     ): Flow<Subscription>
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
         workspaceId: String,
         componentId: String,
+        distributionKey: String,
         subscriberId: String,
         targetId: String,
         pageable: Pageable,
     ): Flow<Subscription>
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdAsc(
         workspaceId: String,
         componentId: String,
+        distributionKey: String,
         subscriberId: String,
         pageable: Pageable,
     ): Flow<Subscription>
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
         workspaceId: String,
         componentId: String,
+        distributionKey: String,
         subscriberId: String,
         targetId: String,
         pageable: Pageable,

@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.common.distribution.XLargeDistributionKey
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -21,7 +22,7 @@ data class PostReverse(
 
     companion object {
         fun of(post: Post) = PostReverse(
-            key = PostReversePrimaryKey(
+            key = PostReversePrimaryKey.of(
                 workspaceId = post.key.workspaceId,
                 componentId = post.key.componentId,
                 accountId = post.accountId,
@@ -46,11 +47,32 @@ data class PostReversePrimaryKey(
     val componentId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 3)
-    val accountId: String,
+    val distributionKey: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 4)
-    val postId: Long,
+    val accountId: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 5)
+    val postId: Long,
+
+    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 6)
     val spaceId: String,
-)
+) {
+
+    companion object {
+        fun of(
+            workspaceId: String,
+            componentId: String,
+            accountId: String,
+            postId: Long,
+            spaceId: String,
+        ) = PostReversePrimaryKey(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            distributionKey = XLargeDistributionKey.makeKey(accountId).key, accountId = accountId,
+            postId = postId,
+            spaceId = spaceId,
+        )
+    }
+
+}

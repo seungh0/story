@@ -6,9 +6,10 @@ import org.springframework.stereotype.Repository
 @Repository
 interface PostReverseRepository : CoroutineCrudRepository<PostReverse, PostReversePrimaryKey> {
 
-    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyPostIdAndKeySpaceId(
+    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyAccountIdAndKeyPostIdAndKeySpaceId(
         workspaceId: String,
         componentId: String,
+        distributionKey: String,
         accountId: String,
         postId: Long,
         spaceId: String,

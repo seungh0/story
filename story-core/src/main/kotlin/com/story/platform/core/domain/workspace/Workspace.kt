@@ -16,8 +16,4 @@ data class Workspace(
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
     var auditingTime: AuditingTime,
-) {
-
-    fun isEnabled(): Boolean = this.status.isEnabled()
-
-}
+)

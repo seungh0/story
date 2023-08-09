@@ -1,6 +1,8 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.common.distribution.XLargeDistributionKey
 import org.springframework.data.cassandra.core.cql.Ordering.ASCENDING
+import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -37,7 +39,7 @@ data class Subscription(
             subscriber: Subscriber,
             status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
         ) = Subscription(
-            key = SubscriptionPrimaryKey(
+            key = SubscriptionPrimaryKey.of(
                 workspaceId = subscriber.key.workspaceId,
                 componentId = subscriber.key.componentId,
                 subscriberId = subscriber.key.subscriberId,
@@ -60,8 +62,28 @@ data class SubscriptionPrimaryKey(
     val componentId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 3)
+    val distributionKey: String,
+
+    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 4)
     val subscriberId: String,
 
-    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = ASCENDING, ordinal = 4)
+    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = ASCENDING, ordinal = 5)
     val targetId: String,
-)
+) {
+
+    companion object {
+        fun of(
+            workspaceId: String,
+            componentId: String,
+            subscriberId: String,
+            targetId: String,
+        ) = SubscriptionPrimaryKey(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+            subscriberId = subscriberId,
+            targetId = targetId,
+        )
+    }
+
+}

@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.IntegrationTest
+import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.lib.TestCleaner
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -69,6 +70,7 @@ internal class PostRegisterTest(
             postReverses[0].also {
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.componentId shouldBe postSpaceKey.componentId
+                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(accountId).key
                 it.key.accountId shouldBe accountId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
                 it.key.postId shouldNotBe null

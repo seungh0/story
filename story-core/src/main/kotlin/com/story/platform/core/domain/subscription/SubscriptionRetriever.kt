@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
@@ -21,7 +22,7 @@ class SubscriptionRetriever(
         targetId: String,
         subscriberId: String,
     ): Boolean {
-        val primaryKey = SubscriptionPrimaryKey(
+        val primaryKey = SubscriptionPrimaryKey.of(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
@@ -74,11 +75,12 @@ class SubscriptionRetriever(
         )
 
         var currentSlotId: Long = cursorRequest.cursor?.let { cursor ->
-            subscriptionRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetId(
+            subscriptionRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetId(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                distributionKey = XLargeDistributionKey.makeKey(cursor).key,
                 subscriberId = cursor,
+                targetId = targetId,
             )?.slotId
         } ?: lastSlotId
 
@@ -160,11 +162,12 @@ class SubscriptionRetriever(
         )
 
         var currentSlotId: Long = cursorRequest.cursor?.let { cursor ->
-            subscriptionRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetId(
+            subscriptionRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetId(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                distributionKey = XLargeDistributionKey.makeKey(cursor).key,
                 subscriberId = cursor,
+                targetId = targetId,
             )?.slotId
         } ?: firstSlotId
 
@@ -274,16 +277,18 @@ class SubscriptionRetriever(
         subscriberId: String,
     ): List<Subscription> {
         if (cursorRequest.cursor == null) {
-            return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdAsc(
+            return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdAsc(
                 workspaceId = workspaceId,
                 componentId = componentId,
+                distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
                 subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             ).toList()
         }
-        return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
+        return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
             workspaceId = workspaceId,
             componentId = componentId,
+            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
             subscriberId = subscriberId,
             targetId = cursorRequest.cursor,
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
@@ -297,17 +302,19 @@ class SubscriptionRetriever(
         subscriberId: String,
     ): List<Subscription> {
         if (cursorRequest.cursor == null) {
-            return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdOrderByKeyTargetIdDesc(
+            return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdDesc(
                 workspaceId = workspaceId,
                 componentId = componentId,
+                distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
                 subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             ).toList()
         }
 
-        return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
+        return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
             workspaceId = workspaceId,
             componentId = componentId,
+            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
             subscriberId = subscriberId,
             targetId = cursorRequest.cursor,
             pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
