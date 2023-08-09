@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.workspace
 
 import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.domain.workspace.WorkspaceNotExistsException
 import com.story.platform.core.domain.workspace.WorkspaceRetriever
 
 @HandlerAdapter
@@ -11,7 +12,10 @@ class WorkspaceRetrieveHandler(
     suspend fun validateEnabledWorkspace(
         workspaceId: String,
     ) {
-        workspaceRetriever.getWorkspace(workspaceId = workspaceId)
+        val workspace = workspaceRetriever.getWorkspace(workspaceId = workspaceId)
+        if (!workspace.isEnabled()) {
+            throw WorkspaceNotExistsException(message = "워크스페이스($workspaceId)가 존재하지 않습니다")
+        }
     }
 
 }

@@ -9,6 +9,8 @@ data class WorkspaceResponse(
     val status: WorkspaceStatus,
 ) : AuditingTimeResponse() {
 
+    fun isEnabled() = this.status.isEnabled()
+
     companion object {
         fun of(workspace: Workspace): WorkspaceResponse {
             val response = WorkspaceResponse(

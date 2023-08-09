@@ -19,7 +19,7 @@ class WorkspaceRetrieverTest(
 
     "워크스페이스를 조회한다" {
         // given
-        val workspace = WorkspaceFixture.create(status = WorkspaceStatus.ENABLED)
+        val workspace = WorkspaceFixture.create()
         workspaceRepository.save(workspace)
 
         // when
@@ -35,17 +35,6 @@ class WorkspaceRetrieverTest(
     "존재하지 않는 워크스페이스인 경우 throws NotExistsWorkspaceException" {
         // given
         val workspace = WorkspaceFixture.create()
-
-        // when & then
-        shouldThrowExactly<WorkspaceNotExistsException> {
-            workspaceRetriever.getWorkspace(workspaceId = workspace.workspaceId)
-        }
-    }
-
-    "삭제된 워크스페이스인 경우 throws NotExistsWorkspaceException" {
-        // given
-        val workspace = WorkspaceFixture.create(status = WorkspaceStatus.DELETED)
-        workspaceRepository.save(workspace)
 
         // when & then
         shouldThrowExactly<WorkspaceNotExistsException> {

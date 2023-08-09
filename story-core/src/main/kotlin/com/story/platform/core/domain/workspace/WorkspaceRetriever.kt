@@ -18,11 +18,6 @@ class WorkspaceRetriever(
     ): WorkspaceResponse {
         val workspace = workspaceRepository.findById(workspaceId)
             ?: throw WorkspaceNotExistsException(message = "워크스페이스($workspaceId)가 존재하지 않습니다")
-
-        if (!workspace.isEnabled()) {
-            throw WorkspaceNotExistsException(message = "워크스페이스($workspaceId)가 존재하지 않습니다")
-        }
-
         return WorkspaceResponse.of(workspace = workspace)
     }
 

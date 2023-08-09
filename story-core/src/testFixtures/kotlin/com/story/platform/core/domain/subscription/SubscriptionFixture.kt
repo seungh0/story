@@ -15,11 +15,11 @@ object SubscriptionFixture {
         status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
         alarm: Boolean = generateBoolean(),
     ) = Subscription(
-        key = SubscriptionPrimaryKey(
+        key = SubscriptionPrimaryKey.of(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
             subscriberId = subscriberId,
+            targetId = targetId,
         ),
         slotId = slotId,
         status = status,
