@@ -26,8 +26,8 @@ class ComponentCacheEvictConsumer(
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.component.topic}"],
-        groupId = "\${story.server-uid}",
+        topics = ["\${story.kafka.topic.component.event}"],
+        groupId = GROUP_ID,
         containerFactory = KafkaConsumerConfig.COMPONENT_CONTAINER_FACTORY,
     )
     fun handleComponentCacheEviction(
@@ -51,6 +51,10 @@ class ComponentCacheEvictConsumer(
                 componentId = payload.componentId,
             )
         }
+    }
+
+    companion object {
+        private const val GROUP_ID = "component-cache-evict-consumer"
     }
 
 }

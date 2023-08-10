@@ -7,24 +7,24 @@ import com.story.platform.core.domain.authentication.AuthenticationKeyEmptyExcep
 import com.story.platform.core.domain.authentication.AuthenticationKeyInactivatedException
 import com.story.platform.core.domain.authentication.AuthenticationKeyInvalidException
 import com.story.platform.core.domain.authentication.AuthenticationKeyNotExistsException
-import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
-import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
+import com.story.platform.core.domain.authentication.AuthenticationResponse
+import com.story.platform.core.domain.authentication.AuthenticationRetriever
 import org.springframework.web.server.ServerWebExchange
 
 @HandlerAdapter
 class AuthenticationHandler(
-    private val authenticationKeyRetriever: AuthenticationKeyRetriever,
+    private val authenticationRetriever: AuthenticationRetriever,
 ) {
 
     suspend fun handleAuthentication(
         serverWebExchange: ServerWebExchange,
         allowedDisabledAuthenticationKey: Boolean = false,
-    ): AuthenticationKeyResponse {
+    ): AuthenticationResponse {
         val apiKey = serverWebExchange.getApiKey()
             ?: throw AuthenticationKeyEmptyException("API Key 헤더(${HttpHeaderType.X_STORY_API_KEY.header})가 비어있습니다")
 
         try {
-            val authentication = authenticationKeyRetriever.getAuthenticationKey(authenticationKey = apiKey)
+            val authentication = authenticationRetriever.getAuthenticationKey(authenticationKey = apiKey)
             if (!allowedDisabledAuthenticationKey && !authentication.isActivated()) {
                 throw AuthenticationKeyInactivatedException("비활성화된 인증 키(${authentication.authenticationKey})입니다. [워크스페이스(${authentication.workspaceId}) 현재 상태: ${authentication.status}]")
             }

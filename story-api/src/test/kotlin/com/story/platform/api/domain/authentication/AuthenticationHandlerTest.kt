@@ -6,9 +6,9 @@ import com.story.platform.core.domain.authentication.AuthenticationKeyEmptyExcep
 import com.story.platform.core.domain.authentication.AuthenticationKeyInactivatedException
 import com.story.platform.core.domain.authentication.AuthenticationKeyInvalidException
 import com.story.platform.core.domain.authentication.AuthenticationKeyNotExistsException
-import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
-import com.story.platform.core.domain.authentication.AuthenticationKeyRetriever
-import com.story.platform.core.domain.authentication.AuthenticationKeyStatus
+import com.story.platform.core.domain.authentication.AuthenticationResponse
+import com.story.platform.core.domain.authentication.AuthenticationRetriever
+import com.story.platform.core.domain.authentication.AuthenticationStatus
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
@@ -18,20 +18,20 @@ import org.springframework.mock.web.server.MockServerWebExchange
 
 class AuthenticationHandlerTest(
     @MockkBean
-    private val authenticationKeyRetriever: AuthenticationKeyRetriever,
+    private val authenticationRetriever: AuthenticationRetriever,
 ) : FunSpec({
 
-    val authenticationHandler = AuthenticationHandler(authenticationKeyRetriever = authenticationKeyRetriever)
+    val authenticationHandler = AuthenticationHandler(authenticationRetriever = authenticationRetriever)
 
     context("인증 정보를 확인한다") {
         test("활성화되어 있는 인증 키인 경우 인증 체크를 통과한다") {
             val apiKey = "api-key"
 
             // given
-            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationKeyResponse(
+            coEvery { authenticationRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
                 workspaceId = "twitter",
                 authenticationKey = apiKey,
-                status = AuthenticationKeyStatus.ENABLED,
+                status = AuthenticationStatus.ENABLED,
                 description = "",
             )
 
@@ -46,16 +46,16 @@ class AuthenticationHandlerTest(
             // then
             sut.workspaceId shouldBe "twitter"
             sut.authenticationKey shouldBe apiKey
-            sut.status shouldBe AuthenticationKeyStatus.ENABLED
+            sut.status shouldBe AuthenticationStatus.ENABLED
         }
 
         test("비활성화되어 있는 인증 키인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } returns AuthenticationKeyResponse(
+            coEvery { authenticationRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
                 workspaceId = "twitter",
                 authenticationKey = apiKey,
-                status = AuthenticationKeyStatus.DISABLED,
+                status = AuthenticationStatus.DISABLED,
                 description = "",
             )
 
@@ -73,7 +73,7 @@ class AuthenticationHandlerTest(
         test("등록되지 않은 API-Key 인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { authenticationKeyRetriever.getAuthenticationKey(apiKey) } throws AuthenticationKeyNotExistsException(
+            coEvery { authenticationRetriever.getAuthenticationKey(apiKey) } throws AuthenticationKeyNotExistsException(
                 "등록되지 않은 인증 키 입니다"
             )
 

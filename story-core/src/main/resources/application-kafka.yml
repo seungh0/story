@@ -1,21 +1,17 @@
 story:
   kafka:
-    subscription:
-      topic: subscription_v1
-      group-id: story-worker-subscription
-    post:
-      topic: post_v1
-      group-id: story-worker-post
-    subscriber:
-      distributor:
-        topic: subscriber_distributor_v1
-        group-id: story-worker-subscriber-distributor
-    component:
-      topic: component_v1
-      group-id: story-worker-component
-    authentication-key:
-      topic: authentication_key_v1
-      group-id: story-worker-authentication-key
+    topic:
+      subscription:
+        event: story.subscription-event-v1
+        distributor: story.subscription-distributor-v1
+      post:
+        event: story.post-event-v1
+      component:
+        event: story.component-event-v1
+      authentication:
+        event: story.authentication-event-v1
+      purge:
+        event: story.purge-event-v1
 
 
 ---

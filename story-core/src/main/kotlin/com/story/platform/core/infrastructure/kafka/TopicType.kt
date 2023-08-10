@@ -5,12 +5,12 @@ enum class TopicType(
     val property: String,
 ) {
 
-    SUBSCRIPTION(description = "구독", property = "story.kafka.subscription.topic"),
-    POST(description = "포스팅", property = "story.kafka.post.topic"),
-    SUBSCRIBER_DISTRIBUTOR(description = "구독자 분산", property = "story.kafka.subscriber.distributor.topic"),
-    COMPONENT(description = "컴포넌트", property = "story.kafka.component.topic"),
-    AUTHENTICATION_KEY(description = "인증 키", property = "story.kafka.authentication-key.topic"),
-    PURGE(description = "데이터 삭제", property = "story.kafka.purge.topic"),
+    SUBSCRIPTION(description = "구독", property = "subscription.event"),
+    SUBSCRIPTION_DISTRIBUTOR(description = "구독 분산", property = "subscription.distributor"),
+    POST(description = "포스팅", property = "post.event"),
+    COMPONENT(description = "컴포넌트", property = "component.event"),
+    AUTHENTICATION(description = "인증", property = "authentication.event"),
+    PURGE(description = "데이터 삭제", property = "purge.event"),
     ;
 
 }

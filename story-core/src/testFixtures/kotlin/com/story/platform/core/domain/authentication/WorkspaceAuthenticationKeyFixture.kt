@@ -10,8 +10,8 @@ object WorkspaceAuthenticationKeyFixture {
         workspaceId: String = generateString(),
         apiKey: String = generateString(),
         description: String = generateString(),
-        status: AuthenticationKeyStatus = generateEnum(AuthenticationKeyStatus::class.java),
-    ) = WorkspaceAuthenticationKey(
+        status: AuthenticationStatus = generateEnum(AuthenticationStatus::class.java),
+    ) = WorkspaceAuthentication(
         key = WorkspaceAuthenticationPrimaryKey(
             workspaceId = workspaceId,
             authenticationKey = apiKey,

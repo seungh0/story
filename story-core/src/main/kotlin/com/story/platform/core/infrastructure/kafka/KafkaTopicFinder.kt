@@ -9,7 +9,7 @@ object KafkaTopicFinder {
         init {
             val env = ApplicationContextProvider.applicationContext.environment
             TopicType.values().forEach { topicType ->
-                put(topicType, env.getProperty(topicType.property))
+                put(topicType, env.getProperty("story.kafka.topic.${topicType.property}"))
             }
         }
     }

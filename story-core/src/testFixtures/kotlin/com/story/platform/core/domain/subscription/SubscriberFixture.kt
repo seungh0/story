@@ -24,4 +24,17 @@ object SubscriberFixture {
         alarm = alarm,
     )
 
+    fun create(
+        subscription: Subscription,
+    ) = Subscriber(
+        key = SubscriberPrimaryKey(
+            workspaceId = subscription.key.subscriberId,
+            componentId = subscription.key.componentId,
+            targetId = subscription.key.targetId,
+            slotId = subscription.slotId,
+            subscriberId = subscription.key.subscriberId,
+        ),
+        alarm = subscription.alarm,
+    )
+
 }

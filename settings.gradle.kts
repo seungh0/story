@@ -1,6 +1,7 @@
 rootProject.name = "story-platform"
 include(
     "story-api",
-    "story-worker",
+    "story-event-worker",
+    "story-executor",
     "story-core"
 )

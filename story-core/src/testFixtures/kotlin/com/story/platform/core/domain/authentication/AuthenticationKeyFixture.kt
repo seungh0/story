@@ -7,10 +7,10 @@ object AuthenticationKeyFixture {
     fun create(
         authenticationKey: String = RandomGenerator.generateString(),
         workspaceId: String = RandomGenerator.generateString(),
-        status: AuthenticationKeyStatus = RandomGenerator.generateEnum(AuthenticationKeyStatus::class.java),
+        status: AuthenticationStatus = RandomGenerator.generateEnum(AuthenticationStatus::class.java),
         description: String = RandomGenerator.generateString(),
-    ) = AuthenticationKey(
-        key = AuthenticationKeyPrimaryKey(
+    ) = Authentication(
+        key = AuthenticationPrimaryKey(
             authenticationKey = authenticationKey,
         ),
         workspaceId = workspaceId,

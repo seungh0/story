@@ -1,0 +1,2 @@
+### Readiness
+GET {{event-worker}}/health/readiness

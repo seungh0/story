@@ -35,6 +35,7 @@ class SubscriberDistributor(
                 targetId = targetId,
             )
         )
+        // TODO: 나중에 구독자 갯수로 헤비 유저들의 경우 다른 방법으로 분산시키는 것도 좋을듯...
 
         val lastSlot = SubscriptionSlotAssigner.assign(sequence = subscribersCount)
 
@@ -49,7 +50,7 @@ class SubscriberDistributor(
                     )
 
                     kafkaTemplate.send(
-                        topicType = TopicType.SUBSCRIBER_DISTRIBUTOR,
+                        topicType = TopicType.SUBSCRIPTION_DISTRIBUTOR,
                         data = event.toJson()
                     )
                 }

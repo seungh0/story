@@ -1,6 +1,6 @@
 package com.story.platform.core.support.cache
 
-import com.story.platform.core.domain.authentication.AuthenticationKeyResponse
+import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.component.ComponentResponse
 import com.story.platform.core.domain.workspace.WorkspaceResponse
 import java.time.Duration
@@ -18,7 +18,7 @@ enum class CacheType(
         key = "authentication-key:v1",
         globalCacheTtl = Duration.ofHours(1),
         localCacheTtl = Duration.ofMinutes(1),
-        cacheClazz = AuthenticationKeyResponse::class.java,
+        cacheClazz = AuthenticationResponse::class.java,
     ),
     COMPONENT(
         description = "컴포넌트 정보",
