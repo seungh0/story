@@ -1,4 +1,4 @@
-package com.story.platform.api.domain.subscription
+package com.story.platform.api.domain.feed
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
@@ -10,6 +10,7 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
+import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
@@ -20,12 +21,12 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(SubscriptionSubscribeApi::class)
-class SubscriptionSubscribeApiTest(
+@ApiTest(FeedMappingCreateApi::class)
+class FeedMappingCreateApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val subscriptionSubscribeHandler: SubscriptionSubscribeHandler,
+    private val feedMappingCreateHandler: FeedMappingCreateHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -44,31 +45,33 @@ class SubscriptionSubscribeApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    "대상을 구독합니다" {
+    "특정 컴포넌트 간에 피드 매핑 설정합니다" {
         // given
-        val componentId = "follow"
-        val subscriberId = "subscriberId"
-        val targetId = "targetId"
+        val feedComponentId = "timeline"
+        val sourceResourceId = ResourceId.POSTS
+        val sourceComponentId = "account-timeline"
+        val subscriptionComponentId = "follow"
 
-        val request = SubscriptionSubscribeApiRequest(
-            alarm = true,
+        val request = FeedMappingCreateApiRequest(
+            description = "계정 타임라인 포스트 등록시 피드 발행"
         )
 
         coEvery {
-            subscriptionSubscribeHandler.subscribe(
+            feedMappingCreateHandler.create(
                 workspaceId = any(),
-                componentId = componentId,
-                targetId = targetId,
-                subscriberId = subscriberId,
-                alarm = request.alarm,
+                feedComponentId = feedComponentId,
+                subscriptionComponentId = subscriptionComponentId,
+                sourceResourceId = sourceResourceId,
+                sourceComponentId = sourceComponentId,
+                request = request,
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.post()
             .uri(
-                "/v1/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
-                componentId, subscriberId, targetId,
+                "/v1/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}",
+                feedComponentId, sourceResourceId.code, sourceComponentId, subscriptionComponentId,
             )
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
@@ -81,21 +84,21 @@ class SubscriptionSubscribeApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-SUBSCRIBE-API",
+                    "FEED-MAPPING-POST-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
-                        RequestDocumentation.parameterWithName("subscriberId")
-                            .description("Subscription Subscriber Id"),
-                        RequestDocumentation.parameterWithName("targetId").description("Subscription Target Id"),
+                        RequestDocumentation.parameterWithName("feedComponentId").description("FEED Component Id"),
+                        RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),
+                        RequestDocumentation.parameterWithName("sourceComponentId").description("Source Component Id"),
+                        RequestDocumentation.parameterWithName("subscriptionComponentId")
+                            .description("Target Subscription Component Id"),
                     ),
                     PayloadDocumentation.requestFields(
-                        PayloadDocumentation.fieldWithPath("alarm").type(JsonFieldType.BOOLEAN)
-                            .description("alarm (true/false)")
-                            .optional()
-                            .attributes(RestDocsUtils.remarks("default true"))
+                        PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
+                            .description("description")
+                            .optional(),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

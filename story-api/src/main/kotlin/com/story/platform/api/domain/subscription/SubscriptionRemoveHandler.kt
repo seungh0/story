@@ -5,22 +5,21 @@ import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountManager
 import com.story.platform.core.domain.subscription.SubscriptionEventPublisher
-import com.story.platform.core.domain.subscription.SubscriptionSubscriber
+import com.story.platform.core.domain.subscription.SubscriptionRemover
 
 @HandlerAdapter
-class SubscriptionSubscribeHandler(
-    private val subscriptionSubscriber: SubscriptionSubscriber,
+class SubscriptionRemoveHandler(
+    private val subscriptionRemover: SubscriptionRemover,
     private val subscriptionCountManager: SubscriptionCountManager,
     private val subscriptionEventPublisher: SubscriptionEventPublisher,
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
-    suspend fun subscribe(
+    suspend fun remove(
         workspaceId: String,
         componentId: String,
         targetId: String,
         subscriberId: String,
-        alarm: Boolean,
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -28,23 +27,22 @@ class SubscriptionSubscribeHandler(
             componentId = componentId,
         )
 
-        val isSubscribed = subscriptionSubscriber.subscribe(
+        val isUnsubscribed = subscriptionRemover.remove(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
             subscriberId = subscriberId,
-            alarm = alarm,
         )
 
-        if (isSubscribed) {
-            subscriptionCountManager.increase(
+        if (isUnsubscribed) {
+            subscriptionCountManager.decrease(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
                 subscriberId = subscriberId,
             )
 
-            subscriptionEventPublisher.publishSubscribedEvent(
+            subscriptionEventPublisher.publishUnsubscribedEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,

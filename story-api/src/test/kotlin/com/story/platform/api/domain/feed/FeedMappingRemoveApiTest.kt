@@ -1,4 +1,4 @@
-package com.story.platform.api.domain.subscription
+package com.story.platform.api.domain.feed
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
@@ -10,6 +10,7 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
+import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
@@ -20,12 +21,12 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(SubscriptionUnsubscribeApi::class)
-class SubscriptionUnsubscribeApiTest(
+@ApiTest(FeedMappingRemoveApi::class)
+class FeedMappingRemoveApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val subscriptionUnSubscribeHandler: SubscriptionUnSubscribeHandler,
+    private val feedMappingRemoveHandler: FeedMappingRemoveHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -44,26 +45,28 @@ class SubscriptionUnsubscribeApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    "대상을 구독 취소합니다" {
+    "특정 컴포넌트 간의 피드 매핑을 해제합니다" {
         // given
-        val componentId = "follow"
-        val subscriberId = "subscriberId"
-        val targetId = "targetId"
+        val feedComponentId = "timeline"
+        val sourceResourceId = ResourceId.POSTS
+        val sourceComponentId = "account-timeline"
+        val subscriptionComponentId = "follow"
 
         coEvery {
-            subscriptionUnSubscribeHandler.unsubscribe(
+            feedMappingRemoveHandler.remove(
                 workspaceId = any(),
-                componentId = componentId,
-                targetId = targetId,
-                subscriberId = subscriberId,
+                feedComponentId = feedComponentId,
+                subscriptionComponentId = subscriptionComponentId,
+                sourceResourceId = sourceResourceId,
+                sourceComponentId = sourceComponentId,
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
-                componentId, subscriberId, targetId,
+                "/v1/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}",
+                feedComponentId, sourceResourceId.code, sourceComponentId, subscriptionComponentId,
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -74,15 +77,16 @@ class SubscriptionUnsubscribeApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-UNSUBSCRIBE-API",
+                    "FEED-MAPPING-REMOVE-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
-                        RequestDocumentation.parameterWithName("subscriberId")
-                            .description("Subscription Subscriber Id"),
-                        RequestDocumentation.parameterWithName("targetId").description("Subscription Target Id"),
+                        RequestDocumentation.parameterWithName("feedComponentId").description("FEED Component Id"),
+                        RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),
+                        RequestDocumentation.parameterWithName("sourceComponentId").description("Source Component Id"),
+                        RequestDocumentation.parameterWithName("subscriptionComponentId")
+                            .description("Subscription Component Id"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

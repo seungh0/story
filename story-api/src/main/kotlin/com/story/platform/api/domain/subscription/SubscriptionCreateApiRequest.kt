@@ -1,5 +1,5 @@
 package com.story.platform.api.domain.subscription
 
-data class SubscriptionSubscribeApiRequest(
+data class SubscriptionCreateApiRequest(
     val alarm: Boolean,
 )

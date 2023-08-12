@@ -1,9 +1,7 @@
 package com.story.platform.core.common.model.dto
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.story.platform.core.common.error.ErrorCode
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 data class ApiResponse<T>(
     val ok: Boolean,
     val error: String? = null,

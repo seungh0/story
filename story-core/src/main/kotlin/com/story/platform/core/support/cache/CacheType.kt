@@ -1,7 +1,9 @@
 package com.story.platform.core.support.cache
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.component.ComponentResponse
+import com.story.platform.core.domain.feed.mapping.FeedMappingResponse
 import com.story.platform.core.domain.workspace.WorkspaceResponse
 import java.time.Duration
 
@@ -10,7 +12,7 @@ enum class CacheType(
     val key: String,
     val localCacheTtl: Duration? = null,
     val globalCacheTtl: Duration? = null,
-    val cacheClazz: Class<out Any?>,
+    val typeReference: TypeReference<*>,
 ) {
 
     AUTHENTICATION_REVERSE_KEY(
@@ -18,28 +20,28 @@ enum class CacheType(
         key = "authentication-key:v1",
         localCacheTtl = Duration.ofMinutes(1),
         globalCacheTtl = Duration.ofHours(1),
-        cacheClazz = AuthenticationResponse::class.java,
+        typeReference = object : TypeReference<AuthenticationResponse>() {}
     ),
     COMPONENT(
         description = "컴포넌트 정보",
         key = "component:v1",
-        globalCacheTtl = Duration.ofHours(1),
         localCacheTtl = Duration.ofMinutes(1),
-        cacheClazz = ComponentResponse::class.java,
+        globalCacheTtl = Duration.ofHours(1),
+        typeReference = object : TypeReference<ComponentResponse>() {}
     ),
     WORKSPACE(
         description = "워크스페이스",
         key = "workspace:v1",
         localCacheTtl = Duration.ofMinutes(1),
         globalCacheTtl = Duration.ofHours(1),
-        cacheClazz = WorkspaceResponse::class.java,
+        typeReference = object : TypeReference<WorkspaceResponse>() {}
     ),
     FEED_MAPPING_CONFIGURATIONS(
         description = "피드 매핑 설정 목록",
         key = "feed-mapping:v1",
         localCacheTtl = Duration.ofMinutes(1),
         globalCacheTtl = Duration.ofHours(1),
-        cacheClazz = List::class.java,
+        typeReference = object : TypeReference<List<FeedMappingResponse>>() {}
     )
     ;
 

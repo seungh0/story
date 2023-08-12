@@ -2,20 +2,22 @@ package com.story.platform.core.domain.feed.mapping
 
 import com.story.platform.core.domain.resource.ResourceId
 
-data class FeedMappingDisconnectRequest(
+data class FeedMappingCreateRequest(
     val workspaceId: String,
     val feedComponentId: String,
-    val resourceId: ResourceId,
-    val componentId: String,
+    val sourceResourceId: ResourceId,
+    val sourceComponentId: String,
     val subscriptionComponentId: String,
+    val description: String,
 ) {
 
-    fun toConfigurationPrimaryKey() = FeedMappingConfigurationPrimaryKey(
+    fun toConfiguration() = FeedMappingConfiguration.of(
         workspaceId = workspaceId,
         feedComponentId = feedComponentId,
-        sourceResourceId = resourceId,
-        sourceComponentId = componentId,
+        sourceResourceId = sourceResourceId,
+        sourceComponentId = sourceComponentId,
         subscriptionComponentId = subscriptionComponentId,
+        description = description,
     )
 
 }

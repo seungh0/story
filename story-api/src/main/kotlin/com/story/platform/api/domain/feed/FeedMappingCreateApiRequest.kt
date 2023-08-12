@@ -1,5 +1,5 @@
 package com.story.platform.api.domain.feed
 
-data class FeedMappingConnectApiRequest(
+data class FeedMappingCreateApiRequest(
     val description: String = "",
 )

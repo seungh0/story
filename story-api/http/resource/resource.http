@@ -1,5 +1,5 @@
 ### 리소스 목록 조회
-GET {{api}}/v1/resources
+GET {{api}}/v1/resources?pageSize=30
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 

@@ -8,6 +8,8 @@ import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
+import com.story.platform.core.common.model.Cursor
+import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.resource.ResourceId
@@ -21,12 +23,12 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(FeedMappingDisconnectApi::class)
-class FeedMappingDisconnectApiTest(
+@ApiTest(FeedMappingRetrieveApi::class)
+class FeedMappingRetrieveApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val feedMappingDisconnectHandler: FeedMappingDisconnectHandler,
+    private val feedMappingRetrieveHandler: FeedMappingRetrieveHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -45,28 +47,33 @@ class FeedMappingDisconnectApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    "특정 컴포넌트 간의 피드 매핑을 해제합니다" {
+    "특정 컴포넌트 간에 피드 매핑 설정합니다" {
         // given
         val feedComponentId = "timeline"
         val sourceResourceId = ResourceId.POSTS
         val sourceComponentId = "account-timeline"
-        val subscriptionComponentId = "follow"
 
         coEvery {
-            feedMappingDisconnectHandler.disconnect(
+            feedMappingRetrieveHandler.listConnectedFeedMappings(
                 workspaceId = any(),
-                feedComponentId = feedComponentId,
-                subscriptionComponentId = subscriptionComponentId,
                 sourceResourceId = sourceResourceId,
                 sourceComponentId = sourceComponentId,
             )
-        } returns Unit
+        } returns CursorResult.of(
+            data = listOf(
+                FeedMappingApiResponse(
+                    resourceId = ResourceId.SUBSCRIPTIONS.code,
+                    componentId = "follow"
+                )
+            ),
+            cursor = Cursor.noMore(),
+        )
 
         // when
-        val exchange = webTestClient.delete()
+        val exchange = webTestClient.get()
             .uri(
-                "/v1/feeds/{feedComponentId}/connect/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}",
-                feedComponentId, sourceResourceId.code, sourceComponentId, subscriptionComponentId,
+                "/v1/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}?pageSize=10",
+                feedComponentId, sourceResourceId.code, sourceComponentId
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -77,20 +84,35 @@ class FeedMappingDisconnectApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "FEED-MAPPING-DISCONNECT-API",
+                    "FEED-MAPPING-LIST-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("feedComponentId").description("FEED Component Id"),
+                        RequestDocumentation.parameterWithName("feedComponentId").description("Feed Component Id"),
                         RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),
                         RequestDocumentation.parameterWithName("sourceComponentId").description("Source Component Id"),
-                        RequestDocumentation.parameterWithName("subscriptionComponentId")
-                            .description("Subscription Component Id"),
+                    ),
+                    RequestDocumentation.queryParameters(
+                        RequestDocumentation.parameterWithName("pageSize").description("Page Size")
+                            .attributes(RestDocsUtils.remarks("max: 30")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
                             .type(JsonFieldType.BOOLEAN).description("ok"),
+                        PayloadDocumentation.fieldWithPath("result")
+                            .type(JsonFieldType.OBJECT).description("result"),
+                        PayloadDocumentation.fieldWithPath("result.data")
+                            .type(JsonFieldType.ARRAY).description("mapping component id"),
+                        PayloadDocumentation.fieldWithPath("result.data[].resourceId")
+                            .type(JsonFieldType.STRING).description("connected resource id"),
+                        PayloadDocumentation.fieldWithPath("result.data[].componentId")
+                            .type(JsonFieldType.STRING).description("connected component id"),
+                        PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
+                            .attributes(RestDocsUtils.remarks("if no more return null"))
+                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
+                        PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
+                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
                     )
                 )
             )

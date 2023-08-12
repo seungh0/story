@@ -2,23 +2,23 @@ package com.story.platform.api.domain.feed
 
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentRetriever
-import com.story.platform.core.domain.feed.mapping.FeedMappingConnectRequest
-import com.story.platform.core.domain.feed.mapping.FeedMappingConnector
+import com.story.platform.core.domain.feed.mapping.FeedMappingCreateRequest
+import com.story.platform.core.domain.feed.mapping.FeedMappingCreator
 import com.story.platform.core.domain.resource.ResourceId
 
 @HandlerAdapter
-class FeedMappingConnectHandler(
+class FeedMappingCreateHandler(
     private val componentRetriever: ComponentRetriever,
-    private val feedMappingConnector: FeedMappingConnector,
+    private val feedMappingCreator: FeedMappingCreator,
 ) {
 
-    suspend fun connect(
+    suspend fun create(
         workspaceId: String,
         feedComponentId: String,
         sourceResourceId: ResourceId,
         sourceComponentId: String,
         subscriptionComponentId: String,
-        request: FeedMappingConnectApiRequest,
+        request: FeedMappingCreateApiRequest,
     ) {
         setOf(
             ResourceId.FEEDS to feedComponentId,
@@ -32,8 +32,8 @@ class FeedMappingConnectHandler(
             )
         }
 
-        feedMappingConnector.connect(
-            request = FeedMappingConnectRequest(
+        feedMappingCreator.create(
+            request = FeedMappingCreateRequest(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
                 sourceResourceId = sourceResourceId,

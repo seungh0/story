@@ -1,5 +1,6 @@
 package com.story.platform.core.common.json
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JavaType
@@ -29,7 +30,23 @@ object JsonUtils {
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true)
         .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
         .registerModules(JavaTimeModule(), ParameterNamesModule(), kotlinModule)
+
+    fun <T> toObject(input: String, typeReference: TypeReference<T>): T? {
+        return try {
+            DEFAULT_OBJECT_MAPPER.readValue(input, typeReference)
+        } catch (exception: Exception) {
+            throw InternalServerException(
+                message = String.format(
+                    "역직렬화 중 에러가 발생하였습니다. input: (%s) toClass: (%s)",
+                    input,
+                    typeReference
+                ),
+                cause = exception
+            )
+        }
+    }
 
     fun <T> toObject(input: String, toClass: Class<T>): T? {
         return try {

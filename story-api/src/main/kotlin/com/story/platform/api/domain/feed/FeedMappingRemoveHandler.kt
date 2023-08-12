@@ -2,17 +2,17 @@ package com.story.platform.api.domain.feed
 
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentRetriever
-import com.story.platform.core.domain.feed.mapping.FeedMappingDisconnectRequest
-import com.story.platform.core.domain.feed.mapping.FeedMappingDisconnector
+import com.story.platform.core.domain.feed.mapping.FeedMappingRemoveRequest
+import com.story.platform.core.domain.feed.mapping.FeedMappingRemover
 import com.story.platform.core.domain.resource.ResourceId
 
 @HandlerAdapter
-class FeedMappingDisconnectHandler(
+class FeedMappingRemoveHandler(
     private val componentRetriever: ComponentRetriever,
-    private val feedMappingDisconnector: FeedMappingDisconnector,
+    private val feedMappingRemover: FeedMappingRemover,
 ) {
 
-    suspend fun disconnect(
+    suspend fun remove(
         workspaceId: String,
         feedComponentId: String,
         sourceResourceId: ResourceId,
@@ -31,8 +31,8 @@ class FeedMappingDisconnectHandler(
             )
         }
 
-        feedMappingDisconnector.disconnect(
-            request = FeedMappingDisconnectRequest(
+        feedMappingRemover.remove(
+            request = FeedMappingRemoveRequest(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
                 resourceId = sourceResourceId,

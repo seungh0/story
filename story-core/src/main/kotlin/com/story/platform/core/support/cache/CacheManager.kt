@@ -8,7 +8,10 @@ class CacheManager(
     private val cacheStrategyDelegator: CacheStrategyDelegator,
 ) {
 
-    suspend fun getCacheFromLayeredCache(cacheType: CacheType, cacheKey: String): Any? {
+    suspend fun getCacheFromLayeredCache(
+        cacheType: CacheType,
+        cacheKey: String,
+    ): Any? {
         val localCacheValue = cacheStrategyDelegator.getCache(
             cacheStrategyType = CacheStrategyType.LOCAL,
             cacheType = cacheType,

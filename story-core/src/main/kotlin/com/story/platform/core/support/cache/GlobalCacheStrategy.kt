@@ -26,10 +26,8 @@ class GlobalCacheStrategy(
             return null
         }
 
-        val globalCacheValue = redisCacheValueJson.toObject(cacheType.cacheClazz)
-
+        val globalCacheValue = redisCacheValueJson.toObject(cacheType.typeReference)
         log.debug { "글로벌 캐시로부터 데이터를 가져옵니다 [key:$cacheKey value: $globalCacheValue]" }
-
         return globalCacheValue
     }
 

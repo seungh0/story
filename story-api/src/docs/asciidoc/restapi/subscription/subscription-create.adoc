@@ -1,0 +1,27 @@
+=== Subscription Create API
+
+include::{snippets}/SUBSCRIPTION-CREATE-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/SUBSCRIPTION-CREATE-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/SUBSCRIPTION-CREATE-API/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/SUBSCRIPTION-CREATE-API/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/SUBSCRIPTION-CREATE-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/SUBSCRIPTION-CREATE-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/SUBSCRIPTION-CREATE-API/curl-request.adoc[]

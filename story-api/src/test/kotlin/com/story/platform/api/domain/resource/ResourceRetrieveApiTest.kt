@@ -16,6 +16,7 @@ import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -43,7 +44,7 @@ class ResourceRetrieveApiTest(
 
     "사용 가능한 리소스 목록을 조회한다" {
         webTestClient.get()
-            .uri("/v1/resources")
+            .uri("/v1/resources?pageSize=30")
             .headers(authenticationHeader)
             .exchange().expectStatus().isOk
             .expectBody()
@@ -54,15 +55,26 @@ class ResourceRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RequestDocumentation.queryParameters(
+                        RequestDocumentation.parameterWithName("pageSize").description("Page Size")
+                            .attributes(RestDocsUtils.remarks("max: 30")),
+                    ),
                     responseFields(
                         fieldWithPath("ok")
                             .type(JsonFieldType.BOOLEAN).description("ok"),
-                        fieldWithPath("result[]")
-                            .type(JsonFieldType.ARRAY).description("result"),
-                        fieldWithPath("result[].resourceId")
+                        fieldWithPath("result")
+                            .type(JsonFieldType.OBJECT).description("result"),
+                        fieldWithPath("result.data[]")
+                            .type(JsonFieldType.ARRAY).description("resources"),
+                        fieldWithPath("result.data[].resourceId")
                             .type(JsonFieldType.STRING).description("Resource Id"),
-                        fieldWithPath("result[].description")
+                        fieldWithPath("result.data[].description")
                             .type(JsonFieldType.STRING).description("Resource Description"),
+                        fieldWithPath("result.cursor.nextCursor")
+                            .attributes(RestDocsUtils.remarks("if no more return null"))
+                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
+                        fieldWithPath("result.cursor.hasNext")
+                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
                     )
                 )
             )

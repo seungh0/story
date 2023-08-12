@@ -9,7 +9,7 @@ import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
 @Service
-class SubscriptionUnSubscriber(
+class SubscriptionRemover(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberRepository: SubscriberRepository,
@@ -19,7 +19,7 @@ class SubscriptionUnSubscriber(
         lockType = DistributedLockType.SUBSCRIBE,
         key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
     )
-    suspend fun unsubscribe(
+    suspend fun remove(
         workspaceId: String,
         componentId: String,
         targetId: String,

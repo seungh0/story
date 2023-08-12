@@ -9,7 +9,6 @@ import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.Cursor
-import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
@@ -119,7 +118,6 @@ class ComponentRetrieveApiTest(
         val description = "following"
         val status = ComponentStatus.ENABLED
         val cursor = "cursor"
-        val direction = CursorDirection.NEXT
         val pageSize = 30
 
         val component = ComponentApiResponse(
@@ -147,7 +145,7 @@ class ComponentRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/{resourceId}/components?cursor=$cursor&direction=$direction&pageSize=$pageSize",
+                "/v1/resources/{resourceId}/components?cursor=$cursor&pageSize=$pageSize",
                 resourceId.code
             )
             .headers(WebClientUtils.authenticationHeader)
@@ -168,8 +166,6 @@ class ComponentRetrieveApiTest(
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()
                             .attributes(RestDocsUtils.remarks("first cursor is null")),
-                        RequestDocumentation.parameterWithName("direction").description("Direction").optional()
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(default: NEXT)")),
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
                             .attributes(RestDocsUtils.remarks("max: 30")),
                     ),
