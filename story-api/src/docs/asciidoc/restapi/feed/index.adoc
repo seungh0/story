@@ -1,4 +1,4 @@
-== Feed (WIP)
+== Feed
 
 include::./feed-mapping-connect.adoc[]
 include::./feed-mapping-disconnect.adoc[]
