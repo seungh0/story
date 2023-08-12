@@ -5,6 +5,7 @@ import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventKeyGenerator
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.resource.ResourceId
+import java.time.LocalDateTime
 
 data class SubscriptionEvent(
     val workspaceId: String,
@@ -12,6 +13,8 @@ data class SubscriptionEvent(
     val componentId: String,
     val subscriberId: String,
     val targetId: String,
+    val createdAt: LocalDateTime?,
+    val updatedAt: LocalDateTime?,
 ) : BaseEvent {
 
     companion object {
@@ -20,6 +23,8 @@ data class SubscriptionEvent(
             componentId: String,
             subscriberId: String,
             targetId: String,
+            createdAt: LocalDateTime,
+            updatedAt: LocalDateTime,
         ) = EventRecord(
             eventAction = EventAction.CREATED,
             eventKey = EventKeyGenerator.subscription(subscriberId = subscriberId, targetId = targetId),
@@ -29,6 +34,8 @@ data class SubscriptionEvent(
                 componentId = componentId,
                 subscriberId = subscriberId,
                 targetId = targetId,
+                createdAt = createdAt,
+                updatedAt = updatedAt,
             )
         )
 
@@ -46,6 +53,8 @@ data class SubscriptionEvent(
                 componentId = componentId,
                 subscriberId = subscriberId,
                 targetId = targetId,
+                createdAt = null,
+                updatedAt = null,
             )
         )
     }

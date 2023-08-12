@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.kafka.core.KafkaTemplate
+import java.time.LocalDateTime
 
 @EventProducer
 class SubscriptionEventPublisher(
@@ -28,12 +29,15 @@ class SubscriptionEventPublisher(
         componentId: String,
         subscriberId: String,
         targetId: String,
+        now: LocalDateTime = LocalDateTime.now(),
     ) {
         val event = SubscriptionEvent.subscribed(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
             targetId = targetId,
+            createdAt = now,
+            updatedAt = now,
         )
 
         eventHistoryManager.withSaveEventHistory(

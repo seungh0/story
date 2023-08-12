@@ -1,18 +1,12 @@
 story:
   kafka:
     topic:
-      subscription:
-        event: story.subscription-event-v1
-      post:
-        event: story.post-event-v1
-      component:
-        event: story.component-event-v1
-      authentication:
-        event: story.authentication-event-v1
-      purge:
-        event: story.purge-event-v1
-      feed:
-        executor: story.subscription-distributor-v1
+      subscription: story.subscription-event-v1
+      post: story.post-event-v1
+      component: story.component-event-v1
+      authentication: story.authentication-event-v1
+      purge: story.purge-event-v1
+      feed: story.subscription-distributor-v1
 
 ---
 spring.config:

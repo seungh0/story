@@ -1,11 +1,12 @@
-package com.story.platform.core.domain.subscription
+package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.event.BaseEvent
 import com.story.platform.core.domain.event.EventAction
+import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.resource.ResourceId
 
-data class SubscriberDistributedEvent(
+data class FeedEvent(
     val workspaceId: String,
     val feedComponentId: String,
     val sourceResourceId: ResourceId,
@@ -14,13 +15,12 @@ data class SubscriberDistributedEvent(
     val targetId: String,
     val slotId: Long,
     val payloadJson: String,
-    val eventAction: EventAction,
-    val eventKey: String,
-    val eventId: Long,
 ) {
 
     companion object {
         fun <T : BaseEvent> of(
+            eventAction: EventAction,
+            eventKey: String,
             workspaceId: String,
             feedComponentId: String,
             sourceResourceId: ResourceId,
@@ -29,21 +29,19 @@ data class SubscriberDistributedEvent(
             targetId: String,
             slotId: Long,
             payload: T,
-            eventAction: EventAction,
-            eventKey: String,
-            eventId: Long,
-        ) = SubscriberDistributedEvent(
-            workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            sourceResourceId = sourceResourceId,
-            sourceComponentId = sourceComponentId,
-            subscriptionComponentId = subscriptionComponentId,
-            targetId = targetId,
-            slotId = slotId,
-            payloadJson = payload.toJson(),
+        ) = EventRecord(
             eventAction = eventAction,
             eventKey = eventKey,
-            eventId = eventId,
+            payload = FeedEvent(
+                workspaceId = workspaceId,
+                feedComponentId = feedComponentId,
+                sourceResourceId = sourceResourceId,
+                sourceComponentId = sourceComponentId,
+                subscriptionComponentId = subscriptionComponentId,
+                targetId = targetId,
+                slotId = slotId,
+                payloadJson = payload.toJson(),
+            )
         )
     }
 

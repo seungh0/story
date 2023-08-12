@@ -26,7 +26,7 @@ class ComponentCacheEvictConsumer(
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.component.event}"],
+        topics = ["\${story.kafka.topic.component}"],
         groupId = GROUP_ID,
         containerFactory = KafkaConsumerConfig.COMPONENT_CONTAINER_FACTORY,
     )

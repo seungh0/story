@@ -110,8 +110,8 @@ class FeedRetrieveApiTest(
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("componentId").description("Feed Component Id"),
-                        RequestDocumentation.parameterWithName("subscriberId").description("Feed Subscriber Id"),
+                        RequestDocumentation.parameterWithName("componentId").description("FEED Component Id"),
+                        RequestDocumentation.parameterWithName("subscriberId").description("FEED Subscriber Id"),
                     ),
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()
@@ -190,6 +190,8 @@ class FeedRetrieveApiTest(
                         componentId = "follow",
                         subscriberId = "subscriberId",
                         targetId = "targetId",
+                        createdAt = LocalDateTime.now(),
+                        updatedAt = LocalDateTime.now(),
                     )
                 )
             ),
@@ -219,8 +221,8 @@ class FeedRetrieveApiTest(
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("componentId").description("Feed Component Id"),
-                        RequestDocumentation.parameterWithName("subscriberId").description("Feed Subscriber Id"),
+                        RequestDocumentation.parameterWithName("componentId").description("FEED Component Id"),
+                        RequestDocumentation.parameterWithName("subscriberId").description("FEED Subscriber Id"),
                     ),
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()
@@ -253,6 +255,10 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Subscriber Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].payload.targetId")
                             .type(JsonFieldType.STRING).description("Subscription Target Id"),
+                        PayloadDocumentation.fieldWithPath("result.data[].payload.createdAt")
+                            .type(JsonFieldType.STRING).description("Post Created At"),
+                        PayloadDocumentation.fieldWithPath("result.data[].payload.updatedAt")
+                            .type(JsonFieldType.STRING).description("Post Updated At"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
                             .type(JsonFieldType.STRING).description("nextCursor").optional(),

@@ -26,7 +26,7 @@ class AuthenticationCacheEvictConsumer(
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.authentication.event}"],
+        topics = ["\${story.kafka.topic.authentication}"],
         groupId = GROUP_ID,
         containerFactory = KafkaConsumerConfig.AUTHENTICATION_KEY_CONTAINER_FACTORY,
     )

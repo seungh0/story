@@ -82,7 +82,7 @@ class FeedMappingDisconnectApiTest(
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("feedComponentId").description("Feed Component Id"),
+                        RequestDocumentation.parameterWithName("feedComponentId").description("FEED Component Id"),
                         RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),
                         RequestDocumentation.parameterWithName("sourceComponentId").description("Source Component Id"),
                         RequestDocumentation.parameterWithName("subscriptionComponentId")
