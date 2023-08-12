@@ -19,21 +19,21 @@ class FeedRetriever(
     suspend fun listFeeds(
         workspaceId: String,
         feedComponentId: String,
-        targetId: String,
+        subscriberId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<FeedResponse<out BaseEvent>, String> {
         val feeds = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextFeeds(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                targetId = targetId,
+                subscriberId = subscriberId,
                 cursorRequest = cursorRequest,
             )
 
             CursorDirection.PREVIOUS -> listPreviousFeeds(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                targetId = targetId,
+                targetId = subscriberId,
                 cursorRequest = cursorRequest,
             )
         }.toList()
@@ -48,23 +48,23 @@ class FeedRetriever(
     private fun listNextFeeds(
         workspaceId: String,
         feedComponentId: String,
-        targetId: String,
+        subscriberId: String,
         cursorRequest: CursorRequest,
     ): Flow<Feed> {
         if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetId(
+            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberId(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                distributionKey = XLargeDistributionKey.fromKey(targetId).key,
-                targetId = targetId,
+                distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+                subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize),
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdAndKeyEventIdLessThan(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdLessThan(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            distributionKey = XLargeDistributionKey.fromKey(targetId).key,
-            targetId = targetId,
+            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+            subscriberId = subscriberId,
             eventId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize),
         )
@@ -77,19 +77,19 @@ class FeedRetriever(
         cursorRequest: CursorRequest,
     ): Flow<Feed> {
         if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdOrderByKeyEventIdAsc(
+            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyEventIdAsc(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                distributionKey = XLargeDistributionKey.fromKey(targetId).key,
-                targetId = targetId,
+                distributionKey = XLargeDistributionKey.makeKey(targetId).key,
+                subscriberId = targetId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            distributionKey = XLargeDistributionKey.fromKey(targetId).key,
-            targetId = targetId,
+            distributionKey = XLargeDistributionKey.makeKey(targetId).key,
+            subscriberId = targetId,
             eventId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
         )

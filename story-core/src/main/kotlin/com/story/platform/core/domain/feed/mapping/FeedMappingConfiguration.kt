@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.feed.mapping
 
 import com.story.platform.core.common.model.AuditingTime
-import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
@@ -42,9 +41,7 @@ data class FeedMappingConfiguration(
             feedComponentId: String,
             sourceResourceId: ResourceId,
             sourceComponentId: String,
-            eventAction: EventAction,
-            targetResourceId: ResourceId,
-            targetComponentId: String,
+            subscriptionComponentId: String,
             description: String,
             status: FeedMappingConfigurationStatus = FeedMappingConfigurationStatus.ENABLED,
         ) = FeedMappingConfiguration(
@@ -53,9 +50,7 @@ data class FeedMappingConfiguration(
                 feedComponentId = feedComponentId,
                 sourceResourceId = sourceResourceId,
                 sourceComponentId = sourceComponentId,
-                eventAction = eventAction,
-                targetResourceId = targetResourceId,
-                targetComponentId = targetComponentId,
+                subscriptionComponentId = subscriptionComponentId,
             ),
             description = description,
             auditingTime = AuditingTime.created(),
@@ -80,11 +75,5 @@ data class FeedMappingConfigurationPrimaryKey(
     val sourceComponentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
-    val eventAction: EventAction,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
-    val targetResourceId: ResourceId,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
-    val targetComponentId: String,
+    val subscriptionComponentId: String,
 )

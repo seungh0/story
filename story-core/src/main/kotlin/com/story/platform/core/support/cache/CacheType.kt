@@ -16,8 +16,8 @@ enum class CacheType(
     AUTHENTICATION_REVERSE_KEY(
         description = "인증 키 정보",
         key = "authentication-key:v1",
-        globalCacheTtl = Duration.ofHours(1),
         localCacheTtl = Duration.ofMinutes(1),
+        globalCacheTtl = Duration.ofHours(1),
         cacheClazz = AuthenticationResponse::class.java,
     ),
     COMPONENT(
@@ -30,9 +30,16 @@ enum class CacheType(
     WORKSPACE(
         description = "워크스페이스",
         key = "workspace:v1",
-        globalCacheTtl = Duration.ofHours(1),
         localCacheTtl = Duration.ofMinutes(1),
+        globalCacheTtl = Duration.ofHours(1),
         cacheClazz = WorkspaceResponse::class.java,
+    ),
+    FEED_MAPPING_CONFIGURATIONS(
+        description = "피드 매핑 설정 목록",
+        key = "feed-mapping:v1",
+        localCacheTtl = Duration.ofMinutes(1),
+        globalCacheTtl = Duration.ofHours(1),
+        cacheClazz = List::class.java,
     )
     ;
 

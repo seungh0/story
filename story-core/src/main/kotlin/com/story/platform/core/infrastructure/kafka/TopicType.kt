@@ -6,7 +6,7 @@ enum class TopicType(
 ) {
 
     SUBSCRIPTION(description = "구독", property = "subscription.event"),
-    SUBSCRIPTION_DISTRIBUTOR(description = "구독 분산", property = "subscription.distributor"),
+    FEED_EXECUTOR(description = "구독 분산", property = "feed.executor"),
     POST(description = "포스팅", property = "post.event"),
     COMPONENT(description = "컴포넌트", property = "component.event"),
     AUTHENTICATION(description = "인증", property = "authentication.event"),

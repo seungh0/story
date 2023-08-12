@@ -15,13 +15,12 @@ class FeedMappingConnectApi(
     private val feedMappingConnectHandler: FeedMappingConnectHandler,
 ) {
 
-    @PostMapping("/v1/feeds/{feedComponentId}/connect/{sourceResourceId}/{sourceComponentId}/to/{targetResourceId}/{targetComponentId}")
+    @PostMapping("/v1/feeds/{feedComponentId}/connect/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}")
     suspend fun connectFeedMapping(
         @PathVariable feedComponentId: String,
         @PathVariable sourceResourceId: String,
         @PathVariable sourceComponentId: String,
-        @PathVariable targetResourceId: String,
-        @PathVariable targetComponentId: String,
+        @PathVariable subscriptionComponentId: String,
         @Valid @RequestBody request: FeedMappingConnectApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
@@ -30,8 +29,7 @@ class FeedMappingConnectApi(
             feedComponentId = feedComponentId,
             sourceResourceId = ResourceId.findByCode(sourceResourceId),
             sourceComponentId = sourceComponentId,
-            targetResourceId = ResourceId.findByCode(targetResourceId),
-            targetComponentId = targetComponentId,
+            subscriptionComponentId = subscriptionComponentId,
             request = request,
         )
         return ApiResponse.OK

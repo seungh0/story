@@ -53,11 +53,9 @@ data class EventHistory(
             eventRecord: EventRecord<T>,
             exception: Throwable,
         ): EventHistory {
-            val slotId = EventIdHelper.getSlot(snowflake = eventRecord.eventId)
             return EventHistory(
-                key = EventHistoryPrimaryKey(
+                key = EventHistoryPrimaryKey.of(
                     workspaceId = workspaceId,
-                    slotId = slotId,
                     eventId = eventRecord.eventId,
                     resourceId = resourceId,
                     componentId = componentId,
@@ -91,4 +89,23 @@ data class EventHistoryPrimaryKey(
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
     val eventAction: EventAction,
-)
+) {
+
+    companion object {
+        fun of(
+            workspaceId: String,
+            eventId: Long,
+            resourceId: ResourceId,
+            componentId: String,
+            eventAction: EventAction,
+        ) = EventHistoryPrimaryKey(
+            workspaceId = workspaceId,
+            slotId = EventIdHelper.getSlot(snowflake = eventId),
+            eventId = eventId,
+            resourceId = resourceId,
+            componentId = componentId,
+            eventAction = eventAction,
+        )
+    }
+
+}

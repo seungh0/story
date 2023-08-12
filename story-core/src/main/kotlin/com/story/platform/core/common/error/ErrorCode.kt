@@ -25,6 +25,7 @@ enum class ErrorCode(
      * 403 Forbidden
      */
     E403_NO_PERMISSION(httpStatusCode = 403, code = "no_permission"),
+    E403_FEED_MAPPING_CAPACITY_EXCEEDED(httpStatusCode = 403, code = "feed_mapping_capacity_exceed"),
 
     /**
      * 404 NotFound

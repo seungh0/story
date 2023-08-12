@@ -10,7 +10,6 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
-import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
@@ -50,21 +49,18 @@ class FeedMappingConnectApiTest(
         // given
         val feedComponentId = "timeline"
         val sourceResourceId = ResourceId.POSTS
-        val sourceComponentId = "account-post"
-        val targetResourceId = ResourceId.SUBSCRIPTIONS
-        val targetComponentId = "follow"
+        val sourceComponentId = "account-timeline"
+        val subscriptionComponentId = "follow"
 
         val request = FeedMappingConnectApiRequest(
-            eventAction = EventAction.CREATED,
-            description = "포스트 등록시 피드 발행"
+            description = "계정 타임라인 포스트 등록시 피드 발행"
         )
 
         coEvery {
             feedMappingConnectHandler.connect(
                 workspaceId = any(),
                 feedComponentId = feedComponentId,
-                targetResourceId = targetResourceId,
-                targetComponentId = targetComponentId,
+                subscriptionComponentId = subscriptionComponentId,
                 sourceResourceId = sourceResourceId,
                 sourceComponentId = sourceComponentId,
                 request = request,
@@ -74,8 +70,8 @@ class FeedMappingConnectApiTest(
         // when
         val exchange = webTestClient.post()
             .uri(
-                "/v1/feeds/{feedComponentId}/connect/{sourceResourceId}/{sourceComponentId}/to/{targetResourceId}/{targetComponentId}",
-                feedComponentId, sourceResourceId.code, sourceComponentId, targetResourceId.code, targetComponentId,
+                "/v1/feeds/{feedComponentId}/connect/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}",
+                feedComponentId, sourceResourceId.code, sourceComponentId, subscriptionComponentId,
             )
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
@@ -96,13 +92,10 @@ class FeedMappingConnectApiTest(
                         RequestDocumentation.parameterWithName("feedComponentId").description("Feed Component Id"),
                         RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),
                         RequestDocumentation.parameterWithName("sourceComponentId").description("Source Component Id"),
-                        RequestDocumentation.parameterWithName("targetResourceId").description("Target Resource Id"),
-                        RequestDocumentation.parameterWithName("targetComponentId").description("Target Component Id"),
+                        RequestDocumentation.parameterWithName("subscriptionComponentId")
+                            .description("Target Subscription Component Id"),
                     ),
                     PayloadDocumentation.requestFields(
-                        PayloadDocumentation.fieldWithPath("eventAction").type(JsonFieldType.STRING)
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(EventAction::class.java)))
-                            .description("Event Action"),
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
                             .description("description")
                             .optional(),

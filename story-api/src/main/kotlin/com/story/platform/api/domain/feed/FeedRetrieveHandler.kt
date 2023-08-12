@@ -18,7 +18,7 @@ class FeedRetrieveHandler(
     suspend fun listFeeds(
         workspaceId: String,
         feedComponentId: String,
-        targetId: String,
+        subscriberId: String,
         cursorRequest: CursorRequest,
     ): CursorResult<FeedResponse<out BaseEvent>, String> {
         componentCheckHandler.checkExistsComponent(
@@ -30,7 +30,7 @@ class FeedRetrieveHandler(
         return feedRetriever.listFeeds(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            targetId = targetId,
+            subscriberId = subscriberId,
             cursorRequest = cursorRequest,
         )
     }

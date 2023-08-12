@@ -10,10 +10,6 @@ include::{snippets}/FEED-MAPPING-DISCONNECT-API/http-request.adoc[]
 
 include::{snippets}/FEED-MAPPING-DISCONNECT-API/path-parameters.adoc[]
 
-==== [Request Query Parameters]
-
-include::{snippets}/FEED-MAPPING-DISCONNECT-API/query-parameters.adoc[]
-
 ==== [Response]
 
 include::{snippets}/FEED-MAPPING-DISCONNECT-API/http-response.adoc[]

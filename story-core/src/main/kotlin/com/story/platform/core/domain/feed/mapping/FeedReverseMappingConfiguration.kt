@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.feed.mapping
 
-import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
@@ -24,9 +23,7 @@ data class FeedReverseMappingConfiguration(
                 feedComponentId = feedMappingConfiguration.key.feedComponentId,
                 sourceResourceId = feedMappingConfiguration.key.sourceResourceId,
                 sourceComponentId = feedMappingConfiguration.key.sourceComponentId,
-                eventAction = feedMappingConfiguration.key.eventAction,
-                targetResourceId = feedMappingConfiguration.key.targetResourceId,
-                targetComponentId = feedMappingConfiguration.key.targetComponentId,
+                subscriptionComponentId = feedMappingConfiguration.key.subscriptionComponentId,
             ),
         )
     }
@@ -45,14 +42,8 @@ data class FeedReverseMappingConfigurationPrimaryKey(
     val sourceComponentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
-    val eventAction: EventAction,
+    val subscriptionComponentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
-    val targetResourceId: ResourceId,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
-    val targetComponentId: String,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
     val feedComponentId: String,
 )

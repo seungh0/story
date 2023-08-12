@@ -4,6 +4,5 @@ Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 {
-    "eventAction": "CREATED",
     "description": "계정 포스트 생성시 팔로워들에게 피드 발행"
 }

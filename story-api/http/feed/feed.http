@@ -1,3 +1,3 @@
 ### 피드 조회
-GET {{api}}/v1/feeds/components/timeline/target/seungho?pageSize=30
+GET {{api}}/v1/feeds/components/timeline/subscriber/{{ACCOUNT_ID}}?pageSize=30
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}

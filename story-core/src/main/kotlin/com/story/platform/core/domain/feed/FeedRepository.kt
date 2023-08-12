@@ -6,36 +6,36 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface FeedRepository : CoroutineCrudRepository<Feed, FeedPrimaryKey> {
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetId(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberId(
         workspaceId: String,
         feedComponentId: String,
         distributionKey: String,
-        targetId: String,
+        subscriberId: String,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdAndKeyEventIdLessThan(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdLessThan(
         workspaceId: String,
         feedComponentId: String,
         distributionKey: String,
-        targetId: String,
+        subscriberId: String,
         eventId: Long,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdOrderByKeyEventIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyEventIdAsc(
         workspaceId: String,
         feedComponentId: String,
         distributionKey: String,
-        targetId: String,
+        subscriberId: String,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeyTargetIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
         workspaceId: String,
         feedComponentId: String,
         distributionKey: String,
-        targetId: String,
+        subscriberId: String,
         eventId: Long,
         pageable: Pageable,
     ): Flow<Feed>

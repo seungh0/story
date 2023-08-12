@@ -17,17 +17,17 @@ class FeedRetrieveApi(
     private val feedRetrieveHandler: FeedRetrieveHandler,
 ) {
 
-    @GetMapping("/v1/feeds/components/{componentId}/target/{targetId}")
+    @GetMapping("/v1/feeds/components/{componentId}/subscriber/{subscriberId}")
     suspend fun listFeeds(
         @PathVariable componentId: String,
-        @PathVariable targetId: String,
+        @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<CursorResult<FeedResponse<out BaseEvent>, String>> {
         val response = feedRetrieveHandler.listFeeds(
             workspaceId = authContext.workspaceId,
             feedComponentId = componentId,
-            targetId = targetId,
+            subscriberId = subscriberId,
             cursorRequest = cursorRequest,
         )
         return ApiResponse.ok(response)

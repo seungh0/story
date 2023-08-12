@@ -5,5 +5,6 @@ enum class DistributedLockType(
 ) {
 
     SUBSCRIBE("subscribe"),
+    FEED_MAPPING_CONNECT("feed_mapping_connect"),
 
 }

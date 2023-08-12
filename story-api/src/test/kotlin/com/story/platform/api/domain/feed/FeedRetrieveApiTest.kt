@@ -13,7 +13,6 @@ import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
-import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.feed.FeedResponse
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.resource.ResourceId
@@ -56,13 +55,13 @@ class FeedRetrieveApiTest(
     "피드를 조회합니다 (Post)" {
         // given
         val componentId = "timeline"
-        val targetId = "targetId"
+        val subscriberId = "subscriberId"
 
         coEvery {
             feedRetrieveHandler.listFeeds(
                 workspaceId = any(),
                 feedComponentId = componentId,
-                targetId = targetId,
+                subscriberId = subscriberId,
                 cursorRequest = any(),
             )
         } returns CursorResult.of(
@@ -70,7 +69,6 @@ class FeedRetrieveApiTest(
                 FeedResponse(
                     resourceId = ResourceId.POSTS.code,
                     componentId = "account-post",
-                    eventAction = EventAction.CREATED,
                     payload = PostEvent(
                         workspaceId = "twitter",
                         resourceId = ResourceId.POSTS,
@@ -95,8 +93,8 @@ class FeedRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/feeds/components/{componentId}/target/{targetId}?cursor=cursor&direction=NEXT&pageSize=30",
-                componentId, targetId
+                "/v1/feeds/components/{componentId}/subscriber/{subscriberId}?cursor=cursor&direction=NEXT&pageSize=30",
+                componentId, subscriberId
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -113,7 +111,7 @@ class FeedRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Feed Component Id"),
-                        RequestDocumentation.parameterWithName("targetId").description("Feed Subscriber Id"),
+                        RequestDocumentation.parameterWithName("subscriberId").description("Feed Subscriber Id"),
                     ),
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()
@@ -134,9 +132,6 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Resource Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].componentId")
                             .type(JsonFieldType.STRING).description("Component Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].eventAction")
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(EventAction::class.java)))
-                            .type(JsonFieldType.STRING).description("Event Action"),
                         PayloadDocumentation.fieldWithPath("result.data[].payload")
                             .type(JsonFieldType.OBJECT).description("Payload"),
                         PayloadDocumentation.fieldWithPath("result.data[].payload.workspaceId")
@@ -175,13 +170,13 @@ class FeedRetrieveApiTest(
     "피드를 조회합니다 (Subscription)" {
         // given
         val componentId = "timeline"
-        val targetId = "targetId"
+        val subscriberId = "subscriberId"
 
         coEvery {
             feedRetrieveHandler.listFeeds(
                 workspaceId = any(),
                 feedComponentId = componentId,
-                targetId = targetId,
+                subscriberId = subscriberId,
                 cursorRequest = any(),
             )
         } returns CursorResult.of(
@@ -189,7 +184,6 @@ class FeedRetrieveApiTest(
                 FeedResponse(
                     resourceId = ResourceId.SUBSCRIPTIONS.code,
                     componentId = "follow",
-                    eventAction = EventAction.CREATED,
                     payload = SubscriptionEvent(
                         workspaceId = "twitter",
                         resourceId = ResourceId.SUBSCRIPTIONS,
@@ -208,8 +202,8 @@ class FeedRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/feeds/components/{componentId}/target/{targetId}?cursor=cursor&direction=NEXT&pageSize=30",
-                componentId, targetId
+                "/v1/feeds/components/{componentId}/subscriber/{subscriberId}?cursor=cursor&direction=NEXT&pageSize=30",
+                componentId, subscriberId
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -226,7 +220,7 @@ class FeedRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Feed Component Id"),
-                        RequestDocumentation.parameterWithName("targetId").description("Feed Subscriber Id"),
+                        RequestDocumentation.parameterWithName("subscriberId").description("Feed Subscriber Id"),
                     ),
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()
@@ -247,9 +241,6 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Resource Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].componentId")
                             .type(JsonFieldType.STRING).description("Component Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].eventAction")
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(EventAction::class.java)))
-                            .type(JsonFieldType.STRING).description("Event Action"),
                         PayloadDocumentation.fieldWithPath("result.data[].payload")
                             .type(JsonFieldType.OBJECT).description("Payload"),
                         PayloadDocumentation.fieldWithPath("result.data[].payload.workspaceId")

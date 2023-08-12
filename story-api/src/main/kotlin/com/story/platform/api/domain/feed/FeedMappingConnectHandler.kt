@@ -1,6 +1,5 @@
 package com.story.platform.api.domain.feed
 
-import com.story.platform.core.common.error.NotSupportedException
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentRetriever
 import com.story.platform.core.domain.feed.mapping.FeedMappingConnectRequest
@@ -18,18 +17,13 @@ class FeedMappingConnectHandler(
         feedComponentId: String,
         sourceResourceId: ResourceId,
         sourceComponentId: String,
-        targetResourceId: ResourceId,
-        targetComponentId: String,
+        subscriptionComponentId: String,
         request: FeedMappingConnectApiRequest,
     ) {
-        if (ResourceId.SUBSCRIPTIONS != targetResourceId) {
-            throw NotSupportedException("현재 지원하지 않는 Feed Target Resource($targetResourceId) 입니다.")
-        }
-
         setOf(
             ResourceId.FEEDS to feedComponentId,
             sourceResourceId to sourceComponentId,
-            targetResourceId to targetComponentId,
+            ResourceId.SUBSCRIPTIONS to subscriptionComponentId,
         ).forEach { (resourceId: ResourceId, componentId: String) ->
             componentRetriever.getComponent(
                 workspaceId = workspaceId,
@@ -42,12 +36,10 @@ class FeedMappingConnectHandler(
             request = FeedMappingConnectRequest(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                resourceId = sourceResourceId,
-                componentId = sourceComponentId,
-                eventAction = request.eventAction,
+                sourceResourceId = sourceResourceId,
+                sourceComponentId = sourceComponentId,
                 description = request.description,
-                targetResourceId = targetResourceId,
-                targetComponentId = targetComponentId,
+                subscriptionComponentId = subscriptionComponentId,
             )
         )
     }

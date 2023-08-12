@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.distribution.XLargeDistributionKey
-import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
@@ -16,7 +15,6 @@ data class Feed(
     val key: FeedPrimaryKey,
     val sourceResourceId: ResourceId,
     val sourceComponentId: String,
-    val eventAction: EventAction,
     val payloadJson: String,
 )
 
@@ -32,7 +30,7 @@ data class FeedPrimaryKey(
     val distributionKey: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
-    val targetId: String,
+    val subscriberId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val eventId: Long,
@@ -42,13 +40,13 @@ data class FeedPrimaryKey(
         fun of(
             workspaceId: String,
             feedComponentId: String,
-            targetId: String,
+            subscriberId: String,
             eventId: Long,
         ) = FeedPrimaryKey(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            distributionKey = XLargeDistributionKey.makeKey(targetId).key,
-            targetId = targetId,
+            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+            subscriberId = subscriberId,
             eventId = eventId,
         )
     }

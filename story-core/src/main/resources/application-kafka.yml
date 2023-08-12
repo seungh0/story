@@ -3,7 +3,6 @@ story:
     topic:
       subscription:
         event: story.subscription-event-v1
-        distributor: story.subscription-distributor-v1
       post:
         event: story.post-event-v1
       component:
@@ -12,7 +11,8 @@ story:
         event: story.authentication-event-v1
       purge:
         event: story.purge-event-v1
-
+      feed:
+        executor: story.subscription-distributor-v1
 
 ---
 spring.config:

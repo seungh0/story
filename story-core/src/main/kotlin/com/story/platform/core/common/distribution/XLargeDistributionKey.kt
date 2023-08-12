@@ -19,7 +19,7 @@ data class XLargeDistributionKey(
             DistributionKeyUtils.makeAllDistributionKeys(ALL_KEYS, TYPE.digit) { key: String -> fromKey(key) }
         }
 
-        fun fromKey(key: String): XLargeDistributionKey {
+        private fun fromKey(key: String): XLargeDistributionKey {
             require(!(key.isBlank() || !DISTRIBUTION_KEY_PATTERN.matcher(key).matches())) {
                 "Not matching with DISTRIBUTION_KEY_PATTERN ( " + TYPE.pattern + " )."
             }
