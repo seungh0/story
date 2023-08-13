@@ -1,4 +1,3 @@
 == Feed
 
-include::./feed-list-post.adoc[]
-include::./feed-list-subscription.adoc[]
+include::./feed-list.adoc[]

@@ -1,4 +1,4 @@
-=== Feed List API (Post)
+=== Feed List API
 
 include::{snippets}/FEED-LIST-API-POST/request-path.adoc[]
 
@@ -16,12 +16,22 @@ include::{snippets}/FEED-LIST-API-POST/query-parameters.adoc[]
 
 ==== [Response]
 
+===== 1. Post
+
 include::{snippets}/FEED-LIST-API-POST/http-response.adoc[]
 
-===== [Response Body Fields]
+====== [Response Body Fields]
 
 include::{snippets}/FEED-LIST-API-POST/response-fields.adoc[]
 
+===== 2. Subscription
+
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/http-response.adoc[]
+
+====== [Response Body Fields]
+
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/response-fields.adoc[]
+
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/FEED-LIST-API-POST/curl-request.adoc[]
+include::{snippets}/FEED-LIST-API-SUBSCRIPTION/curl-request.adoc[]

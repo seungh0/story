@@ -53,7 +53,7 @@ class FeedMappingCreateApiTest(
         val subscriptionComponentId = "follow"
 
         val request = FeedMappingCreateApiRequest(
-            description = "계정 타임라인 포스트 등록시 피드 발행"
+            description = "feed connect [account timeline -> follow]"
         )
 
         coEvery {
