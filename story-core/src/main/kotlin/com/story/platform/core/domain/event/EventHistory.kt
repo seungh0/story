@@ -61,7 +61,7 @@ data class EventHistory(
                     componentId = componentId,
                     eventAction = eventRecord.eventAction,
                 ),
-                publishStatus = EventPublishStatus.SUCCESS,
+                publishStatus = EventPublishStatus.FAILED,
                 payloadJson = eventRecord.payload.toJson(),
                 failureReason = exception.message + "[${exception.cause?.message}]"
             )
