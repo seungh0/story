@@ -11,6 +11,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.listener.DefaultErrorHandler
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.util.backoff.FixedBackOff
+import java.time.Duration
 
 @Configuration
 class KafkaConsumerConfig(
@@ -87,6 +88,10 @@ class KafkaConsumerConfig(
     fun defaultKafkaConsumerConfig(
         maxPollRecords: Int = 500,
         enableAutoCommit: Boolean = true,
+        heartbeatInterval: Duration = Duration.ofSeconds(3),
+        sessionTimeout: Duration = Duration.ofSeconds(45),
+        maxPollInterval: Duration = Duration.ofMinutes(5),
+        requestTimeout: Duration = Duration.ofSeconds(30),
     ): Map<String, Any> {
         val config: MutableMap<String, Any> = HashMap()
         config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaProperties.bootstrapServers
@@ -95,10 +100,19 @@ class KafkaConsumerConfig(
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = JsonDeserializer::class.java
         config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "latest"
         config[ConsumerConfig.MAX_POLL_RECORDS_CONFIG] = maxPollRecords
-        config[ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG] = 10_000
-        config[ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG] = 3_000
-        config[ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG] = 300_000
         config[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = enableAutoCommit
+
+        // 그룹 코디네이터에게 heartbeat를 보내는 주기 (default: 3s)
+        config[ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG] = heartbeatInterval.toMillis().toInt()
+
+        // 해당 설정을 넘어설때까지 heartbeat를 받지 못하면, 죽은 컨슈머로 간주하고 리밸런싱이 일어난다 (default: 45s)
+        config[ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG] = sessionTimeout.toMillis().toInt()
+
+        // 해당 시간만큼 poll이 발생하지 않으면 죽은 컨슈머로 간주하고 리밸런싱이 일어난다 (default: 5m)
+        config[ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG] = maxPollInterval.toMillis().toInt()
+
+        // Request Timeout (default: 30s)
+        config[ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG] = requestTimeout.toMillis().toInt()
         return config
     }
 

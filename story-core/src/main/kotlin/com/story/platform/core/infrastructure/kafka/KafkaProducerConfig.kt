@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.serializer.JsonSerializer
+import java.time.Duration
 
 @Configuration
 class KafkaProducerConfig(
@@ -19,7 +20,6 @@ class KafkaProducerConfig(
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    maxInflightRequestsPerConnection = 5,
                     acksConfig = "1"
                 )
             )
@@ -31,7 +31,6 @@ class KafkaProducerConfig(
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    maxInflightRequestsPerConnection = 5,
                     acksConfig = "all"
                 )
             )
@@ -57,11 +56,10 @@ class KafkaProducerConfig(
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    maxInflightRequestsPerConnection = 5,
                     acksConfig = "all",
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음.
-                    lingerMs = 50, // 50ms 모아서 배치로 발송
-                )
+                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음. (idempotence 사용 고려...)
+                    linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
+                ),
             )
         )
     }
@@ -71,10 +69,9 @@ class KafkaProducerConfig(
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    maxInflightRequestsPerConnection = 5,
                     acksConfig = "all",
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음.
-                    lingerMs = 50, // 50ms 모아서 배치로 발송
+                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음. (idempotence 사용 고려...)
+                    linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
                 )
             )
         )
@@ -85,10 +82,9 @@ class KafkaProducerConfig(
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    maxInflightRequestsPerConnection = 5,
                     acksConfig = "all",
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음.
-                    lingerMs = 50, // 50ms 모아서 배치로 발송
+                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음. (idempotence 사용 고려...)
+                    linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
                 )
             )
         )
@@ -96,39 +92,61 @@ class KafkaProducerConfig(
 
     private fun kafkaConfiguration(
         acksConfig: String,
-        maxInflightRequestsPerConnection: Int,
+        maxInflightRequestsPerConnection: Int = 5,
         batchSize: Int = 16384, // 16KB
         bufferMemory: Int = 33_554_432, // 33MB
         maxRequestSize: Int = 1_048_576, // 1MB
-        lingerMs: Int = 0,
+        linger: Duration = Duration.ofMillis(0),
         retries: Int = 5,
-        retryBackOffMs: Int = 100,
+        retryBackOff: Duration = Duration.ofMillis(100),
         enableIdempotence: Boolean = false,
-        maxBlockMs: Int = 5_000, // 5s
-        requestTimeoutMs: Int = 3_000, // 3s
-        deliveryTimeoutMs: Int = 4_000, // 5s
+        maxBlock: Duration = Duration.ofSeconds(5),
+        requestTimeout: Duration = Duration.ofSeconds(3),
+        deliveryTimeout: Duration = Duration.ofSeconds(5),
     ): Map<String, Any> {
         val config: MutableMap<String, Any> = mutableMapOf()
         config[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaProperties.bootstrapServers
         config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = JsonSerializer::class.java
-        config[ProducerConfig.COMPRESSION_TYPE_CONFIG] = "snappy" // snappy, gzip, lz4
-        config[ProducerConfig.ACKS_CONFIG] = acksConfig // acks (all, 1, 0)
+
+        // snappy, gzip, lz4
+        config[ProducerConfig.COMPRESSION_TYPE_CONFIG] = "snappy"
+
+        // acks (all, 1, 0)
+        config[ProducerConfig.ACKS_CONFIG] = acksConfig
+
+        // 프로듀서가 서버로부터 응답을 받지 못한 상태에서 전송할 수 있는 최대 메시지의 수
         config[ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION] = maxInflightRequestsPerConnection
-        config[ProducerConfig.BUFFER_MEMORY_CONFIG] = bufferMemory // 프로듀서가 메시지를 전송하기 전에 메세지를 대기시키는 버퍼의 크기 (max.block.ms 동안 블록
 
-        // batch
-        config[ProducerConfig.BATCH_SIZE_CONFIG] = batchSize // 배치에 사용될 메모리 양
-        config[ProducerConfig.LINGER_MS_CONFIG] = lingerMs // 배치를 전송하기 전 대기하는 시간
+        // 프로듀서가 메시지를 전송하기 전에 메세지를 대기시키는 버퍼의 크기 (max.block.ms 동안 블록
+        config[ProducerConfig.BUFFER_MEMORY_CONFIG] = bufferMemory
 
-        config[ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG] = enableIdempotence // 멱등성 프로듀서 기능을 활성화하기 위해서는 max.in.flight.requests.per.connection >= 5 , retires >= 1, acks=all 설정이 필요.
+        // 멱등성 프로듀서 기능을 활성화하기 위해서는 max.in.flight.requests.per.connection >= 5 , retires >= 1, acks=all 설정이 필요.
+        config[ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG] = enableIdempotence
 
-        config[ProducerConfig.MAX_REQUEST_SIZE_CONFIG] = maxRequestSize // 메시지의 최대 크기 (default: 1MB)
-        config[ProducerConfig.RETRIES_CONFIG] = retries // max retry
-        config[ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG] = requestTimeoutMs // request timeout (Inflight)
-        config[ProducerConfig.MAX_BLOCK_MS_CONFIG] = maxBlockMs // 프로듀서의 전송 버퍼가 가득 차거나, 메타데이터가 아직 사용 가능하지 않을때 블록되는 최대 시간
-        config[ProducerConfig.RETRY_BACKOFF_MS_CONFIG] = retryBackOffMs // retry.backoff.ms
-        config[ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG] = deliveryTimeoutMs // delivery.timeout.ms >= linger.ms + retry.backoff.ms * retires + request.timeout.ms
+        // 메시지의 최대 크기 (default: 1MB)
+        config[ProducerConfig.MAX_REQUEST_SIZE_CONFIG] = maxRequestSize
+
+        // 배치에 사용될 메모리 양
+        config[ProducerConfig.BATCH_SIZE_CONFIG] = batchSize
+
+        // 배치를 전송하기 전 대기하는 시간
+        config[ProducerConfig.LINGER_MS_CONFIG] = linger.toMillis()
+
+        // 프로듀서의 전송 버퍼가 가득 차거나, 메타데이터가 아직 사용 가능하지 않을때 블록되는 최대 시간
+        config[ProducerConfig.MAX_BLOCK_MS_CONFIG] = maxBlock.toMillis().toInt()
+
+        // max retry
+        config[ProducerConfig.RETRIES_CONFIG] = retries
+
+        // retry.backoff.ms
+        config[ProducerConfig.RETRY_BACKOFF_MS_CONFIG] = retryBackOff.toMillis().toInt()
+
+        // request timeout (Inflight)
+        config[ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG] = requestTimeout.toMillis().toInt()
+
+        // delivery.timeout.ms >= linger.ms + retry.backoff.ms * retires + request.timeout.ms
+        config[ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG] = deliveryTimeout.toMillis().toInt()
         return config
     }
 
