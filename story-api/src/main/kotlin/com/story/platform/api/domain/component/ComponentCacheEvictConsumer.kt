@@ -27,7 +27,7 @@ class ComponentCacheEvictConsumer(
 
     @KafkaListener(
         topics = ["\${story.kafka.topic.component}"],
-        groupId = GROUP_ID,
+        groupId = "$GROUP_ID-\${random.uuid}",
         containerFactory = KafkaConsumerConfig.COMPONENT_CONTAINER_FACTORY,
     )
     fun handleComponentCacheEviction(

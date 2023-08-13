@@ -90,6 +90,7 @@ class KafkaConsumerConfig(
     ): Map<String, Any> {
         val config: MutableMap<String, Any> = HashMap()
         config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaProperties.bootstrapServers
+        config[ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG] = kafkaProperties.admin.isAutoCreate
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = JsonDeserializer::class.java
         config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "latest"

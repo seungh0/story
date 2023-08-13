@@ -16,6 +16,8 @@ spring.config:
 spring:
   kafka:
     bootstrap-servers: localhost:29092
+    admin:
+      auto-create: false
 
 
 ---
@@ -26,7 +28,8 @@ spring.config:
 spring:
   kafka:
     bootstrap-servers: 118.67.131.30:9092
-
+    admin:
+      auto-create: false
 
 ---
 spring.config:
@@ -36,3 +39,5 @@ spring.config:
 spring:
   kafka:
     bootstrap-servers: localhost:29092
+    admin:
+      auto-create: true

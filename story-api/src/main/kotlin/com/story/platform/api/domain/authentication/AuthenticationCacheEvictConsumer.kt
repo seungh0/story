@@ -27,7 +27,7 @@ class AuthenticationCacheEvictConsumer(
 
     @KafkaListener(
         topics = ["\${story.kafka.topic.authentication}"],
-        groupId = GROUP_ID,
+        groupId = "$GROUP_ID-\${random.uuid}",
         containerFactory = KafkaConsumerConfig.AUTHENTICATION_KEY_CONTAINER_FACTORY,
     )
     fun handleAuthenticationKeyCacheEviction(
@@ -52,7 +52,7 @@ class AuthenticationCacheEvictConsumer(
     }
 
     companion object {
-        private const val GROUP_ID = "authentication-key-cache-evict-consumer"
+        private const val GROUP_ID = "authentication-cache-evict-consumer"
     }
 
 }
