@@ -45,7 +45,7 @@ class KafkaProducerConfig(
                     enableIdempotence = true,
                     maxInflightRequestsPerConnection = 5,
                     acksConfig = "all",
-                    retries = 5,
+                    retries = Int.MAX_VALUE,
                 )
             )
         )
@@ -97,7 +97,7 @@ class KafkaProducerConfig(
         bufferMemory: Int = 33_554_432, // 33MB
         maxRequestSize: Int = 1_048_576, // 1MB
         linger: Duration = Duration.ofMillis(0),
-        retries: Int = 5,
+        retries: Int = Int.MAX_VALUE,
         retryBackOff: Duration = Duration.ofMillis(100),
         enableIdempotence: Boolean = false,
         maxBlock: Duration = Duration.ofSeconds(5),
