@@ -2,7 +2,7 @@ package com.story.platform.api.domain.component
 
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentEvent
-import com.story.platform.core.domain.component.ComponentEventPublisher
+import com.story.platform.core.domain.component.ComponentEventProducer
 import com.story.platform.core.domain.component.ComponentModifier
 import com.story.platform.core.domain.component.ComponentResponse
 import com.story.platform.core.domain.component.ComponentStatus
@@ -11,7 +11,7 @@ import com.story.platform.core.domain.resource.ResourceId
 @HandlerAdapter
 class ComponentModifyHandler(
     private val componentModifier: ComponentModifier,
-    private val componentEventPublisher: ComponentEventPublisher,
+    private val componentEventProducer: ComponentEventProducer,
 ) {
 
     suspend fun patchComponent(
@@ -29,7 +29,7 @@ class ComponentModifyHandler(
             status = status,
         )
 
-        componentEventPublisher.publishEvent(
+        componentEventProducer.publishEvent(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,

@@ -6,6 +6,7 @@ import com.story.platform.core.common.spring.EventProducer
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
+import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
 import com.story.platform.core.infrastructure.kafka.TopicType
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.kafka.core.KafkaTemplate
 
 @EventProducer
-class ComponentEventPublisher(
+class ComponentEventProducer(
     @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 
@@ -31,7 +32,11 @@ class ComponentEventPublisher(
         withContext(dispatcher) {
             kafkaTemplate.send(
                 topicType = TopicType.COMPONENT,
-                key = "$workspaceId:$resourceId:$componentId",
+                key = KafkaRecordKeyGenerator.component(
+                    workspaceId = workspaceId,
+                    resourceId = resourceId,
+                    componentId = componentId,
+                ),
                 data = event.toJson()
             )
         }

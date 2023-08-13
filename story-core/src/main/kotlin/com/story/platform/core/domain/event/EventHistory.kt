@@ -63,7 +63,7 @@ data class EventHistory(
                 ),
                 publishStatus = EventPublishStatus.SUCCESS,
                 payloadJson = eventRecord.payload.toJson(),
-                failureReason = exception.message ?: "${exception.javaClass.name} 에러가 발생하였습니다",
+                failureReason = exception.message + "[${exception.cause?.message}]"
             )
         }
     }

@@ -1,28 +1,21 @@
 package com.story.platform.worker.event.domain.feed
 
-import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.feed.FeedEvent
+import com.story.platform.core.domain.feed.FeedEventProducer
 import com.story.platform.core.domain.feed.mapping.FeedMappingRetriever
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.subscription.SubscriberSequenceGenerator
 import com.story.platform.core.domain.subscription.SubscriptionSlotAssigner
-import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
-import com.story.platform.core.infrastructure.kafka.TopicType
-import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.kafka.core.KafkaTemplate
 
 @HandlerAdapter
 class PostFeedDistributeHandler(
     private val feedMappingRetriever: FeedMappingRetriever,
     private val subscriberSequenceGenerator: SubscriberSequenceGenerator,
-
-    @Qualifier(KafkaProducerConfig.DEFAULT_KAFKA_TEMPLATE)
-    private val kafkaTemplate: KafkaTemplate<String, String>,
+    private val feedEventProducer: FeedEventProducer,
 ) {
 
     suspend fun distributePostFeeds(payload: PostEvent, eventId: Long, eventAction: EventAction, eventKey: String) =
@@ -55,25 +48,22 @@ class PostFeedDistributeHandler(
                     endInclusive = SubscriptionSlotAssigner.assign(sequence = subscriberSequences)
                 )
                     .chunked(size = 5)
-                    .forEach { chunkedSlots ->
-                        chunkedSlots.map { slot ->
+                    .forEach { chunkedSlotIds ->
+                        chunkedSlotIds.map { slotId ->
                             launch {
-                                val event = FeedEvent.of(
-                                    eventAction = eventAction,
-                                    eventKey = eventKey,
-                                    workspaceId = feedMapping.workspaceId,
-                                    feedComponentId = feedMapping.feedComponentId,
-                                    subscriptionComponentId = feedMapping.subscriptionComponentId,
-                                    sourceResourceId = feedMapping.sourceResourceId,
-                                    sourceComponentId = feedMapping.sourceComponentId,
-                                    targetId = payload.accountId,
-                                    slotId = slot,
-                                    payload = payload,
-                                )
-
-                                kafkaTemplate.send(
-                                    topicType = TopicType.FEED,
-                                    data = event.toJson()
+                                feedEventProducer.publishEvent(
+                                    event = FeedEvent.of(
+                                        eventAction = eventAction,
+                                        eventKey = eventKey,
+                                        workspaceId = feedMapping.workspaceId,
+                                        feedComponentId = feedMapping.feedComponentId,
+                                        subscriptionComponentId = feedMapping.subscriptionComponentId,
+                                        sourceResourceId = feedMapping.sourceResourceId,
+                                        sourceComponentId = feedMapping.sourceComponentId,
+                                        targetId = payload.accountId,
+                                        slotId = slotId,
+                                        payload = payload,
+                                    )
                                 )
                             }
                         }

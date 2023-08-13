@@ -6,6 +6,7 @@ import com.story.platform.core.common.spring.EventProducer
 import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
+import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
 import com.story.platform.core.infrastructure.kafka.TopicType
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.kafka.core.KafkaTemplate
 
 @EventProducer
-class PostEventPublisher(
+class PostEventProducer(
     @Qualifier(KafkaProducerConfig.POST_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val eventHistoryManager: EventHistoryManager,
@@ -31,13 +32,15 @@ class PostEventPublisher(
             componentId = post.componentId,
             event = event,
         ) {
-            withContext(dispatcher) {
-                kafkaTemplate.send(
-                    topicType = TopicType.POST,
-                    key = post.postId.toString(),
-                    data = event.toJson()
-                )
-            }
+            kafkaTemplate.send(
+                topicType = TopicType.POST,
+                key = KafkaRecordKeyGenerator.post(
+                    workspaceId = post.workspaceId,
+                    componentId = post.componentId,
+                    postId = post.postId,
+                ),
+                data = event.toJson()
+            )
         }
     }
 
@@ -49,13 +52,15 @@ class PostEventPublisher(
             componentId = post.componentId,
             event = event,
         ) {
-            withContext(dispatcher) {
-                kafkaTemplate.send(
-                    topicType = TopicType.POST,
-                    key = post.postId.toString(),
-                    data = event.toJson()
-                )
-            }
+            kafkaTemplate.send(
+                topicType = TopicType.POST,
+                key = KafkaRecordKeyGenerator.post(
+                    workspaceId = post.workspaceId,
+                    componentId = post.componentId,
+                    postId = post.postId,
+                ),
+                data = event.toJson()
+            )
         }
     }
 
@@ -80,7 +85,11 @@ class PostEventPublisher(
             withContext(dispatcher) {
                 kafkaTemplate.send(
                     topicType = TopicType.POST,
-                    key = postId.toString(),
+                    key = KafkaRecordKeyGenerator.post(
+                        workspaceId = postSpaceKey.workspaceId,
+                        componentId = postSpaceKey.componentId,
+                        postId = postId,
+                    ),
                     data = event.toJson()
                 )
             }

@@ -5,13 +5,13 @@ import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountManager
 import com.story.platform.core.domain.subscription.SubscriptionCreator
-import com.story.platform.core.domain.subscription.SubscriptionEventPublisher
+import com.story.platform.core.domain.subscription.SubscriptionEventProducer
 
 @HandlerAdapter
 class SubscriptionCreateHandler(
     private val subscriptionCreator: SubscriptionCreator,
     private val subscriptionCountManager: SubscriptionCountManager,
-    private val subscriptionEventPublisher: SubscriptionEventPublisher,
+    private val subscriptionEventProducer: SubscriptionEventProducer,
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
@@ -44,7 +44,7 @@ class SubscriptionCreateHandler(
                 subscriberId = subscriberId,
             )
 
-            subscriptionEventPublisher.publishSubscribedEvent(
+            subscriptionEventProducer.publishSubscribedEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,

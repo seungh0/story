@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class AuthenticationModifier(
     private val workspaceAuthenticationRepository: WorkspaceAuthenticationRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val authentication1EventPublisher: Authentication1EventPublisher,
+    private val authenticationEventProducer: AuthenticationEventProducer,
 ) {
 
     @CacheEvict(
@@ -38,7 +38,7 @@ class AuthenticationModifier(
             .upsert(Authentication.from(authentication))
             .executeCoroutine()
 
-        authentication1EventPublisher.publishEvent(
+        authenticationEventProducer.publishEvent(
             authenticationKey = authenticationKey,
             event = AuthenticationEvent.updated(workspaceAuthentication = authentication),
         )

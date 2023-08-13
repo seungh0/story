@@ -2,7 +2,7 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.spring.HandlerAdapter
-import com.story.platform.core.domain.post.PostEventPublisher
+import com.story.platform.core.domain.post.PostEventProducer
 import com.story.platform.core.domain.post.PostModifier
 import com.story.platform.core.domain.post.PostResponse
 import com.story.platform.core.domain.post.PostSpaceKey
@@ -11,7 +11,7 @@ import com.story.platform.core.domain.resource.ResourceId
 @HandlerAdapter
 class PostModifyHandler(
     private val postModifier: PostModifier,
-    private val postEventPublisher: PostEventPublisher,
+    private val postEventProducer: PostEventProducer,
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
@@ -42,7 +42,7 @@ class PostModifyHandler(
             return
         }
 
-        postEventPublisher.publishModifiedEvent(post = post)
+        postEventProducer.publishModifiedEvent(post = post)
     }
 
 }

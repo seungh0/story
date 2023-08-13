@@ -3,7 +3,7 @@ package com.story.platform.api.domain.post
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.post.PostCreator
-import com.story.platform.core.domain.post.PostEventPublisher
+import com.story.platform.core.domain.post.PostEventProducer
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -11,7 +11,7 @@ import com.story.platform.core.domain.resource.ResourceId
 class PostCreateHandler(
     private val postCreator: PostCreator,
     private val componentCheckHandler: ComponentCheckHandler,
-    private val postEventPublisher: PostEventPublisher,
+    private val postEventProducer: PostEventProducer,
 ) {
 
     suspend fun createPost(
@@ -34,7 +34,7 @@ class PostCreateHandler(
             content = content,
             extraJson = extraJson,
         )
-        postEventPublisher.publishCreatedEvent(post = post)
+        postEventProducer.publishCreatedEvent(post = post)
         return post.postId
     }
 

@@ -5,6 +5,7 @@ import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.spring.EventProducer
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
+import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
 import com.story.platform.core.infrastructure.kafka.TopicType
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.kafka.core.KafkaTemplate
 
 @EventProducer
-class Authentication1EventPublisher(
+class AuthenticationEventProducer(
     @IOBound
     private val dispatcher: CoroutineDispatcher,
 
@@ -25,7 +26,7 @@ class Authentication1EventPublisher(
         withContext(dispatcher) {
             kafkaTemplate.send(
                 topicType = TopicType.AUTHENTICATION,
-                key = authenticationKey,
+                key = KafkaRecordKeyGenerator.authentication(authenticationKey = authenticationKey),
                 data = event.toJson()
             )
         }

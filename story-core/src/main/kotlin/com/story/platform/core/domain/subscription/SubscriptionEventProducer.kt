@@ -6,6 +6,7 @@ import com.story.platform.core.common.spring.EventProducer
 import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
+import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
 import com.story.platform.core.infrastructure.kafka.TopicType
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,7 +16,7 @@ import org.springframework.kafka.core.KafkaTemplate
 import java.time.LocalDateTime
 
 @EventProducer
-class SubscriptionEventPublisher(
+class SubscriptionEventProducer(
     @Qualifier(KafkaProducerConfig.SUBSCRIPTION_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val eventHistoryManager: EventHistoryManager,
@@ -47,7 +48,15 @@ class SubscriptionEventPublisher(
             event = event,
         ) {
             withContext(dispatcher) {
-                kafkaTemplate.send(topicType = TopicType.SUBSCRIPTION, key = subscriberId, data = event.toJson())
+                kafkaTemplate.send(
+                    topicType = TopicType.SUBSCRIPTION,
+                    key = KafkaRecordKeyGenerator.subscription(
+                        workspaceId = workspaceId,
+                        componentId = componentId,
+                        subscriberId = subscriberId,
+                    ),
+                    data = event.toJson(),
+                )
             }
         }
     }
@@ -72,7 +81,15 @@ class SubscriptionEventPublisher(
             event = event,
         ) {
             withContext(dispatcher) {
-                kafkaTemplate.send(topicType = TopicType.SUBSCRIPTION, key = subscriberId, data = event.toJson())
+                kafkaTemplate.send(
+                    topicType = TopicType.SUBSCRIPTION,
+                    key = KafkaRecordKeyGenerator.subscription(
+                        workspaceId = workspaceId,
+                        componentId = componentId,
+                        subscriberId = subscriberId,
+                    ),
+                    data = event.toJson()
+                )
             }
         }
     }

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service
 @Service
 class PurgeManager(
     private val purgerFinder: PurgerFinder,
-    private val purgeDistributeEventPublisher: PurgeDistributeEventPublisher,
+    private val purgeDistributeEventProducer: PurgeDistributeEventProducer,
 ) {
 
     suspend fun publishEvent(resourceId: ResourceId, workspaceId: String, componentId: String) {
-        purgeDistributeEventPublisher.publishEvents(
+        purgeDistributeEventProducer.publishEvents(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,

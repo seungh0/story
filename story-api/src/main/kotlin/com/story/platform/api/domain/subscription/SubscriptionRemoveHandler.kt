@@ -4,14 +4,14 @@ import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountManager
-import com.story.platform.core.domain.subscription.SubscriptionEventPublisher
+import com.story.platform.core.domain.subscription.SubscriptionEventProducer
 import com.story.platform.core.domain.subscription.SubscriptionRemover
 
 @HandlerAdapter
 class SubscriptionRemoveHandler(
     private val subscriptionRemover: SubscriptionRemover,
     private val subscriptionCountManager: SubscriptionCountManager,
-    private val subscriptionEventPublisher: SubscriptionEventPublisher,
+    private val subscriptionEventProducer: SubscriptionEventProducer,
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
@@ -42,7 +42,7 @@ class SubscriptionRemoveHandler(
                 subscriberId = subscriberId,
             )
 
-            subscriptionEventPublisher.publishUnsubscribedEvent(
+            subscriptionEventProducer.publishUnsubscribedEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,

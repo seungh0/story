@@ -2,7 +2,7 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.spring.HandlerAdapter
-import com.story.platform.core.domain.post.PostEventPublisher
+import com.story.platform.core.domain.post.PostEventProducer
 import com.story.platform.core.domain.post.PostRemover
 import com.story.platform.core.domain.post.PostSpaceKey
 import com.story.platform.core.domain.resource.ResourceId
@@ -10,7 +10,7 @@ import com.story.platform.core.domain.resource.ResourceId
 @HandlerAdapter
 class PostRemoveHandler(
     private val postRemover: PostRemover,
-    private val postEventPublisher: PostEventPublisher,
+    private val postEventProducer: PostEventProducer,
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
@@ -31,7 +31,7 @@ class PostRemoveHandler(
             postId = postId,
         )
 
-        postEventPublisher.publishDeletedEvent(
+        postEventProducer.publishDeletedEvent(
             postSpaceKey = postSpaceKey,
             postId = postId,
             accountId = accountId,
