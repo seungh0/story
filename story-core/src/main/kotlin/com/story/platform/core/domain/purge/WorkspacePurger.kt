@@ -40,7 +40,7 @@ class WorkspacePurger(
                     )
                 }
                 cursor = cursor.copy(cursor = components.cursor.nextCursor)
-            } while (components.hasNext())
+            } while (components.hasNext)
         }
 
         reactiveCassandraTemplate.expire(workspace, Duration.ofDays(30)).awaitSingle()
