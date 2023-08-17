@@ -12,19 +12,19 @@ class FeedHandlerFinder(
     private val springBeanProvider: SpringBeanProvider,
 ) {
 
-    operator fun get(eventAction: EventAction) = eventActionFeedPublisherMap[eventAction]
-        ?: throw NotSupportedException("EventAction($eventAction)에 해당하는 FeedPublisher는 지원하지 않습니다")
+    operator fun get(eventAction: EventAction) = eventActionFeedHandlerMap[eventAction]
+        ?: throw NotSupportedException("EventAction($eventAction)에 해당하는 FeedHandler는 지원하지 않습니다")
 
     @PostConstruct
     fun initialize() {
-        eventActionFeedPublisherMap += springBeanProvider.convertBeanMap(
-            FeedPublisher::class.java,
-            FeedPublisher::targetEventAction,
+        eventActionFeedHandlerMap += springBeanProvider.convertBeanMap(
+            FeedHandler::class.java,
+            FeedHandler::targetEventAction,
         )
     }
 
     companion object {
-        private val eventActionFeedPublisherMap = EnumMap<EventAction, FeedPublisher>(EventAction::class.java)
+        private val eventActionFeedHandlerMap = EnumMap<EventAction, FeedHandler>(EventAction::class.java)
     }
 
 }

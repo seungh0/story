@@ -14,7 +14,7 @@ import kotlinx.coroutines.coroutineScope
 class FeedModifyHandler(
     private val feedSubscriberRetriever: FeedSubscriberRetriever,
     private val feedModifier: FeedModifier,
-) : FeedPublisher {
+) : FeedHandler {
 
     override fun targetEventAction(): EventAction = EventAction.UPDATED
 

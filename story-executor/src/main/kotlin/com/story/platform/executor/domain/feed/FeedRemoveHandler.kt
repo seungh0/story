@@ -14,7 +14,7 @@ import kotlinx.coroutines.coroutineScope
 class FeedRemoveHandler(
     private val feedSubscriberRetriever: FeedSubscriberRetriever,
     private val feedRemover: FeedRemover,
-) : FeedPublisher {
+) : FeedHandler {
 
     override fun targetEventAction(): EventAction = EventAction.DELETED
 
