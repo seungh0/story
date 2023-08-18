@@ -20,7 +20,7 @@ class KafkaProducerConfig(
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    acksConfig = "1"
+                    acksConfig = "1",
                 )
             )
         )
@@ -57,7 +57,8 @@ class KafkaProducerConfig(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
                     acksConfig = "all",
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음. (idempotence 사용 고려...)
+                    retries = 5,
+                    enableIdempotence = true,
                     linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
                 ),
             )
@@ -70,7 +71,8 @@ class KafkaProducerConfig(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
                     acksConfig = "all",
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음. (idempotence 사용 고려...)
+                    retries = 5,
+                    enableIdempotence = true,
                     linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
                 )
             )
@@ -83,7 +85,8 @@ class KafkaProducerConfig(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
                     acksConfig = "all",
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음. (idempotence 사용 고려...)
+                    retries = 5,
+                    enableIdempotence = true,
                     linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
                 )
             )

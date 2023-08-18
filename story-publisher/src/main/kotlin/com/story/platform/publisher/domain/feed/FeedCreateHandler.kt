@@ -1,41 +1,42 @@
 package com.story.platform.publisher.domain.feed
 
-import com.story.platform.core.common.model.CursorDirection
-import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.feed.FeedCreator
 import com.story.platform.core.domain.feed.FeedEvent
-import com.story.platform.core.domain.feed.FeedSubscriberRetriever
+import com.story.platform.core.domain.subscription.SubscriberRepository
 import kotlinx.coroutines.coroutineScope
+import org.springframework.data.cassandra.core.query.CassandraPageRequest
+import org.springframework.data.domain.Pageable
 
 @HandlerAdapter
 class FeedCreateHandler(
-    private val feedSubscriberRetriever: FeedSubscriberRetriever,
     private val feedCreator: FeedCreator,
+    private val subscriberRepository: SubscriberRepository,
 ) : FeedHandler {
 
     override fun targetEventAction(): EventAction = EventAction.CREATED
 
     override suspend fun handle(event: EventRecord<*>, payload: FeedEvent) = coroutineScope {
-        var cursor: String? = null
+        var pageable: Pageable = CassandraPageRequest.first(500)
         do {
-            val feedSubscribers = feedSubscriberRetriever.listFeedSubscribersBySlot(
+            val subscribers = subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
                 workspaceId = payload.workspaceId,
-                feedComponentId = payload.feedComponentId,
-                eventKey = event.eventKey,
+                componentId = payload.subscriptionComponentId,
+                targetId = payload.targetId,
                 slotId = payload.slotId,
-                cursorRequest = CursorRequest(cursor = cursor, direction = CursorDirection.NEXT, pageSize = 500),
+                pageable = pageable
             )
 
             feedCreator.createFeeds(
                 event = event,
                 payload = payload,
-                subscriberIds = feedSubscribers.data.map { subscriber -> subscriber.subscriberId }
+                subscriberIds = subscribers.content.map { subscriber -> subscriber.key.subscriberId }
             )
-            cursor = feedSubscribers.cursor.nextCursor
-        } while (feedSubscribers.hasNext)
+
+            pageable = subscribers.nextPageable()
+        } while (subscribers.hasNext())
     }
 
 }
