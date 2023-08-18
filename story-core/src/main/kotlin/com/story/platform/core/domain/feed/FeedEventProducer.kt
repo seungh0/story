@@ -28,7 +28,7 @@ class FeedEventProducer(
     suspend fun publishEvent(event: EventRecord<FeedEvent>) {
         eventHistoryManager.withSaveEventHistory(
             workspaceId = event.payload.workspaceId,
-            resourceId = ResourceId.SUBSCRIPTIONS,
+            resourceId = ResourceId.FEEDS,
             componentId = event.payload.feedComponentId,
             event = event,
         ) {
