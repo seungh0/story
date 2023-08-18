@@ -34,7 +34,7 @@ class PostCreateApi(
             accountId = request.accountId,
             title = request.title,
             content = request.content,
-            extraJson = request.extraJson,
+            extra = request.extra,
         )
         return ApiResponse.ok(PostCreateApiResponse.of(postId = postId))
     }

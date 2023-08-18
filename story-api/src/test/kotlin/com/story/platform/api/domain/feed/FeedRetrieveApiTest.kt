@@ -78,7 +78,7 @@ class FeedRetrieveApiTest(
                         accountId = "account-id",
                         title = "Post Title",
                         content = "Post Content",
-                        extraJson = null,
+                        extra = mapOf("key" to "value"),
                         createdAt = LocalDateTime.now(),
                         updatedAt = LocalDateTime.now(),
                     )
@@ -150,9 +150,12 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Post Title"),
                         PayloadDocumentation.fieldWithPath("result.data[].payload.content")
                             .type(JsonFieldType.STRING).description("Post Content"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.extraJson")
-                            .type(JsonFieldType.STRING).description("Post Extra Json")
-                            .optional(),
+                        PayloadDocumentation.fieldWithPath("result.data[].payload.extra")
+                            .type(JsonFieldType.OBJECT).description("Post extra value"),
+                        PayloadDocumentation.fieldWithPath("result.data[].payload.extra.key")
+                            .type(JsonFieldType.STRING).description("Post extra key").optional(),
+                        PayloadDocumentation.fieldWithPath("result.data[].payload.extra.value")
+                            .type(JsonFieldType.STRING).description("Post extra value").optional(),
                         PayloadDocumentation.fieldWithPath("result.data[].payload.createdAt")
                             .type(JsonFieldType.STRING).description("Post Created At"),
                         PayloadDocumentation.fieldWithPath("result.data[].payload.updatedAt")

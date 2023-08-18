@@ -8,7 +8,7 @@ data class PostModifyApiRequest(
     val accountId: String = "",
     val title: String?,
     val content: String?,
-    val extraJson: String? = null,
+    val extra: Map<String, String?>? = null,
 ) {
 
     init {

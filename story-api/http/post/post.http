@@ -8,7 +8,9 @@ Accept-Language: en
     "accountId": "{{TARGET_ID}}",
     "title": "토끼의 소확행 일기",
     "content": "토끼랑 치킨을 먹었따\n히히~",
-    "extraJson": "{\"config\": \"value\"}"
+    "extra": {
+      "config": true
+    }
 }
 
 > {%
@@ -27,7 +29,10 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 {
     "accountId": "{{TARGET_ID}}",
     "title": "변경이 되나요?",
-    "content": "변경 되나요오"
+    "content": "변경 되나요오",
+    "extra": {
+      "config": true
+    }
 }
 
 > {%

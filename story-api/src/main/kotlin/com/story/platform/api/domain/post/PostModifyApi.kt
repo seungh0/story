@@ -39,7 +39,7 @@ class PostModifyApi(
             accountId = request.accountId,
             title = request.title,
             content = request.content,
-            extraJson = request.extraJson,
+            extra = request.extra,
         )
         return ApiResponse.OK
     }

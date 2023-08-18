@@ -17,7 +17,7 @@ data class PostReverse(
     val slotId: Long,
     val title: String,
     val content: String,
-    val extraJson: String?,
+    val extra: MutableMap<String, String> = mutableMapOf(),
 ) {
 
     companion object {
@@ -32,7 +32,7 @@ data class PostReverse(
             slotId = post.key.slotId,
             title = post.title,
             content = post.content,
-            extraJson = post.extraJson,
+            extra = post.extra,
         )
     }
 

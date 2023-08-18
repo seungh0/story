@@ -26,7 +26,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
 @ApiTest(PostCreateApi::class)
-class PostRegisterApiTest(
+class PostCreateApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
@@ -60,7 +60,8 @@ class PostRegisterApiTest(
             content = """
                     Post Content1
                     Post Content2
-            """.trimIndent()
+            """.trimIndent(),
+            extra = mapOf("key" to "value"),
         )
 
         coEvery {
@@ -73,7 +74,7 @@ class PostRegisterApiTest(
                 accountId = spaceId,
                 title = request.title,
                 content = request.content,
-                extraJson = request.extraJson,
+                extra = request.extra,
             )
         } returns 1
 
@@ -107,8 +108,12 @@ class PostRegisterApiTest(
                             .description("Post Title"),
                         fieldWithPath("content").type(JsonFieldType.STRING)
                             .description("Post content"),
-                        fieldWithPath("extraJson").type(JsonFieldType.STRING)
-                            .description("extra").optional(),
+                        fieldWithPath("extra").type(JsonFieldType.OBJECT)
+                            .description("extra key & value").optional(),
+                        fieldWithPath("extra.key").type(JsonFieldType.STRING)
+                            .description("extra key").optional(),
+                        fieldWithPath("extra.value").type(JsonFieldType.STRING)
+                            .description("extra value").optional(),
                     ),
                     responseFields(
                         fieldWithPath("ok")

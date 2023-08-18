@@ -10,7 +10,7 @@ data class PostResponse(
     val accountId: String,
     val title: String,
     val content: String,
-    val extraJson: String?,
+    val extra: Map<String, String>,
 ) : AuditingTimeResponse() {
 
     companion object {
@@ -23,7 +23,7 @@ data class PostResponse(
                 accountId = post.accountId,
                 title = post.title,
                 content = post.content,
-                extraJson = post.extraJson,
+                extra = post.extra,
             )
             response.from(post.auditingTime)
             return response

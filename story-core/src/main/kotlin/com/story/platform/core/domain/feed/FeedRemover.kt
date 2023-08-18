@@ -32,10 +32,20 @@ class FeedRemover(
                         sourceComponentId = payload.sourceComponentId,
                         payloadJson = payload.payloadJson,
                     )
-
                     reactiveCassandraOperations.batchOps()
-                        .delete(subscriberId)
                         .delete(feed)
+                        .delete(
+                            FeedSubscriber(
+                                key = FeedSubscriberPrimaryKey(
+                                    workspaceId = payload.workspaceId,
+                                    feedComponentId = payload.feedComponentId,
+                                    eventKey = event.eventKey,
+                                    slotId = payload.slotId,
+                                    subscriberId = subscriberId,
+                                ),
+                                eventId = event.eventId,
+                            )
+                        )
                         .executeCoroutine()
                 }
             }.joinAll()

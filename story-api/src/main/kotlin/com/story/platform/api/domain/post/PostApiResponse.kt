@@ -7,7 +7,7 @@ data class PostApiResponse(
     val postId: String,
     val title: String,
     val content: String,
-    val extraJson: String?,
+    val extra: Map<String, String>,
 ) : AuditingTimeResponse() {
 
     companion object {
@@ -16,7 +16,7 @@ data class PostApiResponse(
                 postId = post.postId.toString(),
                 title = post.title,
                 content = post.content,
-                extraJson = post.extraJson,
+                extra = post.extra,
             )
             response.from(post)
             return response

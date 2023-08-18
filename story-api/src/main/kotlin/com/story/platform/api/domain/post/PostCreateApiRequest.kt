@@ -11,5 +11,5 @@ data class PostCreateApiRequest(
 
     val content: String = "",
 
-    val extraJson: String? = null,
+    val extra: Map<String, String> = mapOf(),
 )

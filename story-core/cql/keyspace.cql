@@ -5,33 +5,14 @@ create keyspace story_platform_local with replication = { 'class': 'SimpleStrate
 create keyspace story_platform_local with replication = { 'class': 'NetworkTopologyStrategy', 'dc1': 3 };
 
 
-create table authentication_v1
-(
-    authentication_key text primary key,
-    description        text,
-    status             text,
-    workspace_id       text
-)   WITH bloom_filter_fp_chance = 0.01
-    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
-    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
-    AND compression = {'chunk_length_in_kb': '16', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
-    AND crc_check_chance = 1.0
-    AND default_time_to_live = 0
-    AND gc_grace_seconds = 864000
-    AND max_index_interval = 2048
-    AND memtable_flush_period_in_ms = 0
-    AND min_index_interval = 128
-    AND speculative_retry = '99p';
-
-
 create table workspace_v1
 (
     workspace_id text primary key,
-    created_at   timestamp,
+    status       text,
     name         text,
     plan         text,
-    status       text,
-    updated_at   timestamp
+    created_at   timestamp,
+    updated_at   timestamp,
 )   WITH bloom_filter_fp_chance = 0.01
      AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
      AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
@@ -45,13 +26,32 @@ create table workspace_v1
      AND speculative_retry = '99p';
 
 
+create table authentication_v1
+(
+    authentication_key text primary key,
+    workspace_id       text,
+    status             text,
+    description        text,
+)   WITH bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '16', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND speculative_retry = '99p';
+
+
 create table workspace_authentication_v1
 (
     workspace_id       text,
     authentication_key text,
-    created_at         timestamp,
-    description        text,
     status             text,
+    description        text,
+    created_at         timestamp,
     updated_at         timestamp,
     primary key (workspace_id, authentication_key)
 )
@@ -74,9 +74,9 @@ create table component_v1
     workspace_id text,
     resource_id  text,
     component_id text,
-    created_at   timestamp,
-    description  text,
     status       text,
+    description  text,
+    created_at   timestamp,
     updated_at   timestamp,
     primary key ((workspace_id, resource_id), component_id)
 )
@@ -102,9 +102,9 @@ create table event_history_v1
     resource_id    text,
     component_id   text,
     event_action   text,
-    failure_reason text,
-    payload_json   text,
     publish_status text,
+    payload_json   text,
+    failure_reason text,
     primary key ((workspace_id, slot_id), event_id, resource_id, component_id, event_action)
 )
     with clustering order by (event_id desc, resource_id desc, component_id desc, event_action desc)
@@ -150,10 +150,10 @@ create table post_v1
     slot_id      bigint,
     post_id      bigint,
     account_id   text,
-    content      text,
-    created_at   timestamp,
-    extra_json   text,
     title        text,
+    content      text,
+    extra map<text,text>,
+    created_at   timestamp,
     updated_at   timestamp,
     primary key ((workspace_id, component_id, space_id, slot_id), post_id)
 )
@@ -179,10 +179,10 @@ create table post_reverse_v1
     account_id       text,
     post_id          bigint,
     space_id         text,
-    content          text,
-    extra_json       text,
-    slot_id          bigint,
     title            text,
+    content          text,
+    extra map<text,text>,
+    slot_id          bigint,
     primary key ((workspace_id, component_id, distribution_key), account_id, post_id, space_id)
 )
     with clustering order by (account_id desc, post_id desc, space_id desc)
@@ -229,9 +229,9 @@ create table subscription_v1
     distribution_key text,
     subscriber_id    text,
     target_id        text,
+    status           text,
     alarm            boolean,
     slot_id          bigint,
-    status           text,
     primary key ((workspace_id, component_id, distribution_key), subscriber_id, target_id)
 )
     with clustering order by (subscriber_id desc, target_id asc)
@@ -255,9 +255,9 @@ create table feed_mapping_configuration_v1
     source_resource_id        text,
     source_component_id       text,
     subscription_component_id text,
-    created_at                timestamp,
-    description               text,
     status                    text,
+    description               text,
+    created_at                timestamp,
     updated_at                timestamp,
     primary key (workspace_id, feed_component_id, source_resource_id, source_component_id, subscription_component_id)
 )
@@ -305,9 +305,9 @@ create table feed_v1
     distribution_key    text,
     subscriber_id       text,
     event_id            bigint,
-    payload_json        text,
-    source_component_id text,
     source_resource_id  text,
+    source_component_id text,
+    payload_json        text,
     primary key ((workspace_id, feed_component_id, distribution_key), subscriber_id, event_id)
 )
     with clustering order by (subscriber_id desc, event_id desc)

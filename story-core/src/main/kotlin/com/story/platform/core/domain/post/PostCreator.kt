@@ -16,7 +16,7 @@ class PostCreator(
         accountId: String,
         title: String,
         content: String,
-        extraJson: String? = null,
+        extra: Map<String, String>,
     ): PostResponse {
         val postId = postSequenceGenerator.generate(postSpaceKey = postSpaceKey)
         val post = Post.of(
@@ -25,7 +25,7 @@ class PostCreator(
             postId = postId,
             title = title,
             content = content,
-            extraJson = extraJson,
+            extra = extra,
         )
         reactiveCassandraOperations.batchOps()
             .upsert(post)

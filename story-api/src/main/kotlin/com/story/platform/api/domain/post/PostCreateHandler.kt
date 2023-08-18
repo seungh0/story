@@ -19,7 +19,7 @@ class PostCreateHandler(
         accountId: String,
         title: String,
         content: String,
-        extraJson: String? = null,
+        extra: Map<String, String>,
     ): Long {
         componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,
@@ -32,7 +32,7 @@ class PostCreateHandler(
             accountId = accountId,
             title = title,
             content = content,
-            extraJson = extraJson,
+            extra = extra,
         )
         postEventProducer.publishCreatedEvent(post = post)
         return post.postId
