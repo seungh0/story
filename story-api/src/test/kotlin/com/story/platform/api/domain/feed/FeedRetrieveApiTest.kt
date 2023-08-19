@@ -13,7 +13,6 @@ import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
-import com.story.platform.core.domain.feed.FeedResponse
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionEvent
@@ -66,7 +65,7 @@ class FeedRetrieveApiTest(
             )
         } returns CursorResult.of(
             data = listOf(
-                FeedResponse(
+                FeedApiResponse(
                     resourceId = ResourceId.POSTS.code,
                     componentId = "account-post",
                     payload = PostEvent(
@@ -184,7 +183,7 @@ class FeedRetrieveApiTest(
             )
         } returns CursorResult.of(
             data = listOf(
-                FeedResponse(
+                FeedApiResponse(
                     resourceId = ResourceId.SUBSCRIPTIONS.code,
                     componentId = "follow",
                     payload = SubscriptionEvent(
