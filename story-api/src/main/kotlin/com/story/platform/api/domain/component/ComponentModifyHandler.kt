@@ -1,7 +1,6 @@
 package com.story.platform.api.domain.component
 
 import com.story.platform.core.common.spring.HandlerAdapter
-import com.story.platform.core.domain.component.ComponentEvent
 import com.story.platform.core.domain.component.ComponentEventProducer
 import com.story.platform.core.domain.component.ComponentModifier
 import com.story.platform.core.domain.component.ComponentResponse
@@ -29,16 +28,10 @@ class ComponentModifyHandler(
             status = status,
         )
 
-        componentEventProducer.publishEvent(
+        componentEventProducer.publishUpdatedEvent(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
-            event = ComponentEvent.updated(
-                workspaceId = workspaceId,
-                resourceId = resourceId,
-                componentId = componentId,
-                status = component.status,
-            )
         )
         return component
     }

@@ -26,6 +26,10 @@ enum class ErrorCode(
      */
     E403_NO_PERMISSION(httpStatusCode = 403, code = "no_permission"),
     E403_FEED_MAPPING_CAPACITY_EXCEEDED(httpStatusCode = 403, code = "feed_mapping_capacity_exceed"),
+    E403_WORKSPACE_PURGE_RETENTION_PERIOD_VIOLATION(
+        httpStatusCode = 403,
+        code = "workspace_purge_retention_period_violation"
+    ),
 
     /**
      * 404 NotFound

@@ -11,6 +11,7 @@ enum class TopicType(
     COMPONENT(description = "컴포넌트", property = "component"),
     AUTHENTICATION(description = "인증", property = "authentication"),
     PURGE(description = "데이터 삭제", property = "purge"),
+    WORKSPACE(description = "워크스페이스", property = "workspace"),
     ;
 
 }

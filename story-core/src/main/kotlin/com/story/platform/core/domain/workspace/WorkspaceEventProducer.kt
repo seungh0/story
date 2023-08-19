@@ -1,9 +1,8 @@
-package com.story.platform.core.domain.component
+package com.story.platform.core.domain.workspace
 
 import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.spring.EventProducer
-import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
 import com.story.platform.core.infrastructure.kafka.TopicType
@@ -14,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.kafka.core.KafkaTemplate
 
 @EventProducer
-class ComponentEventProducer(
+class WorkspaceEventProducer(
     @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_TEMPLATE)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 
@@ -22,24 +21,14 @@ class ComponentEventProducer(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun publishUpdatedEvent(
+    suspend fun publishDeletedEvent(
         workspaceId: String,
-        resourceId: ResourceId,
-        componentId: String,
     ) {
         withContext(dispatcher) {
             kafkaTemplate.send(
-                topicType = TopicType.COMPONENT,
-                key = KafkaRecordKeyGenerator.component(
-                    workspaceId = workspaceId,
-                    resourceId = resourceId,
-                    componentId = componentId,
-                ),
-                data = ComponentEvent.updated(
-                    workspaceId = workspaceId,
-                    resourceId = resourceId,
-                    componentId = componentId,
-                ).toJson()
+                topicType = TopicType.WORKSPACE,
+                key = KafkaRecordKeyGenerator.workspace(workspaceId),
+                data = WorkspaceEvent.deleted(workspaceId = workspaceId).toJson(),
             )
         }
     }

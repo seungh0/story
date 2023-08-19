@@ -11,4 +11,6 @@ object EventKeyGenerator {
     fun purge(workspaceId: String, resourceId: ResourceId, componentId: String) =
         "purge::$workspaceId::${resourceId.code}::$componentId"
 
+    fun workspace(workspaceId: String) = "workspace:$workspaceId"
+
 }

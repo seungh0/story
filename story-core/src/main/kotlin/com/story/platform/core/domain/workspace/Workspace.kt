@@ -12,8 +12,14 @@ data class Workspace(
 
     val name: String,
     val plan: WorkspacePricePlan,
-    val status: WorkspaceStatus,
+    var status: WorkspaceStatus,
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
     var auditingTime: AuditingTime,
-)
+) {
+
+    fun delete() {
+        this.status = WorkspaceStatus.DELETED
+    }
+
+}

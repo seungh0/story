@@ -7,6 +7,7 @@ story:
       authentication: story.authentication-event-v1
       purge: story.purge-event-v1
       feed: story.subscription-distributor-v1
+      workspace: story.workspace-v1
 
 ---
 spring.config:
