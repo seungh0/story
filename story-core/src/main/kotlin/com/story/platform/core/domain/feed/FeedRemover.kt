@@ -31,6 +31,7 @@ class FeedRemover(
                         sourceResourceId = payload.sourceResourceId,
                         sourceComponentId = payload.sourceComponentId,
                         payloadJson = payload.payloadJson,
+                        eventKey = event.eventKey,
                     )
                     reactiveCassandraOperations.batchOps()
                         .delete(feed)
@@ -43,7 +44,7 @@ class FeedRemover(
                                     slotId = payload.slotId,
                                     subscriberId = subscriberId,
                                 ),
-                                eventId = event.eventId,
+                                feedId = event.eventId,
                             )
                         )
                         .executeCoroutine()

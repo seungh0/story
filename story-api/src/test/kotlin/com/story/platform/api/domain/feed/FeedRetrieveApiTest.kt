@@ -66,6 +66,7 @@ class FeedRetrieveApiTest(
         } returns CursorResult.of(
             data = listOf(
                 FeedApiResponse(
+                    feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
                     componentId = "account-post",
                     payload = PostEvent(
@@ -127,6 +128,8 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("result"),
                         PayloadDocumentation.fieldWithPath("result.data")
                             .type(JsonFieldType.ARRAY).description("feed list"),
+                        PayloadDocumentation.fieldWithPath("result.data[].feedId")
+                            .type(JsonFieldType.STRING).description("Feed Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].resourceId")
                             .type(JsonFieldType.STRING).description("Resource Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].componentId")
@@ -184,6 +187,7 @@ class FeedRetrieveApiTest(
         } returns CursorResult.of(
             data = listOf(
                 FeedApiResponse(
+                    feedId = "30000",
                     resourceId = ResourceId.SUBSCRIPTIONS.code,
                     componentId = "follow",
                     payload = SubscriptionEvent(
@@ -241,6 +245,8 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("result"),
                         PayloadDocumentation.fieldWithPath("result.data")
                             .type(JsonFieldType.ARRAY).description("feed list"),
+                        PayloadDocumentation.fieldWithPath("result.data[].feedId")
+                            .type(JsonFieldType.STRING).description("Feed Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].resourceId")
                             .type(JsonFieldType.STRING).description("Resource Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].componentId")

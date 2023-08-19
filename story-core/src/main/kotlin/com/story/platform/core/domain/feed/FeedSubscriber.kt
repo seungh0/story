@@ -16,7 +16,7 @@ data class FeedSubscriber(
     @field:PrimaryKey
     val key: FeedSubscriberPrimaryKey,
 
-    val eventId: Long,
+    val feedId: Long,
 )
 
 @PrimaryKeyClass

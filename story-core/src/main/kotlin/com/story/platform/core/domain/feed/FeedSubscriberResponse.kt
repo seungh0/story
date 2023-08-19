@@ -18,7 +18,7 @@ data class FeedSubscriberResponse(
             eventKey = feedSubscriber.key.eventKey,
             slotId = feedSubscriber.key.slotId,
             subscriberId = feedSubscriber.key.subscriberId,
-            eventId = feedSubscriber.eventId,
+            eventId = feedSubscriber.feedId,
         )
     }
 

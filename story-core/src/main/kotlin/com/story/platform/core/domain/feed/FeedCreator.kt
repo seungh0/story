@@ -30,7 +30,7 @@ class FeedCreator(
                             subscriberId = subscriberId,
                             eventKey = event.eventKey,
                         ),
-                        eventId = event.eventId,
+                        feedId = event.eventId,
                     )
                     val feed = Feed(
                         key = FeedPrimaryKey.of(
@@ -42,6 +42,7 @@ class FeedCreator(
                         sourceResourceId = payload.sourceResourceId,
                         sourceComponentId = payload.sourceComponentId,
                         payloadJson = payload.payloadJson,
+                        eventKey = event.eventKey,
                     )
 
                     reactiveCassandraOperations.batchOps()

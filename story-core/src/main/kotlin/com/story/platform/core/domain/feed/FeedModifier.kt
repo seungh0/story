@@ -25,6 +25,7 @@ class FeedModifier(
                 sourceResourceId = payload.sourceResourceId,
                 sourceComponentId = payload.sourceComponentId,
                 payloadJson = payload.payloadJson,
+                eventKey = event.eventKey,
             )
         }
 

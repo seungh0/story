@@ -304,13 +304,14 @@ create table feed_v1
     feed_component_id   text,
     distribution_key    text,
     subscriber_id       text,
-    event_id            bigint,
+    feed_id            bigint,
+    event_key           text,
     source_resource_id  text,
     source_component_id text,
     payload_json        text,
-    primary key ((workspace_id, feed_component_id, distribution_key), subscriber_id, event_id)
+    primary key ((workspace_id, feed_component_id, distribution_key), subscriber_id, feed_id)
 )
-    with clustering order by (subscriber_id desc, event_id desc)
+    with clustering order by (subscriber_id desc, feed_id desc)
      and bloom_filter_fp_chance = 0.01
      AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
      AND compaction = {'class':'TimeWindowCompactionStrategy', 'unchecked_tombstone_compaction':'true'}
@@ -330,7 +331,7 @@ create table feed_subscriber_v1
     event_key         text,
     slot_id           bigint,
     subscriber_id     text,
-    event_id          bigint,
+    feed_id          bigint,
     primary key ((workspace_id, feed_component_id, event_key, slot_id), subscriber_id)
 )
     with clustering order by (subscriber_id desc)

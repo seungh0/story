@@ -14,16 +14,16 @@ interface FeedRepository : CoroutineCrudRepository<Feed, FeedPrimaryKey> {
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdLessThan(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdLessThan(
         workspaceId: String,
         feedComponentId: String,
         distributionKey: String,
         subscriberId: String,
-        eventId: Long,
+        feedId: Long,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyEventIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyFeedIdAsc(
         workspaceId: String,
         feedComponentId: String,
         distributionKey: String,
@@ -31,12 +31,12 @@ interface FeedRepository : CoroutineCrudRepository<Feed, FeedPrimaryKey> {
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
         workspaceId: String,
         feedComponentId: String,
         distributionKey: String,
         subscriberId: String,
-        eventId: Long,
+        feedId: Long,
         pageable: Pageable,
     ): Flow<Feed>
 

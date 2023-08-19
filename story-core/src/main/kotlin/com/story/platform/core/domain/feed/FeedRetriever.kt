@@ -60,12 +60,12 @@ class FeedRetriever(
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize),
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdLessThan(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdLessThan(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
             subscriberId = subscriberId,
-            eventId = cursorRequest.cursor.toLong(),
+            feedId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize),
         )
     }
@@ -77,7 +77,7 @@ class FeedRetriever(
         cursorRequest: CursorRequest,
     ): Flow<Feed> {
         if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyEventIdAsc(
+            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyFeedIdAsc(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
                 distributionKey = XLargeDistributionKey.makeKey(targetId).key,
@@ -85,12 +85,12 @@ class FeedRetriever(
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             distributionKey = XLargeDistributionKey.makeKey(targetId).key,
             subscriberId = targetId,
-            eventId = cursorRequest.cursor.toLong(),
+            feedId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
         )
     }
@@ -98,7 +98,7 @@ class FeedRetriever(
     private suspend fun getCursor(feeds: List<Feed>, pageSize: Int): Cursor<String> {
         if (feeds.size > pageSize) {
             return Cursor.of(
-                cursor = feeds.subList(0, pageSize.coerceAtMost(feeds.size)).lastOrNull()?.key?.eventId?.toString()
+                cursor = feeds.subList(0, pageSize.coerceAtMost(feeds.size)).lastOrNull()?.key?.feedId?.toString()
             )
         }
         return Cursor.noMore()
