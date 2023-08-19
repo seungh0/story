@@ -14,7 +14,7 @@ import org.springframework.kafka.core.KafkaTemplate
 
 @EventProducer
 class WorkspaceEventProducer(
-    @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_PRODUCER)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 
     @IOBound

@@ -18,7 +18,7 @@ import org.springframework.kafka.core.KafkaTemplate
 
 @EventProducer
 class PurgeDistributeEventProducer(
-    @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_PRODUCER)
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val eventHistoryManager: EventHistoryManager,
 

@@ -27,7 +27,7 @@ class FeedDistributeEventConsumer(
     @KafkaListener(
         topics = ["\${story.kafka.topic.post}"],
         groupId = GROUP_ID,
-        containerFactory = KafkaConsumerConfig.POST_CONTAINER_FACTORY,
+        containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
     )
     fun handlePostFeedEvent(
         @Payload record: ConsumerRecord<String, String>,
@@ -52,7 +52,7 @@ class FeedDistributeEventConsumer(
     @KafkaListener(
         topics = ["\${story.kafka.topic.subscription}"],
         groupId = GROUP_ID,
-        containerFactory = KafkaConsumerConfig.SUBSCRIPTION_CONTAINER_FACTORY,
+        containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
     )
     fun handleSubscriptionFeedEvent(
         @Payload record: ConsumerRecord<String, String>,

@@ -17,7 +17,7 @@ import java.time.LocalDateTime
 
 @EventProducer
 class SubscriptionEventProducer(
-    @Qualifier(KafkaProducerConfig.SUBSCRIPTION_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.SUBSCRIPTION_KAFKA_PRODUCER)
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val eventHistoryManager: EventHistoryManager,
 

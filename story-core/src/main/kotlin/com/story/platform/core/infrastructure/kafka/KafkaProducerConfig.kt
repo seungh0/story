@@ -15,7 +15,7 @@ class KafkaProducerConfig(
     private val kafkaProperties: KafkaProperties,
 ) {
 
-    @Bean(DEFAULT_KAFKA_TEMPLATE)
+    @Bean(DEFAULT_KAFKA_PRODUCER)
     fun defaultKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
@@ -26,7 +26,7 @@ class KafkaProducerConfig(
         )
     }
 
-    @Bean(DEFAULT_ACK_ALL_KAFKA_TEMPLATE)
+    @Bean(DEFAULT_ACK_ALL_KAFKA_PRODUCER)
     fun ackAllKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
@@ -37,7 +37,7 @@ class KafkaProducerConfig(
         )
     }
 
-    @Bean(DEFAULT_IDEMPOTENCE_KAFKA_TEMPLATE)
+    @Bean(DEFAULT_IDEMPOTENCE_KAFKA_PRODUCER)
     fun idempotenceKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
@@ -51,7 +51,7 @@ class KafkaProducerConfig(
         )
     }
 
-    @Bean(POST_KAFKA_TEMPLATE)
+    @Bean(POST_KAFKA_PRODUCER)
     fun postKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
@@ -65,7 +65,7 @@ class KafkaProducerConfig(
         )
     }
 
-    @Bean(SUBSCRIPTION_KAFKA_TEMPLATE)
+    @Bean(SUBSCRIPTION_KAFKA_PRODUCER)
     fun subscriptionKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
@@ -79,7 +79,7 @@ class KafkaProducerConfig(
         )
     }
 
-    @Bean(FEED_KAFKA_TEMPLATE)
+    @Bean(FEED_KAFKA_PRODUCER)
     fun feedKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
@@ -154,12 +154,12 @@ class KafkaProducerConfig(
     }
 
     companion object {
-        const val DEFAULT_KAFKA_TEMPLATE = "defaultAckOneKafkaTemplate"
-        const val DEFAULT_ACK_ALL_KAFKA_TEMPLATE = "defaultAckAllKafkaTemplate"
-        const val DEFAULT_IDEMPOTENCE_KAFKA_TEMPLATE = "defaultIdempotenceKafkaTemplateKafkaTemplate"
-        const val SUBSCRIPTION_KAFKA_TEMPLATE = "subscriptionKafkaTemplate"
-        const val POST_KAFKA_TEMPLATE = "postKafkaTemplate"
-        const val FEED_KAFKA_TEMPLATE = "feedKafkaTemplate"
+        const val DEFAULT_KAFKA_PRODUCER = "defaultAckOneKafkaProducer"
+        const val DEFAULT_ACK_ALL_KAFKA_PRODUCER = "defaultAckAllKafkaProducer"
+        const val DEFAULT_IDEMPOTENCE_KAFKA_PRODUCER = "defaultIdempotenceKafkaProducer"
+        const val SUBSCRIPTION_KAFKA_PRODUCER = "subscriptionKafkaProducer"
+        const val POST_KAFKA_PRODUCER = "postKafkaProducer"
+        const val FEED_KAFKA_PRODUCER = "feedKafkaProducer"
     }
 
 }

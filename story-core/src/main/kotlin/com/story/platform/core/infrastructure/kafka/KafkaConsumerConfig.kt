@@ -18,32 +18,8 @@ class KafkaConsumerConfig(
     private val kafkaProperties: KafkaProperties,
 ) {
 
-    @Bean(name = [POST_CONTAINER_FACTORY])
+    @Bean(name = [DEFAULT_KAFKA_CONSUMER])
     fun postKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
-        return concurrentKafkaListenerContainerFactory(
-            maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
-            enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
-        )
-    }
-
-    @Bean(name = [SUBSCRIPTION_CONTAINER_FACTORY])
-    fun subscriptionKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
-        return concurrentKafkaListenerContainerFactory(
-            maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
-            enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
-        )
-    }
-
-    @Bean(name = [COMPONENT_CONTAINER_FACTORY])
-    fun componentKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
-        return concurrentKafkaListenerContainerFactory(
-            maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
-            enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
-        )
-    }
-
-    @Bean(name = [AUTHENTICATION_KEY_CONTAINER_FACTORY])
-    fun authenticationKeyKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
         return concurrentKafkaListenerContainerFactory(
             maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
             enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
@@ -131,10 +107,7 @@ class KafkaConsumerConfig(
     }
 
     companion object {
-        const val AUTHENTICATION_KEY_CONTAINER_FACTORY = "authenticationKeyContainerFactory"
-        const val COMPONENT_CONTAINER_FACTORY = "componentContainerFactory"
-        const val POST_CONTAINER_FACTORY = "postContainerFactory"
-        const val SUBSCRIPTION_CONTAINER_FACTORY = "subscriptionContainerFactory"
+        const val DEFAULT_KAFKA_CONSUMER = "defaultKafkaConsumer"
     }
 
 }

@@ -1,13 +1,13 @@
-package com.story.platform.api.domain.authentication
+package com.story.platform.api.domain.workspace
 
 import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.json.toObject
 import com.story.platform.core.common.spring.EventConsumer
-import com.story.platform.core.domain.authentication.AuthenticationEvent
-import com.story.platform.core.domain.authentication.AuthenticationLocalCacheEvictManager
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
+import com.story.platform.core.domain.workspace.WorkspaceEvent
+import com.story.platform.core.domain.workspace.WorkspaceLocalCacheEvictManager
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
@@ -18,19 +18,19 @@ import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.messaging.handler.annotation.Payload
 
 @EventConsumer
-class AuthenticationCacheEvictConsumer(
-    private val authenticationLocalCacheEvictManager: AuthenticationLocalCacheEvictManager,
+class WorkspaceCacheEvictConsumer(
+    private val workspaceLocalCacheEvictManager: WorkspaceLocalCacheEvictManager,
 
     @IOBound
     private val dispatcher: CoroutineDispatcher,
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.authentication}"],
+        topics = ["\${story.kafka.topic.workspace}"],
         groupId = "$GROUP_ID-\${random.uuid}",
         containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
     )
-    fun handleAuthenticationKeyCacheEviction(
+    fun handleWorkspaceCacheEviction(
         @Payload record: ConsumerRecord<String, String>,
         @Headers headers: Map<String, Any>,
     ) = runBlocking {
@@ -41,18 +41,18 @@ class AuthenticationCacheEvictConsumer(
             return@runBlocking
         }
 
-        val payload = event.payload.toJson().toObject(AuthenticationEvent::class.java)
+        val payload = event.payload.toJson().toObject(WorkspaceEvent::class.java)
             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
         withContext(dispatcher) {
-            authenticationLocalCacheEvictManager.evictAuthenticationKey(
-                authenticationKey = payload.authenticationKey,
+            workspaceLocalCacheEvictManager.evict(
+                workspaceId = payload.workspaceId,
             )
         }
     }
 
     companion object {
-        private const val GROUP_ID = "authentication-cache-evict-consumer"
+        private const val GROUP_ID = "workspace-cache-evict-consumer"
     }
 
 }

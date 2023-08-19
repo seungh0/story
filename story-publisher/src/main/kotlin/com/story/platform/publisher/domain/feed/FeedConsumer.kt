@@ -25,7 +25,7 @@ class FeedConsumer(
     @KafkaListener(
         topics = ["\${story.kafka.topic.feed}"],
         groupId = GROUP_ID,
-        containerFactory = KafkaConsumerConfig.POST_CONTAINER_FACTORY,
+        containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
     )
     fun handleFeedExecutor(
         @Payload record: ConsumerRecord<String, String>,

@@ -17,7 +17,7 @@ import org.springframework.kafka.core.KafkaTemplate
 
 @EventProducer
 class FeedEventProducer(
-    @Qualifier(KafkaProducerConfig.FEED_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.FEED_KAFKA_PRODUCER)
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val eventHistoryManager: EventHistoryManager,
 

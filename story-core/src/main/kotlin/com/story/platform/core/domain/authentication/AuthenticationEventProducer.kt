@@ -18,7 +18,7 @@ class AuthenticationEventProducer(
     @IOBound
     private val dispatcher: CoroutineDispatcher,
 
-    @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_PRODUCER)
     private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 
