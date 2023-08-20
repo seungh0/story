@@ -21,7 +21,7 @@ class FeedCreateHandler(
     override suspend fun handle(event: EventRecord<*>, payload: FeedEvent) = coroutineScope {
         var pageable: Pageable = CassandraPageRequest.first(500)
         do {
-            val subscribers = subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
+            val subscribers = subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdAsc(
                 workspaceId = payload.workspaceId,
                 componentId = payload.subscriptionComponentId,
                 targetId = payload.targetId,

@@ -24,7 +24,7 @@ class SubscriptionPurger(
         var pageable: Pageable = CassandraPageRequest.first(500)
         var deletedCount = 0L
         do {
-            val subscriptions = subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
+            val subscriptions = subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyOrderByKeyTargetIdAsc(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 distributionKey = distributionKey.key,

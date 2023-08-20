@@ -12,7 +12,7 @@ object SubscriptionSlotAssigner {
         slotSize = SLOT_SIZE,
     )
 
-    private const val SLOT_SIZE = 30_000
+    const val SLOT_SIZE = 30_000
     const val FIRST_SLOT_ID = 1L
 
 }

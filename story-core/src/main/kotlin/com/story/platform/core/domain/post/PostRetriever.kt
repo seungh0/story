@@ -1,9 +1,9 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.error.InvalidCursorException
-import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -69,7 +69,11 @@ class PostRetriever(
             return CursorResult(
                 data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
                     .map { post -> PostResponse.of(post) },
-                cursor = getCursor(posts = posts, pageSize = cursorRequest.pageSize),
+                cursor = CursorUtils.getCursor(
+                    listWithNextCursor = posts,
+                    pageSize = cursorRequest.pageSize,
+                    keyGenerator = { post -> post?.key?.postId?.toString() }
+                )
             )
         }
 
@@ -99,7 +103,11 @@ class PostRetriever(
 
         return CursorResult(
             data = data.map { post -> PostResponse.of(post) },
-            cursor = getCursor(posts = morePosts, pageSize = cursorRequest.pageSize - posts.size),
+            cursor = CursorUtils.getCursor(
+                listWithNextCursor = morePosts,
+                pageSize = cursorRequest.pageSize - posts.size,
+                keyGenerator = { post -> post?.key?.postId?.toString() }
+            )
         )
     }
 
@@ -161,15 +169,6 @@ class PostRetriever(
                 ?: throw InvalidCursorException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
         ).toList()
-    }
-
-    private fun getCursor(posts: List<Post>, pageSize: Int): Cursor<String> {
-        if (posts.size > pageSize) {
-            return Cursor.of(
-                cursor = posts.subList(0, pageSize.coerceAtMost(posts.size)).lastOrNull()?.key?.postId?.toString()
-            )
-        }
-        return Cursor.of(cursor = null)
     }
 
 }

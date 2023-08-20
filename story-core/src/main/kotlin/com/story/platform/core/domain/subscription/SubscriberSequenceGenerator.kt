@@ -12,12 +12,14 @@ class SubscriberSequenceGenerator(
         workspaceId: String,
         componentId: String,
         targetId: String,
-    ) = subscriptionSequenceRepository.incr(
+        count: Long = 1L,
+    ) = subscriptionSequenceRepository.incrBy(
         key = SubscriberSequence(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
-        )
+        ),
+        count = count,
     )
 
     suspend fun lastSequence(
