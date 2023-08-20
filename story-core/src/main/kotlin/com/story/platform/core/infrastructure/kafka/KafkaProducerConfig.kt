@@ -21,6 +21,7 @@ class KafkaProducerConfig(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
                     acksConfig = "1",
+                    linger = Duration.ofMillis(0),
                 )
             )
         )
@@ -31,7 +32,8 @@ class KafkaProducerConfig(
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    acksConfig = "all"
+                    acksConfig = "all",
+                    linger = Duration.ofMillis(0),
                 )
             )
         )
@@ -46,6 +48,7 @@ class KafkaProducerConfig(
                     maxInflightRequestsPerConnection = 5,
                     acksConfig = "all",
                     retries = Int.MAX_VALUE,
+                    linger = Duration.ofMillis(0),
                 )
             )
         )
@@ -59,7 +62,7 @@ class KafkaProducerConfig(
                     acksConfig = "all",
                     retries = 5,
                     enableIdempotence = true,
-                    linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
+                    linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
                 ),
             )
         )
@@ -73,7 +76,7 @@ class KafkaProducerConfig(
                     acksConfig = "all",
                     retries = 5,
                     enableIdempotence = true,
-                    linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
+                    linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
                 )
             )
         )
@@ -87,7 +90,7 @@ class KafkaProducerConfig(
                     acksConfig = "all",
                     retries = 5,
                     enableIdempotence = true,
-                    linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
+                    linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
                 )
             )
         )
