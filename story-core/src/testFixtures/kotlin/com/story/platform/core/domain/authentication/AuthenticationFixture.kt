@@ -2,7 +2,7 @@ package com.story.platform.core.domain.authentication
 
 import com.story.platform.core.support.RandomGenerator
 
-object AuthenticationKeyFixture {
+object AuthenticationFixture {
 
     fun create(
         authenticationKey: String = RandomGenerator.generateString(),

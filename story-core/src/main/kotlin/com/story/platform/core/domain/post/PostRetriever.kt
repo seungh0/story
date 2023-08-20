@@ -5,9 +5,6 @@ import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
@@ -31,29 +28,6 @@ class PostRetriever(
                 postId = postId,
             ) ?: throw PostNotExistsException(message = "해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
         )
-    }
-
-    suspend fun listPosts(
-        workspaceId: String,
-        componentId: String,
-        keys: Collection<PostKey>,
-    ): List<PostResponse> = coroutineScope {
-        val posts = keys.map { key ->
-            async {
-                postRepository.findById(
-                    PostPrimaryKey.of(
-                        postSpaceKey = PostSpaceKey(
-                            workspaceId = workspaceId,
-                            componentId = componentId,
-                            spaceId = key.spaceId,
-                        ),
-                        postId = key.postId,
-                    )
-                )
-            }
-        }
-        return@coroutineScope posts.awaitAll().filterNotNull()
-            .map { post -> PostResponse.of(post) }
     }
 
     suspend fun listPosts(
@@ -116,8 +90,7 @@ class PostRetriever(
         postSpaceKey: PostSpaceKey,
     ): Pair<Long, List<Post>> {
         if (cursorRequest.cursor == null) {
-            val lastSlotId =
-                PostSlotAssigner.assign(postId = postSequenceGenerator.lastSequence(postSpaceKey = postSpaceKey))
+            val lastSlotId = PostSlotAssigner.assign(postId = postSequenceGenerator.lastSequence(postSpaceKey = postSpaceKey))
             return lastSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
