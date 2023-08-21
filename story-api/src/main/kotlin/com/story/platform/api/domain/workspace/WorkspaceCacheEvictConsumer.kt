@@ -40,7 +40,7 @@ class WorkspaceCacheEvictConsumer(
         numPartitions = "3",
     )
     @KafkaListener(
-        topics = ["\${story.kafka.topic.workspace}"],
+        topics = ["\${story.kafka.topic.workspace.name}"],
         groupId = "$GROUP_ID-\${random.uuid}",
         containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
     )

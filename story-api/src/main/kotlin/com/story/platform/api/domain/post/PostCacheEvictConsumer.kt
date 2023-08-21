@@ -1,21 +1,19 @@
-package com.story.platform.api.domain.authentication
+package com.story.platform.api.domain.post
 
 import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.json.toObject
-import com.story.platform.core.common.logger.LoggerExtension.log
 import com.story.platform.core.common.spring.EventConsumer
-import com.story.platform.core.domain.authentication.AuthenticationEvent
-import com.story.platform.core.domain.authentication.AuthenticationLocalCacheEvictManager
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
+import com.story.platform.core.domain.post.PostEvent
+import com.story.platform.core.domain.post.PostLocalCacheEvictManager
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.springframework.kafka.annotation.DltHandler
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.annotation.RetryableTopic
 import org.springframework.kafka.retrytopic.TopicSuffixingStrategy
@@ -24,8 +22,8 @@ import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.retry.annotation.Backoff
 
 @EventConsumer
-class AuthenticationCacheEvictConsumer(
-    private val authenticationLocalCacheEvictManager: AuthenticationLocalCacheEvictManager,
+class PostCacheEvictConsumer(
+    private val postLocalCacheEvictManager: PostLocalCacheEvictManager,
 
     @IOBound
     private val dispatcher: CoroutineDispatcher,
@@ -40,11 +38,11 @@ class AuthenticationCacheEvictConsumer(
         numPartitions = "3",
     )
     @KafkaListener(
-        topics = ["\${story.kafka.topic.authentication.name}"],
+        topics = ["\${story.kafka.topic.post.name}"],
         groupId = "$GROUP_ID-\${random.uuid}",
         containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
     )
-    fun handleAuthenticationKeyCacheEviction(
+    fun handlePostCacheEviction(
         @Payload record: ConsumerRecord<String, String>,
         @Headers headers: Map<String, Any>,
     ) = runBlocking {
@@ -55,32 +53,21 @@ class AuthenticationCacheEvictConsumer(
             return@runBlocking
         }
 
-        val payload = event.payload.toJson().toObject(AuthenticationEvent::class.java)
+        val payload = event.payload.toJson().toObject(PostEvent::class.java)
             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
         withContext(dispatcher) {
-            authenticationLocalCacheEvictManager.evictAuthenticationKey(
-                authenticationKey = payload.authenticationKey,
+            postLocalCacheEvictManager.evictPost(
+                workspaceId = payload.workspaceId,
+                componentId = payload.componentId,
+                spaceId = payload.spaceId,
+                postId = payload.postId,
             )
         }
     }
 
-    @DltHandler
-    fun dltHandler(
-        @Payload record: ConsumerRecord<String, String>,
-        @Headers headers: Map<String, Any>,
-    ) = runBlocking {
-        log.error {
-            """
-            Authentication Cache Evict Consumer DLT is Received
-            - record=$record
-            - headers=$headers
-            """.trimIndent()
-        }
-    }
-
     companion object {
-        private const val GROUP_ID = "authentication-cache-evict-consumer"
+        private const val GROUP_ID = "post-cache-evict-consumer"
     }
 
 }

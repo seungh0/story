@@ -5,6 +5,8 @@ import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
+import com.story.platform.core.support.cache.CacheType
+import com.story.platform.core.support.cache.Cacheable
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
@@ -15,6 +17,10 @@ class PostRetriever(
     private val postSequenceGenerator: PostSequenceGenerator,
 ) {
 
+    @Cacheable(
+        cacheType = CacheType.POST,
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':postId:' + {#postId}",
+    )
     suspend fun getPost(
         postSpaceKey: PostSpaceKey,
         postId: Long,

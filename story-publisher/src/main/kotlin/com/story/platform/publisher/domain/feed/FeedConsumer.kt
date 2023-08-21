@@ -24,7 +24,7 @@ class FeedConsumer(
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.feed}"],
+        topics = ["\${story.kafka.topic.feed.name}"],
         groupId = GROUP_ID,
         containerFactory = KafkaConsumerConfig.DEFAULT_BATCH_KAFKA_CONSUMER,
     )

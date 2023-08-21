@@ -24,7 +24,7 @@ class SubscriptionFeedDistributeEventConsumer(
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.subscription}"],
+        topics = ["\${story.kafka.topic.subscription.name}"],
         groupId = GROUP_ID,
         containerFactory = KafkaConsumerConfig.DEFAULT_BATCH_KAFKA_CONSUMER,
     )

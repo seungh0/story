@@ -24,7 +24,7 @@ class PostFeedDistributeEventConsumer(
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.post}"],
+        topics = ["\${story.kafka.topic.post.name}"],
         groupId = GROUP_ID,
         containerFactory = KafkaConsumerConfig.DEFAULT_BATCH_KAFKA_CONSUMER,
     )

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.component.ComponentResponse
 import com.story.platform.core.domain.feed.mapping.FeedMappingResponse
+import com.story.platform.core.domain.post.PostResponse
 import com.story.platform.core.domain.workspace.WorkspaceResponse
 import java.time.Duration
 
@@ -18,31 +19,38 @@ enum class CacheType(
     AUTHENTICATION_REVERSE_KEY(
         description = "인증 키 정보",
         key = "authentication-key:v1",
-        localCacheTtl = Duration.ofMinutes(1),
-        globalCacheTtl = Duration.ofHours(1),
+        localCacheTtl = Duration.ofMinutes(3),
+        globalCacheTtl = Duration.ofMinutes(30),
         typeReference = object : TypeReference<AuthenticationResponse>() {}
     ),
     COMPONENT(
         description = "컴포넌트 정보",
         key = "component:v1",
-        localCacheTtl = Duration.ofMinutes(1),
-        globalCacheTtl = Duration.ofHours(1),
+        localCacheTtl = Duration.ofMinutes(3),
+        globalCacheTtl = Duration.ofMinutes(30),
         typeReference = object : TypeReference<ComponentResponse>() {}
     ),
     WORKSPACE(
         description = "워크스페이스",
         key = "workspace:v1",
-        localCacheTtl = Duration.ofMinutes(1),
-        globalCacheTtl = Duration.ofHours(1),
+        localCacheTtl = Duration.ofMinutes(3),
+        globalCacheTtl = Duration.ofMinutes(30),
         typeReference = object : TypeReference<WorkspaceResponse>() {}
     ),
     FEED_MAPPING_CONFIGURATIONS(
         description = "피드 매핑 설정 목록",
         key = "feed-mapping:v1",
-        localCacheTtl = Duration.ofMinutes(1),
-        globalCacheTtl = Duration.ofHours(1),
+        localCacheTtl = Duration.ofMinutes(3),
+        globalCacheTtl = Duration.ofMinutes(30),
         typeReference = object : TypeReference<List<FeedMappingResponse>>() {}
-    )
+    ),
+    POST(
+        description = "포스트",
+        key = "post:v1",
+        localCacheTtl = Duration.ofMinutes(1),
+        globalCacheTtl = Duration.ofMinutes(5),
+        typeReference = object : TypeReference<PostResponse>() {}
+    ),
     ;
 
     fun enableLocalCache(): Boolean {

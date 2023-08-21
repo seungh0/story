@@ -40,7 +40,7 @@ class ComponentCacheEvictConsumer(
         numPartitions = "3",
     )
     @KafkaListener(
-        topics = ["\${story.kafka.topic.component}"],
+        topics = ["\${story.kafka.topic.component.name}"],
         groupId = "$GROUP_ID-\${random.uuid}",
         containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
     )
