@@ -87,6 +87,7 @@ class AuthenticationModifyApiTest(
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
                             .description("Description")
+                            .attributes(RestDocsUtils.remarks("must be within 300 characters"))
                             .optional(),
                         PayloadDocumentation.fieldWithPath("status").type(JsonFieldType.STRING)
                             .description("Authentication Status")

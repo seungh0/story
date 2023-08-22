@@ -8,6 +8,7 @@ import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
+import com.story.platform.api.lib.RestDocsUtils.remarks
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.api.lib.isTrue
 import com.story.platform.core.domain.authentication.AuthenticationResponse
@@ -54,10 +55,11 @@ class PostModifierApiTest(
         // given
         val componentId = "post"
         val postId = 10000L
-        val spaceId = "accountId"
+        val spaceId = "spaceId"
+        val accountId = "accountId"
 
         val request = PostCreateApiRequest(
-            accountId = spaceId,
+            accountId = accountId,
             title = "Post Title",
             content = """
                     Post Content1
@@ -74,7 +76,7 @@ class PostModifierApiTest(
                     spaceId = spaceId,
                 ),
                 postId = postId,
-                accountId = spaceId,
+                accountId = accountId,
                 title = request.title,
                 content = request.content,
                 extra = request.extra,
@@ -107,13 +109,18 @@ class PostModifierApiTest(
                     ),
                     requestFields(
                         fieldWithPath("accountId").type(JsonFieldType.STRING)
-                            .description("Post Owner"),
+                            .description("Post Owner")
+                            .attributes(remarks("must be within 100 characters")),
                         fieldWithPath("title").type(JsonFieldType.STRING)
-                            .description("Post Title"),
+                            .description("Post Title")
+                            .attributes(remarks("must be within 100 characters")),
                         fieldWithPath("content").type(JsonFieldType.STRING)
-                            .description("Post content"),
+                            .description("Post content")
+                            .attributes(remarks("must be within 500 characters")),
                         fieldWithPath("extra").type(JsonFieldType.OBJECT)
-                            .description("extra key & value").optional(),
+                            .description("extra key & value")
+                            .attributes(remarks("must be within 10 elements"))
+                            .optional(),
                         fieldWithPath("extra.key").type(JsonFieldType.STRING)
                             .description("extra key").optional(),
                         fieldWithPath("extra.value").type(JsonFieldType.STRING)
