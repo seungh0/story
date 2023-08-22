@@ -9,17 +9,13 @@ import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.post.PostLocalCacheEvictManager
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
-import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
+import com.story.platform.core.infrastructure.kafka.RetryableKafkaListener
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.springframework.kafka.annotation.KafkaListener
-import org.springframework.kafka.annotation.RetryableTopic
-import org.springframework.kafka.retrytopic.TopicSuffixingStrategy
 import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.messaging.handler.annotation.Payload
-import org.springframework.retry.annotation.Backoff
 
 @EventConsumer
 class PostCacheEvictConsumer(
@@ -29,15 +25,7 @@ class PostCacheEvictConsumer(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
-    @RetryableTopic(
-        backoff = Backoff(delay = 200, multiplier = 1.5),
-        attempts = "3",
-        topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE,
-        listenerContainerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
-        kafkaTemplate = KafkaProducerConfig.DEFAULT_ACK_ALL_KAFKA_PRODUCER,
-        numPartitions = "3",
-    )
-    @KafkaListener(
+    @RetryableKafkaListener(
         topics = ["\${story.kafka.topic.post.name}"],
         groupId = "$GROUP_ID-\${random.uuid}",
         containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
