@@ -26,7 +26,7 @@ class SubscriptionCreator(
         subscriberId: String,
         alarm: Boolean,
     ): Boolean {
-        val subscriptionReverse = subscriptionRepository.findById(
+        val subscription = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -35,19 +35,19 @@ class SubscriptionCreator(
                 targetId = targetId,
             )
         )
-        if ((subscriptionReverse != null) && subscriptionReverse.isActivated()) {
+        if ((subscription != null) && subscription.isActivated()) {
             saveSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
-                slotId = subscriptionReverse.slotId,
+                slotId = subscription.slotId,
                 subscriberId = subscriberId,
                 alarm = alarm,
             )
             return false
         }
 
-        val slotId = subscriptionReverse?.slotId ?: SubscriptionSlotAssigner.assign(
+        val slotId = subscription?.slotId ?: SubscriptionSlotAssigner.assign(
             subscriberSequenceGenerator.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,

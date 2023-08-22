@@ -42,13 +42,13 @@ data class FeedPrimaryKey(
             workspaceId: String,
             feedComponentId: String,
             subscriberId: String,
-            eventId: Long,
+            feedId: Long,
         ) = FeedPrimaryKey(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
             subscriberId = subscriberId,
-            feedId = eventId,
+            feedId = feedId,
         )
     }
 

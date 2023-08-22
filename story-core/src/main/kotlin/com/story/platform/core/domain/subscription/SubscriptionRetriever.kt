@@ -124,7 +124,7 @@ class SubscriptionRetriever(
 
         while (subscribers.size < cursorRequest.pageSize && --currentSlotId >= firstSlotId) {
             val needMoreSize = cursorRequest.pageSize - subscribers.size
-            val subscriptionsInCurrentSlot =
+            val subscribersInSlotWithNextCursor =
                 subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
                     workspaceId = workspaceId,
                     componentId = componentId,
@@ -133,12 +133,13 @@ class SubscriptionRetriever(
                     pageable = CassandraPageRequest.first(needMoreSize + 1)
                 ).toList()
 
-            val subscriptionInCurrentCursor = subscriptionsInCurrentSlot
-                .subList(0, needMoreSize.coerceAtMost(subscriptionsInCurrentSlot.size))
-            subscribers += subscriptionInCurrentCursor
+            subscribers += subscribersInSlotWithNextCursor.subList(
+                0,
+                needMoreSize.coerceAtMost(subscribersInSlotWithNextCursor.size)
+            )
 
             previousCursor = CursorUtils.getCursor(
-                listWithNextCursor = subscriptionsInCurrentSlot,
+                listWithNextCursor = subscribersInSlotWithNextCursor,
                 pageSize = needMoreSize,
                 keyGenerator = { subscriber -> subscriber?.key?.subscriberId }
             )
@@ -213,7 +214,7 @@ class SubscriptionRetriever(
 
         while (subscribers.size < cursorRequest.pageSize && ++currentSlotId <= lastSlotId) {
             val needMoreSize = cursorRequest.pageSize - subscribers.size
-            val subscriptionsInCurrentSlot =
+            val subscribersInSlotWithNextCursor =
                 subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdAsc(
                     workspaceId = workspaceId,
                     componentId = componentId,
@@ -222,13 +223,11 @@ class SubscriptionRetriever(
                     pageable = CassandraPageRequest.first(needMoreSize + 1)
                 ).toList()
 
-            val subscriptionInCurrentCursor = subscriptionsInCurrentSlot
-                .subList(0, needMoreSize.coerceAtMost(subscriptionsInCurrentSlot.size))
-
-            subscribers += subscriptionInCurrentCursor
+            subscribers += subscribersInSlotWithNextCursor
+                .subList(0, needMoreSize.coerceAtMost(subscribersInSlotWithNextCursor.size))
 
             nextCursor = CursorUtils.getCursor(
-                listWithNextCursor = subscriptionsInCurrentSlot,
+                listWithNextCursor = subscribersInSlotWithNextCursor,
                 pageSize = needMoreSize,
                 keyGenerator = { subscriber -> subscriber?.key?.subscriberId }
             )

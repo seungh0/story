@@ -37,7 +37,7 @@ class FeedCreator(
                             workspaceId = payload.workspaceId,
                             feedComponentId = payload.feedComponentId,
                             subscriberId = subscriberId,
-                            eventId = event.eventId,
+                            feedId = event.eventId,
                         ),
                         sourceResourceId = payload.sourceResourceId,
                         sourceComponentId = payload.sourceComponentId,

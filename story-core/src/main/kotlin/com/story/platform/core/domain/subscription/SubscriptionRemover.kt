@@ -25,7 +25,7 @@ class SubscriptionRemover(
         targetId: String,
         subscriberId: String,
     ): Boolean {
-        val subscriptionReverse = subscriptionRepository.findById(
+        val subscription = subscriptionRepository.findById(
             SubscriptionPrimaryKey(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -35,24 +35,24 @@ class SubscriptionRemover(
             )
         )
 
-        if (subscriptionReverse == null || subscriptionReverse.isDeleted()) {
+        if (subscription == null || subscription.isDeleted()) {
             return false
         }
 
-        val subscription = subscriberRepository.findById(
+        val subscriber = subscriberRepository.findById(
             SubscriberPrimaryKey(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
-                slotId = subscriptionReverse.slotId,
+                slotId = subscription.slotId,
                 subscriberId = subscriberId,
             )
         )
-        subscriptionReverse.delete()
+        subscription.delete()
 
         reactiveCassandraOperations.batchOps()
-            .delete(subscription)
-            .upsert(subscriptionReverse)
+            .delete(subscriber)
+            .upsert(subscription)
             .executeCoroutine()
 
         return true

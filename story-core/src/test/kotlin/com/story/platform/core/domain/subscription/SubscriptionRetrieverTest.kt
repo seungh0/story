@@ -30,16 +30,16 @@ internal class SubscriptionRetrieverTest(
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
 
-            val subscription = SubscriberFixture.create(
+            val subscriber = SubscriberFixture.create(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
                 slotId = 1L,
                 subscriberId = subscriberId,
             )
-            val subscriptionReverse = Subscription.of(subscription)
-            subscriberRepository.save(subscription)
-            subscriptionRepository.save(subscriptionReverse)
+            val subscription = Subscription.of(subscriber)
+            subscriberRepository.save(subscriber)
+            subscriptionRepository.save(subscription)
 
             // when
             val isSubscriber = subscriptionRetriever.isSubscriber(
@@ -79,7 +79,7 @@ internal class SubscriptionRetrieverTest(
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
 
-            val subscriptionReverse = SubscriptionFixture.create(
+            val subscription = SubscriptionFixture.create(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -87,7 +87,7 @@ internal class SubscriptionRetrieverTest(
                 subscriberId = subscriberId,
                 status = SubscriptionStatus.DELETED,
             )
-            subscriptionRepository.save(subscriptionReverse)
+            subscriptionRepository.save(subscription)
 
             // when
             val isSubscriber = subscriptionRetriever.isSubscriber(
