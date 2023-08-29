@@ -1,8 +1,12 @@
 dependencies {
+    // Core
     implementation(project(":story-core"))
 
-    // Webflux
+    // Spring Webflux
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    // Spring Security
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     // Spring Actuator
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -11,9 +15,6 @@ dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-observation")
     implementation("io.micrometer:micrometer-tracing")
-
-    // Spring Security
-    implementation("org.springframework.boot:spring-boot-starter-security")
 
     // Test Fixtures
     testImplementation(testFixtures(project(":story-core")))

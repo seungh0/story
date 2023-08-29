@@ -51,9 +51,6 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-        // Kotlin Logging
-        implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
-
         // Kotlinx Coroutines
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
@@ -63,16 +60,16 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter-json")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-        // Reactor
-        testImplementation("io.projectreactor:reactor-test")
-
-        // Spring MockK
-        testImplementation("com.ninja-squad:springmockk:$springMockkVersion")
+        // Logging
+        implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
 
         // Kotest
         testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
         testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
         testImplementation("io.kotest.extensions:kotest-extensions-spring:$kotestSpringExtensionVersion")
+
+        // Spring MockK
+        testImplementation("com.ninja-squad:springmockk:$springMockkVersion")
     }
 
     configurations {
