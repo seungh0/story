@@ -23,7 +23,7 @@ class LocalCacheStrategy(
 
         val cacheValue = cacheValueWrapper.get()
 
-        if (cacheValue != null && log.isDebugEnabled) {
+        if (cacheValue != null) {
             log.debug { "로컬 캐시로부터 데이터를 가져옵니다 [key:$cacheKey value: $cacheValue]" }
         }
 
@@ -35,9 +35,7 @@ class LocalCacheStrategy(
             return
         }
         cacheManager.getCache(cacheType.key)?.put(cacheKey, value)
-        if (log.isDebugEnabled) {
-            log.debug { "로컬 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
-        }
+        log.debug { "로컬 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
     }
 
     override suspend fun evict(cacheType: CacheType, cacheKey: String) {
@@ -45,9 +43,7 @@ class LocalCacheStrategy(
             return
         }
         cacheManager.getCache(cacheType.key)?.evictIfPresent(cacheKey)
-        if (log.isDebugEnabled) {
-            log.debug { "로컬 캐시를 삭제합니다 [cacheType: $cacheType keyString: $cacheKey]" }
-        }
+        log.debug { "로컬 캐시를 삭제합니다 [cacheType: $cacheType keyString: $cacheKey]" }
     }
 
     override suspend fun evictAll(cacheType: CacheType) {

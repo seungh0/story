@@ -27,17 +27,17 @@ data class WorkspaceArchive(
         auditingTime = auditingTime,
     )
 
-    fun canPurge(now: LocalDateTime): Boolean = this.archiveTime >= now.plus(MIN_RETENTION_DURATION)
+    fun canPurge(now: LocalDateTime): Boolean = this.archiveTime <= now.minus(MIN_RETENTION_DURATION)
 
     companion object {
         private val MIN_RETENTION_DURATION = Duration.ofDays(90)
 
-        fun from(workspace: Workspace) = WorkspaceArchive(
+        fun from(workspace: Workspace, archiveTime: LocalDateTime = LocalDateTime.now()) = WorkspaceArchive(
             workspaceId = workspace.workspaceId,
             name = workspace.name,
             plan = workspace.plan,
             auditingTime = workspace.auditingTime,
-            archiveTime = LocalDateTime.now(),
+            archiveTime = archiveTime,
         )
     }
 

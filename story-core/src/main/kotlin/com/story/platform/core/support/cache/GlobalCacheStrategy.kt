@@ -44,9 +44,7 @@ class GlobalCacheStrategy(
             return
         }
         redisCacheRepository.evict(cacheType = cacheType, cacheKey = cacheKey)
-        if (log.isDebugEnabled) {
-            log.debug { "글로벌 캐시를 삭제합니다 [cacheType: $cacheType keyString: $cacheKey]" }
-        }
+        log.debug { "글로벌 캐시를 삭제합니다 [cacheType: $cacheType keyString: $cacheKey]" }
     }
 
     override suspend fun evictAll(cacheType: CacheType) {

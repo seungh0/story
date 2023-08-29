@@ -23,6 +23,7 @@ class SubscriptionFeedDistributeHandler(
         eventId: Long,
         eventAction: EventAction,
         eventKey: String,
+        parallelCount: Int = 5,
     ) =
         coroutineScope {
             val feedMappings = feedMappingRetriever.listConnectedFeedMappings(
@@ -52,7 +53,7 @@ class SubscriptionFeedDistributeHandler(
                     start = SubscriptionSlotAssigner.FIRST_SLOT_ID,
                     endInclusive = SubscriptionSlotAssigner.assign(sequence = subscriberSequences)
                 )
-                    .chunked(size = 5)
+                    .chunked(size = parallelCount)
                     .forEach { chunkedSlotIds ->
                         chunkedSlotIds.map { slotId ->
                             launch {

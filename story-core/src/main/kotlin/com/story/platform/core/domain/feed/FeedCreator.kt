@@ -18,8 +18,9 @@ class FeedCreator(
         event: EventRecord<*>,
         payload: FeedEvent,
         subscriberIds: Collection<String>,
+        parallelCount: Int = 50,
     ) = coroutineScope {
-        subscriberIds.chunked(50).forEach { chunkedSubscriberIds ->
+        subscriberIds.chunked(parallelCount).forEach { chunkedSubscriberIds ->
             chunkedSubscriberIds.map { subscriberId ->
                 launch {
                     val feedSubscriber = FeedSubscriber(

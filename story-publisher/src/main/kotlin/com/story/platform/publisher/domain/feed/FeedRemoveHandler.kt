@@ -32,7 +32,7 @@ class FeedRemoveHandler(
             feedRemover.remove(
                 event = event,
                 payload = payload,
-                subscriberIds = feedSubscribers.data.map { subscriber -> subscriber.subscriberId }
+                subscriberIds = feedSubscribers.data.map { subscriber -> subscriber.subscriberId },
             )
 
             cursor = feedSubscribers.cursor.nextCursor

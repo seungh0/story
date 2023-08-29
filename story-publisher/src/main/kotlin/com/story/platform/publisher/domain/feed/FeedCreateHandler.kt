@@ -32,7 +32,7 @@ class FeedCreateHandler(
             feedCreator.createFeeds(
                 event = event,
                 payload = payload,
-                subscriberIds = subscribers.content.map { subscriber -> subscriber.key.subscriberId }
+                subscriberIds = subscribers.content.map { subscriber -> subscriber.key.subscriberId },
             )
 
             pageable = subscribers.nextPageable()
