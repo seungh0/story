@@ -22,7 +22,6 @@ data class PurgeDistributeEvent(
         ) = EventRecord(
             eventAction = EventAction.CREATED,
             eventKey = EventKeyGenerator.purge(
-                workspaceId = workspaceId,
                 resourceId = resourceId,
                 componentId = componentId
             ),

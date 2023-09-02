@@ -82,12 +82,26 @@ class KafkaProducerConfig(
         )
     }
 
+    @Bean(REACTION_KAFKA_PRODUCER)
+    fun reactionKafkaTemplate(): KafkaTemplate<String, String> {
+        return KafkaTemplate(
+            DefaultKafkaProducerFactory(
+                kafkaConfiguration(
+                    acksConfig = "all",
+                    retries = 5,
+                    enableIdempotence = true,
+                    linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
+                )
+            )
+        )
+    }
+
     @Bean(FEED_KAFKA_PRODUCER)
     fun feedKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    acksConfig = "all",
+                    acksConfig = "1",
                     retries = 5,
                     enableIdempotence = true,
                     linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
@@ -162,6 +176,7 @@ class KafkaProducerConfig(
         const val DEFAULT_IDEMPOTENCE_KAFKA_PRODUCER = "defaultIdempotenceKafkaProducer"
         const val SUBSCRIPTION_KAFKA_PRODUCER = "subscriptionKafkaProducer"
         const val POST_KAFKA_PRODUCER = "postKafkaProducer"
+        const val REACTION_KAFKA_PRODUCER = "reactionKafkaProducer"
         const val FEED_KAFKA_PRODUCER = "feedKafkaProducer"
     }
 

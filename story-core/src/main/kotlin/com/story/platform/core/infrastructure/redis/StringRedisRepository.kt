@@ -1,7 +1,6 @@
 package com.story.platform.core.infrastructure.redis
 
 import java.time.Duration
-import java.util.stream.Collectors
 
 interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
 
@@ -11,28 +10,21 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
 
     suspend fun get(key: K): V?
 
-    suspend fun getBulk(keys: List<K>): List<V>
+    suspend fun getBulk(keys: List<K>): List<V?>
 
-    suspend fun getBulkMap(keys: List<K>): Map<K, V> {
+    suspend fun getBulkMap(keys: List<K>): Map<K, V?> {
         if (keys.isEmpty()) {
             return HashMap()
         }
-        val values = getBulk(keys)
-        val keyValues: MutableMap<K, V> = HashMap()
-        for (i in keys.indices) {
-            keyValues[keys[i]] = values[i]
-        }
-        return keyValues
+        return keys.zip(getBulk(keys)).toMap()
     }
 
     suspend fun set(key: K, value: V) {
         setWithTtl(key, value, key.getTtl())
     }
 
-    suspend fun setBulk(keys: List<K>, value: V) {
-        this.setBulk(
-            keys.stream().collect(Collectors.toMap({ key -> key }, { value }))
-        )
+    suspend fun setBulk(keys: Set<K>, value: V) {
+        this.setBulk(keys.associateWith { value })
     }
 
     suspend fun setWithTtl(key: K, value: V, ttl: Duration?)
@@ -41,19 +33,31 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
 
     suspend fun del(key: K)
 
-    suspend fun delBulk(keys: List<K>)
+    suspend fun delBulk(keys: Set<K>)
 
     suspend fun incr(key: K): Long {
-        return incrBy(key, 1)
+        return incrBy(key = key, count = 1)
     }
 
     suspend fun incrBy(key: K, count: Long): Long
 
+    suspend fun incrBulk(keys: Set<K>) {
+        incrBulkBy(keys = keys, count = 1)
+    }
+
+    suspend fun incrBulkBy(keys: Set<K>, count: Long)
+
     suspend fun decr(key: K): Long {
-        return decrBy(key, 1L)
+        return decrBy(key = key, count = 1L)
     }
 
     suspend fun decrBy(key: K, count: Long): Long
+
+    suspend fun decrBulk(keys: Set<K>) {
+        decrBulkBy(keys = keys, count = 1)
+    }
+
+    suspend fun decrBulkBy(keys: Set<K>, count: Long)
 
     suspend fun getTtl(key: K): Duration
 

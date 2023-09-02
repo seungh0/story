@@ -11,4 +11,5 @@ endif::[]
 = Story Platform
 
 include::./about.adoc[]
+
 include::./restapi/index.adoc[]

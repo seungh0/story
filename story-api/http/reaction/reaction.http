@@ -1,0 +1,32 @@
+### 리액션을 등록합니다
+PUT {{api}}/v1/reactions/components/like/targets/post-1
+Content-Type: application/json
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+
+{
+    "accountId": "seungho1",
+    "options": [
+        {
+            "optionId": "1"
+        },
+        {
+            "optionId": "3"
+        }
+    ]
+}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+
+
+### 리액션을 취소합니다
+DELETE {{api}}/v1/reactions/components/like/targets/post-1?accountId=seungho
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+
+
+### 리액션을 조회합니다
+GET {{api}}/v1/reactions/components/like?accountId=seungho&targetIds=post-1&optionIds=1,2,3
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}

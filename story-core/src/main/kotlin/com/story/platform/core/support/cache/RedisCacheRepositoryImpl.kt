@@ -67,7 +67,7 @@ class RedisCacheRepositoryImpl(
 
         val cacheKeys =
             keyStrings.map { keyString -> RedisCacheKey.fromKeyString(cacheType = cacheType, keyString = keyString) }
-        stringRedisRepository.delBulk(cacheKeys)
+        stringRedisRepository.delBulk(cacheKeys.toSet())
     }
 
 }
