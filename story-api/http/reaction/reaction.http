@@ -1,4 +1,4 @@
-### 리액션을 등록합니다
+### 리액션을 등록 & 수정합니다
 PUT {{api}}/v1/reactions/components/like/targets/post-1
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}

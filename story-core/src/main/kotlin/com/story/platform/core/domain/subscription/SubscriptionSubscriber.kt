@@ -9,7 +9,7 @@ import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
 @Service
-class SubscriptionCreator(
+class SubscriptionSubscriber(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberSequenceGenerator: SubscriberSequenceGenerator,
@@ -19,7 +19,7 @@ class SubscriptionCreator(
         lockType = DistributedLockType.SUBSCRIBE,
         key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
     )
-    suspend fun create(
+    suspend fun upsert(
         workspaceId: String,
         componentId: String,
         targetId: String,

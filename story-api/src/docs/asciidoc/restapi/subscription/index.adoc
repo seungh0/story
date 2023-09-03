@@ -1,6 +1,6 @@
 == Subscription
 
-include::./subscription-create.adoc[]
+include::./subscription-upsert.adoc[]
 include::./subscription-remove.adoc[]
 include::./subscription-is-subscriber.adoc[]
 include::./subscription-get-subscribers-count.adoc[]

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
 internal class SubscriptionUnSubscriberTest(
-    private val subscriptionRemover: SubscriptionRemover,
+    private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
     private val testCleaner: TestCleaner,
@@ -48,7 +48,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // when
-            subscriptionRemover.remove(
+            subscriptionUnSubscriber.remove(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -79,7 +79,7 @@ internal class SubscriptionUnSubscriberTest(
             val subscriberId = "2000"
 
             // when
-            subscriptionRemover.remove(
+            subscriptionUnSubscriber.remove(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -113,7 +113,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // when
-            subscriptionRemover.remove(
+            subscriptionUnSubscriber.remove(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,

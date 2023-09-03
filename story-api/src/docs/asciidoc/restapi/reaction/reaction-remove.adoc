@@ -1,0 +1,31 @@
+=== Reaction Remove API
+
+include::{snippets}/REACTION-REMOVE-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/REACTION-REMOVE-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/REACTION-REMOVE-API/path-parameters.adoc[]
+
+===== [Request Query Parameter]
+
+include::{snippets}/REACTION-REMOVE-API/query-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/REACTION-REMOVE-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/REACTION-REMOVE-API/response-fields.adoc[]
+
+===== [Response Body Example]
+
+include::{snippets}/REACTION-REMOVE-API/response-body.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/REACTION-REMOVE-API/curl-request.adoc[]

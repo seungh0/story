@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
 internal class SubscriptionSubscriberTest(
-    private val subscriptionCreator: SubscriptionCreator,
+    private val subscriptionSubscriber: SubscriptionSubscriber,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
     private val testCleaner: TestCleaner,
@@ -30,7 +30,7 @@ internal class SubscriptionSubscriberTest(
             val alarm = true
 
             // when
-            subscriptionCreator.create(
+            subscriptionSubscriber.upsert(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -95,7 +95,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // when
-            subscriptionCreator.create(
+            subscriptionSubscriber.upsert(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -159,7 +159,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // when
-            subscriptionCreator.create(
+            subscriptionSubscriber.upsert(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -225,7 +225,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // when
-            subscriptionCreator.create(
+            subscriptionSubscriber.upsert(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,

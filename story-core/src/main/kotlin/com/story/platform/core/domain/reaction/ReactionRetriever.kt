@@ -60,7 +60,7 @@ class ReactionRetriever(
                                 targetId = targetId,
                             )
                         ] ?: 0L,
-                        selectByMe = accountReaction != null && accountReaction.optionIds.contains(optionId),
+                        selectedByMe = accountReaction != null && accountReaction.optionIds.contains(optionId),
                     )
                 }
             )

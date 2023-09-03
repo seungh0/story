@@ -5,29 +5,29 @@ import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.dto.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RequestMapping("/v1/subscriptions/components/{componentId}")
 @RestController
-class SubscriptionCreateApi(
-    private val subscriptionCreateHandler: SubscriptionCreateHandler,
+class SubscriptionUpsertApi(
+    private val subscriptionUpsertHandler: SubscriptionUpsertHandler,
 ) {
 
     /**
      * 구독을 등록한다
      */
-    @PostMapping("/subscribers/{subscriberId}/targets/{targetId}")
+    @PutMapping("/subscribers/{subscriberId}/targets/{targetId}")
     suspend fun create(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
-        @Valid @RequestBody request: SubscriptionCreateApiRequest,
+        @Valid @RequestBody request: SubscriptionUpsertApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
-        subscriptionCreateHandler.create(
+        subscriptionUpsertHandler.upsert(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             targetId = targetId,

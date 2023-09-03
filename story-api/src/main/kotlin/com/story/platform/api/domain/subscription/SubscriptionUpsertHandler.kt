@@ -4,18 +4,18 @@ import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountManager
-import com.story.platform.core.domain.subscription.SubscriptionCreator
 import com.story.platform.core.domain.subscription.SubscriptionEventProducer
+import com.story.platform.core.domain.subscription.SubscriptionSubscriber
 
 @HandlerAdapter
-class SubscriptionCreateHandler(
-    private val subscriptionCreator: SubscriptionCreator,
+class SubscriptionUpsertHandler(
+    private val subscriptionSubscriber: SubscriptionSubscriber,
     private val subscriptionCountManager: SubscriptionCountManager,
     private val subscriptionEventProducer: SubscriptionEventProducer,
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
-    suspend fun create(
+    suspend fun upsert(
         workspaceId: String,
         componentId: String,
         targetId: String,
@@ -28,7 +28,7 @@ class SubscriptionCreateHandler(
             componentId = componentId,
         )
 
-        val isSubscribed = subscriptionCreator.create(
+        val isSubscribed = subscriptionSubscriber.upsert(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,

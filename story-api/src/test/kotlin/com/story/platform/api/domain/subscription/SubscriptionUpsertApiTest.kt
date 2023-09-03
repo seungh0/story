@@ -20,12 +20,12 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(SubscriptionCreateApi::class)
-class SubscriptionCreateApiTest(
+@ApiTest(SubscriptionUpsertApi::class)
+class SubscriptionUpsertApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val subscriptionCreateHandler: SubscriptionCreateHandler,
+    private val subscriptionUpsertHandler: SubscriptionUpsertHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -50,12 +50,12 @@ class SubscriptionCreateApiTest(
         val subscriberId = "subscriberId"
         val targetId = "targetId"
 
-        val request = SubscriptionCreateApiRequest(
+        val request = SubscriptionUpsertApiRequest(
             alarm = true,
         )
 
         coEvery {
-            subscriptionCreateHandler.create(
+            subscriptionUpsertHandler.upsert(
                 workspaceId = any(),
                 componentId = componentId,
                 targetId = targetId,
@@ -65,7 +65,7 @@ class SubscriptionCreateApiTest(
         } returns Unit
 
         // when
-        val exchange = webTestClient.post()
+        val exchange = webTestClient.put()
             .uri(
                 "/v1/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
                 componentId, subscriberId, targetId,
@@ -81,7 +81,7 @@ class SubscriptionCreateApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-CREATE-API",
+                    "SUBSCRIPTION-UPSERT-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

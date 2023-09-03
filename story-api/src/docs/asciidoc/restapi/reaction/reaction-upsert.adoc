@@ -1,0 +1,27 @@
+=== Reaction Upsert API
+
+include::{snippets}/REACTION-UPSERT-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/REACTION-UPSERT-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/REACTION-UPSERT-API/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/REACTION-UPSERT-API/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/REACTION-UPSERT-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/REACTION-UPSERT-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/REACTION-UPSERT-API/curl-request.adoc[]
