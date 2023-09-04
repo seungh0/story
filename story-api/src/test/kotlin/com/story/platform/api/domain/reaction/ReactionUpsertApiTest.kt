@@ -51,9 +51,9 @@ class ReactionUpsertApiTest(
 
     test("대상에 리액션을 등록한다") {
         // given
-        val componentId = "like"
+        val componentId = "post-like"
         val accountId = "accountId"
-        val targetId = "targetId"
+        val targetId = "post-id"
         val workspaceId = "twitter"
 
         val request = ReactionUpsertApiRequest(
@@ -101,13 +101,14 @@ class ReactionUpsertApiTest(
                     ),
                     requestFields(
                         fieldWithPath("accountId").type(JsonFieldType.STRING)
-                            .description("Post Owner")
+                            .description("Reactor Id")
                             .attributes(remarks("must be within 100 characters")),
                         fieldWithPath("options").type(JsonFieldType.ARRAY)
                             .description("Reaction Options")
                             .attributes(remarks("must be within 20 elements")),
                         fieldWithPath("options[].optionId").type(JsonFieldType.STRING)
-                            .description("Reaction Option id"),
+                            .description("Reaction Option id")
+                            .attributes(remarks("must be within 100 characters")),
                     ),
                     responseFields(
                         fieldWithPath("ok")

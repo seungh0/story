@@ -50,9 +50,9 @@ class ReactionRemoveApiTest(
 
     test("대상에 리액션을 취소한다") {
         // given
-        val componentId = "like"
+        val componentId = "post-like"
         val accountId = "accountId"
-        val targetId = "targetId"
+        val targetId = "post-id"
         val workspaceId = "twitter"
 
         coEvery {
@@ -86,11 +86,11 @@ class ReactionRemoveApiTest(
                     getDocumentResponse(),
                     pageHeaderSnippet(),
                     pathParameters(
-                        parameterWithName("componentId").description("Component Id"),
-                        parameterWithName("targetId").description("Target Id")
+                        parameterWithName("componentId").description("Reaction Component Id"),
+                        parameterWithName("targetId").description("Reaction Target Id")
                     ),
                     relaxedQueryParameters(
-                        parameterWithName("accountId").description("AccountId")
+                        parameterWithName("accountId").description("Reactor Id")
                     ),
                     responseFields(
                         fieldWithPath("ok")

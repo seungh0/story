@@ -52,21 +52,17 @@ class ReactionRetrieveApiTest(
 
     test("대상에 리액션을 취소한다") {
         // given
-        val componentId = "like"
+        val componentId = "post-like"
         val accountId = "accountId"
-        val targetId = "targetId"
+        val targetId = "post-id"
         val workspaceId = "twitter"
-        val request = ReactionListApiRequest(
-            accountId = accountId,
-            optionIds = setOf("1", "2"),
-            targetIds = setOf(targetId),
-        )
+        val optionIds = setOf("1", "2")
 
         coEvery {
             reactionRetrieveHandler.listReactions(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                request = request,
+                request = any(),
             )
         } returns ReactionListApiResponse(
             reactions = listOf(
@@ -78,12 +74,12 @@ class ReactionRetrieveApiTest(
                         ReactionOptionResponse(
                             optionId = "1",
                             count = 10500,
-                            selectedByMe = true,
+                            reactedByMe = true,
                         ),
                         ReactionOptionResponse(
                             optionId = "2",
                             count = 3500,
-                            selectedByMe = false,
+                            reactedByMe = false,
                         )
                     )
                 )
@@ -96,8 +92,8 @@ class ReactionRetrieveApiTest(
                 "/v1/reactions/components/{componentId}/targets?accountId={accountId}&targetIds={targetIds}&optionIds={optionIds}",
                 componentId,
                 accountId,
-                targetId,
-                "1,2"
+                setOf(targetId),
+                optionIds,
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -116,7 +112,7 @@ class ReactionRetrieveApiTest(
                         parameterWithName("componentId").description("Reaction Component Id"),
                     ),
                     relaxedQueryParameters(
-                        parameterWithName("accountId").description("AccountId")
+                        parameterWithName("accountId").description("Reactor Id")
                     ),
                     relaxedQueryParameters(
                         parameterWithName("targetIds").description("Reaction Target Ids")
@@ -143,8 +139,8 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Reaction Option Id"),
                         fieldWithPath("result.reactions[].options[].count")
                             .type(JsonFieldType.NUMBER).description("Reaction Option selected count"),
-                        fieldWithPath("result.reactions[].options[].selectedByMe")
-                            .type(JsonFieldType.BOOLEAN).description("Reaction option selected by me"),
+                        fieldWithPath("result.reactions[].options[].reactedByMe")
+                            .type(JsonFieldType.BOOLEAN).description("Whether account reacted to reaction option"),
                     )
                 )
             )

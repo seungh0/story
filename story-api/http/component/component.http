@@ -1,10 +1,10 @@
 ### 컴포넌트 등록
-POST {{api}}/v1/resources/posts/components/account-post
+POST {{api}}/v1/resources/reactions/components/post-like
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 {
-    "description": "개인 포스팅"
+    "description": "포스트 좋아요"
 }
 
 > {%
