@@ -6,7 +6,7 @@ import java.util.function.Function
 import java.util.zip.CRC32
 import kotlin.math.abs
 
-object DistributionKeyUtils {
+object DistributionKeyGenerator {
 
     private val NUMERIC_CHARS = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
 

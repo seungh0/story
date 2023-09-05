@@ -1,6 +1,6 @@
 package com.story.platform.core.common.http
 
-enum class HttpHeaderType(
+enum class HttpHeader(
     val header: String,
     private val description: String,
 ) {

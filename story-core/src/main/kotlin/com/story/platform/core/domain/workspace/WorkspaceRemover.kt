@@ -3,7 +3,7 @@ package com.story.platform.core.domain.workspace
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
 import com.story.platform.core.support.cache.CacheEvict
-import com.story.platform.core.support.cache.CacheStrategyType
+import com.story.platform.core.support.cache.CacheStrategy
 import com.story.platform.core.support.cache.CacheType
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
@@ -17,7 +17,7 @@ class WorkspaceRemover(
     @CacheEvict(
         cacheType = CacheType.WORKSPACE,
         key = "'workspaceId:' + {#workspaceId}",
-        targetCacheStrategies = [CacheStrategyType.GLOBAL],
+        targetCacheStrategies = [CacheStrategy.GLOBAL],
     )
     suspend fun remove(
         workspaceId: String,

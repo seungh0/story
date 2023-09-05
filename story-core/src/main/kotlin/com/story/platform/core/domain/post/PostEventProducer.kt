@@ -7,7 +7,7 @@ import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
-import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.KafkaTopic
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -33,7 +33,7 @@ class PostEventProducer(
             event = event,
         ) {
             kafkaTemplate.send(
-                topicType = TopicType.POST,
+                kafkaTopic = KafkaTopic.POST,
                 key = KafkaRecordKeyGenerator.post(
                     workspaceId = post.workspaceId,
                     componentId = post.componentId,
@@ -53,7 +53,7 @@ class PostEventProducer(
             event = event,
         ) {
             kafkaTemplate.send(
-                topicType = TopicType.POST,
+                kafkaTopic = KafkaTopic.POST,
                 key = KafkaRecordKeyGenerator.post(
                     workspaceId = post.workspaceId,
                     componentId = post.componentId,
@@ -84,7 +84,7 @@ class PostEventProducer(
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    topicType = TopicType.POST,
+                    kafkaTopic = KafkaTopic.POST,
                     key = KafkaRecordKeyGenerator.post(
                         workspaceId = postSpaceKey.workspaceId,
                         componentId = postSpaceKey.componentId,

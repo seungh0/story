@@ -8,7 +8,7 @@ import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
-import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.KafkaTopic
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -34,7 +34,7 @@ class FeedEventProducer(
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    topicType = TopicType.FEED,
+                    kafkaTopic = KafkaTopic.FEED,
                     key = KafkaRecordKeyGenerator.feed(eventKey = event.eventKey, slotId = event.payload.slotId),
                     data = event.toJson(),
                 )

@@ -1,6 +1,6 @@
 package com.story.platform.core.common.distribution
 
-enum class DistributionKeyType(
+enum class DistributionStrategy(
     val digit: Int,
     val pattern: String,
     val hashFormat: String,

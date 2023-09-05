@@ -2,7 +2,7 @@ package com.story.platform.core.domain.authentication
 
 import com.story.platform.core.common.logger.LoggerExtension.log
 import com.story.platform.core.support.cache.CacheEvict
-import com.story.platform.core.support.cache.CacheStrategyType
+import com.story.platform.core.support.cache.CacheStrategy
 import com.story.platform.core.support.cache.CacheType
 import org.springframework.stereotype.Service
 
@@ -12,7 +12,7 @@ class AuthenticationLocalCacheEvictManager {
     @CacheEvict(
         cacheType = CacheType.AUTHENTICATION_REVERSE_KEY,
         key = "'authenticationKey:' + {#authenticationKey}",
-        targetCacheStrategies = [CacheStrategyType.LOCAL],
+        targetCacheStrategies = [CacheStrategy.LOCAL],
     )
     suspend fun evictAuthenticationKey(
         authenticationKey: String,

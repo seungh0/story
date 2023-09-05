@@ -1,15 +1,10 @@
 package com.story.platform.core.support.cache
 
-interface CacheStrategy {
+enum class CacheStrategy(
+    private val description: String,
+) {
 
-    fun cacheStrategy(): CacheStrategyType
-
-    suspend fun getCache(cacheType: CacheType, cacheKey: String): Any?
-
-    suspend fun refresh(cacheType: CacheType, cacheKey: String, value: Any)
-
-    suspend fun evict(cacheType: CacheType, cacheKey: String)
-
-    suspend fun evictAll(cacheType: CacheType)
+    LOCAL(description = "로컬 캐시"),
+    GLOBAL(description = "글로벌 캐시"),
 
 }

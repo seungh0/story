@@ -1,6 +1,6 @@
 package com.story.platform.core.infrastructure.kafka
 
-enum class TopicType(
+enum class KafkaTopic(
     private val description: String,
     val property: String,
 ) {

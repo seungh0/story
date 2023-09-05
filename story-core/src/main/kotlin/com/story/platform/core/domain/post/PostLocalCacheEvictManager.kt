@@ -2,7 +2,7 @@ package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.logger.LoggerExtension.log
 import com.story.platform.core.support.cache.CacheEvict
-import com.story.platform.core.support.cache.CacheStrategyType
+import com.story.platform.core.support.cache.CacheStrategy
 import com.story.platform.core.support.cache.CacheType
 import org.springframework.stereotype.Service
 
@@ -12,7 +12,7 @@ class PostLocalCacheEvictManager {
     @CacheEvict(
         cacheType = CacheType.POST,
         key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':spaceId:' + {#spaceId} + ':postId:' + {#postId}",
-        targetCacheStrategies = [CacheStrategyType.LOCAL]
+        targetCacheStrategies = [CacheStrategy.LOCAL]
     )
     suspend fun evictPost(
         workspaceId: String,

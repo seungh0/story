@@ -5,7 +5,7 @@ import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.spring.EventProducer
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
-import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.KafkaTopic
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -26,7 +26,7 @@ class WorkspaceEventProducer(
     ) {
         withContext(dispatcher) {
             kafkaTemplate.send(
-                topicType = TopicType.WORKSPACE,
+                kafkaTopic = KafkaTopic.WORKSPACE,
                 key = KafkaRecordKeyGenerator.workspace(workspaceId),
                 data = WorkspaceEvent.deleted(workspaceId = workspaceId).toJson(),
             )

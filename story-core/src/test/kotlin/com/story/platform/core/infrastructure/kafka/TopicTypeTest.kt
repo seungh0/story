@@ -10,7 +10,7 @@ class TopicTypeTest : StringSpec({
         val properties = mutableSetOf<String>()
 
         // when & then
-        for (topicType in TopicType.values()) {
+        for (topicType in KafkaTopic.values()) {
             if (properties.contains(topicType.property)) {
                 fail<String>("중복되는 토픽($topicType)의 프로퍼티(${topicType.property})가 존재합니다")
             }

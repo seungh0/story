@@ -6,17 +6,17 @@ data class MediumDistributionKey(
     override val key: String,
 ) : DistributionKey {
 
-    override fun type(): DistributionKeyType {
+    override fun strategy(): DistributionStrategy {
         return TYPE
     }
 
     companion object {
-        private val TYPE = DistributionKeyType.MEDIUM
+        private val TYPE = DistributionStrategy.MEDIUM
         private val DISTRIBUTION_KEY_PATTERN = Pattern.compile(TYPE.pattern)
         val ALL_KEYS: MutableList<MediumDistributionKey> = mutableListOf()
 
         init {
-            DistributionKeyUtils.makeAllDistributionKeys(ALL_KEYS, TYPE.digit) { key: String -> fromKey(key) }
+            DistributionKeyGenerator.makeAllDistributionKeys(ALL_KEYS, TYPE.digit) { key: String -> fromKey(key) }
         }
 
         fun fromKey(key: String): MediumDistributionKey {
@@ -27,7 +27,7 @@ data class MediumDistributionKey(
         }
 
         fun makeKey(rawId: String): MediumDistributionKey {
-            return fromKey(DistributionKeyUtils.hashing(TYPE.hashFormat, rawId, ALL_KEYS.size))
+            return fromKey(DistributionKeyGenerator.hashing(TYPE.hashFormat, rawId, ALL_KEYS.size))
         }
     }
 

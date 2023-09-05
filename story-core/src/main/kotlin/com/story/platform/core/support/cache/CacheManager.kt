@@ -5,15 +5,15 @@ import org.springframework.stereotype.Component
 
 @Component
 class CacheManager(
-    private val cacheStrategyDelegator: CacheStrategyDelegator,
+    private val cacheHandlerDelegator: CacheHandlerDelegator,
 ) {
 
     suspend fun getCacheFromLayeredCache(
         cacheType: CacheType,
         cacheKey: String,
     ): Any? {
-        val localCacheValue = cacheStrategyDelegator.getCache(
-            cacheStrategyType = CacheStrategyType.LOCAL,
+        val localCacheValue = cacheHandlerDelegator.getCache(
+            cacheStrategy = CacheStrategy.LOCAL,
             cacheType = cacheType,
             cacheKey = cacheKey,
         )
@@ -22,14 +22,14 @@ class CacheManager(
         }
 
         runCatching {
-            val globalCacheValue = cacheStrategyDelegator.getCache(
-                cacheStrategyType = CacheStrategyType.GLOBAL,
+            val globalCacheValue = cacheHandlerDelegator.getCache(
+                cacheStrategy = CacheStrategy.GLOBAL,
                 cacheType = cacheType,
                 cacheKey = cacheKey,
             )
             if (globalCacheValue != null) {
-                cacheStrategyDelegator.refreshCache(
-                    cacheStrategyType = CacheStrategyType.LOCAL,
+                cacheHandlerDelegator.refreshCache(
+                    cacheStrategy = CacheStrategy.LOCAL,
                     cacheType = cacheType,
                     cacheKey = cacheKey,
                     value = globalCacheValue
@@ -43,16 +43,16 @@ class CacheManager(
     }
 
     suspend fun refreshCacheLayeredCache(cacheType: CacheType, cacheKey: String, value: Any) {
-        cacheStrategyDelegator.refreshCache(
-            cacheStrategyType = CacheStrategyType.LOCAL,
+        cacheHandlerDelegator.refreshCache(
+            cacheStrategy = CacheStrategy.LOCAL,
             cacheType = cacheType,
             cacheKey = cacheKey,
             value = value
         )
 
         runCatching {
-            cacheStrategyDelegator.refreshCache(
-                cacheStrategyType = CacheStrategyType.GLOBAL,
+            cacheHandlerDelegator.refreshCache(
+                cacheStrategy = CacheStrategy.GLOBAL,
                 cacheType = cacheType,
                 cacheKey = cacheKey,
                 value = value
@@ -65,17 +65,17 @@ class CacheManager(
     suspend fun evictCacheLayeredCache(
         cacheType: CacheType,
         cacheKey: String,
-        targetCacheStrategies: Set<CacheStrategyType>,
+        targetCacheStrategies: Set<CacheStrategy>,
     ) {
-        cacheStrategyDelegator.evict(
-            cacheStrategyType = CacheStrategyType.LOCAL,
+        cacheHandlerDelegator.evict(
+            cacheStrategy = CacheStrategy.LOCAL,
             cacheType = cacheType,
             cacheKey = cacheKey
         )
 
         runCatching {
-            cacheStrategyDelegator.evict(
-                cacheStrategyType = CacheStrategyType.GLOBAL,
+            cacheHandlerDelegator.evict(
+                cacheStrategy = CacheStrategy.GLOBAL,
                 cacheType = cacheType,
                 cacheKey = cacheKey
             )
@@ -85,10 +85,10 @@ class CacheManager(
     }
 
     suspend fun evictAllCachesLayeredCache(cacheType: CacheType) {
-        cacheStrategyDelegator.evictAll(cacheStrategyType = CacheStrategyType.LOCAL, cacheType = cacheType)
+        cacheHandlerDelegator.evictAll(cacheStrategy = CacheStrategy.LOCAL, cacheType = cacheType)
 
         runCatching {
-            cacheStrategyDelegator.evictAll(cacheStrategyType = CacheStrategyType.GLOBAL, cacheType = cacheType)
+            cacheHandlerDelegator.evictAll(cacheStrategy = CacheStrategy.GLOBAL, cacheType = cacheType)
         }.onFailure { throwable ->
             log.error(throwable) { throwable.message }
         }

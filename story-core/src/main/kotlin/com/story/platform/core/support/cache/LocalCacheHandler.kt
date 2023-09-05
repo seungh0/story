@@ -5,11 +5,11 @@ import org.springframework.cache.CacheManager
 import org.springframework.stereotype.Repository
 
 @Repository
-class LocalCacheStrategy(
+class LocalCacheHandler(
     private val cacheManager: CacheManager,
-) : CacheStrategy {
+) : CacheHandler {
 
-    override fun cacheStrategy(): CacheStrategyType = CacheStrategyType.LOCAL
+    override fun cacheStrategy(): CacheStrategy = CacheStrategy.LOCAL
 
     override suspend fun getCache(cacheType: CacheType, cacheKey: String): Any? {
         if (!cacheType.enableLocalCache()) {

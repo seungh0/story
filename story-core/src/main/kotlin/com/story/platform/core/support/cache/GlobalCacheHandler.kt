@@ -6,11 +6,11 @@ import com.story.platform.core.common.logger.LoggerExtension.log
 import org.springframework.stereotype.Repository
 
 @Repository
-class GlobalCacheStrategy(
+class GlobalCacheHandler(
     private val redisCacheRepository: RedisCacheRepository,
-) : CacheStrategy {
+) : CacheHandler {
 
-    override fun cacheStrategy(): CacheStrategyType = CacheStrategyType.GLOBAL
+    override fun cacheStrategy(): CacheStrategy = CacheStrategy.GLOBAL
 
     override suspend fun getCache(cacheType: CacheType, cacheKey: String): Any? {
         if (!cacheType.enableGlobalCache() || redisCacheRepository.isEarlyRecomputedRequired(

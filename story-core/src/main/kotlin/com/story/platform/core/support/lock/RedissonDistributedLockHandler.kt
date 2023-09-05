@@ -5,11 +5,11 @@ import org.redisson.api.RedissonClient
 import org.springframework.stereotype.Service
 
 @Service
-class RedissonDistributedLock(
+class RedissonDistributedLockHandler(
     private val redissonClient: RedissonClient,
-) {
+) : DistributedLockHandler {
 
-    suspend fun executeInCriticalSection(
+    override suspend fun executeInCriticalSection(
         distributedLock: DistributedLock,
         lockKey: String,
         runnable: () -> Any?,

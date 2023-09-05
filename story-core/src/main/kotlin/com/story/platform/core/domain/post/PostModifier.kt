@@ -4,7 +4,7 @@ import com.story.platform.core.common.error.NoPermissionException
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
 import com.story.platform.core.support.cache.CacheEvict
-import com.story.platform.core.support.cache.CacheStrategyType
+import com.story.platform.core.support.cache.CacheStrategy
 import com.story.platform.core.support.cache.CacheType
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
@@ -18,7 +18,7 @@ class PostModifier(
     @CacheEvict(
         cacheType = CacheType.POST,
         key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':postId:' + {#postId}",
-        targetCacheStrategies = [CacheStrategyType.GLOBAL]
+        targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun patch(
         postSpaceKey: PostSpaceKey,

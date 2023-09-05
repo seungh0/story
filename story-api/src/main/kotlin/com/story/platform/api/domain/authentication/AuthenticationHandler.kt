@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.authentication
 
-import com.story.platform.core.common.http.HttpHeaderType
+import com.story.platform.core.common.http.HttpHeader
 import com.story.platform.core.common.http.getApiKey
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.authentication.AuthenticationKeyEmptyException
@@ -21,7 +21,7 @@ class AuthenticationHandler(
         allowedDisabledAuthenticationKey: Boolean = false,
     ): AuthenticationResponse {
         val apiKey = serverWebExchange.getApiKey()
-            ?: throw AuthenticationKeyEmptyException("API Key 헤더(${HttpHeaderType.X_STORY_API_KEY.header})가 비어있습니다")
+            ?: throw AuthenticationKeyEmptyException("API Key 헤더(${HttpHeader.X_STORY_API_KEY.header})가 비어있습니다")
 
         try {
             val authentication = authenticationRetriever.getAuthenticationKey(authenticationKey = apiKey)

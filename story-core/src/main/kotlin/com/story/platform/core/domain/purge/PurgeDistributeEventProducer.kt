@@ -7,7 +7,7 @@ import com.story.platform.core.common.spring.EventProducer
 import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
-import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.KafkaTopic
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.joinAll
@@ -50,7 +50,7 @@ class PurgeDistributeEventProducer(
             withContext(dispatcher) {
                 events.map { event ->
                     launch {
-                        kafkaTemplate.send(topicType = TopicType.PURGE, data = event.toJson())
+                        kafkaTemplate.send(kafkaTopic = KafkaTopic.PURGE, data = event.toJson())
                     }
                 }.joinAll()
             }
