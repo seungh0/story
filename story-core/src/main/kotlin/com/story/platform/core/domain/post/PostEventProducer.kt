@@ -32,15 +32,17 @@ class PostEventProducer(
             componentId = post.componentId,
             event = event,
         ) {
-            kafkaTemplate.send(
-                kafkaTopic = KafkaTopic.POST,
-                key = KafkaRecordKeyGenerator.post(
-                    workspaceId = post.workspaceId,
-                    componentId = post.componentId,
-                    postId = post.postId,
-                ),
-                data = event.toJson()
-            )
+            withContext(dispatcher) {
+                kafkaTemplate.send(
+                    kafkaTopic = KafkaTopic.POST,
+                    key = KafkaRecordKeyGenerator.post(
+                        workspaceId = post.workspaceId,
+                        componentId = post.componentId,
+                        postId = post.postId,
+                    ),
+                    data = event.toJson()
+                )
+            }
         }
     }
 
@@ -52,15 +54,17 @@ class PostEventProducer(
             componentId = post.componentId,
             event = event,
         ) {
-            kafkaTemplate.send(
-                kafkaTopic = KafkaTopic.POST,
-                key = KafkaRecordKeyGenerator.post(
-                    workspaceId = post.workspaceId,
-                    componentId = post.componentId,
-                    postId = post.postId,
-                ),
-                data = event.toJson()
-            )
+            withContext(dispatcher) {
+                kafkaTemplate.send(
+                    kafkaTopic = KafkaTopic.POST,
+                    key = KafkaRecordKeyGenerator.post(
+                        workspaceId = post.workspaceId,
+                        componentId = post.componentId,
+                        postId = post.postId,
+                    ),
+                    data = event.toJson()
+                )
+            }
         }
     }
 

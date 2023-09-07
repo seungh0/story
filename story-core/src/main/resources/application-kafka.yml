@@ -44,7 +44,9 @@ story:
         retry:
           attempts: 3
           partition-count: 3
-
+      reaction:
+        name: story.reaction-v1
+        partition-count: 10
 logging:
   level:
     org.apache.kafka.clients.consumer.internals: WARN

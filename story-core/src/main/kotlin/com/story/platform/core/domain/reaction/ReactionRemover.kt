@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service
 class ReactionRemover(
     private val reactionRepository: ReactionRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val reactionCountRepository: ReactionCountRepository,
 ) {
 
     suspend fun remove(
@@ -16,7 +15,7 @@ class ReactionRemover(
         componentId: String,
         spaceId: String,
         accountId: String,
-    ): ReactionDeleteResponse {
+    ): ReactionChangeResponse {
         val reaction = reactionRepository.findById(
             ReactionPrimaryKey.of(
                 workspaceId = workspaceId,
@@ -24,7 +23,7 @@ class ReactionRemover(
                 spaceId = spaceId,
                 accountId = accountId,
             )
-        ) ?: return ReactionDeleteResponse.deleted(
+        ) ?: return ReactionChangeResponse.deleted(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
@@ -37,18 +36,7 @@ class ReactionRemover(
             .delete(ReactionReverse.from(reaction))
             .executeCoroutine()
 
-        reactionCountRepository.decreaseBulk(
-            keys = reaction.emotionIds.map { optionId ->
-                ReactionCountKey(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    spaceId = spaceId,
-                    emotionId = optionId,
-                )
-            }.toSet()
-        )
-
-        return ReactionDeleteResponse.deleted(
+        return ReactionChangeResponse.deleted(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,

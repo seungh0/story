@@ -4,7 +4,7 @@ Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 {
-    "accountId": "seungho1",
+    "accountId": "{{ACCOUNT_ID}}",
     "emotions": [
         {
             "emotionId": "1"

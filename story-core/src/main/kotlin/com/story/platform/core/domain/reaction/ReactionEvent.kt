@@ -48,7 +48,7 @@ data class ReactionEvent(
             createdOptionIds: Set<String>,
             deletedOptionIds: Set<String>,
         ) = EventRecord(
-            eventAction = EventAction.CREATED,
+            eventAction = EventAction.UPDATED,
             eventKey = EventKeyGenerator.reaction(
                 spaceId = spaceId,
                 accountId = accountId,
@@ -71,7 +71,7 @@ data class ReactionEvent(
             accountId: String,
             deletedOptionIds: Set<String>,
         ) = EventRecord(
-            eventAction = EventAction.CREATED,
+            eventAction = EventAction.DELETED,
             eventKey = EventKeyGenerator.reaction(
                 spaceId = spaceId,
                 accountId = accountId,

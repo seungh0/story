@@ -1,13 +1,12 @@
 package com.story.platform.core.domain.reaction
 
-data class ReactionCreateResponse(
+data class ReactionChangeResponse(
     val workspaceId: String,
     val componentId: String,
-    val targetId: String,
+    val spaceId: String,
     val accountId: String,
     val createdOptionIds: Set<String>,
     val deletedOptionIds: Set<String>,
-    val totalEmotionsCount: Long,
 ) {
 
     companion object {
@@ -17,15 +16,13 @@ data class ReactionCreateResponse(
             spaceId: String,
             accountId: String,
             createdOptionIds: Set<String>,
-            totalEmotionsCount: Long,
-        ) = ReactionCreateResponse(
+        ) = ReactionChangeResponse(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = spaceId,
+            spaceId = spaceId,
             accountId = accountId,
             createdOptionIds = createdOptionIds,
             deletedOptionIds = emptySet(),
-            totalEmotionsCount = totalEmotionsCount,
         )
 
         fun updated(
@@ -35,15 +32,28 @@ data class ReactionCreateResponse(
             accountId: String,
             createdOptionIds: Set<String>,
             deletedOptionIds: Set<String>,
-            totalEmotionsCount: Long,
-        ) = ReactionCreateResponse(
+        ) = ReactionChangeResponse(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = spaceId,
+            spaceId = spaceId,
             accountId = accountId,
             createdOptionIds = createdOptionIds,
             deletedOptionIds = deletedOptionIds,
-            totalEmotionsCount = totalEmotionsCount,
+        )
+
+        fun deleted(
+            workspaceId: String,
+            componentId: String,
+            spaceId: String,
+            accountId: String,
+            deletedOptionIds: Set<String>,
+        ) = ReactionChangeResponse(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            spaceId = spaceId,
+            accountId = accountId,
+            createdOptionIds = emptySet(),
+            deletedOptionIds = deletedOptionIds,
         )
     }
 

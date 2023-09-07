@@ -101,7 +101,7 @@ class KafkaProducerConfig(
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    acksConfig = "1",
+                    acksConfig = "all",
                     retries = 5,
                     enableIdempotence = true,
                     linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송

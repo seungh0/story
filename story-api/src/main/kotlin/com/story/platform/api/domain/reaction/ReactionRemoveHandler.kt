@@ -2,6 +2,7 @@ package com.story.platform.api.domain.reaction
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.domain.reaction.ReactionEventProducer
 import com.story.platform.core.domain.reaction.ReactionRemover
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -9,6 +10,7 @@ import com.story.platform.core.domain.resource.ResourceId
 class ReactionRemoveHandler(
     private val componentCheckHandler: ComponentCheckHandler,
     private val reactionRemover: ReactionRemover,
+    private val reactionEventProducer: ReactionEventProducer,
 ) {
 
     suspend fun remove(
@@ -23,12 +25,14 @@ class ReactionRemoveHandler(
             componentId = componentId,
         )
 
-        reactionRemover.remove(
+        val change = reactionRemover.remove(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
             accountId = accountId,
         )
+
+        reactionEventProducer.publishEvent(change = change)
     }
 
 }
