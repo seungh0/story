@@ -54,7 +54,7 @@ class ReactionRetrieveApiTest(
         // given
         val componentId = "post-like"
         val accountId = "accountId"
-        val targetId = "post-id"
+        val spaceId = "post-id"
         val workspaceId = "twitter"
         val emotionIds = setOf("1", "2")
 
@@ -69,7 +69,7 @@ class ReactionRetrieveApiTest(
                 ReactionResponse(
                     workspaceId = workspaceId,
                     componentId = componentId,
-                    targetId = targetId,
+                    spaceId = spaceId,
                     emotions = listOf(
                         ReactionEmotionResponse(
                             emotionId = "1",
@@ -89,10 +89,10 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/reactions/components/{componentId}/targets?accountId={accountId}&targetIds={targetIds}&emotionIds={emotionIds}",
+                "/v1/reactions/components/{componentId}/targets?accountId={accountId}&spaceIds={spaceIds}&emotionIds={emotionIds}",
                 componentId,
                 accountId,
-                setOf(targetId),
+                setOf(spaceId),
                 emotionIds,
             )
             .headers(WebClientUtils.authenticationHeader)
@@ -115,7 +115,7 @@ class ReactionRetrieveApiTest(
                         parameterWithName("accountId").description("Reactor Id")
                     ),
                     relaxedQueryParameters(
-                        parameterWithName("targetIds").description("Reaction Target Ids")
+                        parameterWithName("spaceIds").description("Reaction Space Ids")
                     ),
                     relaxedQueryParameters(
                         parameterWithName("emotionIds").description("Reaction Emotion Ids")
@@ -131,8 +131,8 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Reaction Workspace Id"),
                         fieldWithPath("result.reactions[].componentId")
                             .type(JsonFieldType.STRING).description("Reaction Component Id"),
-                        fieldWithPath("result.reactions[].targetId")
-                            .type(JsonFieldType.STRING).description("Reaction Target Id"),
+                        fieldWithPath("result.reactions[].spaceId")
+                            .type(JsonFieldType.STRING).description("Reaction Space Id"),
                         fieldWithPath("result.reactions[].emotions")
                             .type(JsonFieldType.ARRAY).description("Reaction Emotions"),
                         fieldWithPath("result.reactions[].emotions[].emotionId")

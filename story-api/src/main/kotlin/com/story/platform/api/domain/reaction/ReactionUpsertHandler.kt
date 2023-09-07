@@ -14,7 +14,7 @@ class ReactionUpsertHandler(
     suspend fun upsert(
         workspaceId: String,
         componentId: String,
-        targetId: String,
+        spaceIds: String,
         request: ReactionUpsertApiRequest,
     ) {
         componentCheckHandler.checkExistsComponent(
@@ -26,7 +26,7 @@ class ReactionUpsertHandler(
         reactionCreator.upsert(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            spaceId = spaceIds,
             accountId = request.accountId,
             emotionIds = request.emotions.map { option -> option.emotionId }.toSet(),
         )

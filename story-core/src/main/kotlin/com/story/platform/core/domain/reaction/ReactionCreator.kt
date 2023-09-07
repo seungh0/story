@@ -15,7 +15,7 @@ class ReactionCreator(
     suspend fun upsert(
         workspaceId: String,
         componentId: String,
-        targetId: String,
+        spaceId: String,
         accountId: String,
         emotionIds: Set<String>,
     ): ReactionCreateResponse {
@@ -23,7 +23,7 @@ class ReactionCreator(
             ReactionPrimaryKey.of(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                spaceId = spaceId,
                 accountId = accountId,
             )
         )
@@ -31,7 +31,7 @@ class ReactionCreator(
             val newReaction = Reaction.of(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                spaceId = spaceId,
                 accountId = accountId,
                 emotionIds = emotionIds,
             )
@@ -45,7 +45,7 @@ class ReactionCreator(
                     ReactionCountKey(
                         workspaceId = workspaceId,
                         componentId = componentId,
-                        targetId = targetId,
+                        spaceId = spaceId,
                         emotionId = optionId,
                     )
                 }.toSet()
@@ -54,7 +54,7 @@ class ReactionCreator(
             return ReactionCreateResponse.created(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                spaceId = spaceId,
                 accountId = accountId,
                 createdOptionIds = emotionIds,
                 totalEmotionsCount = emotionCountMap.values.sum(),
@@ -77,7 +77,7 @@ class ReactionCreator(
                 ReactionCountKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
-                    targetId = targetId,
+                    spaceId = spaceId,
                     emotionId = optionId,
                 )
             }.toSet()
@@ -88,7 +88,7 @@ class ReactionCreator(
                 ReactionCountKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
-                    targetId = targetId,
+                    spaceId = spaceId,
                     emotionId = optionId,
                 )
             }.toSet()
@@ -97,7 +97,7 @@ class ReactionCreator(
         return ReactionCreateResponse.updated(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            spaceId = spaceId,
             accountId = accountId,
             createdOptionIds = createdOptionIds,
             deletedOptionIds = deletedOptionIds,

@@ -25,7 +25,7 @@ class ReactionCreatorTest(
         // given
         val workspaceId = "workspaceId"
         val componentId = "sticker"
-        val targetId = "post-1"
+        val spaceId = "post-1"
         val accountId = "accountId"
         val optionIds = setOf("1", "2")
 
@@ -33,7 +33,7 @@ class ReactionCreatorTest(
         reactionCreator.upsert(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            spaceId = spaceId,
             accountId = accountId,
             emotionIds = optionIds,
         )
@@ -44,7 +44,7 @@ class ReactionCreatorTest(
         reactions[0].also {
             it.key.workspaceId shouldBe workspaceId
             it.key.componentId shouldBe componentId
-            it.key.targetId shouldBe targetId
+            it.key.spaceId shouldBe spaceId
             it.key.accountId shouldBe accountId
             it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(accountId).key
             it.emotionIds shouldBe optionIds
@@ -55,9 +55,9 @@ class ReactionCreatorTest(
         reactionReverses[0].also {
             it.key.workspaceId shouldBe workspaceId
             it.key.componentId shouldBe componentId
-            it.key.targetId shouldBe targetId
+            it.key.spaceId shouldBe spaceId
             it.key.accountId shouldBe accountId
-            it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(targetId).key
+            it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(spaceId).key
             it.emotionIds shouldBe optionIds
         }
 
@@ -65,7 +65,7 @@ class ReactionCreatorTest(
             val key = ReactionCountKey(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                spaceId = spaceId,
                 emotionId = optionId,
             )
             reactionCountRepository.get(key = key) shouldBe 1L

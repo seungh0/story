@@ -12,55 +12,55 @@ class ReactionRetriever(
     suspend fun listReactions(
         workspaceId: String,
         componentId: String,
-        targetIds: Set<String>,
+        spaceIds: Set<String>,
         accountId: String?,
         optionIds: Set<String>,
     ): List<ReactionResponse> {
-        val keys = targetIds.flatMap { targetId ->
+        val keys = spaceIds.flatMap { spaceId ->
             optionIds.map { optionId ->
                 ReactionCountKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     emotionId = optionId,
-                    targetId = targetId,
+                    spaceId = spaceId,
                 )
             }
         }.toSet()
 
         val reactionCountMap = reactionCountRepository.getBulk(keys = keys)
 
-        val targetIdReactionMap = accountId?.let {
-            val distributionKeyTargetIdMap = targetIds.groupBy { targetId -> XLargeDistributionKey.makeKey(targetId).key }
+        val spaceIdReactionMap = accountId?.let {
+            val distributionKeyTargetIdMap = spaceIds.groupBy { targetId -> XLargeDistributionKey.makeKey(targetId).key }
 
-            return@let distributionKeyTargetIdMap.flatMap { (distributionKey, targetIds) ->
-                reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeyTargetIdIn(
+            return@let distributionKeyTargetIdMap.flatMap { (distributionKey, spaceIds) ->
+                reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeySpaceIdIn(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     accountId = accountId,
                     distributionKey = distributionKey,
-                    targetIds = targetIds,
+                    spaceIds = spaceIds,
                 )
-            }.associateBy { it.key.targetId }
+            }.associateBy { it.key.spaceId }
         } ?: emptyMap()
 
-        return targetIds.map { targetId ->
-            val accountReaction = targetIdReactionMap[targetId]
+        return spaceIds.map { spaceId ->
+            val accountReaction = spaceIdReactionMap[spaceId]
             ReactionResponse(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
-                emotions = optionIds.map { optionId ->
+                spaceId = spaceId,
+                emotions = optionIds.map { emotionId ->
                     ReactionEmotionResponse(
-                        emotionId = optionId,
+                        emotionId = emotionId,
                         count = reactionCountMap[
                             ReactionCountKey(
                                 workspaceId = workspaceId,
                                 componentId = componentId,
-                                emotionId = optionId,
-                                targetId = targetId,
+                                emotionId = emotionId,
+                                spaceId = spaceId,
                             )
                         ] ?: 0L,
-                        reactedByMe = accountReaction != null && accountReaction.emotionIds.contains(optionId),
+                        reactedByMe = accountReaction != null && accountReaction.emotionIds.contains(emotionId),
                     )
                 }
             )

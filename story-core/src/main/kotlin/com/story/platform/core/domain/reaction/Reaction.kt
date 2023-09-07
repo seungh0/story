@@ -19,14 +19,14 @@ data class Reaction(
         fun of(
             workspaceId: String,
             componentId: String,
-            targetId: String,
+            spaceId: String,
             accountId: String,
             emotionIds: Set<String>,
         ) = Reaction(
             key = ReactionPrimaryKey.of(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                spaceId = spaceId,
                 accountId = accountId,
             ),
             emotionIds = emotionIds,
@@ -44,7 +44,7 @@ data class ReactionPrimaryKey(
     val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val targetId: String,
+    val spaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
     val distributionKey: String,
@@ -57,12 +57,12 @@ data class ReactionPrimaryKey(
         fun of(
             workspaceId: String,
             componentId: String,
-            targetId: String,
+            spaceId: String,
             accountId: String,
         ) = ReactionPrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            spaceId = spaceId,
             distributionKey = XLargeDistributionKey.makeKey(accountId).key,
             accountId = accountId,
         )

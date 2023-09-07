@@ -31,10 +31,10 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
-    "ok": true,
-    "result": {
-      "key": "value"
-    }
+  "ok": true,
+  "result": {
+    "key": "value"
+  }
 }
 ----
 

@@ -25,7 +25,7 @@ class ReactionRetrieveHandler(
         val reactions = reactionRetriever.listReactions(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetIds = request.targetIds,
+            spaceIds = request.spaceIds,
             accountId = request.accountId,
             optionIds = request.emotionIds,
         )

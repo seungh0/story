@@ -14,20 +14,20 @@ class ReactionRemover(
     suspend fun remove(
         workspaceId: String,
         componentId: String,
-        targetId: String,
+        spaceId: String,
         accountId: String,
     ): ReactionDeleteResponse {
         val reaction = reactionRepository.findById(
             ReactionPrimaryKey.of(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                spaceId = spaceId,
                 accountId = accountId,
             )
         ) ?: return ReactionDeleteResponse.deleted(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            spaceId = spaceId,
             accountId = accountId,
             deletedOptionIds = emptySet(),
         )
@@ -42,7 +42,7 @@ class ReactionRemover(
                 ReactionCountKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
-                    targetId = targetId,
+                    spaceId = spaceId,
                     emotionId = optionId,
                 )
             }.toSet()
@@ -51,7 +51,7 @@ class ReactionRemover(
         return ReactionDeleteResponse.deleted(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            spaceId = spaceId,
             accountId = accountId,
             deletedOptionIds = reaction.emotionIds,
         )

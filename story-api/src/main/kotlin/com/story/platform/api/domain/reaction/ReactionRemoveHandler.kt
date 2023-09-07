@@ -14,7 +14,7 @@ class ReactionRemoveHandler(
     suspend fun remove(
         workspaceId: String,
         componentId: String,
-        targetId: String,
+        spaceId: String,
         accountId: String,
     ) {
         componentCheckHandler.checkExistsComponent(
@@ -26,7 +26,7 @@ class ReactionRemoveHandler(
         reactionRemover.remove(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            spaceId = spaceId,
             accountId = accountId,
         )
     }

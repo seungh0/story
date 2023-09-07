@@ -13,17 +13,17 @@ class ReactionRemoveApi(
     private val reactionRemoveHandler: ReactionRemoveHandler,
 ) {
 
-    @DeleteMapping("/v1/reactions/components/{componentId}/targets/{targetId}")
+    @DeleteMapping("/v1/reactions/components/{componentId}/spaces/{spaceId}")
     suspend fun removeReaction(
         @PathVariable componentId: String,
-        @PathVariable targetId: String,
+        @PathVariable spaceId: String,
         @Valid request: ReactionRemoveApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
         reactionRemoveHandler.remove(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            spaceId = spaceId,
             accountId = request.accountId,
         )
         return ApiResponse.OK

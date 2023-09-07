@@ -6,12 +6,12 @@ import java.time.Duration
 data class ReactionCountKey(
     val workspaceId: String,
     val componentId: String,
-    val targetId: String,
+    val spaceId: String,
     val emotionId: String,
 ) : StringRedisKey<ReactionCountKey, Long> {
 
     override fun makeKeyString(): String =
-        "reactions-count:v1:$workspaceId:$componentId:$targetId:$emotionId"
+        "reactions-count:v1:$workspaceId:$componentId:$spaceId:$emotionId"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

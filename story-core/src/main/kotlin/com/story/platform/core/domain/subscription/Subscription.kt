@@ -14,11 +14,8 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class Subscription(
     @field:PrimaryKey
     val key: SubscriptionPrimaryKey,
-
     var status: SubscriptionStatus,
-
     val slotId: Long,
-
     val alarm: Boolean,
 ) {
 

@@ -52,14 +52,14 @@ class ReactionRemoveApiTest(
         // given
         val componentId = "post-like"
         val accountId = "accountId"
-        val targetId = "post-id"
+        val spaceId = "post-id"
         val workspaceId = "twitter"
 
         coEvery {
             reactionRemoveHandler.remove(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                spaceId = spaceId,
                 accountId = accountId,
             )
         } returns Unit
@@ -67,9 +67,9 @@ class ReactionRemoveApiTest(
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/reactions/components/{componentId}/targets/{targetId}?accountId={accountId}",
+                "/v1/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}",
                 componentId,
-                targetId,
+                spaceId,
                 accountId
             )
             .headers(WebClientUtils.authenticationHeader)
@@ -87,7 +87,7 @@ class ReactionRemoveApiTest(
                     pageHeaderSnippet(),
                     pathParameters(
                         parameterWithName("componentId").description("Reaction Component Id"),
-                        parameterWithName("targetId").description("Reaction Target Id")
+                        parameterWithName("spaceId").description("Reaction Space Id")
                     ),
                     relaxedQueryParameters(
                         parameterWithName("accountId").description("Reactor Id")

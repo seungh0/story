@@ -6,12 +6,12 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ReactionReverseRepository : CoroutineCrudRepository<ReactionReverse, ReactionReversePrimaryKey> {
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeyTargetIdIn(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeySpaceIdIn(
         workspaceId: String,
         componentId: String,
         accountId: String,
         distributionKey: String,
-        targetIds: Collection<String>,
+        spaceIds: Collection<String>,
     ): List<ReactionReverse>
 
 }

@@ -19,14 +19,14 @@ data class ReactionReverse(
         fun of(
             workspaceId: String,
             componentId: String,
-            targetId: String,
+            spaceId: String,
             accountId: String,
             emotionIds: Set<String>,
         ) = ReactionReverse(
             key = ReactionReversePrimaryKey.of(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                spaceId = spaceId,
                 accountId = accountId,
             ),
             emotionIds = emotionIds,
@@ -39,7 +39,7 @@ data class ReactionReverse(
                 workspaceId = reaction.key.workspaceId,
                 componentId = reaction.key.componentId,
                 accountId = reaction.key.accountId,
-                targetId = reaction.key.targetId,
+                spaceId = reaction.key.spaceId,
             ),
             emotionIds = reaction.emotionIds,
         )
@@ -62,21 +62,21 @@ data class ReactionReversePrimaryKey(
     val distributionKey: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
-    val targetId: String,
+    val spaceId: String,
 ) {
 
     companion object {
         fun of(
             workspaceId: String,
             componentId: String,
-            targetId: String,
             accountId: String,
+            spaceId: String,
         ) = ReactionReversePrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
             accountId = accountId,
-            distributionKey = XLargeDistributionKey.makeKey(targetId).key,
-            targetId = targetId,
+            distributionKey = XLargeDistributionKey.makeKey(spaceId).key,
+            spaceId = spaceId,
         )
     }
 

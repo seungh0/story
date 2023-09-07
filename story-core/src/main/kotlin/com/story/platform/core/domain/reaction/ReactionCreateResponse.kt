@@ -14,14 +14,14 @@ data class ReactionCreateResponse(
         fun created(
             workspaceId: String,
             componentId: String,
-            targetId: String,
+            spaceId: String,
             accountId: String,
             createdOptionIds: Set<String>,
             totalEmotionsCount: Long,
         ) = ReactionCreateResponse(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            targetId = spaceId,
             accountId = accountId,
             createdOptionIds = createdOptionIds,
             deletedOptionIds = emptySet(),
@@ -31,7 +31,7 @@ data class ReactionCreateResponse(
         fun updated(
             workspaceId: String,
             componentId: String,
-            targetId: String,
+            spaceId: String,
             accountId: String,
             createdOptionIds: Set<String>,
             deletedOptionIds: Set<String>,
@@ -39,7 +39,7 @@ data class ReactionCreateResponse(
         ) = ReactionCreateResponse(
             workspaceId = workspaceId,
             componentId = componentId,
-            targetId = targetId,
+            targetId = spaceId,
             accountId = accountId,
             createdOptionIds = createdOptionIds,
             deletedOptionIds = deletedOptionIds,

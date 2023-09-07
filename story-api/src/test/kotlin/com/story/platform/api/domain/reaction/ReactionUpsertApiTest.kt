@@ -53,7 +53,7 @@ class ReactionUpsertApiTest(
         // given
         val componentId = "post-like"
         val accountId = "accountId"
-        val targetId = "post-id"
+        val spaceId = "post-id"
         val workspaceId = "twitter"
 
         val request = ReactionUpsertApiRequest(
@@ -72,14 +72,14 @@ class ReactionUpsertApiTest(
             reactionUpsertHandler.upsert(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                targetId = targetId,
+                spaceIds = spaceId,
                 request = request,
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.put()
-            .uri("/v1/reactions/components/{componentId}/targets/{targetId}", componentId, targetId)
+            .uri("/v1/reactions/components/{componentId}/spaces/{spaceId}", componentId, spaceId)
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
@@ -97,7 +97,7 @@ class ReactionUpsertApiTest(
                     pageHeaderSnippet(),
                     pathParameters(
                         parameterWithName("componentId").description("Component Id"),
-                        parameterWithName("targetId").description("Target Id")
+                        parameterWithName("spaceId").description("Space Id")
                     ),
                     requestFields(
                         fieldWithPath("accountId").type(JsonFieldType.STRING)

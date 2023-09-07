@@ -1,5 +1,5 @@
 ### 리액션을 등록 & 수정합니다
-PUT {{api}}/v1/reactions/components/post-like/targets/1
+PUT {{api}}/v1/reactions/components/post-like/spaces/{{POST_ID}}
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
@@ -23,10 +23,10 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 리액션을 취소합니다
-DELETE {{api}}/v1/reactions/components/post-like/targets/1?accountId=seungho
+DELETE {{api}}/v1/reactions/components/post-like/spaces/{{POST_ID}}?accountId={{ACCOUNT_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 리액션을 조회합니다
-GET {{api}}/v1/reactions/components/post-like/targets?accountId=seungho&targetIds=1&emotionIds=1,2,3
+GET {{api}}/v1/reactions/components/post-like/spaces?accountId={{ACCOUNT_ID}}&spaceIds=1&emotionIds={{POST_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}

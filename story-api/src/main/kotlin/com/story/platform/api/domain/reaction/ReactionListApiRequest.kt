@@ -8,7 +8,7 @@ data class ReactionListApiRequest(
 
     @field:NotEmpty
     @field:Size(max = 20)
-    val targetIds: Set<String> = emptySet(),
+    val spaceIds: Set<String> = emptySet(),
 
     @field:NotEmpty
     @field:Size(max = 20)
