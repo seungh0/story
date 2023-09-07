@@ -41,11 +41,11 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
 
     suspend fun incrBy(key: K, count: Long): Long
 
-    suspend fun incrBulk(keys: Set<K>) {
-        incrBulkBy(keys = keys, count = 1)
+    suspend fun incrBulk(keys: Set<K>): Map<K, Long> {
+        return incrBulkBy(keys = keys, count = 1)
     }
 
-    suspend fun incrBulkBy(keys: Set<K>, count: Long)
+    suspend fun incrBulkBy(keys: Set<K>, count: Long): Map<K, Long>
 
     suspend fun decr(key: K): Long {
         return decrBy(key = key, count = 1L)
@@ -53,11 +53,11 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
 
     suspend fun decrBy(key: K, count: Long): Long
 
-    suspend fun decrBulk(keys: Set<K>) {
-        decrBulkBy(keys = keys, count = 1)
+    suspend fun decrBulk(keys: Set<K>): Map<K, Long> {
+        return decrBulkBy(keys = keys, count = 1)
     }
 
-    suspend fun decrBulkBy(keys: Set<K>, count: Long)
+    suspend fun decrBulkBy(keys: Set<K>, count: Long): Map<K, Long>
 
     suspend fun getTtl(key: K): Duration
 

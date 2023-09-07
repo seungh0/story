@@ -119,36 +119,37 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
         return redisTemplate.opsForValue().increment(key.makeKeyString(), count).awaitSingleOrNull() ?: 0L
     }
 
-    override suspend fun incrBulkBy(keys: Set<K>, count: Long): Unit = coroutineScope {
-        keys.chunked(CHUNK_SIZE)
+    override suspend fun incrBulkBy(keys: Set<K>, count: Long): Map<K, Long> = coroutineScope {
+        return@coroutineScope keys.asSequence().chunked(CHUNK_SIZE)
             .chunked(MAX_PARALLEL_COUNT)
             .map { distributedChunkedKeys ->
                 distributedChunkedKeys.map { chunkedKeys ->
                     chunkedKeys.map { key ->
-                        launch {
-                            redisTemplate.opsForValue().increment(key.makeKeyString(), count).awaitSingleOrNull()
+                        async {
+                            key to redisTemplate.opsForValue().increment(key.makeKeyString(), count)
+                                .awaitSingle()
                         }
-                    }.joinAll()
+                    }
                 }
-            }
+            }.flatten().flatten().toList().awaitAll().toMap()
     }
 
     override suspend fun decrBy(key: K, count: Long): Long {
         return redisTemplate.opsForValue().decrement(key.makeKeyString(), count).awaitSingleOrNull() ?: 0L
     }
 
-    override suspend fun decrBulkBy(keys: Set<K>, count: Long): Unit = coroutineScope {
-        keys.chunked(CHUNK_SIZE)
+    override suspend fun decrBulkBy(keys: Set<K>, count: Long): Map<K, Long> = coroutineScope {
+        return@coroutineScope keys.asSequence().chunked(CHUNK_SIZE)
             .chunked(MAX_PARALLEL_COUNT)
             .map { distributedChunkedKeys ->
                 distributedChunkedKeys.map { chunkedKeys ->
                     chunkedKeys.map { key ->
-                        launch {
-                            redisTemplate.opsForValue().decrement(key.makeKeyString(), count).awaitSingleOrNull()
+                        async {
+                            key to redisTemplate.opsForValue().decrement(key.makeKeyString(), count).awaitSingle()
                         }
-                    }.joinAll()
+                    }
                 }
-            }
+            }.flatten().flatten().toList().awaitAll().toMap()
     }
 
     override suspend fun getTtl(key: K): Duration {

@@ -16,7 +16,7 @@ class ReactionRemover(
         componentId: String,
         targetId: String,
         accountId: String,
-    ): ReactionCommandResponse {
+    ): ReactionDeleteResponse {
         val reaction = reactionRepository.findById(
             ReactionPrimaryKey.of(
                 workspaceId = workspaceId,
@@ -24,7 +24,7 @@ class ReactionRemover(
                 targetId = targetId,
                 accountId = accountId,
             )
-        ) ?: return ReactionCommandResponse.deleted(
+        ) ?: return ReactionDeleteResponse.deleted(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
@@ -48,7 +48,7 @@ class ReactionRemover(
             }.toSet()
         )
 
-        return ReactionCommandResponse.deleted(
+        return ReactionDeleteResponse.deleted(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,

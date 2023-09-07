@@ -4,11 +4,11 @@ interface ReactionCountRepository {
 
     suspend fun increase(key: ReactionCountKey, count: Long = 1L): Long
 
-    suspend fun increaseBulk(keys: Set<ReactionCountKey>, count: Long = 1L)
+    suspend fun increaseBulk(keys: Set<ReactionCountKey>, count: Long = 1L): Map<ReactionCountKey, Long>
 
     suspend fun decrease(key: ReactionCountKey, count: Long = 1L): Long
 
-    suspend fun decreaseBulk(keys: Set<ReactionCountKey>, count: Long = 1L)
+    suspend fun decreaseBulk(keys: Set<ReactionCountKey>, count: Long = 1L): Map<ReactionCountKey, Long>
 
     suspend fun get(key: ReactionCountKey): Long
 

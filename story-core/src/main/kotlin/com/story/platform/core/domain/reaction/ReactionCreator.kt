@@ -18,7 +18,7 @@ class ReactionCreator(
         targetId: String,
         accountId: String,
         emotionIds: Set<String>,
-    ): ReactionCommandResponse {
+    ): ReactionCreateResponse {
         val oldReaction = reactionRepository.findById(
             ReactionPrimaryKey.of(
                 workspaceId = workspaceId,
@@ -40,7 +40,7 @@ class ReactionCreator(
                 .upsert(ReactionReverse.from(newReaction))
                 .executeCoroutine()
 
-            reactionCountRepository.increaseBulk(
+            val emotionCountMap = reactionCountRepository.increaseBulk(
                 keys = emotionIds.map { optionId ->
                     ReactionCountKey(
                         workspaceId = workspaceId,
@@ -51,12 +51,13 @@ class ReactionCreator(
                 }.toSet()
             )
 
-            return ReactionCommandResponse.created(
+            return ReactionCreateResponse.created(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
                 accountId = accountId,
                 createdOptionIds = emotionIds,
+                totalEmotionsCount = emotionCountMap.values.sum(),
             )
         }
 
@@ -71,7 +72,7 @@ class ReactionCreator(
             .upsert(ReactionReverse.from(newReaction))
             .executeCoroutine()
 
-        reactionCountRepository.increaseBulk(
+        val emotionCountMap = reactionCountRepository.increaseBulk(
             keys = createdOptionIds.map { optionId ->
                 ReactionCountKey(
                     workspaceId = workspaceId,
@@ -93,13 +94,14 @@ class ReactionCreator(
             }.toSet()
         )
 
-        return ReactionCommandResponse.updated(
+        return ReactionCreateResponse.updated(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
             accountId = accountId,
             createdOptionIds = createdOptionIds,
             deletedOptionIds = deletedOptionIds,
+            totalEmotionsCount = emotionCountMap.values.sum(),
         )
     }
 
