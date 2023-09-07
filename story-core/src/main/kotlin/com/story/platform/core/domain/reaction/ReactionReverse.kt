@@ -12,7 +12,7 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class ReactionReverse(
     @field:PrimaryKey
     val key: ReactionReversePrimaryKey,
-    val optionIds: Set<String>,
+    val emotionIds: Set<String>,
 ) {
 
     companion object {
@@ -21,7 +21,7 @@ data class ReactionReverse(
             componentId: String,
             targetId: String,
             accountId: String,
-            optionIds: Set<String>,
+            emotionIds: Set<String>,
         ) = ReactionReverse(
             key = ReactionReversePrimaryKey.of(
                 workspaceId = workspaceId,
@@ -29,7 +29,7 @@ data class ReactionReverse(
                 targetId = targetId,
                 accountId = accountId,
             ),
-            optionIds = optionIds,
+            emotionIds = emotionIds,
         )
 
         fun from(
@@ -41,7 +41,7 @@ data class ReactionReverse(
                 accountId = reaction.key.accountId,
                 targetId = reaction.key.targetId,
             ),
-            optionIds = reaction.optionIds,
+            emotionIds = reaction.emotionIds,
         )
     }
 

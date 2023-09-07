@@ -17,7 +17,7 @@ class ReactionCreator(
         componentId: String,
         targetId: String,
         accountId: String,
-        optionIds: Set<String>,
+        emotionIds: Set<String>,
     ): ReactionCommandResponse {
         val oldReaction = reactionRepository.findById(
             ReactionPrimaryKey.of(
@@ -33,7 +33,7 @@ class ReactionCreator(
                 componentId = componentId,
                 targetId = targetId,
                 accountId = accountId,
-                optionIds = optionIds,
+                emotionIds = emotionIds,
             )
             reactiveCassandraOperations.batchOps()
                 .upsert(newReaction)
@@ -41,12 +41,12 @@ class ReactionCreator(
                 .executeCoroutine()
 
             reactionCountRepository.increaseBulk(
-                keys = optionIds.map { optionId ->
+                keys = emotionIds.map { optionId ->
                     ReactionCountKey(
                         workspaceId = workspaceId,
                         componentId = componentId,
                         targetId = targetId,
-                        optionId = optionId,
+                        emotionId = optionId,
                     )
                 }.toSet()
             )
@@ -56,14 +56,16 @@ class ReactionCreator(
                 componentId = componentId,
                 targetId = targetId,
                 accountId = accountId,
-                createdOptionIds = optionIds,
+                createdOptionIds = emotionIds,
             )
         }
 
-        val deletedOptionIds = oldReaction.optionIds - optionIds
-        val createdOptionIds = optionIds - oldReaction.optionIds
+        val deletedOptionIds = oldReaction.emotionIds - emotionIds
+        val createdOptionIds = emotionIds - oldReaction.emotionIds
 
-        val newReaction = oldReaction.cloneWithOptionIds(optionIds = optionIds)
+        val newReaction = oldReaction.copy(
+            emotionIds = emotionIds,
+        )
         reactiveCassandraOperations.batchOps()
             .upsert(newReaction)
             .upsert(ReactionReverse.from(newReaction))
@@ -75,7 +77,7 @@ class ReactionCreator(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     targetId = targetId,
-                    optionId = optionId,
+                    emotionId = optionId,
                 )
             }.toSet()
         )
@@ -86,7 +88,7 @@ class ReactionCreator(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     targetId = targetId,
-                    optionId = optionId,
+                    emotionId = optionId,
                 )
             }.toSet()
         )

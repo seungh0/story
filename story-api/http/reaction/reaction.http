@@ -5,12 +5,12 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 {
     "accountId": "seungho1",
-    "options": [
+    "emotions": [
         {
-            "optionId": "1"
+            "emotionId": "1"
         },
         {
-            "optionId": "3"
+            "emotionId": "3"
         }
     ]
 }
@@ -28,5 +28,5 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 리액션을 조회합니다
-GET {{api}}/v1/reactions/components/post-like/targets?accountId=seungho&targetIds=1&optionIds=1,2,3
+GET {{api}}/v1/reactions/components/post-like/targets?accountId=seungho&targetIds=1&emotionIds=1,2,3
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}

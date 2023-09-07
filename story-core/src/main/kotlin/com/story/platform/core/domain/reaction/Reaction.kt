@@ -12,12 +12,8 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class Reaction(
     @field:PrimaryKey
     val key: ReactionPrimaryKey,
-    var optionIds: Set<String>,
+    var emotionIds: Set<String>,
 ) {
-
-    fun cloneWithOptionIds(optionIds: Set<String>): Reaction {
-        return this.copy(optionIds = optionIds)
-    }
 
     companion object {
         fun of(
@@ -25,7 +21,7 @@ data class Reaction(
             componentId: String,
             targetId: String,
             accountId: String,
-            optionIds: Set<String>,
+            emotionIds: Set<String>,
         ) = Reaction(
             key = ReactionPrimaryKey.of(
                 workspaceId = workspaceId,
@@ -33,7 +29,7 @@ data class Reaction(
                 targetId = targetId,
                 accountId = accountId,
             ),
-            optionIds = optionIds,
+            emotionIds = emotionIds,
         )
     }
 

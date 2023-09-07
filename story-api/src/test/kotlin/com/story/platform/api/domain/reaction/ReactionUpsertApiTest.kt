@@ -58,12 +58,12 @@ class ReactionUpsertApiTest(
 
         val request = ReactionUpsertApiRequest(
             accountId = accountId,
-            options = setOf(
-                ReactionOptionUpsertApiRequest(
-                    optionId = "1",
+            emotions = setOf(
+                ReactionEmotionUpsertApiRequest(
+                    emotionId = "1",
                 ),
-                ReactionOptionUpsertApiRequest(
-                    optionId = "2",
+                ReactionEmotionUpsertApiRequest(
+                    emotionId = "2",
                 )
             )
         )
@@ -103,11 +103,11 @@ class ReactionUpsertApiTest(
                         fieldWithPath("accountId").type(JsonFieldType.STRING)
                             .description("Reactor Id")
                             .attributes(remarks("must be within 100 characters")),
-                        fieldWithPath("options").type(JsonFieldType.ARRAY)
-                            .description("Reaction Options")
+                        fieldWithPath("emotions").type(JsonFieldType.ARRAY)
+                            .description("Reaction Emotions")
                             .attributes(remarks("must be within 20 elements")),
-                        fieldWithPath("options[].optionId").type(JsonFieldType.STRING)
-                            .description("Reaction Option id")
+                        fieldWithPath("emotions[].emotionId").type(JsonFieldType.STRING)
+                            .description("Reaction Emotion id")
                             .attributes(remarks("must be within 100 characters")),
                     ),
                     responseFields(

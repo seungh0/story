@@ -15,7 +15,7 @@ object ReactionFixture {
         componentId = componentId,
         targetId = targetId,
         accountId = accountId,
-        optionIds = optionIds,
+        emotionIds = optionIds,
     )
 
 }

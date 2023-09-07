@@ -27,7 +27,7 @@ class ReactionRetrieveHandler(
             componentId = componentId,
             targetIds = request.targetIds,
             accountId = request.accountId,
-            optionIds = request.optionIds,
+            optionIds = request.emotionIds,
         )
 
         return ReactionListApiResponse(

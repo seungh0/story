@@ -4,5 +4,5 @@ data class ReactionResponse(
     val workspaceId: String,
     val componentId: String,
     val targetId: String,
-    val options: List<ReactionOptionResponse>,
+    val emotions: List<ReactionEmotionResponse>,
 )

@@ -12,5 +12,5 @@ data class ReactionListApiRequest(
 
     @field:NotEmpty
     @field:Size(max = 20)
-    val optionIds: Set<String> = emptySet(),
+    val emotionIds: Set<String> = emptySet(),
 )

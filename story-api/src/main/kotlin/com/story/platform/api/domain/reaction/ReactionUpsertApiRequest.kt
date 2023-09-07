@@ -11,5 +11,5 @@ data class ReactionUpsertApiRequest(
 
     @field:NotEmpty
     @field:Size(max = 20)
-    val options: Set<ReactionOptionUpsertApiRequest> = emptySet(),
+    val emotions: Set<ReactionEmotionUpsertApiRequest> = emptySet(),
 )

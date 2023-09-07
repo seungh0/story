@@ -21,7 +21,7 @@ class ReactionRetriever(
                 ReactionCountKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
-                    optionId = optionId,
+                    emotionId = optionId,
                     targetId = targetId,
                 )
             }
@@ -49,18 +49,18 @@ class ReactionRetriever(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
-                options = optionIds.map { optionId ->
-                    ReactionOptionResponse(
-                        optionId = optionId,
+                emotions = optionIds.map { optionId ->
+                    ReactionEmotionResponse(
+                        emotionId = optionId,
                         count = reactionCountMap[
                             ReactionCountKey(
                                 workspaceId = workspaceId,
                                 componentId = componentId,
-                                optionId = optionId,
+                                emotionId = optionId,
                                 targetId = targetId,
                             )
                         ] ?: 0L,
-                        reactedByMe = accountReaction != null && accountReaction.optionIds.contains(optionId),
+                        reactedByMe = accountReaction != null && accountReaction.emotionIds.contains(optionId),
                     )
                 }
             )

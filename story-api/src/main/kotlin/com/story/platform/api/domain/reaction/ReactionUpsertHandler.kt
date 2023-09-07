@@ -28,7 +28,7 @@ class ReactionUpsertHandler(
             componentId = componentId,
             targetId = targetId,
             accountId = request.accountId,
-            optionIds = request.options.map { option -> option.optionId }.toSet(),
+            emotionIds = request.emotions.map { option -> option.emotionId }.toSet(),
         )
     }
 

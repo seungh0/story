@@ -11,7 +11,7 @@ import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
-import com.story.platform.core.domain.reaction.ReactionOptionResponse
+import com.story.platform.core.domain.reaction.ReactionEmotionResponse
 import com.story.platform.core.domain.reaction.ReactionResponse
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
@@ -56,7 +56,7 @@ class ReactionRetrieveApiTest(
         val accountId = "accountId"
         val targetId = "post-id"
         val workspaceId = "twitter"
-        val optionIds = setOf("1", "2")
+        val emotionIds = setOf("1", "2")
 
         coEvery {
             reactionRetrieveHandler.listReactions(
@@ -70,14 +70,14 @@ class ReactionRetrieveApiTest(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     targetId = targetId,
-                    options = listOf(
-                        ReactionOptionResponse(
-                            optionId = "1",
+                    emotions = listOf(
+                        ReactionEmotionResponse(
+                            emotionId = "1",
                             count = 10500,
                             reactedByMe = true,
                         ),
-                        ReactionOptionResponse(
-                            optionId = "2",
+                        ReactionEmotionResponse(
+                            emotionId = "2",
                             count = 3500,
                             reactedByMe = false,
                         )
@@ -89,11 +89,11 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/reactions/components/{componentId}/targets?accountId={accountId}&targetIds={targetIds}&optionIds={optionIds}",
+                "/v1/reactions/components/{componentId}/targets?accountId={accountId}&targetIds={targetIds}&emotionIds={emotionIds}",
                 componentId,
                 accountId,
                 setOf(targetId),
-                optionIds,
+                emotionIds,
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -118,7 +118,7 @@ class ReactionRetrieveApiTest(
                         parameterWithName("targetIds").description("Reaction Target Ids")
                     ),
                     relaxedQueryParameters(
-                        parameterWithName("optionIds").description("Reaction Option Ids")
+                        parameterWithName("emotionIds").description("Reaction Emotion Ids")
                     ),
                     responseFields(
                         fieldWithPath("ok")
@@ -133,14 +133,14 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Reaction Component Id"),
                         fieldWithPath("result.reactions[].targetId")
                             .type(JsonFieldType.STRING).description("Reaction Target Id"),
-                        fieldWithPath("result.reactions[].options")
-                            .type(JsonFieldType.ARRAY).description("Reaction Options"),
-                        fieldWithPath("result.reactions[].options[].optionId")
-                            .type(JsonFieldType.STRING).description("Reaction Option Id"),
-                        fieldWithPath("result.reactions[].options[].count")
-                            .type(JsonFieldType.NUMBER).description("Reaction Option selected count"),
-                        fieldWithPath("result.reactions[].options[].reactedByMe")
-                            .type(JsonFieldType.BOOLEAN).description("Whether account reacted to reaction option"),
+                        fieldWithPath("result.reactions[].emotions")
+                            .type(JsonFieldType.ARRAY).description("Reaction Emotions"),
+                        fieldWithPath("result.reactions[].emotions[].emotionId")
+                            .type(JsonFieldType.STRING).description("Reaction Emotion Id"),
+                        fieldWithPath("result.reactions[].emotions[].count")
+                            .type(JsonFieldType.NUMBER).description("Reaction Emotion selected count"),
+                        fieldWithPath("result.reactions[].emotions[].reactedByMe")
+                            .type(JsonFieldType.BOOLEAN).description("Whether account reacted to reaction emotion"),
                     )
                 )
             )

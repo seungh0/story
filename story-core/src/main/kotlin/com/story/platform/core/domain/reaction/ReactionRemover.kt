@@ -38,12 +38,12 @@ class ReactionRemover(
             .executeCoroutine()
 
         reactionCountRepository.decreaseBulk(
-            keys = reaction.optionIds.map { optionId ->
+            keys = reaction.emotionIds.map { optionId ->
                 ReactionCountKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     targetId = targetId,
-                    optionId = optionId,
+                    emotionId = optionId,
                 )
             }.toSet()
         )
@@ -53,7 +53,7 @@ class ReactionRemover(
             componentId = componentId,
             targetId = targetId,
             accountId = accountId,
-            deletedOptionIds = reaction.optionIds,
+            deletedOptionIds = reaction.emotionIds,
         )
     }
 
