@@ -13,7 +13,7 @@ class ReactionRetrieveApi(
     private val reactionRetrieveHandler: ReactionRetrieveHandler,
 ) {
 
-    @GetMapping("/v1/reactions/components/{componentId}/targets")
+    @GetMapping("/v1/reactions/components/{componentId}/spaces")
     suspend fun listReaction(
         @PathVariable componentId: String,
         @Valid request: ReactionListApiRequest,

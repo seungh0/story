@@ -28,5 +28,6 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 리액션을 조회합니다
-GET {{api}}/v1/reactions/components/post-like/spaces?accountId={{ACCOUNT_ID}}&spaceIds=1&emotionIds={{POST_ID}}
+GET {{api}}/v1/reactions/components/post-like/spaces?accountId={{ACCOUNT_ID}}&spaceIds={{POST_ID}}&
+    emotionIds=1,2,3,4,5,6
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}

@@ -50,7 +50,7 @@ class ReactionRetriever(
                 componentId = componentId,
                 spaceId = spaceId,
                 emotions = optionIds.map { emotionId ->
-                    ReactionEmotionResponse(
+                    ReactionEmotionResponse.of(
                         emotionId = emotionId,
                         count = reactionCountMap[
                             ReactionCountKey(
@@ -59,7 +59,7 @@ class ReactionRetriever(
                                 emotionId = emotionId,
                                 spaceId = spaceId,
                             )
-                        ] ?: 0L,
+                        ],
                         reactedByMe = accountReaction != null && accountReaction.emotionIds.contains(emotionId),
                     )
                 }

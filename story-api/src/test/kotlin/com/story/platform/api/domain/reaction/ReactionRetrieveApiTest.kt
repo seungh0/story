@@ -89,7 +89,7 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/reactions/components/{componentId}/targets?accountId={accountId}&spaceIds={spaceIds}&emotionIds={emotionIds}",
+                "/v1/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds={spaceIds}&emotionIds={emotionIds}",
                 componentId,
                 accountId,
                 setOf(spaceId),

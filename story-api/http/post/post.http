@@ -1,11 +1,11 @@
 ### 포스팅 등록
-POST {{api}}/v1/posts/components/account-post/spaces/{{SPACE_ID}}/posts
+POST {{api}}/v1/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 Accept-Language: en
 
 {
-    "accountId": "{{SPACE_ID}}",
+    "accountId": "{{ACCOUNT_ID}}",
     "title": "토끼의 소확행 일기",
     "content": "토끼랑 치킨을 먹었따\n히히~",
     "extra": {
@@ -22,12 +22,12 @@ Accept-Language: en
 
 
 ### 포스팅 수정
-PATCH {{api}}/v1/posts/components/account-post/spaces/{{SPACE_ID}}/posts/{{POST_ID}}
+PATCH {{api}}/v1/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts/{{POST_ID}}
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 {
-    "accountId": "{{SPACE_ID}}",
+    "accountId": "{{ACCOUNT_ID}}",
     "title": "변경이 되나요?",
     "content": "변경 되나요오",
     "extra": {
@@ -43,7 +43,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 포스팅 삭제
-DELETE {{api}}/v1/posts/components/account-post/spaces/{{SPACE_ID}}/posts/{{POST_ID}}?accountId={{SPACE_ID}}
+DELETE {{api}}/v1/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts/{{POST_ID}}?accountId={{ACCOUNT_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 > {%
@@ -54,10 +54,10 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 포스팅 조회
-GET {{api}}/v1/posts/components/account-post/spaces/{{SPACE_ID}}/posts/{{POST_ID}}
+GET {{api}}/v1/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts/{{POST_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 포스팅 목록 조회
-GET {{api}}/v1/posts/components/account-post/spaces/{{SPACE_ID}}/posts?pageSize=2&direction=NEXT&cursor={{POST_ID}}
+GET {{api}}/v1/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts?pageSize=2&direction=NEXT&cursor={{POST_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
