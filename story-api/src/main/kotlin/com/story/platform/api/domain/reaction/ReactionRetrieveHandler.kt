@@ -11,6 +11,31 @@ class ReactionRetrieveHandler(
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
+    suspend fun getReaction(
+        workspaceId: String,
+        componentId: String,
+        spaceId: String,
+        request: ReactionGetApiRequest,
+    ): ReactionGetApiResponse {
+        componentCheckHandler.checkExistsComponent(
+            workspaceId = workspaceId,
+            resourceId = ResourceId.REACTION,
+            componentId = componentId,
+        )
+
+        val reactions = reactionRetriever.listReactions(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            spaceIds = setOf(spaceId),
+            accountId = request.accountId,
+            optionIds = request.emotionIds,
+        )
+
+        return ReactionGetApiResponse(
+            reaction = reactions.first(),
+        )
+    }
+
     suspend fun listReactions(
         workspaceId: String,
         componentId: String,

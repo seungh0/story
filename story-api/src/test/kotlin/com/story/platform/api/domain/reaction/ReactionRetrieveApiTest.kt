@@ -50,13 +50,106 @@ class ReactionRetrieveApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    test("대상에 리액션을 취소한다") {
+    test("대상에 등록된 리액션 목록을 조회한다") {
+        // given
+        val workspaceId = "twitter"
+        val componentId = "post-like"
+        val spaceId = "space-id"
+        val accountId = "accountId"
+        val emotionIds = setOf("1", "2")
+
+        coEvery {
+            reactionRetrieveHandler.getReaction(
+                workspaceId = workspaceId,
+                componentId = componentId,
+                spaceId = spaceId,
+                request = any(),
+            )
+        } returns ReactionGetApiResponse(
+            reaction =
+            ReactionResponse(
+                workspaceId = workspaceId,
+                componentId = componentId,
+                spaceId = spaceId,
+                emotions = listOf(
+                    ReactionEmotionResponse(
+                        emotionId = "1",
+                        count = 10500,
+                        reactedByMe = true,
+                    ),
+                    ReactionEmotionResponse(
+                        emotionId = "2",
+                        count = 3500,
+                        reactedByMe = false,
+                    )
+                )
+            )
+        )
+
+        // when
+        val exchange = webTestClient.get()
+            .uri(
+                "/v1/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}&emotionIds={emotionIds}",
+                componentId,
+                spaceId,
+                accountId,
+                setOf(spaceId),
+                emotionIds,
+            )
+            .headers(WebClientUtils.authenticationHeader)
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+
+        // then
+        exchange.expectStatus().isOk
+            .expectBody()
+            .consumeWith(
+                document(
+                    "REACTION-GET-API",
+                    getDocumentRequest(),
+                    getDocumentResponse(),
+                    pageHeaderSnippet(),
+                    pathParameters(
+                        parameterWithName("componentId").description("Reaction Component Id"),
+                        parameterWithName("spaceId").description("Reaction Space Id"),
+                    ),
+                    relaxedQueryParameters(
+                        parameterWithName("accountId").description("Reactor Id")
+                    ),
+                    relaxedQueryParameters(
+                        parameterWithName("emotionIds").description("Reaction Emotion Ids")
+                    ),
+                    responseFields(
+                        fieldWithPath("ok")
+                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                        fieldWithPath("result")
+                            .type(JsonFieldType.OBJECT).description("result"),
+                        fieldWithPath("result.reaction")
+                            .type(JsonFieldType.OBJECT).description("Reaction"),
+                        fieldWithPath("result.reaction.workspaceId")
+                            .type(JsonFieldType.STRING).description("Reaction Workspace Id"),
+                        fieldWithPath("result.reaction.componentId")
+                            .type(JsonFieldType.STRING).description("Reaction Component Id"),
+                        fieldWithPath("result.reaction.spaceId")
+                            .type(JsonFieldType.STRING).description("Reaction Space Id"),
+                        fieldWithPath("result.reaction.emotions")
+                            .type(JsonFieldType.ARRAY).description("Reaction Emotions"),
+                        fieldWithPath("result.reaction.emotions[].emotionId")
+                            .type(JsonFieldType.STRING).description("Reaction Emotion Id"),
+                        fieldWithPath("result.reaction.emotions[].count")
+                            .type(JsonFieldType.NUMBER).description("Reaction Emotion selected count"),
+                        fieldWithPath("result.reaction.emotions[].reactedByMe")
+                            .type(JsonFieldType.BOOLEAN).description("Whether account reacted to reaction emotion"),
+                    )
+                )
+            )
+    }
+
+    test("대상 목록에 등록된 리액션 목록을 조회한다") {
         // given
         val componentId = "post-like"
         val accountId = "accountId"
-        val spaceId = "post-id"
         val workspaceId = "twitter"
-        val emotionIds = setOf("1", "2")
 
         coEvery {
             reactionRetrieveHandler.listReactions(
@@ -69,17 +162,34 @@ class ReactionRetrieveApiTest(
                 ReactionResponse(
                     workspaceId = workspaceId,
                     componentId = componentId,
-                    spaceId = spaceId,
+                    spaceId = "space-1",
                     emotions = listOf(
                         ReactionEmotionResponse(
-                            emotionId = "1",
+                            emotionId = "emotion-1",
                             count = 10500,
                             reactedByMe = true,
                         ),
                         ReactionEmotionResponse(
-                            emotionId = "2",
+                            emotionId = "emotion-2",
                             count = 3500,
                             reactedByMe = false,
+                        )
+                    )
+                ),
+                ReactionResponse(
+                    workspaceId = workspaceId,
+                    componentId = componentId,
+                    spaceId = "space-2",
+                    emotions = listOf(
+                        ReactionEmotionResponse(
+                            emotionId = "emotion-1",
+                            count = 3500,
+                            reactedByMe = false,
+                        ),
+                        ReactionEmotionResponse(
+                            emotionId = "emotion-2",
+                            count = 1000,
+                            reactedByMe = true,
                         )
                     )
                 )
@@ -89,11 +199,9 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds={spaceIds}&emotionIds={emotionIds}",
+                "/v1/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds=space-1,space-2&emotionIds=emotion-1,emotion-2",
                 componentId,
                 accountId,
-                setOf(spaceId),
-                emotionIds,
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
