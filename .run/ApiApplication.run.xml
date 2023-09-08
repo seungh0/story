@@ -1,15 +1,16 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <module name="story-platform.story-api.main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.story.platform.api.ApiApplication" />
-    <option name="VM_PARAMETERS" value="-server -Xms2G -Xmx2G -XX:+UseG1GC -Dkotlinx.coroutines.debug" />
-    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
-      <option name="credential" />
-      <option name="region" />
-      <option name="useCurrentConnection" value="false" />
-    </extension>
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
+    <configuration default="false" name="ApiApplication" type="SpringBootApplicationConfigurationType"
+                   factoryName="Spring Boot" nameIsGenerated="true">
+        <module name="story-platform.story-api.main"/>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="com.story.platform.api.ApiApplication"/>
+        <option name="VM_PARAMETERS" value="-server -Xms2G -Xmx2G -XX:+UseG1GC -Dkotlinx.coroutines.debug"/>
+        <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+            <option name="credential"/>
+            <option name="region"/>
+            <option name="useCurrentConnection" value="false"/>
+        </extension>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
 </component>

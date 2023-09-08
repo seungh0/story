@@ -7,7 +7,7 @@ data class NonceKey(
     val token: String,
 ) : StringRedisKey<NonceKey, Long> {
 
-    override fun makeKeyString(): String = "api-token:$token"
+    override fun makeKeyString(): String = "nonce:v1:$token"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

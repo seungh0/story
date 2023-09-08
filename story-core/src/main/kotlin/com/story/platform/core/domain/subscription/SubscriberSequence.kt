@@ -9,7 +9,7 @@ data class SubscriberSequence(
     val targetId: String,
 ) : StringRedisKey<SubscriberSequence, Long> {
 
-    override fun makeKeyString(): String = "subscriber-sequence:$workspaceId:$componentId:$targetId"
+    override fun makeKeyString(): String = "subscriber-sequence:v1:$workspaceId:$componentId:$targetId"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 
