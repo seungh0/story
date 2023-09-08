@@ -16,7 +16,7 @@ services:
   redis-1:
     container_name: story-platform-redis
     image: redis:6.0
-    command: redis-server --port 6380
+    command: redis-server --port 6380 --appendonly yes
     ports:
       - '6380:6380'
     restart: on-failure
