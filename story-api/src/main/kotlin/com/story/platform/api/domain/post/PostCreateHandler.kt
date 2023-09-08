@@ -2,6 +2,7 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.domain.nonce.NonceManager
 import com.story.platform.core.domain.post.PostCreator
 import com.story.platform.core.domain.post.PostEventProducer
 import com.story.platform.core.domain.post.PostSpaceKey
@@ -12,6 +13,7 @@ class PostCreateHandler(
     private val postCreator: PostCreator,
     private val componentCheckHandler: ComponentCheckHandler,
     private val postEventProducer: PostEventProducer,
+    private val nonceManager: NonceManager,
 ) {
 
     suspend fun createPost(
@@ -20,7 +22,9 @@ class PostCreateHandler(
         title: String,
         content: String,
         extra: Map<String, String>,
+        nonce: String?,
     ): Long {
+        nonce?.let { nonceManager.verify(nonce) }
         componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,
             resourceId = ResourceId.POSTS,

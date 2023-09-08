@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 class SubscriptionRetriever(
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberRepository: SubscriberRepository,
-    private val subscriberSequenceGenerator: SubscriberSequenceGenerator,
+    private val subscriberSequenceRepository: SubscriberSequenceRepository,
 ) {
 
     suspend fun isSubscriber(
@@ -69,7 +69,7 @@ class SubscriptionRetriever(
     ): CursorResult<Subscriber, String> {
         val firstSlotId = SubscriptionSlotAssigner.FIRST_SLOT_ID
         val lastSlotId = SubscriptionSlotAssigner.assign(
-            subscriberSequenceGenerator.lastSequence(
+            subscriberSequenceRepository.lastSequence(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId
@@ -159,7 +159,7 @@ class SubscriptionRetriever(
     ): CursorResult<Subscriber, String> {
         val firstSlotId = SubscriptionSlotAssigner.FIRST_SLOT_ID
         val lastSlotId = SubscriptionSlotAssigner.assign(
-            subscriberSequenceGenerator.lastSequence(
+            subscriberSequenceRepository.lastSequence(
                 workspaceId,
                 componentId,
                 targetId

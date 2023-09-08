@@ -6,7 +6,7 @@ import com.story.platform.core.domain.feed.FeedEvent
 import com.story.platform.core.domain.feed.FeedEventProducer
 import com.story.platform.core.domain.feed.mapping.FeedMappingRetriever
 import com.story.platform.core.domain.post.PostEvent
-import com.story.platform.core.domain.subscription.SubscriberSequenceGenerator
+import com.story.platform.core.domain.subscription.SubscriberSequenceRepository
 import com.story.platform.core.domain.subscription.SubscriptionSlotAssigner
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 @HandlerAdapter
 class PostFeedDistributeHandler(
     private val feedMappingRetriever: FeedMappingRetriever,
-    private val subscriberSequenceGenerator: SubscriberSequenceGenerator,
+    private val subscriberSequenceRepository: SubscriberSequenceRepository,
     private val feedEventProducer: FeedEventProducer,
 ) {
 
@@ -37,7 +37,7 @@ class PostFeedDistributeHandler(
             }
 
             feedMappings.forEach { feedMapping ->
-                val subscriberSequences = subscriberSequenceGenerator.lastSequence(
+                val subscriberSequences = subscriberSequenceRepository.lastSequence(
                     workspaceId = feedMapping.workspaceId,
                     componentId = feedMapping.subscriptionComponentId,
                     targetId = payload.accountId,

@@ -92,6 +92,23 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
             }
     }
 
+    override suspend fun setIfAbsentWithTtl(key: K, value: V, ttl: Duration?): Boolean {
+        if (ttl == null) {
+            return redisTemplate.opsForValue().setIfAbsent(key.makeKeyString(), key.serializeValue(value)).awaitSingle()
+        }
+        return redisTemplate.opsForValue().setIfAbsent(key.makeKeyString(), key.serializeValue(value), ttl)
+            .awaitSingle()
+    }
+
+    override suspend fun setIfPresentWithTtl(key: K, value: V, ttl: Duration?): Boolean {
+        if (ttl == null) {
+            return redisTemplate.opsForValue().setIfPresent(key.makeKeyString(), key.serializeValue(value))
+                .awaitSingle()
+        }
+        return redisTemplate.opsForValue().setIfPresent(key.makeKeyString(), key.serializeValue(value), ttl)
+            .awaitSingle()
+    }
+
     override suspend fun del(key: K) {
         redisTemplate.delete(key.makeKeyString()).awaitSingleOrNull()
     }

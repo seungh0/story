@@ -2,6 +2,7 @@
 POST {{api}}/v1/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Nonce: {{NONCE}}
 Accept-Language: en
 
 {

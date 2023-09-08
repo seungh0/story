@@ -5,6 +5,7 @@
 | 400 | invalid_cursor | 
 | 400 | invalid_post_id | 
 | 400 | inactivated_workspace | 
+| 400 | invalid_nonce | 
 | 401 | invalid_authentication_key | 
 | 401 | inactivated_authentication_key | 
 | 401 | empty_authentication_key | 

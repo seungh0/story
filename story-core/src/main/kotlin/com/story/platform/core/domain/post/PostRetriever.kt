@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 @Service
 class PostRetriever(
     private val postRepository: PostRepository,
-    private val postSequenceGenerator: PostSequenceGenerator,
+    private val postSequenceRepository: PostSequenceRepository,
 ) {
 
     @Cacheable(
@@ -96,7 +96,7 @@ class PostRetriever(
         postSpaceKey: PostSpaceKey,
     ): Pair<Long, List<Post>> {
         if (cursorRequest.cursor == null) {
-            val lastSlotId = PostSlotAssigner.assign(postId = postSequenceGenerator.lastSequence(postSpaceKey = postSpaceKey))
+            val lastSlotId = PostSlotAssigner.assign(postId = postSequenceRepository.lastSequence(postSpaceKey = postSpaceKey))
             return lastSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,

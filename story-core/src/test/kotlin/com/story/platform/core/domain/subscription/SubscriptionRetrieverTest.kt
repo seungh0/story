@@ -14,7 +14,7 @@ internal class SubscriptionRetrieverTest(
     private val subscriptionRetriever: SubscriptionRetriever,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
-    private val subscriberSequenceGenerator: SubscriberSequenceGenerator,
+    private val subscriberSequenceRepository: SubscriberSequenceRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -155,7 +155,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -209,7 +209,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -263,7 +263,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -316,7 +316,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -369,7 +369,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -422,7 +422,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -478,7 +478,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -535,7 +535,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -592,7 +592,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -673,7 +673,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -728,7 +728,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -783,7 +783,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -837,7 +837,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -891,7 +891,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -945,7 +945,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -1002,7 +1002,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -1060,7 +1060,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -1118,7 +1118,7 @@ internal class SubscriptionRetrieverTest(
             }
             subscriptionRepository.saveAll(subscriptions).toList()
 
-            subscriberSequenceGenerator.generate(
+            subscriberSequenceRepository.generate(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,

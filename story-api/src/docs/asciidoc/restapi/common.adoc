@@ -67,3 +67,5 @@ Content-Type: application/json
 === Error Code
 
 include::./error.adoc[]
+
+include::./nonce/index.adoc[]

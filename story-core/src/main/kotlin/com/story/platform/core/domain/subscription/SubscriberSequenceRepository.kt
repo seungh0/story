@@ -4,7 +4,7 @@ import com.story.platform.core.infrastructure.redis.StringRedisRepository
 import org.springframework.stereotype.Service
 
 @Service
-class SubscriberSequenceGenerator(
+class SubscriberSequenceRepository(
     private val subscriptionSequenceRepository: StringRedisRepository<SubscriberSequence, Long>,
 ) {
 

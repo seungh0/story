@@ -27,9 +27,21 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
         this.setBulk(keys.associateWith { value })
     }
 
+    suspend fun setIfAbsent(key: K, value: V): Boolean {
+        return this.setIfAbsentWithTtl(key = key, value = value, ttl = key.getTtl())
+    }
+
+    suspend fun setIfPresent(key: K, value: V): Boolean {
+        return this.setIfPresentWithTtl(key = key, value = value, ttl = key.getTtl())
+    }
+
     suspend fun setWithTtl(key: K, value: V, ttl: Duration?)
 
     suspend fun setBulk(keyValues: Map<K, V>)
+
+    suspend fun setIfAbsentWithTtl(key: K, value: V, ttl: Duration?): Boolean
+
+    suspend fun setIfPresentWithTtl(key: K, value: V, ttl: Duration?): Boolean
 
     suspend fun del(key: K)
 

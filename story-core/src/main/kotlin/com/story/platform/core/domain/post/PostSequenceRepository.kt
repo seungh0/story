@@ -4,7 +4,7 @@ import com.story.platform.core.infrastructure.redis.StringRedisRepository
 import org.springframework.stereotype.Service
 
 @Service
-class PostSequenceGenerator(
+class PostSequenceRepository(
     private val postSequenceRepository: StringRedisRepository<PostSequenceKey, Long>,
 ) {
 

@@ -1,0 +1,19 @@
+=== Nonce Create API
+
+include::{snippets}/NONCE-CREATE-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/NONCE-CREATE-API/http-request.adoc[]
+
+==== [Response]
+
+include::{snippets}/NONCE-CREATE-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/NONCE-CREATE-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/NONCE-CREATE-API/curl-request.adoc[]

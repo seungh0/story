@@ -12,6 +12,7 @@ import com.story.platform.api.lib.RestDocsUtils.remarks
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
+import com.story.platform.core.domain.nonce.NonceManager
 import com.story.platform.core.domain.post.PostSpaceKey
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
@@ -22,6 +23,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -38,6 +40,9 @@ class PostCreateApiTest(
 
     @MockkBean
     private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
+
+    @MockkBean
+    private val nonceManager: NonceManager,
 ) : FunSpec({
 
     beforeEach {
@@ -48,6 +53,7 @@ class PostCreateApiTest(
             description = "",
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
+        coEvery { nonceManager.verify(any()) } returns Unit
     }
 
     test("새로운 포스트를 등록한다") {
@@ -77,6 +83,7 @@ class PostCreateApiTest(
                 title = request.title,
                 content = request.content,
                 extra = request.extra,
+                nonce = any(),
             )
         } returns 1
 
@@ -102,6 +109,10 @@ class PostCreateApiTest(
                     pathParameters(
                         parameterWithName("componentId").description("Component Id"),
                         parameterWithName("spaceId").description("Space Id")
+                    ),
+                    queryParameters(
+                        parameterWithName("nonce").description("Nonce")
+                            .attributes(remarks("Nonce Value")).optional(),
                     ),
                     requestFields(
                         fieldWithPath("accountId").type(JsonFieldType.STRING)
