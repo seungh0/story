@@ -15,29 +15,31 @@ class KafkaProducerConfig(
     private val kafkaProperties: KafkaProperties,
 ) {
 
-    @Bean(DEFAULT_KAFKA_TEMPLATE)
+    @Bean(DEFAULT_KAFKA_PRODUCER)
     fun defaultKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    acksConfig = "1"
+                    acksConfig = "1",
+                    linger = Duration.ofMillis(0),
                 )
             )
         )
     }
 
-    @Bean(DEFAULT_ACK_ALL_KAFKA_TEMPLATE)
+    @Bean(DEFAULT_ACK_ALL_KAFKA_PRODUCER)
     fun ackAllKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
-                    acksConfig = "all"
+                    acksConfig = "all",
+                    linger = Duration.ofMillis(0),
                 )
             )
         )
     }
 
-    @Bean(DEFAULT_IDEMPOTENCE_KAFKA_TEMPLATE)
+    @Bean(DEFAULT_IDEMPOTENCE_KAFKA_PRODUCER)
     fun idempotenceKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
@@ -46,45 +48,63 @@ class KafkaProducerConfig(
                     maxInflightRequestsPerConnection = 5,
                     acksConfig = "all",
                     retries = Int.MAX_VALUE,
+                    linger = Duration.ofMillis(0),
                 )
             )
         )
     }
 
-    @Bean(POST_KAFKA_TEMPLATE)
+    @Bean(POST_KAFKA_PRODUCER)
     fun postKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
                     acksConfig = "all",
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음. (idempotence 사용 고려...)
-                    linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
+                    retries = 5,
+                    enableIdempotence = true,
+                    linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
                 ),
             )
         )
     }
 
-    @Bean(SUBSCRIPTION_KAFKA_TEMPLATE)
+    @Bean(SUBSCRIPTION_KAFKA_PRODUCER)
     fun subscriptionKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
                     acksConfig = "all",
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음. (idempotence 사용 고려...)
-                    linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
+                    retries = 5,
+                    enableIdempotence = true,
+                    linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
                 )
             )
         )
     }
 
-    @Bean(FEED_KAFKA_TEMPLATE)
+    @Bean(REACTION_KAFKA_PRODUCER)
+    fun reactionKafkaTemplate(): KafkaTemplate<String, String> {
+        return KafkaTemplate(
+            DefaultKafkaProducerFactory(
+                kafkaConfiguration(
+                    acksConfig = "all",
+                    retries = 5,
+                    enableIdempotence = true,
+                    linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
+                )
+            )
+        )
+    }
+
+    @Bean(FEED_KAFKA_PRODUCER)
     fun feedKafkaTemplate(): KafkaTemplate<String, String> {
         return KafkaTemplate(
             DefaultKafkaProducerFactory(
                 kafkaConfiguration(
                     acksConfig = "all",
-                    retries = 0, // retries > 1인 경우 순서가 변경될 수 있음. (idempotence 사용 고려...)
-                    linger = Duration.ofMillis(50), // 50ms 모아서 배치로 발송
+                    retries = 5,
+                    enableIdempotence = true,
+                    linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
                 )
             )
         )
@@ -151,12 +171,13 @@ class KafkaProducerConfig(
     }
 
     companion object {
-        const val DEFAULT_KAFKA_TEMPLATE = "defaultAckOneKafkaTemplate"
-        const val DEFAULT_ACK_ALL_KAFKA_TEMPLATE = "defaultAckAllKafkaTemplate"
-        const val DEFAULT_IDEMPOTENCE_KAFKA_TEMPLATE = "defaultIdempotenceKafkaTemplateKafkaTemplate"
-        const val SUBSCRIPTION_KAFKA_TEMPLATE = "subscriptionKafkaTemplate"
-        const val POST_KAFKA_TEMPLATE = "postKafkaTemplate"
-        const val FEED_KAFKA_TEMPLATE = "feedKafkaTemplate"
+        const val DEFAULT_KAFKA_PRODUCER = "defaultAckOneKafkaProducer"
+        const val DEFAULT_ACK_ALL_KAFKA_PRODUCER = "defaultAckAllKafkaProducer"
+        const val DEFAULT_IDEMPOTENCE_KAFKA_PRODUCER = "defaultIdempotenceKafkaProducer"
+        const val SUBSCRIPTION_KAFKA_PRODUCER = "subscriptionKafkaProducer"
+        const val POST_KAFKA_PRODUCER = "postKafkaProducer"
+        const val REACTION_KAFKA_PRODUCER = "reactionKafkaProducer"
+        const val FEED_KAFKA_PRODUCER = "feedKafkaProducer"
     }
 
 }

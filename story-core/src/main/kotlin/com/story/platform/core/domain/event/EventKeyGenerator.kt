@@ -8,7 +8,8 @@ object EventKeyGenerator {
     fun post(spaceId: String, postId: Long) = "post::$spaceId::$postId"
     fun component(componentId: String) = "component::$componentId"
     fun authenticationKey(authenticationKey: String) = "authentication-key::$authenticationKey"
-    fun purge(workspaceId: String, resourceId: ResourceId, componentId: String) =
-        "purge::$workspaceId::${resourceId.code}::$componentId"
+    fun purge(resourceId: ResourceId, componentId: String) = "purge::${resourceId.code}::$componentId"
+    fun workspace(workspaceId: String) = "workspace:$workspaceId"
+    fun reaction(spaceId: String, accountId: String) = "reaction::$spaceId::$accountId"
 
 }

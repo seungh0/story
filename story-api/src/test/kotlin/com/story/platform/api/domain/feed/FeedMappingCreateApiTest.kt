@@ -7,6 +7,7 @@ import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
+import com.story.platform.api.lib.RestDocsUtils.remarks
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
@@ -53,7 +54,7 @@ class FeedMappingCreateApiTest(
         val subscriptionComponentId = "follow"
 
         val request = FeedMappingCreateApiRequest(
-            description = "계정 타임라인 포스트 등록시 피드 발행"
+            description = "feed connect [account timeline -> follow]"
         )
 
         coEvery {
@@ -98,6 +99,7 @@ class FeedMappingCreateApiTest(
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
                             .description("description")
+                            .attributes(remarks("must be within 300 characters"))
                             .optional(),
                     ),
                     PayloadDocumentation.responseFields(

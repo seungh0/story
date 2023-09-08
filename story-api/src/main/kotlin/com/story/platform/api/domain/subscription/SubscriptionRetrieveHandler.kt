@@ -54,8 +54,8 @@ class SubscriptionRetrieveHandler(
             cursorRequest = cursorRequest,
         )
         return CursorResult.of(
-            data = subscriptions.data.map { subscriptionReverse ->
-                SubscriberApiResponse.of(subscriptionReverse)
+            data = subscriptions.data.map { subscription ->
+                SubscriberApiResponse.of(subscription)
             },
             cursor = subscriptions.cursor,
         )

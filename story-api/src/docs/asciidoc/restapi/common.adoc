@@ -31,10 +31,10 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
-    "ok": true,
-    "result": {
-      "key": "value"
-    }
+  "ok": true,
+  "result": {
+    "key": "value"
+  }
 }
 ----
 
@@ -50,6 +50,22 @@ Content-Type: application/json
 }
 ----
 
+----
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+
+{
+  "ok": false,
+  "error": "invalid_arguments",
+  "messages": [
+    "[title] must not be blank",
+    "[content] size must be between 0 and 500"
+  ]
+}
+----
+
 === Error Code
 
 include::./error.adoc[]
+
+include::./nonce/index.adoc[]

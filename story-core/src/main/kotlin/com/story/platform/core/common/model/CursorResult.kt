@@ -1,11 +1,14 @@
 package com.story.platform.core.common.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 data class CursorResult<E, K>(
     val data: List<E>,
     val cursor: Cursor<K>,
 ) {
 
-    fun hasNext() = cursor.nextCursor == null
+    @JsonIgnore
+    val hasNext: Boolean = cursor.hasNext
 
     companion object {
         fun <E, K> of(

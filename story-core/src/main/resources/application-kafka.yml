@@ -1,12 +1,60 @@
 story:
   kafka:
+    default:
+      replication-count: 3
     topic:
-      subscription: story.subscription-event-v1
-      post: story.post-event-v1
-      component: story.component-event-v1
-      authentication: story.authentication-event-v1
-      purge: story.purge-event-v1
-      feed: story.subscription-distributor-v1
+      subscription:
+        name: story.subscription-event-v1
+        partition-count: 10
+      post:
+        name: story.post-event-v1
+        partition-count: 10
+        dlt:
+          enabled: true
+        retry:
+          attempts: 3
+          partition-count: 3
+      component:
+        name: story.component-event-v1
+        partition-count: 3
+        dlt:
+          enabled: true
+        retry:
+          attempts: 3
+          partition-count: 3
+      authentication:
+        name: story.authentication-event-v1
+        partition-count: 3
+        dlt:
+          enabled: true
+        retry:
+          attempts: 3
+          partition-count: 3
+      purge:
+        name: story.purge-event-v1
+        partition-count: 3
+      feed:
+        name: story.feed-v1
+        partition-count: 10
+      workspace:
+        name: story.workspace-v1
+        partition-count: 3
+        dlt:
+          enabled: true
+        retry:
+          attempts: 3
+          partition-count: 3
+      reaction:
+        name: story.reaction-v1
+        partition-count: 10
+logging:
+  level:
+    org.apache.kafka.clients.consumer.internals: WARN
+    org.springframework.kafka.listener.KafkaMessageListenerContainer: WARN
+    org.apache.kafka.clients.Metadata: WARN
+    org.apache.kafka.clients.consumer.ConsumerConfig: WARN
+    org.apache.kafka.common.utils.AppInfoParser: WARN
+
 
 ---
 spring.config:
@@ -17,7 +65,12 @@ spring:
   kafka:
     bootstrap-servers: localhost:29092
     admin:
-      auto-create: false
+      auto-create: true
+
+story:
+  kafka:
+    default:
+      replication-count: 1
 
 
 ---
@@ -41,3 +94,9 @@ spring:
     bootstrap-servers: localhost:29092
     admin:
       auto-create: true
+
+story:
+  kafka:
+    default:
+      replication-count: 1
+

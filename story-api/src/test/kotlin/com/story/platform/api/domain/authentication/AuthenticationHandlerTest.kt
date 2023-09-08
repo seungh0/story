@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.authentication
 
 import com.ninjasquad.springmockk.MockkBean
-import com.story.platform.core.common.http.HttpHeaderType
+import com.story.platform.core.common.http.HttpHeader
 import com.story.platform.core.domain.authentication.AuthenticationKeyEmptyException
 import com.story.platform.core.domain.authentication.AuthenticationKeyInactivatedException
 import com.story.platform.core.domain.authentication.AuthenticationKeyInvalidException
@@ -39,7 +39,7 @@ class AuthenticationHandlerTest(
             val sut = authenticationHandler.handleAuthentication(
                 serverWebExchange = MockServerWebExchange.from(
                     MockServerHttpRequest.get("/test")
-                        .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
+                        .header(HttpHeader.X_STORY_API_KEY.header, apiKey)
                 )
             )
 
@@ -64,7 +64,7 @@ class AuthenticationHandlerTest(
                 authenticationHandler.handleAuthentication(
                     serverWebExchange = MockServerWebExchange.from(
                         MockServerHttpRequest.get("/test")
-                            .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
+                            .header(HttpHeader.X_STORY_API_KEY.header, apiKey)
                     )
                 )
             }
@@ -82,7 +82,7 @@ class AuthenticationHandlerTest(
                 authenticationHandler.handleAuthentication(
                     serverWebExchange = MockServerWebExchange.from(
                         MockServerHttpRequest.get("/test")
-                            .header(HttpHeaderType.X_STORY_API_KEY.header, apiKey)
+                            .header(HttpHeader.X_STORY_API_KEY.header, apiKey)
                     )
                 )
             }

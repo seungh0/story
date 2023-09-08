@@ -5,11 +5,13 @@
 | 400 | invalid_cursor | 
 | 400 | invalid_post_id | 
 | 400 | inactivated_workspace | 
+| 400 | invalid_nonce | 
 | 401 | invalid_authentication_key | 
 | 401 | inactivated_authentication_key | 
 | 401 | empty_authentication_key | 
 | 403 | no_permission | 
 | 403 | feed_mapping_capacity_exceed | 
+| 403 | workspace_purge_retention_period_violation | 
 | 404 | not_exists_authentication_key | 
 | 404 | not_exists_component | 
 | 404 | not_exists_resource | 

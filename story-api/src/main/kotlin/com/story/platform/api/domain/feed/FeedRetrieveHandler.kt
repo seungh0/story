@@ -5,7 +5,6 @@ import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.event.BaseEvent
-import com.story.platform.core.domain.feed.FeedResponse
 import com.story.platform.core.domain.feed.FeedRetriever
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -20,18 +19,23 @@ class FeedRetrieveHandler(
         feedComponentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<FeedResponse<out BaseEvent>, String> {
+    ): CursorResult<FeedApiResponse<out BaseEvent>, String> {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.FEEDS,
             componentId = feedComponentId,
         )
 
-        return feedRetriever.listFeeds(
+        val feeds = feedRetriever.listFeeds(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             subscriberId = subscriberId,
             cursorRequest = cursorRequest,
+        )
+
+        return CursorResult.of(
+            data = feeds.data.map { feed -> FeedApiResponse.of(feed) },
+            cursor = feeds.cursor,
         )
     }
 

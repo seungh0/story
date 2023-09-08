@@ -18,9 +18,10 @@ class EventHistoryManager(
         resourceId: ResourceId,
         componentId: String,
         events: Collection<EventRecord<T>>,
+        parallelCount: Int = 30,
         eventPublisher: suspend (EventRecord<T>) -> Unit,
     ) = coroutineScope {
-        events.chunked(50).map { chunkedEvents ->
+        events.chunked(parallelCount).map { chunkedEvents ->
             chunkedEvents.map { event ->
                 async {
                     withSaveEventHistory(

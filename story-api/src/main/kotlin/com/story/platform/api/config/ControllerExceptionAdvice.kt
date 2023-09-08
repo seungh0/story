@@ -8,7 +8,6 @@ import com.story.platform.core.common.model.dto.ApiResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
-import org.springframework.validation.BindException
 import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -16,29 +15,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.bind.support.WebExchangeBindException
 import org.springframework.web.server.MethodNotAllowedException
 import org.springframework.web.server.ServerWebInputException
-import java.util.stream.Collectors
 
 @RestControllerAdvice
 class ControllerExceptionAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BindException::class)
-    private fun handleBadRequest(exception: BindException): ApiResponse<Nothing> {
-        val errorMessage = exception.bindingResult.fieldErrors
-            .mapNotNull { fieldError -> fieldError.defaultMessage?.plus(" [${fieldError.field}]") }
-            .joinToString(separator = "\n")
-        log.warn(exception) { errorMessage }
-        return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, errorMessage)
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(WebExchangeBindException::class)
     private fun handleWebExchangeBindException(exception: WebExchangeBindException): ApiResponse<Nothing> {
-        val errorMessage = exception.bindingResult.fieldErrors.stream()
-            .map { fieldError: FieldError -> "${fieldError.field}: ${fieldError.defaultMessage}" }
-            .collect(Collectors.joining("\n"))
-        log.error("WebExchangeBindException: {}", errorMessage)
-        return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, errorMessage)
+        val message = exception.bindingResult.fieldErrors.map { fieldError: FieldError -> "[${fieldError.field}] ${fieldError.defaultMessage}" }
+        log.error("WebExchangeBindException: {}", message)
+        return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, message)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -64,7 +50,7 @@ class ControllerExceptionAdvice {
             if (parameterName.isBlank()) {
                 return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS)
             }
-            return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, "필수 파라미터 ($parameterName)을 입력해주세요")
+            return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, setOf("($parameterName) is required."))
         }
         return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS)
     }

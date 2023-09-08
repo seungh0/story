@@ -1,0 +1,16 @@
+== Nonce
+
+=== What is Nonce?
+
+"Nonce" is an arbitrary value used to prevent duplicate calls, and it can be optionally employed in idempotent APIs.
+
+1. Obtain a nonce from the Nonce Create API.
+2. Make an API call with the nonce.
+
+=== Nonce Policy
+
+1. Has a one-hour expiration time
+2. Should be assigned once and used only once
+- Otherwise, it will fail with 'invalid_nonce' error
+
+include::./nonce-create.adoc[]

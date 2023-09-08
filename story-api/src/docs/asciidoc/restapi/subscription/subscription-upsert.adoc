@@ -1,0 +1,27 @@
+=== Subscription Upsert API
+
+include::{snippets}/SUBSCRIPTION-UPSERT-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/SUBSCRIPTION-UPSERT-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/SUBSCRIPTION-UPSERT-API/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/SUBSCRIPTION-UPSERT-API/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/SUBSCRIPTION-UPSERT-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/SUBSCRIPTION-UPSERT-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/SUBSCRIPTION-UPSERT-API/curl-request.adoc[]

@@ -1,13 +1,12 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.error.InvalidCursorException
-import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
+import com.story.platform.core.support.cache.CacheType
+import com.story.platform.core.support.cache.Cacheable
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
@@ -15,9 +14,13 @@ import org.springframework.stereotype.Service
 @Service
 class PostRetriever(
     private val postRepository: PostRepository,
-    private val postSequenceGenerator: PostSequenceGenerator,
+    private val postSequenceRepository: PostSequenceRepository,
 ) {
 
+    @Cacheable(
+        cacheType = CacheType.POST,
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':postId:' + {#postId}",
+    )
     suspend fun getPost(
         postSpaceKey: PostSpaceKey,
         postId: Long,
@@ -34,29 +37,6 @@ class PostRetriever(
     }
 
     suspend fun listPosts(
-        workspaceId: String,
-        componentId: String,
-        keys: Collection<PostKey>,
-    ): List<PostResponse> = coroutineScope {
-        val posts = keys.map { key ->
-            async {
-                postRepository.findById(
-                    PostPrimaryKey.of(
-                        postSpaceKey = PostSpaceKey(
-                            workspaceId = workspaceId,
-                            componentId = componentId,
-                            spaceId = key.spaceId,
-                        ),
-                        postId = key.postId,
-                    )
-                )
-            }
-        }
-        return@coroutineScope posts.awaitAll().filterNotNull()
-            .map { post -> PostResponse.of(post) }
-    }
-
-    suspend fun listPosts(
         postSpaceKey: PostSpaceKey,
         cursorRequest: CursorRequest,
     ): CursorResult<PostResponse, String> {
@@ -69,7 +49,11 @@ class PostRetriever(
             return CursorResult(
                 data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
                     .map { post -> PostResponse.of(post) },
-                cursor = getCursor(posts = posts, pageSize = cursorRequest.pageSize),
+                cursor = CursorUtils.getCursor(
+                    listWithNextCursor = posts,
+                    pageSize = cursorRequest.pageSize,
+                    keyGenerator = { post -> post?.key?.postId?.toString() }
+                )
             )
         }
 
@@ -99,7 +83,11 @@ class PostRetriever(
 
         return CursorResult(
             data = data.map { post -> PostResponse.of(post) },
-            cursor = getCursor(posts = morePosts, pageSize = cursorRequest.pageSize - posts.size),
+            cursor = CursorUtils.getCursor(
+                listWithNextCursor = morePosts,
+                pageSize = cursorRequest.pageSize - posts.size,
+                keyGenerator = { post -> post?.key?.postId?.toString() }
+            )
         )
     }
 
@@ -108,8 +96,7 @@ class PostRetriever(
         postSpaceKey: PostSpaceKey,
     ): Pair<Long, List<Post>> {
         if (cursorRequest.cursor == null) {
-            val lastSlotId =
-                PostSlotAssigner.assign(postId = postSequenceGenerator.lastSequence(postSpaceKey = postSpaceKey))
+            val lastSlotId = PostSlotAssigner.assign(postId = postSequenceRepository.lastSequence(postSpaceKey = postSpaceKey))
             return lastSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
@@ -161,15 +148,6 @@ class PostRetriever(
                 ?: throw InvalidCursorException("잘못된 Cursor(${cursorRequest.cursor})입니다"),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
         ).toList()
-    }
-
-    private fun getCursor(posts: List<Post>, pageSize: Int): Cursor<String> {
-        if (posts.size > pageSize) {
-            return Cursor.of(
-                cursor = posts.subList(0, pageSize.coerceAtMost(posts.size)).lastOrNull()?.key?.postId?.toString()
-            )
-        }
-        return Cursor.of(cursor = null)
     }
 
 }

@@ -60,7 +60,7 @@ class PostRetrieveApiTest(
             postId = postId,
             title = title,
             content = content,
-            extraJson = null,
+            extra = mapOf("key" to "value"),
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -106,8 +106,10 @@ class PostRetrieveApiTest(
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
                         PayloadDocumentation.fieldWithPath("result.content")
                             .type(JsonFieldType.STRING).description("Post Content"),
-                        PayloadDocumentation.fieldWithPath("result.extraJson")
-                            .type(JsonFieldType.STRING).description("Post extraJson").optional(),
+                        PayloadDocumentation.fieldWithPath("result.extra")
+                            .type(JsonFieldType.OBJECT).description("Post extra value"),
+                        PayloadDocumentation.fieldWithPath("result.extra.key")
+                            .type(JsonFieldType.STRING).description("Post extra value").optional(),
                         PayloadDocumentation.fieldWithPath("result.createdAt")
                             .type(JsonFieldType.STRING).description("CreatedAt"),
                         PayloadDocumentation.fieldWithPath("result.updatedAt")
@@ -132,7 +134,7 @@ class PostRetrieveApiTest(
             postId = postId,
             title = title,
             content = content,
-            extraJson = null,
+            extra = mapOf("key" to "value")
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -197,8 +199,10 @@ class PostRetrieveApiTest(
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
                         PayloadDocumentation.fieldWithPath("result.data[].content")
                             .type(JsonFieldType.STRING).description("Post Content"),
-                        PayloadDocumentation.fieldWithPath("result.data[].extraJson")
-                            .type(JsonFieldType.STRING).description("Post extraJson").optional(),
+                        PayloadDocumentation.fieldWithPath("result.data[].extra")
+                            .type(JsonFieldType.OBJECT).description("Post extra value"),
+                        PayloadDocumentation.fieldWithPath("result.data[].extra.key")
+                            .type(JsonFieldType.STRING).description("Post extra value").optional(),
                         PayloadDocumentation.fieldWithPath("result.data[].createdAt")
                             .type(JsonFieldType.STRING).description("CreatedAt"),
                         PayloadDocumentation.fieldWithPath("result.data[].updatedAt")

@@ -3,7 +3,7 @@ package com.story.platform.core.domain.authentication
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
 import com.story.platform.core.support.cache.CacheEvict
-import com.story.platform.core.support.cache.CacheStrategyType
+import com.story.platform.core.support.cache.CacheStrategy
 import com.story.platform.core.support.cache.CacheType
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
@@ -18,7 +18,7 @@ class AuthenticationModifier(
     @CacheEvict(
         cacheType = CacheType.AUTHENTICATION_REVERSE_KEY,
         key = "'authenticationKey:' + {#authenticationKey}",
-        targetCacheStrategies = [CacheStrategyType.GLOBAL],
+        targetCacheStrategies = [CacheStrategy.GLOBAL],
     )
     suspend fun patchAuthenticationKey(
         workspaceId: String,

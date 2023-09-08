@@ -7,7 +7,7 @@ import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
-import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.KafkaTopic
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -17,7 +17,7 @@ import java.time.LocalDateTime
 
 @EventProducer
 class SubscriptionEventProducer(
-    @Qualifier(KafkaProducerConfig.SUBSCRIPTION_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.SUBSCRIPTION_KAFKA_PRODUCER)
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val eventHistoryManager: EventHistoryManager,
 
@@ -49,7 +49,7 @@ class SubscriptionEventProducer(
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    topicType = TopicType.SUBSCRIPTION,
+                    kafkaTopic = KafkaTopic.SUBSCRIPTION,
                     key = KafkaRecordKeyGenerator.subscription(
                         workspaceId = workspaceId,
                         componentId = componentId,
@@ -82,7 +82,7 @@ class SubscriptionEventProducer(
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    topicType = TopicType.SUBSCRIPTION,
+                    kafkaTopic = KafkaTopic.SUBSCRIPTION,
                     key = KafkaRecordKeyGenerator.subscription(
                         workspaceId = workspaceId,
                         componentId = componentId,

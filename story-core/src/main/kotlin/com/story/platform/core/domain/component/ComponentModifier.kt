@@ -2,7 +2,7 @@ package com.story.platform.core.domain.component
 
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.support.cache.CacheEvict
-import com.story.platform.core.support.cache.CacheStrategyType
+import com.story.platform.core.support.cache.CacheStrategy
 import com.story.platform.core.support.cache.CacheType
 import org.springframework.stereotype.Service
 
@@ -14,7 +14,7 @@ class ComponentModifier(
     @CacheEvict(
         cacheType = CacheType.COMPONENT,
         key = "'workspaceId:' + {#workspaceId} + ':resourceId:' + {#resourceId} + ':componentId:' + {#componentId}",
-        targetCacheStrategies = [CacheStrategyType.GLOBAL],
+        targetCacheStrategies = [CacheStrategy.GLOBAL],
     )
     suspend fun patchComponent(
         workspaceId: String,

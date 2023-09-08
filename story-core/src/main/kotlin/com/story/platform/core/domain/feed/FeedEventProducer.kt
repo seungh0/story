@@ -8,7 +8,7 @@ import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
-import com.story.platform.core.infrastructure.kafka.TopicType
+import com.story.platform.core.infrastructure.kafka.KafkaTopic
 import com.story.platform.core.infrastructure.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -17,7 +17,7 @@ import org.springframework.kafka.core.KafkaTemplate
 
 @EventProducer
 class FeedEventProducer(
-    @Qualifier(KafkaProducerConfig.FEED_KAFKA_TEMPLATE)
+    @Qualifier(KafkaProducerConfig.FEED_KAFKA_PRODUCER)
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val eventHistoryManager: EventHistoryManager,
 
@@ -28,13 +28,13 @@ class FeedEventProducer(
     suspend fun publishEvent(event: EventRecord<FeedEvent>) {
         eventHistoryManager.withSaveEventHistory(
             workspaceId = event.payload.workspaceId,
-            resourceId = ResourceId.SUBSCRIPTIONS,
+            resourceId = ResourceId.FEEDS,
             componentId = event.payload.feedComponentId,
             event = event,
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    topicType = TopicType.FEED,
+                    kafkaTopic = KafkaTopic.FEED,
                     key = KafkaRecordKeyGenerator.feed(eventKey = event.eventKey, slotId = event.payload.slotId),
                     data = event.toJson(),
                 )

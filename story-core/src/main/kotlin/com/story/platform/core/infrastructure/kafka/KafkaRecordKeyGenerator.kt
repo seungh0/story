@@ -16,4 +16,6 @@ object KafkaRecordKeyGenerator {
 
     fun authentication(authenticationKey: String) = authenticationKey
 
+    fun workspace(workspaceId: String) = workspaceId
+
 }

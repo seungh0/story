@@ -13,6 +13,7 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class Feed(
     @field:PrimaryKey
     val key: FeedPrimaryKey,
+    val eventKey: String,
     val sourceResourceId: ResourceId,
     val sourceComponentId: String,
     val payloadJson: String,
@@ -33,7 +34,7 @@ data class FeedPrimaryKey(
     val subscriberId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
-    val eventId: Long,
+    val feedId: Long,
 ) {
 
     companion object {
@@ -41,13 +42,13 @@ data class FeedPrimaryKey(
             workspaceId: String,
             feedComponentId: String,
             subscriberId: String,
-            eventId: Long,
+            feedId: Long,
         ) = FeedPrimaryKey(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
             subscriberId = subscriberId,
-            eventId = eventId,
+            feedId = feedId,
         )
     }
 

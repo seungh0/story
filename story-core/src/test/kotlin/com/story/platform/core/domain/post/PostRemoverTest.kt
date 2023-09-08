@@ -98,7 +98,7 @@ internal class PostRemoverTest(
                 it.accountId shouldBe post.accountId
                 it.title shouldBe post.title
                 it.content shouldBe post.content
-                it.extraJson shouldBe post.extraJson
+                it.extra shouldBe post.extra
             }
 
             val postReverses = postReverseRepository.findAll().toList()
@@ -111,7 +111,7 @@ internal class PostRemoverTest(
                 it.key.postId shouldBe post.key.postId
                 it.title shouldBe post.title
                 it.content shouldBe post.content
-                it.extraJson shouldBe post.extraJson
+                it.extra shouldBe post.extra
             }
         }
     }

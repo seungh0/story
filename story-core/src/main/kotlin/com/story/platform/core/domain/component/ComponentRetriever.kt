@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.component
 
-import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.support.cache.CacheType
@@ -51,17 +51,12 @@ class ComponentRetriever(
         return CursorResult.of(
             data = components.subList(0, cursorRequest.pageSize.coerceAtMost(components.size))
                 .map { component -> ComponentResponse.of(component) },
-            cursor = getCursor(components = components, pageSize = cursorRequest.pageSize)
-        )
-    }
-
-    private suspend fun getCursor(components: List<Component>, pageSize: Int): Cursor<String> {
-        if (components.size > pageSize) {
-            return Cursor.of(
-                cursor = components.subList(0, pageSize.coerceAtMost(components.size)).lastOrNull()?.key?.componentId
+            cursor = CursorUtils.getCursor(
+                listWithNextCursor = components,
+                pageSize = cursorRequest.pageSize,
+                keyGenerator = { component -> component?.key?.componentId }
             )
-        }
-        return Cursor.noMore()
+        )
     }
 
     private suspend fun listComponentsWithCursor(

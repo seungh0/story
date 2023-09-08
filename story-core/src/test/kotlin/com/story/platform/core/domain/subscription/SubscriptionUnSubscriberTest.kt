@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
 internal class SubscriptionUnSubscriberTest(
-    private val subscriptionRemover: SubscriptionRemover,
+    private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
     private val testCleaner: TestCleaner,
@@ -48,7 +48,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // when
-            subscriptionRemover.remove(
+            subscriptionUnSubscriber.remove(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -56,12 +56,12 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // then
-            val subscriptions = subscriberRepository.findAll().toList()
-            subscriptions shouldHaveSize 0
+            val subscribers = subscriberRepository.findAll().toList()
+            subscribers shouldHaveSize 0
 
-            val subscriptionReverses = subscriptionRepository.findAll().toList()
-            subscriptionReverses shouldHaveSize 1
-            subscriptionReverses[0].also {
+            val subscriptions = subscriptionRepository.findAll().toList()
+            subscriptions shouldHaveSize 1
+            subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
                 it.key.subscriberId shouldBe subscriberId
@@ -79,7 +79,7 @@ internal class SubscriptionUnSubscriberTest(
             val subscriberId = "2000"
 
             // when
-            subscriptionRemover.remove(
+            subscriptionUnSubscriber.remove(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -90,8 +90,8 @@ internal class SubscriptionUnSubscriberTest(
             val subscribers: List<Subscriber> = subscriberRepository.findAll().toList()
             subscribers shouldHaveSize 0
 
-            val subscriptionReverses = subscriptionRepository.findAll().toList()
-            subscriptionReverses shouldHaveSize 0
+            val subscriptions = subscriptionRepository.findAll().toList()
+            subscriptions shouldHaveSize 0
         }
 
         test("구독 취소시 이미 구독 취소 이력이 있다면 멱등성을 갖는다") {
@@ -113,7 +113,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // when
-            subscriptionRemover.remove(
+            subscriptionUnSubscriber.remove(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -121,12 +121,12 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // then
-            val subscriptions = subscriberRepository.findAll().toList()
-            subscriptions shouldHaveSize 0
+            val subscribers = subscriberRepository.findAll().toList()
+            subscribers shouldHaveSize 0
 
-            val subscriptionReverses = subscriptionRepository.findAll().toList()
-            subscriptionReverses shouldHaveSize 1
-            subscriptionReverses[0].also {
+            val subscriptions = subscriptionRepository.findAll().toList()
+            subscriptions shouldHaveSize 1
+            subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
                 it.key.subscriberId shouldBe subscriberId

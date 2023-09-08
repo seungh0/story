@@ -3,17 +3,19 @@ package com.story.platform.api.domain.component
 import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.json.toObject
+import com.story.platform.core.common.logger.LoggerExtension.log
 import com.story.platform.core.common.spring.EventConsumer
 import com.story.platform.core.domain.component.ComponentEvent
 import com.story.platform.core.domain.component.ComponentLocalCacheEvictManager
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig
+import com.story.platform.core.infrastructure.kafka.RetryableKafkaListener
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.annotation.DltHandler
 import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.messaging.handler.annotation.Payload
 
@@ -25,10 +27,10 @@ class ComponentCacheEvictConsumer(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
-    @KafkaListener(
-        topics = ["\${story.kafka.topic.component}"],
+    @RetryableKafkaListener(
+        topics = ["\${story.kafka.topic.component.name}"],
         groupId = "$GROUP_ID-\${random.uuid}",
-        containerFactory = KafkaConsumerConfig.COMPONENT_CONTAINER_FACTORY,
+        containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
     )
     fun handleComponentCacheEviction(
         @Payload record: ConsumerRecord<String, String>,
@@ -50,6 +52,20 @@ class ComponentCacheEvictConsumer(
                 resourceId = payload.resourceId,
                 componentId = payload.componentId,
             )
+        }
+    }
+
+    @DltHandler
+    fun dltHandler(
+        @Payload record: ConsumerRecord<String, String>,
+        @Headers headers: Map<String, Any>,
+    ) = runBlocking {
+        log.error {
+            """
+            Component Cache Evict Consumer DLT is Received
+            - record=$record
+            - headers=$headers
+            """.trimIndent()
         }
     }
 

@@ -1,0 +1,11 @@
+### Nonce를 할당 받습니다
+POST {{api}}/v1/nonce
+Content-Type: application/json
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+        client.global.set("NONCE", response.body["result"]["nonce"])
+    });
+%}

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
+import org.springframework.kafka.listener.ContainerProperties.AckMode
 import org.springframework.kafka.listener.DefaultErrorHandler
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.util.backoff.FixedBackOff
@@ -18,41 +19,34 @@ class KafkaConsumerConfig(
     private val kafkaProperties: KafkaProperties,
 ) {
 
-    @Bean(name = [POST_CONTAINER_FACTORY])
-    fun postKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
+    @Bean(name = [DEFAULT_KAFKA_CONSUMER])
+    fun defaultKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
         return concurrentKafkaListenerContainerFactory(
             maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
             enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
+            ackMode = AckMode.RECORD,
+            batchListener = false,
+            concurrency = 1,
         )
     }
 
-    @Bean(name = [SUBSCRIPTION_CONTAINER_FACTORY])
-    fun subscriptionKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
+    @Bean(name = [DEFAULT_BATCH_KAFKA_CONSUMER])
+    fun defaultBatchKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
         return concurrentKafkaListenerContainerFactory(
             maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
-            enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
-        )
-    }
-
-    @Bean(name = [COMPONENT_CONTAINER_FACTORY])
-    fun componentKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
-        return concurrentKafkaListenerContainerFactory(
-            maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
-            enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
-        )
-    }
-
-    @Bean(name = [AUTHENTICATION_KEY_CONTAINER_FACTORY])
-    fun authenticationKeyKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
-        return concurrentKafkaListenerContainerFactory(
-            maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
-            enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
+            enableAutoCommit = true, // 중복 레코드 컨슈밍 가능,
+            ackMode = AckMode.BATCH,
+            batchListener = true,
+            concurrency = 1,
         )
     }
 
     fun concurrentKafkaListenerContainerFactory(
         maxPollRecords: Int = 500,
         enableAutoCommit: Boolean = true,
+        concurrency: Int,
+        ackMode: AckMode,
+        batchListener: Boolean,
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.consumerFactory = DefaultKafkaConsumerFactory(
@@ -61,7 +55,9 @@ class KafkaConsumerConfig(
                 enableAutoCommit = enableAutoCommit,
             )
         )
-        factory.setConcurrency(1)
+        factory.setConcurrency(concurrency)
+        factory.containerProperties.ackMode = ackMode
+        factory.isBatchListener = batchListener
 
         factory.setCommonErrorHandler(
             DefaultErrorHandler({ consumerRecord, exception ->
@@ -131,10 +127,8 @@ class KafkaConsumerConfig(
     }
 
     companion object {
-        const val AUTHENTICATION_KEY_CONTAINER_FACTORY = "authenticationKeyContainerFactory"
-        const val COMPONENT_CONTAINER_FACTORY = "componentContainerFactory"
-        const val POST_CONTAINER_FACTORY = "postContainerFactory"
-        const val SUBSCRIPTION_CONTAINER_FACTORY = "subscriptionContainerFactory"
+        const val DEFAULT_KAFKA_CONSUMER = "defaultKafkaConsumer"
+        const val DEFAULT_BATCH_KAFKA_CONSUMER = "defaultBatchKafkaConsumer"
     }
 
 }

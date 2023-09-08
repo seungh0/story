@@ -1,9 +1,11 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.common.coroutine.toMutableList
 import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Service
 class SubscriptionRetriever(
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberRepository: SubscriberRepository,
-    private val subscriberSequenceGenerator: SubscriberSequenceGenerator,
+    private val subscriberSequenceRepository: SubscriberSequenceRepository,
 ) {
 
     suspend fun isSubscriber(
@@ -67,7 +69,7 @@ class SubscriptionRetriever(
     ): CursorResult<Subscriber, String> {
         val firstSlotId = SubscriptionSlotAssigner.FIRST_SLOT_ID
         val lastSlotId = SubscriptionSlotAssigner.assign(
-            subscriberSequenceGenerator.lastSequence(
+            subscriberSequenceRepository.lastSequence(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId
@@ -84,65 +86,68 @@ class SubscriptionRetriever(
             )?.slotId
         } ?: lastSlotId
 
-        val subscriptionSlice = if (cursorRequest.cursor == null) {
-            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdLessThan(
+        val subscribers = if (cursorRequest.cursor == null) {
+            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
                 slotId = currentSlotId,
-                pageable = CassandraPageRequest.first(cursorRequest.pageSize)
+                pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
         } else {
-            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
+            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThanOrderByKeySubscriberIdDesc(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
                 slotId = currentSlotId,
                 subscriberId = cursorRequest.cursor,
-                pageable = CassandraPageRequest.first(cursorRequest.pageSize)
+                pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
+        }.toMutableList()
+
+        var previousCursor = CursorUtils.getCursor(
+            listWithNextCursor = subscribers,
+            pageSize = cursorRequest.pageSize,
+            keyGenerator = { subscription -> subscription?.key?.subscriberId }
+        )
+
+        if (!previousCursor.hasNext && currentSlotId > firstSlotId) {
+            previousCursor = Cursor.of(cursor = subscribers.lastOrNull()?.key?.subscriberId)
         }
 
-        var previousCursor = SubscriberCursorCalculator.getNextCursorBySubscription(subscriptionSlice)
-        if (previousCursor == null && currentSlotId > firstSlotId) {
-            subscriptionSlice.content.lastOrNull()?.key?.subscriberId ?: cursorRequest.cursor
-        }
-
-        if (!subscriptionSlice.hasNext() && subscriptionSlice.size >= cursorRequest.pageSize) {
+        if (subscribers.size >= cursorRequest.pageSize) {
             return CursorResult.of(
-                data = subscriptionSlice.content,
-                cursor = Cursor.of(cursor = previousCursor),
+                data = subscribers.subList(0, cursorRequest.pageSize.coerceAtMost(subscribers.size)),
+                cursor = previousCursor,
             )
         }
-
-        val subscribers = subscriptionSlice.content as MutableList<Subscriber>
 
         while (subscribers.size < cursorRequest.pageSize && --currentSlotId >= firstSlotId) {
             val needMoreSize = cursorRequest.pageSize - subscribers.size
-            val subscriptionsInCurrentSlot =
-                subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
+            val subscribersInSlotWithNextCursor =
+                subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     targetId = targetId,
-                    slotId = lastSlotId,
+                    slotId = currentSlotId,
                     pageable = CassandraPageRequest.first(needMoreSize + 1)
-                )
+                ).toList()
 
-            val sizeOfCurrentCursor = needMoreSize.coerceAtMost(subscriptionSlice.size)
-            val subscriptionInCurrentCursor = subscriptionsInCurrentSlot.content.subList(0, sizeOfCurrentCursor)
-            subscribers += subscriptionInCurrentCursor
+            subscribers += subscribersInSlotWithNextCursor.subList(
+                0,
+                needMoreSize.coerceAtMost(subscribersInSlotWithNextCursor.size)
+            )
 
-            previousCursor =
-                if (subscriptionsInCurrentSlot.size > needMoreSize || currentSlotId > firstSlotId) {
-                    subscriptionInCurrentCursor.lastOrNull()?.key?.subscriberId
-                } else {
-                    null
-                }
+            previousCursor = CursorUtils.getCursor(
+                listWithNextCursor = subscribersInSlotWithNextCursor,
+                pageSize = needMoreSize,
+                keyGenerator = { subscriber -> subscriber?.key?.subscriberId }
+            )
         }
 
         return CursorResult.of(
             data = subscribers,
-            cursor = Cursor.of(cursor = previousCursor)
+            cursor = previousCursor
         )
     }
 
@@ -154,7 +159,7 @@ class SubscriptionRetriever(
     ): CursorResult<Subscriber, String> {
         val firstSlotId = SubscriptionSlotAssigner.FIRST_SLOT_ID
         val lastSlotId = SubscriptionSlotAssigner.assign(
-            subscriberSequenceGenerator.lastSequence(
+            subscriberSequenceRepository.lastSequence(
                 workspaceId,
                 componentId,
                 targetId
@@ -171,64 +176,66 @@ class SubscriptionRetriever(
             )?.slotId
         } ?: firstSlotId
 
-        val subscriptionSlice = if (cursorRequest.cursor == null) {
-            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
+        val subscribers = if (cursorRequest.cursor == null) {
+            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdAsc(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
                 slotId = currentSlotId,
-                pageable = CassandraPageRequest.first(cursorRequest.pageSize)
+                pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
         } else {
-            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
+            subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanOrderByKeySubscriberIdAsc(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
                 slotId = currentSlotId,
                 subscriberId = cursorRequest.cursor,
-                pageable = CassandraPageRequest.first(cursorRequest.pageSize)
+                pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
+        }.toMutableList()
+
+        var nextCursor = CursorUtils.getCursor(
+            listWithNextCursor = subscribers,
+            pageSize = cursorRequest.pageSize,
+            keyGenerator = { subscription -> subscription?.key?.subscriberId }
+        )
+
+        if (!nextCursor.hasNext && currentSlotId < lastSlotId) {
+            nextCursor = Cursor.of(cursor = subscribers.lastOrNull()?.key?.subscriberId)
         }
 
-        var nextCursor: String? = SubscriberCursorCalculator.getNextCursorBySubscription(subscriptionSlice)
-        if (nextCursor == null && currentSlotId < lastSlotId) {
-            subscriptionSlice.content.lastOrNull()?.key?.subscriberId ?: cursorRequest.cursor
-        }
-
-        if (subscriptionSlice.size >= cursorRequest.pageSize) {
+        if (subscribers.size >= cursorRequest.pageSize) {
             return CursorResult.of(
-                data = subscriptionSlice.content,
-                cursor = Cursor.of(cursor = nextCursor),
+                data = subscribers.subList(0, cursorRequest.pageSize.coerceAtMost(subscribers.size)),
+                cursor = nextCursor,
             )
         }
 
-        val subscribers = subscriptionSlice.content as MutableList<Subscriber>
-
-        while (cursorRequest.pageSize > subscribers.size && ++currentSlotId <= lastSlotId) {
+        while (subscribers.size < cursorRequest.pageSize && ++currentSlotId <= lastSlotId) {
             val needMoreSize = cursorRequest.pageSize - subscribers.size
-            val subscriptionsInCurrentSlot =
-                subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
+            val subscribersInSlotWithNextCursor =
+                subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdAsc(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     targetId = targetId,
                     slotId = currentSlotId,
                     pageable = CassandraPageRequest.first(needMoreSize + 1)
-                )
+                ).toList()
 
-            val sizeOfCurrentCursor = needMoreSize.coerceAtMost(subscriptionSlice.size)
-            val subscriptionInCurrentCursor = subscriptionsInCurrentSlot.content.subList(0, sizeOfCurrentCursor)
-            subscribers += subscriptionInCurrentCursor
+            subscribers += subscribersInSlotWithNextCursor
+                .subList(0, needMoreSize.coerceAtMost(subscribersInSlotWithNextCursor.size))
 
-            nextCursor = if (subscriptionInCurrentCursor.size > needMoreSize || currentSlotId < lastSlotId) {
-                subscriptionInCurrentCursor.lastOrNull()?.key?.subscriberId
-            } else {
-                null
-            }
+            nextCursor = CursorUtils.getCursor(
+                listWithNextCursor = subscribersInSlotWithNextCursor,
+                pageSize = needMoreSize,
+                keyGenerator = { subscriber -> subscriber?.key?.subscriberId }
+            )
         }
 
         return CursorResult.of(
             data = subscribers,
-            cursor = Cursor.of(cursor = nextCursor)
+            cursor = nextCursor
         )
     }
 
@@ -264,8 +271,10 @@ class SubscriptionRetriever(
 
         return CursorResult.of(
             data = data.map { subscription -> SubscriptionResponse.of(subscription) },
-            cursor = Cursor.of(
-                cursor = getNextCursor(subscriptions = subscriptions, cursorRequest = cursorRequest),
+            cursor = CursorUtils.getCursor(
+                listWithNextCursor = subscriptions,
+                pageSize = cursorRequest.pageSize,
+                keyGenerator = { subscription -> subscription?.key?.targetId }
             )
         )
     }
@@ -319,13 +328,6 @@ class SubscriptionRetriever(
             targetId = cursorRequest.cursor,
             pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)
         ).toList()
-    }
-
-    private suspend fun getNextCursor(subscriptions: List<Subscription>, cursorRequest: CursorRequest): String? {
-        if (subscriptions.size <= cursorRequest.pageSize) {
-            return null
-        }
-        return subscriptions[cursorRequest.pageSize - 1].key.targetId
     }
 
 }

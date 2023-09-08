@@ -5,14 +5,14 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
 import java.util.concurrent.CompletableFuture
 
-fun <K : Any, V> KafkaTemplate<K, V>.send(topicType: TopicType, key: K, data: V): CompletableFuture<SendResult<K, V>> {
-    val sendResult = this.send(KafkaTopicFinder.getTopicName(topicType), key, data)
+fun <K : Any, V> KafkaTemplate<K, V>.send(kafkaTopic: KafkaTopic, key: K, data: V): CompletableFuture<SendResult<K, V>> {
+    val sendResult = this.send(KafkaTopicFinder.getTopicName(kafkaTopic), key, data)
     sendResult.handleExceptionAsync()
     return sendResult
 }
 
-fun <K : Any, V> KafkaTemplate<K, V>.send(topicType: TopicType, data: V): CompletableFuture<SendResult<K, V>> {
-    val sendResult = this.send(KafkaTopicFinder.getTopicName(topicType), data)
+fun <K : Any, V> KafkaTemplate<K, V>.send(kafkaTopic: KafkaTopic, data: V): CompletableFuture<SendResult<K, V>> {
+    val sendResult = this.send(KafkaTopicFinder.getTopicName(kafkaTopic), data)
     sendResult.handleExceptionAsync()
     return sendResult
 }

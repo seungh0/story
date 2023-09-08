@@ -1,5 +1,8 @@
 === Post Create API
 
+> This API is non-idempotent and provides the option to prevent duplicate calls using a nonce. [Ref.
+Nonce Documentation]
+
 include::{snippets}/POST-CREATE-API/request-path.adoc[]
 
 ==== [Request]

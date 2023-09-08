@@ -1,0 +1,33 @@
+### 리액션을 등록 & 수정합니다
+PUT {{api}}/v1/reactions/components/post-like/spaces/{{POST_ID}}
+Content-Type: application/json
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+
+{
+    "accountId": "{{ACCOUNT_ID}}",
+    "emotions": [
+        {
+            "emotionId": "1"
+        },
+        {
+            "emotionId": "3"
+        }
+    ]
+}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+
+
+### 리액션을 취소합니다
+DELETE {{api}}/v1/reactions/components/post-like/spaces/{{POST_ID}}?accountId={{ACCOUNT_ID}}
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+
+
+### 리액션을 조회합니다
+GET {{api}}/v1/reactions/components/post-like/spaces?accountId={{ACCOUNT_ID}}&spaceIds={{POST_ID}}&
+    emotionIds=1,2,3,4,5,6
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}

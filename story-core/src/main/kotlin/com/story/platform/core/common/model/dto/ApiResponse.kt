@@ -1,10 +1,13 @@
 package com.story.platform.core.common.model.dto
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.story.platform.core.common.error.ErrorCode
 
 data class ApiResponse<T>(
     val ok: Boolean,
     val error: String? = null,
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    val messages: List<String>? = null,
     val result: T?,
 ) {
 
@@ -13,10 +16,11 @@ data class ApiResponse<T>(
 
         fun <T> fail(
             error: ErrorCode,
-            errorMessage: String? = null,
+            messages: Collection<String>? = null,
         ): ApiResponse<T> = ApiResponse(
             ok = false,
-            error = if (errorMessage.isNullOrBlank()) error.code else errorMessage,
+            error = error.code,
+            messages = messages?.toList(),
             result = null,
         )
 

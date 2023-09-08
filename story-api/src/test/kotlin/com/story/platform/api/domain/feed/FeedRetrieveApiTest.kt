@@ -13,7 +13,6 @@ import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
-import com.story.platform.core.domain.feed.FeedResponse
 import com.story.platform.core.domain.post.PostEvent
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionEvent
@@ -66,7 +65,8 @@ class FeedRetrieveApiTest(
             )
         } returns CursorResult.of(
             data = listOf(
-                FeedResponse(
+                FeedApiResponse(
+                    feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
                     componentId = "account-post",
                     payload = PostEvent(
@@ -78,7 +78,7 @@ class FeedRetrieveApiTest(
                         accountId = "account-id",
                         title = "Post Title",
                         content = "Post Content",
-                        extraJson = null,
+                        extra = mapOf("key" to "value"),
                         createdAt = LocalDateTime.now(),
                         updatedAt = LocalDateTime.now(),
                     )
@@ -128,6 +128,8 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("result"),
                         PayloadDocumentation.fieldWithPath("result.data")
                             .type(JsonFieldType.ARRAY).description("feed list"),
+                        PayloadDocumentation.fieldWithPath("result.data[].feedId")
+                            .type(JsonFieldType.STRING).description("Feed Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].resourceId")
                             .type(JsonFieldType.STRING).description("Resource Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].componentId")
@@ -150,9 +152,12 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Post Title"),
                         PayloadDocumentation.fieldWithPath("result.data[].payload.content")
                             .type(JsonFieldType.STRING).description("Post Content"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.extraJson")
-                            .type(JsonFieldType.STRING).description("Post Extra Json")
-                            .optional(),
+                        PayloadDocumentation.fieldWithPath("result.data[].payload.extra")
+                            .type(JsonFieldType.OBJECT).description("Post extra value"),
+                        PayloadDocumentation.fieldWithPath("result.data[].payload.extra.key")
+                            .type(JsonFieldType.STRING).description("Post extra key").optional(),
+                        PayloadDocumentation.fieldWithPath("result.data[].payload.extra.value")
+                            .type(JsonFieldType.STRING).description("Post extra value").optional(),
                         PayloadDocumentation.fieldWithPath("result.data[].payload.createdAt")
                             .type(JsonFieldType.STRING).description("Post Created At"),
                         PayloadDocumentation.fieldWithPath("result.data[].payload.updatedAt")
@@ -181,7 +186,8 @@ class FeedRetrieveApiTest(
             )
         } returns CursorResult.of(
             data = listOf(
-                FeedResponse(
+                FeedApiResponse(
+                    feedId = "30000",
                     resourceId = ResourceId.SUBSCRIPTIONS.code,
                     componentId = "follow",
                     payload = SubscriptionEvent(
@@ -239,6 +245,8 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("result"),
                         PayloadDocumentation.fieldWithPath("result.data")
                             .type(JsonFieldType.ARRAY).description("feed list"),
+                        PayloadDocumentation.fieldWithPath("result.data[].feedId")
+                            .type(JsonFieldType.STRING).description("Feed Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].resourceId")
                             .type(JsonFieldType.STRING).description("Resource Id"),
                         PayloadDocumentation.fieldWithPath("result.data[].componentId")

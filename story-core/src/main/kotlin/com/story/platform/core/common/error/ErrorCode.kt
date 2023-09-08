@@ -13,6 +13,7 @@ enum class ErrorCode(
     E400_INVALID_CURSOR(httpStatusCode = 400, code = "invalid_cursor"),
     E400_INVALID_POST_ID(httpStatusCode = 400, code = "invalid_post_id"),
     E400_INACTIVATED_WORKSPACE(httpStatusCode = 400, code = "inactivated_workspace"),
+    E400_INVALID_NONCE(httpStatusCode = 400, code = "invalid_nonce"),
 
     /**
      * 401 UnAuthorized
@@ -26,6 +27,10 @@ enum class ErrorCode(
      */
     E403_NO_PERMISSION(httpStatusCode = 403, code = "no_permission"),
     E403_FEED_MAPPING_CAPACITY_EXCEEDED(httpStatusCode = 403, code = "feed_mapping_capacity_exceed"),
+    E403_WORKSPACE_PURGE_RETENTION_PERIOD_VIOLATION(
+        httpStatusCode = 403,
+        code = "workspace_purge_retention_period_violation"
+    ),
 
     /**
      * 404 NotFound

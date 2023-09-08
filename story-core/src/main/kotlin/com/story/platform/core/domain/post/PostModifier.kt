@@ -3,6 +3,9 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.common.error.NoPermissionException
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
+import com.story.platform.core.support.cache.CacheEvict
+import com.story.platform.core.support.cache.CacheStrategy
+import com.story.platform.core.support.cache.CacheType
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -12,13 +15,18 @@ class PostModifier(
     private val postRepository: PostRepository,
 ) {
 
+    @CacheEvict(
+        cacheType = CacheType.POST,
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':postId:' + {#postId}",
+        targetCacheStrategies = [CacheStrategy.GLOBAL]
+    )
     suspend fun patch(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         postId: Long,
         title: String?,
         content: String?,
-        extraJson: String?,
+        extra: Map<String, String?>?,
     ): PostPatchResponse {
         val slotId = PostSlotAssigner.assign(postId)
 
@@ -37,7 +45,7 @@ class PostModifier(
         val hasChanged = post.patch(
             title = title,
             content = content,
-            extraJson = extraJson,
+            extra = extra,
         )
 
         reactiveCassandraOperations.batchOps()

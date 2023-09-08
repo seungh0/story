@@ -9,12 +9,12 @@ val kotestVersion: String by project.extra
 val kotestSpringExtensionVersion: String by project.extra
 
 plugins {
-    id("org.springframework.boot") version "3.1.2"
+    id("org.springframework.boot") version "3.1.3"
     id("io.spring.dependency-management") version "1.1.3"
     id("application")
     id("org.asciidoctor.jvm.convert") version "3.3.2"
-    kotlin("jvm") version "1.9.0"
-    kotlin("plugin.spring") version "1.9.0"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.spring") version "1.9.10"
     id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
 }
 
@@ -51,9 +51,6 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-        // Kotlin Logging
-        implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
-
         // Kotlinx Coroutines
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
@@ -63,16 +60,16 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter-json")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-        // Reactor
-        testImplementation("io.projectreactor:reactor-test")
-
-        // Spring MockK
-        testImplementation("com.ninja-squad:springmockk:$springMockkVersion")
+        // Logging
+        implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
 
         // Kotest
         testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
         testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
         testImplementation("io.kotest.extensions:kotest-extensions-spring:$kotestSpringExtensionVersion")
+
+        // Spring MockK
+        testImplementation("com.ninja-squad:springmockk:$springMockkVersion")
     }
 
     configurations {

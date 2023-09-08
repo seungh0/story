@@ -6,6 +6,7 @@ import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
+import com.story.platform.api.lib.RestDocsUtils.remarks
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
@@ -84,6 +85,7 @@ class AuthenticationCreateApiTest(
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
                             .description("Description")
+                            .attributes(remarks("must be within 300 characters"))
                             .optional(),
                     ),
                     PayloadDocumentation.responseFields(

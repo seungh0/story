@@ -7,6 +7,8 @@ import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
+import com.story.platform.api.lib.RestDocsUtils.convertToString
+import com.story.platform.api.lib.RestDocsUtils.remarks
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
@@ -98,10 +100,11 @@ class ComponentModifyApiTest(
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
                             .description("Description")
+                            .attributes(remarks("must be within 300 characters"))
                             .optional(),
                         PayloadDocumentation.fieldWithPath("status").type(JsonFieldType.STRING)
                             .description("Component Status")
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java)))
+                            .attributes(remarks(convertToString(ComponentStatus::class.java)))
                             .optional(),
                     ),
                     PayloadDocumentation.responseFields(

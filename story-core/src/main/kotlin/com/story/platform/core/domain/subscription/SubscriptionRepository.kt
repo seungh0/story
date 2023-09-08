@@ -18,29 +18,12 @@ interface SubscriptionRepository :
         targetId: String,
     ): Subscription?
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyOrderByKeyTargetIdAsc(
         workspaceId: String,
         componentId: String,
         distributionKey: String,
         pageable: Pageable,
     ): Slice<Subscription>
-
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdDesc(
-        workspaceId: String,
-        componentId: String,
-        distributionKey: String,
-        subscriberId: String,
-        pageable: Pageable,
-    ): Flow<Subscription>
-
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
-        workspaceId: String,
-        componentId: String,
-        distributionKey: String,
-        subscriberId: String,
-        targetId: String,
-        pageable: Pageable,
-    ): Flow<Subscription>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdAsc(
         workspaceId: String,
@@ -51,6 +34,23 @@ interface SubscriptionRepository :
     ): Flow<Subscription>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
+        workspaceId: String,
+        componentId: String,
+        distributionKey: String,
+        subscriberId: String,
+        targetId: String,
+        pageable: Pageable,
+    ): Flow<Subscription>
+
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdDesc(
+        workspaceId: String,
+        componentId: String,
+        distributionKey: String,
+        subscriberId: String,
+        pageable: Pageable,
+    ): Flow<Subscription>
+
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
         workspaceId: String,
         componentId: String,
         distributionKey: String,

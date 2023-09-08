@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.subscription
 
+import kotlinx.coroutines.flow.Flow
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface SubscriberRepository : CoroutineCrudRepository<Subscriber, SubscriberPrimaryKey> {
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdAsc(
         workspaceId: String,
         componentId: String,
         targetId: String,
@@ -17,38 +18,38 @@ interface SubscriberRepository : CoroutineCrudRepository<Subscriber, SubscriberP
         pageable: Pageable,
     ): Slice<Subscriber>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanEqual(
-        workspaceId: String,
-        componentId: String,
-        targetId: String,
-        slotId: Long,
-        subscriberId: String,
-        pageable: Pageable,
-    ): Slice<Subscriber>
-
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThan(
-        workspaceId: String,
-        componentId: String,
-        targetId: String,
-        slotId: Long,
-        pageable: Pageable,
-    ): Slice<Subscriber>
-
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdAndKeySubscriberIdLessThan(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanOrderByKeySubscriberIdAsc(
         workspaceId: String,
         componentId: String,
         targetId: String,
         slotId: Long,
         subscriberId: String,
         pageable: Pageable,
-    ): Slice<Subscriber>
+    ): Flow<Subscriber>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdLessThan(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdAsc(
         workspaceId: String,
         componentId: String,
         targetId: String,
         slotId: Long,
         pageable: CassandraPageRequest,
-    ): Slice<Subscriber>
+    ): Flow<Subscriber>
+
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThanOrderByKeySubscriberIdDesc(
+        workspaceId: String,
+        componentId: String,
+        targetId: String,
+        slotId: Long,
+        subscriberId: String,
+        pageable: Pageable,
+    ): Flow<Subscriber>
+
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
+        workspaceId: String,
+        componentId: String,
+        targetId: String,
+        slotId: Long,
+        pageable: CassandraPageRequest,
+    ): Flow<Subscriber>
 
 }

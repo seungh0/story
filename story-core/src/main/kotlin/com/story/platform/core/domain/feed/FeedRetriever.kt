@@ -1,9 +1,9 @@
 package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.distribution.XLargeDistributionKey
-import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.event.BaseEvent
 import kotlinx.coroutines.flow.Flow
@@ -41,7 +41,11 @@ class FeedRetriever(
         return CursorResult.of(
             data = feeds.subList(0, cursorRequest.pageSize.coerceAtMost(feeds.size))
                 .map { feed -> FeedResponse.of(feed) },
-            cursor = getCursor(feeds = feeds, pageSize = cursorRequest.pageSize)
+            cursor = CursorUtils.getCursor(
+                listWithNextCursor = feeds,
+                pageSize = cursorRequest.pageSize,
+                keyGenerator = { feed -> feed?.key?.feedId?.toString() }
+            )
         )
     }
 
@@ -60,12 +64,12 @@ class FeedRetriever(
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize),
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdLessThan(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdLessThan(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
             subscriberId = subscriberId,
-            eventId = cursorRequest.cursor.toLong(),
+            feedId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize),
         )
     }
@@ -77,7 +81,7 @@ class FeedRetriever(
         cursorRequest: CursorRequest,
     ): Flow<Feed> {
         if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyEventIdAsc(
+            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyFeedIdAsc(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
                 distributionKey = XLargeDistributionKey.makeKey(targetId).key,
@@ -85,23 +89,14 @@ class FeedRetriever(
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyEventIdGreaterThanOrderByKeyEventIdAsc(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             distributionKey = XLargeDistributionKey.makeKey(targetId).key,
             subscriberId = targetId,
-            eventId = cursorRequest.cursor.toLong(),
+            feedId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
         )
-    }
-
-    private suspend fun getCursor(feeds: List<Feed>, pageSize: Int): Cursor<String> {
-        if (feeds.size > pageSize) {
-            return Cursor.of(
-                cursor = feeds.subList(0, pageSize.coerceAtMost(feeds.size)).lastOrNull()?.key?.eventId?.toString()
-            )
-        }
-        return Cursor.noMore()
     }
 
 }

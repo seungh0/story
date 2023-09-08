@@ -1,13 +1,27 @@
 package com.story.platform.core.domain.subscription
 
-interface SubscribersCountRepository {
+import com.story.platform.core.infrastructure.redis.StringRedisRepository
+import org.springframework.stereotype.Repository
 
-    suspend fun increase(key: SubscribersCountKey, count: Long = 1L): Long
+@Repository
+class SubscribersCountRepository(
+    private val stringRedisRepository: StringRedisRepository<SubscribersCountKey, Long>,
+) {
 
-    suspend fun decrease(key: SubscribersCountKey, count: Long = 1L): Long
+    suspend fun increase(key: SubscribersCountKey, count: Long = 1L): Long {
+        return stringRedisRepository.incrBy(key = key, count = count)
+    }
 
-    suspend fun get(key: SubscribersCountKey): Long
+    suspend fun decrease(key: SubscribersCountKey, count: Long = 1L): Long {
+        return stringRedisRepository.decrBy(key = key, count = count)
+    }
 
-    suspend fun delete(key: SubscribersCountKey)
+    suspend fun get(key: SubscribersCountKey): Long {
+        return stringRedisRepository.get(key) ?: 0L
+    }
+
+    suspend fun delete(key: SubscribersCountKey) {
+        return stringRedisRepository.del(key)
+    }
 
 }

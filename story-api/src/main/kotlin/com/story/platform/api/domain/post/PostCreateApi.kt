@@ -8,6 +8,7 @@ import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -24,6 +25,7 @@ class PostCreateApi(
         @PathVariable spaceId: String,
         @Valid @RequestBody request: PostCreateApiRequest,
         @RequestAuthContext authContext: AuthContext,
+        @RequestParam(required = false) nonce: String? = null,
     ): ApiResponse<PostCreateApiResponse> {
         val postId = postCreateHandler.createPost(
             postSpaceKey = PostSpaceKey(
@@ -34,7 +36,8 @@ class PostCreateApi(
             accountId = request.accountId,
             title = request.title,
             content = request.content,
-            extraJson = request.extraJson,
+            extra = request.extra,
+            nonce = nonce,
         )
         return ApiResponse.ok(PostCreateApiResponse.of(postId = postId))
     }
