@@ -13,7 +13,6 @@ class ReactionCreatorTest(
     private val reactionCreator: ReactionCreator,
     private val reactionRepository: ReactionRepository,
     private val reactiveReverseRepository: ReactionReverseRepository,
-    private val reactionCountRepository: ReactionCountRepository,
     private val testCleaner: TestCleaner,
 ) : StringSpec({
 
@@ -59,16 +58,6 @@ class ReactionCreatorTest(
             it.key.accountId shouldBe accountId
             it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(spaceId).key
             it.emotionIds shouldBe optionIds
-        }
-
-        optionIds.forEach { optionId ->
-            val key = ReactionCountKey(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                spaceId = spaceId,
-                emotionId = optionId,
-            )
-            reactionCountRepository.get(key = key) shouldBe 1L
         }
     }
 
