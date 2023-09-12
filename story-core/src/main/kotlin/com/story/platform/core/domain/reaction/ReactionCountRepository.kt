@@ -12,19 +12,9 @@ class ReactionCountRepository(
         return stringRedisRepository.incrBy(key = key, count = count)
     }
 
-    suspend fun increaseBulk(
-        keys: Set<ReactionCountKey>,
-        count: Long,
-    ): Map<ReactionCountKey, Long> = stringRedisRepository.incrBulkBy(keys = keys, count = count)
-
     suspend fun decrease(key: ReactionCountKey, count: Long): Long {
         return stringRedisRepository.decrBy(key = key, count = count)
     }
-
-    suspend fun decreaseBulk(
-        keys: Set<ReactionCountKey>,
-        count: Long,
-    ): Map<ReactionCountKey, Long> = stringRedisRepository.decrBulkBy(keys = keys, count = count)
 
     suspend fun get(key: ReactionCountKey): Long {
         return stringRedisRepository.get(key = key) ?: 0L

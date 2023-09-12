@@ -1,10 +1,7 @@
 package com.story.platform.core.infrastructure.redis
 
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import com.story.platform.core.common.coroutine.CoroutineParallelExecutor
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
@@ -16,184 +13,186 @@ import java.time.Duration
 
 @Repository
 class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
-    private val redisTemplate: ReactiveRedisTemplate<String, String>,
+    private val reactiveRedisTemplate: ReactiveRedisTemplate<String, String>,
 ) : StringRedisRepository<K, V> {
 
     override suspend fun exists(key: K): Boolean {
-        return redisTemplate.opsForValue()[key.makeKeyString()].awaitSingleOrNull() != null
+        return reactiveRedisTemplate.hasKey(key.makeKeyString()).awaitSingle()
     }
 
-    override suspend fun existsBulk(keys: List<K>): Map<K, Boolean> {
+    override suspend fun existsBulk(keys: List<K>, batchSize: Int): Map<K, Boolean> = coroutineScope {
         if (keys.isEmpty()) {
-            return emptyMap()
+            return@coroutineScope emptyMap()
         }
-        val values: List<String?> = keys.chunked(CHUNK_SIZE).mapNotNull { chunkedKeys ->
-            redisTemplate.opsForValue().multiGet(chunkedKeys.map { key -> key.makeKeyString() }).awaitSingleOrNull()
-        }.flatten()
+        val operation = reactiveRedisTemplate.opsForValue()
+        val values: List<String?> = keys.chunked(batchSize)
+            .map { chunkedKeys -> operation.multiGet(chunkedKeys.map { key -> key.makeKeyString() }).awaitSingle() }
+            .flatten()
 
-        return keys.zip(values)
-            .associate { (key, value) -> key to !value.isNullOrBlank() }
+        return@coroutineScope keys.zip(values)
+            .associate { (key, value) -> key to !value.isNullOrBlank() } // ReactiveRedisRepository mget에서 없는 값이 null이 아닌 ""을 반환하는 이슈가 있어서 대응 [https://github.com/spring-projects/spring-data-redis/issues/2402]
     }
 
     override suspend fun get(key: K): V? {
-        return key.deserializeValue(redisTemplate.opsForValue()[key.makeKeyString()].awaitSingleOrNull())
+        return key.deserializeValue(reactiveRedisTemplate.opsForValue()[key.makeKeyString()].awaitSingleOrNull())
     }
 
-    override suspend fun getBulk(keys: List<K>): List<V?> = coroutineScope {
+    override suspend fun getBulk(keys: List<K>, batchSize: Int): List<V?> = coroutineScope {
         if (keys.isEmpty()) {
             return@coroutineScope emptyList()
         }
-        val actualType = keys[0]
-        val values: List<String?> = keys.chunked(CHUNK_SIZE).map { keyList ->
-            async {
-                redisTemplate.opsForValue().multiGet(keyList.map { key -> key.makeKeyString() }).awaitSingle()
-            }
-        }.awaitAll().flatten()
+        val values: List<String?> = keys.chunked(batchSize)
+            .map { chunkedKeys: List<K> ->
+                reactiveRedisTemplate.opsForValue().multiGet(chunkedKeys.map { key -> key.makeKeyString() })
+                    .awaitSingle()
+            }.flatten()
 
-        return@coroutineScope values.map { value -> actualType.deserializeValue(value) }
+        return@coroutineScope values.map { value: String? -> getValue(keyType = keys[0], value = value) }
     }
 
-    override suspend fun setWithTtl(key: K, value: V, ttl: Duration?) {
-        if (ttl == null) {
-            redisTemplate.opsForValue().set(key.makeKeyString(), key.serializeValue(value)).awaitSingleOrNull()
-            return
+    // ReactiveRedisRepository mget에서 없는 값이 null이 아닌 ""을 반환하는 이슈가 있어서 의도적으로 null으로 만들어준다
+    // https://github.com/spring-projects/spring-data-redis/issues/2402
+    private fun getValue(keyType: K, value: String?): V? {
+        if (value.isNullOrBlank()) {
+            return null
         }
-        redisTemplate.opsForValue().set(key.makeKeyString(), key.serializeValue(value), ttl).awaitSingleOrNull()
+        return keyType.deserializeValue(value)
     }
 
-    override suspend fun setBulk(keyValues: Map<K, V>): Unit = coroutineScope {
-        if (keyValues.isEmpty()) {
-            return@coroutineScope
-        }
-
-        keyValues.entries.chunked(CHUNK_SIZE)
-            .chunked(MAX_PARALLEL_COUNT)
-            .map { distributedChunkedEntries ->
-                distributedChunkedEntries.map { chunkedEntries ->
-                    launch {
-                        redisTemplate.opsForValue()
-                            .multiSet(
-                                chunkedEntries.associate { (key, value) ->
-                                    key.makeKeyString() to key.serializeValue(
-                                        value
-                                    )
-                                }
-                            )
-                            .awaitSingleOrNull()
-
-                        chunkedEntries.asSequence()
-                            .map { entry -> entry.key }
-                            .filter { key: K -> key.getTtl() != null }
-                            .forEach { key: K ->
-                                redisTemplate.expire(key.makeKeyString(), key.getTtl()!!).awaitSingleOrNull()
-                            }
-                    }
-                }.joinAll()
-            }
-    }
-
-    override suspend fun setIfAbsentWithTtl(key: K, value: V, ttl: Duration?): Boolean {
-        if (ttl == null) {
-            return redisTemplate.opsForValue().setIfAbsent(key.makeKeyString(), key.serializeValue(value)).awaitSingle()
-        }
-        return redisTemplate.opsForValue().setIfAbsent(key.makeKeyString(), key.serializeValue(value), ttl)
-            .awaitSingle()
-    }
-
-    override suspend fun setIfPresentWithTtl(key: K, value: V, ttl: Duration?): Boolean {
-        if (ttl == null) {
-            return redisTemplate.opsForValue().setIfPresent(key.makeKeyString(), key.serializeValue(value))
-                .awaitSingle()
-        }
-        return redisTemplate.opsForValue().setIfPresent(key.makeKeyString(), key.serializeValue(value), ttl)
-            .awaitSingle()
-    }
-
-    override suspend fun del(key: K) {
-        redisTemplate.delete(key.makeKeyString()).awaitSingleOrNull()
-    }
-
-    override suspend fun delBulk(keys: Set<K>): Unit = coroutineScope {
-        if (keys.isEmpty()) {
-            return@coroutineScope
-        }
-
-        keys.chunked(CHUNK_SIZE)
-            .chunked(MAX_PARALLEL_COUNT)
-            .map { distributedChunkedKeys ->
-                distributedChunkedKeys.map { chunkedKeys ->
-                    launch {
-                        val chunkedKeyStrings = chunkedKeys.asSequence()
-                            .map { key -> key.makeKeyString() }
-                            .toSet()
-                        redisTemplate.delete(*chunkedKeyStrings.toTypedArray()).awaitSingleOrNull()
-                    }
-                }.joinAll()
-            }
-    }
-
-    override suspend fun incrBy(key: K, count: Long): Long {
-        return redisTemplate.opsForValue().increment(key.makeKeyString(), count).awaitSingleOrNull() ?: 0L
-    }
-
-    override suspend fun incrBulkBy(keys: Set<K>, count: Long): Map<K, Long> = coroutineScope {
-        return@coroutineScope keys.asSequence().chunked(CHUNK_SIZE)
-            .chunked(MAX_PARALLEL_COUNT)
-            .map { distributedChunkedKeys ->
-                distributedChunkedKeys.map { chunkedKeys ->
-                    chunkedKeys.map { key ->
-                        async {
-                            key to redisTemplate.opsForValue().increment(key.makeKeyString(), count)
-                                .awaitSingle()
-                        }
-                    }
-                }
-            }.flatten().flatten().toList().awaitAll().toMap()
-    }
-
-    override suspend fun decrBy(key: K, count: Long): Long {
-        return redisTemplate.opsForValue().decrement(key.makeKeyString(), count).awaitSingleOrNull() ?: 0L
-    }
-
-    override suspend fun decrBulkBy(keys: Set<K>, count: Long): Map<K, Long> = coroutineScope {
-        return@coroutineScope keys.asSequence().chunked(CHUNK_SIZE)
-            .chunked(MAX_PARALLEL_COUNT)
-            .map { distributedChunkedKeys ->
-                distributedChunkedKeys.map { chunkedKeys ->
-                    chunkedKeys.map { key ->
-                        async {
-                            key to redisTemplate.opsForValue().decrement(key.makeKeyString(), count).awaitSingle()
-                        }
-                    }
-                }
-            }.flatten().flatten().toList().awaitAll().toMap()
-    }
-
-    override suspend fun getTtl(key: K): Duration {
-        return redisTemplate.getExpire(key.makeKeyString()).awaitSingleOrNull() ?: Duration.ZERO
-    }
-
-    override suspend fun setTtl(key: K, duration: Duration) {
-        redisTemplate.expire(key.makeKeyString(), duration).awaitSingleOrNull()
-    }
-
-    override suspend fun scan(prefix: String): List<String> {
-        val keyByteArrays = redisTemplate.execute { action ->
+    override suspend fun scan(prefix: String, batchSize: Int): List<String> {
+        val keyByteArrays = reactiveRedisTemplate.execute { action ->
             action.keyCommands().scan(
                 ScanOptions.scanOptions()
                     .match("$prefix*")
-                    .count(CHUNK_SIZE.toLong())
-                    .build()
-            )
-                .collectList()
+                    .count(batchSize.toLong())
+                    .build(),
+            ).collectList()
         }.awaitSingle()
 
         return keyByteArrays.map { keyByteArray -> StandardCharsets.UTF_8.decode(keyByteArray).toString() }
     }
 
-    companion object {
-        private const val CHUNK_SIZE = 500
-        private const val MAX_PARALLEL_COUNT = 3
+    override suspend fun setWithTtl(key: K, value: V, ttl: Duration?) {
+        if (ttl == null) {
+            reactiveRedisTemplate.opsForValue().set(key.makeKeyString(), key.serializeValue(value)).awaitSingle()
+            return
+        }
+        reactiveRedisTemplate.opsForValue().set(key.makeKeyString(), key.serializeValue(value), ttl).awaitSingle()
+    }
+
+    override suspend fun setIfAbsentWithTtl(key: K, value: V, ttl: Duration?): Boolean {
+        if (ttl == null) {
+            return reactiveRedisTemplate.opsForValue().setIfAbsent(key.makeKeyString(), key.serializeValue(value))
+                .awaitSingle()
+        }
+        return reactiveRedisTemplate.opsForValue().setIfAbsent(key.makeKeyString(), key.serializeValue(value), ttl)
+            .awaitSingle()
+    }
+
+    override suspend fun setIfPresentWithTtl(key: K, value: V, ttl: Duration?): Boolean {
+        if (ttl == null) {
+            return reactiveRedisTemplate.opsForValue().setIfPresent(key.makeKeyString(), key.serializeValue(value))
+                .awaitSingle()
+        }
+        return reactiveRedisTemplate.opsForValue().setIfPresent(key.makeKeyString(), key.serializeValue(value), ttl)
+            .awaitSingle()
+    }
+
+    override suspend fun setBulk(keyValues: Map<K, V>, batchSize: Int, concurrency: Int) = coroutineScope {
+        if (keyValues.isEmpty()) {
+            return@coroutineScope
+        }
+        CoroutineParallelExecutor.executeJob(
+            tasks = keyValues.entries,
+            batchSize = batchSize,
+            concurrency = concurrency,
+        ) { chunkedEntries ->
+            reactiveRedisTemplate.opsForValue()
+                .multiSet(chunkedEntries.associate { (key, value) -> key.makeKeyString() to key.serializeValue(value) })
+                .awaitSingle()
+            chunkedEntries.asSequence()
+                .map { entry -> entry.key }
+                .filter { key: K -> key.getTtl() != null }
+                .forEach { key: K -> reactiveRedisTemplate.expire(key.makeKeyString(), key.getTtl()!!).awaitSingle() }
+        }
+    }
+
+    override suspend fun del(key: K) {
+        reactiveRedisTemplate.delete(key.makeKeyString()).awaitSingle()
+    }
+
+    override suspend fun delBulk(keys: Set<K>, batchSize: Int, concurrency: Int) = coroutineScope {
+        if (keys.isEmpty()) {
+            return@coroutineScope
+        }
+
+        CoroutineParallelExecutor.executeJob(
+            tasks = keys,
+            batchSize = batchSize,
+            concurrency = concurrency,
+        ) { chunkedKeys ->
+            val chunkedKeyStrings = chunkedKeys.asSequence()
+                .map { key -> key.makeKeyString() }
+                .toSet()
+            reactiveRedisTemplate.delete(*chunkedKeyStrings.toTypedArray()).awaitSingle()
+        }
+    }
+
+    override suspend fun unlink(key: K) {
+        reactiveRedisTemplate.unlink(key.makeKeyString()).awaitSingle()
+    }
+
+    override suspend fun unlinkBulk(keys: Set<K>, batchSize: Int, concurrency: Int) = coroutineScope {
+        if (keys.isEmpty()) {
+            return@coroutineScope
+        }
+        CoroutineParallelExecutor.executeJob(
+            tasks = keys,
+            batchSize = batchSize,
+            concurrency = concurrency,
+        ) { chunkedKeys ->
+            reactiveRedisTemplate.unlink(*chunkedKeys.map { key -> key.makeKeyString() }.toTypedArray()).awaitSingle()
+        }
+    }
+
+    override suspend fun incrBy(key: K, count: Long): Long {
+        return reactiveRedisTemplate.opsForValue().increment(key.makeKeyString(), count).awaitSingle()
+    }
+
+    override suspend fun incrBulkBy(keys: Set<K>, count: Long, batchSize: Int, concurrency: Int) = coroutineScope {
+        CoroutineParallelExecutor.executeJob(
+            tasks = keys,
+            batchSize = batchSize,
+            concurrency = concurrency,
+        ) { chunkedKeys ->
+            chunkedKeys.map { key ->
+                reactiveRedisTemplate.opsForValue().increment(key.makeKeyString(), count).awaitSingle()
+            }
+        }
+    }
+
+    override suspend fun decrBy(key: K, count: Long): Long {
+        return reactiveRedisTemplate.opsForValue().decrement(key.makeKeyString(), count).awaitSingle()
+    }
+
+    override suspend fun decrBulkBy(keys: Set<K>, count: Long, batchSize: Int, concurrency: Int) = coroutineScope {
+        CoroutineParallelExecutor.executeJob(
+            tasks = keys,
+            batchSize = batchSize,
+            concurrency = concurrency,
+        ) { chunkedKeys ->
+            chunkedKeys.map { key ->
+                reactiveRedisTemplate.opsForValue().decrement(key.makeKeyString(), count).awaitSingle()
+            }
+        }
+    }
+
+    override suspend fun getTtl(key: K): Duration {
+        return reactiveRedisTemplate.getExpire(key.makeKeyString()).awaitSingle()
+    }
+
+    override suspend fun setTtl(key: K, duration: Duration) {
+        reactiveRedisTemplate.expire(key.makeKeyString(), duration).awaitSingle()
     }
 
 }

@@ -31,21 +31,22 @@ class FeedConsumer(
     fun handleFeedExecutor(
         @Payload records: List<ConsumerRecord<String, String>>,
     ) = runBlocking {
-        records.chunked(MAX_PARALLEL_COUNT).map { chunkedRecords ->
-            chunkedRecords.map { record ->
-                launch {
-                    val event = record.value().toObject(EventRecord::class.java)
-                        ?: throw IllegalArgumentException("Record can't be deserialize, record: $records")
+        records.chunked(MAX_PARALLEL_COUNT)
+            .map { chunkedRecords ->
+                chunkedRecords.map { record ->
+                    launch {
+                        val event = record.value().toObject(EventRecord::class.java)
+                            ?: throw IllegalArgumentException("Record can't be deserialize, record: $records")
 
-                    val payload = event.payload.toJson().toObject(FeedEvent::class.java)
-                        ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $records")
+                        val payload = event.payload.toJson().toObject(FeedEvent::class.java)
+                            ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $records")
 
-                    withContext(dispatcher) {
-                        feedHandlerManager.handle(event = event, payload = payload)
+                        withContext(dispatcher) {
+                            feedHandlerManager.handle(event = event, payload = payload)
+                        }
                     }
-                }
-            }.joinAll()
-        }
+                }.joinAll()
+            }
     }
 
     companion object {
