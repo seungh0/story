@@ -9,7 +9,3 @@ fun ServerWebExchange.getApiKey(): String? {
 fun ServerWebExchange.getRequestId(): String? {
     return this.request.headers.getFirst(HttpHeader.X_REQUEST_ID.header)
 }
-
-fun ServerWebExchange.getNonce(): String? {
-    return this.request.headers.getFirst(HttpHeader.X_STORY_NONCE.header)
-}

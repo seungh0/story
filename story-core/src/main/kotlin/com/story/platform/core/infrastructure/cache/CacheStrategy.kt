@@ -1,4 +1,4 @@
-package com.story.platform.core.support.cache
+package com.story.platform.core.infrastructure.cache
 
 enum class CacheStrategy(
     private val description: String,

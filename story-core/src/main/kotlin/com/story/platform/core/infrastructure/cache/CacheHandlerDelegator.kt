@@ -1,4 +1,4 @@
-package com.story.platform.core.support.cache
+package com.story.platform.core.infrastructure.cache
 
 import com.story.platform.core.common.error.NotSupportedException
 import com.story.platform.core.common.spring.SpringBeanProvider

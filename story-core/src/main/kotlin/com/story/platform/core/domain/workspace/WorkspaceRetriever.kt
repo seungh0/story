@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.workspace
 
-import com.story.platform.core.support.cache.CacheType
-import com.story.platform.core.support.cache.Cacheable
+import com.story.platform.core.infrastructure.cache.CacheType
+import com.story.platform.core.infrastructure.cache.Cacheable
 import org.springframework.stereotype.Service
 
 @Service

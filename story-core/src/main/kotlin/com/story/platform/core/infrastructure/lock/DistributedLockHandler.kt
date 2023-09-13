@@ -1,4 +1,4 @@
-package com.story.platform.core.support.lock
+package com.story.platform.core.infrastructure.lock
 
 interface DistributedLockHandler {
 

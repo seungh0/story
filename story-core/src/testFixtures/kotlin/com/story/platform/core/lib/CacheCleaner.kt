@@ -1,7 +1,7 @@
 package com.story.platform.core.lib
 
-import com.story.platform.core.support.cache.CacheManager
-import com.story.platform.core.support.cache.CacheType
+import com.story.platform.core.infrastructure.cache.CacheManager
+import com.story.platform.core.infrastructure.cache.CacheType
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.story.platform.core.support.lock
+package com.story.platform.core.infrastructure.lock
 
 import org.intellij.lang.annotations.Language
 import java.util.concurrent.TimeUnit

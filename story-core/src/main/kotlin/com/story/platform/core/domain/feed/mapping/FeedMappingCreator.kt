@@ -2,8 +2,8 @@ package com.story.platform.core.domain.feed.mapping
 
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
-import com.story.platform.core.support.lock.DistributedLock
-import com.story.platform.core.support.lock.DistributedLockType
+import com.story.platform.core.infrastructure.lock.DistributedLock
+import com.story.platform.core.infrastructure.lock.DistributedLockType
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service

@@ -1,4 +1,4 @@
-package com.story.platform.core.support.lock
+package com.story.platform.core.infrastructure.lock
 
 import com.story.platform.core.common.coroutine.coroutineArgs
 import com.story.platform.core.common.coroutine.proceedCoroutine

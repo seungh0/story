@@ -1,9 +1,9 @@
 package com.story.platform.core.domain.authentication
 
 import com.story.platform.core.common.logger.LoggerExtension.log
-import com.story.platform.core.support.cache.CacheEvict
-import com.story.platform.core.support.cache.CacheStrategy
-import com.story.platform.core.support.cache.CacheType
+import com.story.platform.core.infrastructure.cache.CacheEvict
+import com.story.platform.core.infrastructure.cache.CacheStrategy
+import com.story.platform.core.infrastructure.cache.CacheType
 import org.springframework.stereotype.Service
 
 @Service

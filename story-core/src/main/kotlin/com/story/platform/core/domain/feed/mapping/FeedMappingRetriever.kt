@@ -1,8 +1,8 @@
 package com.story.platform.core.domain.feed.mapping
 
 import com.story.platform.core.domain.resource.ResourceId
-import com.story.platform.core.support.cache.CacheType
-import com.story.platform.core.support.cache.Cacheable
+import com.story.platform.core.infrastructure.cache.CacheType
+import com.story.platform.core.infrastructure.cache.Cacheable
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest

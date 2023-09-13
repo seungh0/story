@@ -1,4 +1,4 @@
-package com.story.platform.core.support.cache
+package com.story.platform.core.infrastructure.cache
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import org.springframework.cache.CacheManager

@@ -1,4 +1,4 @@
-package com.story.platform.core.support.cache
+package com.story.platform.core.infrastructure.cache
 
 interface CacheHandler {
 

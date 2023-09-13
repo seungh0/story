@@ -1,4 +1,4 @@
-package com.story.platform.core.support.cache
+package com.story.platform.core.infrastructure.cache
 
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.json.toObject
