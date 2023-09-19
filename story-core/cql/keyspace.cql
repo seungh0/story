@@ -275,7 +275,7 @@ create table feed_mapping_configuration_v1
     AND speculative_retry = '99p';
 
 
-create table feed_reverse_mapping_configuration_v1
+create table feed_mapping_configuration_reverse_v1
 (
     workspace_id              text,
     source_resource_id        text,

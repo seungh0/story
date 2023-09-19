@@ -7,8 +7,8 @@ import io.kotest.matchers.shouldBe
 
 @IntegrationTest
 class SubscriptionCountRetrieverTest(
+    private val subscriberCountRepository: SubscriberCountRepository,
     private val subscriptionCountRetriever: SubscriptionCountRetriever,
-    private val subscribersCountRepository: SubscribersCountRepository,
     private val testCleaner: TestCleaner,
 ) : FunSpec({
 
@@ -21,8 +21,8 @@ class SubscriptionCountRetrieverTest(
             // given
             val count = 999L
 
-            subscribersCountRepository.increase(
-                key = SubscribersCountKey(
+            subscriberCountRepository.increase(
+                key = SubscriberCountPrimaryKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     targetId = targetId,

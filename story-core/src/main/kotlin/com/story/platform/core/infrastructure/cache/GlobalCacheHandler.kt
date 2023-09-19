@@ -7,13 +7,13 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class GlobalCacheHandler(
-    private val redisCacheRepository: RedisCacheRepository,
+    private val globalCacheRepository: GlobalCacheRepository,
 ) : CacheHandler {
 
     override fun cacheStrategy(): CacheStrategy = CacheStrategy.GLOBAL
 
     override suspend fun getCache(cacheType: CacheType, cacheKey: String): Any? {
-        if (!cacheType.enableGlobalCache() || redisCacheRepository.isEarlyRecomputedRequired(
+        if (!cacheType.enableGlobalCache() || globalCacheRepository.isEarlyRecomputedRequired(
                 cacheType = cacheType,
                 cacheKey = cacheKey
             )
@@ -21,7 +21,7 @@ class GlobalCacheHandler(
             return null
         }
 
-        val redisCacheValueJson = redisCacheRepository.getCache(cacheType = cacheType, cacheKey = cacheKey)
+        val redisCacheValueJson = globalCacheRepository.getCache(cacheType = cacheType, cacheKey = cacheKey)
         if (redisCacheValueJson.isNullOrBlank()) {
             return null
         }
@@ -35,7 +35,7 @@ class GlobalCacheHandler(
         if (!cacheType.enableGlobalCache()) {
             return
         }
-        redisCacheRepository.setCache(cacheType = cacheType, cacheKey = cacheKey, value = value.toJson())
+        globalCacheRepository.setCache(cacheType = cacheType, cacheKey = cacheKey, value = value.toJson())
         log.debug { "글로벌 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
     }
 
@@ -43,7 +43,7 @@ class GlobalCacheHandler(
         if (!cacheType.enableGlobalCache()) {
             return
         }
-        redisCacheRepository.evict(cacheType = cacheType, cacheKey = cacheKey)
+        globalCacheRepository.evict(cacheType = cacheType, cacheKey = cacheKey)
         log.debug { "글로벌 캐시를 삭제합니다 [cacheType: $cacheType keyString: $cacheKey]" }
     }
 
@@ -51,7 +51,7 @@ class GlobalCacheHandler(
         if (!cacheType.enableGlobalCache()) {
             return
         }
-        redisCacheRepository.evictAll(cacheType = cacheType)
+        globalCacheRepository.evictAll(cacheType = cacheType)
     }
 
 }

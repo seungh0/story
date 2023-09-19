@@ -21,7 +21,7 @@ import java.time.Duration
  * "P2D"       -- parses as "2 days" (where a day is 24 hours or 86400 seconds)
  * "P2DT3H4M"  -- parses as "2 days, 3 hours and 4 minutes"
  */
-@Table("api_limit_policy")
+@Table("api_limit_policy_v1")
 data class ApiLimitPolicy(
     @field:PrimaryKey
     val key: ApiLimitPolicyPrimaryKey,

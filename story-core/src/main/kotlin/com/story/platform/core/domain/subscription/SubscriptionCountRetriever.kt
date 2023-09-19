@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class SubscriptionCountRetriever(
-    private val subscribersCountRepository: SubscribersCountRepository,
-    private val subscriptionsCountRepository: SubscriptionsCountRepository,
+    private val subscriptionCountRepository: SubscriptionCountRepository,
+    private val subscriberCountRepository: SubscriberCountRepository,
 ) {
 
     suspend fun countSubscribers(
@@ -13,12 +13,12 @@ class SubscriptionCountRetriever(
         componentId: String,
         targetId: String,
     ): Long {
-        val key = SubscribersCountKey(
+        val key = SubscriberCountPrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
         )
-        return subscribersCountRepository.get(key)
+        return subscriberCountRepository.findById(key)?.count ?: 0L
     }
 
     suspend fun countSubscriptions(
@@ -26,12 +26,12 @@ class SubscriptionCountRetriever(
         componentId: String,
         subscriberId: String,
     ): Long {
-        val key = SubscriptionsCountKey(
+        val key = SubscriptionCountPrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
         )
-        return subscriptionsCountRepository.get(key)
+        return subscriptionCountRepository.findById(key)?.count ?: 0L
     }
 
 }

@@ -1,35 +1,39 @@
 package com.story.platform.core.domain.reaction
 
-import com.story.platform.core.infrastructure.redis.StringRedisRepository
+import org.springframework.data.cassandra.repository.Query
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-class ReactionCountRepository(
-    private val stringRedisRepository: StringRedisRepository<ReactionCountKey, Long>,
-) {
+interface ReactionCountRepository : CoroutineCrudRepository<ReactionCount, ReactionCountPrimaryKey> {
 
-    suspend fun increase(key: ReactionCountKey, count: Long = 1L): Long {
-        return stringRedisRepository.incrBy(key = key, count = count)
-    }
+    @Query(
+        """
+			update reaction_count_v1 set count = count + :count
+			where workspace_id = :#{#key.workspaceId}
+			and component_id = :#{#key.componentId}
+		    and space_id = :#{#key.spaceId}
+			and emotion_id = :#{#key.emotionId}
+		"""
+    )
+    suspend fun increase(key: ReactionCountPrimaryKey, count: Long = 1L)
 
-    suspend fun decrease(key: ReactionCountKey, count: Long): Long {
-        return stringRedisRepository.decrBy(key = key, count = count)
-    }
+    @Query(
+        """
+			update reaction_count_v1 set count = count - :count
+			where workspace_id = :#{#key.workspaceId}
+			and component_id = :#{#key.componentId}
+			and space_id = :#{#key.spaceId}
+			and emotion_id = :#{#key.emotionId}
+		"""
+    )
+    suspend fun decrease(key: ReactionCountPrimaryKey, count: Long = 1L)
 
-    suspend fun get(key: ReactionCountKey): Long {
-        return stringRedisRepository.get(key = key) ?: 0L
-    }
-
-    suspend fun getBulk(keys: Set<ReactionCountKey>): Map<ReactionCountKey, Long> {
-        return stringRedisRepository.getBulkMap(keys.toList()).map { (key, value) -> key to (value ?: 0L) }.toMap()
-    }
-
-    suspend fun delete(key: ReactionCountKey) {
-        stringRedisRepository.del(key = key)
-    }
-
-    suspend fun deleteBulk(keys: Set<ReactionCountKey>) {
-        stringRedisRepository.delBulk(keys = keys)
-    }
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyEmotionIdIn(
+        workspaceId: String,
+        componentId: String,
+        spaceId: String,
+        emotionIds: Collection<String>,
+    ): List<ReactionCount>
 
 }

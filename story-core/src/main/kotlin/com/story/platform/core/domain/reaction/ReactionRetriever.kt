@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class ReactionRetriever(
-    private val reactionCountRepository: ReactionCountRepository,
     private val reactionReverseRepository: ReactionReverseRepository,
+    private val reactionCountRepository: ReactionCountRepository,
 ) {
 
     suspend fun listReactions(
@@ -14,20 +14,16 @@ class ReactionRetriever(
         componentId: String,
         spaceIds: Set<String>,
         accountId: String?,
-        optionIds: Set<String>,
+        emotionIds: Set<String>,
     ): List<ReactionResponse> {
-        val keys = spaceIds.flatMap { spaceId ->
-            optionIds.map { optionId ->
-                ReactionCountKey(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    emotionId = optionId,
-                    spaceId = spaceId,
-                )
-            }
-        }.toSet()
-
-        val reactionCountMap = reactionCountRepository.getBulk(keys = keys)
+        val reactionCountMap = spaceIds.flatMap { spaceId ->
+            reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyEmotionIdIn(
+                workspaceId = workspaceId,
+                componentId = componentId,
+                spaceId = spaceId,
+                emotionIds = emotionIds,
+            )
+        }.associateBy { it.key }
 
         val spaceIdReactionMap = accountId?.let {
             val distributionKeyTargetIdMap = spaceIds.groupBy { targetId -> XLargeDistributionKey.makeKey(targetId).key }
@@ -49,17 +45,17 @@ class ReactionRetriever(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                emotions = optionIds.map { emotionId ->
+                emotions = emotionIds.map { emotionId ->
                     ReactionEmotionResponse.of(
                         emotionId = emotionId,
                         count = reactionCountMap[
-                            ReactionCountKey(
+                            ReactionCountPrimaryKey(
                                 workspaceId = workspaceId,
                                 componentId = componentId,
                                 emotionId = emotionId,
                                 spaceId = spaceId,
                             )
-                        ],
+                        ]?.count ?: 0L,
                         reactedByMe = accountReaction != null && accountReaction.emotionIds.contains(emotionId),
                     )
                 }

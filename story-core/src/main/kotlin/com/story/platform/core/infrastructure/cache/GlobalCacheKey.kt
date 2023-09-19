@@ -3,10 +3,10 @@ package com.story.platform.core.infrastructure.cache
 import com.story.platform.core.infrastructure.redis.StringRedisKey
 import java.time.Duration
 
-data class RedisCacheKey(
+data class GlobalCacheKey(
     val cacheType: CacheType,
     val cacheKey: String,
-) : StringRedisKey<RedisCacheKey, String> {
+) : StringRedisKey<GlobalCacheKey, String> {
 
     override fun makeKeyString(): String = "${getCachePrefix(cacheType)}$cacheKey"
 
@@ -20,20 +20,20 @@ data class RedisCacheKey(
         fun of(
             cacheType: CacheType,
             cacheKey: String,
-        ) = RedisCacheKey(
+        ) = GlobalCacheKey(
             cacheType = cacheType,
             cacheKey = cacheKey,
         )
 
         fun getCachePrefix(cacheType: CacheType) = "cache:${cacheType.key}:"
 
-        fun fromKeyString(cacheType: CacheType, keyString: String): RedisCacheKey {
+        fun fromKeyString(cacheType: CacheType, keyString: String): GlobalCacheKey {
             val prefix = getCachePrefix(cacheType)
             require(keyString.startsWith(prefix)) {
                 "해당 keyString($keyString)은 cacheType($cacheType)에 해당하는 레디스 키가 아닙니다"
             }
 
-            return RedisCacheKey(
+            return GlobalCacheKey(
                 cacheType = cacheType,
                 cacheKey = keyString.split(prefix)[1],
             )

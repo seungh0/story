@@ -7,14 +7,14 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface FeedReverseMappingConfigurationRepository :
-    CoroutineCrudRepository<FeedReverseMappingConfiguration, FeedReverseMappingConfigurationPrimaryKey> {
+interface FeedMappingConfigurationReverseRepository :
+    CoroutineCrudRepository<FeedMappingConfigurationReverse, FeedMappingConfigurationReversePrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeySourceResourceIdAndKeySourceComponentId(
         workspaceId: String,
         sourceResourceId: ResourceId,
         sourceComponentId: String,
         pageable: Pageable,
-    ): Flow<FeedReverseMappingConfiguration>
+    ): Flow<FeedMappingConfigurationReverse>
 
 }

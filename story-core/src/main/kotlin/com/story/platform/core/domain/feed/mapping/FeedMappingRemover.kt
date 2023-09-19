@@ -27,7 +27,7 @@ class FeedMappingRemover(
 
         reactiveCassandraOperations.batchOps()
             .upsert(feedMappingConfiguration)
-            .delete(FeedReverseMappingConfiguration.of(feedMappingConfiguration))
+            .delete(FeedMappingConfigurationReverse.of(feedMappingConfiguration))
             .executeCoroutine()
     }
 

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class SubscriptionCountManager(
-    private val subscribersCountRepository: SubscribersCountRepository,
-    private val subscriptionsCountRepository: SubscriptionsCountRepository,
+    private val subscriberCountRepository: SubscriberCountRepository,
+    private val subscriptionCountRepository: SubscriptionCountRepository,
 ) {
 
     suspend fun increase(
@@ -20,8 +20,8 @@ class SubscriptionCountManager(
     ) = coroutineScope {
         val jobs = mutableListOf<Job>()
         jobs += launch {
-            subscriptionsCountRepository.increase(
-                SubscriptionsCountKey(
+            subscriptionCountRepository.increase(
+                SubscriptionCountPrimaryKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     subscriberId = subscriberId,
@@ -30,8 +30,8 @@ class SubscriptionCountManager(
         }
 
         jobs += launch {
-            subscribersCountRepository.increase(
-                SubscribersCountKey(
+            subscriberCountRepository.increase(
+                key = SubscriberCountPrimaryKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     targetId = targetId,
@@ -49,8 +49,8 @@ class SubscriptionCountManager(
     ) = coroutineScope {
         val jobs = mutableListOf<Job>()
         jobs += launch {
-            subscriptionsCountRepository.decrease(
-                SubscriptionsCountKey(
+            subscriptionCountRepository.decrease(
+                SubscriptionCountPrimaryKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     subscriberId = subscriberId,
@@ -59,8 +59,8 @@ class SubscriptionCountManager(
         }
 
         jobs += launch {
-            subscribersCountRepository.decrease(
-                SubscribersCountKey(
+            subscriberCountRepository.decrease(
+                key = SubscriberCountPrimaryKey(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     targetId = targetId,

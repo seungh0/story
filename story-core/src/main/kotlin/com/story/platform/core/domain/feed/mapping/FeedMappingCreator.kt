@@ -40,7 +40,7 @@ class FeedMappingCreator(
         val feedMappingConfiguration = request.toConfiguration()
         reactiveCassandraOperations.batchOps()
             .upsert(feedMappingConfiguration)
-            .upsert(FeedReverseMappingConfiguration.of(feedMappingConfiguration))
+            .upsert(FeedMappingConfigurationReverse.of(feedMappingConfiguration))
             .executeCoroutine()
     }
 

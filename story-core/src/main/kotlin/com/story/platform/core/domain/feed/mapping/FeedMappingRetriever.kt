@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class FeedMappingRetriever(
-    private val feedReverseMappingConfigurationRepository: FeedReverseMappingConfigurationRepository,
+    private val feedMappingConfigurationReverseRepository: FeedMappingConfigurationReverseRepository,
 ) {
 
     @Cacheable(
@@ -22,7 +22,7 @@ class FeedMappingRetriever(
         sourceResourceId: ResourceId,
         sourceComponentId: String,
     ): List<FeedMappingResponse> {
-        val feedMappings = feedReverseMappingConfigurationRepository.findAllByKeyWorkspaceIdAndKeySourceResourceIdAndKeySourceComponentId(
+        val feedMappings = feedMappingConfigurationReverseRepository.findAllByKeyWorkspaceIdAndKeySourceResourceIdAndKeySourceComponentId(
             workspaceId = workspaceId,
             sourceResourceId = sourceResourceId,
             sourceComponentId = sourceComponentId,

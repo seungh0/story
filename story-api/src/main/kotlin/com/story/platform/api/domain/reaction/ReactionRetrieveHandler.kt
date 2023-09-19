@@ -28,7 +28,7 @@ class ReactionRetrieveHandler(
             componentId = componentId,
             spaceIds = setOf(spaceId),
             accountId = request.accountId,
-            optionIds = request.emotionIds,
+            emotionIds = request.emotionIds,
         )
 
         return ReactionGetApiResponse(
@@ -52,7 +52,7 @@ class ReactionRetrieveHandler(
             componentId = componentId,
             spaceIds = request.spaceIds,
             accountId = request.accountId,
-            optionIds = request.emotionIds,
+            emotionIds = request.emotionIds,
         )
 
         return ReactionListApiResponse(
