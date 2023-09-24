@@ -14,11 +14,11 @@ class NonceManager(
     private val nonceRepository: NonceRepository,
 ) {
 
-    suspend fun generate(): String {
+    suspend fun generate(expirationSeconds: Long): String {
         var current = 0L
         while (current++ < MAX_COUNT) {
             val nonce = UUID.randomUUID().toString()
-            val available = nonceRepository.generate(nonce = nonce)
+            val available = nonceRepository.generate(nonce = nonce, expirationSeconds = expirationSeconds)
             if (available) {
                 return nonce
             }

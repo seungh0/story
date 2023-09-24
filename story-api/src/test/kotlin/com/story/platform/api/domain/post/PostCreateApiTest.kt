@@ -26,6 +26,7 @@ import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document
 import org.springframework.test.web.reactive.server.WebTestClient
+import java.util.UUID
 
 @DocsTest
 @ApiTest(PostCreateApi::class)
@@ -89,7 +90,11 @@ class PostCreateApiTest(
 
         // when
         val exchange = webTestClient.post()
-            .uri("/v1/posts/components/{componentId}/spaces/{spaceId}/posts", componentId, spaceId)
+            .uri(
+                "/v1/posts/components/{componentId}/spaces/{spaceId}/posts?nonce=${UUID.randomUUID()}",
+                componentId,
+                spaceId
+            )
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
@@ -112,7 +117,7 @@ class PostCreateApiTest(
                     ),
                     queryParameters(
                         parameterWithName("nonce").description("Nonce")
-                            .attributes(remarks("Nonce Value")).optional(),
+                            .attributes(remarks("Nonce")).optional(),
                     ),
                     requestFields(
                         fieldWithPath("accountId").type(JsonFieldType.STRING)

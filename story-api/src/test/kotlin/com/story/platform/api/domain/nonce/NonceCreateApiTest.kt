@@ -4,9 +4,9 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
-import com.story.platform.api.domain.token.NonceCreateApi
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
+import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
@@ -18,6 +18,7 @@ import io.mockk.coEvery
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -46,20 +47,26 @@ class NonceCreateApiTest(
             description = "",
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
-        coEvery { nonceManager.generate() } returns UUID.randomUUID().toString()
+        coEvery { nonceManager.generate(any()) } returns UUID.randomUUID().toString()
     }
 
     test("새로운 Nonce를 할당 받습니다") {
         // given
         coEvery {
-            nonceManager.generate()
+            nonceManager.generate(any())
         } returns UUID.randomUUID().toString()
+
+        val request = NonceCreateApiRequest(
+            expirationSeconds = 3_600,
+        )
 
         // when
         val exchange = webTestClient.post()
             .uri("/v1/nonce")
             .headers(WebClientUtils.authenticationHeader)
+            .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
+            .bodyValue(request)
             .exchange()
 
         // then
@@ -71,6 +78,12 @@ class NonceCreateApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
+                    requestFields(
+                        fieldWithPath("expirationSeconds").type(JsonFieldType.NUMBER)
+                            .description("Expiration Duration (seconds)")
+                            .optional()
+                            .attributes(RestDocsUtils.remarks("Should be greater than 0 and less than or equal to 86,400(1D). (default: 3600, 1H)")),
+                    ),
                     responseFields(
                         fieldWithPath("ok")
                             .type(JsonFieldType.BOOLEAN).description("ok"),
