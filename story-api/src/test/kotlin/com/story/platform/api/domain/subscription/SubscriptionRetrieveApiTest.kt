@@ -68,7 +68,7 @@ class SubscriptionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
+                "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}/exists",
                 componentId, subscriberId, targetId,
             )
             .headers(WebClientUtils.authenticationHeader)
@@ -80,7 +80,7 @@ class SubscriptionRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-IS-SUBSCRIBE-GET-API",
+                    "SUBSCRIPTION-CHECK-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

@@ -2,7 +2,7 @@
 
 include::./subscription-upsert.adoc[]
 include::./subscription-remove.adoc[]
-include::./subscription-is-subscriber.adoc[]
+include::./subscription-check.adoc[]
 include::./subscription-get-subscribers-count.adoc[]
 include::./subscription-get-target-count.adoc[]
 include::./subscription-list-subscribers.adoc[]

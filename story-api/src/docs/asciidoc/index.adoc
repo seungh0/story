@@ -12,4 +12,15 @@ endif::[]
 
 include::./about.adoc[]
 
-include::./restapi/index.adoc[]
+== Integration Documentation
+
+We provide the following integration methods:
+
+=== REST API
+
+- link:./restapi/index.html[REST API Documentation]
+- You can integrate our components into your project using RESTful APIs, allowing you to make HTTP requests to access and interact with the desired functionality.
+
+=== SDK (TBD)
+
+- We offer SDKs in various programming languages that provide pre-built functions and methods for easier integration of our components into your application.

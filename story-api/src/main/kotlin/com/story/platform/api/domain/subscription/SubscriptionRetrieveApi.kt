@@ -18,7 +18,7 @@ class SubscriptionRetrieveApi(
     /**
      * 대상자의 구독자인지 확인한다
      */
-    @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}")
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}/exists")
     suspend fun isSubscriber(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,

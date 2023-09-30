@@ -1,3 +1,14 @@
 == Resource
 
+=== Available resources
+
+[cols="5%,30%,30%"]
+|===
+| Resource | Description | Current Version
+| Subscriptions | It can be utilized components such as "Follow" | v1
+| Posts         | It can be utilized components such as "Board" and "Comment" | v1
+| Reactions    | It can be utilized components such as "Sticker" and "Like" | v1
+| Feeds         | It can be utilized components such as "Timeline"  | v1
+|===
+
 include::./resource-list.adoc[]

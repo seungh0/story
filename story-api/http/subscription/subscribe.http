@@ -26,7 +26,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 구독 여부 확인
-GET {{api}}/v1/resources/subscriptions/components/follow/subscribers/{{ACCOUNT_ID}}/targets/{{TARGET_ID}}
+GET {{api}}/v1/resources/subscriptions/components/follow/subscribers/{{ACCOUNT_ID}}/targets/{{TARGET_ID}}/exists
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 > {%
@@ -59,7 +59,8 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 대상자의 구독자 목록 조회
-GET {{api}}/v1/resources/subscriptions/components/follow/targets/{{TARGET_ID}}/subscribers?direction=NEXT&pageSize=2&cursor={{ACCOUNT_ID}}
+GET {{api}}/v1/resources/subscriptions/components/follow/targets/{{TARGET_ID}}/subscribers?direction=NEXT&pageSize=2&
+    cursor={{ACCOUNT_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 > {%
@@ -70,7 +71,8 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 특정 유저의 구독 대상자 목록 조회
-GET {{api}}/v1/resources/subscriptions/components/follow/subscribers/{{ACCOUNT_ID}}/targets?direction=NEXT&pageSize=2&cursor={{ACCOUNT_ID}}
+GET {{api}}/v1/resources/subscriptions/components/follow/subscribers/{{ACCOUNT_ID}}/targets?direction=NEXT&pageSize=2&
+    cursor={{ACCOUNT_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 > {%

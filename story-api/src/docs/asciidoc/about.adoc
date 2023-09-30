@@ -1,32 +1,10 @@
-== 플랫폼 소개
+== About Platform
 
-=== 1. 스토리 플랫폼(Story Platform)이란?
+=== 1. What is Story Platform?
 
-"스토리 플랫폼"은 비즈니스 서비스를 쉽게 개발할 수 있도록 컴포넌트 플랫폼을 제공합니다.
+"Story Platform" provides a component platform to enable you to easily develop your business services.
 
-=== 2. 누가 사용해야 할까요?
+=== 2. Who should use it?
 
-- 제품을 빠르게 출시하고 시장 반응을 검증하고자 하는 스타트업 또는 팀.
-- 서버 개발 및 관리의 비용과 수고를 덜고 자신만의 비즈니스 서비스를 만들고자 하는 개인 또는 팀.
-
-=== 3. 다음과 같은 통합 방법을 제공합니다:
-
-- REST API: RESTful API를 사용하여 컴포넌트를 프로젝트에 통합할 수 있으며, 원하는 기능에 액세스하고 상호 작용하기 위해 HTTP 요청을 수행할 수 있습니다.
-- (지원 예정) SDKs: 다양한 프로그래밍 언어로 제공되는 SDK를 통해 컴포넌트를 응용 프로그램에 쉽게 통합할 수 있는 미리 구축된 함수와 메서드를 제공합니다.
-
-=== 4. 사용 가능한 리소스 (Resource)
-
-[cols="5%,30%,30%"]
-|===
-| 자원 | 설명 | 현재 버전
-| 구독 | "팔로우" 및 "좋아요"와 같은 컴포넌트를 활용할 수 있습니다. | v1
-| 게시물 | | v1
-| 리액션 | 스티커, 좋아요 | v1
-| 피드 | 타임라인 및 기타 관련 기능과 같은 기능에 활용할 수 있습니다. | v1
-|===
-
-=== 5. 컴포넌트란 무엇인가요?
-
-필요한대로 단일 자원에 대한 컴포넌트를 생성하고 관리할 수 있습니다.
-
-예를 들어, 구독 자원을 통해 "팔로우" 및 "좋아요" 컴포넌트를 추가하여 사용할 수 있습니다.
+1. Startups or teams who want to quickly launch their products and validate market response.
+2. Individuals or teams who want to create their own business services without the cost and hassle of server development and management.
