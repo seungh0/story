@@ -47,7 +47,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.NEXT,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -83,7 +84,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.NEXT,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -119,7 +121,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.NEXT,
                         pageSize = 4,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -160,7 +163,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.NEXT,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -199,7 +203,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.NEXT,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -237,7 +242,8 @@ class PostRetrieverTest(
                         cursor = "7",
                         direction = CursorDirection.NEXT,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -273,7 +279,8 @@ class PostRetrieverTest(
                         cursor = "4",
                         direction = CursorDirection.NEXT,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -309,7 +316,8 @@ class PostRetrieverTest(
                         cursor = "4",
                         direction = CursorDirection.NEXT,
                         pageSize = 4,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -350,7 +358,8 @@ class PostRetrieverTest(
                         cursor = "10002",
                         direction = CursorDirection.NEXT,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -389,7 +398,8 @@ class PostRetrieverTest(
                         cursor = "10002",
                         direction = CursorDirection.NEXT,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -429,7 +439,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -465,7 +476,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -501,7 +513,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 4,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -542,7 +555,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -581,7 +595,8 @@ class PostRetrieverTest(
                         cursor = null,
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -619,7 +634,8 @@ class PostRetrieverTest(
                         cursor = "2",
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -655,7 +671,8 @@ class PostRetrieverTest(
                         cursor = "6",
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -691,7 +708,8 @@ class PostRetrieverTest(
                         cursor = "6",
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 4,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -732,7 +750,8 @@ class PostRetrieverTest(
                         cursor = "9998",
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then
@@ -771,7 +790,8 @@ class PostRetrieverTest(
                         cursor = "9998",
                         direction = CursorDirection.PREVIOUS,
                         pageSize = 3,
-                    )
+                    ),
+                    sortBy = PostSortBy.LATEST,
                 )
 
                 // then

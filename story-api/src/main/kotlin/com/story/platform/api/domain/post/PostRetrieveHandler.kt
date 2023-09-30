@@ -43,6 +43,7 @@ class PostRetrieveHandler(
         componentId: String,
         spaceId: String,
         cursorRequest: CursorRequest,
+        request: PostListApiRequest,
     ): CursorResult<PostApiResponse, String> {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -57,6 +58,7 @@ class PostRetrieveHandler(
                 spaceId = spaceId,
             ),
             cursorRequest = cursorRequest,
+            sortBy = request.sortBy,
         )
 
         return CursorResult.of(

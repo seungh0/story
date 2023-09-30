@@ -6,6 +6,7 @@
 | 400 | invalid_post_id | 
 | 400 | inactivated_workspace | 
 | 400 | invalid_nonce | 
+| 400 | invalid_post_sort_by | 
 | 401 | invalid_authentication_key | 
 | 401 | inactivated_authentication_key | 
 | 401 | empty_authentication_key | 

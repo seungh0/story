@@ -60,5 +60,5 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
 ### 포스팅 목록 조회
-GET {{api}}/v1/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts?pageSize=2&direction=NEXT&cursor={{POST_ID}}
+GET {{api}}/v1/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts?pageSize=2&direction=NEXT&sortBy=LATEST
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}

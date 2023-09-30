@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.error.InvalidCursorException
+import com.story.platform.core.common.error.NotSupportedException
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.CursorUtils
@@ -39,10 +40,24 @@ class PostRetriever(
     suspend fun listPosts(
         postSpaceKey: PostSpaceKey,
         cursorRequest: CursorRequest,
+        sortBy: PostSortBy,
     ): CursorResult<PostResponse, String> {
-        val (slot: Long, posts: List<Post>) = when (cursorRequest.direction) {
-            CursorDirection.NEXT -> listNextPosts(cursorRequest, postSpaceKey)
-            CursorDirection.PREVIOUS -> listPreviousPosts(cursorRequest, postSpaceKey)
+        val (slot: Long, posts: List<Post>) = when (sortBy to cursorRequest.direction) {
+            PostSortBy.LATEST to CursorDirection.NEXT,
+            PostSortBy.OLDEST to CursorDirection.PREVIOUS,
+            -> listNextPosts(
+                cursorRequest,
+                postSpaceKey
+            )
+
+            PostSortBy.LATEST to CursorDirection.PREVIOUS,
+            PostSortBy.OLDEST to CursorDirection.NEXT,
+            -> listPreviousPosts(
+                cursorRequest,
+                postSpaceKey
+            )
+
+            else -> throw NotSupportedException("지원하지 않는 SortBy($sortBy)-Direction(${cursorRequest.direction}) 입니다")
         }
 
         if (posts.size > cursorRequest.pageSize) {

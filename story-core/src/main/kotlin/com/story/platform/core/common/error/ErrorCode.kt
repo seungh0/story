@@ -14,6 +14,7 @@ enum class ErrorCode(
     E400_INVALID_POST_ID(httpStatusCode = 400, code = "invalid_post_id"),
     E400_INACTIVATED_WORKSPACE(httpStatusCode = 400, code = "inactivated_workspace"),
     E400_INVALID_NONCE(httpStatusCode = 400, code = "invalid_nonce"),
+    E400_INVALID_POST_SORT_BY(httpStatusCode = 400, code = "invalid_post_sort_by"),
 
     /**
      * 401 UnAuthorized

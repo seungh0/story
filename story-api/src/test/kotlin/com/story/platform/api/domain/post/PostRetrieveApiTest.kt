@@ -14,6 +14,7 @@ import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.component.ComponentStatus
+import com.story.platform.core.domain.post.PostSortBy
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
@@ -129,6 +130,7 @@ class PostRetrieveApiTest(
         val cursor = "cursor"
         val direction = CursorDirection.NEXT
         val pageSize = 30
+        val sortBy = PostSortBy.LATEST.name
 
         val post = PostApiResponse(
             postId = postId,
@@ -145,6 +147,7 @@ class PostRetrieveApiTest(
                 componentId = componentId,
                 spaceId = spaceId,
                 cursorRequest = any(),
+                request = any(),
             )
         } returns CursorResult.of(
             data = listOf(post),
@@ -157,9 +160,10 @@ class PostRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/posts/components/{componentId}/spaces/{spaceId}/posts?cursor=$cursor&direction=$direction&pageSize=$pageSize",
+                "/v1/posts/components/{componentId}/spaces/{spaceId}/posts?cursor=$cursor&direction=$direction&pageSize=$pageSize&sortBy=$sortBy",
                 componentId,
-                spaceId
+                spaceId,
+                sortBy,
             )
             .headers(WebClientUtils.authenticationHeader)
             .exchange()
@@ -184,6 +188,8 @@ class PostRetrieveApiTest(
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(default: NEXT)")),
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
                             .attributes(RestDocsUtils.remarks("max: 30")),
+                        RequestDocumentation.parameterWithName("sortBy").description("SortBy").optional()
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(PostSortBy::class.java) + "\n(default: LATEST)")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

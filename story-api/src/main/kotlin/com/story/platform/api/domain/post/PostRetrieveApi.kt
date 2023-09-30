@@ -45,12 +45,14 @@ class PostRetrieveApi(
         @PathVariable spaceId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
+        @Valid request: PostListApiRequest,
     ): ApiResponse<CursorResult<PostApiResponse, String>> {
         val response = postRetrieveHandler.listPosts(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             spaceId = spaceId,
             cursorRequest = cursorRequest,
+            request = request,
         )
         return ApiResponse.ok(response)
     }
