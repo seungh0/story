@@ -14,7 +14,7 @@ class ReactionUpsertApi(
     private val reactionUpsertHandler: ReactionUpsertHandler,
 ) {
 
-    @PutMapping("/v1/reactions/components/{componentId}/spaces/{spaceIds}")
+    @PutMapping("/v1/resources/reactions/components/{componentId}/spaces/{spaceIds}")
     suspend fun upsertReaction(
         @PathVariable componentId: String,
         @PathVariable spaceIds: String,

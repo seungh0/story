@@ -8,10 +8,8 @@ import com.story.platform.core.common.model.dto.CursorRequest
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/subscriptions/components/{componentId}")
 @RestController
 class SubscriptionRetrieveApi(
     private val subscriptionRetrieveHandler: SubscriptionRetrieveHandler,
@@ -20,7 +18,7 @@ class SubscriptionRetrieveApi(
     /**
      * 대상자의 구독자인지 확인한다
      */
-    @GetMapping("/subscribers/{subscriberId}/targets/{targetId}")
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}")
     suspend fun isSubscriber(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
@@ -39,7 +37,7 @@ class SubscriptionRetrieveApi(
     /**
      * 구독자 수를 조회한다
      */
-    @GetMapping("/targets/{targetId}/subscribers/count")
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscriber-count")
     suspend fun countSubscribers(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
@@ -56,7 +54,7 @@ class SubscriptionRetrieveApi(
     /**
      * 구독 대상자 수를 조회한다
      */
-    @GetMapping("/subscribers/{subscriberId}/subscriptions/count")
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/subscription-count")
     suspend fun countSubscriptions(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
@@ -73,7 +71,7 @@ class SubscriptionRetrieveApi(
     /**
      * 구독자 목록을 조회한다
      */
-    @GetMapping("/targets/{targetId}/subscribers")
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers")
     suspend fun listTargetSubscribers(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
@@ -92,7 +90,7 @@ class SubscriptionRetrieveApi(
     /**
      * 구독중인 대상자 목록을 조회한다
      */
-    @GetMapping("/subscribers/{subscriberId}/targets")
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets")
     suspend fun listSubscriberTargets(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,

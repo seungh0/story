@@ -72,7 +72,7 @@ class PostRemoveApiTest(
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}?accountId={accountId}",
+                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}?accountId={accountId}",
                 postSpaceKey.componentId,
                 postSpaceKey.spaceId,
                 postId,

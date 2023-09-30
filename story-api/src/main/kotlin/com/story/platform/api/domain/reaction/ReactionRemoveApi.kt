@@ -13,7 +13,7 @@ class ReactionRemoveApi(
     private val reactionRemoveHandler: ReactionRemoveHandler,
 ) {
 
-    @DeleteMapping("/v1/reactions/components/{componentId}/spaces/{spaceId}")
+    @DeleteMapping("/v1/resources/reactions/components/{componentId}/spaces/{spaceId}")
     suspend fun removeReaction(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,

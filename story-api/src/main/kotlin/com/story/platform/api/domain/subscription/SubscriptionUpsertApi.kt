@@ -7,10 +7,8 @@ import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/subscriptions/components/{componentId}")
 @RestController
 class SubscriptionUpsertApi(
     private val subscriptionUpsertHandler: SubscriptionUpsertHandler,
@@ -19,7 +17,7 @@ class SubscriptionUpsertApi(
     /**
      * 구독을 등록한다
      */
-    @PutMapping("/subscribers/{subscriberId}/targets/{targetId}")
+    @PutMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}")
     suspend fun create(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,

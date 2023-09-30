@@ -9,10 +9,8 @@ import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/posts/components/{componentId}")
 @RestController
 class PostModifyApi(
     private val postModifyHandler: PostModifyHandler,
@@ -21,7 +19,7 @@ class PostModifyApi(
     /**
      * 포스트 정보를 수정한다
      */
-    @PatchMapping("/spaces/{spaceId}/posts/{postId}")
+    @PatchMapping("/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}")
     suspend fun patchPost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,

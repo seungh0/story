@@ -71,7 +71,7 @@ class FeedMappingCreateApiTest(
         // when
         val exchange = webTestClient.post()
             .uri(
-                "/v1/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}",
+                "/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}",
                 feedComponentId, sourceResourceId.code, sourceComponentId, subscriptionComponentId,
             )
             .headers(WebClientUtils.authenticationHeader)

@@ -91,7 +91,7 @@ class PostCreateApiTest(
         // when
         val exchange = webTestClient.post()
             .uri(
-                "/v1/posts/components/{componentId}/spaces/{spaceId}/posts?nonce=${UUID.randomUUID()}",
+                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts?nonce=${UUID.randomUUID()}",
                 componentId,
                 spaceId
             )

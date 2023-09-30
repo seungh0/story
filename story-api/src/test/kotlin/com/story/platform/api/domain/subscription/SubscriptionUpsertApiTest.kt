@@ -67,7 +67,7 @@ class SubscriptionUpsertApiTest(
         // when
         val exchange = webTestClient.put()
             .uri(
-                "/v1/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
+                "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
                 componentId, subscriberId, targetId,
             )
             .headers(WebClientUtils.authenticationHeader)

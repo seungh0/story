@@ -8,10 +8,8 @@ import com.story.platform.core.common.model.dto.CursorRequest
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/posts/components/{componentId}")
 @RestController
 class PostRetrieveApi(
     private val postRetrieveHandler: PostRetrieveHandler,
@@ -20,7 +18,7 @@ class PostRetrieveApi(
     /**
      * 특정 포스트를 조회한다
      */
-    @GetMapping("/spaces/{spaceId}/posts/{postId}")
+    @GetMapping("/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}")
     suspend fun getPost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
@@ -39,7 +37,7 @@ class PostRetrieveApi(
     /**
      * 포스트 목록을 조회한다
      */
-    @GetMapping("/spaces/{spaceId}/posts")
+    @GetMapping("/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts")
     suspend fun listPosts(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,

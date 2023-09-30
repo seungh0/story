@@ -1,15 +1,16 @@
-package com.story.platform.api.domain.authentication
+package com.story.platform.api.domain.workspace
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
-import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
+import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
+import com.story.platform.api.lib.isTrue
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
-import io.kotest.core.spec.style.StringSpec
+import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
@@ -19,19 +20,19 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(AuthenticationModifyApi::class)
-class AuthenticationModifyApiTest(
+@ApiTest(WorkspaceRemoveApi::class)
+class WorkspaceRemoveApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val authenticationModifyHandler: AuthenticationModifyHandler,
+    private val workspaceRemoveHandler: WorkspaceRemoveHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
 
     @MockkBean
     private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
-) : StringSpec({
+) : FunSpec({
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
@@ -43,60 +44,39 @@ class AuthenticationModifyApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    "인증 키에 대한 정보를 변경합니다" {
+    test("워크스페이스를 삭제합니다") {
         // given
-        val authenticationKey = "authentication-key"
-        val description = "API-Key"
-        val status = AuthenticationStatus.ENABLED
-
-        val request = AuthenticationModifyApiRequest(
-            description = description,
-            status = status,
-        )
+        val workspaceId = "twitter"
 
         coEvery {
-            authenticationModifyHandler.patchAuthenticationKey(
-                workspaceId = any(),
-                authenticationKey = authenticationKey,
-                description = description,
-                status = status,
+            workspaceRemoveHandler.remove(
+                workspaceId = workspaceId
             )
         } returns Unit
 
         // when
-        val exchange = webTestClient.patch()
-            .uri("/v1/authentication/api-keys/{authenticationKey}", authenticationKey)
+        val exchange = webTestClient.delete()
+            .uri("/v1/workspaces/{workspaceId}", workspaceId)
             .headers(WebClientUtils.authenticationHeader)
-            .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
-            .bodyValue(request)
             .exchange()
 
         // then
         exchange.expectStatus().isOk
             .expectBody()
+            .jsonPath("$.ok").isTrue()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "AUTHENTICATION-KEY-MODIFY-API",
+                    "WORKSPACE-REMOVE-API",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("authenticationKey").description("Authentication Key"),
-                    ),
-                    PayloadDocumentation.requestFields(
-                        PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("Description")
-                            .attributes(RestDocsUtils.remarks("must be within 300 characters"))
-                            .optional(),
-                        PayloadDocumentation.fieldWithPath("status").type(JsonFieldType.STRING)
-                            .description("Authentication Status")
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationStatus::class.java)))
-                            .optional(),
+                        RequestDocumentation.parameterWithName("workspaceId").description("Workspace Id"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("ok")
                     )
                 )
             )

@@ -13,7 +13,7 @@ class FeedMappingRemoveApi(
     private val feedMappingRemoveHandler: FeedMappingRemoveHandler,
 ) {
 
-    @DeleteMapping("/v1/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}")
+    @DeleteMapping("/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}")
     suspend fun remove(
         @PathVariable feedComponentId: String,
         @PathVariable sourceResourceId: String,

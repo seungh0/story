@@ -1,5 +1,5 @@
-### 피드 조회
-GET {{api}}/v1/resources/feeds/components/timeline/subscriber/{{ACCOUNT_ID}}?pageSize=30
+### 워크스페이스를 삭제합니다
+DELETE {{api}}/v1/workspaces/{{WORKSPACE_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 > {%
@@ -7,4 +7,3 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
         client.assert(response.status === 200, "응답 실패");
     });
 %}
-

@@ -19,7 +19,7 @@ class PostCreateApi(
     /**
      * 신규 포스트를 등록한다
      */
-    @PostMapping("/v1/posts/components/{componentId}/spaces/{spaceId}/posts")
+    @PostMapping("/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts")
     suspend fun createPost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,

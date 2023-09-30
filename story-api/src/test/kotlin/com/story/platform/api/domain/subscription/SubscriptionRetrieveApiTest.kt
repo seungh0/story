@@ -68,7 +68,7 @@ class SubscriptionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
+                "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
                 componentId, subscriberId, targetId,
             )
             .headers(WebClientUtils.authenticationHeader)
@@ -119,7 +119,7 @@ class SubscriptionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/subscriptions/components/{componentId}/targets/{targetId}/subscribers/count",
+                "/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscriber-count",
                 componentId, targetId,
             )
             .headers(WebClientUtils.authenticationHeader)
@@ -169,7 +169,7 @@ class SubscriptionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/subscriptions/components/{componentId}/subscribers/{subscriberId}/subscriptions/count",
+                "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/subscription-count",
                 componentId, subscriberId,
             )
             .headers(WebClientUtils.authenticationHeader)
@@ -238,7 +238,7 @@ class SubscriptionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/subscriptions/components/{componentId}/targets/{targetId}/subscribers?cursor=${request.cursor}&pageSize=${request.pageSize}&direction=${request.direction}",
+                "/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers?cursor=${request.cursor}&pageSize=${request.pageSize}&direction=${request.direction}",
                 componentId, targetId,
             )
             .headers(WebClientUtils.authenticationHeader)
@@ -329,7 +329,7 @@ class SubscriptionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets?cursor=${request.cursor}&pageSize=${request.pageSize}&direction=${request.direction}",
+                "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets?cursor=${request.cursor}&pageSize=${request.pageSize}&direction=${request.direction}",
                 componentId, subscriberId,
             )
             .headers(WebClientUtils.authenticationHeader)

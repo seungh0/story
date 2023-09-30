@@ -16,7 +16,7 @@ class FeedMappingRetrieveApi(
     private val feedMappingRetrieveHandler: FeedMappingRetrieveHandler,
 ) {
 
-    @GetMapping("/v1/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}")
+    @GetMapping("/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}")
     suspend fun connectFeedMapping(
         @PathVariable feedComponentId: String,
         @PathVariable sourceResourceId: String,

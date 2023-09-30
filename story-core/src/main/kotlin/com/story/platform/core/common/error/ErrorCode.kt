@@ -32,6 +32,10 @@ enum class ErrorCode(
         httpStatusCode = 403,
         code = "workspace_purge_retention_period_violation"
     ),
+    E403_WORKSPACE_NO_PERMISSION(
+        httpStatusCode = 403,
+        code = "workspace_no_permission",
+    ),
 
     /**
      * 404 NotFound

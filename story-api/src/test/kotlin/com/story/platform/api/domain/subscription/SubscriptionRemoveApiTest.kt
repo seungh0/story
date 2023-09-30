@@ -62,7 +62,7 @@ class SubscriptionRemoveApiTest(
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
+                "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
                 componentId, subscriberId, targetId,
             )
             .headers(WebClientUtils.authenticationHeader)

@@ -64,7 +64,7 @@ class AuthenticationRetrieveApiTest(
 
         // when
         val exchange = webTestClient.get()
-            .uri("/v1/authentication-keys/{apiKey}", apiKey)
+            .uri("/v1/authentication/api-keys/{apiKey}", apiKey)
             .exchange()
 
         // then

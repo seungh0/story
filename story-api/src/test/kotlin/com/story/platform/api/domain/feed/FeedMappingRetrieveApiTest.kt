@@ -72,7 +72,7 @@ class FeedMappingRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}?pageSize=10",
+                "/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}?pageSize=10",
                 feedComponentId, sourceResourceId.code, sourceComponentId
             )
             .headers(WebClientUtils.authenticationHeader)

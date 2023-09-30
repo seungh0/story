@@ -79,7 +79,7 @@ class ReactionUpsertApiTest(
 
         // when
         val exchange = webTestClient.put()
-            .uri("/v1/reactions/components/{componentId}/spaces/{spaceId}", componentId, spaceId)
+            .uri("/v1/resources/reactions/components/{componentId}/spaces/{spaceId}", componentId, spaceId)
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)

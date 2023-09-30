@@ -77,7 +77,7 @@ class PostRetrieveApiTest(
 
         // when
         val exchange = webTestClient.get()
-            .uri("/v1/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
+            .uri("/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
             .headers(WebClientUtils.authenticationHeader)
             .exchange()
 
@@ -160,7 +160,7 @@ class PostRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/posts/components/{componentId}/spaces/{spaceId}/posts?cursor=$cursor&direction=$direction&pageSize=$pageSize&sortBy=$sortBy",
+                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts?cursor=$cursor&direction=$direction&pageSize=$pageSize&sortBy=$sortBy",
                 componentId,
                 spaceId,
                 sortBy,

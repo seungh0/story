@@ -1,32 +1,32 @@
-== About Platform
+== 플랫폼 소개
 
-=== 1. What is Story Platform?
+=== 1. 스토리 플랫폼(Story Platform)이란?
 
-- "Story Platform" provides a component platform to enable you to easily develop your business services.
+"스토리 플랫폼"은 비즈니스 서비스를 쉽게 개발할 수 있도록 컴포넌트 플랫폼을 제공합니다.
 
-=== 2. Who should use it?
+=== 2. 누가 사용해야 할까요?
 
-1. Startups or teams who want to quickly launch their products and validate market response.
-2. Individuals or teams who want to create their own business services without the cost and hassle of server development and management.
+- 제품을 빠르게 출시하고 시장 반응을 검증하고자 하는 스타트업 또는 팀.
+- 서버 개발 및 관리의 비용과 수고를 덜고 자신만의 비즈니스 서비스를 만들고자 하는 개인 또는 팀.
 
-=== 3. We provide the following integration methods:
+=== 3. 다음과 같은 통합 방법을 제공합니다:
 
-1. REST API: You can integrate our components into your project using RESTful APIs, allowing you to make HTTP requests to access and interact with the desired functionality.
-2. (TBD) SDKs: We offer SDKs in various programming languages that provide pre-built functions and methods for easier integration of our components into your application.
+- REST API: RESTful API를 사용하여 컴포넌트를 프로젝트에 통합할 수 있으며, 원하는 기능에 액세스하고 상호 작용하기 위해 HTTP 요청을 수행할 수 있습니다.
+- (지원 예정) SDKs: 다양한 프로그래밍 언어로 제공되는 SDK를 통해 컴포넌트를 응용 프로그램에 쉽게 통합할 수 있는 미리 구축된 함수와 메서드를 제공합니다.
 
-=== 4. Available resources
+=== 4. 사용 가능한 리소스 (Resource)
 
 [cols="5%,30%,30%"]
 |===
-| Resource | Description | Current Version
-| Subscriptions | You can utilize components such as "Follow" and "Like"                              | v1
-| Posts         |                                                                                     | v1
-| Feeds         | It can be utilized for features such as timelines and other related functionalities | v1
+| 자원 | 설명 | 현재 버전
+| 구독 | "팔로우" 및 "좋아요"와 같은 컴포넌트를 활용할 수 있습니다. | v1
+| 게시물 | | v1
+| 리액션 | 스티커, 좋아요 | v1
+| 피드 | 타임라인 및 기타 관련 기능과 같은 기능에 활용할 수 있습니다. | v1
 |===
 
-=== 5. What is Components?
+=== 5. 컴포넌트란 무엇인가요?
 
-You can create and manage components for a single resource as needed.
+필요한대로 단일 자원에 대한 컴포넌트를 생성하고 관리할 수 있습니다.
 
-For example, through a subscription resource, you can add "Follow" and "Like" components to use.
-
+예를 들어, 구독 자원을 통해 "팔로우" 및 "좋아요" 컴포넌트를 추가하여 사용할 수 있습니다.

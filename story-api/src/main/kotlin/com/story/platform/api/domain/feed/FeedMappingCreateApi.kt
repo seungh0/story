@@ -15,7 +15,7 @@ class FeedMappingCreateApi(
     private val feedMappingCreateHandler: FeedMappingCreateHandler,
 ) {
 
-    @PostMapping("/v1/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}")
+    @PostMapping("/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}")
     suspend fun create(
         @PathVariable feedComponentId: String,
         @PathVariable sourceResourceId: String,

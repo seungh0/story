@@ -89,7 +89,7 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}&emotionIds={emotionIds}",
+                "/v1/resources/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}&emotionIds={emotionIds}",
                 componentId,
                 spaceId,
                 accountId,
@@ -199,7 +199,7 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds=space-1,space-2&emotionIds=emotion-1,emotion-2",
+                "/v1/resources/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds=space-1,space-2&emotionIds=emotion-1,emotion-2",
                 componentId,
                 accountId,
             )

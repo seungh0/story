@@ -63,7 +63,7 @@ class AuthenticationCreateApiTest(
 
         // when
         val exchange = webTestClient.post()
-            .uri("/v1/authentication-keys/{authenticationKey}", authenticationKey)
+            .uri("/v1/authentication/api-keys/{authenticationKey}", authenticationKey)
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)

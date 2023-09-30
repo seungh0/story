@@ -16,7 +16,7 @@ class FeedRetrieveApi(
     private val feedRetrieveHandler: FeedRetrieveHandler,
 ) {
 
-    @GetMapping("/v1/feeds/components/{componentId}/subscriber/{subscriberId}")
+    @GetMapping("/v1/resources/feeds/components/{componentId}/subscriber/{subscriberId}")
     suspend fun listFeeds(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,

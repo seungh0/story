@@ -67,7 +67,7 @@ class ReactionRemoveApiTest(
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}",
+                "/v1/resources/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}",
                 componentId,
                 spaceId,
                 accountId

@@ -5,10 +5,8 @@ import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.dto.ApiResponse
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/v1/subscriptions/components/{componentId}")
 @RestController
 class SubscriptionRemoveApi(
     private val subscriptionRemoveHandler: SubscriptionRemoveHandler,
@@ -17,7 +15,7 @@ class SubscriptionRemoveApi(
     /**
      * 구독을 취소한다
      */
-    @DeleteMapping("/subscribers/{subscriberId}/targets/{targetId}")
+    @DeleteMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}")
     suspend fun remove(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,

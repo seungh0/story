@@ -85,7 +85,7 @@ class PostModifierApiTest(
 
         // when
         val exchange = webTestClient.patch()
-            .uri("/v1/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
+            .uri("/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
