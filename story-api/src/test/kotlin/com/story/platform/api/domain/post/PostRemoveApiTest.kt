@@ -62,7 +62,7 @@ class PostRemoveApiTest(
         val postId = 30000L
 
         coEvery {
-            postRemoveHandler.remove(
+            postRemoveHandler.removePost(
                 postSpaceKey = postSpaceKey,
                 accountId = accountId,
                 postId = postId,
@@ -88,7 +88,7 @@ class PostRemoveApiTest(
             .jsonPath("$.ok").isTrue()
             .consumeWith(
                 document(
-                    "POST-REMOVE-API",
+                    "post.remove",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),

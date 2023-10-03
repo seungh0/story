@@ -1,8 +1,12 @@
 == Subscription
 
+=== About Subscription
+
+- TBD
+
 include::./subscription-upsert.adoc[]
 include::./subscription-remove.adoc[]
-include::./subscription-check.adoc[]
+include::./subscription-exists.adoc[]
 include::./subscription-get-subscribers-count.adoc[]
 include::./subscription-get-target-count.adoc[]
 include::./subscription-list-subscribers.adoc[]

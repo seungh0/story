@@ -47,13 +47,13 @@ class NonceCreateApiTest(
             description = "",
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
-        coEvery { nonceManager.generate(any()) } returns UUID.randomUUID().toString()
+        coEvery { nonceManager.create(any()) } returns UUID.randomUUID().toString()
     }
 
     test("새로운 Nonce를 할당 받습니다") {
         // given
         coEvery {
-            nonceManager.generate(any())
+            nonceManager.create(any())
         } returns UUID.randomUUID().toString()
 
         val request = NonceCreateApiRequest(
@@ -74,7 +74,7 @@ class NonceCreateApiTest(
             .expectBody()
             .consumeWith(
                 document(
-                    "NONCE-CREATE-API",
+                    "nonce.create",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),

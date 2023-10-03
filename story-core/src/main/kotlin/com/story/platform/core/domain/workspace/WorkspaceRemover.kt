@@ -19,7 +19,7 @@ class WorkspaceRemover(
         key = "'workspaceId:' + {#workspaceId}",
         targetCacheStrategies = [CacheStrategy.GLOBAL],
     )
-    suspend fun remove(
+    suspend fun removeWorkspace(
         workspaceId: String,
     ) {
         val workspace = workspaceRepository.findById(workspaceId)

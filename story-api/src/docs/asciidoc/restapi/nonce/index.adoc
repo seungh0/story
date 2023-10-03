@@ -1,13 +1,13 @@
 == Nonce
 
-=== What is Nonce?
+=== About Nonce
 
 "Nonce" is an arbitrary value used to prevent duplicate calls, and it can be optionally employed in idempotent APIs.
 
 1. Obtain a nonce from the Nonce Create API.
 2. Make an API call with the nonce.
 
-=== Nonce Policy
+==== Nonce Policy
 
 1. "It is valid for the duration specified by the 'expirationSeconds' parameter requested."
 2. Should be assigned once and used only once

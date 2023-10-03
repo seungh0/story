@@ -51,7 +51,7 @@ class ResourceRetrieveApiTest(
             .jsonPath("$.ok").isTrue()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "RESOURCE-LIST-API",
+                    "resource.list",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

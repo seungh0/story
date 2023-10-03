@@ -30,7 +30,7 @@ internal class SubscriptionSubscriberTest(
             val alarm = true
 
             // when
-            subscriptionSubscriber.upsert(
+            subscriptionSubscriber.upsertSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -95,7 +95,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // when
-            subscriptionSubscriber.upsert(
+            subscriptionSubscriber.upsertSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -159,7 +159,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // when
-            subscriptionSubscriber.upsert(
+            subscriptionSubscriber.upsertSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -225,7 +225,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // when
-            subscriptionSubscriber.upsert(
+            subscriptionSubscriber.upsertSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,

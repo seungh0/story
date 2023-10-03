@@ -13,7 +13,7 @@ class AuthenticationRetriever(
         cacheType = CacheType.AUTHENTICATION_REVERSE_KEY,
         key = "'authenticationKey:' + {#authenticationKey}",
     )
-    suspend fun getAuthenticationKey(
+    suspend fun getAuthentication(
         authenticationKey: String,
     ): AuthenticationResponse {
         return AuthenticationResponse.of(

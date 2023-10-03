@@ -54,7 +54,7 @@ class AuthenticationCreateApiTest(
         )
 
         coEvery {
-            authenticationCreateHandler.createAuthenticationKey(
+            authenticationCreateHandler.createAuthentication(
                 workspaceId = any(),
                 authenticationKey = authenticationKey,
                 description = description,
@@ -63,7 +63,7 @@ class AuthenticationCreateApiTest(
 
         // when
         val exchange = webTestClient.post()
-            .uri("/v1/authentication/api-keys/{authenticationKey}", authenticationKey)
+            .uri("/v1/authentication/{authenticationKey}", authenticationKey)
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
@@ -75,7 +75,7 @@ class AuthenticationCreateApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "AUTHENTICATION-KEY-CREATE-API",
+                    "authentication.create",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

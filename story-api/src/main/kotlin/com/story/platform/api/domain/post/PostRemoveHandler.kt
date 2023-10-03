@@ -14,7 +14,7 @@ class PostRemoveHandler(
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
-    suspend fun remove(
+    suspend fun removePost(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         postId: Long,
@@ -25,7 +25,7 @@ class PostRemoveHandler(
             componentId = postSpaceKey.componentId,
         )
 
-        postRemover.remove(
+        postRemover.removePost(
             postSpaceKey = postSpaceKey,
             accountId = accountId,
             postId = postId,

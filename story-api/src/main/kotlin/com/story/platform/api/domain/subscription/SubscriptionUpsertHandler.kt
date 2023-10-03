@@ -15,7 +15,7 @@ class SubscriptionUpsertHandler(
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
-    suspend fun upsert(
+    suspend fun upsertSubscription(
         workspaceId: String,
         componentId: String,
         targetId: String,
@@ -28,7 +28,7 @@ class SubscriptionUpsertHandler(
             componentId = componentId,
         )
 
-        val isSubscribed = subscriptionSubscriber.upsert(
+        val isSubscribed = subscriptionSubscriber.upsertSubscription(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,

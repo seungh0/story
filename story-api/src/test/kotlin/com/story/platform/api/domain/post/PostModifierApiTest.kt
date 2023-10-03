@@ -98,7 +98,7 @@ class PostModifierApiTest(
             .jsonPath("$.ok").isTrue()
             .consumeWith(
                 document(
-                    "POST-MODIFY-API",
+                    "post.modify",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),

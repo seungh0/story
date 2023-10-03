@@ -1,5 +1,7 @@
 == Feed Mapping
 
+=== About Feed Mapping
+
 include::./feed-mapping-create.adoc[]
 include::./feed-mapping-remove.adoc[]
 include::./feed-mapping-list.adoc[]

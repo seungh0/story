@@ -17,13 +17,13 @@ class AuthenticationCreateApi(
     /**
      * 신규 서비스 인증 키를 생성합니다
      */
-    @PostMapping("/v1/authentication/api-keys/{authenticationKey}")
-    suspend fun create(
+    @PostMapping("/v1/authentication/{authenticationKey}")
+    suspend fun createAuthentication(
         @PathVariable authenticationKey: String,
         @RequestAuthContext authContext: AuthContext,
         @Valid @RequestBody request: AuthenticationCreateApiRequest,
     ): ApiResponse<Nothing?> {
-        authenticationCreateHandler.createAuthenticationKey(
+        authenticationCreateHandler.createAuthentication(
             workspaceId = authContext.workspaceId,
             authenticationKey = authenticationKey,
             description = request.description,

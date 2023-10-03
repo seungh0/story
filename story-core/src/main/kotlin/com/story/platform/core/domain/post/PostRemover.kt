@@ -20,7 +20,7 @@ class PostRemover(
         key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':postId:' + {#postId}",
         targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
-    suspend fun remove(
+    suspend fun removePost(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         postId: Long,

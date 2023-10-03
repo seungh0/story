@@ -104,7 +104,7 @@ class ReactionRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 document(
-                    "REACTION-GET-API",
+                    "reaction.get",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
@@ -209,7 +209,7 @@ class ReactionRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 document(
-                    "REACTION-LIST-API",
+                    "reaction.list",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),

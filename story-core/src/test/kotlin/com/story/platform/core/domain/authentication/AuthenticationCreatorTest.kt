@@ -29,7 +29,7 @@ class AuthenticationCreatorTest(
             val description = "트위터 피드 API Key"
 
             // when
-            authenticationCreator.createAuthenticationKey(
+            authenticationCreator.createAuthentication(
                 workspaceId = workspaceId,
                 authenticationKey = apiKey,
                 description = description,
@@ -55,7 +55,7 @@ class AuthenticationCreatorTest(
 
             // when & then
             shouldThrowExactly<AuthenticationKeyAlreadyExistsException> {
-                authenticationCreator.createAuthenticationKey(
+                authenticationCreator.createAuthentication(
                     workspaceId = authenticationKey.key.workspaceId,
                     authenticationKey = authenticationKey.key.authenticationKey,
                     description = "",
@@ -71,7 +71,7 @@ class AuthenticationCreatorTest(
             workspaceAuthenticationRepository.save(authenticationKey)
 
             // when
-            authenticationCreator.createAuthenticationKey(
+            authenticationCreator.createAuthentication(
                 workspaceId = "workspace-2",
                 authenticationKey = authenticationKey.key.authenticationKey,
                 description = "",

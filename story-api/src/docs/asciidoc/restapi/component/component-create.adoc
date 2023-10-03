@@ -1,27 +1,27 @@
-=== Component Create API
+=== component.create
 
-include::{snippets}/COMPONENT-CREATE-API/request-path.adoc[]
+include::{snippets}/component.create/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/COMPONENT-CREATE-API/http-request.adoc[]
+include::{snippets}/component.create/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/COMPONENT-CREATE-API/path-parameters.adoc[]
+include::{snippets}/component.create/path-parameters.adoc[]
 
 ===== [Request Body Parameter]
 
-include::{snippets}/COMPONENT-CREATE-API/request-fields.adoc[]
+include::{snippets}/component.create/request-fields.adoc[]
 
 ==== [Response]
 
-include::{snippets}/COMPONENT-CREATE-API/http-response.adoc[]
+include::{snippets}/component.create/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/COMPONENT-CREATE-API/response-fields.adoc[]
+include::{snippets}/component.create/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/COMPONENT-CREATE-API/curl-request.adoc[]
+include::{snippets}/component.create/curl-request.adoc[]

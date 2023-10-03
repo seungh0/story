@@ -11,7 +11,7 @@ class ReactionCreator(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
-    suspend fun upsert(
+    suspend fun upsertReaction(
         workspaceId: String,
         componentId: String,
         spaceId: String,

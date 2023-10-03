@@ -1,0 +1,23 @@
+=== subscription.exists
+
+include::{snippets}/subscription.exists/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/subscription.exists/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/subscription.exists/path-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/subscription.exists/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/subscription.exists/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/subscription.exists/curl-request.adoc[]

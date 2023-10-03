@@ -26,7 +26,7 @@ class WorkspaceRemoverTest(
         workspaceRepository.save(workspace)
 
         // when
-        workspaceRemover.remove(workspaceId = workspace.workspaceId)
+        workspaceRemover.removeWorkspace(workspaceId = workspace.workspaceId)
 
         // then
         val workspaces = workspaceRepository.findAll().toList()
@@ -45,7 +45,7 @@ class WorkspaceRemoverTest(
         workspaceRepository.save(workspace)
 
         // when
-        workspaceRemover.remove(workspaceId = workspace.workspaceId)
+        workspaceRemover.removeWorkspace(workspaceId = workspace.workspaceId)
 
         // then
         val workspaceArchives = workspaceArchiveRepository.findAll().toList()

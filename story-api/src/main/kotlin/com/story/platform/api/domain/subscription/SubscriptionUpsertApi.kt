@@ -18,14 +18,14 @@ class SubscriptionUpsertApi(
      * 구독을 등록한다
      */
     @PutMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}")
-    suspend fun create(
+    suspend fun upsertSubscription(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
         @Valid @RequestBody request: SubscriptionUpsertApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
-        subscriptionUpsertHandler.upsert(
+        subscriptionUpsertHandler.upsertSubscription(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             targetId = targetId,

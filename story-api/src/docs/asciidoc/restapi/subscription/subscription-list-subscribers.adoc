@@ -1,27 +1,27 @@
-=== Subscription List Subscribers API
+=== subscription-subscriber.list
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIBER-LIST-API/request-path.adoc[]
+include::{snippets}/subscription-subscriber.list/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIBER-LIST-API/http-request.adoc[]
+include::{snippets}/subscription-subscriber.list/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIBER-LIST-API/path-parameters.adoc[]
+include::{snippets}/subscription-subscriber.list/path-parameters.adoc[]
 
 ==== [Request Query Parameters]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIBER-LIST-API/query-parameters.adoc[]
+include::{snippets}/subscription-subscriber.list/query-parameters.adoc[]
 
 ==== [Response]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIBER-LIST-API/http-response.adoc[]
+include::{snippets}/subscription-subscriber.list/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIBER-LIST-API/response-fields.adoc[]
+include::{snippets}/subscription-subscriber.list/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIBER-LIST-API/curl-request.adoc[]
+include::{snippets}/subscription-subscriber.list/curl-request.adoc[]

@@ -56,7 +56,7 @@ class ReactionRemoveApiTest(
         val workspaceId = "twitter"
 
         coEvery {
-            reactionRemoveHandler.remove(
+            reactionRemoveHandler.removeReaction(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
@@ -81,7 +81,7 @@ class ReactionRemoveApiTest(
             .expectBody()
             .consumeWith(
                 document(
-                    "REACTION-REMOVE-API",
+                    "reaction.remove",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),

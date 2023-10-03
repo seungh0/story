@@ -28,7 +28,7 @@ class AuthenticationHandlerTest(
             val apiKey = "api-key"
 
             // given
-            coEvery { authenticationRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
+            coEvery { authenticationRetriever.getAuthentication(apiKey) } returns AuthenticationResponse(
                 workspaceId = "twitter",
                 authenticationKey = apiKey,
                 status = AuthenticationStatus.ENABLED,
@@ -52,7 +52,7 @@ class AuthenticationHandlerTest(
         test("비활성화되어 있는 인증 키인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { authenticationRetriever.getAuthenticationKey(apiKey) } returns AuthenticationResponse(
+            coEvery { authenticationRetriever.getAuthentication(apiKey) } returns AuthenticationResponse(
                 workspaceId = "twitter",
                 authenticationKey = apiKey,
                 status = AuthenticationStatus.DISABLED,
@@ -73,7 +73,7 @@ class AuthenticationHandlerTest(
         test("등록되지 않은 API-Key 인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { authenticationRetriever.getAuthenticationKey(apiKey) } throws AuthenticationKeyNotExistsException(
+            coEvery { authenticationRetriever.getAuthentication(apiKey) } throws AuthenticationKeyNotExistsException(
                 "등록되지 않은 인증 키 입니다"
             )
 

@@ -1,27 +1,27 @@
-=== Feed Mapping Create API
+=== feed-mapping.create
 
-include::{snippets}/FEED-MAPPING-POST-API/request-path.adoc[]
+include::{snippets}/feed-mapping.create/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/FEED-MAPPING-POST-API/http-request.adoc[]
+include::{snippets}/feed-mapping.create/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/FEED-MAPPING-POST-API/path-parameters.adoc[]
+include::{snippets}/feed-mapping.create/path-parameters.adoc[]
 
 ===== [Request Body Parameter]
 
-include::{snippets}/FEED-MAPPING-POST-API/request-fields.adoc[]
+include::{snippets}/feed-mapping.create/request-fields.adoc[]
 
 ==== [Response]
 
-include::{snippets}/FEED-MAPPING-POST-API/http-response.adoc[]
+include::{snippets}/feed-mapping.create/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/FEED-MAPPING-POST-API/response-fields.adoc[]
+include::{snippets}/feed-mapping.create/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/FEED-MAPPING-POST-API/curl-request.adoc[]
+include::{snippets}/feed-mapping.create/curl-request.adoc[]

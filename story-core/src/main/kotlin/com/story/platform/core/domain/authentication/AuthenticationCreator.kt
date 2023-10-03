@@ -11,7 +11,7 @@ class AuthenticationCreator(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
-    suspend fun createAuthenticationKey(
+    suspend fun createAuthentication(
         workspaceId: String,
         authenticationKey: String,
         description: String,

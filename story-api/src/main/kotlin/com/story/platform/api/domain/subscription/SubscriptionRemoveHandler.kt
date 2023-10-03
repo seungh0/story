@@ -15,7 +15,7 @@ class SubscriptionRemoveHandler(
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
-    suspend fun remove(
+    suspend fun removeSubscription(
         workspaceId: String,
         componentId: String,
         targetId: String,
@@ -27,7 +27,7 @@ class SubscriptionRemoveHandler(
             componentId = componentId,
         )
 
-        val isUnsubscribed = subscriptionUnSubscriber.remove(
+        val isUnsubscribed = subscriptionUnSubscriber.removeSubscription(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,

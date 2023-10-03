@@ -21,7 +21,7 @@ class ReactionUpsertApi(
         @Valid @RequestBody request: ReactionUpsertApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
-        reactionUpsertHandler.upsert(
+        reactionUpsertHandler.upsertReaction(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             spaceIds = spaceIds,

@@ -51,7 +51,7 @@ class SubscriptionRemoveApiTest(
         val targetId = "targetId"
 
         coEvery {
-            subscriptionRemoveHandler.remove(
+            subscriptionRemoveHandler.removeSubscription(
                 workspaceId = any(),
                 componentId = componentId,
                 targetId = targetId,
@@ -74,7 +74,7 @@ class SubscriptionRemoveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-REMOVE-API",
+                    "subscription.remove",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

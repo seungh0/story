@@ -21,7 +21,7 @@ class SubscriptionCountRetriever(
         return subscriberCountRepository.findById(key)?.count ?: 0L
     }
 
-    suspend fun countSubscriptions(
+    suspend fun countTargets(
         workspaceId: String,
         componentId: String,
         subscriberId: String,

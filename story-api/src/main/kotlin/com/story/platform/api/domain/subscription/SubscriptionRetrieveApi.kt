@@ -18,13 +18,13 @@ class SubscriptionRetrieveApi(
      * 대상자의 구독자인지 확인한다
      */
     @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}/exists")
-    suspend fun isSubscriber(
+    suspend fun existsSubscription(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<SubscriptionCheckApiResponse> {
-        val response = subscriptionRetrieveHandler.isSubscriber(
+    ): ApiResponse<SubscriptionExistsApiResponse> {
+        val response = subscriptionRetrieveHandler.existsSubscription(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             targetId = targetId,
@@ -41,7 +41,7 @@ class SubscriptionRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<SubscribersCountApiResponse> {
+    ): ApiResponse<SubscriberCountApiResponse> {
         val response = subscriptionRetrieveHandler.countSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -54,12 +54,12 @@ class SubscriptionRetrieveApi(
      * 구독 대상자 수를 조회한다
      */
     @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/subscription-count")
-    suspend fun countSubscriptions(
+    suspend fun countTargets(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<SubscriptionsCountApiResponse> {
-        val response = subscriptionRetrieveHandler.countSubscriptions(
+    ): ApiResponse<SubscriptionTargetCountApiResponse> {
+        val response = subscriptionRetrieveHandler.countTargets(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
@@ -71,13 +71,13 @@ class SubscriptionRetrieveApi(
      * 구독자 목록을 조회한다
      */
     @GetMapping("/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers")
-    suspend fun listTargetSubscribers(
+    suspend fun listSubscribers(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriberListApiResponse> {
-        val response = subscriptionRetrieveHandler.listTargetSubscribers(
+        val response = subscriptionRetrieveHandler.listSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             targetId = targetId,
@@ -90,13 +90,13 @@ class SubscriptionRetrieveApi(
      * 구독중인 대상자 목록을 조회한다
      */
     @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets")
-    suspend fun listSubscriberTargets(
+    suspend fun listTargets(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionTargetListApiResponse> {
-        val response = subscriptionRetrieveHandler.listSubscriberTargets(
+        val response = subscriptionRetrieveHandler.listTargets(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,

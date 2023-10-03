@@ -1,27 +1,27 @@
-=== Reaction List API
+=== reaction.list
 
-include::{snippets}/REACTION-LIST-API/request-path.adoc[]
+include::{snippets}/reaction.list/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/REACTION-LIST-API/http-request.adoc[]
+include::{snippets}/reaction.list/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/REACTION-LIST-API/path-parameters.adoc[]
+include::{snippets}/reaction.list/path-parameters.adoc[]
 
 ==== [Request Query Parameters]
 
-include::{snippets}/REACTION-LIST-API/query-parameters.adoc[]
+include::{snippets}/reaction.list/query-parameters.adoc[]
 
 ==== [Response]
 
-include::{snippets}/REACTION-LIST-API/http-response.adoc[]
+include::{snippets}/reaction.list/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/REACTION-LIST-API/response-fields.adoc[]
+include::{snippets}/reaction.list/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/REACTION-LIST-API/curl-request.adoc[]
+include::{snippets}/reaction.list/curl-request.adoc[]

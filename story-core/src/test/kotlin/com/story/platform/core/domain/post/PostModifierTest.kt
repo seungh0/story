@@ -38,7 +38,7 @@ internal class PostModifierTest(
             postReverseRepository.save(postRev)
 
             // when
-            postModifier.patch(
+            postModifier.patchPost(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = post.key.workspaceId,
                     componentId = post.key.componentId,
@@ -87,7 +87,7 @@ internal class PostModifierTest(
 
             // when & then
             shouldThrowExactly<PostNotExistsException> {
-                postModifier.patch(
+                postModifier.patchPost(
                     postSpaceKey = PostSpaceKey(
                         workspaceId = "twitter",
                         componentId = "post",
@@ -116,7 +116,7 @@ internal class PostModifierTest(
 
             // when & then
             shouldThrowExactly<NoPermissionException> {
-                postModifier.patch(
+                postModifier.patchPost(
                     postSpaceKey = PostSpaceKey(
                         workspaceId = post.key.workspaceId,
                         componentId = post.key.componentId,

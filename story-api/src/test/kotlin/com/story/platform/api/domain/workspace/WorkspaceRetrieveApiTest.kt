@@ -69,7 +69,7 @@ class WorkspaceRetrieveApiTest(
             .jsonPath("$.ok").isTrue()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "WORKSPACE-GET-API",
+                    "workspace.get",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

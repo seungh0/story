@@ -55,7 +55,7 @@ class AuthenticationModifyApiTest(
         )
 
         coEvery {
-            authenticationModifyHandler.patchAuthenticationKey(
+            authenticationModifyHandler.patchAuthentication(
                 workspaceId = any(),
                 authenticationKey = authenticationKey,
                 description = description,
@@ -65,7 +65,7 @@ class AuthenticationModifyApiTest(
 
         // when
         val exchange = webTestClient.patch()
-            .uri("/v1/authentication/api-keys/{authenticationKey}", authenticationKey)
+            .uri("/v1/authentication/{authenticationKey}", authenticationKey)
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
@@ -77,7 +77,7 @@ class AuthenticationModifyApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "AUTHENTICATION-KEY-MODIFY-API",
+                    "authentication.modify",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

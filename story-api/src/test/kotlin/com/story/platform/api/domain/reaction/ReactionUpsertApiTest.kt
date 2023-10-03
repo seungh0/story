@@ -69,7 +69,7 @@ class ReactionUpsertApiTest(
         )
 
         coEvery {
-            reactionUpsertHandler.upsert(
+            reactionUpsertHandler.upsertReaction(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceIds = spaceId,
@@ -91,7 +91,7 @@ class ReactionUpsertApiTest(
             .expectBody()
             .consumeWith(
                 document(
-                    "REACTION-UPSERT-API",
+                    "reaction.upsert",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),

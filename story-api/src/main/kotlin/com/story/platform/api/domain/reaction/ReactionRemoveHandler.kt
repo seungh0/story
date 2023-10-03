@@ -13,7 +13,7 @@ class ReactionRemoveHandler(
     private val reactionEventProducer: ReactionEventProducer,
 ) {
 
-    suspend fun remove(
+    suspend fun removeReaction(
         workspaceId: String,
         componentId: String,
         spaceId: String,
@@ -25,7 +25,7 @@ class ReactionRemoveHandler(
             componentId = componentId,
         )
 
-        val change = reactionRemover.remove(
+        val change = reactionRemover.removeReaction(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,

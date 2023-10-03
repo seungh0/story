@@ -19,14 +19,14 @@ class PostRemoveApi(
      * 포스트를 삭제한다
      */
     @DeleteMapping("/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}")
-    suspend fun remove(
+    suspend fun removePost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
         @RequestParam accountId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
-        postRemoveHandler.remove(
+        postRemoveHandler.removePost(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
                 componentId = componentId,

@@ -24,7 +24,7 @@ class AuthenticationHandler(
             ?: throw AuthenticationKeyEmptyException("API Key 헤더(${HttpHeader.X_STORY_API_KEY.header})가 비어있습니다")
 
         try {
-            val authentication = authenticationRetriever.getAuthenticationKey(authenticationKey = apiKey)
+            val authentication = authenticationRetriever.getAuthentication(authenticationKey = apiKey)
             if (!allowedDisabledAuthenticationKey && !authentication.isActivated()) {
                 throw AuthenticationKeyInactivatedException("비활성화된 인증 키(${authentication.authenticationKey})입니다. [워크스페이스(${authentication.workspaceId}) 현재 상태: ${authentication.status}]")
             }

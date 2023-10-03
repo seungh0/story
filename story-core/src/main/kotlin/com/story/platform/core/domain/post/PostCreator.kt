@@ -11,7 +11,7 @@ class PostCreator(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
-    suspend fun create(
+    suspend fun createPost(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         title: String,

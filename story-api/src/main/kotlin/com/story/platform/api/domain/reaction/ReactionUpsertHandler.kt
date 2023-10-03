@@ -13,7 +13,7 @@ class ReactionUpsertHandler(
     private val reactionEventProducer: ReactionEventProducer,
 ) {
 
-    suspend fun upsert(
+    suspend fun upsertReaction(
         workspaceId: String,
         componentId: String,
         spaceIds: String,
@@ -25,7 +25,7 @@ class ReactionUpsertHandler(
             componentId = componentId,
         )
 
-        val change = reactionCreator.upsert(
+        val change = reactionCreator.upsertReaction(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceIds,

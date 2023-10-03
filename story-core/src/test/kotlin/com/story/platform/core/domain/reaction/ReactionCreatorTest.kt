@@ -29,7 +29,7 @@ class ReactionCreatorTest(
         val optionIds = setOf("1", "2")
 
         // when
-        reactionCreator.upsert(
+        reactionCreator.upsertReaction(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,

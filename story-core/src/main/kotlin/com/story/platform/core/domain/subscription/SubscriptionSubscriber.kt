@@ -19,7 +19,7 @@ class SubscriptionSubscriber(
         lockType = DistributedLockType.SUBSCRIBE,
         key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':targetId:' + {#targetId} + ':subscriberId:' + {#subscriberId}",
     )
-    suspend fun upsert(
+    suspend fun upsertSubscription(
         workspaceId: String,
         componentId: String,
         targetId: String,

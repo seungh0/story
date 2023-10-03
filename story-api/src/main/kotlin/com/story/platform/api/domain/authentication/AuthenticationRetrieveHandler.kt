@@ -8,10 +8,10 @@ class AuthenticationRetrieveHandler(
     private val authenticationKeyManager: AuthenticationRetriever,
 ) {
 
-    suspend fun getAuthenticationKey(
-        apiKey: String,
+    suspend fun getAuthentication(
+        authenticationKey: String,
     ): AuthenticationApiResponse {
-        val authentication = authenticationKeyManager.getAuthenticationKey(authenticationKey = apiKey)
+        val authentication = authenticationKeyManager.getAuthentication(authenticationKey = authenticationKey)
         return AuthenticationApiResponse.of(authenticationKey = authentication)
     }
 

@@ -38,7 +38,7 @@ internal class PostRegisterTest(
             val extra = mapOf("key" to "value")
 
             // when
-            postCreator.create(
+            postCreator.createPost(
                 postSpaceKey = postSpaceKey,
                 accountId = accountId,
                 title = title,

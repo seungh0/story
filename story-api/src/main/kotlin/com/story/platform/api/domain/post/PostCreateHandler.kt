@@ -31,7 +31,7 @@ class PostCreateHandler(
             componentId = postSpaceKey.componentId,
         )
 
-        val post = postCreator.create(
+        val post = postCreator.createPost(
             postSpaceKey = postSpaceKey,
             accountId = accountId,
             title = title,

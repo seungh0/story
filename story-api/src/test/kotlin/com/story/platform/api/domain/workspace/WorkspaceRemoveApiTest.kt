@@ -49,7 +49,7 @@ class WorkspaceRemoveApiTest(
         val workspaceId = "twitter"
 
         coEvery {
-            workspaceRemoveHandler.remove(
+            workspaceRemoveHandler.removeWorkspace(
                 workspaceId = workspaceId
             )
         } returns Unit
@@ -67,7 +67,7 @@ class WorkspaceRemoveApiTest(
             .jsonPath("$.ok").isTrue()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "WORKSPACE-REMOVE-API",
+                    "workspace.remove",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

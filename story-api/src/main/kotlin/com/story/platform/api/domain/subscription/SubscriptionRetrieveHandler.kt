@@ -14,28 +14,28 @@ class SubscriptionRetrieveHandler(
     private val subscriptionCountRetriever: SubscriptionCountRetriever,
 ) {
 
-    suspend fun isSubscriber(
+    suspend fun existsSubscription(
         workspaceId: String,
         componentId: String,
         targetId: String,
         subscriberId: String,
-    ): SubscriptionCheckApiResponse {
+    ): SubscriptionExistsApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
         )
 
-        val isSubscriber = subscriptionRetriever.isSubscriber(
+        val isSubscriber = subscriptionRetriever.existsSubscription(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
             subscriberId = subscriberId,
         )
-        return SubscriptionCheckApiResponse(isSubscriber = isSubscriber)
+        return SubscriptionExistsApiResponse(isSubscriber = isSubscriber)
     }
 
-    suspend fun listTargetSubscribers(
+    suspend fun listSubscribers(
         workspaceId: String,
         componentId: String,
         targetId: String,
@@ -46,7 +46,7 @@ class SubscriptionRetrieveHandler(
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
         )
-        val subscriptions = subscriptionRetriever.listTargetSubscribers(
+        val subscriptions = subscriptionRetriever.listSubscribers(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
@@ -56,7 +56,7 @@ class SubscriptionRetrieveHandler(
         return SubscriberListApiResponse.of(subscriptions = subscriptions)
     }
 
-    suspend fun listSubscriberTargets(
+    suspend fun listTargets(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
@@ -68,7 +68,7 @@ class SubscriptionRetrieveHandler(
             componentId = componentId,
         )
 
-        val subscriptions = subscriptionRetriever.listSubscriberTargets(
+        val subscriptions = subscriptionRetriever.listTargets(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
@@ -82,38 +82,38 @@ class SubscriptionRetrieveHandler(
         workspaceId: String,
         componentId: String,
         targetId: String,
-    ): SubscribersCountApiResponse {
+    ): SubscriberCountApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
         )
 
-        val subscribersCount = subscriptionCountRetriever.countSubscribers(
+        val subscriberCount = subscriptionCountRetriever.countSubscribers(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
         )
-        return SubscribersCountApiResponse(subscribersCount = subscribersCount)
+        return SubscriberCountApiResponse(subscriberCount = subscriberCount)
     }
 
-    suspend fun countSubscriptions(
+    suspend fun countTargets(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
-    ): SubscriptionsCountApiResponse {
+    ): SubscriptionTargetCountApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
         )
 
-        val subscribersCount = subscriptionCountRetriever.countSubscriptions(
+        val subscriberCount = subscriptionCountRetriever.countTargets(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
         )
-        return SubscriptionsCountApiResponse(subscriptionsCount = subscribersCount)
+        return SubscriptionTargetCountApiResponse(targetCount = subscriberCount)
     }
 
 }

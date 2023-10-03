@@ -29,7 +29,7 @@ class AuthenticationModifierTest(
             workspaceAuthenticationRepository.save(authenticationKey)
 
             // when
-            authenticationModifier.patchAuthenticationKey(
+            authenticationModifier.patchAuthentication(
                 workspaceId = authenticationKey.key.workspaceId,
                 authenticationKey = authenticationKey.key.authenticationKey,
                 description = description,
@@ -58,7 +58,7 @@ class AuthenticationModifierTest(
             workspaceAuthenticationRepository.save(authenticationKey)
 
             // when
-            authenticationModifier.patchAuthenticationKey(
+            authenticationModifier.patchAuthentication(
                 workspaceId = authenticationKey.key.workspaceId,
                 authenticationKey = authenticationKey.key.authenticationKey,
                 description = null,
@@ -85,7 +85,7 @@ class AuthenticationModifierTest(
 
             // when & then
             shouldThrowExactly<AuthenticationKeyNotExistsException> {
-                authenticationModifier.patchAuthenticationKey(
+                authenticationModifier.patchAuthentication(
                     workspaceId = workspaceId,
                     authenticationKey = "api-key",
                     description = "",
@@ -103,7 +103,7 @@ class AuthenticationModifierTest(
 
             // when & then
             shouldThrowExactly<AuthenticationKeyNotExistsException> {
-                authenticationModifier.patchAuthenticationKey(
+                authenticationModifier.patchAuthentication(
                     workspaceId = "instagram",
                     authenticationKey = authenticationKey.key.authenticationKey,
                     description = "",

@@ -1,4 +1,4 @@
-=== Feed List API
+=== feed.list
 
 include::{snippets}/FEED-LIST-API-POST/request-path.adoc[]
 

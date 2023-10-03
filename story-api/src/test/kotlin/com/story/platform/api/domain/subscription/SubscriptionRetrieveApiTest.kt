@@ -54,13 +54,13 @@ class SubscriptionRetrieveApiTest(
         val targetId = "targetId"
 
         coEvery {
-            subscriptionRetrieveHandler.isSubscriber(
+            subscriptionRetrieveHandler.existsSubscription(
                 workspaceId = any(),
                 componentId = componentId,
                 targetId = targetId,
                 subscriberId = subscriberId,
             )
-        } returns SubscriptionCheckApiResponse(
+        } returns SubscriptionExistsApiResponse(
             isSubscriber = true,
         )
 
@@ -79,7 +79,7 @@ class SubscriptionRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-CHECK-API",
+                    "subscription.exists",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
@@ -111,8 +111,8 @@ class SubscriptionRetrieveApiTest(
                 componentId = componentId,
                 targetId = targetId,
             )
-        } returns SubscribersCountApiResponse(
-            subscribersCount = 13500L
+        } returns SubscriberCountApiResponse(
+            subscriberCount = 13500L
         )
 
         // when
@@ -130,7 +130,7 @@ class SubscriptionRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-SUBSCRIBER-COUNT-GET-API",
+                    "subscription-subscriber-count.get",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
@@ -143,7 +143,7 @@ class SubscriptionRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.subscribersCount")
+                        PayloadDocumentation.fieldWithPath("result.subscriberCount")
                             .type(JsonFieldType.NUMBER).description("Subscriber Count"),
                     )
                 )
@@ -156,13 +156,13 @@ class SubscriptionRetrieveApiTest(
         val subscriberId = "subscriberId"
 
         coEvery {
-            subscriptionRetrieveHandler.countSubscriptions(
+            subscriptionRetrieveHandler.countTargets(
                 workspaceId = any(),
                 componentId = componentId,
                 subscriberId = subscriberId,
             )
-        } returns SubscriptionsCountApiResponse(
-            subscriptionsCount = 350,
+        } returns SubscriptionTargetCountApiResponse(
+            targetCount = 350,
         )
 
         // when
@@ -180,7 +180,7 @@ class SubscriptionRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API",
+                    "subscription-target-count.get",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
@@ -194,7 +194,7 @@ class SubscriptionRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.subscriptionsCount")
+                        PayloadDocumentation.fieldWithPath("result.targetCount")
                             .type(JsonFieldType.NUMBER).description("Subscription Target Count"),
                     )
                 )
@@ -213,7 +213,7 @@ class SubscriptionRetrieveApiTest(
         )
 
         coEvery {
-            subscriptionRetrieveHandler.listTargetSubscribers(
+            subscriptionRetrieveHandler.listSubscribers(
                 workspaceId = any(),
                 componentId = componentId,
                 targetId = targetId,
@@ -250,7 +250,7 @@ class SubscriptionRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-SUBSCRIBER-LIST-API",
+                    "subscription-subscriber.list",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
@@ -298,7 +298,7 @@ class SubscriptionRetrieveApiTest(
         )
 
         coEvery {
-            subscriptionRetrieveHandler.listSubscriberTargets(
+            subscriptionRetrieveHandler.listTargets(
                 workspaceId = any(),
                 componentId = componentId,
                 subscriberId = subscriberId,
@@ -340,7 +340,7 @@ class SubscriptionRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-SUBSCRIPTION-TARGET-LIST-API",
+                    "subscription-target.list",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

@@ -1,30 +1,30 @@
-=== Post Create API
+=== post.create
 
 > This API is non-idempotent and provides the option to prevent duplicate calls using a nonce. [Ref.
 Nonce Documentation]
 
-include::{snippets}/POST-CREATE-API/request-path.adoc[]
+include::{snippets}/post.create/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/POST-CREATE-API/http-request.adoc[]
+include::{snippets}/post.create/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/POST-CREATE-API/path-parameters.adoc[]
+include::{snippets}/post.create/path-parameters.adoc[]
 
 ===== [Request Body Parameter]
 
-include::{snippets}/POST-CREATE-API/request-fields.adoc[]
+include::{snippets}/post.create/request-fields.adoc[]
 
 ==== [Response]
 
-include::{snippets}/POST-CREATE-API/http-response.adoc[]
+include::{snippets}/post.create/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/POST-CREATE-API/response-fields.adoc[]
+include::{snippets}/post.create/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/POST-CREATE-API/curl-request.adoc[]
+include::{snippets}/post.create/curl-request.adoc[]

@@ -55,7 +55,7 @@ class SubscriptionUpsertApiTest(
         )
 
         coEvery {
-            subscriptionUpsertHandler.upsert(
+            subscriptionUpsertHandler.upsertSubscription(
                 workspaceId = any(),
                 componentId = componentId,
                 targetId = targetId,
@@ -81,7 +81,7 @@ class SubscriptionUpsertApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "SUBSCRIPTION-UPSERT-API",
+                    "subscription.upsert",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

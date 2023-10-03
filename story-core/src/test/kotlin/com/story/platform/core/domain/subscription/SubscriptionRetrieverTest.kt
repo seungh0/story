@@ -42,7 +42,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionRepository.save(subscription)
 
             // when
-            val isSubscriber = subscriptionRetriever.isSubscriber(
+            val isSubscriber = subscriptionRetriever.existsSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -61,7 +61,7 @@ internal class SubscriptionRetrieverTest(
             val subscriberId = "구독자"
 
             // when
-            val isSubscriber = subscriptionRetriever.isSubscriber(
+            val isSubscriber = subscriptionRetriever.existsSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -90,7 +90,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionRepository.save(subscription)
 
             // when
-            val isSubscriber = subscriptionRetriever.isSubscriber(
+            val isSubscriber = subscriptionRetriever.existsSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -110,7 +110,7 @@ internal class SubscriptionRetrieverTest(
             val targetId = "targetId"
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -163,7 +163,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -217,7 +217,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -271,7 +271,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -324,7 +324,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -377,7 +377,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -430,7 +430,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -486,7 +486,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -543,7 +543,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -600,7 +600,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -628,7 +628,7 @@ internal class SubscriptionRetrieverTest(
             val targetId = "targetId"
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -681,7 +681,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -736,7 +736,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -791,7 +791,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -845,7 +845,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -899,7 +899,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -953,7 +953,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -1010,7 +1010,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -1068,7 +1068,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -1126,7 +1126,7 @@ internal class SubscriptionRetrieverTest(
             )
 
             // when
-            val sut = subscriptionRetriever.listTargetSubscribers(
+            val sut = subscriptionRetriever.listSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -1177,7 +1177,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionRepository.saveAll(subscriptions).toList()
 
             // when
-            val sut = subscriptionRetriever.listSubscriberTargets(
+            val sut = subscriptionRetriever.listTargets(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,
@@ -1221,7 +1221,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionRepository.saveAll(subscriptions).toList()
 
             // when
-            val sut = subscriptionRetriever.listSubscriberTargets(
+            val sut = subscriptionRetriever.listTargets(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,
@@ -1265,7 +1265,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionRepository.saveAll(subscriptions).toList()
 
             // when
-            val sut = subscriptionRetriever.listSubscriberTargets(
+            val sut = subscriptionRetriever.listTargets(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,
@@ -1309,7 +1309,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionRepository.saveAll(subscriptions).toList()
 
             // when
-            val sut = subscriptionRetriever.listSubscriberTargets(
+            val sut = subscriptionRetriever.listTargets(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,
@@ -1353,7 +1353,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionRepository.saveAll(subscriptions).toList()
 
             // when
-            val sut = subscriptionRetriever.listSubscriberTargets(
+            val sut = subscriptionRetriever.listTargets(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,
@@ -1397,7 +1397,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionRepository.saveAll(subscriptions).toList()
 
             // when
-            val sut = subscriptionRetriever.listSubscriberTargets(
+            val sut = subscriptionRetriever.listTargets(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,
@@ -1441,7 +1441,7 @@ internal class SubscriptionRetrieverTest(
             subscriptionRepository.saveAll(subscriptions).toList()
 
             // when
-            val sut = subscriptionRetriever.listSubscriberTargets(
+            val sut = subscriptionRetriever.listTargets(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,

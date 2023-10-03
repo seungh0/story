@@ -77,7 +77,7 @@ class FeedMappingRemoveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "FEED-MAPPING-REMOVE-API",
+                    "feed-mapping.remove",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

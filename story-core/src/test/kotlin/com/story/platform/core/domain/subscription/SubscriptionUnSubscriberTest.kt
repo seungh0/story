@@ -48,7 +48,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // when
-            subscriptionUnSubscriber.remove(
+            subscriptionUnSubscriber.removeSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -79,7 +79,7 @@ internal class SubscriptionUnSubscriberTest(
             val subscriberId = "2000"
 
             // when
-            subscriptionUnSubscriber.remove(
+            subscriptionUnSubscriber.removeSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
@@ -113,7 +113,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // when
-            subscriptionUnSubscriber.remove(
+            subscriptionUnSubscriber.removeSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,

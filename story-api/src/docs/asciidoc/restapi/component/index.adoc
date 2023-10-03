@@ -1,6 +1,6 @@
 == Component
 
-=== What is Components?
+=== About Component
 
 - You can create and manage components for a single resource as needed.
 - For example, through a subscription resource, you can add "Follow" and "Like" components to use.

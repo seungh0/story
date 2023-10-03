@@ -14,7 +14,7 @@ class NonceManager(
     private val nonceRepository: NonceRepository,
 ) {
 
-    suspend fun generate(expirationSeconds: Long): String {
+    suspend fun create(expirationSeconds: Long): String {
         var current = 0L
         while (current++ < MAX_COUNT) {
             val nonce = UUID.randomUUID().toString()

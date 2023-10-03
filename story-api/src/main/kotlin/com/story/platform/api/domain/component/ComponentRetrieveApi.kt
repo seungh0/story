@@ -19,7 +19,7 @@ class ComponentRetrieveApi(
      * 워크스페이스에 등록된 특정 리소스의 컴포넌트 목록을 조회합니다
      */
     @GetMapping("/v1/resources/{resourceId}/components")
-    suspend fun listComponents(
+    suspend fun listCompnents(
         @PathVariable resourceId: String,
         @RequestAuthContext authContext: AuthContext,
         @Valid cursorRequest: CursorRequest,

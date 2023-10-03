@@ -16,13 +16,13 @@ class SubscriptionRemoveApi(
      * 구독을 취소한다
      */
     @DeleteMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}")
-    suspend fun remove(
+    suspend fun removeSubscription(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
-        subscriptionRemoveHandler.remove(
+        subscriptionRemoveHandler.removeSubscription(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             targetId = targetId,

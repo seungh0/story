@@ -1,19 +1,19 @@
-=== Resource List API
+=== resource.list
 
-include::{snippets}/RESOURCE-LIST-API/request-path.adoc[]
+include::{snippets}/resource.list/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/RESOURCE-LIST-API/http-request.adoc[]
+include::{snippets}/resource.list/http-request.adoc[]
 
 ==== [Response]
 
-include::{snippets}/RESOURCE-LIST-API/http-response.adoc[]
+include::{snippets}/resource.list/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/RESOURCE-LIST-API/response-fields.adoc[]
+include::{snippets}/resource.list/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/RESOURCE-LIST-API/curl-request.adoc[]
+include::{snippets}/resource.list/curl-request.adoc[]

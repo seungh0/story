@@ -29,7 +29,7 @@ class PostModifyHandler(
             componentId = postSpaceKey.componentId,
         )
 
-        val (post: PostResponse, hasChanged: Boolean) = postModifier.patch(
+        val (post: PostResponse, hasChanged: Boolean) = postModifier.patchPost(
             postSpaceKey = postSpaceKey,
             accountId = accountId,
             postId = postId,

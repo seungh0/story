@@ -20,7 +20,7 @@ class AuthenticationModifier(
         key = "'authenticationKey:' + {#authenticationKey}",
         targetCacheStrategies = [CacheStrategy.GLOBAL],
     )
-    suspend fun patchAuthenticationKey(
+    suspend fun patchAuthentication(
         workspaceId: String,
         authenticationKey: String,
         description: String?,

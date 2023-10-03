@@ -10,13 +10,13 @@ class AuthenticationCreateHandler(
     private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
 ) {
 
-    suspend fun createAuthenticationKey(
+    suspend fun createAuthentication(
         workspaceId: String,
         authenticationKey: String,
         description: String,
     ) {
         workspaceRetrieveHandler.validateEnabledWorkspace(workspaceId = workspaceId)
-        authenticationCreator.createAuthenticationKey(
+        authenticationCreator.createAuthentication(
             workspaceId = workspaceId,
             authenticationKey = authenticationKey,
             description = description,

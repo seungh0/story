@@ -1,31 +1,31 @@
-=== Post Remove API
+=== post.remove
 
-include::{snippets}/POST-REMOVE-API/request-path.adoc[]
+include::{snippets}/post.remove/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/POST-REMOVE-API/http-request.adoc[]
+include::{snippets}/post.remove/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/POST-REMOVE-API/path-parameters.adoc[]
+include::{snippets}/post.remove/path-parameters.adoc[]
 
 ===== [Request Query Parameter]
 
-include::{snippets}/POST-REMOVE-API/query-parameters.adoc[]
+include::{snippets}/post.remove/query-parameters.adoc[]
 
 ==== [Response]
 
-include::{snippets}/POST-REMOVE-API/http-response.adoc[]
+include::{snippets}/post.remove/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/POST-REMOVE-API/response-fields.adoc[]
+include::{snippets}/post.remove/response-fields.adoc[]
 
 ===== [Response Body Example]
 
-include::{snippets}/POST-REMOVE-API/response-body.adoc[]
+include::{snippets}/post.remove/response-body.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/POST-REMOVE-API/curl-request.adoc[]
+include::{snippets}/post.remove/curl-request.adoc[]

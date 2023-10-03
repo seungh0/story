@@ -20,7 +20,7 @@ class ReactionRemoveApi(
         @Valid request: ReactionRemoveApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
-        reactionRemoveHandler.remove(
+        reactionRemoveHandler.removeReaction(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             spaceId = spaceId,

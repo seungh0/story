@@ -44,21 +44,21 @@ class AuthenticationRetrieveApiTest(
 
     "인증키 정보를 조회합니다" {
         // given
-        val apiKey = "api-key"
+        val authenticationKey = "authentication-key"
 
         coEvery {
-            authenticationRetrieveHandler.getAuthenticationKey(
-                apiKey = apiKey,
+            authenticationRetrieveHandler.getAuthentication(
+                authenticationKey = authenticationKey,
             )
         } returns AuthenticationApiResponse(
-            apiKey = apiKey,
+            authenticationKey = authenticationKey,
             status = AuthenticationStatus.ENABLED,
             description = "api-key",
         )
 
         // when
         val exchange = webTestClient.get()
-            .uri("/v1/authentication/api-keys/{apiKey}", apiKey)
+            .uri("/v1/authentication/{authenticationKey}", authenticationKey)
             .headers(WebClientUtils.commonHeaders)
             .exchange()
 
@@ -67,20 +67,20 @@ class AuthenticationRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "AUTHENTICATION-KEY-GET-API",
+                    "authentication.get",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("apiKey").description("Api Key"),
+                        RequestDocumentation.parameterWithName("authenticationKey").description("Authentication Key"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.apiKey")
-                            .type(JsonFieldType.STRING).description("Api Key"),
+                        PayloadDocumentation.fieldWithPath("result.authenticationKey")
+                            .type(JsonFieldType.STRING).description("Authentication Key"),
                         PayloadDocumentation.fieldWithPath("result.status")
                             .type(JsonFieldType.STRING).description("Authentication Key Status")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationStatus::class.java))),

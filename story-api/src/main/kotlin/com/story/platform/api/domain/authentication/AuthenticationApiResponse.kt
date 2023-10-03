@@ -4,7 +4,7 @@ import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 
 data class AuthenticationApiResponse(
-    val apiKey: String,
+    val authenticationKey: String,
     val status: AuthenticationStatus,
     val description: String,
 ) {
@@ -13,7 +13,7 @@ data class AuthenticationApiResponse(
         fun of(
             authenticationKey: AuthenticationResponse,
         ) = AuthenticationApiResponse(
-            apiKey = authenticationKey.authenticationKey,
+            authenticationKey = authenticationKey.authenticationKey,
             status = authenticationKey.status,
             description = authenticationKey.description,
         )

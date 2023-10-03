@@ -14,7 +14,7 @@ class WorkspaceRemoveApi(
 ) {
 
     @DeleteMapping("/v1/workspaces/{workspaceId}")
-    suspend fun remove(
+    suspend fun removeWorkspace(
         @PathVariable workspaceId: String,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
@@ -22,7 +22,7 @@ class WorkspaceRemoveApi(
             throw WorkspaceNoPermissionException("워크스페이스($workspaceId)에 권한이 없습니다 [현재 요청자의 워크스페이스 키 = ${authContext.workspaceId}]")
         }
 
-        workspaceRemoveHandler.remove(
+        workspaceRemoveHandler.removeWorkspace(
             workspaceId = workspaceId,
         )
         return ApiResponse.OK

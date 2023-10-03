@@ -18,7 +18,7 @@ class SubscriptionRetriever(
     private val subscriberSequenceRepository: SubscriberSequenceRepository,
 ) {
 
-    suspend fun isSubscriber(
+    suspend fun existsSubscription(
         workspaceId: String,
         componentId: String,
         targetId: String,
@@ -34,7 +34,7 @@ class SubscriptionRetriever(
         return subscription != null && subscription.isActivated()
     }
 
-    suspend fun listTargetSubscribers(
+    suspend fun listSubscribers(
         workspaceId: String,
         componentId: String,
         targetId: String,
@@ -239,7 +239,7 @@ class SubscriptionRetriever(
         )
     }
 
-    suspend fun listSubscriberTargets(
+    suspend fun listTargets(
         workspaceId: String,
         componentId: String,
         subscriberId: String,

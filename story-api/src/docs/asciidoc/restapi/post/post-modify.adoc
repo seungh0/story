@@ -1,27 +1,27 @@
-=== Post Modify API
+=== post.modify
 
-include::{snippets}/POST-MODIFY-API/request-path.adoc[]
+include::{snippets}/post.modify/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/POST-MODIFY-API/http-request.adoc[]
+include::{snippets}/post.modify/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/POST-MODIFY-API/path-parameters.adoc[]
+include::{snippets}/post.modify/path-parameters.adoc[]
 
 ===== [Request Body Parameter]
 
-include::{snippets}/POST-MODIFY-API/request-fields.adoc[]
+include::{snippets}/post.modify/request-fields.adoc[]
 
 ==== [Response]
 
-include::{snippets}/POST-MODIFY-API/http-response.adoc[]
+include::{snippets}/post.modify/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/POST-MODIFY-API/response-fields.adoc[]
+include::{snippets}/post.modify/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/POST-MODIFY-API/curl-request.adoc[]
+include::{snippets}/post.modify/curl-request.adoc[]

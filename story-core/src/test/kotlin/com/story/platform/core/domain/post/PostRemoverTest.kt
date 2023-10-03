@@ -29,7 +29,7 @@ internal class PostRemoverTest(
             postReverseRepository.save(postReverse)
 
             // when
-            postRemover.remove(
+            postRemover.removePost(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = post.key.workspaceId,
                     componentId = post.key.componentId,
@@ -49,7 +49,7 @@ internal class PostRemoverTest(
 
         test("등록되지 않은 포스트를 삭제하는 경우 멱등성을 갖는다") {
             // when
-            postRemover.remove(
+            postRemover.removePost(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = "twitter",
                     componentId = "post",
@@ -76,7 +76,7 @@ internal class PostRemoverTest(
             postReverseRepository.save(postReverse)
 
             // when
-            postRemover.remove(
+            postRemover.removePost(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = post.key.workspaceId,
                     componentId = post.key.componentId,

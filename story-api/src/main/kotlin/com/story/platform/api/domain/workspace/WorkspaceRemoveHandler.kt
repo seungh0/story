@@ -10,10 +10,10 @@ class WorkspaceRemoveHandler(
     private val workspaceEventProducer: WorkspaceEventProducer,
 ) {
 
-    suspend fun remove(
+    suspend fun removeWorkspace(
         workspaceId: String,
     ) {
-        workspaceRemover.remove(workspaceId = workspaceId)
+        workspaceRemover.removeWorkspace(workspaceId = workspaceId)
         workspaceEventProducer.publishDeletedEvent(
             workspaceId = workspaceId
         )

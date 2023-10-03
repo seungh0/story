@@ -1,23 +1,23 @@
-=== Authentication Key Get API
+=== authentication.get
 
-include::{snippets}/AUTHENTICATION-KEY-GET-API/request-path.adoc[]
+include::{snippets}/authentication.get/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/AUTHENTICATION-KEY-GET-API/http-request.adoc[]
+include::{snippets}/authentication.get/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/AUTHENTICATION-KEY-GET-API/path-parameters.adoc[]
+include::{snippets}/authentication.get/path-parameters.adoc[]
 
 ==== [Response]
 
-include::{snippets}/AUTHENTICATION-KEY-GET-API/response-body.adoc[]
+include::{snippets}/authentication.get/response-body.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/AUTHENTICATION-KEY-GET-API/response-fields.adoc[]
+include::{snippets}/authentication.get/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/AUTHENTICATION-KEY-GET-API/curl-request.adoc[]
+include::{snippets}/authentication.get/curl-request.adoc[]

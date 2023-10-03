@@ -85,7 +85,7 @@ class FeedMappingCreateApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "FEED-MAPPING-POST-API",
+                    "feed-mapping.create",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

@@ -107,7 +107,7 @@ class PostCreateApiTest(
             .jsonPath("$.result.postId").isEqualTo("1")
             .consumeWith(
                 document(
-                    "POST-CREATE-API",
+                    "post.create",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),

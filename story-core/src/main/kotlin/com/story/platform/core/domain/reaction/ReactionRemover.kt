@@ -10,7 +10,7 @@ class ReactionRemover(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
-    suspend fun remove(
+    suspend fun removeReaction(
         workspaceId: String,
         componentId: String,
         spaceId: String,

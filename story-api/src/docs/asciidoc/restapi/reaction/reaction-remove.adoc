@@ -1,31 +1,31 @@
-=== Reaction Remove API
+=== reaction.remove
 
-include::{snippets}/REACTION-REMOVE-API/request-path.adoc[]
+include::{snippets}/reaction.remove/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/REACTION-REMOVE-API/http-request.adoc[]
+include::{snippets}/reaction.remove/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/REACTION-REMOVE-API/path-parameters.adoc[]
+include::{snippets}/reaction.remove/path-parameters.adoc[]
 
 ===== [Request Query Parameter]
 
-include::{snippets}/REACTION-REMOVE-API/query-parameters.adoc[]
+include::{snippets}/reaction.remove/query-parameters.adoc[]
 
 ==== [Response]
 
-include::{snippets}/REACTION-REMOVE-API/http-response.adoc[]
+include::{snippets}/reaction.remove/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/REACTION-REMOVE-API/response-fields.adoc[]
+include::{snippets}/reaction.remove/response-fields.adoc[]
 
 ===== [Response Body Example]
 
-include::{snippets}/REACTION-REMOVE-API/response-body.adoc[]
+include::{snippets}/reaction.remove/response-body.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/REACTION-REMOVE-API/curl-request.adoc[]
+include::{snippets}/reaction.remove/curl-request.adoc[]

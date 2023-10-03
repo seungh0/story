@@ -1,23 +1,23 @@
-=== Workspace Remove API
+=== workspace.remove
 
-include::{snippets}/WORKSPACE-REMOVE-API/request-path.adoc[]
+include::{snippets}/workspace.remove/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/WORKSPACE-REMOVE-API/http-request.adoc[]
+include::{snippets}/workspace.remove/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/WORKSPACE-REMOVE-API/path-parameters.adoc[]
+include::{snippets}/workspace.remove/path-parameters.adoc[]
 
 ==== [Response]
 
-include::{snippets}/WORKSPACE-REMOVE-API/http-response.adoc[]
+include::{snippets}/workspace.remove/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/WORKSPACE-REMOVE-API/response-fields.adoc[]
+include::{snippets}/workspace.remove/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/WORKSPACE-REMOVE-API/curl-request.adoc[]
+include::{snippets}/workspace.remove/curl-request.adoc[]

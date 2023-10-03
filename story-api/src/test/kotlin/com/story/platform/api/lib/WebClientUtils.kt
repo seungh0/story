@@ -13,7 +13,7 @@ object WebClientUtils {
     }
 
     val authenticationHeader = Consumer<HttpHeaders> { header ->
-        header[HttpHeader.X_STORY_API_KEY.header] = "API-KEY"
+        header[HttpHeader.X_STORY_API_KEY.header] = "{{YOUR-STORY-AUTHENTICATION-KEY}}"
         header["X-Forwarded-For"] = "127.0.0.1"
         header["X-Request-Id"] = UUID.randomUUID().toString()
     }

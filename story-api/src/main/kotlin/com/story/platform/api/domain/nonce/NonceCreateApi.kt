@@ -13,10 +13,10 @@ class NonceCreateApi(
 ) {
 
     @PostMapping("/v1/nonce")
-    suspend fun create(
+    suspend fun createNonce(
         @Valid @RequestBody request: NonceCreateApiRequest,
     ): ApiResponse<NonceApiResponse> {
-        val nonce = nonceManager.generate(request.expirationSeconds)
+        val nonce = nonceManager.create(request.expirationSeconds)
         return ApiResponse.ok(NonceApiResponse(nonce = nonce))
     }
 

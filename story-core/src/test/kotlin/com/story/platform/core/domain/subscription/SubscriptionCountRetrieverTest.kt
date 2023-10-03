@@ -31,26 +31,26 @@ class SubscriptionCountRetrieverTest(
             )
 
             // when
-            val subscribersCount = subscriptionCountRetriever.countSubscribers(
+            val subscriberCount = subscriptionCountRetriever.countSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
             )
 
             // then
-            subscribersCount shouldBe count
+            subscriberCount shouldBe count
         }
 
         test("대상자의 구독자가 없는 경우 구독자 수가 0명으로 표기된다") {
             // when
-            val subscribersCount = subscriptionCountRetriever.countSubscribers(
+            val subscriberCount = subscriptionCountRetriever.countSubscribers(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId,
             )
 
             // then
-            subscribersCount shouldBe 0L
+            subscriberCount shouldBe 0L
         }
     }
 

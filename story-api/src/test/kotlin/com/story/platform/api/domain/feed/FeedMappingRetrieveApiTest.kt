@@ -81,7 +81,7 @@ class FeedMappingRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "FEED-MAPPING-LIST-API",
+                    "feed-mapping.list",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),

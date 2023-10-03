@@ -1,23 +1,23 @@
-=== Subscription Get Target Count API
+=== subscription-target-count.get
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/request-path.adoc[]
+include::{snippets}/subscription-target-count.get/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/http-request.adoc[]
+include::{snippets}/subscription-target-count.get/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/path-parameters.adoc[]
+include::{snippets}/subscription-target-count.get/path-parameters.adoc[]
 
 ==== [Response]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/http-response.adoc[]
+include::{snippets}/subscription-target-count.get/http-response.adoc[]
 
 ===== [Response Body Fields]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/response-fields.adoc[]
+include::{snippets}/subscription-target-count.get/response-fields.adoc[]
 
 ===== [Curl Request HTTP Example]
 
-include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/curl-request.adoc[]
+include::{snippets}/subscription-target-count.get/curl-request.adoc[]

@@ -9,13 +9,13 @@ class AuthenticationModifyHandler(
     private val authenticationModifier: AuthenticationModifier,
 ) {
 
-    suspend fun patchAuthenticationKey(
+    suspend fun patchAuthentication(
         workspaceId: String,
         authenticationKey: String,
         description: String?,
         status: AuthenticationStatus?,
     ) {
-        authenticationModifier.patchAuthenticationKey(
+        authenticationModifier.patchAuthentication(
             workspaceId = workspaceId,
             authenticationKey = authenticationKey,
             description = description,
