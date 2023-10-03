@@ -2,7 +2,7 @@ package com.story.platform.api.config.auth
 
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.StoryBaseException
-import com.story.platform.core.common.json.JsonUtils
+import com.story.platform.core.common.json.Jsons
 import com.story.platform.core.common.logger.LoggerExtension.log
 import com.story.platform.core.common.model.dto.ApiResponse
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
@@ -48,7 +48,7 @@ class FilterExceptionHandler : ErrorWebExceptionHandler {
         return exchange.response.writeWith(
             Mono.fromSupplier {
                 val bufferFactory: DataBufferFactory = exchange.response.bufferFactory()
-                JsonUtils.toJson(result).let { bufferFactory.wrap(it.toByteArray()) }
+                Jsons.toJson(result).let { bufferFactory.wrap(it.toByteArray()) }
             }
         )
     }

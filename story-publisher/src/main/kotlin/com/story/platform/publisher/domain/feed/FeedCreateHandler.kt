@@ -1,6 +1,6 @@
 package com.story.platform.publisher.domain.feed
 
-import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.common.annotation.HandlerAdapter
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.feed.FeedCreator

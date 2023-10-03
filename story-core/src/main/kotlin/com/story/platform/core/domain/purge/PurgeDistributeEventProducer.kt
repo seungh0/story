@@ -1,9 +1,9 @@
 package com.story.platform.core.domain.purge
 
-import com.story.platform.core.common.coroutine.IOBound
+import com.story.platform.core.common.annotation.EventProducer
+import com.story.platform.core.common.annotation.IOBound
 import com.story.platform.core.common.distribution.DistributionKey
 import com.story.platform.core.common.json.toJson
-import com.story.platform.core.common.spring.EventProducer
 import com.story.platform.core.domain.event.EventHistoryManager
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig

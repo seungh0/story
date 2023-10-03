@@ -1,5 +1,7 @@
 package com.story.platform.core.common.coroutine
 
+import com.story.platform.core.common.annotation.CpuBound
+import com.story.platform.core.common.annotation.IOBound
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

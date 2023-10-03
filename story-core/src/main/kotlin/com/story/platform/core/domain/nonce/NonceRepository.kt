@@ -10,13 +10,13 @@ class NonceRepository(
 ) {
 
     suspend fun validate(nonce: String): Boolean {
-        val value = stringRedisRepository.incr(key = NonceKey(token = nonce))
+        val value = stringRedisRepository.incr(key = NonceKey(nonce = nonce))
         return value == 0L
     }
 
     suspend fun generate(nonce: String, expirationSeconds: Long): Boolean {
         return stringRedisRepository.setIfAbsentWithTtl(
-            key = NonceKey(token = nonce),
+            key = NonceKey(nonce = nonce),
             value = VALUE,
             ttl = Duration.ofSeconds(expirationSeconds)
         )

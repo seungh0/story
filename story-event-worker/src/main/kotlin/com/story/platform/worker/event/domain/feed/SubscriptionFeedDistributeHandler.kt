@@ -1,6 +1,6 @@
 package com.story.platform.worker.event.domain.feed
 
-import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.common.annotation.HandlerAdapter
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.feed.FeedEvent
 import com.story.platform.core.domain.feed.FeedEventProducer
@@ -37,7 +37,7 @@ class SubscriptionFeedDistributeHandler(
             }
 
             feedMappings.forEach { feedMapping ->
-                val subscriberSequences = subscriberSequenceRepository.lastSequence(
+                val subscriberSequences = subscriberSequenceRepository.getLastSequence(
                     workspaceId = feedMapping.workspaceId,
                     componentId = feedMapping.subscriptionComponentId,
                     targetId = payload.subscriberId,

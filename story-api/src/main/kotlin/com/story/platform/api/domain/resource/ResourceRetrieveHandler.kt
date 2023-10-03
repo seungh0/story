@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.resource
 
+import com.story.platform.core.common.annotation.HandlerAdapter
 import com.story.platform.core.common.model.dto.CursorRequest
-import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
 
 @HandlerAdapter

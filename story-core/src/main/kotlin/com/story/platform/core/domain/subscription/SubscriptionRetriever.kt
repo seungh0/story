@@ -2,9 +2,9 @@ package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.coroutine.toMutableList
 import com.story.platform.core.common.distribution.XLargeDistributionKey
+import com.story.platform.core.common.model.ContentsWithCursor
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
 import kotlinx.coroutines.flow.toList
@@ -39,7 +39,7 @@ class SubscriptionRetriever(
         componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<SubscriptionResponse, String> {
+    ): ContentsWithCursor<SubscriptionResponse, String> {
         val response = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextSubscribers(
                 workspaceId = workspaceId,
@@ -55,7 +55,7 @@ class SubscriptionRetriever(
                 cursorRequest = cursorRequest,
             )
         }
-        return CursorResult.of(
+        return ContentsWithCursor.of(
             data = response.data.map { subscriber -> SubscriptionResponse.of(subscriber) },
             cursor = response.cursor,
         )
@@ -66,10 +66,10 @@ class SubscriptionRetriever(
         componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<Subscriber, String> {
+    ): ContentsWithCursor<Subscriber, String> {
         val firstSlotId = SubscriptionSlotAssigner.FIRST_SLOT_ID
         val lastSlotId = SubscriptionSlotAssigner.assign(
-            subscriberSequenceRepository.lastSequence(
+            subscriberSequenceRepository.getLastSequence(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 targetId = targetId
@@ -116,7 +116,7 @@ class SubscriptionRetriever(
         }
 
         if (subscribers.size >= cursorRequest.pageSize) {
-            return CursorResult.of(
+            return ContentsWithCursor.of(
                 data = subscribers.subList(0, cursorRequest.pageSize.coerceAtMost(subscribers.size)),
                 cursor = previousCursor,
             )
@@ -145,7 +145,7 @@ class SubscriptionRetriever(
             )
         }
 
-        return CursorResult.of(
+        return ContentsWithCursor.of(
             data = subscribers,
             cursor = previousCursor
         )
@@ -156,10 +156,10 @@ class SubscriptionRetriever(
         componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<Subscriber, String> {
+    ): ContentsWithCursor<Subscriber, String> {
         val firstSlotId = SubscriptionSlotAssigner.FIRST_SLOT_ID
         val lastSlotId = SubscriptionSlotAssigner.assign(
-            subscriberSequenceRepository.lastSequence(
+            subscriberSequenceRepository.getLastSequence(
                 workspaceId,
                 componentId,
                 targetId
@@ -206,7 +206,7 @@ class SubscriptionRetriever(
         }
 
         if (subscribers.size >= cursorRequest.pageSize) {
-            return CursorResult.of(
+            return ContentsWithCursor.of(
                 data = subscribers.subList(0, cursorRequest.pageSize.coerceAtMost(subscribers.size)),
                 cursor = nextCursor,
             )
@@ -233,7 +233,7 @@ class SubscriptionRetriever(
             )
         }
 
-        return CursorResult.of(
+        return ContentsWithCursor.of(
             data = subscribers,
             cursor = nextCursor
         )
@@ -244,7 +244,7 @@ class SubscriptionRetriever(
         componentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<SubscriptionResponse, String> {
+    ): ContentsWithCursor<SubscriptionResponse, String> {
         val subscriptions = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextSubscriptions(
                 cursorRequest = cursorRequest,
@@ -269,7 +269,7 @@ class SubscriptionRetriever(
                 subscriptions.subList(0, (cursorRequest.pageSize).coerceAtMost(subscriptions.size)).reversed()
         }
 
-        return CursorResult.of(
+        return ContentsWithCursor.of(
             data = data.map { subscription -> SubscriptionResponse.of(subscription) },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = subscriptions,

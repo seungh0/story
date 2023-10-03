@@ -1,9 +1,9 @@
 package com.story.platform.worker.event.domain.feed
 
-import com.story.platform.core.common.coroutine.IOBound
+import com.story.platform.core.common.annotation.EventConsumer
+import com.story.platform.core.common.annotation.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.json.toObject
-import com.story.platform.core.common.spring.EventConsumer
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.subscription.SubscriptionEvent
 import com.story.platform.core.infrastructure.kafka.KafkaConsumerConfig

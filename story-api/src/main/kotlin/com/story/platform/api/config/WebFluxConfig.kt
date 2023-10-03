@@ -1,7 +1,7 @@
 package com.story.platform.api.config
 
 import com.story.platform.api.config.auth.AuthContextMethodArgumentResolver
-import com.story.platform.core.common.json.JsonUtils
+import com.story.platform.core.common.json.Jsons
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -24,7 +24,7 @@ class WebFluxConfig(
     }
 
     override fun configureHttpMessageCodecs(configurer: ServerCodecConfigurer) {
-        val objectMapper = JsonUtils.DEFAULT_OBJECT_MAPPER
+        val objectMapper = Jsons.DEFAULT_OBJECT_MAPPER
 
         configurer.defaultCodecs().jackson2JsonEncoder(
             Jackson2JsonEncoder(objectMapper)

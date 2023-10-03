@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.subscription
 
+import com.story.platform.core.common.model.ContentsWithCursor
 import com.story.platform.core.common.model.Cursor
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.subscription.SubscriptionResponse
 
 data class SubscriptionTargetListApiResponse(
@@ -10,7 +10,7 @@ data class SubscriptionTargetListApiResponse(
 ) {
 
     companion object {
-        fun of(subscriptions: CursorResult<SubscriptionResponse, String>) = SubscriptionTargetListApiResponse(
+        fun of(subscriptions: ContentsWithCursor<SubscriptionResponse, String>) = SubscriptionTargetListApiResponse(
             targets = subscriptions.data.map { subscription -> SubscriptionTargetApiResponse.of(subscription = subscription) },
             cursor = subscriptions.cursor,
         )

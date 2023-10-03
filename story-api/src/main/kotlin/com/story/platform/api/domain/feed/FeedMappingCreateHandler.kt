@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.feed
 
-import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.common.annotation.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentRetriever
 import com.story.platform.core.domain.feed.mapping.FeedMappingCreateRequest
 import com.story.platform.core.domain.feed.mapping.FeedMappingCreator

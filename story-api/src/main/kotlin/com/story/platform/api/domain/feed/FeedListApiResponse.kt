@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.feed
 
+import com.story.platform.core.common.model.ContentsWithCursor
 import com.story.platform.core.common.model.Cursor
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.event.BaseEvent
 import com.story.platform.core.domain.feed.FeedResponse
 
@@ -11,7 +11,7 @@ data class FeedListApiResponse(
 ) {
 
     companion object {
-        fun of(feeds: CursorResult<FeedResponse<out BaseEvent>, String>) = FeedListApiResponse(
+        fun of(feeds: ContentsWithCursor<FeedResponse<out BaseEvent>, String>) = FeedListApiResponse(
             feeds = feeds.data.map { feed -> FeedApiResponse.of(feed = feed) },
             cursor = feeds.cursor,
         )

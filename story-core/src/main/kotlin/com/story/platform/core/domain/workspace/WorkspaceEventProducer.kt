@@ -1,8 +1,8 @@
 package com.story.platform.core.domain.workspace
 
-import com.story.platform.core.common.coroutine.IOBound
+import com.story.platform.core.common.annotation.EventProducer
+import com.story.platform.core.common.annotation.IOBound
 import com.story.platform.core.common.json.toJson
-import com.story.platform.core.common.spring.EventProducer
 import com.story.platform.core.infrastructure.kafka.KafkaProducerConfig
 import com.story.platform.core.infrastructure.kafka.KafkaRecordKeyGenerator
 import com.story.platform.core.infrastructure.kafka.KafkaTopic

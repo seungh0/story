@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.workspace
 
-import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.common.annotation.HandlerAdapter
 import com.story.platform.core.domain.workspace.WorkspaceNotExistsException
 import com.story.platform.core.domain.workspace.WorkspaceRetriever
 

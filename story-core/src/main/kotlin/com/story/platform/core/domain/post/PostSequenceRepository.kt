@@ -1,9 +1,9 @@
 package com.story.platform.core.domain.post
 
 import com.story.platform.core.infrastructure.redis.StringRedisRepository
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Repository
 
-@Service
+@Repository
 class PostSequenceRepository(
     private val postSequenceRepository: StringRedisRepository<PostSequenceKey, Long>,
 ) {
@@ -25,7 +25,7 @@ class PostSequenceRepository(
         postSequenceRepository.del(key = PostSequenceKey(postSpaceKey = postSpaceKey))
     }
 
-    suspend fun lastSequence(postSpaceKey: PostSpaceKey): Long {
+    suspend fun getLastSequence(postSpaceKey: PostSpaceKey): Long {
         return postSequenceRepository.get(
             key = PostSequenceKey(postSpaceKey = postSpaceKey)
         ) ?: START_POST_SEQ

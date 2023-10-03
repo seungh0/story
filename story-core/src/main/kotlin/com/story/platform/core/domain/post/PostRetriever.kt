@@ -2,8 +2,8 @@ package com.story.platform.core.domain.post
 
 import com.story.platform.core.common.error.InvalidCursorException
 import com.story.platform.core.common.error.NotSupportedException
+import com.story.platform.core.common.model.ContentsWithCursor
 import com.story.platform.core.common.model.CursorDirection
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.infrastructure.cache.CacheType
@@ -41,7 +41,7 @@ class PostRetriever(
         postSpaceKey: PostSpaceKey,
         cursorRequest: CursorRequest,
         sortBy: PostSortBy,
-    ): CursorResult<PostResponse, String> {
+    ): ContentsWithCursor<PostResponse, String> {
         val (slot: Long, posts: List<Post>) = when (sortBy to cursorRequest.direction) {
             PostSortBy.LATEST to CursorDirection.NEXT,
             PostSortBy.OLDEST to CursorDirection.PREVIOUS,
@@ -61,7 +61,7 @@ class PostRetriever(
         }
 
         if (posts.size > cursorRequest.pageSize) {
-            return CursorResult(
+            return ContentsWithCursor(
                 data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
                     .map { post -> PostResponse.of(post) },
                 cursor = CursorUtils.getCursor(
@@ -96,7 +96,7 @@ class PostRetriever(
 
         val data = posts + morePosts.subList(0, (cursorRequest.pageSize - posts.size).coerceAtMost(morePosts.size))
 
-        return CursorResult(
+        return ContentsWithCursor(
             data = data.map { post -> PostResponse.of(post) },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = morePosts,
@@ -111,7 +111,7 @@ class PostRetriever(
         postSpaceKey: PostSpaceKey,
     ): Pair<Long, List<Post>> {
         if (cursorRequest.cursor == null) {
-            val lastSlotId = PostSlotAssigner.assign(postId = postSequenceRepository.lastSequence(postSpaceKey = postSpaceKey))
+            val lastSlotId = PostSlotAssigner.assign(postId = postSequenceRepository.getLastSequence(postSpaceKey = postSpaceKey))
             return lastSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,

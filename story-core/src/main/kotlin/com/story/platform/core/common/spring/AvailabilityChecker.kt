@@ -1,8 +1,8 @@
 package com.story.platform.core.common.spring
 
+import com.story.platform.core.common.annotation.CpuBound
+import com.story.platform.core.common.annotation.IOBound
 import com.story.platform.core.common.coroutine.CoroutineConfig
-import com.story.platform.core.common.coroutine.CpuBound
-import com.story.platform.core.common.coroutine.IOBound
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
 import com.story.platform.core.common.model.dto.ApiResponse

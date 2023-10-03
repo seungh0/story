@@ -1,6 +1,6 @@
 package com.story.platform.api.domain.component
 
-import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.common.annotation.HandlerAdapter
 import com.story.platform.core.domain.component.ComponentEventProducer
 import com.story.platform.core.domain.component.ComponentModifier
 import com.story.platform.core.domain.component.ComponentResponse

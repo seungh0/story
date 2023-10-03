@@ -1,4 +1,4 @@
-package com.story.platform.core.common.spring
+package com.story.platform.core.common.annotation
 
 import org.springframework.core.annotation.AliasFor
 import org.springframework.stereotype.Service

@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.component
 
+import com.story.platform.core.common.model.ContentsWithCursor
 import com.story.platform.core.common.model.Cursor
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.component.ComponentResponse
 
 data class ComponentListApiResponse(
@@ -10,7 +10,7 @@ data class ComponentListApiResponse(
 ) {
 
     companion object {
-        fun of(components: CursorResult<ComponentResponse, String>) = ComponentListApiResponse(
+        fun of(components: ContentsWithCursor<ComponentResponse, String>) = ComponentListApiResponse(
             components = components.data.map { component -> ComponentApiResponse.of(component) },
             cursor = components.cursor,
         )

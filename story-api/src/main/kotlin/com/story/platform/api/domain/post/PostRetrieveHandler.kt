@@ -1,8 +1,8 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
+import com.story.platform.core.common.annotation.HandlerAdapter
 import com.story.platform.core.common.model.dto.CursorRequest
-import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.post.PostIdInvalidException
 import com.story.platform.core.domain.post.PostRetriever
 import com.story.platform.core.domain.post.PostSpaceKey

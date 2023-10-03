@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
-import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.common.annotation.HandlerAdapter
 import com.story.platform.core.domain.post.PostEventProducer
 import com.story.platform.core.domain.post.PostRemover
 import com.story.platform.core.domain.post.PostSpaceKey

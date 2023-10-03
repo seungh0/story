@@ -1,9 +1,9 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.infrastructure.redis.StringRedisRepository
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Repository
 
-@Service
+@Repository
 class SubscriberSequenceRepository(
     private val subscriptionSequenceRepository: StringRedisRepository<SubscriberSequence, Long>,
 ) {
@@ -22,7 +22,7 @@ class SubscriberSequenceRepository(
         count = count,
     )
 
-    suspend fun lastSequence(
+    suspend fun getLastSequence(
         workspaceId: String,
         componentId: String,
         targetId: String,

@@ -1,6 +1,6 @@
 package com.story.platform.core.domain.feed
 
-import com.story.platform.core.common.model.CursorResult
+import com.story.platform.core.common.model.ContentsWithCursor
 import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
 import kotlinx.coroutines.flow.toList
@@ -18,7 +18,7 @@ class FeedSubscriberRetriever(
         eventKey: String,
         slotId: Long,
         cursorRequest: CursorRequest,
-    ): CursorResult<FeedSubscriberResponse, String> {
+    ): ContentsWithCursor<FeedSubscriberResponse, String> {
         val feedSubscribers = listSubscribers(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
@@ -27,7 +27,7 @@ class FeedSubscriberRetriever(
             subscriberId = cursorRequest.cursor,
             pageSize = cursorRequest.pageSize,
         )
-        return CursorResult.of(
+        return ContentsWithCursor.of(
             data = feedSubscribers.subList(0, cursorRequest.pageSize.coerceAtMost(feedSubscribers.size))
                 .map { feedSubscriber -> FeedSubscriberResponse.of(feedSubscriber) },
             cursor = CursorUtils.getCursor(

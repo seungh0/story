@@ -14,7 +14,7 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import com.story.platform.core.common.error.InternalServerException
 
-object JsonUtils {
+object Jsons {
 
     private val kotlinModule: KotlinModule = KotlinModule.Builder()
         .withReflectionCacheSize(512)

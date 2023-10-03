@@ -1,7 +1,7 @@
 package com.story.platform.api.domain.subscription
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
-import com.story.platform.core.common.spring.HandlerAdapter
+import com.story.platform.core.common.annotation.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountManager
 import com.story.platform.core.domain.subscription.SubscriptionEventProducer

@@ -4,10 +4,10 @@ import com.story.platform.core.infrastructure.redis.StringRedisKey
 import java.time.Duration
 
 data class NonceKey(
-    val token: String,
+    val nonce: String,
 ) : StringRedisKey<NonceKey, Long> {
 
-    override fun makeKeyString(): String = "nonce:v1:$token"
+    override fun makeKeyString(): String = "nonce:v1:$nonce"
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

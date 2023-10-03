@@ -1,10 +1,10 @@
 package com.story.platform.api.domain.component
 
-import com.story.platform.core.common.coroutine.IOBound
+import com.story.platform.core.common.annotation.EventConsumer
+import com.story.platform.core.common.annotation.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.json.toObject
 import com.story.platform.core.common.logger.LoggerExtension.log
-import com.story.platform.core.common.spring.EventConsumer
 import com.story.platform.core.domain.component.ComponentEvent
 import com.story.platform.core.domain.component.ComponentLocalCacheEvictManager
 import com.story.platform.core.domain.event.EventAction

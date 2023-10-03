@@ -1,9 +1,9 @@
 package com.story.platform.api.domain.post
 
-import com.story.platform.core.common.coroutine.IOBound
+import com.story.platform.core.common.annotation.EventConsumer
+import com.story.platform.core.common.annotation.IOBound
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.common.json.toObject
-import com.story.platform.core.common.spring.EventConsumer
 import com.story.platform.core.domain.event.EventAction
 import com.story.platform.core.domain.event.EventRecord
 import com.story.platform.core.domain.post.PostEvent
