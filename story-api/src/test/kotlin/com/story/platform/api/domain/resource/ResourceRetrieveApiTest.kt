@@ -34,7 +34,7 @@ class ResourceRetrieveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -43,10 +43,17 @@ class ResourceRetrieveApiTest(
     }
 
     "사용 가능한 리소스 목록을 조회한다" {
-        webTestClient.get()
-            .uri("/v1/resources?pageSize=30")
+        // given
+        val pageSize = 10
+
+        // when
+        val exchange = webTestClient.get()
+            .uri("/v1/resources?pageSize={pageSize}", pageSize)
             .headers(authenticationHeader)
-            .exchange().expectStatus().isOk
+            .exchange()
+
+        // then
+        exchange.expectStatus().isOk
             .expectBody()
             .jsonPath("$.ok").isTrue()
             .consumeWith(
@@ -57,7 +64,7 @@ class ResourceRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 30")),
+                            .attributes(RestDocsUtils.remarks("max: 50")),
                     ),
                     responseFields(
                         fieldWithPath("ok")

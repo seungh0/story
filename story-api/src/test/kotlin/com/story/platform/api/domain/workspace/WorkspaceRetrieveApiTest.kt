@@ -36,7 +36,7 @@ class WorkspaceRetrieveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -47,7 +47,8 @@ class WorkspaceRetrieveApiTest(
     test("워크스페이스를 조회한다") {
         // given
         val workspace = WorkspaceFixture.create(
-            workspaceId = "twitter",
+            workspaceId = "story",
+            name = "story's platform",
             status = WorkspaceStatus.ENABLED,
         )
 

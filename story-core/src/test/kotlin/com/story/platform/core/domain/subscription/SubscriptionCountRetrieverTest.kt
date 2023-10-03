@@ -57,7 +57,7 @@ class SubscriptionCountRetrieverTest(
 }) {
 
     companion object {
-        private const val workspaceId = "twitter"
+        private const val workspaceId = "story"
         private const val componentId = "follow"
         private const val targetId = "구독 대상자"
     }

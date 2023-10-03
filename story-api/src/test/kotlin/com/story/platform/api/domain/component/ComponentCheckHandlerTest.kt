@@ -22,7 +22,7 @@ class ComponentCheckHandlerTest : FunSpec({
     context("컴포넌트를 검증합니다") {
         test("활성화 중인 컴포넌트인 경우 통과한다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val resourceId = ResourceId.SUBSCRIPTIONS
             val componentId = "following"
 
@@ -53,7 +53,7 @@ class ComponentCheckHandlerTest : FunSpec({
 
         test("비활성화 중인 컴포넌트인 경우 검증에 실패한다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val resourceId = ResourceId.SUBSCRIPTIONS
             val componentId = "following"
 
@@ -84,7 +84,7 @@ class ComponentCheckHandlerTest : FunSpec({
 
         test("컴포넌트가 없는 경우 검증에 실패한다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val resourceId = ResourceId.SUBSCRIPTIONS
             val componentId = "following"
 

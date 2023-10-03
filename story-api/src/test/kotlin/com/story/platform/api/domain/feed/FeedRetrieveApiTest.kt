@@ -42,7 +42,7 @@ class FeedRetrieveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -52,8 +52,12 @@ class FeedRetrieveApiTest(
 
     "피드를 조회합니다 (Post)" {
         // given
-        val componentId = "timeline"
-        val subscriberId = "subscriberId"
+        val componentId = "user-timeline"
+        val subscriberId = "user-subscriber-id"
+
+        val cursor = "current-cursor"
+        val direction = CursorDirection.NEXT
+        val pageSize = 30
 
         coEvery {
             feedRetrieveHandler.listFeeds(
@@ -69,7 +73,7 @@ class FeedRetrieveApiTest(
                     resourceId = ResourceId.POSTS.code,
                     componentId = "account-post",
                     payload = PostEvent(
-                        workspaceId = "twitter",
+                        workspaceId = "story",
                         resourceId = ResourceId.POSTS,
                         componentId = "account-post",
                         spaceId = "accountId",
@@ -91,8 +95,8 @@ class FeedRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/feeds/components/{componentId}/subscriber/{subscriberId}?cursor=cursor&direction=NEXT&pageSize=30",
-                componentId, subscriberId
+                "/v1/resources/feeds/components/{componentId}/subscriber/{subscriberId}?cursor={cursor}&direction={direction}&pageSize={pageSize}",
+                componentId, subscriberId, cursor, direction, pageSize
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -117,7 +121,7 @@ class FeedRetrieveApiTest(
                         RequestDocumentation.parameterWithName("direction").description("Direction").optional()
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(default: NEXT)")),
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 30")),
+                            .attributes(RestDocsUtils.remarks("max: 50")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
@@ -183,7 +187,7 @@ class FeedRetrieveApiTest(
                     resourceId = ResourceId.SUBSCRIPTIONS.code,
                     componentId = "follow",
                     payload = SubscriptionEvent(
-                        workspaceId = "twitter",
+                        workspaceId = "story",
                         resourceId = ResourceId.SUBSCRIPTIONS,
                         componentId = "follow",
                         subscriberId = "subscriberId",
@@ -228,7 +232,7 @@ class FeedRetrieveApiTest(
                         RequestDocumentation.parameterWithName("direction").description("Direction").optional()
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(default: NEXT)")),
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 30")),
+                            .attributes(RestDocsUtils.remarks("max: 50")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

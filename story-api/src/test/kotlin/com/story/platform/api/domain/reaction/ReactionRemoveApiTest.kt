@@ -40,7 +40,7 @@ class ReactionRemoveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -50,10 +50,10 @@ class ReactionRemoveApiTest(
 
     test("대상에 리액션을 취소한다") {
         // given
+        val workspaceId = "story"
         val componentId = "post-like"
-        val accountId = "accountId"
+        val accountId = "reactor-id"
         val spaceId = "post-id"
-        val workspaceId = "twitter"
 
         coEvery {
             reactionRemoveHandler.removeReaction(

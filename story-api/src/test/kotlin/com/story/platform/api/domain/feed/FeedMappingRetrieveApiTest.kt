@@ -37,7 +37,7 @@ class FeedMappingRetrieveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -45,11 +45,12 @@ class FeedMappingRetrieveApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    "특정 컴포넌트 간에 피드 매핑 설정합니다" {
+    "설정된 피드 매핑 목록을 조회합니다" {
         // given
-        val feedComponentId = "timeline"
+        val feedComponentId = "user-timeline"
         val sourceResourceId = ResourceId.POSTS
-        val sourceComponentId = "account-timeline"
+        val sourceComponentId = "user-post"
+        val pageSize = 10
 
         coEvery {
             feedMappingRetrieveHandler.listConnectedFeedMappings(
@@ -69,8 +70,8 @@ class FeedMappingRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}?pageSize=10",
-                feedComponentId, sourceResourceId.code, sourceComponentId
+                "/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}?pageSize={pageSize}",
+                feedComponentId, sourceResourceId.code, sourceComponentId, pageSize
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -92,7 +93,7 @@ class FeedMappingRetrieveApiTest(
                     ),
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 30")),
+                            .attributes(RestDocsUtils.remarks("max: 50")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

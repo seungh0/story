@@ -28,7 +28,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
 @ApiTest(PostModifyApi::class)
-class PostModifierApiTest(
+class PostModifyApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
@@ -43,7 +43,7 @@ class PostModifierApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -53,25 +53,26 @@ class PostModifierApiTest(
 
     test("기존 포스트를 수정합니다") {
         // given
-        val componentId = "post"
-        val postId = 10000L
-        val spaceId = "spaceId"
-        val accountId = "accountId"
+        val componentId = "user-post"
+        val postId = 7126L
+        val spaceId = "user-space-id"
+        val accountId = "user-writer-id"
 
-        val request = PostCreateApiRequest(
-            accountId = accountId,
+        val request = PostModifyApiRequest(
+            writer = PostWriterModifyApiRequest(
+                accountId = accountId,
+            ),
             title = "Post Title",
             content = """
                     Post Content1
                     Post Content2
             """.trimIndent(),
-            extra = mapOf("key" to "value"),
         )
 
         coEvery {
             postModifyHandler.patchPost(
                 postSpaceKey = PostSpaceKey(
-                    workspaceId = "twitter",
+                    workspaceId = "story",
                     componentId = componentId,
                     spaceId = spaceId,
                 ),
@@ -79,13 +80,17 @@ class PostModifierApiTest(
                 accountId = accountId,
                 title = request.title,
                 content = request.content,
-                extra = request.extra,
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.patch()
-            .uri("/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
+            .uri(
+                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}",
+                componentId,
+                spaceId,
+                postId
+            )
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
@@ -108,8 +113,10 @@ class PostModifierApiTest(
                         parameterWithName("postId").description("Post Id")
                     ),
                     requestFields(
-                        fieldWithPath("accountId").type(JsonFieldType.STRING)
-                            .description("Post Owner")
+                        fieldWithPath("writer").type(JsonFieldType.OBJECT)
+                            .description("Post Writer"),
+                        fieldWithPath("writer.accountId").type(JsonFieldType.STRING)
+                            .description("Post Writer Account Id")
                             .attributes(remarks("must be within 100 characters")),
                         fieldWithPath("title").type(JsonFieldType.STRING)
                             .description("Post Title")
@@ -117,14 +124,6 @@ class PostModifierApiTest(
                         fieldWithPath("content").type(JsonFieldType.STRING)
                             .description("Post content")
                             .attributes(remarks("must be within 500 characters")),
-                        fieldWithPath("extra").type(JsonFieldType.OBJECT)
-                            .description("extra key & value")
-                            .attributes(remarks("must be within 10 elements"))
-                            .optional(),
-                        fieldWithPath("extra.key").type(JsonFieldType.STRING)
-                            .description("extra key").optional(),
-                        fieldWithPath("extra.value").type(JsonFieldType.STRING)
-                            .description("extra value").optional(),
                     ),
                     responseFields(
                         fieldWithPath("ok")

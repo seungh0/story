@@ -24,7 +24,7 @@ class AuthenticationCreatorTest(
     context("신규 서비스 인증 키를 등록한다") {
         test("새로운 인증 키를 등록한다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val apiKey = "api-key"
             val description = "트위터 피드 API Key"
 

@@ -16,7 +16,6 @@ class PostCreator(
         accountId: String,
         title: String,
         content: String,
-        extra: Map<String, String>,
     ): PostResponse {
         val postId = postSequenceRepository.generate(postSpaceKey = postSpaceKey)
         val post = Post.of(
@@ -25,7 +24,6 @@ class PostCreator(
             postId = postId,
             title = title,
             content = content,
-            extra = extra,
         )
         reactiveCassandraOperations.batchOps()
             .upsert(post)

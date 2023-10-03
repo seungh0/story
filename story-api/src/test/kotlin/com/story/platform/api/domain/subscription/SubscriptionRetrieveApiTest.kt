@@ -39,7 +39,7 @@ class SubscriptionRetrieveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -204,12 +204,12 @@ class SubscriptionRetrieveApiTest(
     "구독자 목록을 조회합니다" {
         // given
         val componentId = "follow"
-        val targetId = "targetId"
+        val targetId = "subscription-target-id"
 
         val request = CursorRequest(
             pageSize = 30,
             direction = CursorDirection.NEXT,
-            cursor = "cursor",
+            cursor = "current-cursor",
         )
 
         coEvery {
@@ -222,14 +222,14 @@ class SubscriptionRetrieveApiTest(
         } returns SubscriberListApiResponse(
             subscribers = listOf(
                 SubscriberApiResponse(
-                    subscriberId = "subscriber-1",
+                    subscriberId = "subscriber-id-1",
                 ),
                 SubscriberApiResponse(
-                    subscriberId = "subscriber-2",
+                    subscriberId = "subscriber-id-2",
                 ),
             ),
             cursor = Cursor(
-                nextCursor = "nextCursor",
+                nextCursor = "next-cursor",
                 hasNext = true,
             )
         )
@@ -237,8 +237,8 @@ class SubscriptionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers?cursor=${request.cursor}&pageSize=${request.pageSize}&direction=${request.direction}",
-                componentId, targetId,
+                "/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers?cursor={cursor}&pageSize={pageSize}&direction={direction}",
+                componentId, targetId, request.cursor, request.pageSize, request.direction
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -265,7 +265,7 @@ class SubscriptionRetrieveApiTest(
                         RequestDocumentation.parameterWithName("direction").description("Direction").optional()
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(default: NEXT)")),
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 30")),
+                            .attributes(RestDocsUtils.remarks("max: 50")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
@@ -275,7 +275,7 @@ class SubscriptionRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result.subscribers")
                             .type(JsonFieldType.ARRAY).description("subscriber list"),
                         PayloadDocumentation.fieldWithPath("result.subscribers[].subscriberId")
-                            .type(JsonFieldType.STRING).description("SubscriberID Id"),
+                            .type(JsonFieldType.STRING).description("Subscriber Id"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
                             .type(JsonFieldType.STRING).description("nextCursor").optional(),
@@ -308,15 +308,15 @@ class SubscriptionRetrieveApiTest(
             targets = listOf(
                 SubscriptionTargetApiResponse(
                     targetId = "target-1",
-                    alarm = true,
+                    alarmEnabled = true,
                 ),
                 SubscriptionTargetApiResponse(
                     targetId = "target-2",
-                    alarm = true,
+                    alarmEnabled = true,
                 ),
                 SubscriptionTargetApiResponse(
                     targetId = "target-3",
-                    alarm = false,
+                    alarmEnabled = false,
                 )
             ),
             cursor = Cursor(
@@ -328,8 +328,8 @@ class SubscriptionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets?cursor=${request.cursor}&pageSize=${request.pageSize}&direction=${request.direction}",
-                componentId, subscriberId,
+                "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets?cursor={cursor}&pageSize={pageSize}&direction={direction}",
+                componentId, subscriberId, request.cursor, request.pageSize, request.direction
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -355,7 +355,7 @@ class SubscriptionRetrieveApiTest(
                         RequestDocumentation.parameterWithName("direction").description("Direction").optional()
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(default: NEXT)")),
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 30")),
+                            .attributes(RestDocsUtils.remarks("max: 50")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
@@ -366,8 +366,8 @@ class SubscriptionRetrieveApiTest(
                             .type(JsonFieldType.ARRAY).description("subscription target list"),
                         PayloadDocumentation.fieldWithPath("result.targets[].targetId")
                             .type(JsonFieldType.STRING).description("Target Id"),
-                        PayloadDocumentation.fieldWithPath("result.targets[].alarm")
-                            .type(JsonFieldType.BOOLEAN).description("alarm ON/OFF (true/false)"),
+                        PayloadDocumentation.fieldWithPath("result.targets[].alarmEnabled")
+                            .type(JsonFieldType.BOOLEAN).description("alarm Enabled (true/false)"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
                             .type(JsonFieldType.STRING).description("nextCursor").optional(),

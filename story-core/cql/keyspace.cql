@@ -206,7 +206,7 @@ create table subscriber_v1
     target_id     text,
     slot_id       bigint,
     subscriber_id text,
-    alarm         boolean,
+    alarmEnabled  boolean,
     primary key ((workspace_id, component_id, target_id, slot_id), subscriber_id)
 )
     with bloom_filter_fp_chance = 0.01
@@ -230,7 +230,7 @@ create table subscription_v1
     subscriber_id    text,
     target_id        text,
     status           text,
-    alarm            boolean,
+    alarmEnabled     boolean,
     slot_id          bigint,
     primary key ((workspace_id, component_id, distribution_key), subscriber_id, target_id)
 )

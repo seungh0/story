@@ -42,7 +42,7 @@ class ReactionRetrieveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -52,11 +52,11 @@ class ReactionRetrieveApiTest(
 
     test("대상에 등록된 리액션 목록을 조회한다") {
         // given
-        val workspaceId = "twitter"
+        val workspaceId = "story"
         val componentId = "post-like"
-        val spaceId = "space-id"
-        val accountId = "accountId"
-        val emotionIds = setOf("1", "2")
+        val accountId = "reactor-id"
+        val spaceId = "post-id"
+        val emotionIds = "emotion-1,emotion-2"
 
         coEvery {
             reactionRetrieveHandler.getReaction(
@@ -113,9 +113,7 @@ class ReactionRetrieveApiTest(
                         parameterWithName("spaceId").description("Reaction Space Id"),
                     ),
                     relaxedQueryParameters(
-                        parameterWithName("accountId").description("Reactor Id")
-                    ),
-                    relaxedQueryParameters(
+                        parameterWithName("accountId").description("Reactor Id"),
                         parameterWithName("emotionIds").description("Reaction Emotion Ids")
                     ),
                     responseFields(
@@ -140,9 +138,11 @@ class ReactionRetrieveApiTest(
 
     test("대상 목록에 등록된 리액션 목록을 조회한다") {
         // given
+        val workspaceId = "story"
         val componentId = "post-like"
-        val accountId = "accountId"
-        val workspaceId = "twitter"
+        val accountId = "reactor-id"
+        val spaceIds = "post-spaceId-1,post-spaceId-2"
+        val emotionIds = "emotion-1,emotion-2"
 
         coEvery {
             reactionRetrieveHandler.listReactions(
@@ -196,9 +196,11 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds=space-1,space-2&emotionIds=emotion-1,emotion-2",
+                "/v1/resources/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds={spaceIds}&emotionIds={emotionIds}",
                 componentId,
                 accountId,
+                spaceIds,
+                emotionIds,
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -217,12 +219,8 @@ class ReactionRetrieveApiTest(
                         parameterWithName("componentId").description("Reaction Component Id"),
                     ),
                     relaxedQueryParameters(
-                        parameterWithName("accountId").description("Reactor Id")
-                    ),
-                    relaxedQueryParameters(
-                        parameterWithName("spaceIds").description("Reaction Space Ids")
-                    ),
-                    relaxedQueryParameters(
+                        parameterWithName("accountId").description("Reactor Id"),
+                        parameterWithName("spaceIds").description("Reaction Space Ids"),
                         parameterWithName("emotionIds").description("Reaction Emotion Ids")
                     ),
                     responseFields(

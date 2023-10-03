@@ -39,7 +39,7 @@ class ComponentRetrieveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -50,8 +50,8 @@ class ComponentRetrieveApiTest(
     "컴포넌트를 조회합니다" {
         // given
         val resourceId = ResourceId.SUBSCRIPTIONS
-        val componentId = "follow"
-        val description = "following"
+        val componentId = "user-follow"
+        val description = "story user following system"
         val status = ComponentStatus.ENABLED
 
         val component = ComponentApiResponse(
@@ -64,7 +64,7 @@ class ComponentRetrieveApiTest(
 
         coEvery {
             componentRetrieveHandler.getComponent(
-                workspaceId = "twitter",
+                workspaceId = "story",
                 resourceId = resourceId,
                 componentId = componentId,
             )
@@ -113,11 +113,11 @@ class ComponentRetrieveApiTest(
     "컴포넌트 목록을 조회한다" {
         // given
         val resourceId = ResourceId.SUBSCRIPTIONS
-        val componentId = "follow"
-        val description = "following"
+        val componentId = "user-follow"
+        val description = "story user following system"
         val status = ComponentStatus.ENABLED
         val cursor = "cursor"
-        val pageSize = 30
+        val pageSize = 10
 
         val component = ComponentApiResponse(
             componentId = componentId,
@@ -144,8 +144,8 @@ class ComponentRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/{resourceId}/components?cursor=$cursor&pageSize=$pageSize",
-                resourceId.code
+                "/v1/resources/{resourceId}/components?cursor={cursor}&pageSize={pageSize}",
+                resourceId.code, cursor, pageSize
             )
             .headers(WebClientUtils.authenticationHeader)
             .exchange()
@@ -166,7 +166,7 @@ class ComponentRetrieveApiTest(
                         RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()
                             .attributes(RestDocsUtils.remarks("first cursor is null")),
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 30")),
+                            .attributes(RestDocsUtils.remarks("max: 50")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

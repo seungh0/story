@@ -25,7 +25,7 @@ internal class SubscriptionRetrieverTest(
     context("특정 계정이 대상을 구독하였는지 확인한다") {
         test("대상자를 구독한 기록이 있으면, 구독자로 판단한다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
@@ -55,7 +55,7 @@ internal class SubscriptionRetrieverTest(
 
         test("대상자를 구독한 기록이 없다면, 구독자가 아니라고 판단한다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
@@ -74,7 +74,7 @@ internal class SubscriptionRetrieverTest(
 
         test("구독이 취소되어 있는 경우, 구독자가 아니라고 판단한다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "구독 대상자"
             val subscriberId = "구독자"
@@ -105,7 +105,7 @@ internal class SubscriptionRetrieverTest(
     context("특정 대상을 구독한 구독자 목록을 조회합니다 - NEXT 방향 + 첫 커서") {
         test("첫 슬롯(0개) - 처음부터 1개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -126,7 +126,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(0개) ~ 두번째 슬롯(3개) - 처음부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
             val slotId = 2L
@@ -138,7 +138,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -150,7 +150,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -180,7 +180,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(4개) - 처음부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
             val slotId = 1L
@@ -192,7 +192,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -204,7 +204,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -234,7 +234,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(4개) - 처음부터 4개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
             val slotId = 1L
@@ -246,7 +246,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -258,7 +258,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -288,7 +288,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(3개) ~ 두번째 슬롯(1개) - 처음부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -299,7 +299,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 4,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -311,7 +311,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 4,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -341,7 +341,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(3개) ~ 두번째 슬롯(1개) - 처음부터 4개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -352,7 +352,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 4,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -364,7 +364,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 4,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -394,7 +394,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(2개) ~ 두번째 슬롯(2개) - 처음부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -405,7 +405,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -417,7 +417,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -449,7 +449,7 @@ internal class SubscriptionRetrieverTest(
     context("특정 대상을 구독한 구독자 목록을 조회합니다 - NEXT 방향 + 처음이 아닌 커서") {
         test("첫 슬롯(4개) - 특정 키부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
             val slotId = 1L
@@ -461,7 +461,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -473,7 +473,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -507,7 +507,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(2개) ~ 두번째 슬롯(2개) - 특정 키부터 2개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -518,7 +518,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -530,7 +530,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -564,7 +564,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(2개) ~ 두번째 슬롯(2개) - 특정 키부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -575,7 +575,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -587,7 +587,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -623,7 +623,7 @@ internal class SubscriptionRetrieverTest(
     context("특정 대상을 구독한 구독자 목록을 조회합니다 - PREVIOUS 방향 + 첫 커서") {
         test("첫 슬롯(0개) - 처음부터 1개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -644,7 +644,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(0개) ~ 두번째 슬롯(3개) - 처음부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
             val slotId = 2L
@@ -656,7 +656,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -668,7 +668,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -699,7 +699,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(4개) - 처음부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
             val slotId = 1L
@@ -711,7 +711,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -723,7 +723,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -754,7 +754,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(4개) - 처음부터 4개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
             val slotId = 1L
@@ -766,7 +766,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -778,7 +778,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -809,7 +809,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(3개) ~ 두번째 슬롯(1개) - 처음부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -820,7 +820,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 4,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -832,7 +832,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 4,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -863,7 +863,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(3개) ~ 두번째 슬롯(1개) - 처음부터 4개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -874,7 +874,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 4,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -886,7 +886,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 4,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -917,7 +917,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(2개) ~ 두번째 슬롯(2개) - 처음부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -928,7 +928,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -940,7 +940,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -973,7 +973,7 @@ internal class SubscriptionRetrieverTest(
     context("특정 대상을 구독한 구독자 목록을 조회합니다 - PREVIOUS 방향 + 처음이 아닌 커서") {
         test("첫 슬롯(4개) - 특정 키부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
             val slotId = 1L
@@ -985,7 +985,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -997,7 +997,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = slotId,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -1032,7 +1032,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(2개) ~ 두번째 슬롯(2개) - 특정 키부터 2개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -1043,7 +1043,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -1055,7 +1055,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -1090,7 +1090,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 슬롯(2개) ~ 두번째 슬롯(2개) - 특정 키부터 3개 조회") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "targetId"
 
@@ -1101,7 +1101,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -1113,7 +1113,7 @@ internal class SubscriptionRetrieverTest(
                     subscriberId = it.toString(),
                     targetId = targetId,
                     slotId = SubscriptionSlotAssigner.FIRST_SLOT_ID + it.toLong() / 3,
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -1150,7 +1150,7 @@ internal class SubscriptionRetrieverTest(
     context("구독자가 구독한 대상자 목록을 조회합니다") {
         test("첫 페이지를 조회할때 이후에 구독 정보가 더 있는 경우 다음 커서가 반환된다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val subscriberId = "subscriberId"
 
@@ -1160,7 +1160,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -1171,7 +1171,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -1194,7 +1194,7 @@ internal class SubscriptionRetrieverTest(
 
         test("첫 페이지를 조회할때 이후에 구독 정보가 더 없는 경우 다음 커서를 반환하지 않는다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val subscriberId = "subscriberId"
 
@@ -1204,7 +1204,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -1215,7 +1215,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -1238,7 +1238,7 @@ internal class SubscriptionRetrieverTest(
 
         test("특정 커서 이후의 구독 정보를 조회할때 뒤에 구독 정보가 더 있는 경우 다음 커서가 반환된다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val subscriberId = "subscriberId"
 
@@ -1248,7 +1248,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -1259,7 +1259,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -1282,7 +1282,7 @@ internal class SubscriptionRetrieverTest(
 
         test("특정 커서 이후의 구독 정보를 조회할때 뒤에 구독 정보가 더 없는 경우 다음 커서가 반환되지 않는다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val subscriberId = "subscriberId"
 
@@ -1292,7 +1292,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -1303,7 +1303,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -1326,7 +1326,7 @@ internal class SubscriptionRetrieverTest(
 
         test("마지막 페이지를 조회한다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val subscriberId = "subscriberId"
 
@@ -1336,7 +1336,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -1347,7 +1347,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -1370,7 +1370,7 @@ internal class SubscriptionRetrieverTest(
 
         test("특정 커서 이전의 구독 정보를 조회할때 이전의 구독 정보가 더 있는 경우 이전 커서가 반환된다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val subscriberId = "subscriberId"
 
@@ -1380,7 +1380,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -1391,7 +1391,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()
@@ -1414,7 +1414,7 @@ internal class SubscriptionRetrieverTest(
 
         test("특정 커서 이전의 구독 정보를 조회할때 이전의 구독 정보가 더 없는 경우 이전 커서가 반환되지 않는다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val subscriberId = "subscriberId"
 
@@ -1424,7 +1424,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriberRepository.saveAll(subscribers).toList()
@@ -1435,7 +1435,7 @@ internal class SubscriptionRetrieverTest(
                     componentId = componentId,
                     subscriberId = subscriberId,
                     targetId = it.toString(),
-                    alarm = true,
+                    alarmEnabled = true,
                 )
             }
             subscriptionRepository.saveAll(subscriptions).toList()

@@ -10,7 +10,7 @@ data class CursorRequest(
     val direction: CursorDirection = CursorDirection.NEXT,
 
     @field:Min(value = 1)
-    @field:Max(value = 30)
+    @field:Max(value = 50)
     val pageSize: Int = 0,
 ) {
 

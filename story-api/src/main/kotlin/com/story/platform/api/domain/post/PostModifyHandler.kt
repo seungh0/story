@@ -21,7 +21,6 @@ class PostModifyHandler(
         postId: Long,
         title: String?,
         content: String?,
-        extra: Map<String, String?>?,
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,
@@ -35,7 +34,6 @@ class PostModifyHandler(
             postId = postId,
             title = title,
             content = content,
-            extra = extra,
         )
 
         if (!hasChanged) {

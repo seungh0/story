@@ -22,7 +22,7 @@ internal class SubscriptionUnSubscriberTest(
     context("구독을 취소한다") {
         test("등록한 구독 정보를 취소한다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "10000"
             val subscriberId = "2000"
@@ -73,7 +73,7 @@ internal class SubscriptionUnSubscriberTest(
 
         test("구독 정보가 없을 때 구독 정보를 취소하는 경우 멱등성을 갖는다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "10000"
             val subscriberId = "2000"
@@ -96,7 +96,7 @@ internal class SubscriptionUnSubscriberTest(
 
         test("구독 취소시 이미 구독 취소 이력이 있다면 멱등성을 갖는다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
             val componentId = "follow"
             val targetId = "10000"
             val subscriberId = "2000"

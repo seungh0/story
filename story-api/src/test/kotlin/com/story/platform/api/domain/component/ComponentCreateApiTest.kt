@@ -39,7 +39,7 @@ class ComponentCreateApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -50,8 +50,8 @@ class ComponentCreateApiTest(
     "신규 컴포넌트를 등록합니다" {
         // given
         val resourceId = ResourceId.SUBSCRIPTIONS
-        val componentId = "follow"
-        val description = "following"
+        val componentId = "user-follow"
+        val description = "story user following system"
 
         val request = ComponentCreateApiRequest(
             description = description,

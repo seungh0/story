@@ -16,7 +16,7 @@ data class Subscription(
     val key: SubscriptionPrimaryKey,
     var status: SubscriptionStatus,
     val slotId: Long,
-    val alarm: Boolean,
+    val alarmEnabled: Boolean,
 ) {
 
     fun isDeleted(): Boolean {
@@ -44,7 +44,7 @@ data class Subscription(
             ),
             slotId = subscriber.key.slotId,
             status = status,
-            alarm = subscriber.alarm,
+            alarmEnabled = subscriber.alarmEnabled,
         )
     }
 

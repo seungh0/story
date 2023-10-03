@@ -40,7 +40,7 @@ class PostRetrieveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -60,13 +60,16 @@ class PostRetrieveApiTest(
             postId = postId,
             title = title,
             content = content,
+            writer = PostWriterApiResponse(
+                accountId = "account-id"
+            )
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
 
         coEvery {
             postRetrieveHandler.getPost(
-                workspaceId = "twitter",
+                workspaceId = "story",
                 componentId = componentId,
                 spaceId = spaceId,
                 postId = postId,
@@ -114,6 +117,10 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("CreatedAt"),
                         PayloadDocumentation.fieldWithPath("result.updatedAt")
                             .type(JsonFieldType.STRING).description("UpdatedAt"),
+                        PayloadDocumentation.fieldWithPath("result.writer")
+                            .type(JsonFieldType.OBJECT).description("Post Writer"),
+                        PayloadDocumentation.fieldWithPath("result.writer.accountId")
+                            .type(JsonFieldType.STRING).description("Post Writer AccountId"),
                     )
                 )
             )
@@ -122,26 +129,29 @@ class PostRetrieveApiTest(
     "포스트 목록을 조회합니다" {
         // given
         val componentId = "account-post"
-        val title = "Post Title"
-        val content = "Post Content"
-        val spaceId = "spaceId"
+        val title = "What is Story Platform?"
+        val content = "\"Story Platform\" provides a component platform to enable you to easily develop your business services."
+        val spaceId = "user-spaceId"
         val postId = "20000"
-        val cursor = "cursor"
+        val cursor = "current-cursor"
         val direction = CursorDirection.NEXT
-        val pageSize = 30
-        val sortBy = PostSortBy.LATEST.name
+        val pageSize = 10
+        val sortBy = PostSortBy.LATEST
 
         val post = PostApiResponse(
             postId = postId,
             title = title,
             content = content,
+            writer = PostWriterApiResponse(
+                accountId = "account-id"
+            )
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
 
         coEvery {
             postRetrieveHandler.listPosts(
-                workspaceId = "twitter",
+                workspaceId = "story",
                 componentId = componentId,
                 spaceId = spaceId,
                 cursorRequest = any(),
@@ -158,10 +168,13 @@ class PostRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts?cursor=$cursor&direction=$direction&pageSize=$pageSize&sortBy=$sortBy",
+                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts?cursor={cursor}&direction={direction}&pageSize={pageSize}&sortBy={sortBy}",
                 componentId,
                 spaceId,
-                sortBy,
+                cursor,
+                direction,
+                pageSize,
+                sortBy
             )
             .headers(WebClientUtils.authenticationHeader)
             .exchange()
@@ -185,7 +198,7 @@ class PostRetrieveApiTest(
                         RequestDocumentation.parameterWithName("direction").description("Direction").optional()
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(default: NEXT)")),
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 30")),
+                            .attributes(RestDocsUtils.remarks("max: 50")),
                         RequestDocumentation.parameterWithName("sortBy").description("SortBy").optional()
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(PostSortBy::class.java) + "\n(default: LATEST)")),
                     ),
@@ -207,6 +220,10 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("CreatedAt"),
                         PayloadDocumentation.fieldWithPath("result.posts[].updatedAt")
                             .type(JsonFieldType.STRING).description("UpdatedAt"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].writer")
+                            .type(JsonFieldType.OBJECT).description("Post Writer"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].writer.accountId")
+                            .type(JsonFieldType.STRING).description("Post Writer AccountId"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
                             .type(JsonFieldType.STRING).description("nextCursor").optional(),

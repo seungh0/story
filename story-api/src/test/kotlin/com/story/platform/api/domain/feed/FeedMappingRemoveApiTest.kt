@@ -37,7 +37,7 @@ class FeedMappingRemoveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -47,10 +47,10 @@ class FeedMappingRemoveApiTest(
 
     "특정 컴포넌트 간의 피드 매핑을 해제합니다" {
         // given
-        val feedComponentId = "timeline"
+        val feedComponentId = "user-timeline"
         val sourceResourceId = ResourceId.POSTS
-        val sourceComponentId = "account-timeline"
-        val subscriptionComponentId = "follow"
+        val sourceComponentId = "user-post"
+        val subscriptionComponentId = "user-follow"
 
         coEvery {
             feedMappingRemoveHandler.remove(

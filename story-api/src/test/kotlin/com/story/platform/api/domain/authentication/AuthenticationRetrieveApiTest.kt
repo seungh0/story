@@ -16,6 +16,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
+import java.util.UUID
 
 @DocsTest
 @ApiTest(AuthenticationRetrieveApi::class)
@@ -34,7 +35,7 @@ class AuthenticationRetrieveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -44,7 +45,7 @@ class AuthenticationRetrieveApiTest(
 
     "인증키 정보를 조회합니다" {
         // given
-        val authenticationKey = "authentication-key"
+        val authenticationKey = UUID.randomUUID().toString()
 
         coEvery {
             authenticationRetrieveHandler.getAuthentication(
@@ -53,7 +54,7 @@ class AuthenticationRetrieveApiTest(
         } returns AuthenticationApiResponse(
             authenticationKey = authenticationKey,
             status = AuthenticationStatus.ENABLED,
-            description = "api-key",
+            description = "story platform api key"
         )
 
         // when
@@ -82,10 +83,10 @@ class AuthenticationRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result.authenticationKey")
                             .type(JsonFieldType.STRING).description("Authentication Key"),
                         PayloadDocumentation.fieldWithPath("result.status")
-                            .type(JsonFieldType.STRING).description("Authentication Key Status")
+                            .type(JsonFieldType.STRING).description("Authentication Status")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationStatus::class.java))),
                         PayloadDocumentation.fieldWithPath("result.description")
-                            .type(JsonFieldType.STRING).description("Authentication Key Description"),
+                            .type(JsonFieldType.STRING).description("Authentication Description"),
                     )
                 )
             )

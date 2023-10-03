@@ -81,7 +81,7 @@ class AuthenticationModifierTest(
 
         test("워크스페이스에 등록되어 있지 않은 인증키인 경우 변경할 수 없다") {
             // given
-            val workspaceId = "twitter"
+            val workspaceId = "story"
 
             // when & then
             shouldThrowExactly<AuthenticationKeyNotExistsException> {
@@ -97,7 +97,7 @@ class AuthenticationModifierTest(
         test("인증 키는 각 워크스페이스별로 독립적으로 관리된다") {
             // given
             val authenticationKey = WorkspaceAuthenticationKeyFixture.create(
-                workspaceId = "twitter",
+                workspaceId = "story",
             )
             workspaceAuthenticationRepository.save(authenticationKey)
 

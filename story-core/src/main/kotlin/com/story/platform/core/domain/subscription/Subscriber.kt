@@ -13,7 +13,7 @@ data class Subscriber(
     @field:PrimaryKey
     val key: SubscriberPrimaryKey,
 
-    val alarm: Boolean,
+    val alarmEnabled: Boolean,
 ) {
 
     companion object {
@@ -32,7 +32,7 @@ data class Subscriber(
                 slotId = slotId,
                 subscriberId = subscriberId,
             ),
-            alarm = alarm,
+            alarmEnabled = alarm,
         )
     }
 

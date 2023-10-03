@@ -89,7 +89,7 @@ internal class PostModifierTest(
             shouldThrowExactly<PostNotExistsException> {
                 postModifier.patchPost(
                     postSpaceKey = PostSpaceKey(
-                        workspaceId = "twitter",
+                        workspaceId = "story",
                         componentId = "post",
                         spaceId = "50000",
                     ),

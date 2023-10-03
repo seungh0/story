@@ -29,7 +29,7 @@ class AuthenticationHandlerTest(
 
             // given
             coEvery { authenticationRetriever.getAuthentication(apiKey) } returns AuthenticationResponse(
-                workspaceId = "twitter",
+                workspaceId = "story",
                 authenticationKey = apiKey,
                 status = AuthenticationStatus.ENABLED,
                 description = "",
@@ -44,7 +44,7 @@ class AuthenticationHandlerTest(
             )
 
             // then
-            sut.workspaceId shouldBe "twitter"
+            sut.workspaceId shouldBe "story"
             sut.authenticationKey shouldBe apiKey
             sut.status shouldBe AuthenticationStatus.ENABLED
         }
@@ -53,7 +53,7 @@ class AuthenticationHandlerTest(
             // given
             val apiKey = "api-key"
             coEvery { authenticationRetriever.getAuthentication(apiKey) } returns AuthenticationResponse(
-                workspaceId = "twitter",
+                workspaceId = "story",
                 authenticationKey = apiKey,
                 status = AuthenticationStatus.DISABLED,
                 description = "",

@@ -13,7 +13,7 @@ object SubscriptionFixture {
         slotId: Long = generateLong(),
         subscriberId: String = generateString(),
         status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
-        alarm: Boolean = generateBoolean(),
+        alarmEnabled: Boolean = generateBoolean(),
     ) = Subscription(
         key = SubscriptionPrimaryKey.of(
             workspaceId = workspaceId,
@@ -23,7 +23,7 @@ object SubscriptionFixture {
         ),
         slotId = slotId,
         status = status,
-        alarm = alarm,
+        alarmEnabled = alarmEnabled,
     )
 
 }

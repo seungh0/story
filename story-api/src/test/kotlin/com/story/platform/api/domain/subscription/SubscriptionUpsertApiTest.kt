@@ -36,7 +36,7 @@ class SubscriptionUpsertApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -47,11 +47,11 @@ class SubscriptionUpsertApiTest(
     "대상을 구독합니다" {
         // given
         val componentId = "follow"
-        val subscriberId = "subscriberId"
-        val targetId = "targetId"
+        val subscriberId = "subscriber-id"
+        val targetId = "subscription-target-id"
 
         val request = SubscriptionUpsertApiRequest(
-            alarm = true,
+            alarmEnabled = true,
         )
 
         coEvery {
@@ -60,7 +60,7 @@ class SubscriptionUpsertApiTest(
                 componentId = componentId,
                 targetId = targetId,
                 subscriberId = subscriberId,
-                alarm = request.alarm,
+                alarm = request.alarmEnabled,
             )
         } returns Unit
 
@@ -92,8 +92,8 @@ class SubscriptionUpsertApiTest(
                         RequestDocumentation.parameterWithName("targetId").description("Subscription Target Id"),
                     ),
                     PayloadDocumentation.requestFields(
-                        PayloadDocumentation.fieldWithPath("alarm").type(JsonFieldType.BOOLEAN)
-                            .description("alarm (true/false)")
+                        PayloadDocumentation.fieldWithPath("alarmEnabled").type(JsonFieldType.BOOLEAN)
+                            .description("alarm enabled")
                             .optional()
                             .attributes(RestDocsUtils.remarks("default true"))
                     ),

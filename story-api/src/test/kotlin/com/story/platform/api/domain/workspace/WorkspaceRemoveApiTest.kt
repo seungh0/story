@@ -36,7 +36,7 @@ class WorkspaceRemoveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -46,7 +46,7 @@ class WorkspaceRemoveApiTest(
 
     test("워크스페이스를 삭제합니다") {
         // given
-        val workspaceId = "twitter"
+        val workspaceId = "story"
 
         coEvery {
             workspaceRemoveHandler.removeWorkspace(

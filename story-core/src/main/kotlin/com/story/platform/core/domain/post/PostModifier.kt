@@ -26,7 +26,6 @@ class PostModifier(
         postId: Long,
         title: String?,
         content: String?,
-        extra: Map<String, String?>?,
     ): PostPatchResponse {
         val slotId = PostSlotAssigner.assign(postId)
 
@@ -45,7 +44,6 @@ class PostModifier(
         val hasChanged = post.patch(
             title = title,
             content = content,
-            extra = extra,
         )
 
         reactiveCassandraOperations.batchOps()

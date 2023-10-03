@@ -48,7 +48,7 @@ class PostCreateApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -59,31 +59,32 @@ class PostCreateApiTest(
 
     test("새로운 포스트를 등록한다") {
         // given
-        val componentId = "post"
-        val spaceId = "spaceId"
-        val accountId = "accountId"
+        val componentId = "user-post"
+        val spaceId = "user-space-id"
+        val accountId = "user-writer-id"
+        val nonce = UUID.randomUUID().toString()
 
         val request = PostCreateApiRequest(
-            accountId = accountId,
+            writer = PostWriterCreateApiRequest(
+                accountId = accountId,
+            ),
             title = "Post Title",
             content = """
                     Post Content1
                     Post Content2
             """.trimIndent(),
-            extra = mapOf("key" to "value"),
         )
 
         coEvery {
             postCreateHandler.createPost(
                 postSpaceKey = PostSpaceKey(
-                    workspaceId = "twitter",
+                    workspaceId = "story",
                     componentId = componentId,
                     spaceId = spaceId,
                 ),
                 accountId = accountId,
                 title = request.title,
                 content = request.content,
-                extra = request.extra,
                 nonce = any(),
             )
         } returns 1
@@ -91,9 +92,10 @@ class PostCreateApiTest(
         // when
         val exchange = webTestClient.post()
             .uri(
-                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts?nonce=${UUID.randomUUID()}",
+                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts?nonce={nonce}",
                 componentId,
-                spaceId
+                spaceId,
+                nonce,
             )
             .headers(WebClientUtils.authenticationHeader)
             .contentType(MediaType.APPLICATION_JSON)
@@ -120,8 +122,10 @@ class PostCreateApiTest(
                             .attributes(remarks("Nonce")).optional(),
                     ),
                     requestFields(
-                        fieldWithPath("accountId").type(JsonFieldType.STRING)
-                            .description("Post Owner")
+                        fieldWithPath("writer").type(JsonFieldType.OBJECT)
+                            .description("Post Writer"),
+                        fieldWithPath("writer.accountId").type(JsonFieldType.STRING)
+                            .description("Post Writer Account Id")
                             .attributes(remarks("must be within 100 characters")),
                         fieldWithPath("title").type(JsonFieldType.STRING)
                             .description("Post Title")
@@ -129,13 +133,6 @@ class PostCreateApiTest(
                         fieldWithPath("content").type(JsonFieldType.STRING)
                             .description("Post content")
                             .attributes(remarks("must be within 500 characters")),
-                        fieldWithPath("extra").type(JsonFieldType.OBJECT)
-                            .description("extra key & value").optional()
-                            .attributes(remarks("must be within 10 elements")),
-                        fieldWithPath("extra.key").type(JsonFieldType.STRING)
-                            .description("extra key").optional(),
-                        fieldWithPath("extra.value").type(JsonFieldType.STRING)
-                            .description("extra value").optional(),
                     ),
                     responseFields(
                         fieldWithPath("ok")

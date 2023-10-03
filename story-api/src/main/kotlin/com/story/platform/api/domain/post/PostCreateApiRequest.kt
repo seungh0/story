@@ -1,12 +1,12 @@
 package com.story.platform.api.domain.post
 
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
 data class PostCreateApiRequest(
-    @field:Size(max = 100)
-    @field:NotBlank
-    val accountId: String = "",
+    @field:Valid
+    val writer: PostWriterCreateApiRequest,
 
     @field:NotBlank
     @field:Size(max = 100)
@@ -14,7 +14,4 @@ data class PostCreateApiRequest(
 
     @field:Size(max = 500)
     val content: String = "",
-
-    @field:Size(max = 10)
-    val extra: Map<String, String> = mapOf(),
 )

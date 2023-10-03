@@ -42,7 +42,7 @@ class PostRemoveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -53,12 +53,12 @@ class PostRemoveApiTest(
     test("기존에 등록된 포스트를 삭제한다") {
         // given
         val postSpaceKey = PostSpaceKey(
-            workspaceId = "twitter",
-            componentId = "post",
-            spaceId = "spaceId"
+            workspaceId = "story",
+            componentId = "user-post",
+            spaceId = "user-space-id"
         )
 
-        val accountId = "accountId"
+        val accountId = "user-writer-id"
         val postId = 30000L
 
         coEvery {

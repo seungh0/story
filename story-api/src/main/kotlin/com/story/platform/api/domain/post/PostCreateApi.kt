@@ -33,10 +33,9 @@ class PostCreateApi(
                 componentId = componentId,
                 spaceId = spaceId,
             ),
-            accountId = request.accountId,
+            accountId = request.writer.accountId,
             title = request.title,
             content = request.content,
-            extra = request.extra,
             nonce = nonce,
         )
         return ApiResponse.ok(PostCreateApiResponse.of(postId = postId))

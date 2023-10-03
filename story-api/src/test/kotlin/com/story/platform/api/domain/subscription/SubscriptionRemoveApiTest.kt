@@ -36,7 +36,7 @@ class SubscriptionRemoveApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -47,8 +47,8 @@ class SubscriptionRemoveApiTest(
     "대상을 구독 취소합니다" {
         // given
         val componentId = "follow"
-        val subscriberId = "subscriberId"
-        val targetId = "targetId"
+        val subscriberId = "subscriber-id"
+        val targetId = "subscription-target-id"
 
         coEvery {
             subscriptionRemoveHandler.removeSubscription(

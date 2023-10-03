@@ -3,7 +3,7 @@ package com.story.platform.core.domain.subscription
 data class SubscriptionResponse(
     val targetId: String,
     val subscriberId: String,
-    val alarm: Boolean,
+    val alarmEnabled: Boolean,
 ) {
 
     companion object {
@@ -12,7 +12,7 @@ data class SubscriptionResponse(
         ) = SubscriptionResponse(
             targetId = subscriber.key.targetId,
             subscriberId = subscriber.key.subscriberId,
-            alarm = subscriber.alarm,
+            alarmEnabled = subscriber.alarmEnabled,
         )
 
         fun of(
@@ -20,7 +20,7 @@ data class SubscriptionResponse(
         ) = SubscriptionResponse(
             targetId = subscription.key.targetId,
             subscriberId = subscription.key.subscriberId,
-            alarm = subscription.alarm,
+            alarmEnabled = subscription.alarmEnabled,
         )
     }
 

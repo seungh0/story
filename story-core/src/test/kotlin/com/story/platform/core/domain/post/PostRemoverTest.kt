@@ -51,7 +51,7 @@ internal class PostRemoverTest(
             // when
             postRemover.removePost(
                 postSpaceKey = PostSpaceKey(
-                    workspaceId = "twitter",
+                    workspaceId = "story",
                     componentId = "post",
                     spaceId = "포스트 작성 공간 ID",
                 ),

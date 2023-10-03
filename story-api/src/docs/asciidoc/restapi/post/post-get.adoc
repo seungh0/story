@@ -1,5 +1,7 @@
 === [Post] Get API
 
+include::{snippets}/post.get/request-path.adoc[]
+
 ==== [Request]
 
 include::{snippets}/post.get/http-request.adoc[]

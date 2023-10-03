@@ -7,6 +7,7 @@ data class PostApiResponse(
     val postId: String,
     val title: String,
     val content: String,
+    val writer: PostWriterApiResponse,
 ) : AuditingTimeResponse() {
 
     companion object {
@@ -15,6 +16,9 @@ data class PostApiResponse(
                 postId = post.postId.toString(),
                 title = post.title,
                 content = post.content,
+                writer = PostWriterApiResponse(
+                    accountId = post.accountId,
+                )
             )
             response.from(post)
             return response

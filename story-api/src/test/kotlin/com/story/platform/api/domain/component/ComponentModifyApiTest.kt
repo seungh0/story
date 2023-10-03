@@ -41,7 +41,7 @@ class ComponentModifyApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -52,8 +52,8 @@ class ComponentModifyApiTest(
     "컴포넌트 정보를 수정합니다" {
         // given
         val resourceId = ResourceId.SUBSCRIPTIONS
-        val componentId = "follow"
-        val description = "following"
+        val componentId = "user-follow"
+        val description = "story user following system"
         val status = ComponentStatus.ENABLED
 
         val request = ComponentModifyApiRequest(

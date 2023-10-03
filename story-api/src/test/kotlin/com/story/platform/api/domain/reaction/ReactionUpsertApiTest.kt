@@ -41,7 +41,7 @@ class ReactionUpsertApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -51,10 +51,10 @@ class ReactionUpsertApiTest(
 
     test("대상에 리액션을 등록한다") {
         // given
+        val workspaceId = "story"
         val componentId = "post-like"
-        val accountId = "accountId"
+        val accountId = "reactor-id"
         val spaceId = "post-id"
-        val workspaceId = "twitter"
 
         val request = ReactionUpsertApiRequest(
             accountId = accountId,

@@ -30,7 +30,7 @@ class SubscriptionUpsertApi(
             componentId = componentId,
             targetId = targetId,
             subscriberId = subscriberId,
-            alarm = request.alarm,
+            alarm = request.alarmEnabled,
         )
         return ApiResponse.OK
     }

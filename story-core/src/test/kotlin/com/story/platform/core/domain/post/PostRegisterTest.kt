@@ -25,7 +25,7 @@ internal class PostRegisterTest(
         test("유저가 새로운 포스트를 등록합니다") {
             // given
             val postSpaceKey = PostSpaceKey(
-                workspaceId = "twitter",
+                workspaceId = "story",
                 componentId = "post",
                 spaceId = "commentId",
             )

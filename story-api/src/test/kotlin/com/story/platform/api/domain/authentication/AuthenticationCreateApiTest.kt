@@ -18,6 +18,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
+import java.util.UUID
 
 @DocsTest
 @ApiTest(AuthenticationCreateApi::class)
@@ -36,7 +37,7 @@ class AuthenticationCreateApiTest(
 
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "twitter",
+            workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
             description = "",
@@ -46,8 +47,8 @@ class AuthenticationCreateApiTest(
 
     "신규 인증 키를 등록합니다" {
         // given
-        val authenticationKey = "authentication-key"
-        val description = "API-Key"
+        val authenticationKey = UUID.randomUUID().toString()
+        val description = "story platform api key"
 
         val request = AuthenticationCreateApiRequest(
             description = description,
@@ -84,7 +85,7 @@ class AuthenticationCreateApiTest(
                     ),
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("Authentication Key Description")
+                            .description("Authentication Description")
                             .attributes(remarks("must be within 300 characters"))
                             .optional(),
                     ),

@@ -34,10 +34,9 @@ class PostModifyApi(
                 spaceId = spaceId,
             ),
             postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)가 요청되었습니다"),
-            accountId = request.accountId,
+            accountId = request.writer.accountId,
             title = request.title,
             content = request.content,
-            extra = request.extra,
         )
         return ApiResponse.OK
     }

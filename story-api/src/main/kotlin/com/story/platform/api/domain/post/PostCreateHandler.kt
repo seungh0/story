@@ -21,7 +21,6 @@ class PostCreateHandler(
         accountId: String,
         title: String,
         content: String,
-        extra: Map<String, String>,
         nonce: String?,
     ): Long {
         nonce?.let { nonceManager.verify(nonce) }
@@ -36,7 +35,6 @@ class PostCreateHandler(
             accountId = accountId,
             title = title,
             content = content,
-            extra = extra,
         )
         postEventProducer.publishCreatedEvent(post = post)
         return post.postId

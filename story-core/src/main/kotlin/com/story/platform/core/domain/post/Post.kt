@@ -32,7 +32,6 @@ data class Post(
     fun patch(
         title: String?,
         content: String?,
-        extra: Map<String, String?>?,
     ): Boolean {
         var hasChanged = false
         if (!title.isNullOrBlank()) {
@@ -43,17 +42,6 @@ data class Post(
         if (content != null) {
             hasChanged = hasChanged || this.content != content
             this.content = content
-        }
-
-        if (extra != null) {
-            hasChanged = hasChanged || this.extra != extra
-            for ((key, value) in extra) {
-                if (value == null) {
-                    this.extra.remove(key)
-                } else {
-                    this.extra[key] = value
-                }
-            }
         }
 
         this.auditingTime.updated()
@@ -68,7 +56,6 @@ data class Post(
             postId: Long,
             title: String,
             content: String,
-            extra: Map<String, String>?,
         ) = Post(
             key = PostPrimaryKey.of(
                 postSpaceKey = postSpaceKey,
@@ -77,7 +64,6 @@ data class Post(
             accountId = accountId,
             title = title,
             content = content,
-            extra = extra?.toMutableMap() ?: mutableMapOf(),
             auditingTime = AuditingTime.created(),
         )
     }
