@@ -1,4 +1,4 @@
-=== subscription.remove
+=== [Subscription] Remove API
 
 include::{snippets}/subscription.remove/request-path.adoc[]
 

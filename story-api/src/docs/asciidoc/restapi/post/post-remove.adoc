@@ -1,4 +1,4 @@
-=== post.remove
+=== [Post] Remove API
 
 include::{snippets}/post.remove/request-path.adoc[]
 

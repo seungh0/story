@@ -1,4 +1,4 @@
-=== authentication.get
+=== [Authentication] Get API
 
 include::{snippets}/authentication.get/request-path.adoc[]
 

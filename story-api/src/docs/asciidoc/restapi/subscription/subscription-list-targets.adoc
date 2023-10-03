@@ -1,4 +1,4 @@
-=== subscription-target.list
+=== [Subscription] Target List API
 
 include::{snippets}/subscription-target.list/request-path.adoc[]
 

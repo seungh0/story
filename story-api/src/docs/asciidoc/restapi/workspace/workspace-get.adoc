@@ -1,4 +1,4 @@
-=== workspace.get
+=== [Workspace] Get API
 
 include::{snippets}/workspace.get/request-path.adoc[]
 

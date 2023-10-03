@@ -1,4 +1,4 @@
-=== subscription.exists
+=== [Subscription] Exists API
 
 include::{snippets}/subscription.exists/request-path.adoc[]
 

@@ -1,4 +1,4 @@
-=== resource.list
+=== [Resource] List API
 
 include::{snippets}/resource.list/request-path.adoc[]
 

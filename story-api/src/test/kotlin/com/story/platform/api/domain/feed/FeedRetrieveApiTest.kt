@@ -219,8 +219,8 @@ class FeedRetrieveApiTest(
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("componentId").description("FEED Component Id"),
-                        RequestDocumentation.parameterWithName("subscriberId").description("FEED Subscriber Id"),
+                        RequestDocumentation.parameterWithName("componentId").description("Feed Component Id"),
+                        RequestDocumentation.parameterWithName("subscriberId").description("Feed Subscriber Id"),
                     ),
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()

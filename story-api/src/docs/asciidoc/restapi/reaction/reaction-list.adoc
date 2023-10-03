@@ -1,4 +1,4 @@
-=== reaction.list
+=== [Reaction] List API
 
 include::{snippets}/reaction.list/request-path.adoc[]
 

@@ -1,4 +1,4 @@
-=== post.list
+=== [Post] List API
 
 include::{snippets}/post.list/request-path.adoc[]
 

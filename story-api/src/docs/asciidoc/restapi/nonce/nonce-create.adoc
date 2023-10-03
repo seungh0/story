@@ -1,4 +1,4 @@
-=== nonce.create
+=== [Nonce] Create API
 
 include::{snippets}/nonce.create/request-path.adoc[]
 

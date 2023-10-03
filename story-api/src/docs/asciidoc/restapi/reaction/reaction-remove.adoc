@@ -1,4 +1,4 @@
-=== reaction.remove
+=== [Reaction] Remove API
 
 include::{snippets}/reaction.remove/request-path.adoc[]
 

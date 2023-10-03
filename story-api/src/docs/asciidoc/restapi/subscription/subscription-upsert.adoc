@@ -1,4 +1,4 @@
-=== subscription.upsert
+=== [Subscription] Upsert API
 
 include::{snippets}/subscription.upsert/request-path.adoc[]
 

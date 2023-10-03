@@ -1,4 +1,4 @@
-=== feed-mapping.list
+=== [Feed Mapping] List API
 
 include::{snippets}/feed-mapping.list/request-path.adoc[]
 

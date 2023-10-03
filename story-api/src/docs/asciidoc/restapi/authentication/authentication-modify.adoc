@@ -1,4 +1,4 @@
-=== authentication.modify
+=== [Authentication] Modify API
 
 include::{snippets}/authentication.modify/request-path.adoc[]
 

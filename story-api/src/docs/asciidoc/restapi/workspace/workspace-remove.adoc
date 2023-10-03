@@ -1,4 +1,4 @@
-=== workspace.remove
+=== [Workspace] Remove API
 
 include::{snippets}/workspace.remove/request-path.adoc[]
 

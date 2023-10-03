@@ -1,4 +1,4 @@
-=== subscription-subscriber-count.get
+=== [Subscription] Subscriber Count API
 
 include::{snippets}/subscription-subscriber-count.get/request-path.adoc[]
 

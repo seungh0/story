@@ -1,4 +1,4 @@
-=== component.list
+=== [Component] List API
 
 include::{snippets}/component.list/request-path.adoc[]
 

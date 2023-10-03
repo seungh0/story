@@ -1,4 +1,4 @@
-=== feed-mapping.create
+=== [Feed Mapping] Create API
 
 include::{snippets}/feed-mapping.create/request-path.adoc[]
 

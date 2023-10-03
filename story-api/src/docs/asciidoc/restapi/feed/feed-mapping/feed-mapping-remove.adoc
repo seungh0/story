@@ -1,4 +1,4 @@
-=== feed-mapping.remove
+=== [Feed Mapping] Remove API
 
 include::{snippets}/feed-mapping.remove/request-path.adoc[]
 

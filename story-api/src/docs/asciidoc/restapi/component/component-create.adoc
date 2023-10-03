@@ -1,4 +1,4 @@
-=== component.create
+=== [Component] Create API
 
 include::{snippets}/component.create/request-path.adoc[]
 

@@ -1,4 +1,4 @@
-=== component.modify
+=== [Component] Modify API
 
 include::{snippets}/component.modify/request-path.adoc[]
 

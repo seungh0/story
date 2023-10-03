@@ -1,4 +1,4 @@
-=== reaction.get
+=== [Reaction] Get API
 
 include::{snippets}/reaction.get/request-path.adoc[]
 

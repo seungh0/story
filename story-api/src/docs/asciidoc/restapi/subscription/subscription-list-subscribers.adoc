@@ -1,4 +1,4 @@
-=== subscription-subscriber.list
+=== [Subscription] Subscriber List API
 
 include::{snippets}/subscription-subscriber.list/request-path.adoc[]
 

@@ -1,4 +1,4 @@
-=== authentication.create
+=== [Authentication] Create API
 
 include::{snippets}/authentication.create/request-path.adoc[]
 

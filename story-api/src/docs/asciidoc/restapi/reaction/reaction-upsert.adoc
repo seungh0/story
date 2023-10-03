@@ -1,4 +1,4 @@
-=== reaction.upsert
+=== [Reaction] Upsert API
 
 include::{snippets}/reaction.upsert/request-path.adoc[]
 
