@@ -18,4 +18,14 @@ class WorkspaceRetrieveHandler(
         }
     }
 
+    suspend fun getWorkspace(
+        workspaceId: String,
+    ): WorkspaceApiResponse {
+        val workspace = workspaceRetriever.getWorkspace(workspaceId = workspaceId)
+        if (!workspace.isEnabled()) {
+            throw WorkspaceNotExistsException(message = "워크스페이스($workspaceId)가 존재하지 않습니다")
+        }
+        return WorkspaceApiResponse.of(workspace = workspace)
+    }
+
 }

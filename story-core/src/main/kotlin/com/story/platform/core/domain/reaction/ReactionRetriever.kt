@@ -9,6 +9,51 @@ class ReactionRetriever(
     private val reactionCountRepository: ReactionCountRepository,
 ) {
 
+    suspend fun getReaction(
+        workspaceId: String,
+        componentId: String,
+        spaceId: String,
+        accountId: String?,
+        emotionIds: Set<String>,
+    ): ReactionResponse {
+        val reactionCountMap = reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyEmotionIdIn(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            spaceId = spaceId,
+            emotionIds = emotionIds,
+        ).associateBy { it.key }
+
+        val spaceIdReaction = accountId?.let {
+            reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeySpaceId(
+                workspaceId = workspaceId,
+                componentId = componentId,
+                accountId = accountId,
+                distributionKey = XLargeDistributionKey.makeKey(spaceId).key,
+                spaceId = spaceId,
+            )
+        }
+
+        return ReactionResponse(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            spaceId = spaceId,
+            emotions = emotionIds.map { emotionId ->
+                ReactionEmotionResponse.of(
+                    emotionId = emotionId,
+                    count = reactionCountMap[
+                        ReactionCountPrimaryKey(
+                            workspaceId = workspaceId,
+                            componentId = componentId,
+                            emotionId = emotionId,
+                            spaceId = spaceId,
+                        )
+                    ]?.count ?: 0L,
+                    reactedByMe = spaceIdReaction != null && spaceIdReaction.emotionIds.contains(emotionId),
+                )
+            }
+        )
+    }
+
     suspend fun listReactions(
         workspaceId: String,
         componentId: String,

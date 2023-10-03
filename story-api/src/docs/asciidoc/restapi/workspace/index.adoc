@@ -1,3 +1,4 @@
 == Workspace
 
+include::./workspace-get.adoc[]
 include::./workspace-remove.adoc[]

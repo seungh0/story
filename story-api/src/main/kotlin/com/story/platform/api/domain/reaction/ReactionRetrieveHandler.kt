@@ -16,31 +16,29 @@ class ReactionRetrieveHandler(
         componentId: String,
         spaceId: String,
         request: ReactionGetApiRequest,
-    ): ReactionGetApiResponse {
+    ): ReactionApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.REACTION,
             componentId = componentId,
         )
 
-        val reactions = reactionRetriever.listReactions(
+        val reaction = reactionRetriever.getReaction(
             workspaceId = workspaceId,
             componentId = componentId,
-            spaceIds = setOf(spaceId),
+            spaceId = spaceId,
             accountId = request.accountId,
             emotionIds = request.emotionIds,
         )
 
-        return ReactionGetApiResponse(
-            reaction = reactions.first(),
-        )
+        return ReactionApiResponse.of(reaction = reaction)
     }
 
     suspend fun listReactions(
         workspaceId: String,
         componentId: String,
         request: ReactionListApiRequest,
-    ): ReactionListApiResponse {
+    ): List<ReactionApiResponse> {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.REACTION,
@@ -55,9 +53,7 @@ class ReactionRetrieveHandler(
             emotionIds = request.emotionIds,
         )
 
-        return ReactionListApiResponse(
-            reactions = reactions,
-        )
+        return reactions.map { reaction -> ReactionApiResponse.of(reaction = reaction) }
     }
 
 }

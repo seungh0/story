@@ -19,7 +19,7 @@ class ReactionRetrieveApi(
         @PathVariable spaceId: String,
         @Valid request: ReactionGetApiRequest,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<ReactionGetApiResponse> {
+    ): ApiResponse<ReactionApiResponse> {
         val response = reactionRetrieveHandler.getReaction(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -34,7 +34,7 @@ class ReactionRetrieveApi(
         @PathVariable componentId: String,
         @Valid request: ReactionListApiRequest,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<ReactionListApiResponse> {
+    ): ApiResponse<List<ReactionApiResponse>> {
         val response = reactionRetrieveHandler.listReactions(
             workspaceId = authContext.workspaceId,
             componentId = componentId,

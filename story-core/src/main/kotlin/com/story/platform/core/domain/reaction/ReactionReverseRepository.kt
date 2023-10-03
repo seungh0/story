@@ -14,4 +14,12 @@ interface ReactionReverseRepository : CoroutineCrudRepository<ReactionReverse, R
         spaceIds: Collection<String>,
     ): List<ReactionReverse>
 
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeySpaceId(
+        workspaceId: String,
+        componentId: String,
+        accountId: String,
+        distributionKey: String,
+        spaceId: String,
+    ): ReactionReverse
+
 }

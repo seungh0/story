@@ -1,0 +1,23 @@
+=== Workspace Get API
+
+include::{snippets}/WORKSPACE-GET-API/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/WORKSPACE-GET-API/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/WORKSPACE-GET-API/path-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/WORKSPACE-GET-API/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/WORKSPACE-GET-API/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/WORKSPACE-GET-API/curl-request.adoc[]
