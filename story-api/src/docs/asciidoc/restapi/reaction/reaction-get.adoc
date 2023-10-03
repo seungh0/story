@@ -1,4 +1,4 @@
-=== Reaction GET API
+=== Reaction Get API
 
 include::{snippets}/REACTION-GET-API/request-path.adoc[]
 

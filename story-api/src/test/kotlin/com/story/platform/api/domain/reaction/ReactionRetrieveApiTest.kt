@@ -123,10 +123,6 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        fieldWithPath("result.workspaceId")
-                            .type(JsonFieldType.STRING).description("Reaction Workspace Id"),
-                        fieldWithPath("result.componentId")
-                            .type(JsonFieldType.STRING).description("Reaction Component Id"),
                         fieldWithPath("result.spaceId")
                             .type(JsonFieldType.STRING).description("Reaction Space Id"),
                         fieldWithPath("result.emotions")
@@ -232,10 +228,6 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         fieldWithPath("result[]")
                             .type(JsonFieldType.ARRAY).description("result"),
-                        fieldWithPath("result[].workspaceId")
-                            .type(JsonFieldType.STRING).description("Reaction Workspace Id"),
-                        fieldWithPath("result[].componentId")
-                            .type(JsonFieldType.STRING).description("Reaction Component Id"),
                         fieldWithPath("result[].spaceId")
                             .type(JsonFieldType.STRING).description("Reaction Space Id"),
                         fieldWithPath("result[].emotions")
