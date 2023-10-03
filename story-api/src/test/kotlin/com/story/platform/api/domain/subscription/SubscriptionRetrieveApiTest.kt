@@ -144,7 +144,7 @@ class SubscriptionRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
                         PayloadDocumentation.fieldWithPath("result.subscribersCount")
-                            .type(JsonFieldType.NUMBER).description("Subscribers Count"),
+                            .type(JsonFieldType.NUMBER).description("Subscriber Count"),
                     )
                 )
             )
@@ -195,7 +195,7 @@ class SubscriptionRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
                         PayloadDocumentation.fieldWithPath("result.subscriptionsCount")
-                            .type(JsonFieldType.NUMBER).description("Subscription Targets Count"),
+                            .type(JsonFieldType.NUMBER).description("Subscription Target Count"),
                     )
                 )
             )

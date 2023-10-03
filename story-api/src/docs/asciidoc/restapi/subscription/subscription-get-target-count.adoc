@@ -1,4 +1,4 @@
-=== Subscription Get Targets Count API
+=== Subscription Get Target Count API
 
 include::{snippets}/SUBSCRIPTION-SUBSCRIPTION-TARGET-COUNT-GET-API/request-path.adoc[]
 

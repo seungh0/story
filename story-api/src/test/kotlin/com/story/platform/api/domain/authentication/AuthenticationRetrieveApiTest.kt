@@ -3,14 +3,12 @@ package com.story.platform.api.domain.authentication
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
-import com.story.platform.api.domain.workspace.WorkspaceApiResponse
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
-import com.story.platform.core.domain.workspace.WorkspacePricePlan
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
@@ -56,11 +54,6 @@ class AuthenticationRetrieveApiTest(
             apiKey = apiKey,
             status = AuthenticationStatus.ENABLED,
             description = "api-key",
-            workspace = WorkspaceApiResponse(
-                workspaceId = "workspaceId",
-                name = "twitter",
-                plan = WorkspacePricePlan.FREE,
-            )
         )
 
         // when
@@ -93,13 +86,6 @@ class AuthenticationRetrieveApiTest(
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationStatus::class.java))),
                         PayloadDocumentation.fieldWithPath("result.description")
                             .type(JsonFieldType.STRING).description("Authentication Key Description"),
-                        PayloadDocumentation.fieldWithPath("result.workspace.workspaceId")
-                            .type(JsonFieldType.STRING).description("Workspace Id"),
-                        PayloadDocumentation.fieldWithPath("result.workspace.name")
-                            .type(JsonFieldType.STRING).description("Workspace Name"),
-                        PayloadDocumentation.fieldWithPath("result.workspace.plan")
-                            .type(JsonFieldType.STRING).description("Workspace Plan")
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(WorkspacePricePlan::class.java))),
                     )
                 )
             )
