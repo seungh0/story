@@ -99,7 +99,7 @@ class ComponentModifyApiTest(
                     ),
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("Description")
+                            .description("Component Description")
                             .attributes(remarks("must be within 300 characters"))
                             .optional(),
                         PayloadDocumentation.fieldWithPath("status").type(JsonFieldType.STRING)

@@ -7,6 +7,7 @@ import com.story.platform.api.domain.workspace.WorkspaceApiResponse
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
+import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.workspace.WorkspacePricePlan
@@ -65,6 +66,7 @@ class AuthenticationRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri("/v1/authentication/api-keys/{apiKey}", apiKey)
+            .headers(WebClientUtils.commonHeaders)
             .exchange()
 
         // then

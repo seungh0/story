@@ -82,7 +82,7 @@ class NonceCreateApiTest(
                         fieldWithPath("expirationSeconds").type(JsonFieldType.NUMBER)
                             .description("Expiration Duration (seconds)")
                             .optional()
-                            .attributes(RestDocsUtils.remarks("Should be greater than 0 and less than or equal to 86,400(1D). (default: 3600, 1H)")),
+                            .attributes(RestDocsUtils.remarks("Should be greater than 0 and less than or equal to 3600(1H). (default: 60, 1M)")),
                     ),
                     responseFields(
                         fieldWithPath("ok")

@@ -5,6 +5,6 @@ import jakarta.validation.constraints.Positive
 
 data class NonceCreateApiRequest(
     @field:Positive
-    @field:Max(value = 864_00) // 1D
-    val expirationSeconds: Long = 36_00, // 1H
+    @field:Max(value = 36_00) // 1H
+    val expirationSeconds: Long = 60, // 1M
 )

@@ -9,7 +9,7 @@
 
 === Nonce Policy
 
-1. Has a one-hour expiration time
+1. "It is valid for the duration specified by the 'expirationSeconds' parameter requested."
 2. Should be assigned once and used only once
 - Otherwise, it will fail with 'invalid_nonce' error
 
