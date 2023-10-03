@@ -38,7 +38,7 @@ class ReactionRetrieveHandler(
         workspaceId: String,
         componentId: String,
         request: ReactionListApiRequest,
-    ): List<ReactionApiResponse> {
+    ): ReactionListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.REACTION,
@@ -53,7 +53,7 @@ class ReactionRetrieveHandler(
             emotionIds = request.emotionIds,
         )
 
-        return reactions.map { reaction -> ReactionApiResponse.of(reaction = reaction) }
+        return ReactionListApiResponse.of(reactions = reactions)
     }
 
 }

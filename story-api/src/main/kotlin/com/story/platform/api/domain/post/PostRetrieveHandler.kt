@@ -1,7 +1,6 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.post.PostIdInvalidException
@@ -44,7 +43,7 @@ class PostRetrieveHandler(
         spaceId: String,
         cursorRequest: CursorRequest,
         request: PostListApiRequest,
-    ): CursorResult<PostApiResponse, String> {
+    ): PostListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.POSTS,
@@ -61,10 +60,7 @@ class PostRetrieveHandler(
             sortBy = request.sortBy,
         )
 
-        return CursorResult.of(
-            data = posts.data.map { post -> PostApiResponse.of(post) },
-            cursor = posts.cursor,
-        )
+        return PostListApiResponse.of(posts = posts)
     }
 
 }

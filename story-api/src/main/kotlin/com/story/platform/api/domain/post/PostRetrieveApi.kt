@@ -2,7 +2,6 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
 import jakarta.validation.Valid
@@ -44,7 +43,7 @@ class PostRetrieveApi(
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
         @Valid request: PostListApiRequest,
-    ): ApiResponse<CursorResult<PostApiResponse, String>> {
+    ): ApiResponse<PostListApiResponse> {
         val response = postRetrieveHandler.listPosts(
             workspaceId = authContext.workspaceId,
             componentId = componentId,

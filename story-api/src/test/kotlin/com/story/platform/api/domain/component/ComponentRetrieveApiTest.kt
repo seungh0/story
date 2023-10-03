@@ -9,7 +9,6 @@ import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.Cursor
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.component.ComponentStatus
@@ -134,8 +133,8 @@ class ComponentRetrieveApiTest(
                 resourceId = resourceId,
                 cursorRequest = any(),
             )
-        } returns CursorResult.of(
-            data = listOf(component),
+        } returns ComponentListApiResponse(
+            components = listOf(component),
             cursor = Cursor(
                 nextCursor = "nextCursor",
                 hasNext = true,
@@ -174,18 +173,18 @@ class ComponentRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.data")
+                        PayloadDocumentation.fieldWithPath("result.components")
                             .type(JsonFieldType.ARRAY).description("component list"),
-                        PayloadDocumentation.fieldWithPath("result.data[].componentId")
+                        PayloadDocumentation.fieldWithPath("result.components[].componentId")
                             .type(JsonFieldType.STRING).description("Component Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].status")
+                        PayloadDocumentation.fieldWithPath("result.components[].status")
                             .type(JsonFieldType.STRING).description("Component Status")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
-                        PayloadDocumentation.fieldWithPath("result.data[].description")
+                        PayloadDocumentation.fieldWithPath("result.components[].description")
                             .type(JsonFieldType.STRING).description("Component Description"),
-                        PayloadDocumentation.fieldWithPath("result.data[].createdAt")
+                        PayloadDocumentation.fieldWithPath("result.components[].createdAt")
                             .type(JsonFieldType.STRING).description("CreatedAt"),
-                        PayloadDocumentation.fieldWithPath("result.data[].updatedAt")
+                        PayloadDocumentation.fieldWithPath("result.components[].updatedAt")
                             .type(JsonFieldType.STRING).description("UpdatedAt"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))

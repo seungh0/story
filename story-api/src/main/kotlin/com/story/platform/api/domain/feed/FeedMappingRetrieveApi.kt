@@ -2,7 +2,6 @@ package com.story.platform.api.domain.feed
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.resource.ResourceId
@@ -23,7 +22,7 @@ class FeedMappingRetrieveApi(
         @PathVariable sourceComponentId: String,
         @RequestAuthContext authContext: AuthContext,
         @Valid cursorRequest: CursorRequest,
-    ): ApiResponse<CursorResult<FeedMappingApiResponse, String>> {
+    ): ApiResponse<FeedMappingListApiResponse> {
         val feedMappings = feedMappingRetrieveHandler.listConnectedFeedMappings(
             workspaceId = authContext.workspaceId,
             sourceResourceId = ResourceId.findByCode(sourceResourceId),

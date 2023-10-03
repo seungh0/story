@@ -150,41 +150,43 @@ class ReactionRetrieveApiTest(
                 componentId = componentId,
                 request = any(),
             )
-        } returns listOf(
-            ReactionApiResponse.of(
-                reaction = ReactionResponse(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    spaceId = "space-1",
-                    emotions = listOf(
-                        ReactionEmotionResponse(
-                            emotionId = "emotion-1",
-                            count = 10500,
-                            reactedByMe = true,
-                        ),
-                        ReactionEmotionResponse(
-                            emotionId = "emotion-2",
-                            count = 3500,
-                            reactedByMe = false,
+        } returns ReactionListApiResponse(
+            reactions = listOf(
+                ReactionApiResponse.of(
+                    reaction = ReactionResponse(
+                        workspaceId = workspaceId,
+                        componentId = componentId,
+                        spaceId = "space-1",
+                        emotions = listOf(
+                            ReactionEmotionResponse(
+                                emotionId = "emotion-1",
+                                count = 10500,
+                                reactedByMe = true,
+                            ),
+                            ReactionEmotionResponse(
+                                emotionId = "emotion-2",
+                                count = 3500,
+                                reactedByMe = false,
+                            )
                         )
-                    )
+                    ),
                 ),
-            ),
-            ReactionApiResponse.of(
-                reaction = ReactionResponse(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    spaceId = "space-2",
-                    emotions = listOf(
-                        ReactionEmotionResponse(
-                            emotionId = "emotion-1",
-                            count = 3500,
-                            reactedByMe = false,
-                        ),
-                        ReactionEmotionResponse(
-                            emotionId = "emotion-2",
-                            count = 1000,
-                            reactedByMe = true,
+                ReactionApiResponse.of(
+                    reaction = ReactionResponse(
+                        workspaceId = workspaceId,
+                        componentId = componentId,
+                        spaceId = "space-2",
+                        emotions = listOf(
+                            ReactionEmotionResponse(
+                                emotionId = "emotion-1",
+                                count = 3500,
+                                reactedByMe = false,
+                            ),
+                            ReactionEmotionResponse(
+                                emotionId = "emotion-2",
+                                count = 1000,
+                                reactedByMe = true,
+                            )
                         )
                     )
                 )
@@ -226,17 +228,19 @@ class ReactionRetrieveApiTest(
                     responseFields(
                         fieldWithPath("ok")
                             .type(JsonFieldType.BOOLEAN).description("ok"),
-                        fieldWithPath("result[]")
-                            .type(JsonFieldType.ARRAY).description("result"),
-                        fieldWithPath("result[].spaceId")
+                        fieldWithPath("result")
+                            .type(JsonFieldType.OBJECT).description("result"),
+                        fieldWithPath("result.reactions")
+                            .type(JsonFieldType.ARRAY).description("Reactions"),
+                        fieldWithPath("result.reactions[].spaceId")
                             .type(JsonFieldType.STRING).description("Reaction Space Id"),
-                        fieldWithPath("result[].emotions")
+                        fieldWithPath("result.reactions[].emotions")
                             .type(JsonFieldType.ARRAY).description("Reaction Emotions"),
-                        fieldWithPath("result[].emotions[].emotionId")
+                        fieldWithPath("result.reactions[].emotions[].emotionId")
                             .type(JsonFieldType.STRING).description("Reaction Emotion Id"),
-                        fieldWithPath("result[].emotions[].count")
+                        fieldWithPath("result.reactions[].emotions[].count")
                             .type(JsonFieldType.NUMBER).description("Reaction Emotion selected count"),
-                        fieldWithPath("result[].emotions[].reactedByMe")
+                        fieldWithPath("result.reactions[].emotions[].reactedByMe")
                             .type(JsonFieldType.BOOLEAN).description("Whether account reacted to reaction emotion"),
                     )
                 )

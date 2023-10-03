@@ -1,7 +1,6 @@
 package com.story.platform.api.domain.subscription
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.common.spring.HandlerAdapter
 import com.story.platform.core.domain.resource.ResourceId
@@ -41,7 +40,7 @@ class SubscriptionRetrieveHandler(
         componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<SubscriberApiResponse, String> {
+    ): SubscriberListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
@@ -53,12 +52,8 @@ class SubscriptionRetrieveHandler(
             targetId = targetId,
             cursorRequest = cursorRequest,
         )
-        return CursorResult.of(
-            data = subscriptions.data.map { subscription ->
-                SubscriberApiResponse.of(subscription)
-            },
-            cursor = subscriptions.cursor,
-        )
+
+        return SubscriberListApiResponse.of(subscriptions = subscriptions)
     }
 
     suspend fun listSubscriberTargets(
@@ -66,7 +61,7 @@ class SubscriptionRetrieveHandler(
         componentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<SubscriptionTargetApiResponse, String> {
+    ): SubscriptionTargetListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
@@ -79,12 +74,8 @@ class SubscriptionRetrieveHandler(
             subscriberId = subscriberId,
             cursorRequest = cursorRequest,
         )
-        return CursorResult.of(
-            data = subscriptions.data.map { subscription ->
-                SubscriptionTargetApiResponse.of(subscription)
-            },
-            cursor = subscriptions.cursor,
-        )
+
+        return SubscriptionTargetListApiResponse.of(subscriptions = subscriptions)
     }
 
     suspend fun countSubscribers(

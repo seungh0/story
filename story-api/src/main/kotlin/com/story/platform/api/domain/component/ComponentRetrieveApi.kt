@@ -2,7 +2,6 @@ package com.story.platform.api.domain.component
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.resource.ResourceId
@@ -24,7 +23,7 @@ class ComponentRetrieveApi(
         @PathVariable resourceId: String,
         @RequestAuthContext authContext: AuthContext,
         @Valid cursorRequest: CursorRequest,
-    ): ApiResponse<CursorResult<ComponentApiResponse, String>> {
+    ): ApiResponse<ComponentListApiResponse> {
         val response = componentRetrieveHandler.listComponents(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),

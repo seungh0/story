@@ -1,10 +1,8 @@
 package com.story.platform.api.domain.feed
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.common.spring.HandlerAdapter
-import com.story.platform.core.domain.event.BaseEvent
 import com.story.platform.core.domain.feed.FeedRetriever
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -19,7 +17,7 @@ class FeedRetrieveHandler(
         feedComponentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): CursorResult<FeedApiResponse<out BaseEvent>, String> {
+    ): FeedListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.FEEDS,
@@ -33,10 +31,7 @@ class FeedRetrieveHandler(
             cursorRequest = cursorRequest,
         )
 
-        return CursorResult.of(
-            data = feeds.data.map { feed -> FeedApiResponse.of(feed) },
-            cursor = feeds.cursor,
-        )
+        return FeedListApiResponse.of(feeds = feeds)
     }
 
 }

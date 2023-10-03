@@ -64,17 +64,12 @@ class ResourceRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        fieldWithPath("result.data[]")
+                        fieldWithPath("result.resources[]")
                             .type(JsonFieldType.ARRAY).description("resources"),
-                        fieldWithPath("result.data[].resourceId")
+                        fieldWithPath("result.resources[].resourceId")
                             .type(JsonFieldType.STRING).description("Resource Id"),
-                        fieldWithPath("result.data[].description")
+                        fieldWithPath("result.resources[].description")
                             .type(JsonFieldType.STRING).description("Resource Description"),
-                        fieldWithPath("result.cursor.nextCursor")
-                            .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
-                        fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
                     )
                 )
             )

@@ -8,8 +8,6 @@ import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.common.model.Cursor
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.resource.ResourceId
@@ -59,14 +57,13 @@ class FeedMappingRetrieveApiTest(
                 sourceResourceId = sourceResourceId,
                 sourceComponentId = sourceComponentId,
             )
-        } returns CursorResult.of(
-            data = listOf(
+        } returns FeedMappingListApiResponse(
+            feedMappings = listOf(
                 FeedMappingApiResponse(
                     resourceId = ResourceId.SUBSCRIPTIONS.code,
                     componentId = "follow"
                 )
             ),
-            cursor = Cursor.noMore(),
         )
 
         // when
@@ -102,17 +99,12 @@ class FeedMappingRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.data")
+                        PayloadDocumentation.fieldWithPath("result.feedMappings")
                             .type(JsonFieldType.ARRAY).description("mapping component id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].resourceId")
+                        PayloadDocumentation.fieldWithPath("result.feedMappings[].resourceId")
                             .type(JsonFieldType.STRING).description("connected resource id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].componentId")
+                        PayloadDocumentation.fieldWithPath("result.feedMappings[].componentId")
                             .type(JsonFieldType.STRING).description("connected component id"),
-                        PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
-                            .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
-                        PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
                     )
                 )
             )

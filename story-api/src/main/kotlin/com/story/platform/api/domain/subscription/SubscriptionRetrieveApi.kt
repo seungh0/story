@@ -2,7 +2,6 @@ package com.story.platform.api.domain.subscription
 
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
 import jakarta.validation.Valid
@@ -77,7 +76,7 @@ class SubscriptionRetrieveApi(
         @PathVariable targetId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<CursorResult<SubscriberApiResponse, String>> {
+    ): ApiResponse<SubscriberListApiResponse> {
         val response = subscriptionRetrieveHandler.listTargetSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -96,7 +95,7 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
-    ): ApiResponse<CursorResult<SubscriptionTargetApiResponse, String>> {
+    ): ApiResponse<SubscriptionTargetListApiResponse> {
         val response = subscriptionRetrieveHandler.listSubscriberTargets(
             workspaceId = authContext.workspaceId,
             componentId = componentId,

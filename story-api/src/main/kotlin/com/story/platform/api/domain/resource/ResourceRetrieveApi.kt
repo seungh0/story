@@ -1,6 +1,5 @@
 package com.story.platform.api.domain.resource
 
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.common.model.dto.CursorRequest
 import jakarta.validation.Valid
@@ -18,7 +17,7 @@ class ResourceRetrieveApi(
     @GetMapping("/v1/resources")
     suspend fun listResources(
         @Valid cursorRequest: CursorRequest,
-    ): ApiResponse<CursorResult<ResourceApiResponse, String>> {
+    ): ApiResponse<ResourceListApiResponse> {
         val response = resourceRetrieveHandler.listResources(cursorRequest)
         return ApiResponse.ok(response)
     }

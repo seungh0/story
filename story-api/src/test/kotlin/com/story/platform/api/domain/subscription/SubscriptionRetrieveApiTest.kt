@@ -10,7 +10,6 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
@@ -220,8 +219,8 @@ class SubscriptionRetrieveApiTest(
                 targetId = targetId,
                 cursorRequest = request,
             )
-        } returns CursorResult(
-            data = listOf(
+        } returns SubscriberListApiResponse(
+            subscribers = listOf(
                 SubscriberApiResponse(
                     subscriberId = "subscriber-1",
                 ),
@@ -273,9 +272,9 @@ class SubscriptionRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.data")
+                        PayloadDocumentation.fieldWithPath("result.subscribers")
                             .type(JsonFieldType.ARRAY).description("subscriber list"),
-                        PayloadDocumentation.fieldWithPath("result.data[].subscriberId")
+                        PayloadDocumentation.fieldWithPath("result.subscribers[].subscriberId")
                             .type(JsonFieldType.STRING).description("SubscriberID Id"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
@@ -305,8 +304,8 @@ class SubscriptionRetrieveApiTest(
                 subscriberId = subscriberId,
                 cursorRequest = request,
             )
-        } returns CursorResult(
-            data = listOf(
+        } returns SubscriptionTargetListApiResponse(
+            targets = listOf(
                 SubscriptionTargetApiResponse(
                     targetId = "target-1",
                     alarm = true,
@@ -363,11 +362,11 @@ class SubscriptionRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.data")
+                        PayloadDocumentation.fieldWithPath("result.targets")
                             .type(JsonFieldType.ARRAY).description("subscription target list"),
-                        PayloadDocumentation.fieldWithPath("result.data[].targetId")
+                        PayloadDocumentation.fieldWithPath("result.targets[].targetId")
                             .type(JsonFieldType.STRING).description("Target Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].alarm")
+                        PayloadDocumentation.fieldWithPath("result.targets[].alarm")
                             .type(JsonFieldType.BOOLEAN).description("alarm ON/OFF (true/false)"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))

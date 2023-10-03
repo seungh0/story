@@ -10,7 +10,6 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.post.PostEvent
@@ -63,8 +62,8 @@ class FeedRetrieveApiTest(
                 subscriberId = subscriberId,
                 cursorRequest = any(),
             )
-        } returns CursorResult.of(
-            data = listOf(
+        } returns FeedListApiResponse(
+            feeds = listOf(
                 FeedApiResponse(
                     feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
@@ -126,41 +125,41 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.data")
+                        PayloadDocumentation.fieldWithPath("result.feeds")
                             .type(JsonFieldType.ARRAY).description("feed list"),
-                        PayloadDocumentation.fieldWithPath("result.data[].feedId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].feedId")
                             .type(JsonFieldType.STRING).description("Feed Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].resourceId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].resourceId")
                             .type(JsonFieldType.STRING).description("Resource Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].componentId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].componentId")
                             .type(JsonFieldType.STRING).description("Component Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload")
                             .type(JsonFieldType.OBJECT).description("Payload"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.workspaceId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.workspaceId")
                             .type(JsonFieldType.STRING).description("Post WorkspaceId"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.resourceId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.resourceId")
                             .type(JsonFieldType.STRING).description("Post ResourceId"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.componentId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.componentId")
                             .type(JsonFieldType.STRING).description("Post ComponentId"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.spaceId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.spaceId")
                             .type(JsonFieldType.STRING).description("Post Space Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.postId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.postId")
                             .type(JsonFieldType.NUMBER).description("Post Id"), // TODO: Number -> String 변환 필요
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.accountId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.accountId")
                             .type(JsonFieldType.STRING).description("Post Owner Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.title")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.title")
                             .type(JsonFieldType.STRING).description("Post Title"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.content")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.content")
                             .type(JsonFieldType.STRING).description("Post Content"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.extra")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.extra")
                             .type(JsonFieldType.OBJECT).description("Post extra value"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.extra.key")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.extra.key")
                             .type(JsonFieldType.STRING).description("Post extra key").optional(),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.extra.value")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.extra.value")
                             .type(JsonFieldType.STRING).description("Post extra value").optional(),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.createdAt")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.createdAt")
                             .type(JsonFieldType.STRING).description("Post Created At"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.updatedAt")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.updatedAt")
                             .type(JsonFieldType.STRING).description("Post Updated At"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
@@ -184,8 +183,8 @@ class FeedRetrieveApiTest(
                 subscriberId = subscriberId,
                 cursorRequest = any(),
             )
-        } returns CursorResult.of(
-            data = listOf(
+        } returns FeedListApiResponse(
+            feeds = listOf(
                 FeedApiResponse(
                     feedId = "30000",
                     resourceId = ResourceId.SUBSCRIPTIONS.code,
@@ -243,29 +242,29 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.data")
+                        PayloadDocumentation.fieldWithPath("result.feeds")
                             .type(JsonFieldType.ARRAY).description("feed list"),
-                        PayloadDocumentation.fieldWithPath("result.data[].feedId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].feedId")
                             .type(JsonFieldType.STRING).description("Feed Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].resourceId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].resourceId")
                             .type(JsonFieldType.STRING).description("Resource Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].componentId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].componentId")
                             .type(JsonFieldType.STRING).description("Component Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload")
                             .type(JsonFieldType.OBJECT).description("Payload"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.workspaceId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.workspaceId")
                             .type(JsonFieldType.STRING).description("Subscription WorkspaceId"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.resourceId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.resourceId")
                             .type(JsonFieldType.STRING).description("Subscription ResourceId"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.componentId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.componentId")
                             .type(JsonFieldType.STRING).description("Subscription ComponentId"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.subscriberId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.subscriberId")
                             .type(JsonFieldType.STRING).description("Subscriber Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.targetId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.targetId")
                             .type(JsonFieldType.STRING).description("Subscription Target Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.createdAt")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.createdAt")
                             .type(JsonFieldType.STRING).description("Post Created At"),
-                        PayloadDocumentation.fieldWithPath("result.data[].payload.updatedAt")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.updatedAt")
                             .type(JsonFieldType.STRING).description("Post Updated At"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))

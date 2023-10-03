@@ -10,7 +10,6 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
-import com.story.platform.core.common.model.CursorResult
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.component.ComponentStatus
@@ -77,7 +76,12 @@ class PostRetrieveApiTest(
 
         // when
         val exchange = webTestClient.get()
-            .uri("/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}", componentId, spaceId, postId)
+            .uri(
+                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}",
+                componentId,
+                spaceId,
+                postId
+            )
             .headers(WebClientUtils.authenticationHeader)
             .exchange()
 
@@ -149,8 +153,8 @@ class PostRetrieveApiTest(
                 cursorRequest = any(),
                 request = any(),
             )
-        } returns CursorResult.of(
-            data = listOf(post),
+        } returns PostListApiResponse(
+            posts = listOf(post),
             cursor = Cursor(
                 nextCursor = "nextCursor",
                 hasNext = true,
@@ -196,22 +200,22 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("ok"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("result"),
-                        PayloadDocumentation.fieldWithPath("result.data")
+                        PayloadDocumentation.fieldWithPath("result.posts")
                             .type(JsonFieldType.ARRAY).description("post list"),
-                        PayloadDocumentation.fieldWithPath("result.data[].postId")
+                        PayloadDocumentation.fieldWithPath("result.posts[].postId")
                             .type(JsonFieldType.STRING).description("Post Id"),
-                        PayloadDocumentation.fieldWithPath("result.data[].title")
+                        PayloadDocumentation.fieldWithPath("result.posts[].title")
                             .type(JsonFieldType.STRING).description("Post Title")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
-                        PayloadDocumentation.fieldWithPath("result.data[].content")
+                        PayloadDocumentation.fieldWithPath("result.posts[].content")
                             .type(JsonFieldType.STRING).description("Post Content"),
-                        PayloadDocumentation.fieldWithPath("result.data[].extra")
+                        PayloadDocumentation.fieldWithPath("result.posts[].extra")
                             .type(JsonFieldType.OBJECT).description("Post extra value"),
-                        PayloadDocumentation.fieldWithPath("result.data[].extra.key")
+                        PayloadDocumentation.fieldWithPath("result.posts[].extra.key")
                             .type(JsonFieldType.STRING).description("Post extra value").optional(),
-                        PayloadDocumentation.fieldWithPath("result.data[].createdAt")
+                        PayloadDocumentation.fieldWithPath("result.posts[].createdAt")
                             .type(JsonFieldType.STRING).description("CreatedAt"),
-                        PayloadDocumentation.fieldWithPath("result.data[].updatedAt")
+                        PayloadDocumentation.fieldWithPath("result.posts[].updatedAt")
                             .type(JsonFieldType.STRING).description("UpdatedAt"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
