@@ -14,13 +14,11 @@ class ReactionRetriever(
         componentId: String,
         spaceId: String,
         accountId: String?,
-        emotionIds: Set<String>,
     ): ReactionResponse {
-        val reactionCountMap = reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyEmotionIdIn(
+        val reactionCountMap = reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            emotionIds = emotionIds,
         ).associateBy { it.key }
 
         val spaceIdReaction = accountId?.let {
@@ -37,20 +35,23 @@ class ReactionRetriever(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            emotions = emotionIds.map { emotionId ->
-                ReactionEmotionResponse.of(
-                    emotionId = emotionId,
-                    count = reactionCountMap[
-                        ReactionCountPrimaryKey(
-                            workspaceId = workspaceId,
-                            componentId = componentId,
-                            emotionId = emotionId,
-                            spaceId = spaceId,
-                        )
-                    ]?.count ?: 0L,
-                    reactedByMe = spaceIdReaction != null && spaceIdReaction.emotionIds.contains(emotionId),
-                )
-            }
+            emotions = reactionCountMap.values.asSequence()
+                .filter { reactionCount -> reactionCount.count > 0 }
+                .map { reactionCount ->
+                    ReactionEmotionResponse.of(
+                        emotionId = reactionCount.key.emotionId,
+                        count = reactionCountMap[
+                            ReactionCountPrimaryKey(
+                                workspaceId = workspaceId,
+                                componentId = componentId,
+                                emotionId = reactionCount.key.emotionId,
+                                spaceId = spaceId,
+                            )
+                        ]?.count ?: 0L,
+                        reactedByMe = spaceIdReaction != null && spaceIdReaction.emotionIds.contains(reactionCount.key.emotionId),
+                    )
+                }
+                .toList()
         )
     }
 
@@ -59,14 +60,12 @@ class ReactionRetriever(
         componentId: String,
         spaceIds: Set<String>,
         accountId: String?,
-        emotionIds: Set<String>,
     ): List<ReactionResponse> {
         val reactionCountMap = spaceIds.flatMap { spaceId ->
-            reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyEmotionIdIn(
+            reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                emotionIds = emotionIds,
             )
         }.associateBy { it.key }
 
@@ -90,20 +89,23 @@ class ReactionRetriever(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                emotions = emotionIds.map { emotionId ->
-                    ReactionEmotionResponse.of(
-                        emotionId = emotionId,
-                        count = reactionCountMap[
-                            ReactionCountPrimaryKey(
-                                workspaceId = workspaceId,
-                                componentId = componentId,
-                                emotionId = emotionId,
-                                spaceId = spaceId,
-                            )
-                        ]?.count ?: 0L,
-                        reactedByMe = accountReaction != null && accountReaction.emotionIds.contains(emotionId),
-                    )
-                }
+                emotions = reactionCountMap.values.asSequence()
+                    .filter { reactionCount -> reactionCount.count > 0 }
+                    .map { reactionCount ->
+                        ReactionEmotionResponse.of(
+                            emotionId = reactionCount.key.emotionId,
+                            count = reactionCountMap[
+                                ReactionCountPrimaryKey(
+                                    workspaceId = workspaceId,
+                                    componentId = componentId,
+                                    emotionId = reactionCount.key.emotionId,
+                                    spaceId = spaceId,
+                                )
+                            ]?.count ?: 0L,
+                            reactedByMe = accountReaction != null && accountReaction.emotionIds.contains(reactionCount.key.emotionId),
+                        )
+                    }
+                    .toList()
             )
         }
     }

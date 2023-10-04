@@ -29,11 +29,10 @@ interface ReactionCountRepository : CoroutineCrudRepository<ReactionCount, React
     )
     suspend fun decrease(key: ReactionCountPrimaryKey, count: Long = 1L)
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyEmotionIdIn(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        emotionIds: Collection<String>,
     ): List<ReactionCount>
 
 }

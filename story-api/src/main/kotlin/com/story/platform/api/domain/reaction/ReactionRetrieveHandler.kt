@@ -28,7 +28,6 @@ class ReactionRetrieveHandler(
             componentId = componentId,
             spaceId = spaceId,
             accountId = request.accountId,
-            emotionIds = request.emotionIds,
         )
 
         return ReactionApiResponse.of(reaction = reaction)
@@ -50,7 +49,6 @@ class ReactionRetrieveHandler(
             componentId = componentId,
             spaceIds = request.spaceIds,
             accountId = request.accountId,
-            emotionIds = request.emotionIds,
         )
 
         return ReactionListApiResponse.of(reactions = reactions)

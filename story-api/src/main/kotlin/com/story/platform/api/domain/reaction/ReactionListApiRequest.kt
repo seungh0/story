@@ -9,8 +9,4 @@ data class ReactionListApiRequest(
     @field:NotEmpty
     @field:Size(max = 20)
     val spaceIds: Set<String> = emptySet(),
-
-    @field:NotEmpty
-    @field:Size(max = 20)
-    val emotionIds: Set<String> = emptySet(),
 )

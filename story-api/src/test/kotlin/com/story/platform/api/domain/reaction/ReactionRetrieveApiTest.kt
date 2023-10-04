@@ -56,7 +56,6 @@ class ReactionRetrieveApiTest(
         val componentId = "post-like"
         val accountId = "reactor-id"
         val spaceId = "post-id"
-        val emotionIds = "emotion-1,emotion-2"
 
         coEvery {
             reactionRetrieveHandler.getReaction(
@@ -88,12 +87,11 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}&emotionIds={emotionIds}",
+                "/v1/resources/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}",
                 componentId,
                 spaceId,
                 accountId,
                 setOf(spaceId),
-                emotionIds,
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -114,7 +112,6 @@ class ReactionRetrieveApiTest(
                     ),
                     relaxedQueryParameters(
                         parameterWithName("accountId").description("Reactor Id"),
-                        parameterWithName("emotionIds").description("Reaction Emotion Ids")
                     ),
                     responseFields(
                         fieldWithPath("ok")
@@ -142,7 +139,6 @@ class ReactionRetrieveApiTest(
         val componentId = "post-like"
         val accountId = "reactor-id"
         val spaceIds = "post-spaceId-1,post-spaceId-2"
-        val emotionIds = "emotion-1,emotion-2"
 
         coEvery {
             reactionRetrieveHandler.listReactions(
@@ -196,11 +192,10 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds={spaceIds}&emotionIds={emotionIds}",
+                "/v1/resources/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds={spaceIds}",
                 componentId,
                 accountId,
                 spaceIds,
-                emotionIds,
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -221,7 +216,6 @@ class ReactionRetrieveApiTest(
                     relaxedQueryParameters(
                         parameterWithName("accountId").description("Reactor Id"),
                         parameterWithName("spaceIds").description("Reaction Space Ids"),
-                        parameterWithName("emotionIds").description("Reaction Emotion Ids")
                     ),
                     responseFields(
                         fieldWithPath("ok")

@@ -14,7 +14,6 @@ class PostTest : FunSpec({
             val hasChanged = post.patch(
                 title = "title",
                 content = null,
-                extra = null,
             )
 
             // then
@@ -29,24 +28,6 @@ class PostTest : FunSpec({
             val hasChanged = post.patch(
                 title = post.title,
                 content = null,
-                extra = null,
-            )
-
-            // then
-            hasChanged shouldBe false
-        }
-
-        test("extra가 동일한 경우 변경점이 존재하지 않는다") {
-            // given
-            val post = PostFixture.create(
-                extra = mapOf("key" to "value")
-            )
-
-            // when
-            val hasChanged = post.patch(
-                title = null,
-                content = null,
-                extra = mapOf("key" to "value")
             )
 
             // then
@@ -61,7 +42,6 @@ class PostTest : FunSpec({
             val hasChanged = post.patch(
                 title = "title",
                 content = "content",
-                extra = mapOf("key" to "value")
             )
 
             // then

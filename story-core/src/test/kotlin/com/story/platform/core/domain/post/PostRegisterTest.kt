@@ -35,7 +35,6 @@ internal class PostRegisterTest(
                 포스트 내용
                 입니다
             """.trimIndent()
-            val extra = mapOf("key" to "value")
 
             // when
             postCreator.createPost(
@@ -43,7 +42,6 @@ internal class PostRegisterTest(
                 accountId = accountId,
                 title = title,
                 content = content,
-                extra = extra,
             )
 
             // then
@@ -58,7 +56,6 @@ internal class PostRegisterTest(
                 it.accountId shouldBe accountId
                 it.title shouldBe title
                 it.content shouldBe content
-                it.extra shouldBe extra
             }
 
             val postReverses = postReverseRepository.findAll().toList()
@@ -72,7 +69,6 @@ internal class PostRegisterTest(
                 it.key.postId shouldNotBe null
                 it.title shouldBe title
                 it.content shouldBe content
-                it.extra shouldBe extra
             }
         }
     }

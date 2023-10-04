@@ -10,10 +10,7 @@ Accept-Language: en
         "accountId": "{{ACCOUNT_ID}}"
     },
     "title": "토끼의 소확행 일기",
-    "content": "토끼랑 치킨을 먹었따\n히히~",
-    "extra": {
-      "config": true
-    }
+    "content": "토끼랑 치킨을 먹었따\n히히~"
 }
 
 > {%
@@ -34,10 +31,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
         "accountId": "{{ACCOUNT_ID}}"
     },
     "title": "변경이 되나요?",
-    "content": "변경 되나요오",
-    "extra": {
-      "config": true
-    }
+    "content": "변경 되나요오"
 }
 
 > {%

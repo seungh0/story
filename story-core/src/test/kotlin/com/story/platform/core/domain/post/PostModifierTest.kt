@@ -29,7 +29,6 @@ internal class PostModifierTest(
                 포스트 내용
                 입니다
             """.trimIndent()
-            val extra = mapOf("option" to "false")
 
             val post = PostFixture.create()
             val postRev = PostReverse.of(post)
@@ -48,7 +47,6 @@ internal class PostModifierTest(
                 accountId = post.accountId,
                 title = title,
                 content = content,
-                extra = extra,
             )
 
             // then
@@ -63,7 +61,6 @@ internal class PostModifierTest(
                 it.accountId shouldBe post.accountId
                 it.title shouldBe title
                 it.content shouldBe content
-                it.extra shouldBe extra
             }
 
             val postReverses = postReverseRepository.findAll().toList()
@@ -75,7 +72,6 @@ internal class PostModifierTest(
                 it.key.postId shouldBe post.key.postId
                 it.title shouldBe title
                 it.content shouldBe content
-                it.extra shouldBe extra
             }
         }
 
@@ -83,7 +79,6 @@ internal class PostModifierTest(
             // given
             val title = "포스트 제목"
             val content = "포스트 내용"
-            val extraJson = null
 
             // when & then
             shouldThrowExactly<PostNotExistsException> {
@@ -97,7 +92,6 @@ internal class PostModifierTest(
                     accountId = "accountId",
                     title = title,
                     content = content,
-                    extra = extraJson,
                 )
             }
         }
@@ -106,7 +100,6 @@ internal class PostModifierTest(
             // given
             val title = "포스트 제목"
             val content = "포스트 내용"
-            val extraJson = null
 
             val post = PostFixture.create(accountId = "accountId")
             val postRev = PostReverse.of(post)
@@ -126,7 +119,6 @@ internal class PostModifierTest(
                     accountId = "another Account Id",
                     title = title,
                     content = content,
-                    extra = extraJson,
                 )
             }
         }
