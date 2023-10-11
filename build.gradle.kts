@@ -15,7 +15,7 @@ plugins {
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.spring") version "1.9.10"
-    id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17
