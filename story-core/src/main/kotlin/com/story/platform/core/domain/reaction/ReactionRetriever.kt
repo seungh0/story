@@ -13,7 +13,7 @@ class ReactionRetriever(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        accountId: String?,
+        requestAccountId: String?,
     ): ReactionResponse {
         val reactionCountMap = reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
             workspaceId = workspaceId,
@@ -21,11 +21,11 @@ class ReactionRetriever(
             spaceId = spaceId,
         ).associateBy { it.key }
 
-        val spaceIdReaction = accountId?.let {
+        val spaceIdReaction = requestAccountId?.let {
             reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeySpaceId(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                accountId = accountId,
+                accountId = requestAccountId,
                 distributionKey = XLargeDistributionKey.makeKey(spaceId).key,
                 spaceId = spaceId,
             )
@@ -59,7 +59,7 @@ class ReactionRetriever(
         workspaceId: String,
         componentId: String,
         spaceIds: Set<String>,
-        accountId: String?,
+        requestAccountId: String?,
     ): List<ReactionResponse> {
         val reactionCountMap = spaceIds.flatMap { spaceId ->
             reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
@@ -69,14 +69,14 @@ class ReactionRetriever(
             )
         }.associateBy { it.key }
 
-        val spaceIdReactionMap = accountId?.let {
+        val spaceIdReactionMap = requestAccountId?.let {
             val distributionKeyTargetIdMap = spaceIds.groupBy { targetId -> XLargeDistributionKey.makeKey(targetId).key }
 
             return@let distributionKeyTargetIdMap.flatMap { (distributionKey, spaceIds) ->
                 reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeySpaceIdIn(
                     workspaceId = workspaceId,
                     componentId = componentId,
-                    accountId = accountId,
+                    accountId = requestAccountId,
                     distributionKey = distributionKey,
                     spaceIds = spaceIds,
                 )

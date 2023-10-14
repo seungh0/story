@@ -1,13 +1,9 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.core.common.error.InvalidArgumentsException
-import jakarta.validation.Valid
 import jakarta.validation.constraints.Size
 
 data class PostModifyApiRequest(
-    @field:Valid
-    val writer: PostWriterModifyApiRequest,
-
     @field:Size(max = 100)
     val title: String?,
 

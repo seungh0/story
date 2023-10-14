@@ -62,7 +62,7 @@ class ReactionRetrieveApiTest(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                request = any(),
+                requestAccountId = any(),
             )
         } returns ReactionApiResponse.of(
             reaction = ReactionResponse(
@@ -93,7 +93,7 @@ class ReactionRetrieveApiTest(
                 accountId,
                 setOf(spaceId),
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -109,9 +109,6 @@ class ReactionRetrieveApiTest(
                     pathParameters(
                         parameterWithName("componentId").description("Reaction Component Id"),
                         parameterWithName("spaceId").description("Reaction Space Id"),
-                    ),
-                    relaxedQueryParameters(
-                        parameterWithName("accountId").description("Reactor Id"),
                     ),
                     responseFields(
                         fieldWithPath("ok")
@@ -145,6 +142,7 @@ class ReactionRetrieveApiTest(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 request = any(),
+                requestAccountId = any(),
             )
         } returns ReactionListApiResponse(
             reactions = listOf(
@@ -197,7 +195,7 @@ class ReactionRetrieveApiTest(
                 accountId,
                 spaceIds,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -214,7 +212,6 @@ class ReactionRetrieveApiTest(
                         parameterWithName("componentId").description("Reaction Component Id"),
                     ),
                     relaxedQueryParameters(
-                        parameterWithName("accountId").description("Reactor Id"),
                         parameterWithName("spaceIds").description("Reaction Space Ids"),
                     ),
                     responseFields(

@@ -10,7 +10,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
             "emotionId": "1"
         },
         {
-            "emotionId": "3"
+            "emotionId": "2"
         }
     ]
 }

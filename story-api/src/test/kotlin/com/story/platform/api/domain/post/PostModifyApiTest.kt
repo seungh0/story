@@ -56,12 +56,8 @@ class PostModifyApiTest(
         val componentId = "user-post"
         val postId = 7126L
         val spaceId = "user-space-id"
-        val accountId = "user-writer-id"
 
         val request = PostModifyApiRequest(
-            writer = PostWriterModifyApiRequest(
-                accountId = accountId,
-            ),
             title = "Post Title",
             content = """
                     Post Content1
@@ -77,7 +73,7 @@ class PostModifyApiTest(
                     spaceId = spaceId,
                 ),
                 postId = postId,
-                accountId = accountId,
+                accountId = any(),
                 title = request.title,
                 content = request.content,
             )
@@ -91,7 +87,7 @@ class PostModifyApiTest(
                 spaceId,
                 postId
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -113,11 +109,6 @@ class PostModifyApiTest(
                         parameterWithName("postId").description("Post Id")
                     ),
                     requestFields(
-                        fieldWithPath("writer").type(JsonFieldType.OBJECT)
-                            .description("Post Writer"),
-                        fieldWithPath("writer.accountId").type(JsonFieldType.STRING)
-                            .description("Post Writer Account Id")
-                            .attributes(remarks("must be within 100 characters")),
                         fieldWithPath("title").type(JsonFieldType.STRING)
                             .description("Post Title")
                             .attributes(remarks("must be within 100 characters")),

@@ -19,6 +19,7 @@ class PostRetrieveHandler(
         componentId: String,
         spaceId: String,
         postId: String,
+        requestAccountId: String?,
     ): PostApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -34,7 +35,7 @@ class PostRetrieveHandler(
             ),
             postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)이 요청되었습니다"),
         )
-        return PostApiResponse.of(post)
+        return PostApiResponse.of(post = post, requestAccountId = requestAccountId)
     }
 
     suspend fun listPosts(
@@ -43,6 +44,7 @@ class PostRetrieveHandler(
         spaceId: String,
         cursorRequest: CursorRequest,
         request: PostListApiRequest,
+        requestAccountId: String?,
     ): PostListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -60,7 +62,7 @@ class PostRetrieveHandler(
             sortBy = request.sortBy,
         )
 
-        return PostListApiResponse.of(posts = posts)
+        return PostListApiResponse.of(posts = posts, requestAccountId = requestAccountId)
     }
 
 }

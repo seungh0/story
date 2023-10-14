@@ -60,6 +60,7 @@ class PostRetrieveApiTest(
             postId = postId,
             title = title,
             content = content,
+            isOwner = false,
             writer = PostWriterApiResponse(
                 accountId = "account-id"
             )
@@ -73,6 +74,7 @@ class PostRetrieveApiTest(
                 componentId = componentId,
                 spaceId = spaceId,
                 postId = postId,
+                requestAccountId = any(),
             )
         } returns post
 
@@ -84,7 +86,7 @@ class PostRetrieveApiTest(
                 spaceId,
                 postId
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .exchange()
 
         // then
@@ -108,6 +110,8 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("result"),
                         PayloadDocumentation.fieldWithPath("result.postId")
                             .type(JsonFieldType.STRING).description("Post Id"),
+                        PayloadDocumentation.fieldWithPath("result.isOwner")
+                            .type(JsonFieldType.BOOLEAN).description("Is Post Owner (Request-Account-Id)"),
                         PayloadDocumentation.fieldWithPath("result.title")
                             .type(JsonFieldType.STRING).description("Post Title")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
@@ -144,7 +148,8 @@ class PostRetrieveApiTest(
             content = content,
             writer = PostWriterApiResponse(
                 accountId = "account-id"
-            )
+            ),
+            isOwner = false,
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -156,6 +161,7 @@ class PostRetrieveApiTest(
                 spaceId = spaceId,
                 cursorRequest = any(),
                 request = any(),
+                requestAccountId = any(),
             )
         } returns PostListApiResponse(
             posts = listOf(post),
@@ -176,7 +182,7 @@ class PostRetrieveApiTest(
                 pageSize,
                 sortBy
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .exchange()
 
         // then
@@ -211,6 +217,8 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.ARRAY).description("post list"),
                         PayloadDocumentation.fieldWithPath("result.posts[].postId")
                             .type(JsonFieldType.STRING).description("Post Id"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].isOwner")
+                            .type(JsonFieldType.BOOLEAN).description("Is Post Owner (Request-Account-Id)"),
                         PayloadDocumentation.fieldWithPath("result.posts[].title")
                             .type(JsonFieldType.STRING).description("Post Title")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),

@@ -1,6 +1,7 @@
 package com.story.platform.core.domain.authentication
 
 import com.story.platform.core.IntegrationTest
+import com.story.platform.core.common.utils.mapToSet
 import com.story.platform.core.lib.TestCleaner
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
@@ -85,8 +86,7 @@ class AuthenticationCreatorTest(
                 "workspace-1",
                 "workspace-2"
             )
-            authenticationKeys.map { it.key.authenticationKey }
-                .toSet() shouldBe setOf(authenticationKey.key.authenticationKey)
+            authenticationKeys.mapToSet { it.key.authenticationKey } shouldBe setOf(authenticationKey.key.authenticationKey)
         }
     }
 

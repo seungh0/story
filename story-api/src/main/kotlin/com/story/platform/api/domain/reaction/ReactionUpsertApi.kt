@@ -14,18 +14,19 @@ class ReactionUpsertApi(
     private val reactionUpsertHandler: ReactionUpsertHandler,
 ) {
 
-    @PutMapping("/v1/resources/reactions/components/{componentId}/spaces/{spaceIds}")
+    @PutMapping("/v1/resources/reactions/components/{componentId}/spaces/{spaceId}")
     suspend fun upsertReaction(
         @PathVariable componentId: String,
-        @PathVariable spaceIds: String,
+        @PathVariable spaceId: String,
         @Valid @RequestBody request: ReactionUpsertApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<Nothing?> {
         reactionUpsertHandler.upsertReaction(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
-            spaceIds = spaceIds,
+            spaceId = spaceId,
             request = request,
+            accountId = authContext.getRequiredRequestAccountId(),
         )
         return ApiResponse.OK
     }

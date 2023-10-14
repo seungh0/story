@@ -61,13 +61,9 @@ class PostCreateApiTest(
         // given
         val componentId = "user-post"
         val spaceId = "user-space-id"
-        val accountId = "user-writer-id"
         val nonce = UUID.randomUUID().toString()
 
         val request = PostCreateApiRequest(
-            writer = PostWriterCreateApiRequest(
-                accountId = accountId,
-            ),
             title = "Post Title",
             content = """
                     Post Content1
@@ -82,7 +78,7 @@ class PostCreateApiTest(
                     componentId = componentId,
                     spaceId = spaceId,
                 ),
-                accountId = accountId,
+                accountId = any(),
                 title = request.title,
                 content = request.content,
                 nonce = any(),
@@ -97,7 +93,7 @@ class PostCreateApiTest(
                 spaceId,
                 nonce,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -122,11 +118,6 @@ class PostCreateApiTest(
                             .attributes(remarks("Nonce")).optional(),
                     ),
                     requestFields(
-                        fieldWithPath("writer").type(JsonFieldType.OBJECT)
-                            .description("Post Writer"),
-                        fieldWithPath("writer.accountId").type(JsonFieldType.STRING)
-                            .description("Post Writer Account Id")
-                            .attributes(remarks("must be within 100 characters")),
                         fieldWithPath("title").type(JsonFieldType.STRING)
                             .description("Post Title")
                             .attributes(remarks("must be within 100 characters")),

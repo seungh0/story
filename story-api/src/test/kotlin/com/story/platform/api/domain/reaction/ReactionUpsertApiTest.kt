@@ -53,11 +53,9 @@ class ReactionUpsertApiTest(
         // given
         val workspaceId = "story"
         val componentId = "post-like"
-        val accountId = "reactor-id"
         val spaceId = "post-id"
 
         val request = ReactionUpsertApiRequest(
-            accountId = accountId,
             emotions = setOf(
                 ReactionEmotionUpsertApiRequest(
                     emotionId = "1",
@@ -72,15 +70,16 @@ class ReactionUpsertApiTest(
             reactionUpsertHandler.upsertReaction(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                spaceIds = spaceId,
+                spaceId = spaceId,
                 request = request,
+                accountId = any(),
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.put()
             .uri("/v1/resources/reactions/components/{componentId}/spaces/{spaceId}", componentId, spaceId)
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -100,9 +99,6 @@ class ReactionUpsertApiTest(
                         parameterWithName("spaceId").description("Space Id")
                     ),
                     requestFields(
-                        fieldWithPath("accountId").type(JsonFieldType.STRING)
-                            .description("Reactor Id")
-                            .attributes(remarks("must be within 100 characters")),
                         fieldWithPath("emotions").type(JsonFieldType.ARRAY)
                             .description("Reaction Emotions")
                             .attributes(remarks("must be within 20 elements")),

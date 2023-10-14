@@ -17,14 +17,13 @@ class ReactionRetrieveApi(
     suspend fun getReaction(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @Valid request: ReactionGetApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<ReactionApiResponse> {
         val response = reactionRetrieveHandler.getReaction(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            request = request,
+            requestAccountId = authContext.requestAccountId,
         )
         return ApiResponse.ok(response)
     }
@@ -39,6 +38,7 @@ class ReactionRetrieveApi(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             request = request,
+            requestAccountId = authContext.requestAccountId,
         )
         return ApiResponse.ok(response)
     }

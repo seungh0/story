@@ -1,6 +1,7 @@
 package com.story.platform.core.infrastructure.redis
 
 import com.story.platform.core.common.coroutine.CoroutineParallelExecutor
+import com.story.platform.core.common.utils.mapToSet
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.reactive.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingle
@@ -131,9 +132,7 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
             batchSize = batchSize,
             concurrency = concurrency,
         ) { chunkedKeys ->
-            val chunkedKeyStrings = chunkedKeys.asSequence()
-                .map { key -> key.makeKeyString() }
-                .toSet()
+            val chunkedKeyStrings = chunkedKeys.mapToSet { key -> key.makeKeyString() }
             reactiveRedisTemplate.delete(*chunkedKeyStrings.toTypedArray()).awaitSingle()
         }
     }

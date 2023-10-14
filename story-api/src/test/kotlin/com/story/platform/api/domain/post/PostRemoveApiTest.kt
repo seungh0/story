@@ -78,7 +78,7 @@ class PostRemoveApiTest(
                 postId,
                 accountId
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 

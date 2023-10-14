@@ -19,7 +19,6 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
-import org.springframework.restdocs.request.RequestDocumentation.relaxedQueryParameters
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -60,19 +59,19 @@ class ReactionRemoveApiTest(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                accountId = any(),
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/resources/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}",
+                "/v1/resources/reactions/components/{componentId}/spaces/{spaceId}",
                 componentId,
                 spaceId,
                 accountId
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -88,9 +87,6 @@ class ReactionRemoveApiTest(
                     pathParameters(
                         parameterWithName("componentId").description("Reaction Component Id"),
                         parameterWithName("spaceId").description("Reaction Space Id")
-                    ),
-                    relaxedQueryParameters(
-                        parameterWithName("accountId").description("Reactor Id")
                     ),
                     responseFields(
                         fieldWithPath("ok")

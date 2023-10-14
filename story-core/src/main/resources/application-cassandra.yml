@@ -3,9 +3,9 @@ spring:
     schema-action: none
     request:
       consistency: quorum
-      timeout: 3000
+      timeout: 3s
     connection:
-      connect-timeout: 3000
+      connect-timeout: 3s
 
 ---
 spring.config:

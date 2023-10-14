@@ -10,8 +10,8 @@ data class PostListApiResponse(
 ) {
 
     companion object {
-        fun of(posts: ContentsWithCursor<PostResponse, String>) = PostListApiResponse(
-            posts = posts.data.map { post -> PostApiResponse.of(post = post) },
+        fun of(posts: ContentsWithCursor<PostResponse, String>, requestAccountId: String?) = PostListApiResponse(
+            posts = posts.data.map { post -> PostApiResponse.of(post = post, requestAccountId = requestAccountId) },
             cursor = posts.cursor,
         )
     }

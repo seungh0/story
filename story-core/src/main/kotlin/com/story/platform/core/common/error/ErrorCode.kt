@@ -15,6 +15,7 @@ enum class ErrorCode(
     E400_INACTIVATED_WORKSPACE(httpStatusCode = 400, code = "inactivated_workspace"),
     E400_INVALID_NONCE(httpStatusCode = 400, code = "invalid_nonce"),
     E400_INVALID_POST_SORT_BY(httpStatusCode = 400, code = "invalid_post_sort_by"),
+    E400_MISSING_REQUEST_ACCOUNT_ID(httpStatusCode = 400, code = "missing_request_account_id"),
 
     /**
      * 401 UnAuthorized
@@ -46,6 +47,7 @@ enum class ErrorCode(
     E404_NOT_EXISTS_POST(httpStatusCode = 404, code = "not_exists_post"),
     E404_NOT_EXISTS_CONNECT_FEED_MAPPING(httpStatusCode = 404, code = "not_exists_connect_mapping_feed"),
     E404_NOT_EXISTS_WORKSPACE(httpStatusCode = 404, code = "not_exists_workspace"),
+    E404_NOT_EXISTS_EMOTION(httpStatusCode = 404, code = "not_exists_emotion"),
 
     /**
      * 405 Method Not Allowed

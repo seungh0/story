@@ -15,7 +15,7 @@ class ReactionRetrieveHandler(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        request: ReactionGetApiRequest,
+        requestAccountId: String?,
     ): ReactionApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -27,7 +27,7 @@ class ReactionRetrieveHandler(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            accountId = request.accountId,
+            requestAccountId = requestAccountId,
         )
 
         return ReactionApiResponse.of(reaction = reaction)
@@ -37,6 +37,7 @@ class ReactionRetrieveHandler(
         workspaceId: String,
         componentId: String,
         request: ReactionListApiRequest,
+        requestAccountId: String?,
     ): ReactionListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -48,7 +49,7 @@ class ReactionRetrieveHandler(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceIds = request.spaceIds,
-            accountId = request.accountId,
+            requestAccountId = requestAccountId,
         )
 
         return ReactionListApiResponse.of(reactions = reactions)
