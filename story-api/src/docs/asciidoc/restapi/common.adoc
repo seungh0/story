@@ -1,6 +1,6 @@
 == Common Documentation
 
-=== API Response
+=== API Response Model
 
 ==== Response Body
 
@@ -64,12 +64,10 @@ Content-Type: application/json
 }
 ----
 
-=== Header
+=== Http Headers
 
 include::./header.adoc[]
 
-=== Error Code
+=== Error Codes
 
 include::./error.adoc[]
-
-include::./nonce/index.adoc[]

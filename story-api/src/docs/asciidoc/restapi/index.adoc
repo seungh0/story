@@ -15,6 +15,8 @@ endif::[]
 
 include::./common.adoc[]
 
+include::./nonce/index.adoc[]
+
 include::./authentication/index.adoc[]
 include::./workspace/index.adoc[]
 include::./resource/index.adoc[]

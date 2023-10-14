@@ -117,7 +117,9 @@ class ReactionRetrieveApiTest(
                     "reaction.get",
                     getDocumentRequest(),
                     getDocumentResponse(),
-                    pageHeaderSnippet(),
+                    pageHeaderSnippet(
+                        "- Unregistered emotions are not included in the results."
+                    ),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("Reaction Component Id"),
@@ -225,7 +227,7 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/reactions/components/{componentId}/spaces?accountId={accountId}&spaceIds={spaceIds}",
+                "/v1/resources/reactions/components/{componentId}/spaces?spaceIds={spaceIds}",
                 componentId,
                 accountId,
                 spaceIds,
@@ -242,7 +244,9 @@ class ReactionRetrieveApiTest(
                     "reaction.list",
                     getDocumentRequest(),
                     getDocumentResponse(),
-                    pageHeaderSnippet(),
+                    pageHeaderSnippet(
+                        "- Component에 등록되지 않은 Emotion은 결과에 포함되지 않습니다."
+                    ),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("Reaction Component Id"),
