@@ -65,7 +65,7 @@ class ResourceRetrieveApiTest(
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
-                            .attributes(RestDocsUtils.remarks("최대 50개까지만 허용합니다")),
+                            .attributes(RestDocsUtils.remarks("최대 50개까지 조회할 수 있습니다")),
                     ),
                     responseFields(
                         fieldWithPath("ok")

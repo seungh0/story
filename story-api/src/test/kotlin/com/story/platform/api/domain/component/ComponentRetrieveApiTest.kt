@@ -169,7 +169,7 @@ class ComponentRetrieveApiTest(
                         RequestDocumentation.parameterWithName("cursor").description("페이지 커서").optional()
                             .attributes(RestDocsUtils.remarks("첫 페이지의 경우 null")),
                         RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
-                            .attributes(RestDocsUtils.remarks("최대 50개까지만 허용")),
+                            .attributes(RestDocsUtils.remarks("최대 50개까지 조회할 수 있습니다")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

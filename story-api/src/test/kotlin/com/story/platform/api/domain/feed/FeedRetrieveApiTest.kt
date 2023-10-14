@@ -121,7 +121,7 @@ class FeedRetrieveApiTest(
                         RequestDocumentation.parameterWithName("cursor").description("페이지 커서").optional()
                             .attributes(RestDocsUtils.remarks("첫 페이지의 경우 null")),
                         RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
-                            .attributes(RestDocsUtils.remarks("최대 50개까지만 허용")),
+                            .attributes(RestDocsUtils.remarks("최대 50개까지 조회할 수 있습니다")),
                         RequestDocumentation.parameterWithName("direction").description("조회 방향").optional()
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(기본값: NEXT)")),
                     ),
@@ -234,7 +234,7 @@ class FeedRetrieveApiTest(
                         RequestDocumentation.parameterWithName("cursor").description("페이지 커서").optional()
                             .attributes(RestDocsUtils.remarks("첫 페이지의 경우 null")),
                         RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
-                            .attributes(RestDocsUtils.remarks("최대 50개까지만 허용")),
+                            .attributes(RestDocsUtils.remarks("최대 50개까지 조회할 수 있습니다")),
                         RequestDocumentation.parameterWithName("direction").description("조회 방향").optional()
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(기본값: NEXT)")),
                     ),
