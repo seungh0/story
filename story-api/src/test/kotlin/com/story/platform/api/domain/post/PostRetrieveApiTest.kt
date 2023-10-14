@@ -98,6 +98,7 @@ class PostRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Component Id"),
                         RequestDocumentation.parameterWithName("spaceId").description("Post Space Id"),
@@ -194,6 +195,7 @@ class PostRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Component Id"),
                         RequestDocumentation.parameterWithName("spaceId").description("Post Space Id"),
@@ -232,11 +234,13 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("Post Writer"),
                         PayloadDocumentation.fieldWithPath("result.posts[].writer.accountId")
                             .type(JsonFieldType.STRING).description("Post Writer AccountId"),
+                        PayloadDocumentation.fieldWithPath("result.cursor")
+                            .type(JsonFieldType.OBJECT).description("Page Cursor"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
+                            .type(JsonFieldType.STRING).description("Next Page Cursor").optional(),
                         PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
+                            .type(JsonFieldType.BOOLEAN).description("Has More Page (next direction)"),
                     )
                 )
             )

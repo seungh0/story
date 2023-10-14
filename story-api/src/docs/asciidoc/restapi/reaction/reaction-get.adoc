@@ -10,6 +10,10 @@ include::{snippets}/reaction.get/http-request.adoc[]
 
 include::{snippets}/reaction.get/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/reaction.get/request-headers.adoc[]
+
 ==== [Request Query Parameters]
 
 include::{snippets}/reaction.get/query-parameters.adoc[]

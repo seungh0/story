@@ -13,6 +13,14 @@ include::{snippets}/post.create/http-request.adoc[]
 
 include::{snippets}/post.create/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/post.create/request-headers.adoc[]
+
+==== [Request Query Parameters]
+
+include::{snippets}/post.create/query-parameters.adoc[]
+
 ===== [Request Body Parameter]
 
 include::{snippets}/post.create/request-fields.adoc[]

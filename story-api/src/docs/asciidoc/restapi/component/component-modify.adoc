@@ -12,6 +12,10 @@ include::{snippets}/component.modify/http-request.adoc[]
 
 include::{snippets}/component.modify/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/component.modify/request-headers.adoc[]
+
 ===== [Body Parameter]
 
 include::{snippets}/component.modify/request-fields.adoc[]

@@ -98,7 +98,7 @@ class FeedRetrieveApiTest(
                 "/v1/resources/feeds/components/{componentId}/subscriber/{subscriberId}?cursor={cursor}&direction={direction}&pageSize={pageSize}",
                 componentId, subscriberId, cursor, direction, pageSize
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -107,10 +107,11 @@ class FeedRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "FEED-LIST-API-POST",
+                    "feed.list",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("FEED Component Id"),
                         RequestDocumentation.parameterWithName("subscriberId").description("FEED Subscriber Id"),
@@ -158,11 +159,13 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Post Created At"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.updatedAt")
                             .type(JsonFieldType.STRING).description("Post Updated At"),
+                        PayloadDocumentation.fieldWithPath("result.cursor")
+                            .type(JsonFieldType.OBJECT).description("Page Cursor"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
+                            .type(JsonFieldType.STRING).description("Next Page Cursor").optional(),
                         PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
+                            .type(JsonFieldType.BOOLEAN).description("Has More Page (next direction)"),
                     )
                 )
             )
@@ -263,11 +266,13 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Post Created At"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.updatedAt")
                             .type(JsonFieldType.STRING).description("Post Updated At"),
+                        PayloadDocumentation.fieldWithPath("result.cursor")
+                            .type(JsonFieldType.OBJECT).description("Page Cursor"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
+                            .type(JsonFieldType.STRING).description("Next Page Cursor").optional(),
                         PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
+                            .type(JsonFieldType.BOOLEAN).description("Has More Page (next direction)"),
                     )
                 )
             )

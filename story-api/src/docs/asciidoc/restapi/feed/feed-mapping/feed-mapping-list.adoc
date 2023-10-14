@@ -10,6 +10,10 @@ include::{snippets}/feed-mapping.list/http-request.adoc[]
 
 include::{snippets}/feed-mapping.list/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/feed-mapping.list/request-headers.adoc[]
+
 ==== [Request Query Parameters]
 
 include::{snippets}/feed-mapping.list/query-parameters.adoc[]

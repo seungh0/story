@@ -10,6 +10,10 @@ include::{snippets}/reaction.upsert/http-request.adoc[]
 
 include::{snippets}/reaction.upsert/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/reaction.upsert/request-headers.adoc[]
+
 ===== [Request Body Parameter]
 
 include::{snippets}/reaction.upsert/request-fields.adoc[]

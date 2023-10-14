@@ -74,6 +74,7 @@ class WorkspaceRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("workspaceId").description("Workspace Id"),
                     ),

@@ -78,6 +78,7 @@ class SubscriptionRemoveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
                         RequestDocumentation.parameterWithName("subscriberId")

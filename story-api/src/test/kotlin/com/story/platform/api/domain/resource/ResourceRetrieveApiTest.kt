@@ -62,6 +62,7 @@ class ResourceRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("pageSize").description("Page Size")
                             .attributes(RestDocsUtils.remarks("max: 50")),

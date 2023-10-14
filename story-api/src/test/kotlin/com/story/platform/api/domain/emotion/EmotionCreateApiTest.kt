@@ -6,6 +6,7 @@ import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
+import com.story.platform.api.lib.RestDocsUtils.authenticationHeaderDocumentation
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
@@ -92,6 +93,7 @@ class EmotionCreateApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
+                    authenticationHeaderDocumentation,
                     pathParameters(
                         parameterWithName("resourceId").description("Resource Id"),
                         parameterWithName("componentId").description("Component Id"),

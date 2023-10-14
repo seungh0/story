@@ -10,6 +10,10 @@ include::{snippets}/subscription.remove/http-request.adoc[]
 
 include::{snippets}/subscription.remove/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/subscription.remove/request-headers.adoc[]
+
 ==== [Response]
 
 include::{snippets}/subscription.remove/http-response.adoc[]

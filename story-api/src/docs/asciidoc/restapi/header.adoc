@@ -1,0 +1,9 @@
+[cols="5%,30%,30%"]
+|===
+| Http Header | Description | Example
+| X-Story-Api-Key | Authentication Key | authentication-key
+| X-Request-Id | Request-Id | request-id
+| X-Forwarded-For | X-Forwarded-For | 127.0.0.1
+| X-Story-Request-Account-Id | Request-Account-Id | account-Id
+| X-Story-Nonce | Nonce Key | nonce-key
+|===

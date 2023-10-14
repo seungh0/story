@@ -10,6 +10,10 @@ include::{snippets}/post.modify/http-request.adoc[]
 
 include::{snippets}/post.modify/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/post.modify/request-headers.adoc[]
+
 ===== [Request Body Parameter]
 
 include::{snippets}/post.modify/request-fields.adoc[]

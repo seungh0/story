@@ -1,5 +1,8 @@
 package com.story.platform.api.lib
 
+import com.story.platform.core.common.http.HttpHeader
+import org.springframework.restdocs.headers.HeaderDocumentation
+import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor
 import org.springframework.restdocs.operation.preprocess.Preprocessors.modifyHeaders
@@ -9,6 +12,7 @@ import org.springframework.restdocs.operation.preprocess.Preprocessors.preproces
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.restdocs.snippet.Attributes
 import java.util.EnumSet
+import java.util.UUID
 
 object RestDocsUtils {
 
@@ -52,5 +56,36 @@ object RestDocsUtils {
                 .remove("Content-Length")
         )
     }
+
+    val commonHeadersDocumentation = HeaderDocumentation.requestHeaders(
+        headerWithName(HttpHeader.X_FORWARDED_FOR.header).description("X-Forwarded-For")
+            .attributes(remarks("127.0.0.1"))
+            .optional(),
+        headerWithName(HttpHeader.X_REQUEST_ID.header).description("X-Request-Id")
+            .attributes(remarks(UUID.randomUUID().toString()))
+            .optional(),
+    )
+
+    val authenticationHeaderDocumentation = HeaderDocumentation.requestHeaders(
+        headerWithName(HttpHeader.X_FORWARDED_FOR.header).description("X-Forwarded-For")
+            .attributes(remarks("127.0.0.1"))
+            .optional(),
+        headerWithName(HttpHeader.X_REQUEST_ID.header).description("X-Request-Id")
+            .attributes(remarks(UUID.randomUUID().toString()))
+            .optional(),
+        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("Story Authentication Key"),
+    )
+
+    val authenticationHeaderWithRequestAccountIdDocumentation = HeaderDocumentation.requestHeaders(
+        headerWithName(HttpHeader.X_FORWARDED_FOR.header).description("X-Forwarded-For")
+            .attributes(remarks("127.0.0.1"))
+            .optional(),
+        headerWithName(HttpHeader.X_REQUEST_ID.header).description("X-Request-Id")
+            .attributes(remarks(UUID.randomUUID().toString()))
+            .optional(),
+        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("Story Authentication Key"),
+        headerWithName(HttpHeader.X_STORY_REQUEST_ACCOUNT_ID.header)
+            .description("Request Account Id"),
+    )
 
 }

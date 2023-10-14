@@ -6,6 +6,7 @@ import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
+import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
@@ -84,6 +85,7 @@ class ReactionRemoveApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("Reaction Component Id"),
                         parameterWithName("spaceId").description("Reaction Space Id")

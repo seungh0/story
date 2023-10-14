@@ -10,6 +10,10 @@ include::{snippets}/subscription.upsert/http-request.adoc[]
 
 include::{snippets}/subscription.upsert/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/subscription.upsert/request-headers.adoc[]
+
 ===== [Request Body Parameter]
 
 include::{snippets}/subscription.upsert/request-fields.adoc[]

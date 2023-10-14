@@ -10,6 +10,10 @@ include::{snippets}/component.list/http-request.adoc[]
 
 include::{snippets}/component.list/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/component.list/request-headers.adoc[]
+
 ==== [Request Query Parameters]
 
 include::{snippets}/component.list/query-parameters.adoc[]

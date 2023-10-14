@@ -85,6 +85,7 @@ class ComponentRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
                         RequestDocumentation.parameterWithName("componentId").description("Component Id"),
@@ -159,6 +160,7 @@ class ComponentRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
                     ),
@@ -186,11 +188,13 @@ class ComponentRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("CreatedAt"),
                         PayloadDocumentation.fieldWithPath("result.components[].updatedAt")
                             .type(JsonFieldType.STRING).description("UpdatedAt"),
+                        PayloadDocumentation.fieldWithPath("result.cursor")
+                            .type(JsonFieldType.OBJECT).description("Page Cursor"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
+                            .type(JsonFieldType.STRING).description("Next Page Cursor").optional(),
                         PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
+                            .type(JsonFieldType.BOOLEAN).description("Has More Page (next direction)"),
                     )
                 )
             )

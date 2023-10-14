@@ -1,28 +1,32 @@
 === [Feed] List API
 
-include::{snippets}/FEED-LIST-API-POST/request-path.adoc[]
+include::{snippets}/feed.list/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/FEED-LIST-API-POST/http-request.adoc[]
+include::{snippets}/feed.list/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/FEED-LIST-API-POST/path-parameters.adoc[]
+include::{snippets}/feed.list/path-parameters.adoc[]
+
+==== [Request Headers]
+
+include::{snippets}/feed.list/request-headers.adoc[]
 
 ==== [Request Query Parameters]
 
-include::{snippets}/FEED-LIST-API-POST/query-parameters.adoc[]
+include::{snippets}/feed.list/query-parameters.adoc[]
 
 ==== [Response]
 
 ===== 1. Post
 
-include::{snippets}/FEED-LIST-API-POST/http-response.adoc[]
+include::{snippets}/feed.list/http-response.adoc[]
 
 ====== [Response Body Fields]
 
-include::{snippets}/FEED-LIST-API-POST/response-fields.adoc[]
+include::{snippets}/feed.list/response-fields.adoc[]
 
 ===== 2. Subscription
 

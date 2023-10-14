@@ -64,6 +64,10 @@ Content-Type: application/json
 }
 ----
 
+=== Header
+
+include::./header.adoc[]
+
 === Error Code
 
 include::./error.adoc[]

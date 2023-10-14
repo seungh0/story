@@ -80,6 +80,7 @@ class FeedMappingRemoveApiTest(
                     "feed-mapping.remove",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("feedComponentId").description("Feed Component Id"),

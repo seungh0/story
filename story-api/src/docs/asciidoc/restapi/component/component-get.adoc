@@ -10,6 +10,10 @@ include::{snippets}/component.get/http-request.adoc[]
 
 include::{snippets}/component.get/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/component.get/request-headers.adoc[]
+
 ==== [Response]
 
 include::{snippets}/component.get/http-response.adoc[]

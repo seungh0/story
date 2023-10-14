@@ -10,6 +10,10 @@ include::{snippets}/component.create/http-request.adoc[]
 
 include::{snippets}/component.create/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/component.create/request-headers.adoc[]
+
 ===== [Request Body Parameter]
 
 include::{snippets}/component.create/request-fields.adoc[]

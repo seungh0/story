@@ -83,6 +83,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
                         RequestDocumentation.parameterWithName("subscriberId").description("Subscriber Id"),
@@ -134,6 +135,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
                         RequestDocumentation.parameterWithName("targetId").description("Subscription Target Id"),
@@ -184,6 +186,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
                         RequestDocumentation.parameterWithName("subscriberId")
@@ -254,6 +257,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
                         RequestDocumentation.parameterWithName("targetId")
@@ -276,11 +280,13 @@ class SubscriptionRetrieveApiTest(
                             .type(JsonFieldType.ARRAY).description("subscriber list"),
                         PayloadDocumentation.fieldWithPath("result.subscribers[].subscriberId")
                             .type(JsonFieldType.STRING).description("Subscriber Id"),
+                        PayloadDocumentation.fieldWithPath("result.cursor")
+                            .type(JsonFieldType.OBJECT).description("Page Cursor"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
+                            .type(JsonFieldType.STRING).description("Next Page Cursor").optional(),
                         PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
+                            .type(JsonFieldType.BOOLEAN).description("Has More Page (next direction)"),
                     )
                 )
             )
@@ -344,6 +350,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
                         RequestDocumentation.parameterWithName("subscriberId")
@@ -368,11 +375,13 @@ class SubscriptionRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Target Id"),
                         PayloadDocumentation.fieldWithPath("result.targets[].alarmEnabled")
                             .type(JsonFieldType.BOOLEAN).description("alarm Enabled (true/false)"),
+                        PayloadDocumentation.fieldWithPath("result.cursor")
+                            .type(JsonFieldType.OBJECT).description("Page Cursor"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
+                            .type(JsonFieldType.STRING).description("Next Page Cursor").optional(),
                         PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
+                            .type(JsonFieldType.BOOLEAN).description("Has More Page (next direction)"),
                     )
                 )
             )

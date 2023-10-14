@@ -10,6 +10,10 @@ include::{snippets}/feed-mapping.create/http-request.adoc[]
 
 include::{snippets}/feed-mapping.create/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/feed-mapping.create/request-headers.adoc[]
+
 ===== [Request Body Parameter]
 
 include::{snippets}/feed-mapping.create/request-fields.adoc[]

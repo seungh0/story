@@ -86,6 +86,7 @@ class FeedMappingRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("feedComponentId").description("Feed Component Id"),
                         RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),

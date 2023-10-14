@@ -6,6 +6,14 @@ include::{snippets}/resource.list/request-path.adoc[]
 
 include::{snippets}/resource.list/http-request.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/resource.list/request-headers.adoc[]
+
+==== [Request Query Parameters]
+
+include::{snippets}/resource.list/query-parameters.adoc[]
+
 ==== [Response]
 
 include::{snippets}/resource.list/http-response.adoc[]

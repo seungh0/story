@@ -6,6 +6,7 @@ import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
+import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
@@ -87,7 +88,7 @@ class ReactionRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/reactions/components/{componentId}/spaces/{spaceId}?accountId={accountId}",
+                "/v1/resources/reactions/components/{componentId}/spaces/{spaceId}",
                 componentId,
                 spaceId,
                 accountId,
@@ -106,6 +107,7 @@ class ReactionRetrieveApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("Reaction Component Id"),
                         parameterWithName("spaceId").description("Reaction Space Id"),
@@ -208,6 +210,7 @@ class ReactionRetrieveApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("Reaction Component Id"),
                     ),

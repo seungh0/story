@@ -10,6 +10,10 @@ include::{snippets}/emotion.list/http-request.adoc[]
 
 include::{snippets}/emotion.list/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/emotion.list/request-headers.adoc[]
+
 ==== [Request Query Parameters]
 
 include::{snippets}/emotion.list/query-parameters.adoc[]

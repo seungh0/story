@@ -6,6 +6,10 @@ include::{snippets}/nonce.create/request-path.adoc[]
 
 include::{snippets}/nonce.create/http-request.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/nonce.create/request-headers.adoc[]
+
 ===== [Request Body Parameter]
 
 include::{snippets}/nonce.create/request-fields.adoc[]

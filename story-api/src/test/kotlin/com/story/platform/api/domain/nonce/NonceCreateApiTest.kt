@@ -78,6 +78,7 @@ class NonceCreateApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     requestFields(
                         fieldWithPath("expirationSeconds").type(JsonFieldType.NUMBER)
                             .description("Expiration Duration (seconds)")

@@ -88,6 +88,7 @@ class ComponentCreateApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
                         RequestDocumentation.parameterWithName("componentId").description("Component Id"),

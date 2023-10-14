@@ -10,6 +10,10 @@ include::{snippets}/workspace.remove/http-request.adoc[]
 
 include::{snippets}/workspace.remove/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/workspace.remove/request-headers.adoc[]
+
 ==== [Response]
 
 include::{snippets}/workspace.remove/http-response.adoc[]

@@ -10,6 +10,10 @@ include::{snippets}/emotion.remove/http-request.adoc[]
 
 include::{snippets}/emotion.remove/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/emotion.remove/request-headers.adoc[]
+
 ==== [Response]
 
 include::{snippets}/emotion.remove/http-response.adoc[]

@@ -72,6 +72,7 @@ class AuthenticationRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.commonHeadersDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("authenticationKey").description("Authentication Key"),
                     ),

@@ -103,6 +103,7 @@ class EmotionRetrieveApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
+                    RestDocsUtils.authenticationHeaderDocumentation,
                     pathParameters(
                         parameterWithName("resourceId").description("Resource Id"),
                         parameterWithName("componentId").description("Component Id"),
@@ -124,11 +125,13 @@ class EmotionRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Emotion Id"),
                         fieldWithPath("result.emotions[].image")
                             .type(JsonFieldType.STRING).description("Emotion Image"),
+                        fieldWithPath("result.cursor")
+                            .type(JsonFieldType.OBJECT).description("Page Cursor"),
                         fieldWithPath("result.cursor.nextCursor")
                             .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("nextCursor").optional(),
+                            .type(JsonFieldType.STRING).description("Next Page Cursor").optional(),
                         fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("hasNext"),
+                            .type(JsonFieldType.BOOLEAN).description("Has More Page (next direction)"),
                     )
                 )
             )
