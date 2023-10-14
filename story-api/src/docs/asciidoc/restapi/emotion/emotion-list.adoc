@@ -14,10 +14,6 @@ include::{snippets}/emotion.list/path-parameters.adoc[]
 
 include::{snippets}/emotion.list/request-headers.adoc[]
 
-==== [Request Query Parameters]
-
-include::{snippets}/emotion.list/query-parameters.adoc[]
-
 ==== [Response]
 
 include::{snippets}/emotion.list/http-response.adoc[]
