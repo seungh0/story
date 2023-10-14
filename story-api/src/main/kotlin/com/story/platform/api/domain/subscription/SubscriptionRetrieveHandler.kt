@@ -56,7 +56,7 @@ class SubscriptionRetrieveHandler(
         return SubscriberListApiResponse.of(subscriptions = subscriptions)
     }
 
-    suspend fun listTargets(
+    suspend fun listSubscriptionTargets(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
@@ -68,7 +68,7 @@ class SubscriptionRetrieveHandler(
             componentId = componentId,
         )
 
-        val subscriptions = subscriptionRetriever.listTargets(
+        val subscriptions = subscriptionRetriever.listSubscriptionTargets(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,

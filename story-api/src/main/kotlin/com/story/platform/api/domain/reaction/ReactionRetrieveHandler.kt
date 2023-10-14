@@ -33,7 +33,7 @@ class ReactionRetrieveHandler(
             requestAccountId = requestAccountId,
         )
 
-        val emotions = emotionRetriever.listEmotions(
+        val emotions = emotionRetriever.getEmotions(
             workspaceId = workspaceId,
             resourceId = ResourceId.REACTIONS,
             componentId = componentId,
@@ -66,7 +66,7 @@ class ReactionRetrieveHandler(
             .flatMap { reaction -> reaction.emotions.map { emotion -> emotion.emotionId } }
             .toSet()
 
-        val emotions = emotionRetriever.listEmotions(
+        val emotions = emotionRetriever.getEmotions(
             workspaceId = workspaceId,
             resourceId = ResourceId.REACTIONS,
             componentId = componentId,

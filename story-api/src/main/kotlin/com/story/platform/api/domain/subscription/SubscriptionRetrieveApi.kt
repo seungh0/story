@@ -90,13 +90,13 @@ class SubscriptionRetrieveApi(
      * 구독중인 대상자 목록을 조회한다
      */
     @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets")
-    suspend fun listTargets(
+    suspend fun listSubscriptionTargets(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionTargetListApiResponse> {
-        val response = subscriptionRetrieveHandler.listTargets(
+        val response = subscriptionRetrieveHandler.listSubscriptionTargets(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,

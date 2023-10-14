@@ -239,21 +239,21 @@ class SubscriptionRetriever(
         )
     }
 
-    suspend fun listTargets(
+    suspend fun listSubscriptionTargets(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
     ): ContentsWithCursor<SubscriptionResponse, String> {
         val subscriptions = when (cursorRequest.direction) {
-            CursorDirection.NEXT -> listNextSubscriptions(
+            CursorDirection.NEXT -> listNextSubscriptionTargets(
                 cursorRequest = cursorRequest,
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,
             )
 
-            CursorDirection.PREVIOUS -> listPreviousSubscriptions(
+            CursorDirection.PREVIOUS -> listPreviousSubscriptionTargets(
                 cursorRequest = cursorRequest,
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -279,7 +279,7 @@ class SubscriptionRetriever(
         )
     }
 
-    private suspend fun listNextSubscriptions(
+    private suspend fun listNextSubscriptionTargets(
         cursorRequest: CursorRequest,
         workspaceId: String,
         componentId: String,
@@ -304,7 +304,7 @@ class SubscriptionRetriever(
         ).toList()
     }
 
-    private suspend fun listPreviousSubscriptions(
+    private suspend fun listPreviousSubscriptionTargets(
         cursorRequest: CursorRequest,
         workspaceId: String,
         componentId: String,

@@ -36,7 +36,7 @@ class EmotionRetriever(
         }
     }
 
-    suspend fun listEmotions(
+    suspend fun getEmotions(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,

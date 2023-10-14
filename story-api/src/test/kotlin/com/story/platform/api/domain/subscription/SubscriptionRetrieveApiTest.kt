@@ -304,7 +304,7 @@ class SubscriptionRetrieveApiTest(
         )
 
         coEvery {
-            subscriptionRetrieveHandler.listTargets(
+            subscriptionRetrieveHandler.listSubscriptionTargets(
                 workspaceId = any(),
                 componentId = componentId,
                 subscriberId = subscriberId,
