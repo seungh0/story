@@ -1,0 +1,31 @@
+### 이모션 등록
+POST {{api}}/v1/resources/reactions/components/post-like/emotions/emotion-1
+Content-Type: application/json
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+Accept-Language: en
+
+{
+    "image": "😌"
+}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+
+
+### 이모션 삭제
+DELETE {{api}}/v1/resources/reactions/components/post-like/emotions/emotion-1
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+
+
+### 이모션 목록 조회
+GET {{api}}/v1/resources/reactions/components/post-like/emotions?pageSize=2
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}

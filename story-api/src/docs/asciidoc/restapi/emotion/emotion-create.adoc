@@ -1,0 +1,27 @@
+=== [Emotion] Create API
+
+include::{snippets}/emotion.create/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/emotion.create/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/emotion.create/path-parameters.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/emotion.create/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/emotion.create/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/emotion.create/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/emotion.create/curl-request.adoc[]

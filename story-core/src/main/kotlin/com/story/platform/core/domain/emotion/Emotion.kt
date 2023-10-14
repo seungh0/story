@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.emotion
 
+import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -17,15 +18,15 @@ data class Emotion(
     companion object {
         fun of(
             workspaceId: String,
+            resourceId: ResourceId,
             componentId: String,
-            spaceId: String,
             emotionId: String,
             image: String,
         ) = Emotion(
             key = EmotionPrimaryKey(
                 workspaceId = workspaceId,
+                resourceId = resourceId,
                 componentId = componentId,
-                spaceId = spaceId,
                 emotionId = emotionId,
             ),
             image = image,
@@ -40,10 +41,10 @@ data class EmotionPrimaryKey(
     val workspaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
-    val componentId: String,
+    val resourceId: ResourceId,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val spaceId: String,
+    val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING, ordinal = 4)
     val emotionId: String,

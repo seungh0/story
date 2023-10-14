@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.emotion
 
+import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.stereotype.Service
 
 @Service
@@ -9,15 +10,15 @@ class EmotionCreator(
 
     suspend fun createEmotion(
         workspaceId: String,
+        resourceId: ResourceId,
         componentId: String,
-        spaceId: String,
         emotionId: String,
         image: String,
     ) {
         val emotion = Emotion.of(
             workspaceId = workspaceId,
+            resourceId = resourceId,
             componentId = componentId,
-            spaceId = spaceId,
             emotionId = emotionId,
             image = image,
         )

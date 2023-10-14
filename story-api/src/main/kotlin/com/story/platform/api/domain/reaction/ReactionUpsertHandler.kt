@@ -25,14 +25,14 @@ class ReactionUpsertHandler(
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
-            resourceId = ResourceId.REACTION,
+            resourceId = ResourceId.REACTIONS,
             componentId = componentId,
         )
 
         emotionRetriever.validateExistsEmotions(
             workspaceId = workspaceId,
+            resourceId = ResourceId.REACTIONS,
             componentId = componentId,
-            spaceId = spaceId,
             emotionIds = request.emotions.mapToSet { emotion -> emotion.emotionId }
         )
 

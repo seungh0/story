@@ -21,7 +21,7 @@ class ReactionRemoveHandler(
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
-            resourceId = ResourceId.REACTION,
+            resourceId = ResourceId.REACTIONS,
             componentId = componentId,
         )
 

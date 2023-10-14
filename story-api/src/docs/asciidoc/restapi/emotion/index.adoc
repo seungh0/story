@@ -1,0 +1,9 @@
+== Emotion
+
+=== About Emotion
+
+- TBD
+
+include::./emotion-create.adoc[]
+include::./emotion-remove.adoc[]
+include::./emotion-list.adoc[]

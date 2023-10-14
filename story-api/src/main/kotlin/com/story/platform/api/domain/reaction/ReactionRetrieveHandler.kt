@@ -19,7 +19,7 @@ class ReactionRetrieveHandler(
     ): ReactionApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
-            resourceId = ResourceId.REACTION,
+            resourceId = ResourceId.REACTIONS,
             componentId = componentId,
         )
 
@@ -41,7 +41,7 @@ class ReactionRetrieveHandler(
     ): ReactionListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
-            resourceId = ResourceId.REACTION,
+            resourceId = ResourceId.REACTIONS,
             componentId = componentId,
         )
 

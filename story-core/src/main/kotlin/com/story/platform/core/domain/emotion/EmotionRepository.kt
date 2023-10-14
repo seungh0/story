@@ -1,22 +1,23 @@
 package com.story.platform.core.domain.emotion
 
+import com.story.platform.core.domain.resource.ResourceId
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface EmotionRepository : CoroutineCrudRepository<Emotion, EmotionPrimaryKey> {
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
+    fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
         workspaceId: String,
+        resourceId: ResourceId,
         componentId: String,
-        spaceId: String,
         pageable: Pageable,
     ): Flow<Emotion>
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyEmotionIdGreaterThan(
+    fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdAndKeyEmotionIdGreaterThan(
         workspaceId: String,
+        resourceId: ResourceId,
         componentId: String,
-        spaceId: String,
         emotionId: String,
         pageable: Pageable,
     ): Flow<Emotion>

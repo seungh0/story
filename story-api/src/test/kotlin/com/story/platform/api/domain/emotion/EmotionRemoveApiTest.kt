@@ -1,4 +1,4 @@
-package com.story.platform.api.domain.post
+package com.story.platform.api.domain.emotion
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
@@ -9,10 +9,9 @@ import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.api.lib.isTrue
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
-import com.story.platform.core.domain.post.PostSpaceKey
+import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
@@ -25,12 +24,12 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(PostRemoveApi::class)
-class PostRemoveApiTest(
+@ApiTest(EmotionRemoveApi::class)
+class EmotionRemoveApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val postRemoveHandler: PostRemoveHandler,
+    private val emotionRemoveHandler: EmotionRemoveHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -49,54 +48,50 @@ class PostRemoveApiTest(
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
 
-    test("기존에 등록된 포스트를 삭제한다") {
+    test("이모션을 삭제합니다") {
         // given
-        val postSpaceKey = PostSpaceKey(
-            workspaceId = "story",
-            componentId = "user-post",
-            spaceId = "user-space-id"
-        )
-
-        val postId = 30000L
+        val resourceId = ResourceId.REACTIONS
+        val componentId = "post-sticker"
+        val emotionId = "emotion-id"
 
         coEvery {
-            postRemoveHandler.removePost(
-                postSpaceKey = postSpaceKey,
-                accountId = any(),
-                postId = postId,
+            emotionRemoveHandler.removeEmotion(
+                workspaceId = "story",
+                resourceId = resourceId,
+                componentId = componentId,
+                emotionId = emotionId,
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}",
-                postSpaceKey.componentId,
-                postSpaceKey.spaceId,
-                postId,
+                "/v1/resources/{resourceId}/components/{componentId}/emotions/{emotionId}",
+                resourceId.code,
+                componentId,
+                emotionId,
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
+            .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
         // then
         exchange.expectStatus().isOk
             .expectBody()
-            .jsonPath("$.ok").isTrue()
             .consumeWith(
                 document(
-                    "post.remove",
+                    "emotion.remove",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
                     pathParameters(
+                        parameterWithName("resourceId").description("Resource Id"),
                         parameterWithName("componentId").description("Component Id"),
-                        parameterWithName("spaceId").description("Space Id"),
-                        parameterWithName("postId").description("Post Id")
+                        parameterWithName("emotionId").description("Emotion Id"),
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok")
+                            .type(JsonFieldType.BOOLEAN).description("ok"),
                     )
                 )
             )

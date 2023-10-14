@@ -56,7 +56,6 @@ X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 
 ### 포스팅 목록 조회
-GET {{api}}/v1/resources/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts?pageSize=2&direction=NEXT&
-    sortBy=LATEST
+GET {{api}}/v1/resources/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts?pageSize=2&direction=NEXT&sortBy=LATEST
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 X-Story-Request-Account-Id: {{ACCOUNT_ID}}

@@ -16,7 +16,7 @@ enum class ResourceId(
     SUBSCRIPTIONS(code = "subscriptions", description = "구독", feedPayloadClazz = SubscriptionEvent::class.java),
     POSTS(code = "posts", description = "포스팅", feedPayloadClazz = PostEvent::class.java),
     FEEDS(code = "feeds", description = "피드", feedPayloadClazz = null),
-    REACTION(code = "reactions", description = "리액션", feedPayloadClazz = null),
+    REACTIONS(code = "reactions", description = "리액션", feedPayloadClazz = null),
     ;
 
     companion object {

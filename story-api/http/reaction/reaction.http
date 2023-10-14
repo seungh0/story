@@ -2,6 +2,7 @@
 PUT {{api}}/v1/resources/reactions/components/post-like/spaces/{{POST_ID}}
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 {
     "accountId": "{{ACCOUNT_ID}}",
@@ -25,6 +26,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 ### 리액션을 취소합니다
 DELETE {{api}}/v1/resources/reactions/components/post-like/spaces/{{POST_ID}}?accountId={{ACCOUNT_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 > {%
     client.test("200 OK", () => {
@@ -35,6 +37,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 ### 대상에 등록된 리액션을 조회합니다
 GET {{api}}/v1/resources/reactions/components/post-like/spaces/{{POST_ID}}?accountId={{ACCOUNT_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 > {%
     client.test("200 OK", () => {
@@ -46,6 +49,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 ### 대상 목록들에 등록된 리액션을 조회합니다
 GET {{api}}/v1/resources/reactions/components/post-like/spaces?accountId={{ACCOUNT_ID}}&spaceIds={{POST_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 > {%
     client.test("200 OK", () => {

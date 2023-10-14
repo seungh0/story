@@ -31,7 +31,7 @@ class ReactionEventProducer(
         val event = createEvent(reaction = change)
         eventHistoryManager.withSaveEventHistory(
             workspaceId = change.workspaceId,
-            resourceId = ResourceId.REACTION,
+            resourceId = ResourceId.REACTIONS,
             componentId = change.componentId,
             event = event,
         ) {

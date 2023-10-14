@@ -31,7 +31,7 @@ data class ReactionEvent(
             ),
             payload = ReactionEvent(
                 workspaceId = workspaceId,
-                resourceId = ResourceId.REACTION,
+                resourceId = ResourceId.REACTIONS,
                 componentId = componentId,
                 spaceId = spaceId,
                 accountId = accountId,
@@ -55,7 +55,7 @@ data class ReactionEvent(
             ),
             payload = ReactionEvent(
                 workspaceId = workspaceId,
-                resourceId = ResourceId.REACTION,
+                resourceId = ResourceId.REACTIONS,
                 componentId = componentId,
                 spaceId = spaceId,
                 accountId = accountId,
@@ -78,7 +78,7 @@ data class ReactionEvent(
             ),
             payload = ReactionEvent(
                 workspaceId = workspaceId,
-                resourceId = ResourceId.REACTION,
+                resourceId = ResourceId.REACTIONS,
                 componentId = componentId,
                 spaceId = spaceId,
                 accountId = accountId,

@@ -4,6 +4,7 @@ import com.story.platform.core.common.model.ContentsWithCursor
 import com.story.platform.core.common.model.CursorUtils
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.common.utils.mapToSet
+import com.story.platform.core.domain.resource.ResourceId
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
@@ -15,15 +16,15 @@ class EmotionRetriever(
 
     suspend fun validateExistsEmotions(
         workspaceId: String,
+        resourceId: ResourceId,
         componentId: String,
-        spaceId: String,
         emotionIds: Set<String>,
     ) {
         val keys = emotionIds.map { emotionId ->
             EmotionPrimaryKey(
                 workspaceId = workspaceId,
+                resourceId = resourceId,
                 componentId = componentId,
-                spaceId = spaceId,
                 emotionId = emotionId,
             )
         }
@@ -37,24 +38,24 @@ class EmotionRetriever(
 
     suspend fun listEmotions(
         workspaceId: String,
+        resourceId: ResourceId,
         componentId: String,
-        spaceId: String,
-        cursor: CursorRequest,
+        cursorRequest: CursorRequest,
     ): ContentsWithCursor<EmotionResponse, String> {
-        val emotions = if (cursor.cursor.isNullOrBlank()) {
-            emotionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
+        val emotions = if (cursorRequest.cursor.isNullOrBlank()) {
+            emotionRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
                 workspaceId = workspaceId,
+                resourceId = resourceId,
                 componentId = componentId,
-                spaceId = spaceId,
-                pageable = CassandraPageRequest.first(cursor.pageSize + 1),
+                pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
             ).toList()
         } else {
-            emotionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyEmotionIdGreaterThan(
+            emotionRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdAndKeyEmotionIdGreaterThan(
                 workspaceId = workspaceId,
+                resourceId = resourceId,
                 componentId = componentId,
-                spaceId = spaceId,
-                emotionId = cursor.cursor,
-                pageable = CassandraPageRequest.first(cursor.pageSize + 1),
+                emotionId = cursorRequest.cursor,
+                pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
             ).toList()
         }
 
@@ -62,7 +63,7 @@ class EmotionRetriever(
             data = emotions.map { emotion -> EmotionResponse.of(emotion = emotion) },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = emotions.toList(),
-                pageSize = cursor.pageSize,
+                pageSize = cursorRequest.pageSize,
                 keyGenerator = { emotion -> emotion?.key?.emotionId }
             )
         )

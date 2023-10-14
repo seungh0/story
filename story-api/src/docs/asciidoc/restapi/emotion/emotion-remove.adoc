@@ -1,0 +1,27 @@
+=== [Emotion] Remove API
+
+include::{snippets}/emotion.remove/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/emotion.remove/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/emotion.remove/path-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/emotion.remove/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/emotion.remove/response-fields.adoc[]
+
+===== [Response Body Example]
+
+include::{snippets}/emotion.remove/response-body.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/emotion.remove/curl-request.adoc[]
