@@ -23,7 +23,7 @@ class ControllerExceptionAdvice {
     @ExceptionHandler(WebExchangeBindException::class)
     private fun handleWebExchangeBindException(exception: WebExchangeBindException): ApiResponse<Nothing> {
         val message = exception.bindingResult.fieldErrors.map { fieldError: FieldError -> "[${fieldError.field}] ${fieldError.defaultMessage}" }
-        log.error("WebExchangeBindException: {}", message)
+        log.warn(exception) { exception.message }
         return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS, message)
     }
 
@@ -44,7 +44,7 @@ class ControllerExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException::class)
     private fun handleHttpMessageNotReadableException(exception: HttpMessageNotReadableException): ApiResponse<Nothing> {
-        log.warn(exception.message)
+        log.warn(exception) { exception.message }
         if (exception.rootCause is MismatchedInputException) {
             val parameterName = (exception.rootCause as MismatchedInputException).path.joinToString(separator = ",") { path -> path.fieldName }
             if (parameterName.isBlank()) {
@@ -57,7 +57,11 @@ class ControllerExceptionAdvice {
 
     @ExceptionHandler(StoryBaseException::class)
     private fun handleBaseException(exception: StoryBaseException): ResponseEntity<ApiResponse<Nothing>> {
-        log.error(exception) { exception.message }
+        if (exception.errorCode.httpStatusCode < 500) {
+            log.warn(exception) { exception.message }
+        } else {
+            log.error(exception) { exception.message }
+        }
         return ResponseEntity.status(exception.errorCode.httpStatusCode)
             .body(ApiResponse.fail(error = exception.errorCode))
     }

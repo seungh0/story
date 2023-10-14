@@ -12,7 +12,7 @@ enum class ErrorCode(
     E400_INVALID_ARGUMENTS(
         httpStatusCode = 400,
         code = "invalid_arguments",
-        description = "필수 파라미터가 없거나, 파라미터가 유효하지 않음"
+        description = "필수 파라미터가 없거나, 파라미터가 유효하지 않는 경우"
     ),
     E400_INVALID_CURSOR(httpStatusCode = 400, code = "invalid_cursor", description = "유효하지 않은 커서인 경우"),
     E400_INVALID_POST_ID(httpStatusCode = 400, code = "invalid_post_id", description = "유효하지 않은 포스트 ID인 경우"),

@@ -64,6 +64,23 @@ Content-Type: application/json
 }
 ----
 
+==== API Warning Example
+
+----
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "ok": true,
+  "result": {
+    "key": "value"
+  },
+  "warnings": [
+    "[title] is deprecatd",
+  ]
+}
+----
+
 === HTTP 헤더 정보
 
 include::./header.adoc[]

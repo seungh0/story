@@ -7,7 +7,9 @@ data class ApiResponse<T>(
     val ok: Boolean,
     val error: String? = null,
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    val messages: List<String>? = null,
+    val reasons: List<String>? = null,
+    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
+    val warnings: List<String>? = null,
     val result: T?,
 ) {
 
@@ -20,7 +22,7 @@ data class ApiResponse<T>(
         ): ApiResponse<T> = ApiResponse(
             ok = false,
             error = error.code,
-            messages = messages?.toList(),
+            reasons = messages?.toList(),
             result = null,
         )
 
