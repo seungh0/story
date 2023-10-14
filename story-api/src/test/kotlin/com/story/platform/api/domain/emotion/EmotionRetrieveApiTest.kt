@@ -100,15 +100,15 @@ class EmotionRetrieveApiTest(
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         fieldWithPath("result.emotions[]")
-                            .type(JsonFieldType.ARRAY).description("resources"),
+                            .type(JsonFieldType.ARRAY).description("이모션 목록"),
                         fieldWithPath("result.emotions[].emotionId")
-                            .type(JsonFieldType.STRING).description("Emotion Id"),
+                            .type(JsonFieldType.STRING).description("이모션 Id"),
                         fieldWithPath("result.emotions[].image")
-                            .type(JsonFieldType.STRING).description("Emotion Image"),
+                            .type(JsonFieldType.STRING).description("이모션 이미지"),
                     )
                 )
             )

@@ -87,12 +87,12 @@ class ReactionRemoveApiTest(
                     pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
-                        parameterWithName("componentId").description("Reaction Component Id"),
-                        parameterWithName("spaceId").description("Reaction Space Id")
+                        parameterWithName("componentId").description("리액션 컴포넌트 Id"),
+                        parameterWithName("spaceId").description("리액션 공간 Id")
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

@@ -83,15 +83,14 @@ class FeedMappingRemoveApiTest(
                     RestDocsUtils.authenticationHeaderDocumentation,
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("feedComponentId").description("Feed Component Id"),
-                        RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),
-                        RequestDocumentation.parameterWithName("sourceComponentId").description("Source Component Id"),
-                        RequestDocumentation.parameterWithName("subscriptionComponentId")
-                            .description("Subscription Component Id"),
+                        RequestDocumentation.parameterWithName("feedComponentId").description("피드 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("sourceResourceId").description("근원 리소스 ID"),
+                        RequestDocumentation.parameterWithName("sourceComponentId").description("근원 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("subscriptionComponentId").description("발행할 구독 컴포넌트 ID"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

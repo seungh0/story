@@ -88,25 +88,25 @@ class FeedMappingRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("feedComponentId").description("Feed Component Id"),
-                        RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),
-                        RequestDocumentation.parameterWithName("sourceComponentId").description("Source Component Id"),
+                        RequestDocumentation.parameterWithName("feedComponentId").description("피드 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("sourceResourceId").description("근원 리소스 ID"),
+                        RequestDocumentation.parameterWithName("sourceComponentId").description("근원 컴포넌트 ID"),
                     ),
                     RequestDocumentation.queryParameters(
-                        RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 50")),
+                        RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
+                            .attributes(RestDocsUtils.remarks("최대 50개까지만 허용합니다")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         PayloadDocumentation.fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         PayloadDocumentation.fieldWithPath("result.feedMappings")
-                            .type(JsonFieldType.ARRAY).description("mapping component id"),
+                            .type(JsonFieldType.ARRAY).description("피드 매핑 목록"),
                         PayloadDocumentation.fieldWithPath("result.feedMappings[].resourceId")
-                            .type(JsonFieldType.STRING).description("connected resource id"),
+                            .type(JsonFieldType.STRING).description("피드 매핑 근원 리소스 ID"),
                         PayloadDocumentation.fieldWithPath("result.feedMappings[].componentId")
-                            .type(JsonFieldType.STRING).description("connected component id"),
+                            .type(JsonFieldType.STRING).description("피드 매핑 근원 컴포넌트 ID"),
                     )
                 )
             )

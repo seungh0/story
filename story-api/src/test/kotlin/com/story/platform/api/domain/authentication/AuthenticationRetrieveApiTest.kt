@@ -36,7 +36,7 @@ class AuthenticationRetrieveApiTest(
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
             workspaceId = "story",
-            authenticationKey = "api-key",
+            authenticationKey = UUID.randomUUID().toString(),
             status = AuthenticationStatus.ENABLED,
             description = "",
         )
@@ -54,7 +54,7 @@ class AuthenticationRetrieveApiTest(
         } returns AuthenticationApiResponse(
             authenticationKey = authenticationKey,
             status = AuthenticationStatus.ENABLED,
-            description = "story platform api key"
+            description = "Story Platform에서 사용할 인증 키"
         )
 
         // when
@@ -74,20 +74,20 @@ class AuthenticationRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.commonHeadersDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("authenticationKey").description("Authentication Key"),
+                        RequestDocumentation.parameterWithName("authenticationKey").description("인증 키"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         PayloadDocumentation.fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         PayloadDocumentation.fieldWithPath("result.authenticationKey")
-                            .type(JsonFieldType.STRING).description("Authentication Key"),
+                            .type(JsonFieldType.STRING).description("인증 키"),
                         PayloadDocumentation.fieldWithPath("result.status")
-                            .type(JsonFieldType.STRING).description("Authentication Status")
+                            .type(JsonFieldType.STRING).description("인증 키에 대한 상태 값")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationStatus::class.java))),
                         PayloadDocumentation.fieldWithPath("result.description")
-                            .type(JsonFieldType.STRING).description("Authentication Description"),
+                            .type(JsonFieldType.STRING).description("인증 정보에 대한 설명"),
                     )
                 )
             )

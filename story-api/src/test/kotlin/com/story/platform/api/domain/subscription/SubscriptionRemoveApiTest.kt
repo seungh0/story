@@ -80,14 +80,13 @@ class SubscriptionRemoveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("componentId").description("Subscription Component Id"),
-                        RequestDocumentation.parameterWithName("subscriberId")
-                            .description("Subscription Subscriber Id"),
-                        RequestDocumentation.parameterWithName("targetId").description("Subscription Target Id"),
+                        RequestDocumentation.parameterWithName("componentId").description("구독 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("subscriberId").description("구독자 ID"),
+                        RequestDocumentation.parameterWithName("targetId").description("구독 대상 ID"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

@@ -1,6 +1,6 @@
 [cols="5%,30%,30%"]
 |===
-| Http status code | Error Code | Description
+| 상태값 | 에러 코드 | 설명
 | 400 | invalid_arguments | 
 | 400 | invalid_cursor | 
 | 400 | invalid_post_id | 

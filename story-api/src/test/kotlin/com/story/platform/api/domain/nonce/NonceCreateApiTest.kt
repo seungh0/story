@@ -81,17 +81,17 @@ class NonceCreateApiTest(
                     RestDocsUtils.authenticationHeaderDocumentation,
                     requestFields(
                         fieldWithPath("expirationSeconds").type(JsonFieldType.NUMBER)
-                            .description("Expiration Duration (seconds)")
+                            .description("유효 기간 (초 단위)")
                             .optional()
-                            .attributes(RestDocsUtils.remarks("Should be greater than 0 and less than or equal to 3600(1H). (default: 60, 1M)")),
+                            .attributes(RestDocsUtils.remarks("0보다 커야하고, 최대 3600(1시간)까지 사옹할 수 있습니다. [기본 값은 1분(60)입니다]")),
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         fieldWithPath("result.nonce")
-                            .type(JsonFieldType.STRING).description("Nonce"),
+                            .type(JsonFieldType.STRING).description("논스 토큰"),
                     )
                 )
             )

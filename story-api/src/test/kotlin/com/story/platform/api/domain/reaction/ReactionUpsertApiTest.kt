@@ -97,20 +97,20 @@ class ReactionUpsertApiTest(
                     pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
-                        parameterWithName("componentId").description("Component Id"),
-                        parameterWithName("spaceId").description("Space Id")
+                        parameterWithName("componentId").description("리액션 컴포넌트 ID"),
+                        parameterWithName("spaceId").description("리액션 공간 ID")
                     ),
                     requestFields(
                         fieldWithPath("emotions").type(JsonFieldType.ARRAY)
-                            .description("Reaction Emotions")
-                            .attributes(remarks("must be within 20 elements")),
+                            .description("리액션 이모션 목록")
+                            .attributes(remarks("최대 20개까지 등록할 수 있습니다")),
                         fieldWithPath("emotions[].emotionId").type(JsonFieldType.STRING)
-                            .description("Reaction Emotion id")
-                            .attributes(remarks("must be within 100 characters")),
+                            .description("이모션 ID")
+                            .attributes(remarks("최대 100자까지 사용할 수 있습니다")),
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

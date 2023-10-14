@@ -73,7 +73,7 @@ object RestDocsUtils {
         headerWithName(HttpHeader.X_REQUEST_ID.header).description("X-Request-Id")
             .attributes(remarks(UUID.randomUUID().toString()))
             .optional(),
-        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("Story Authentication Key"),
+        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("인증 키"),
     )
 
     val authenticationHeaderWithRequestAccountIdDocumentation = HeaderDocumentation.requestHeaders(
@@ -83,9 +83,8 @@ object RestDocsUtils {
         headerWithName(HttpHeader.X_REQUEST_ID.header).description("X-Request-Id")
             .attributes(remarks(UUID.randomUUID().toString()))
             .optional(),
-        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("Story Authentication Key"),
-        headerWithName(HttpHeader.X_STORY_REQUEST_ACCOUNT_ID.header)
-            .description("Request Account Id"),
+        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("인증 키"),
+        headerWithName(HttpHeader.X_STORY_REQUEST_ACCOUNT_ID.header).description("요청자의 계정 ID"),
     )
 
 }

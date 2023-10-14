@@ -2,8 +2,8 @@
 
 === About Component
 
-- You can create and manage components for a single resource as needed.
-- For example, through a subscription resource, you can add "Follow" and "Like" components to use.
+- 사용할 리소스(resources)를 관리하는 단위.
+- 예를 들어, 구독(subscriptionss) 리소스를 통해 "팔로우" 및 "좋아요" 컴포넌트(components)를 추가하여 사용할 수 있습니다.
 
 include::./component-create.adoc[]
 include::./component-modify.adoc[]

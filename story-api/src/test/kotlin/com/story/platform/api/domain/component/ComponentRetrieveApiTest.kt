@@ -21,6 +21,7 @@ import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDateTime
+import java.util.UUID
 
 @DocsTest
 @ApiTest(ComponentRetrieveApi::class)
@@ -51,7 +52,7 @@ class ComponentRetrieveApiTest(
         // given
         val resourceId = ResourceId.SUBSCRIPTIONS
         val componentId = "user-follow"
-        val description = "story user following system"
+        val description = "[Story Platform] 유저 팔로우 시스템"
         val status = ComponentStatus.ENABLED
 
         val component = ComponentApiResponse(
@@ -92,20 +93,20 @@ class ComponentRetrieveApiTest(
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         PayloadDocumentation.fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         PayloadDocumentation.fieldWithPath("result.componentId")
-                            .type(JsonFieldType.STRING).description("Component Id"),
+                            .type(JsonFieldType.STRING).description("컴포넌트 Id"),
                         PayloadDocumentation.fieldWithPath("result.status")
-                            .type(JsonFieldType.STRING).description("Component Status")
+                            .type(JsonFieldType.STRING).description("컴포넌트 상태 값")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
                         PayloadDocumentation.fieldWithPath("result.description")
-                            .type(JsonFieldType.STRING).description("Component Description"),
+                            .type(JsonFieldType.STRING).description("컴포넌트에 대한 설명"),
                         PayloadDocumentation.fieldWithPath("result.createdAt")
-                            .type(JsonFieldType.STRING).description("CreatedAt"),
+                            .type(JsonFieldType.STRING).description("컴포넌트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.updatedAt")
-                            .type(JsonFieldType.STRING).description("UpdatedAt"),
+                            .type(JsonFieldType.STRING).description("컴포넌트 최근 수정 일자"),
                     )
                 )
             )
@@ -115,9 +116,9 @@ class ComponentRetrieveApiTest(
         // given
         val resourceId = ResourceId.SUBSCRIPTIONS
         val componentId = "user-follow"
-        val description = "story user following system"
+        val description = "[Story Platform] 유저 팔로우 시스템"
         val status = ComponentStatus.ENABLED
-        val cursor = "cursor"
+        val cursor = UUID.randomUUID().toString()
         val pageSize = 10
 
         val component = ComponentApiResponse(
@@ -137,7 +138,7 @@ class ComponentRetrieveApiTest(
         } returns ComponentListApiResponse(
             components = listOf(component),
             cursor = Cursor(
-                nextCursor = "nextCursor",
+                nextCursor = UUID.randomUUID().toString(),
                 hasNext = true,
             )
         )
@@ -162,39 +163,40 @@ class ComponentRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
+                        RequestDocumentation.parameterWithName("resourceId").description("리소스 ID"),
                     ),
                     RequestDocumentation.queryParameters(
-                        RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()
-                            .attributes(RestDocsUtils.remarks("first cursor is null")),
-                        RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 50")),
+                        RequestDocumentation.parameterWithName("cursor").description("페이지 커서").optional()
+                            .attributes(RestDocsUtils.remarks("첫 페이지의 경우 null")),
+                        RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
+                            .attributes(RestDocsUtils.remarks("최대 50개까지만 허용")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         PayloadDocumentation.fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         PayloadDocumentation.fieldWithPath("result.components")
-                            .type(JsonFieldType.ARRAY).description("component list"),
+                            .type(JsonFieldType.ARRAY).description("컴포넌트 목록"),
                         PayloadDocumentation.fieldWithPath("result.components[].componentId")
-                            .type(JsonFieldType.STRING).description("Component Id"),
+                            .type(JsonFieldType.STRING).description("컴포넌트 Id"),
                         PayloadDocumentation.fieldWithPath("result.components[].status")
-                            .type(JsonFieldType.STRING).description("Component Status")
+                            .type(JsonFieldType.STRING).description("컴포넌트 상태 값")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
                         PayloadDocumentation.fieldWithPath("result.components[].description")
-                            .type(JsonFieldType.STRING).description("Component Description"),
+                            .type(JsonFieldType.STRING).description("컴포넌트에 대한 설명"),
                         PayloadDocumentation.fieldWithPath("result.components[].createdAt")
-                            .type(JsonFieldType.STRING).description("CreatedAt"),
+                            .type(JsonFieldType.STRING).description("컴포넌트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.components[].updatedAt")
-                            .type(JsonFieldType.STRING).description("UpdatedAt"),
+                            .type(JsonFieldType.STRING).description("컴포넌트 최근 수정 일자"),
                         PayloadDocumentation.fieldWithPath("result.cursor")
-                            .type(JsonFieldType.OBJECT).description("Page Cursor"),
+                            .type(JsonFieldType.OBJECT).description("페이지 커서 정보"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
-                            .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("Next Page Cursor").optional(),
+                            .type(JsonFieldType.STRING).description("다음 페이지를 조회하기 위한 커서")
+                            .attributes(RestDocsUtils.remarks("다음 페이지가 없는 경우 null"))
+                            .optional(),
                         PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("Has More Page (next direction)"),
+                            .type(JsonFieldType.BOOLEAN).description("다음 페이지의 존재 여부)"),
                     )
                 )
             )

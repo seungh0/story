@@ -2,15 +2,18 @@
 
 === About Nonce
 
-"Nonce" is an arbitrary value used to prevent duplicate calls, and it can be optionally employed in idempotent APIs.
+- "Nonce"란, 중복 호출을 방지하는 데 사용되는 임의의 값으로, 멱등성이 없는 API에서 선택적으로 사용할 수 있습니다.
 
-1. Obtain a nonce from the Nonce Create API.
-2. Make an API call with the nonce.
+==== Nonce 사용 방법
 
-==== Nonce Policy
+- Nonce Create API에서 Nonce 값을 가져옵니다.
+- 생성된 Nonce 토큰를 파라미터로 함께 사용할 API를 호출합니다.
 
-1. "It is valid for the duration specified by the 'expirationSeconds' parameter requested."
-2. Should be assigned once and used only once
-- Otherwise, it will fail with 'invalid_nonce' error
+==== Nonce 정책
+
+- Nonce는 "expirationSeconds"로 설정한 기간 동안만 유효합니다.
+- Nonce는 한 번 할당되고 한 번만 사용할 수 있습니다.
+
+위를 만족하지 않는 경우 'invalid_nonce' 에러가 발생합니다.
 
 include::./nonce-create.adoc[]

@@ -14,7 +14,6 @@ data class SubscriptionEvent(
     val subscriberId: String,
     val targetId: String,
     val createdAt: LocalDateTime?,
-    val updatedAt: LocalDateTime?,
 ) : BaseEvent {
 
     companion object {
@@ -24,7 +23,6 @@ data class SubscriptionEvent(
             subscriberId: String,
             targetId: String,
             createdAt: LocalDateTime,
-            updatedAt: LocalDateTime,
         ) = EventRecord(
             eventAction = EventAction.CREATED,
             eventKey = EventKeyGenerator.subscription(subscriberId = subscriberId, targetId = targetId),
@@ -35,7 +33,6 @@ data class SubscriptionEvent(
                 subscriberId = subscriberId,
                 targetId = targetId,
                 createdAt = createdAt,
-                updatedAt = updatedAt,
             )
         )
 
@@ -54,7 +51,6 @@ data class SubscriptionEvent(
                 subscriberId = subscriberId,
                 targetId = targetId,
                 createdAt = null,
-                updatedAt = null,
             )
         )
     }

@@ -59,10 +59,14 @@ class PostModifyApiTest(
         val spaceId = "user-space-id"
 
         val request = PostModifyApiRequest(
-            title = "Post Title",
+            title = "플랫폼 정보",
             content = """
-                    Post Content1
-                    Post Content2
+                   1. 스토리 플랫폼(Story Platform)이란?
+                   - "스토리 플랫폼"은 비즈니스를 위한 서비스를 쉽게 개발할 수 있도록 컴포넌트 플랫폼을 제공합니다.
+
+                   2. 누구를 위한 플랫폼 인가요?
+                   - 제품을 신속하게 출시하고 시장 응답을 확인하고자 하는 스타트업 또는 팀.
+                   - 서버 개발과 관리의 비용과 수고를 들이지 않고 비즈니스를 위한 서비스를 만들고자 하는 개인 또는 팀.
             """.trimIndent(),
         )
 
@@ -106,21 +110,21 @@ class PostModifyApiTest(
                     pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
-                        parameterWithName("componentId").description("Component Id"),
-                        parameterWithName("spaceId").description("Space Id"),
-                        parameterWithName("postId").description("Post Id")
+                        parameterWithName("componentId").description("컴포넌트 ID"),
+                        parameterWithName("spaceId").description("포스트 공간 ID"),
+                        parameterWithName("postId").description("포스트 ID"),
                     ),
                     requestFields(
                         fieldWithPath("title").type(JsonFieldType.STRING)
-                            .description("Post Title")
-                            .attributes(remarks("must be within 100 characters")),
+                            .description("포스트 제목")
+                            .attributes(remarks("최대 100자까지 사용할 수 있습니다")),
                         fieldWithPath("content").type(JsonFieldType.STRING)
-                            .description("Post content")
-                            .attributes(remarks("must be within 500 characters")),
+                            .description("포스트 내용")
+                            .attributes(remarks("최대 500자까지 사용할 수 있습니다")),
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

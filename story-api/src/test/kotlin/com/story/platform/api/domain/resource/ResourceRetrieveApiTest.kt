@@ -64,20 +64,20 @@ class ResourceRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.queryParameters(
-                        RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 50")),
+                        RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
+                            .attributes(RestDocsUtils.remarks("최대 50개까지만 허용합니다")),
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         fieldWithPath("result.resources[]")
-                            .type(JsonFieldType.ARRAY).description("resources"),
+                            .type(JsonFieldType.ARRAY).description("리소스 목록"),
                         fieldWithPath("result.resources[].resourceId")
-                            .type(JsonFieldType.STRING).description("Resource Id"),
+                            .type(JsonFieldType.STRING).description("리소스 ID"),
                         fieldWithPath("result.resources[].description")
-                            .type(JsonFieldType.STRING).description("Resource Description"),
+                            .type(JsonFieldType.STRING).description("리소스에 대한 설명"),
                     )
                 )
             )

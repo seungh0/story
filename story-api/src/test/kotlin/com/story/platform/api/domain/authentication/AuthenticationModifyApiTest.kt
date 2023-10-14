@@ -37,7 +37,7 @@ class AuthenticationModifyApiTest(
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
             workspaceId = "story",
-            authenticationKey = "api-key",
+            authenticationKey = UUID.randomUUID().toString(),
             status = AuthenticationStatus.ENABLED,
             description = "",
         )
@@ -47,7 +47,7 @@ class AuthenticationModifyApiTest(
     "인증 키에 대한 정보를 변경합니다" {
         // given
         val authenticationKey = UUID.randomUUID().toString()
-        val description = "story platform api key"
+        val description = "Story Platform에서 사용할 인증 키"
         val status = AuthenticationStatus.ENABLED
 
         val request = AuthenticationModifyApiRequest(
@@ -84,21 +84,21 @@ class AuthenticationModifyApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("authenticationKey").description("Authentication Key"),
+                        RequestDocumentation.parameterWithName("authenticationKey").description("인증 키"),
                     ),
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("Authentication Description")
-                            .attributes(RestDocsUtils.remarks("must be within 300 characters"))
+                            .description("인증 정보에 대한 설명")
+                            .attributes(RestDocsUtils.remarks("최대 300자까지 사용할 수 있습니다"))
                             .optional(),
                         PayloadDocumentation.fieldWithPath("status").type(JsonFieldType.STRING)
-                            .description("Authentication Status")
+                            .description("인증 키에 대한 상태 값")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationStatus::class.java)))
                             .optional(),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

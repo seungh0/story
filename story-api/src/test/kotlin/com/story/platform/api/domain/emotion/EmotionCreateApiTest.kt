@@ -98,17 +98,17 @@ class EmotionCreateApiTest(
                     ),
                     authenticationHeaderDocumentation,
                     pathParameters(
-                        parameterWithName("resourceId").description("Resource Id"),
-                        parameterWithName("componentId").description("Component Id"),
-                        parameterWithName("emotionId").description("Emotion Id"),
+                        parameterWithName("resourceId").description("리소스 ID"),
+                        parameterWithName("componentId").description("컴포넌트 ID"),
+                        parameterWithName("emotionId").description("이모션 ID"),
                     ),
                     requestFields(
                         fieldWithPath("image").type(JsonFieldType.STRING)
-                            .description("Emotion Image"),
+                            .description("이모션 이미지"),
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

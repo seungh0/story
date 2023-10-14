@@ -51,7 +51,7 @@ class ComponentCreateApiTest(
         // given
         val resourceId = ResourceId.SUBSCRIPTIONS
         val componentId = "user-follow"
-        val description = "story user following system"
+        val description = "[Story Platform] 유저 팔로우 시스템"
 
         val request = ComponentCreateApiRequest(
             description = description,
@@ -90,18 +90,18 @@ class ComponentCreateApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
-                        RequestDocumentation.parameterWithName("componentId").description("Component Id"),
+                        RequestDocumentation.parameterWithName("resourceId").description("리소스 ID"),
+                        RequestDocumentation.parameterWithName("componentId").description("컴포넌트 ID"),
                     ),
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("Component Description")
-                            .attributes(RestDocsUtils.remarks("must be within 300 characters"))
+                            .description("컴포넌트에 대한 설명")
+                            .attributes(RestDocsUtils.remarks("최대 300자까지 사용할 수 있습니다"))
                             .optional(),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

@@ -11,7 +11,7 @@ endif::[]
 == link:../index.html[> Back to Home]
 
 [[introduction]]
-= REST API Documentation
+= REST API 연동 문서
 
 include::./common.adoc[]
 

@@ -20,7 +20,7 @@ internal class ErrorCodeDocsGeneratorTest : FunSpec({
         var asciidoctorText = """
             [cols="5%,30%,30%"]
             |===
-            | Http status code | Error Code | Description
+            | 상태값 | 에러 코드 | 설명
 
         """.trimIndent()
 

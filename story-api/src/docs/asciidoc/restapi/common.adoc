@@ -1,6 +1,6 @@
-== Common Documentation
+== 공통 정보
 
-=== API Response Model
+=== API 응답 모델
 
 ==== Response Body
 
@@ -64,10 +64,10 @@ Content-Type: application/json
 }
 ----
 
-=== Http Headers
+=== HTTP 헤더 정보
 
 include::./header.adoc[]
 
-=== Error Codes
+=== 에러 코드
 
 include::./error.adoc[]

@@ -92,13 +92,13 @@ class PostRemoveApiTest(
                     pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
-                        parameterWithName("componentId").description("Component Id"),
-                        parameterWithName("spaceId").description("Space Id"),
-                        parameterWithName("postId").description("Post Id")
+                        parameterWithName("componentId").description("컴포넌트 ID"),
+                        parameterWithName("spaceId").description("포스트 공간 ID"),
+                        parameterWithName("postId").description("포스트 ID"),
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok")
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부")
                     )
                 )
             )

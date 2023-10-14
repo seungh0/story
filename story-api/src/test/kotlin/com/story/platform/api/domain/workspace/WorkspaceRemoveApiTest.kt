@@ -39,7 +39,7 @@ class WorkspaceRemoveApiTest(
             workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
-            description = "",
+            description = "Story Platform",
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
@@ -73,11 +73,11 @@ class WorkspaceRemoveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("workspaceId").description("Workspace Id"),
+                        RequestDocumentation.parameterWithName("workspaceId").description("워크스페이스 ID"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok")
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부")
                     )
                 )
             )

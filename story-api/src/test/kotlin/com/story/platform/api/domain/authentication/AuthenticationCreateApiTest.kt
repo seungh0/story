@@ -38,7 +38,7 @@ class AuthenticationCreateApiTest(
     beforeEach {
         coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
             workspaceId = "story",
-            authenticationKey = "api-key",
+            authenticationKey = UUID.randomUUID().toString(),
             status = AuthenticationStatus.ENABLED,
             description = "",
         )
@@ -48,7 +48,7 @@ class AuthenticationCreateApiTest(
     "신규 인증 키를 등록합니다" {
         // given
         val authenticationKey = UUID.randomUUID().toString()
-        val description = "story platform api key"
+        val description = "Story Platform에서 사용할 인증 키"
 
         val request = AuthenticationCreateApiRequest(
             description = description,
@@ -82,17 +82,17 @@ class AuthenticationCreateApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("authenticationKey").description("Authentication Key"),
+                        RequestDocumentation.parameterWithName("authenticationKey").description("인증 키"),
                     ),
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("Authentication Description")
-                            .attributes(remarks("must be within 300 characters"))
+                            .description("인증 정보에 대한 설명")
+                            .attributes(remarks("최대 300자까지 사용할 수 있습니다"))
                             .optional(),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

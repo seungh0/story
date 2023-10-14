@@ -39,7 +39,7 @@ class WorkspaceRetrieveApiTest(
             workspaceId = "story",
             authenticationKey = "api-key",
             status = AuthenticationStatus.ENABLED,
-            description = "",
+            description = "Story Platform",
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }
@@ -48,7 +48,7 @@ class WorkspaceRetrieveApiTest(
         // given
         val workspace = WorkspaceFixture.create(
             workspaceId = "story",
-            name = "story's platform",
+            name = "Story Platform",
             status = WorkspaceStatus.ENABLED,
         )
 
@@ -76,19 +76,19 @@ class WorkspaceRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("workspaceId").description("Workspace Id"),
+                        RequestDocumentation.parameterWithName("workspaceId").description("워크스페이스 ID"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         PayloadDocumentation.fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         PayloadDocumentation.fieldWithPath("result.workspaceId")
-                            .type(JsonFieldType.STRING).description("Workspace Id"),
+                            .type(JsonFieldType.STRING).description("워크스페이스 ID"),
                         PayloadDocumentation.fieldWithPath("result.name")
-                            .type(JsonFieldType.STRING).description("Workspace Name"),
+                            .type(JsonFieldType.STRING).description("워크스페이스의 이름"),
                         PayloadDocumentation.fieldWithPath("result.plan")
-                            .type(JsonFieldType.STRING).description("Workspace Plan")
+                            .type(JsonFieldType.STRING).description("워크스페이스의 사용 플랜")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(WorkspacePricePlan::class.java))),
                     )
                 )

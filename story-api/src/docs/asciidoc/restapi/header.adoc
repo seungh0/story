@@ -1,6 +1,6 @@
 [cols="5%,30%,30%"]
 |===
-| Http Header | Description | Example
+| Http Header | 설명 | 예시
 | X-Story-Api-Key | Authentication Key | authentication-key
 | X-Request-Id | Request-Id | request-id
 | X-Forwarded-For | X-Forwarded-For | 127.0.0.1

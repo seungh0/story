@@ -38,7 +38,6 @@ class SubscriptionEventProducer(
             subscriberId = subscriberId,
             targetId = targetId,
             createdAt = now,
-            updatedAt = now,
         )
 
         eventHistoryManager.withSaveEventHistory(

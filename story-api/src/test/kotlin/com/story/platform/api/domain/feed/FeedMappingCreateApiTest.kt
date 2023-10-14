@@ -54,7 +54,7 @@ class FeedMappingCreateApiTest(
         val subscriptionComponentId = "user-follow"
 
         val request = FeedMappingCreateApiRequest(
-            description = "feed connect [user timeline -> user follow]"
+            description = "유저 포스트가 생성되면 유저를 팔로워 한 구독자들의 타임라인 피드에 발행한다"
         )
 
         coEvery {
@@ -91,21 +91,20 @@ class FeedMappingCreateApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("feedComponentId").description("Feed Component Id"),
-                        RequestDocumentation.parameterWithName("sourceResourceId").description("Source Resource Id"),
-                        RequestDocumentation.parameterWithName("sourceComponentId").description("Source Component Id"),
-                        RequestDocumentation.parameterWithName("subscriptionComponentId")
-                            .description("Target Subscription Component Id"),
+                        RequestDocumentation.parameterWithName("feedComponentId").description("피드 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("sourceResourceId").description("근원 리소스 ID"),
+                        RequestDocumentation.parameterWithName("sourceComponentId").description("근원 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("subscriptionComponentId").description("발행할 구독 컴포넌트 ID"),
                     ),
                     PayloadDocumentation.requestFields(
                         PayloadDocumentation.fieldWithPath("description").type(JsonFieldType.STRING)
-                            .description("description")
-                            .attributes(remarks("must be within 300 characters"))
+                            .description("피드에 대한 설명")
+                            .attributes(remarks("최대 300자까지 사용할 수 있습니다"))
                             .optional(),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                     )
                 )
             )

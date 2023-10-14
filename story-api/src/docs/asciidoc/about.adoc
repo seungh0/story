@@ -1,10 +1,10 @@
-== About Platform
+== 플랫폼 정보
 
-=== 1. What is Story Platform?
+=== 1. 스토리 플랫폼(Story Platform)이란?
 
-"Story Platform" provides a component platform to enable you to easily develop your business services.
+"스토리 플랫폼"은 비즈니스를 위한 서비스를 쉽게 개발할 수 있도록 컴포넌트 플랫폼을 제공합니다.
 
-=== 2. Who should use it?
+=== 2. 누구를 위한 플랫폼 인가요?
 
-1. Startups or teams who want to quickly launch their products and validate market response.
-2. Individuals or teams who want to create their own business services without the cost and hassle of server development and management.
+1. 제품을 신속하게 출시하고 시장 응답을 확인하고자 하는 스타트업 또는 팀.
+2. 서버 개발과 관리의 비용과 수고를 들이지 않고 비즈니스를 위한 서비스를 만들고자 하는 개인 또는 팀.

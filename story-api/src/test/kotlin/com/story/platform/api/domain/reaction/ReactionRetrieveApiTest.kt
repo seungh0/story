@@ -122,26 +122,27 @@ class ReactionRetrieveApiTest(
                     ),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
-                        parameterWithName("componentId").description("Reaction Component Id"),
-                        parameterWithName("spaceId").description("Reaction Space Id"),
+                        parameterWithName("componentId").description("리액션 컴포넌트 Id"),
+                        parameterWithName("spaceId").description("리액션 공간 Id")
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         fieldWithPath("result.spaceId")
-                            .type(JsonFieldType.STRING).description("Reaction Space Id"),
+                            .type(JsonFieldType.STRING).description("리액션 공간 Id"),
                         fieldWithPath("result.emotions")
-                            .type(JsonFieldType.ARRAY).description("Reaction Emotions"),
+                            .type(JsonFieldType.ARRAY).description("리액션에 등록된 이모션 목록"),
                         fieldWithPath("result.emotions[].emotionId")
-                            .type(JsonFieldType.STRING).description("Reaction Emotion Id"),
+                            .type(JsonFieldType.STRING).description("이모션 ID"),
                         fieldWithPath("result.emotions[].image")
-                            .type(JsonFieldType.STRING).description("Reaction Emotion Image"),
+                            .type(JsonFieldType.STRING).description("이모션 이미지"),
                         fieldWithPath("result.emotions[].count")
-                            .type(JsonFieldType.NUMBER).description("Reaction Emotion selected count"),
+                            .type(JsonFieldType.NUMBER).description("이모션 선택 횟수"),
                         fieldWithPath("result.emotions[].reactedByMe")
-                            .type(JsonFieldType.BOOLEAN).description("Whether account reacted to reaction emotion"),
+                            .type(JsonFieldType.BOOLEAN).description("요청자의 이모션 선택 여부")
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
                     )
                 )
             )
@@ -249,30 +250,31 @@ class ReactionRetrieveApiTest(
                     ),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
-                        parameterWithName("componentId").description("Reaction Component Id"),
+                        parameterWithName("componentId").description("리액션 컴포넌트 ID"),
                     ),
                     relaxedQueryParameters(
-                        parameterWithName("spaceIds").description("Reaction Space Ids"),
+                        parameterWithName("spaceIds").description("리액션 공간 ID 목록"),
                     ),
                     responseFields(
                         fieldWithPath("ok")
-                            .type(JsonFieldType.BOOLEAN).description("ok"),
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         fieldWithPath("result")
-                            .type(JsonFieldType.OBJECT).description("result"),
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
                         fieldWithPath("result.reactions")
-                            .type(JsonFieldType.ARRAY).description("Reactions"),
+                            .type(JsonFieldType.ARRAY).description("리액션 목록"),
                         fieldWithPath("result.reactions[].spaceId")
-                            .type(JsonFieldType.STRING).description("Reaction Space Id"),
+                            .type(JsonFieldType.STRING).description("리액션 공간 Id"),
                         fieldWithPath("result.reactions[].emotions")
-                            .type(JsonFieldType.ARRAY).description("Reaction Emotions"),
+                            .type(JsonFieldType.ARRAY).description("리액션에 등록된 이모션 목록"),
                         fieldWithPath("result.reactions[].emotions[].emotionId")
-                            .type(JsonFieldType.STRING).description("Reaction Emotion Id"),
+                            .type(JsonFieldType.STRING).description("이모션 Id"),
                         fieldWithPath("result.reactions[].emotions[].image")
-                            .type(JsonFieldType.STRING).description("Reaction Emotion Image"),
+                            .type(JsonFieldType.STRING).description("이모션 이미지"),
                         fieldWithPath("result.reactions[].emotions[].count")
-                            .type(JsonFieldType.NUMBER).description("Reaction Emotion selected count"),
+                            .type(JsonFieldType.NUMBER).description("이모션 선택 횟수"),
                         fieldWithPath("result.reactions[].emotions[].reactedByMe")
-                            .type(JsonFieldType.BOOLEAN).description("Whether account reacted to reaction emotion"),
+                            .type(JsonFieldType.BOOLEAN).description("요청자의 이모션 선택 여부")
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
                     )
                 )
             )

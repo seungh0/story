@@ -12,14 +12,14 @@ endif::[]
 
 include::./about.adoc[]
 
-== Integration Documentation
+== 연동 문서
 
-We provide the following integration methods:
+다음과 같은 연동 방법을 제공합니다:
 
 === REST API
 
-- link:./restapi/index.html[REST API Documentation]
+link:./restapi/index.html[REST API 문서]
 
 === SDK
 
-- Support scheduled
+- 지원 예정

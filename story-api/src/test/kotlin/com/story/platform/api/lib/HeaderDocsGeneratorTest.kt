@@ -20,7 +20,7 @@ internal class HeaderDocsGeneratorTest : FunSpec({
         var asciidoctorText = """
             [cols="5%,30%,30%"]
             |===
-            | Http Header | Description | Example
+            | Http Header | 설명 | 예시
 
         """.trimIndent()
 
