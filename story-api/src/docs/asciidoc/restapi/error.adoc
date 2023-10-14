@@ -2,15 +2,15 @@
 |===
 | 상태값 | 에러 코드 | 설명
 | 400 | invalid_arguments | 필수 파라미터가 없거나, 파라미터가 유효하지 않는 경우
-| 400 | invalid_cursor | 유효하지 않은 커서가 요청된 경우
-| 400 | invalid_post_id | 유효하지 않은 포스트 ID가 요청된 경우
+| 400 | invalid_cursor | 유효하지 않은 커서인 경우
+| 400 | invalid_post_id | 유효하지 않은 포스트 ID인 경우
 | 400 | inactivated_workspace | 비활성화된 워크스페이스인 경우
 | 400 | invalid_nonce | 유효하지 않은 Nonce인 경우
 | 400 | invalid_post_sort_by | 유효하지 않은 포스트 정렬 방식인 경우
-| 400 | missing_request_account_id | 요청자(X-Request-Account-Id) 헤더가 없는 경우
+| 400 | missing_request_account_id | 요청자("X-Request-Account-Id") 헤더가 없는 경우
 | 401 | invalid_authentication_key | 유효하지 않은 인증 키가 요청된 경우
 | 401 | inactivated_authentication_key | 비활성화된 인증 키가 요청된 경우
-| 401 | empty_authentication_key | 인증 키 헤더(X-Story-Api-Key)가 없는 경우
+| 401 | empty_authentication_key | 인증 키 헤더("X-Story-Api-Key")가 없는 경우
 | 403 | no_permission | 권한이 없는 경우
 | 403 | feed_mapping_capacity_exceed | 최대 허용할 수 있는 피드 매핑 갯수를 초과하는 경우
 | 403 | workspace_no_permission | 워크스페이스의 권한이 없는 경우
@@ -25,7 +25,7 @@
 | 405 | method_not_allowed | 허용하지 않는 HTTP Method인 경우
 | 409 | already_exists_authentication_key | 인증 키 중복 시
 | 409 | already_exists_component | 컴포넌트 중복 시
-| 409 | already_connected_feed_mapping | 피드 매핑 중복 시 발생
+| 409 | already_connected_feed_mapping | 피드 매핑 중복 시
 | 409 | already_exists_emotion | 이모션 중복 시
 | 429 | too_many_request | 일시적으로 제한을 넘어서서 요청 시
 | 500 | internal_error | 서버 내부적으로 문제 발생 시

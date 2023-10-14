@@ -11,17 +11,27 @@
 | `ok`
 | Boolean
 | Y
-| Success(true), Fail(false)
+| 성공(true), 실패(false)
 
 | `result`
 | Object
 | N
-| Api Result
+| API 결과
 
 | `error`
 | String
 | N
-| Error Code
+| 에러 코드 ("에러 코드 참고")
+
+| `reasons`
+| Array<String>
+| N
+| 에러 추가 설명 목록 (debug 용)
+
+| `warnings`
+| Array<String>
+| N
+| 워닝 목록
 |===
 
 ==== API Success Example
