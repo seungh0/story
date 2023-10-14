@@ -12,6 +12,7 @@ import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
+import com.story.platform.core.domain.emotion.EmotionResponse
 import com.story.platform.core.domain.reaction.ReactionEmotionResponse
 import com.story.platform.core.domain.reaction.ReactionResponse
 import io.kotest.core.spec.style.FunSpec
@@ -72,15 +73,25 @@ class ReactionRetrieveApiTest(
                 spaceId = spaceId,
                 emotions = listOf(
                     ReactionEmotionResponse(
-                        emotionId = "1",
+                        emotionId = "emotion-1",
                         count = 10500,
                         reactedByMe = true,
                     ),
                     ReactionEmotionResponse(
-                        emotionId = "2",
+                        emotionId = "emotion-2",
                         count = 3500,
                         reactedByMe = false,
                     )
+                )
+            ),
+            emotions = mapOf(
+                "emotion-1" to EmotionResponse(
+                    emotionId = "emotion-1",
+                    image = "\uD83D\uDE21"
+                ),
+                "emotion-2" to EmotionResponse(
+                    emotionId = "emotion-2",
+                    image = "\uD83E\uDEE4"
                 )
             )
         )
@@ -123,6 +134,8 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.ARRAY).description("Reaction Emotions"),
                         fieldWithPath("result.emotions[].emotionId")
                             .type(JsonFieldType.STRING).description("Reaction Emotion Id"),
+                        fieldWithPath("result.emotions[].image")
+                            .type(JsonFieldType.STRING).description("Reaction Emotion Image"),
                         fieldWithPath("result.emotions[].count")
                             .type(JsonFieldType.NUMBER).description("Reaction Emotion selected count"),
                         fieldWithPath("result.emotions[].reactedByMe")
@@ -166,6 +179,16 @@ class ReactionRetrieveApiTest(
                             )
                         )
                     ),
+                    emotions = mapOf(
+                        "emotion-1" to EmotionResponse(
+                            emotionId = "emotion-1",
+                            image = "\uD83D\uDE21"
+                        ),
+                        "emotion-2" to EmotionResponse(
+                            emotionId = "emotion-2",
+                            image = "\uD83E\uDEE4"
+                        )
+                    )
                 ),
                 ReactionApiResponse.of(
                     reaction = ReactionResponse(
@@ -183,6 +206,16 @@ class ReactionRetrieveApiTest(
                                 count = 1000,
                                 reactedByMe = true,
                             )
+                        )
+                    ),
+                    emotions = mapOf(
+                        "emotion-1" to EmotionResponse(
+                            emotionId = "emotion-1",
+                            image = "\uD83D\uDE21"
+                        ),
+                        "emotion-2" to EmotionResponse(
+                            emotionId = "emotion-2",
+                            image = "\uD83E\uDEE4"
                         )
                     )
                 )
@@ -230,6 +263,8 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.ARRAY).description("Reaction Emotions"),
                         fieldWithPath("result.reactions[].emotions[].emotionId")
                             .type(JsonFieldType.STRING).description("Reaction Emotion Id"),
+                        fieldWithPath("result.reactions[].emotions[].image")
+                            .type(JsonFieldType.STRING).description("Reaction Emotion Image"),
                         fieldWithPath("result.reactions[].emotions[].count")
                             .type(JsonFieldType.NUMBER).description("Reaction Emotion selected count"),
                         fieldWithPath("result.reactions[].emotions[].reactedByMe")

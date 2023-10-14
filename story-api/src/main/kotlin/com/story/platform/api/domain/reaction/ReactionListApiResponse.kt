@@ -1,5 +1,6 @@
 package com.story.platform.api.domain.reaction
 
+import com.story.platform.core.domain.emotion.EmotionResponse
 import com.story.platform.core.domain.reaction.ReactionResponse
 
 data class ReactionListApiResponse(
@@ -7,8 +8,8 @@ data class ReactionListApiResponse(
 ) {
 
     companion object {
-        fun of(reactions: List<ReactionResponse>) = ReactionListApiResponse(
-            reactions = reactions.map { reaction -> ReactionApiResponse.of(reaction = reaction) }
+        fun of(reactions: List<ReactionResponse>, emotions: Map<String, EmotionResponse>) = ReactionListApiResponse(
+            reactions = reactions.map { reaction -> ReactionApiResponse.of(reaction = reaction, emotions = emotions) }
         )
     }
 

@@ -2,6 +2,8 @@ package com.story.platform.api.domain.reaction
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.annotation.HandlerAdapter
+import com.story.platform.core.common.utils.mapToSet
+import com.story.platform.core.domain.emotion.EmotionRetriever
 import com.story.platform.core.domain.reaction.ReactionRetriever
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -9,6 +11,7 @@ import com.story.platform.core.domain.resource.ResourceId
 class ReactionRetrieveHandler(
     private val reactionRetriever: ReactionRetriever,
     private val componentCheckHandler: ComponentCheckHandler,
+    private val emotionRetriever: EmotionRetriever,
 ) {
 
     suspend fun getReaction(
@@ -30,7 +33,14 @@ class ReactionRetrieveHandler(
             requestAccountId = requestAccountId,
         )
 
-        return ReactionApiResponse.of(reaction = reaction)
+        val emotions = emotionRetriever.listEmotions(
+            workspaceId = workspaceId,
+            resourceId = ResourceId.REACTIONS,
+            componentId = componentId,
+            emotionIds = reaction.emotions.mapToSet { emotion -> emotion.emotionId }
+        )
+
+        return ReactionApiResponse.of(reaction = reaction, emotions = emotions)
     }
 
     suspend fun listReactions(
@@ -52,7 +62,18 @@ class ReactionRetrieveHandler(
             requestAccountId = requestAccountId,
         )
 
-        return ReactionListApiResponse.of(reactions = reactions)
+        val emotionIds = reactions.asSequence()
+            .flatMap { reaction -> reaction.emotions.map { emotion -> emotion.emotionId } }
+            .toSet()
+
+        val emotions = emotionRetriever.listEmotions(
+            workspaceId = workspaceId,
+            resourceId = ResourceId.REACTIONS,
+            componentId = componentId,
+            emotionIds = emotionIds,
+        )
+
+        return ReactionListApiResponse.of(reactions = reactions, emotions = emotions)
     }
 
 }

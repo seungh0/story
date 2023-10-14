@@ -14,4 +14,11 @@ interface EmotionRepository : CoroutineCrudRepository<Emotion, EmotionPrimaryKey
         pageable: Pageable,
     ): Flow<Emotion>
 
+    fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdAndKeyEmotionIdIn(
+        workspaceId: String,
+        resourceId: ResourceId,
+        componentId: String,
+        emotionIds: Collection<String>,
+    ): Flow<Emotion>
+
 }

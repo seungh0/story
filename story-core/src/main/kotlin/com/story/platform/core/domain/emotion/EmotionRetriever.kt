@@ -36,7 +36,23 @@ class EmotionRetriever(
         }
     }
 
-    suspend fun listEnabledEmotions(
+    suspend fun listEmotions(
+        workspaceId: String,
+        resourceId: ResourceId,
+        componentId: String,
+        emotionIds: Set<String>,
+    ): Map<String, EmotionResponse> {
+        val emotions = emotionRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdAndKeyEmotionIdIn(
+            workspaceId = workspaceId,
+            resourceId = resourceId,
+            componentId = componentId,
+            emotionIds = emotionIds,
+        ).toList()
+        return emotions.associateBy { emotion -> emotion.key.emotionId }
+            .mapValues { emotion -> EmotionResponse.of(emotion.value) }
+    }
+
+    suspend fun listEmotions(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,

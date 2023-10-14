@@ -22,7 +22,7 @@ class EmotionRetrieveHandler(
             componentId = componentId,
         )
 
-        val emotions = emotionRetriever.listEnabledEmotions(
+        val emotions = emotionRetriever.listEmotions(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
