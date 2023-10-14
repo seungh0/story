@@ -1,8 +1,10 @@
 package com.story.platform.core.domain.emotion
 
+import com.story.platform.core.common.model.AuditingTime
 import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
+import org.springframework.data.cassandra.core.mapping.Embedded
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
@@ -12,8 +14,25 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class Emotion(
     @field:PrimaryKey
     val key: EmotionPrimaryKey,
-    val image: String,
+    var image: String,
+
+    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    val auditingTime: AuditingTime,
 ) {
+
+    fun patch(
+        image: String?,
+    ): Boolean {
+        var hasChanged = false
+        if (image != null) {
+            hasChanged = hasChanged || this.image != image
+            this.image = image
+        }
+
+        this.auditingTime.updated()
+
+        return hasChanged
+    }
 
     companion object {
         fun of(
@@ -30,6 +49,7 @@ data class Emotion(
                 emotionId = emotionId,
             ),
             image = image,
+            auditingTime = AuditingTime.created(),
         )
     }
 

@@ -12,7 +12,6 @@ import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
-import com.story.platform.core.domain.emotion.EmotionPolicy.EMOTION_MAX_COUNT_PER_COMPONENT
 import com.story.platform.core.domain.resource.ResourceId
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
@@ -27,12 +26,12 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(EmotionCreateApi::class)
-class EmotionCreateApiTest(
+@ApiTest(EmotionModifyApi::class)
+class EmotionModifyApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val emotionCreateHandler: EmotionCreateHandler,
+    private val emotionModifyHandler: EmotionModifyHandler,
 
     @MockkBean
     private val authenticationHandler: AuthenticationHandler,
@@ -57,12 +56,12 @@ class EmotionCreateApiTest(
         val componentId = "post-sticker"
         val emotionId = "emotion-id"
 
-        val request = EmotionCreateApiRequest(
+        val request = EmotionModifyApiRequest(
             image = "\uD83D\uDE49",
         )
 
         coEvery {
-            emotionCreateHandler.createEmotion(
+            emotionModifyHandler.modifyEmotion(
                 workspaceId = "story",
                 resourceId = resourceId,
                 componentId = componentId,
@@ -72,7 +71,7 @@ class EmotionCreateApiTest(
         } returns Unit
 
         // when
-        val exchange = webTestClient.post()
+        val exchange = webTestClient.patch()
             .uri(
                 "/v1/resources/{resourceId}/components/{componentId}/emotions/{emotionId}",
                 resourceId.code,
@@ -90,12 +89,10 @@ class EmotionCreateApiTest(
             .expectBody()
             .consumeWith(
                 document(
-                    "emotion.create",
+                    "emotion.modify",
                     getDocumentRequest(),
                     getDocumentResponse(),
-                    pageHeaderSnippet(
-                        "- [제한 사항] 컴포넌트 별로 최대 ${EMOTION_MAX_COUNT_PER_COMPONENT}개까지만 이모션을 등록할 수 있습니다"
-                    ),
+                    pageHeaderSnippet(),
                     authenticationHeaderDocumentation,
                     pathParameters(
                         parameterWithName("resourceId").description("Resource Id"),
@@ -104,7 +101,8 @@ class EmotionCreateApiTest(
                     ),
                     requestFields(
                         fieldWithPath("image").type(JsonFieldType.STRING)
-                            .description("Emotion Image"),
+                            .description("Emotion Image")
+                            .optional(),
                     ),
                     responseFields(
                         fieldWithPath("ok")

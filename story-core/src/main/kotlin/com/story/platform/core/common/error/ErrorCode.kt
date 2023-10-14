@@ -33,10 +33,8 @@ enum class ErrorCode(
         httpStatusCode = 403,
         code = "workspace_purge_retention_period_violation"
     ),
-    E403_WORKSPACE_NO_PERMISSION(
-        httpStatusCode = 403,
-        code = "workspace_no_permission",
-    ),
+    E403_WORKSPACE_NO_PERMISSION(httpStatusCode = 403, code = "workspace_no_permission"),
+    E403_EMOTION_COUNT_LIMIT_EXCEEDED(httpStatusCode = 403, code = "emotion_count_limit_exceeded"),
 
     /**
      * 404 NotFound
@@ -60,6 +58,7 @@ enum class ErrorCode(
     E409_ALREADY_EXISTS_AUTHENTICATION_KEY(httpStatusCode = 409, code = "already_exists_authentication_key"),
     E409_ALREADY_EXISTS_COMPONENT(httpStatusCode = 409, code = "already_exists_component"),
     E409_ALREADY_CONNECTED_FEED_MAPPING(httpStatusCode = 409, code = "already_connected_feed_mapping"),
+    E409_ALREADY_EXISTS_EMOTION(httpStatusCode = 409, code = "already_exists_emotion"),
 
     /**
      * 429 Too Many Request

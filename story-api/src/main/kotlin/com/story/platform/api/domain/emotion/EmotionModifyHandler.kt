@@ -2,33 +2,35 @@ package com.story.platform.api.domain.emotion
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.annotation.HandlerAdapter
-import com.story.platform.core.domain.emotion.EmotionRetriever
+import com.story.platform.core.domain.emotion.EmotionModifier
 import com.story.platform.core.domain.resource.ResourceId
 
 @HandlerAdapter
-class EmotionRetrieveHandler(
+class EmotionModifyHandler(
     private val componentCheckHandler: ComponentCheckHandler,
-    private val emotionRetriever: EmotionRetriever,
+    private val emotionModifier: EmotionModifier,
 ) {
 
-    suspend fun listEmotions(
+    suspend fun modifyEmotion(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
-    ): EmotionListApiResponse {
+        emotionId: String,
+        request: EmotionModifyApiRequest,
+    ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
         )
 
-        val emotions = emotionRetriever.listEnabledEmotions(
+        emotionModifier.modifyEmotion(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
+            emotionId = emotionId,
+            image = request.image,
         )
-
-        return EmotionListApiResponse.of(emotions = emotions)
     }
 
 }

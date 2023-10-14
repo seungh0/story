@@ -10,7 +10,6 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.resource.ResourceId
@@ -22,7 +21,6 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
-import org.springframework.restdocs.request.RequestDocumentation.queryParameters
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -55,15 +53,12 @@ class EmotionRetrieveApiTest(
         // given
         val resourceId = ResourceId.REACTIONS
         val componentId = "post-sticker"
-        val cursor = "cursor"
-        val pageSize = 10
 
         coEvery {
             emotionRetrieveHandler.listEmotions(
                 workspaceId = "story",
                 resourceId = resourceId,
                 componentId = componentId,
-                cursorRequest = any(),
             )
         } returns EmotionListApiResponse(
             emotions = listOf(
@@ -76,19 +71,14 @@ class EmotionRetrieveApiTest(
                     image = "\uD83D\uDE2D",
                 )
             ),
-            cursor = Cursor.of(
-                cursor = "next-cursor"
-            )
         )
 
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/{resourceId}/components/{componentId}/emotions?cursor={cursor}&pageSize={pageSize}",
+                "/v1/resources/{resourceId}/components/{componentId}/emotions",
                 resourceId.code,
                 componentId,
-                cursor,
-                pageSize,
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -108,12 +98,6 @@ class EmotionRetrieveApiTest(
                         parameterWithName("resourceId").description("Resource Id"),
                         parameterWithName("componentId").description("Component Id"),
                     ),
-                    queryParameters(
-                        parameterWithName("cursor").description("Cursor").optional()
-                            .attributes(RestDocsUtils.remarks("first cursor is null")),
-                        parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 50")),
-                    ),
                     responseFields(
                         fieldWithPath("ok")
                             .type(JsonFieldType.BOOLEAN).description("ok"),
@@ -125,13 +109,6 @@ class EmotionRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("Emotion Id"),
                         fieldWithPath("result.emotions[].image")
                             .type(JsonFieldType.STRING).description("Emotion Image"),
-                        fieldWithPath("result.cursor")
-                            .type(JsonFieldType.OBJECT).description("Page Cursor"),
-                        fieldWithPath("result.cursor.nextCursor")
-                            .attributes(RestDocsUtils.remarks("if no more return null"))
-                            .type(JsonFieldType.STRING).description("Next Page Cursor").optional(),
-                        fieldWithPath("result.cursor.hasNext")
-                            .type(JsonFieldType.BOOLEAN).description("Has More Page (next direction)"),
                     )
                 )
             )

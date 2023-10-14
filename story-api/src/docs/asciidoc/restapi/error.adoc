@@ -15,6 +15,7 @@
 | 403 | feed_mapping_capacity_exceed | 
 | 403 | workspace_purge_retention_period_violation | 
 | 403 | workspace_no_permission | 
+| 403 | emotion_count_limit_exceeded | 
 | 404 | not_exists_authentication_key | 
 | 404 | not_exists_component | 
 | 404 | not_exists_resource | 
@@ -26,6 +27,7 @@
 | 409 | already_exists_authentication_key | 
 | 409 | already_exists_component | 
 | 409 | already_connected_feed_mapping | 
+| 409 | already_exists_emotion | 
 | 429 | too_many_request | 
 | 500 | internal_error | 
 | 501 | not_supported | 
