@@ -122,8 +122,8 @@ class ReactionRetrieveApiTest(
                     ),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
-                        parameterWithName("componentId").description("리액션 컴포넌트 Id"),
-                        parameterWithName("spaceId").description("리액션 공간 Id")
+                        parameterWithName("componentId").description("리액션 컴포넌트 ID"),
+                        parameterWithName("spaceId").description("리액션 공간 ID")
                     ),
                     responseFields(
                         fieldWithPath("ok")

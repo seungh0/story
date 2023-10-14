@@ -2,7 +2,6 @@ package com.story.platform.api.domain.feed
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.annotation.HandlerAdapter
-import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.feed.FeedRetriever
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -16,7 +15,7 @@ class FeedRetrieveHandler(
         workspaceId: String,
         feedComponentId: String,
         subscriberId: String,
-        cursorRequest: CursorRequest,
+        request: FeedListApiRequest,
     ): FeedListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -28,7 +27,7 @@ class FeedRetrieveHandler(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             subscriberId = subscriberId,
-            cursorRequest = cursorRequest,
+            cursorRequest = request.toCursor(),
         )
 
         return FeedListApiResponse.of(feeds = feeds)

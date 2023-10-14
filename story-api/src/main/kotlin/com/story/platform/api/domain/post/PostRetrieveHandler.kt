@@ -2,7 +2,6 @@ package com.story.platform.api.domain.post
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.annotation.HandlerAdapter
-import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.post.PostIdInvalidException
 import com.story.platform.core.domain.post.PostRetriever
 import com.story.platform.core.domain.post.PostSpaceKey
@@ -42,7 +41,6 @@ class PostRetrieveHandler(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        cursorRequest: CursorRequest,
         request: PostListApiRequest,
         requestAccountId: String?,
     ): PostListApiResponse {
@@ -58,7 +56,7 @@ class PostRetrieveHandler(
                 componentId = componentId,
                 spaceId = spaceId,
             ),
-            cursorRequest = cursorRequest,
+            cursorRequest = request.toCursor(),
             sortBy = request.sortBy,
         )
 

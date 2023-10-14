@@ -50,7 +50,6 @@ class FeedMappingRetrieveApiTest(
         val feedComponentId = "user-timeline"
         val sourceResourceId = ResourceId.POSTS
         val sourceComponentId = "user-post"
-        val pageSize = 10
 
         coEvery {
             feedMappingRetrieveHandler.listConnectedFeedMappings(
@@ -70,8 +69,8 @@ class FeedMappingRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}?pageSize={pageSize}",
-                feedComponentId, sourceResourceId.code, sourceComponentId, pageSize
+                "/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}",
+                feedComponentId, sourceResourceId.code, sourceComponentId,
             )
             .headers(WebClientUtils.authenticationHeader)
             .accept(MediaType.APPLICATION_JSON)
@@ -92,10 +91,7 @@ class FeedMappingRetrieveApiTest(
                         RequestDocumentation.parameterWithName("sourceResourceId").description("근원 리소스 ID"),
                         RequestDocumentation.parameterWithName("sourceComponentId").description("근원 컴포넌트 ID"),
                     ),
-                    RequestDocumentation.queryParameters(
-                        RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
-                            .attributes(RestDocsUtils.remarks("최대 50개까지만 허용합니다")),
-                    ),
+                    RequestDocumentation.queryParameters(),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
                             .type(JsonFieldType.BOOLEAN).description("성공 여부"),

@@ -88,8 +88,8 @@ class ComponentRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("resourceId").description("Resource Id"),
-                        RequestDocumentation.parameterWithName("componentId").description("Component Id"),
+                        RequestDocumentation.parameterWithName("resourceId").description("리소스 ID"),
+                        RequestDocumentation.parameterWithName("componentId").description("컴포넌트 ID"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
@@ -133,7 +133,7 @@ class ComponentRetrieveApiTest(
             componentRetrieveHandler.listComponents(
                 workspaceId = any(),
                 resourceId = resourceId,
-                cursorRequest = any(),
+                request = any(),
             )
         } returns ComponentListApiResponse(
             components = listOf(component),

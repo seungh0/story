@@ -10,7 +10,6 @@ import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
-import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import io.kotest.core.spec.style.StringSpec
@@ -209,7 +208,7 @@ class SubscriptionRetrieveApiTest(
         val componentId = "follow"
         val targetId = "subscription-target-id"
 
-        val request = CursorRequest(
+        val request = SubscriberListApiRequest(
             pageSize = 30,
             direction = CursorDirection.NEXT,
             cursor = UUID.randomUUID().toString(),
@@ -220,7 +219,7 @@ class SubscriptionRetrieveApiTest(
                 workspaceId = any(),
                 componentId = componentId,
                 targetId = targetId,
-                cursorRequest = request,
+                request = request,
             )
         } returns SubscriberListApiResponse(
             subscribers = listOf(
@@ -247,7 +246,6 @@ class SubscriptionRetrieveApiTest(
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
-        // then
         // then
         exchange.expectStatus().isOk
             .expectBody()
@@ -297,7 +295,7 @@ class SubscriptionRetrieveApiTest(
         val componentId = "follow"
         val subscriberId = "subscriberId"
 
-        val request = CursorRequest(
+        val request = SubscriptionTargetListApiRequest(
             pageSize = 30,
             direction = CursorDirection.NEXT,
             cursor = UUID.randomUUID().toString(),
@@ -308,7 +306,7 @@ class SubscriptionRetrieveApiTest(
                 workspaceId = any(),
                 componentId = componentId,
                 subscriberId = subscriberId,
-                cursorRequest = request,
+                request = request,
             )
         } returns SubscriptionTargetListApiResponse(
             targets = listOf(

@@ -3,7 +3,6 @@ package com.story.platform.api.domain.post
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.dto.ApiResponse
-import com.story.platform.core.common.model.dto.CursorRequest
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -41,7 +40,6 @@ class PostRetrieveApi(
     suspend fun listPosts(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @Valid cursorRequest: CursorRequest,
         @RequestAuthContext authContext: AuthContext,
         @Valid request: PostListApiRequest,
     ): ApiResponse<PostListApiResponse> {
@@ -49,7 +47,6 @@ class PostRetrieveApi(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            cursorRequest = cursorRequest,
             request = request,
             requestAccountId = authContext.requestAccountId,
         )

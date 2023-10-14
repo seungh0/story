@@ -2,7 +2,6 @@ package com.story.platform.api.domain.subscription
 
 import com.story.platform.api.domain.component.ComponentCheckHandler
 import com.story.platform.core.common.annotation.HandlerAdapter
-import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriptionCountRetriever
 import com.story.platform.core.domain.subscription.SubscriptionRetriever
@@ -39,7 +38,7 @@ class SubscriptionRetrieveHandler(
         workspaceId: String,
         componentId: String,
         targetId: String,
-        cursorRequest: CursorRequest,
+        request: SubscriberListApiRequest,
     ): SubscriberListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -50,7 +49,7 @@ class SubscriptionRetrieveHandler(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
-            cursorRequest = cursorRequest,
+            cursorRequest = request.toCursor(),
         )
 
         return SubscriberListApiResponse.of(subscriptions = subscriptions)
@@ -60,7 +59,7 @@ class SubscriptionRetrieveHandler(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
-        cursorRequest: CursorRequest,
+        request: SubscriptionTargetListApiRequest,
     ): SubscriptionTargetListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -72,7 +71,7 @@ class SubscriptionRetrieveHandler(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
-            cursorRequest = cursorRequest,
+            cursorRequest = request.toCursor(),
         )
 
         return SubscriptionTargetListApiResponse.of(subscriptions = subscriptions)

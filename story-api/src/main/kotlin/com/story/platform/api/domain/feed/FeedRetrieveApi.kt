@@ -3,7 +3,6 @@ package com.story.platform.api.domain.feed
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.dto.ApiResponse
-import com.story.platform.core.common.model.dto.CursorRequest
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,14 +17,14 @@ class FeedRetrieveApi(
     suspend fun listFeeds(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
-        @Valid cursorRequest: CursorRequest,
+        @Valid request: FeedListApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<FeedListApiResponse> {
         val response = feedRetrieveHandler.listFeeds(
             workspaceId = authContext.workspaceId,
             feedComponentId = componentId,
             subscriberId = subscriberId,
-            cursorRequest = cursorRequest,
+            request = request,
         )
         return ApiResponse.ok(response)
     }

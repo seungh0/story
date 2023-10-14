@@ -3,7 +3,6 @@ package com.story.platform.api.domain.subscription
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.dto.ApiResponse
-import com.story.platform.core.common.model.dto.CursorRequest
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -74,14 +73,14 @@ class SubscriptionRetrieveApi(
     suspend fun listSubscribers(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
-        @Valid cursorRequest: CursorRequest,
+        @Valid request: SubscriberListApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriberListApiResponse> {
         val response = subscriptionRetrieveHandler.listSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             targetId = targetId,
-            cursorRequest = cursorRequest,
+            request = request,
         )
         return ApiResponse.ok(response)
     }
@@ -93,14 +92,14 @@ class SubscriptionRetrieveApi(
     suspend fun listSubscriptionTargets(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
-        @Valid cursorRequest: CursorRequest,
+        @Valid request: SubscriptionTargetListApiRequest,
         @RequestAuthContext authContext: AuthContext,
     ): ApiResponse<SubscriptionTargetListApiResponse> {
         val response = subscriptionRetrieveHandler.listSubscriptionTargets(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
-            cursorRequest = cursorRequest,
+            request = request,
         )
         return ApiResponse.ok(response)
     }

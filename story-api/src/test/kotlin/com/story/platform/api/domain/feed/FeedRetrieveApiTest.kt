@@ -65,7 +65,7 @@ class FeedRetrieveApiTest(
                 workspaceId = any(),
                 feedComponentId = componentId,
                 subscriberId = subscriberId,
-                cursorRequest = any(),
+                request = any(),
             )
         } returns FeedListApiResponse(
             feeds = listOf(
@@ -183,7 +183,7 @@ class FeedRetrieveApiTest(
                 workspaceId = any(),
                 feedComponentId = componentId,
                 subscriberId = subscriberId,
-                cursorRequest = any(),
+                request = any(),
             )
         } returns FeedListApiResponse(
             feeds = listOf(
@@ -227,16 +227,16 @@ class FeedRetrieveApiTest(
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("componentId").description("Feed Component Id"),
-                        RequestDocumentation.parameterWithName("subscriberId").description("Feed Subscriber Id"),
+                        RequestDocumentation.parameterWithName("componentId").description("피드 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("subscriberId").description("피드 구독자 ID"),
                     ),
                     RequestDocumentation.queryParameters(
-                        RequestDocumentation.parameterWithName("cursor").description("Cursor").optional()
+                        RequestDocumentation.parameterWithName("cursor").description("페이지 커서").optional()
                             .attributes(RestDocsUtils.remarks("첫 페이지의 경우 null")),
-                        RequestDocumentation.parameterWithName("direction").description("Direction").optional()
-                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(default: NEXT)")),
-                        RequestDocumentation.parameterWithName("pageSize").description("Page Size")
-                            .attributes(RestDocsUtils.remarks("max: 50")),
+                        RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
+                            .attributes(RestDocsUtils.remarks("최대 50개까지만 허용")),
+                        RequestDocumentation.parameterWithName("direction").description("조회 방향").optional()
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(CursorDirection::class.java) + "\n(기본값: NEXT)")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

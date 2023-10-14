@@ -1,7 +1,6 @@
 package com.story.platform.api.domain.resource
 
 import com.story.platform.core.common.model.dto.ApiResponse
-import com.story.platform.core.common.model.dto.CursorRequest
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -16,9 +15,9 @@ class ResourceRetrieveApi(
      */
     @GetMapping("/v1/resources")
     suspend fun listResources(
-        @Valid cursorRequest: CursorRequest,
+        @Valid request: ResourceListApiRequest,
     ): ApiResponse<ResourceListApiResponse> {
-        val response = resourceRetrieveHandler.listResources(cursorRequest)
+        val response = resourceRetrieveHandler.listResources(request)
         return ApiResponse.ok(response)
     }
 

@@ -95,8 +95,8 @@ class EmotionRetrieveApiTest(
                     pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     pathParameters(
-                        parameterWithName("resourceId").description("Resource Id"),
-                        parameterWithName("componentId").description("Component Id"),
+                        parameterWithName("resourceId").description("이모션을 사용할 리소스 ID"),
+                        parameterWithName("componentId").description("이모션을 사용할 컴포넌트 ID"),
                     ),
                     responseFields(
                         fieldWithPath("ok")

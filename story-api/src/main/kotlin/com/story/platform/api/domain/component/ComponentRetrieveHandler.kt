@@ -1,7 +1,6 @@
 package com.story.platform.api.domain.component
 
 import com.story.platform.core.common.annotation.HandlerAdapter
-import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.component.ComponentRetriever
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -26,12 +25,12 @@ class ComponentRetrieveHandler(
     suspend fun listComponents(
         workspaceId: String,
         resourceId: ResourceId,
-        cursorRequest: CursorRequest,
+        request: ComponentListApiRequest,
     ): ComponentListApiResponse {
         val components = componentRetriever.listComponents(
             workspaceId = workspaceId,
             resourceId = resourceId,
-            cursorRequest = cursorRequest,
+            cursorRequest = request.toCursor(),
         )
         return ComponentListApiResponse.of(components = components)
     }

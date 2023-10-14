@@ -116,11 +116,11 @@ class PostCreateApiTest(
                     pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
-                        parameterWithName("componentId").description("컴포넌트 ID"),
+                        parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         parameterWithName("spaceId").description("포스트 공간 ID"),
                     ),
                     queryParameters(
-                        parameterWithName("nonce").description("논스 토큰").optional(),
+                        parameterWithName("nonce").description("논스 토큰 (Nonce Create API로 생성)").optional(),
                     ),
                     requestFields(
                         fieldWithPath("title").type(JsonFieldType.STRING)

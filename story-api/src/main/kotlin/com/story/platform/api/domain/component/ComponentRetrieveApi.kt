@@ -3,7 +3,6 @@ package com.story.platform.api.domain.component
 import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.dto.ApiResponse
-import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.domain.resource.ResourceId
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -14,23 +13,6 @@ import org.springframework.web.bind.annotation.RestController
 class ComponentRetrieveApi(
     private val componentRetrieveHandler: ComponentRetrieveHandler,
 ) {
-
-    /**
-     * 워크스페이스에 등록된 특정 리소스의 컴포넌트 목록을 조회합니다
-     */
-    @GetMapping("/v1/resources/{resourceId}/components")
-    suspend fun listCompnents(
-        @PathVariable resourceId: String,
-        @RequestAuthContext authContext: AuthContext,
-        @Valid cursorRequest: CursorRequest,
-    ): ApiResponse<ComponentListApiResponse> {
-        val response = componentRetrieveHandler.listComponents(
-            workspaceId = authContext.workspaceId,
-            resourceId = ResourceId.findByCode(resourceId),
-            cursorRequest = cursorRequest,
-        )
-        return ApiResponse.ok(response)
-    }
 
     @GetMapping("/v1/resources/{resourceId}/components/{componentId}")
     suspend fun getComponent(
@@ -44,6 +26,20 @@ class ComponentRetrieveApi(
             componentId = componentId,
         )
         return ApiResponse.ok(component)
+    }
+
+    @GetMapping("/v1/resources/{resourceId}/components")
+    suspend fun listComponents(
+        @PathVariable resourceId: String,
+        @RequestAuthContext authContext: AuthContext,
+        @Valid request: ComponentListApiRequest,
+    ): ApiResponse<ComponentListApiResponse> {
+        val response = componentRetrieveHandler.listComponents(
+            workspaceId = authContext.workspaceId,
+            resourceId = ResourceId.findByCode(resourceId),
+            request = request,
+        )
+        return ApiResponse.ok(response)
     }
 
 }

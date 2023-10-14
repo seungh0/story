@@ -95,8 +95,8 @@ class EmotionModifyApiTest(
                     pageHeaderSnippet(),
                     authenticationHeaderDocumentation,
                     pathParameters(
-                        parameterWithName("resourceId").description("리소스 ID"),
-                        parameterWithName("componentId").description("컴포넌트 ID"),
+                        parameterWithName("resourceId").description("이모션을 사용할 리소스 ID"),
+                        parameterWithName("componentId").description("이모션을 사용할 컴포넌트 ID"),
                         parameterWithName("emotionId").description("이모션 ID"),
                     ),
                     requestFields(

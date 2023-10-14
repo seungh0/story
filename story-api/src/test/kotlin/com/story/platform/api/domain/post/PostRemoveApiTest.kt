@@ -92,7 +92,7 @@ class PostRemoveApiTest(
                     pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     pathParameters(
-                        parameterWithName("componentId").description("컴포넌트 ID"),
+                        parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         parameterWithName("spaceId").description("포스트 공간 ID"),
                         parameterWithName("postId").description("포스트 ID"),
                     ),

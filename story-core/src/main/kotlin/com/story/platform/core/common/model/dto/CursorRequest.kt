@@ -1,17 +1,11 @@
 package com.story.platform.core.common.model.dto
 
 import com.story.platform.core.common.model.CursorDirection
-import jakarta.validation.constraints.Max
-import jakarta.validation.constraints.Min
 
 data class CursorRequest(
-    val cursor: String? = null,
-
-    val direction: CursorDirection = CursorDirection.NEXT,
-
-    @field:Min(value = 1)
-    @field:Max(value = 50)
-    val pageSize: Int = 0,
+    val cursor: String?,
+    val direction: CursorDirection,
+    val pageSize: Int,
 ) {
 
     companion object {

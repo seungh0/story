@@ -108,7 +108,7 @@ class PostRetrieveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("componentId").description("컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("spaceId").description("포스트 공간 ID"),
                         RequestDocumentation.parameterWithName("postId").description("포스트 ID"),
                     ),
@@ -175,7 +175,6 @@ class PostRetrieveApiTest(
                 workspaceId = "story",
                 componentId = componentId,
                 spaceId = spaceId,
-                cursorRequest = any(),
                 request = any(),
                 requestAccountId = any(),
             )
