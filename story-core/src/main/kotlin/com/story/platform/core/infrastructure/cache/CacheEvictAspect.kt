@@ -2,7 +2,7 @@ package com.story.platform.core.infrastructure.cache
 
 import com.story.platform.core.common.coroutine.runCoroutine
 import com.story.platform.core.common.error.InternalServerException
-import com.story.platform.core.common.spring.SpringExpressionParser
+import com.story.platform.core.infrastructure.spring.SpringExpressionParser
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect

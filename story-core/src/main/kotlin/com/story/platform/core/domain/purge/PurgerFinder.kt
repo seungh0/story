@@ -1,8 +1,8 @@
 package com.story.platform.core.domain.purge
 
 import com.story.platform.core.common.error.NotSupportedException
-import com.story.platform.core.common.spring.SpringBeanProvider
 import com.story.platform.core.domain.resource.ResourceId
+import com.story.platform.core.infrastructure.spring.SpringBeanProvider
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import java.util.EnumMap

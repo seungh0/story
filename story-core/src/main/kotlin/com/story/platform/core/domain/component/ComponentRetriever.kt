@@ -1,8 +1,8 @@
 package com.story.platform.core.domain.component
 
-import com.story.platform.core.common.model.ContentsWithCursor
-import com.story.platform.core.common.model.CursorUtils
+import com.story.platform.core.common.model.Slice
 import com.story.platform.core.common.model.dto.CursorRequest
+import com.story.platform.core.common.utils.CursorUtils
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.infrastructure.cache.CacheType
 import com.story.platform.core.infrastructure.cache.Cacheable
@@ -40,7 +40,7 @@ class ComponentRetriever(
         workspaceId: String,
         resourceId: ResourceId,
         cursorRequest: CursorRequest,
-    ): ContentsWithCursor<ComponentResponse, String> {
+    ): Slice<ComponentResponse, String> {
         val components = listComponentsWithCursor(
             workspaceId = workspaceId,
             resourceId = resourceId,
@@ -48,7 +48,7 @@ class ComponentRetriever(
             pageSize = cursorRequest.pageSize,
         )
 
-        return ContentsWithCursor.of(
+        return Slice.of(
             data = components.subList(0, cursorRequest.pageSize.coerceAtMost(components.size))
                 .map { component -> ComponentResponse.of(component) },
             cursor = CursorUtils.getCursor(

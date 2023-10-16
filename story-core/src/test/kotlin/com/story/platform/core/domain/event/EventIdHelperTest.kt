@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.event
 
 import com.story.platform.core.common.sequence.SnowflakeIdGenerator
-import com.story.platform.core.common.time.toEpochMilli
+import com.story.platform.core.common.utils.toEpochMilli
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import java.time.LocalDateTime

@@ -1,4 +1,4 @@
-package com.story.platform.core.common.time
+package com.story.platform.core.common.utils
 
 import java.time.LocalDateTime
 import java.time.ZoneId

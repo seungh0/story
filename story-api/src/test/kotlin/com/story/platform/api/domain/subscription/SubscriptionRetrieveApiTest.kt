@@ -8,8 +8,8 @@ import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.common.model.Cursor
 import com.story.platform.core.common.model.CursorDirection
+import com.story.platform.core.common.model.dto.CursorResponse
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import io.kotest.core.spec.style.StringSpec
@@ -230,7 +230,7 @@ class SubscriptionRetrieveApiTest(
                     subscriberId = "subscriber-id-2",
                 ),
             ),
-            cursor = Cursor(
+            cursor = CursorResponse(
                 nextCursor = "next-cursor",
                 hasNext = true,
             )
@@ -323,7 +323,7 @@ class SubscriptionRetrieveApiTest(
                     alarmEnabled = false,
                 )
             ),
-            cursor = Cursor(
+            cursor = CursorResponse(
                 nextCursor = UUID.randomUUID().toString(),
                 hasNext = true,
             )

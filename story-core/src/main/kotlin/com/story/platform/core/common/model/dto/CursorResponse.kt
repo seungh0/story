@@ -1,6 +1,6 @@
-package com.story.platform.core.common.model
+package com.story.platform.core.common.model.dto
 
-data class Cursor<T>(
+data class CursorResponse<T>(
     val nextCursor: T?,
     val hasNext: Boolean,
 ) {
@@ -8,12 +8,12 @@ data class Cursor<T>(
     companion object {
         fun <T> of(
             cursor: T?,
-        ) = Cursor(
+        ) = CursorResponse(
             nextCursor = cursor,
             hasNext = cursor != null,
         )
 
-        fun <T> noMore(): Cursor<T> = of(null)
+        fun <T> noMore(): CursorResponse<T> = of(null)
     }
 
 }

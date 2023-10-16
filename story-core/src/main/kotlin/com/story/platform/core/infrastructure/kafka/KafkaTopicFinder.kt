@@ -1,7 +1,7 @@
 package com.story.platform.core.infrastructure.kafka
 
 import com.story.platform.core.common.error.NotSupportedException
-import com.story.platform.core.common.spring.ApplicationContextProvider
+import com.story.platform.core.infrastructure.spring.ApplicationContextProvider
 
 object KafkaTopicFinder {
 

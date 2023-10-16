@@ -1,10 +1,10 @@
 package com.story.platform.core.domain.feed
 
 import com.story.platform.core.common.distribution.XLargeDistributionKey
-import com.story.platform.core.common.model.ContentsWithCursor
 import com.story.platform.core.common.model.CursorDirection
-import com.story.platform.core.common.model.CursorUtils
+import com.story.platform.core.common.model.Slice
 import com.story.platform.core.common.model.dto.CursorRequest
+import com.story.platform.core.common.utils.CursorUtils
 import com.story.platform.core.domain.event.BaseEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
@@ -21,7 +21,7 @@ class FeedRetriever(
         feedComponentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): ContentsWithCursor<FeedResponse<out BaseEvent>, String> {
+    ): Slice<FeedResponse<out BaseEvent>, String> {
         val feeds = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextFeeds(
                 workspaceId = workspaceId,
@@ -38,7 +38,7 @@ class FeedRetriever(
             )
         }.toList()
 
-        return ContentsWithCursor.of(
+        return Slice.of(
             data = feeds.subList(0, cursorRequest.pageSize.coerceAtMost(feeds.size))
                 .map { feed -> FeedResponse.of(feed) },
             cursor = CursorUtils.getCursor(

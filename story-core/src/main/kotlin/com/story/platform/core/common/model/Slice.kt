@@ -1,10 +1,11 @@
 package com.story.platform.core.common.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.story.platform.core.common.model.dto.CursorResponse
 
-data class ContentsWithCursor<E, K>(
+data class Slice<E, K>(
     val data: List<E>,
-    val cursor: Cursor<K>,
+    val cursor: CursorResponse<K>,
 ) {
 
     @JsonIgnore
@@ -13,8 +14,8 @@ data class ContentsWithCursor<E, K>(
     companion object {
         fun <E, K> of(
             data: List<E>,
-            cursor: Cursor<K>,
-        ) = ContentsWithCursor(data = data, cursor = cursor)
+            cursor: CursorResponse<K>,
+        ) = Slice(data = data, cursor = cursor)
     }
 
 }

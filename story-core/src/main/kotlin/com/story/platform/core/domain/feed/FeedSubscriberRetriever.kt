@@ -1,8 +1,8 @@
 package com.story.platform.core.domain.feed
 
-import com.story.platform.core.common.model.ContentsWithCursor
-import com.story.platform.core.common.model.CursorUtils
+import com.story.platform.core.common.model.Slice
 import com.story.platform.core.common.model.dto.CursorRequest
+import com.story.platform.core.common.utils.CursorUtils
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
@@ -18,7 +18,7 @@ class FeedSubscriberRetriever(
         eventKey: String,
         slotId: Long,
         cursorRequest: CursorRequest,
-    ): ContentsWithCursor<FeedSubscriberResponse, String> {
+    ): Slice<FeedSubscriberResponse, String> {
         val feedSubscribers = listSubscribers(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
@@ -27,7 +27,7 @@ class FeedSubscriberRetriever(
             subscriberId = cursorRequest.cursor,
             pageSize = cursorRequest.pageSize,
         )
-        return ContentsWithCursor.of(
+        return Slice.of(
             data = feedSubscribers.subList(0, cursorRequest.pageSize.coerceAtMost(feedSubscribers.size))
                 .map { feedSubscriber -> FeedSubscriberResponse.of(feedSubscriber) },
             cursor = CursorUtils.getCursor(

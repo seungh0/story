@@ -1,7 +1,7 @@
 package com.story.platform.worker.event.domain
 
 import com.story.platform.core.common.model.dto.ApiResponse
-import com.story.platform.core.common.spring.AvailabilityChecker
+import com.story.platform.core.infrastructure.spring.AvailabilityChecker
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController

@@ -1,4 +1,4 @@
-package com.story.platform.core.common.spring
+package com.story.platform.core.infrastructure.spring
 
 import com.story.platform.core.common.logger.LoggerExtension.log
 import org.springframework.boot.SpringApplication

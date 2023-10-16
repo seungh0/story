@@ -8,10 +8,10 @@ import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.isFalse
 import com.story.platform.core.common.error.ErrorCode
 import com.story.platform.core.common.error.InternalServerException
-import com.story.platform.core.common.spring.AvailabilityChecker
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.component.ComponentAlreadyExistsException
+import com.story.platform.core.infrastructure.spring.AvailabilityChecker
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.HttpStatus

@@ -1,8 +1,8 @@
 package com.story.platform.publisher.domain.feed
 
 import com.story.platform.core.common.error.NotSupportedException
-import com.story.platform.core.common.spring.SpringBeanProvider
 import com.story.platform.core.domain.event.EventAction
+import com.story.platform.core.infrastructure.spring.SpringBeanProvider
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import java.util.EnumMap

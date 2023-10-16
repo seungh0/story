@@ -8,9 +8,9 @@ import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.api.lib.isTrue
 import com.story.platform.core.common.model.dto.ApiResponse
-import com.story.platform.core.common.spring.AvailabilityChecker
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
+import com.story.platform.core.infrastructure.spring.AvailabilityChecker
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.ResponseEntity

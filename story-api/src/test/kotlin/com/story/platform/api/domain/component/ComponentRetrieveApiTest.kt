@@ -8,7 +8,7 @@ import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.common.model.Cursor
+import com.story.platform.core.common.model.dto.CursorResponse
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.component.ComponentStatus
@@ -137,7 +137,7 @@ class ComponentRetrieveApiTest(
             )
         } returns ComponentListApiResponse(
             components = listOf(component),
-            cursor = Cursor(
+            cursor = CursorResponse(
                 nextCursor = UUID.randomUUID().toString(),
                 hasNext = true,
             )

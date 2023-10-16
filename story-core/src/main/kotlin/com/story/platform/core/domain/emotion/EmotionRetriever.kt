@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.emotion
 
-import com.story.platform.core.common.model.ContentsWithCursor
-import com.story.platform.core.common.model.Cursor
+import com.story.platform.core.common.model.Slice
+import com.story.platform.core.common.model.dto.CursorResponse
 import com.story.platform.core.common.utils.mapToSet
 import com.story.platform.core.domain.emotion.EmotionPolicy.EMOTION_MAX_COUNT_PER_COMPONENT
 import com.story.platform.core.domain.resource.ResourceId
@@ -56,7 +56,7 @@ class EmotionRetriever(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
-    ): ContentsWithCursor<EmotionResponse, String> {
+    ): Slice<EmotionResponse, String> {
         val emotions = emotionRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
             workspaceId = workspaceId,
             resourceId = resourceId,
@@ -64,9 +64,9 @@ class EmotionRetriever(
             pageable = CassandraPageRequest.first(EMOTION_MAX_COUNT_PER_COMPONENT),
         ).toList()
 
-        return ContentsWithCursor.of(
+        return Slice.of(
             data = emotions.map { emotion -> EmotionResponse.of(emotion = emotion) },
-            cursor = Cursor.noMore(),
+            cursor = CursorResponse.noMore(),
         )
     }
 

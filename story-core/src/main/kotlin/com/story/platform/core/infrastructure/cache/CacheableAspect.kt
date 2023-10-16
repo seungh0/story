@@ -4,7 +4,7 @@ import com.story.platform.core.common.coroutine.coroutineArgs
 import com.story.platform.core.common.coroutine.proceedCoroutine
 import com.story.platform.core.common.coroutine.runCoroutine
 import com.story.platform.core.common.error.InternalServerException
-import com.story.platform.core.common.spring.SpringExpressionParser
+import com.story.platform.core.infrastructure.spring.SpringExpressionParser
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
