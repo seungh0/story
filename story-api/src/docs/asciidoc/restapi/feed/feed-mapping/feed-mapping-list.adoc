@@ -14,10 +14,6 @@ include::{snippets}/feed-mapping.list/path-parameters.adoc[]
 
 include::{snippets}/feed-mapping.list/request-headers.adoc[]
 
-==== [Request Query Parameters]
-
-include::{snippets}/feed-mapping.list/query-parameters.adoc[]
-
 ==== [Response]
 
 include::{snippets}/feed-mapping.list/http-response.adoc[]

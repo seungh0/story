@@ -1,11 +1,12 @@
 ### 이모션 등록
-POST {{api}}/v1/resources/reactions/components/post-like/emotions/2
+POST {{api}}/v1/resources/reactions/components/post-like/emotions/4
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 Accept-Language: en
 
 {
-    "image": "😌"
+    "image": "😫",
+    "priority": 4
 }
 
 > {%

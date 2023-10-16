@@ -4,8 +4,6 @@ include::{snippets}/component.modify/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/component.modify/path-parameters.adoc[]
-
 include::{snippets}/component.modify/http-request.adoc[]
 
 ==== [Path Parameters]
