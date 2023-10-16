@@ -18,6 +18,14 @@ data class ReactionEmotionResponse(
             count = MIN_COUNT.coerceAtLeast(count ?: MIN_COUNT),
             reactedByMe = reactedByMe,
         )
+
+        fun zero(
+            emotionId: String,
+        ) = ReactionEmotionResponse(
+            emotionId = emotionId,
+            count = MIN_COUNT,
+            reactedByMe = false,
+        )
     }
 
 }

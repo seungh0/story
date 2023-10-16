@@ -7,4 +7,5 @@ data class ReactionListApiRequest(
     @field:NotEmpty
     @field:Size(max = 20)
     val spaceIds: Set<String> = emptySet(),
+    val includeUnselectedEmotions: Boolean = false,
 )

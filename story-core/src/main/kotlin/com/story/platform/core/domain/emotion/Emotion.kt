@@ -14,6 +14,7 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class Emotion(
     @field:PrimaryKey
     val key: EmotionPrimaryKey,
+    var priority: Long,
     var image: String,
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
@@ -21,9 +22,16 @@ data class Emotion(
 ) {
 
     fun patch(
+        priority: Long?,
         image: String?,
     ): Boolean {
         var hasChanged = false
+
+        if (priority != null) {
+            hasChanged = hasChanged || this.priority != priority
+            this.priority = priority
+        }
+
         if (image != null) {
             hasChanged = hasChanged || this.image != image
             this.image = image
@@ -40,6 +48,7 @@ data class Emotion(
             resourceId: ResourceId,
             componentId: String,
             emotionId: String,
+            priority: Long,
             image: String,
         ) = Emotion(
             key = EmotionPrimaryKey(
@@ -49,6 +58,7 @@ data class Emotion(
                 emotionId = emotionId,
             ),
             image = image,
+            priority = priority,
             auditingTime = AuditingTime.created(),
         )
     }

@@ -16,6 +16,7 @@ class EmotionCreator(
         resourceId: ResourceId,
         componentId: String,
         emotionId: String,
+        priority: Long,
         image: String,
     ) {
         validateNotExistsEmotion(workspaceId, resourceId, componentId, emotionId)
@@ -26,6 +27,7 @@ class EmotionCreator(
             resourceId = resourceId,
             componentId = componentId,
             emotionId = emotionId,
+            priority = priority,
             image = image,
         )
         emotionRepository.save(emotion)

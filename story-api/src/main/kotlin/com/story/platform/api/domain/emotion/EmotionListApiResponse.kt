@@ -9,7 +9,10 @@ data class EmotionListApiResponse(
 
     companion object {
         fun of(emotions: Slice<EmotionResponse, String>) = EmotionListApiResponse(
-            emotions = emotions.data.map { emotion -> EmotionApiResponse.of(emotion = emotion) },
+            emotions = emotions.data.asSequence()
+                .sortedBy { emotion -> emotion.priority }
+                .map { emotion -> EmotionApiResponse.of(emotion = emotion) }
+                .toList(),
         )
     }
 

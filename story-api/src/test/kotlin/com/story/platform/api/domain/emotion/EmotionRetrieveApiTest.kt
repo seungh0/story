@@ -64,11 +64,13 @@ class EmotionRetrieveApiTest(
             emotions = listOf(
                 EmotionApiResponse(
                     emotionId = "smile",
-                    image = "\uD83D\uDC08"
+                    image = "\uD83D\uDC08",
+                    priority = 1,
                 ),
                 EmotionApiResponse(
                     emotionId = "sad",
                     image = "\uD83D\uDE2D",
+                    priority = 2,
                 )
             ),
         )
@@ -107,6 +109,10 @@ class EmotionRetrieveApiTest(
                             .type(JsonFieldType.ARRAY).description("이모션 목록"),
                         fieldWithPath("result.emotions[].emotionId")
                             .type(JsonFieldType.STRING).description("이모션 Id"),
+                        fieldWithPath("result.emotions[].priority")
+                            .type(JsonFieldType.NUMBER).description("이모션 우선순위")
+                            .attributes(RestDocsUtils.remarks("우선순위가 낮은 것부터 정렬되서 반환됩니다 (기본값: 0)"))
+                            .optional(),
                         fieldWithPath("result.emotions[].image")
                             .type(JsonFieldType.STRING).description("이모션 이미지"),
                     )

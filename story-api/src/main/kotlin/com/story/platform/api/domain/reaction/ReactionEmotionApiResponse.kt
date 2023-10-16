@@ -5,6 +5,7 @@ import com.story.platform.core.domain.reaction.ReactionEmotionResponse
 
 data class ReactionEmotionApiResponse(
     val emotionId: String,
+    val priority: Long,
     val image: String,
     val count: Long,
     val reactedByMe: Boolean,
@@ -16,6 +17,7 @@ data class ReactionEmotionApiResponse(
             emotion: EmotionResponse,
         ) = ReactionEmotionApiResponse(
             emotionId = reactionEmotion.emotionId,
+            priority = emotion.priority,
             image = emotion.image,
             count = reactionEmotion.count,
             reactedByMe = reactionEmotion.reactedByMe,

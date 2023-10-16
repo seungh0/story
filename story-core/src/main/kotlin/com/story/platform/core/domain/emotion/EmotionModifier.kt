@@ -13,6 +13,7 @@ class EmotionModifier(
         resourceId: ResourceId,
         componentId: String,
         emotionId: String,
+        priority: Long?,
         image: String?,
     ) {
         val key = EmotionPrimaryKey(
@@ -23,7 +24,7 @@ class EmotionModifier(
         )
         val emotion = emotionRepository.findById(key)
             ?: throw EmotionNotExistsException("워크스페이스($workspaceId)의 리소스/컴포넌트($resourceId/$componentId)에 존재하지 않는 이모션($emotionId)입니다")
-        emotion.patch(image)
+        emotion.patch(priority = priority, image = image)
         emotionRepository.save(emotion)
     }
 

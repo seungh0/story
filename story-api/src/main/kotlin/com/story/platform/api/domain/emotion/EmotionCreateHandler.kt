@@ -29,6 +29,7 @@ class EmotionCreateHandler(
             resourceId = resourceId,
             componentId = componentId,
             emotionId = emotionId,
+            priority = request.priority,
             image = request.image,
         )
     }

@@ -14,10 +14,6 @@ include::{snippets}/reaction.remove/path-parameters.adoc[]
 
 include::{snippets}/reaction.remove/request-headers.adoc[]
 
-===== [Request Query Parameter]
-
-include::{snippets}/reaction.remove/query-parameters.adoc[]
-
 ==== [Response]
 
 include::{snippets}/reaction.remove/http-response.adoc[]

@@ -27,11 +27,6 @@
 | Array<String>
 | N
 | 에러 추가 설명 목록 (debug 용)
-
-| `warnings`
-| Array<String>
-| N
-| 워닝 목록
 |===
 
 ==== API Success Example
@@ -84,10 +79,7 @@ Content-Type: application/json
   "ok": true,
   "result": {
     "key": "value"
-  },
-  "warnings": [
-    "[title] is deprecatd",
-  ]
+  }
 }
 ----
 

@@ -8,8 +8,6 @@ data class ApiResponse<T>(
     val error: String? = null,
     @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
     val reasons: List<String>? = null,
-    @field:JsonInclude(JsonInclude.Include.NON_EMPTY)
-    val warnings: List<String>? = null,
     val result: T?,
 ) {
 

@@ -6,6 +6,7 @@ import com.story.platform.api.DocsTest
 import com.story.platform.api.domain.authentication.AuthenticationHandler
 import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
 import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
+import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.RestDocsUtils.authenticationHeaderDocumentation
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
@@ -59,6 +60,7 @@ class EmotionCreateApiTest(
 
         val request = EmotionCreateApiRequest(
             image = "\uD83D\uDE49",
+            priority = 1,
         )
 
         coEvery {
@@ -105,6 +107,10 @@ class EmotionCreateApiTest(
                     requestFields(
                         fieldWithPath("image").type(JsonFieldType.STRING)
                             .description("이모션 이미지"),
+                        fieldWithPath("priority")
+                            .type(JsonFieldType.NUMBER).description("이모션 우선순위")
+                            .attributes(RestDocsUtils.remarks("우선순위가 낮은 것부터 정렬되서 반환됩니다 (기본값: 0)"))
+                            .optional(),
                     ),
                     responseFields(
                         fieldWithPath("ok")

@@ -1,5 +1,5 @@
 ### 이모션 등록
-POST {{api}}/v1/resources/reactions/components/post-like/emotions/emotion-1
+POST {{api}}/v1/resources/reactions/components/post-like/emotions/2
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 Accept-Language: en
@@ -15,13 +15,14 @@ Accept-Language: en
 %}
 
 ### 이모션 수정
-PATCH {{api}}/v1/resources/reactions/components/post-like/emotions/emotion-1
+PATCH {{api}}/v1/resources/reactions/components/post-like/emotions/2
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 Accept-Language: en
 
 {
-    "image": "😌"
+    "image": "😌",
+    "priority": 2
 }
 
 > {%
