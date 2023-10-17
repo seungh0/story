@@ -1,3 +1,4 @@
+[[nonce]]
 == Nonce
 
 === About Nonce
@@ -14,6 +15,6 @@
 - Nonce는 "expirationSeconds"로 설정한 기간 동안만 유효합니다.
 - Nonce는 한 번 할당되고 한 번만 사용할 수 있습니다.
 
-위를 만족하지 않는 경우 'invalid_nonce' 에러가 발생합니다.
+위를 만족하지 않는 경우 'invalid_nonce' 에러가 발생합니다. <<error>> 참고
 
 include::./nonce-create.adoc[]

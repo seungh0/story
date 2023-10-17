@@ -83,10 +83,12 @@ Content-Type: application/json
 }
 ----
 
+[[common-headers]]
 === HTTP 헤더 정보
 
 include::./header.adoc[]
 
+[[error]]
 === 에러 코드
 
 include::./error.adoc[]

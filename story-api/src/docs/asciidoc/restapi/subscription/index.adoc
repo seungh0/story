@@ -1,3 +1,4 @@
+[[subscriptions]]
 == Subscription
 
 === About Subscription

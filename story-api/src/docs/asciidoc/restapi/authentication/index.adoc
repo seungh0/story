@@ -1,3 +1,4 @@
+[[authentications]]
 == Authentication
 
 === About Authentication

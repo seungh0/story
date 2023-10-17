@@ -1,3 +1,4 @@
+[[feed-mappings]]
 == Feed Mapping
 
 === About Feed Mapping

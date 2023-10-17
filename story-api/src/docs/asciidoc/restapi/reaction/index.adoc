@@ -1,3 +1,4 @@
+[[reactions]]
 == Reaction
 
 === About Reaction
