@@ -1,10 +1,9 @@
 package com.story.platform.core.domain.authentication
 
+import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.utils.mapToSet
-import com.story.platform.core.lib.TestCleaner
 import io.kotest.assertions.throwables.shouldThrowExactly
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -15,12 +14,7 @@ import kotlinx.coroutines.flow.toList
 class AuthenticationCreatorTest(
     private val workspaceAuthenticationRepository: WorkspaceAuthenticationRepository,
     private val authenticationCreator: AuthenticationCreator,
-    private val testCleaner: TestCleaner,
-) : FunSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : FunSpecIntegrationTest({
 
     context("신규 서비스 인증 키를 등록한다") {
         test("새로운 인증 키를 등록한다") {

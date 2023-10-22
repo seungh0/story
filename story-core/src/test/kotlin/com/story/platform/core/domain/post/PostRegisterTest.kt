@@ -1,9 +1,8 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.distribution.XLargeDistributionKey
-import com.story.platform.core.lib.TestCleaner
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -14,12 +13,7 @@ internal class PostRegisterTest(
     private val postCreator: PostCreator,
     private val postRepository: PostRepository,
     private val postReverseRepository: PostReverseRepository,
-    private val testCleaner: TestCleaner,
-) : FunSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : FunSpecIntegrationTest({
 
     context("신규 포스트를 등록한다") {
         test("유저가 새로운 포스트를 등록합니다") {

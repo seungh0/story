@@ -1,21 +1,15 @@
 package com.story.platform.core.domain.workspace
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.lib.TestCleaner
+import com.story.platform.core.StringSpecIntegrationTest
 import io.kotest.assertions.throwables.shouldThrowExactly
-import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 @IntegrationTest
 class WorkspaceRetrieverTest(
     private val workspaceRetriever: WorkspaceRetriever,
     private val workspaceRepository: WorkspaceRepository,
-    private val testCleaner: TestCleaner,
-) : StringSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : StringSpecIntegrationTest({
 
     "워크스페이스를 조회한다" {
         // given

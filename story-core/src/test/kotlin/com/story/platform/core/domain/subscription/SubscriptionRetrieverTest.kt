@@ -1,10 +1,9 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.dto.CursorRequest
-import com.story.platform.core.lib.TestCleaner
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
@@ -15,12 +14,7 @@ internal class SubscriptionRetrieverTest(
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberSequenceRepository: SubscriberSequenceRepository,
-    private val testCleaner: TestCleaner,
-) : FunSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : FunSpecIntegrationTest({
 
     context("특정 계정이 대상을 구독하였는지 확인한다") {
         test("대상자를 구독한 기록이 있으면, 구독자로 판단한다") {

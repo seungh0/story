@@ -3,18 +3,14 @@ package com.story.platform.api.domain.emotion
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
-import com.story.platform.api.domain.authentication.AuthenticationHandler
-import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
+import com.story.platform.api.FunSpecDocsTest
 import com.story.platform.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.RestDocsUtils.authenticationHeaderDocumentation
 import com.story.platform.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.platform.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.domain.authentication.AuthenticationResponse
-import com.story.platform.core.domain.authentication.AuthenticationStatus
 import com.story.platform.core.domain.resource.ResourceId
-import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
@@ -33,23 +29,7 @@ class EmotionModifyApiTest(
 
     @MockkBean
     private val emotionModifyHandler: EmotionModifyHandler,
-
-    @MockkBean
-    private val authenticationHandler: AuthenticationHandler,
-
-    @MockkBean
-    private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
-) : FunSpec({
-
-    beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "story",
-            authenticationKey = "api-key",
-            status = AuthenticationStatus.ENABLED,
-            description = "",
-        )
-        coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
-    }
+) : FunSpecDocsTest({
 
     test("새로운 이모션을 등록한다") {
         // given

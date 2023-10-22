@@ -3,14 +3,11 @@ package com.story.platform.api.domain.authentication
 import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
-import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
+import com.story.platform.api.StringSpecDocsTest
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.RestDocsUtils.remarks
 import com.story.platform.api.lib.WebClientUtils
-import com.story.platform.core.domain.authentication.AuthenticationResponse
-import com.story.platform.core.domain.authentication.AuthenticationStatus
-import io.kotest.core.spec.style.StringSpec
 import io.mockk.coEvery
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
@@ -27,23 +24,7 @@ class AuthenticationCreateApiTest(
 
     @MockkBean
     private val authenticationCreateHandler: AuthenticationCreateHandler,
-
-    @MockkBean
-    private val authenticationHandler: AuthenticationHandler,
-
-    @MockkBean
-    private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
-) : StringSpec({
-
-    beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
-            workspaceId = "story",
-            authenticationKey = UUID.randomUUID().toString(),
-            status = AuthenticationStatus.ENABLED,
-            description = "",
-        )
-        coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
-    }
+) : StringSpecDocsTest({
 
     "신규 인증 키를 등록합니다" {
         // given

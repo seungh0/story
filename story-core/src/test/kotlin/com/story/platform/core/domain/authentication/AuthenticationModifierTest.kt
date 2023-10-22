@@ -1,9 +1,8 @@
 package com.story.platform.core.domain.authentication
 
+import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.lib.TestCleaner
 import io.kotest.assertions.throwables.shouldThrowExactly
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -13,12 +12,7 @@ import kotlinx.coroutines.flow.toList
 class AuthenticationModifierTest(
     private val workspaceAuthenticationRepository: WorkspaceAuthenticationRepository,
     private val authenticationModifier: AuthenticationModifier,
-    private val testCleaner: TestCleaner,
-) : FunSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : FunSpecIntegrationTest({
 
     context("등록되어 있는 인증 키를 변경한다") {
         test("등록된 인증 키에 대한 설명을 변경한다") {

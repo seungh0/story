@@ -1,20 +1,14 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.lib.TestCleaner
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
 @IntegrationTest
 class SubscriptionCountRetrieverTest(
     private val subscriberCountRepository: SubscriberCountRepository,
     private val subscriptionCountRetriever: SubscriptionCountRetriever,
-    private val testCleaner: TestCleaner,
-) : FunSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : FunSpecIntegrationTest({
 
     context("대상자의 구독자 수를 조회한다") {
         test("특정 대상을 구독한 구독자 수를 조회한다") {

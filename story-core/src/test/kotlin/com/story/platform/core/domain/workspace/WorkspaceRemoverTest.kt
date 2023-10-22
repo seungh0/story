@@ -1,8 +1,7 @@
 package com.story.platform.core.domain.workspace
 
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.lib.TestCleaner
-import io.kotest.core.spec.style.StringSpec
+import com.story.platform.core.StringSpecIntegrationTest
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -13,12 +12,7 @@ class WorkspaceRemoverTest(
     private val workspaceRemover: WorkspaceRemover,
     private val workspaceRepository: WorkspaceRepository,
     private val workspaceArchiveRepository: WorkspaceArchiveRepository,
-    private val testCleaner: TestCleaner,
-) : StringSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : StringSpecIntegrationTest({
 
     "워크스페이스를 삭제하면 워크스페이스 상태를 삭제된 상태로 변경한다" {
         // given

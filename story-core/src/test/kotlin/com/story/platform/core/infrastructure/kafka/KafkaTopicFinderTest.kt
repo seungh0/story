@@ -1,11 +1,11 @@
 package com.story.platform.core.infrastructure.kafka
 
 import com.story.platform.core.IntegrationTest
+import com.story.platform.core.StringSpecIntegrationTest
 import io.kotest.assertions.fail
-import io.kotest.core.spec.style.StringSpec
 
 @IntegrationTest
-class KafkaTopicFinderTest : StringSpec({
+class KafkaTopicFinderTest : StringSpecIntegrationTest({
 
     "각 카프카 토픽별로 토픽명 프로퍼티를 가져온다" {
         // when & then

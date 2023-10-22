@@ -1,9 +1,8 @@
 package com.story.platform.core.domain.reaction
 
 import com.story.platform.core.IntegrationTest
+import com.story.platform.core.StringSpecIntegrationTest
 import com.story.platform.core.common.distribution.XLargeDistributionKey
-import com.story.platform.core.lib.TestCleaner
-import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
@@ -13,12 +12,7 @@ class ReactionCreatorTest(
     private val reactionCreator: ReactionCreator,
     private val reactionRepository: ReactionRepository,
     private val reactiveReverseRepository: ReactionReverseRepository,
-    private val testCleaner: TestCleaner,
-) : StringSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : StringSpecIntegrationTest({
 
     "리액션을 등록한다" {
         // given

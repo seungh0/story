@@ -1,10 +1,9 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.error.NoPermissionException
-import com.story.platform.core.lib.TestCleaner
 import io.kotest.assertions.throwables.shouldThrowExactly
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
@@ -14,12 +13,7 @@ internal class PostModifierTest(
     private val postModifier: PostModifier,
     private val postRepository: PostRepository,
     private val postReverseRepository: PostReverseRepository,
-    private val testCleaner: TestCleaner,
-) : FunSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : FunSpecIntegrationTest({
 
     context("등록된 포스트를 수정한다") {
         test("기존에 등록된 포스트를 수정합니다") {

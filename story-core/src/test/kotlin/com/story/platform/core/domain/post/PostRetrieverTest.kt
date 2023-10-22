@@ -1,10 +1,9 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.dto.CursorRequest
-import com.story.platform.core.lib.TestCleaner
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
@@ -14,13 +13,8 @@ class PostRetrieverTest(
     private val postRepository: PostRepository,
     private val postReverseRepository: PostReverseRepository,
     private val postRetriever: PostRetriever,
-    private val testCleaner: TestCleaner,
     private val postSequenceRepository: PostSequenceRepository,
-) : FunSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : FunSpecIntegrationTest({
 
     context("특정 공간에 등록되어 있는 포스트 목록을 조회한다 - NEXT 방향 조회") {
         context("첫 페이지 단일 슬롯 조회") {

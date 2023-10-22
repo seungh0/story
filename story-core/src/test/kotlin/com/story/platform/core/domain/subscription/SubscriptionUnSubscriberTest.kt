@@ -1,8 +1,7 @@
 package com.story.platform.core.domain.subscription
 
+import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.lib.TestCleaner
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
@@ -12,12 +11,7 @@ internal class SubscriptionUnSubscriberTest(
     private val subscriptionUnSubscriber: SubscriptionUnSubscriber,
     private val subscriberRepository: SubscriberRepository,
     private val subscriptionRepository: SubscriptionRepository,
-    private val testCleaner: TestCleaner,
-) : FunSpec({
-
-    afterEach {
-        testCleaner.cleanUp()
-    }
+) : FunSpecIntegrationTest({
 
     context("구독을 취소한다") {
         test("등록한 구독 정보를 취소한다") {
