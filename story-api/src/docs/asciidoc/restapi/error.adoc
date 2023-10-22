@@ -2,11 +2,8 @@
 |===
 | 상태값 | 에러 코드 | 설명
 | 400 | invalid_arguments | 필수 파라미터가 없거나, 파라미터가 유효하지 않는 경우
-| 400 | invalid_cursor | 유효하지 않은 커서인 경우
-| 400 | invalid_post_id | 유효하지 않은 포스트 ID인 경우
 | 400 | inactivated_workspace | 비활성화된 워크스페이스인 경우
 | 400 | invalid_nonce | 유효하지 않은 Nonce인 경우
-| 400 | invalid_post_sort_by | 유효하지 않은 포스트 정렬 방식인 경우
 | 400 | missing_request_account_id | 요청자("X-Request-Account-Id") 헤더가 없는 경우
 | 401 | invalid_authentication_key | 유효하지 않은 인증 키가 요청된 경우
 | 401 | inactivated_authentication_key | 비활성화된 인증 키가 요청된 경우

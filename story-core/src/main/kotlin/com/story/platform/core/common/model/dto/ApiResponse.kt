@@ -16,11 +16,11 @@ data class ApiResponse<T>(
 
         fun <T> fail(
             error: ErrorCode,
-            messages: Collection<String>? = null,
+            reasons: Collection<String>? = null,
         ): ApiResponse<T> = ApiResponse(
             ok = false,
             error = error.code,
-            reasons = messages?.toList(),
+            reasons = reasons?.toList(),
             result = null,
         )
 

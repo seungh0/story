@@ -210,7 +210,7 @@ class SubscriptionRetrieveApiTest(
 
         val request = SubscriberListApiRequest(
             pageSize = 30,
-            direction = CursorDirection.NEXT,
+            direction = CursorDirection.NEXT.name,
             cursor = UUID.randomUUID().toString(),
         )
 
@@ -297,7 +297,7 @@ class SubscriptionRetrieveApiTest(
 
         val request = SubscriptionTargetListApiRequest(
             pageSize = 30,
-            direction = CursorDirection.NEXT,
+            direction = CursorDirection.NEXT.name,
             cursor = UUID.randomUUID().toString(),
         )
 

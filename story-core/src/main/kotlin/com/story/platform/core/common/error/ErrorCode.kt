@@ -14,15 +14,8 @@ enum class ErrorCode(
         code = "invalid_arguments",
         description = "필수 파라미터가 없거나, 파라미터가 유효하지 않는 경우"
     ),
-    E400_INVALID_CURSOR(httpStatusCode = 400, code = "invalid_cursor", description = "유효하지 않은 커서인 경우"),
-    E400_INVALID_POST_ID(httpStatusCode = 400, code = "invalid_post_id", description = "유효하지 않은 포스트 ID인 경우"),
     E400_INACTIVATED_WORKSPACE(httpStatusCode = 400, code = "inactivated_workspace", description = "비활성화된 워크스페이스인 경우"),
     E400_INVALID_NONCE(httpStatusCode = 400, code = "invalid_nonce", description = "유효하지 않은 Nonce인 경우"),
-    E400_INVALID_POST_SORT_BY(
-        httpStatusCode = 400,
-        code = "invalid_post_sort_by",
-        description = "유효하지 않은 포스트 정렬 방식인 경우"
-    ),
     E400_MISSING_REQUEST_ACCOUNT_ID(
         httpStatusCode = 400,
         code = "missing_request_account_id",

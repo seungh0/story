@@ -57,7 +57,7 @@ class PostRetrieveHandler(
                 spaceId = spaceId,
             ),
             cursorRequest = request.toCursor(),
-            sortBy = request.sortBy,
+            sortBy = request.getSortBy(),
         )
 
         return PostListApiResponse.of(posts = posts, requestAccountId = requestAccountId)

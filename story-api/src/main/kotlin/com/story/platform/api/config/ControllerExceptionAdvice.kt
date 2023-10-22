@@ -63,7 +63,7 @@ class ControllerExceptionAdvice {
             log.error(exception) { exception.message }
         }
         return ResponseEntity.status(exception.errorCode.httpStatusCode)
-            .body(ApiResponse.fail(error = exception.errorCode))
+            .body(ApiResponse.fail(error = exception.errorCode, reasons = exception.reasons))
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -5,6 +5,7 @@ data class InvalidCursorException(
     override val cause: Throwable? = null,
 ) : StoryBaseException(
     message = message,
-    errorCode = ErrorCode.E400_INVALID_CURSOR,
+    errorCode = ErrorCode.E400_INVALID_ARGUMENTS,
     cause = cause,
+    reasons = listOf("cursor is invalid"),
 )

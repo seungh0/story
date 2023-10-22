@@ -8,6 +8,7 @@ data class PostSortByInvalidException(
     override val cause: Throwable? = null,
 ) : StoryBaseException(
     message = message,
-    errorCode = ErrorCode.E400_INVALID_POST_SORT_BY,
+    errorCode = ErrorCode.E400_INVALID_ARGUMENTS,
     cause = cause,
+    reasons = listOf("sortBy is invalid")
 )

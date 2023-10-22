@@ -8,6 +8,7 @@ data class PostIdInvalidException(
     override val cause: Throwable? = null,
 ) : StoryBaseException(
     message = message,
-    errorCode = ErrorCode.E400_INVALID_POST_ID,
+    errorCode = ErrorCode.E400_INVALID_ARGUMENTS,
     cause = cause,
+    reasons = listOf("postId is invalid"),
 )
