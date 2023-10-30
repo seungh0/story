@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.authentication
 
 import com.story.platform.core.common.model.dto.ApiResponse
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -16,8 +17,12 @@ class AuthenticationRetrieveApi(
     @GetMapping("/v1/authentication/{authenticationKey}")
     suspend fun getAuthentication(
         @PathVariable authenticationKey: String,
+        @Valid request: AuthenticationGetApiRequest,
     ): ApiResponse<AuthenticationApiResponse> {
-        val response = authenticationRetrieveHandler.getAuthentication(authenticationKey = authenticationKey)
+        val response = authenticationRetrieveHandler.getAuthentication(
+            authenticationKey = authenticationKey,
+            filterStatus = request.filterStatus
+        )
         return ApiResponse.ok(response)
     }
 

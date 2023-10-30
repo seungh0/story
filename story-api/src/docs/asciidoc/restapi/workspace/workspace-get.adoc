@@ -14,6 +14,10 @@ include::{snippets}/workspace.get/path-parameters.adoc[]
 
 include::{snippets}/workspace.get/request-headers.adoc[]
 
+==== [Request Query Parameters]
+
+include::{snippets}/workspace.get/query-parameters.adoc[]
+
 ==== [Response]
 
 include::{snippets}/workspace.get/http-response.adoc[]

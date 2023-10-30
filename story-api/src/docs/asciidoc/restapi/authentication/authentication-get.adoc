@@ -10,6 +10,10 @@ include::{snippets}/authentication.get/http-request.adoc[]
 
 include::{snippets}/authentication.get/path-parameters.adoc[]
 
+==== [Request Query Parameters]
+
+include::{snippets}/authentication.get/query-parameters.adoc[]
+
 ==== [Response]
 
 include::{snippets}/authentication.get/response-body.adoc[]

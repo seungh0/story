@@ -55,12 +55,17 @@ class WorkspaceRetrieveApiTest(
         coEvery {
             workspaceRetrieveHandler.getWorkspace(
                 workspaceId = any(),
+                filterStatus = any(),
             )
         } returns WorkspaceApiResponse.of(workspace = WorkspaceResponse.of(workspace = workspace))
 
         // when
         val exchange = webTestClient.get()
-            .uri("/v1/workspaces/{workspaceId}", workspace.workspaceId)
+            .uri(
+                "/v1/workspaces/{workspaceId}?filterStatus={filterStatus}",
+                workspace.workspaceId,
+                WorkspaceStatus.ENABLED
+            )
             .headers(WebClientUtils.authenticationHeader)
             .exchange()
 
@@ -77,6 +82,12 @@ class WorkspaceRetrieveApiTest(
                     RestDocsUtils.authenticationHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("workspaceId").description("워크스페이스 ID"),
+                    ),
+                    RequestDocumentation.queryParameters(
+                        RequestDocumentation.parameterWithName("filterStatus")
+                            .description("필터링 상태 값 (null인 경우 상태 값에 상관 없이 조회)")
+                            .optional()
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(WorkspaceStatus::class.java))),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

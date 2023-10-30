@@ -14,6 +14,10 @@ include::{snippets}/component.get/path-parameters.adoc[]
 
 include::{snippets}/component.get/request-headers.adoc[]
 
+==== [Request Query Parameters]
+
+include::{snippets}/component.get/query-parameters.adoc[]
+
 ==== [Response]
 
 include::{snippets}/component.get/http-response.adoc[]

@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.component
 
 import com.story.platform.core.common.annotation.HandlerAdapter
+import com.story.platform.core.domain.component.ComponentNotExistsException
 import com.story.platform.core.domain.component.ComponentRetriever
 import com.story.platform.core.domain.resource.ResourceId
 
@@ -13,12 +14,18 @@ class ComponentRetrieveHandler(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
+        request: ComponentGetApiRequest,
     ): ComponentApiResponse {
         val component = componentRetriever.getComponent(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId
         )
+
+        if (request.filterStatus != null && component.status != request.filterStatus) {
+            throw ComponentNotExistsException(message = "워크스페이스($workspaceId)에 상태가 다른 컴포넌트($resourceId-$componentId)입니다. [filterStatus: ${request.filterStatus}, current: ${component.status}]")
+        }
+
         return ComponentApiResponse.of(component)
     }
 

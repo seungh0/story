@@ -10,6 +10,10 @@ include::{snippets}/authentication.create/http-request.adoc[]
 
 include::{snippets}/authentication.create/path-parameters.adoc[]
 
+==== [Request Headers]
+
+include::{snippets}/authentication.create/request-headers.adoc[]
+
 ===== [Request Body Parameter]
 
 include::{snippets}/authentication.create/request-fields.adoc[]

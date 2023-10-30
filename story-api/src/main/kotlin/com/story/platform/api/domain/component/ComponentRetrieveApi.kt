@@ -19,11 +19,13 @@ class ComponentRetrieveApi(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
         @RequestAuthContext authContext: AuthContext,
+        @Valid request: ComponentGetApiRequest,
     ): ApiResponse<ComponentApiResponse> {
         val component = componentRetrieveHandler.getComponent(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),
             componentId = componentId,
+            request = request,
         )
         return ApiResponse.ok(component)
     }

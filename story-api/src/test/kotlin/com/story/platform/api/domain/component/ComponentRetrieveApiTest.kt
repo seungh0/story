@@ -35,6 +35,10 @@ class ComponentRetrieveApiTest(
         val description = "[Story Platform] 유저 팔로우 시스템"
         val status = ComponentStatus.ENABLED
 
+        val request = ComponentGetApiRequest(
+            filterStatus = ComponentStatus.ENABLED,
+        )
+
         val component = ComponentApiResponse(
             componentId = componentId,
             description = description,
@@ -48,12 +52,18 @@ class ComponentRetrieveApiTest(
                 workspaceId = "story",
                 resourceId = resourceId,
                 componentId = componentId,
+                request = request,
             )
         } returns component
 
         // when
         val exchange = webTestClient.get()
-            .uri("/v1/resources/{resourceId}/components/{componentId}", resourceId.code, componentId)
+            .uri(
+                "/v1/resources/{resourceId}/components/{componentId}?filterStatus={filterStatus}",
+                resourceId.code,
+                componentId,
+                request.filterStatus
+            )
             .headers(WebClientUtils.authenticationHeader)
             .exchange()
 
@@ -70,6 +80,12 @@ class ComponentRetrieveApiTest(
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("resourceId").description("리소스 ID"),
                         RequestDocumentation.parameterWithName("componentId").description("컴포넌트 ID"),
+                    ),
+                    RequestDocumentation.queryParameters(
+                        RequestDocumentation.parameterWithName("filterStatus")
+                            .description("필터링 상태 값 (null인 경우 상태 값에 상관 없이 조회)")
+                            .optional()
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

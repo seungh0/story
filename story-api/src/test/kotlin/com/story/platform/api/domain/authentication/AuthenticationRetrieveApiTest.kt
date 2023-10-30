@@ -32,6 +32,7 @@ class AuthenticationRetrieveApiTest(
         coEvery {
             authenticationRetrieveHandler.getAuthentication(
                 authenticationKey = authenticationKey,
+                filterStatus = any(),
             )
         } returns AuthenticationApiResponse(
             authenticationKey = authenticationKey,
@@ -41,7 +42,11 @@ class AuthenticationRetrieveApiTest(
 
         // when
         val exchange = webTestClient.get()
-            .uri("/v1/authentication/{authenticationKey}", authenticationKey)
+            .uri(
+                "/v1/authentication/{authenticationKey}?filterStatus={filterStatus}",
+                authenticationKey,
+                AuthenticationStatus.ENABLED
+            )
             .headers(WebClientUtils.commonHeaders)
             .exchange()
 
@@ -57,6 +62,12 @@ class AuthenticationRetrieveApiTest(
                     RestDocsUtils.commonHeadersDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("authenticationKey").description("인증 키"),
+                    ),
+                    RequestDocumentation.queryParameters(
+                        RequestDocumentation.parameterWithName("filterStatus")
+                            .description("필터링 상태 값 (null인 경우 상태 값에 상관 없이 조회)")
+                            .optional()
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationStatus::class.java))),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

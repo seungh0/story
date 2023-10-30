@@ -4,6 +4,7 @@ import com.story.platform.api.config.auth.AuthContext
 import com.story.platform.api.config.auth.RequestAuthContext
 import com.story.platform.core.common.model.dto.ApiResponse
 import com.story.platform.core.domain.workspace.WorkspaceNoPermissionException
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -17,6 +18,7 @@ class WorkspaceRetrieveApi(
     suspend fun getWorkspace(
         @PathVariable workspaceId: String,
         @RequestAuthContext authContext: AuthContext,
+        @Valid request: WorkspaceGetApiRequest,
     ): ApiResponse<WorkspaceApiResponse> {
         if (authContext.workspaceId != workspaceId) {
             throw WorkspaceNoPermissionException("워크스페이스($workspaceId)에 권한이 없습니다 [현재 요청자의 워크스페이스 키 = ${authContext.workspaceId}]")
@@ -24,6 +26,7 @@ class WorkspaceRetrieveApi(
 
         val response = workspaceRetrieveHandler.getWorkspace(
             workspaceId = workspaceId,
+            filterStatus = request.filterStatus,
         )
         return ApiResponse.ok(response)
     }
