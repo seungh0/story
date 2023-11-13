@@ -11,6 +11,9 @@ import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.dto.CursorResponse
 import com.story.platform.core.domain.component.ComponentStatus
 import com.story.platform.core.domain.post.PostSortBy
+import com.story.platform.core.domain.post.section.PostSectionType
+import com.story.platform.core.domain.post.section.image.ImagePostSectionContentResponse
+import com.story.platform.core.domain.post.section.text.TextPostSectionContentResponse
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation
@@ -33,24 +36,33 @@ class PostRetrieveApiTest(
         // given
         val componentId = "account-post"
         val title = "플랫폼 정보"
-        val content = """
-                   1. 스토리 플랫폼(Story Platform)이란?
-                   - "스토리 플랫폼"은 비즈니스를 위한 서비스를 쉽게 개발할 수 있도록 컴포넌트 플랫폼을 제공합니다.
-
-                   2. 누구를 위한 플랫폼 인가요?
-                   - 제품을 신속하게 출시하고 시장 응답을 확인하고자 하는 스타트업 또는 팀.
-                   - 서버 개발과 관리의 비용과 수고를 들이지 않고 비즈니스를 위한 서비스를 만들고자 하는 개인 또는 팀.
-        """.trimIndent()
         val spaceId = "spaceId"
         val postId = "200000"
 
         val post = PostApiResponse(
             postId = postId,
             title = title,
-            content = content,
             isOwner = false,
             writer = PostWriterApiResponse(
                 accountId = "account-id"
+            ),
+            sections = listOf(
+                PostSectionApiResponse(
+                    sectionType = PostSectionType.TEXT,
+                    data = TextPostSectionContentResponse(
+                        content = ""
+                    )
+                ),
+                PostSectionApiResponse(
+                    sectionType = PostSectionType.IMAGE,
+                    data = ImagePostSectionContentResponse(
+                        path = "/store/v1/store.png",
+                        fileName = "store.png",
+                        width = 480,
+                        height = 360,
+                        fileSize = 1234123,
+                    )
+                )
             )
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -104,8 +116,25 @@ class PostRetrieveApiTest(
                             .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
                         PayloadDocumentation.fieldWithPath("result.title")
                             .type(JsonFieldType.STRING).description("포스트 제목"),
-                        PayloadDocumentation.fieldWithPath("result.content")
-                            .type(JsonFieldType.STRING).description("포스트 내용"),
+                        PayloadDocumentation.fieldWithPath("result.sections")
+                            .type(JsonFieldType.ARRAY).description("포스트 섹션 목록"),
+                        PayloadDocumentation.fieldWithPath("result.sections[].sectionType")
+                            .type(JsonFieldType.STRING).description("포스트 섹션 타입")
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(PostSectionType::class.java))),
+                        PayloadDocumentation.fieldWithPath("result.sections[].data")
+                            .type(JsonFieldType.OBJECT).description("포스트 섹션 목록"),
+                        PayloadDocumentation.fieldWithPath("result.sections[].data.content")
+                            .type(JsonFieldType.STRING).description("[TEXT 섹션 전용] 포스트 섹션 내용").optional(),
+                        PayloadDocumentation.fieldWithPath("result.sections[].data.path")
+                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 Path").optional(),
+                        PayloadDocumentation.fieldWithPath("result.sections[].data.fileName")
+                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 파일 이름").optional(),
+                        PayloadDocumentation.fieldWithPath("result.sections[].data.width")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 가로 길이").optional(),
+                        PayloadDocumentation.fieldWithPath("result.sections[].data.height")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 세로 길이").optional(),
+                        PayloadDocumentation.fieldWithPath("result.sections[].data.fileSize")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 파일 사이즈").optional(),
                         PayloadDocumentation.fieldWithPath("result.createdAt")
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.updatedAt")
@@ -123,14 +152,6 @@ class PostRetrieveApiTest(
         // given
         val componentId = "account-post"
         val title = "플랫폼 정보"
-        val content = """
-                   1. 스토리 플랫폼(Story Platform)이란?
-                   - "스토리 플랫폼"은 비즈니스를 위한 서비스를 쉽게 개발할 수 있도록 컴포넌트 플랫폼을 제공합니다.
-
-                   2. 누구를 위한 플랫폼 인가요?
-                   - 제품을 신속하게 출시하고 시장 응답을 확인하고자 하는 스타트업 또는 팀.
-                   - 서버 개발과 관리의 비용과 수고를 들이지 않고 비즈니스를 위한 서비스를 만들고자 하는 개인 또는 팀.
-        """.trimIndent()
         val spaceId = "user-spaceId"
         val postId = "20000"
         val cursor = UUID.randomUUID().toString()
@@ -141,11 +162,28 @@ class PostRetrieveApiTest(
         val post = PostApiResponse(
             postId = postId,
             title = title,
-            content = content,
             writer = PostWriterApiResponse(
                 accountId = "account-id"
             ),
             isOwner = false,
+            sections = listOf(
+                PostSectionApiResponse(
+                    sectionType = PostSectionType.TEXT,
+                    data = TextPostSectionContentResponse(
+                        content = ""
+                    )
+                ),
+                PostSectionApiResponse(
+                    sectionType = PostSectionType.IMAGE,
+                    data = ImagePostSectionContentResponse(
+                        path = "/store/v1/store.png",
+                        fileName = "store.png",
+                        width = 480,
+                        height = 360,
+                        fileSize = 1234123,
+                    )
+                )
+            )
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -219,8 +257,25 @@ class PostRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result.posts[].title")
                             .type(JsonFieldType.STRING).description("포스트 제목")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
-                        PayloadDocumentation.fieldWithPath("result.posts[].content")
-                            .type(JsonFieldType.STRING).description("포스트 내용"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections")
+                            .type(JsonFieldType.ARRAY).description("포스트 섹션 목록"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].sectionType")
+                            .type(JsonFieldType.STRING).description("포스트 섹션 타입")
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(PostSectionType::class.java))),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data")
+                            .type(JsonFieldType.OBJECT).description("포스트 섹션 목록"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.content")
+                            .type(JsonFieldType.STRING).description("[TEXT 섹션 전용] 포스트 섹션 내용").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.path")
+                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 Path").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.fileName")
+                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 파일 명").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.width")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 가로 길이").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.height")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 세로 길이").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.fileSize")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 파일 사이즈").optional(),
                         PayloadDocumentation.fieldWithPath("result.posts[].createdAt")
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.posts[].updatedAt")

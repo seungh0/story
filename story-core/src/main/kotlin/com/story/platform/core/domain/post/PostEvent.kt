@@ -32,7 +32,7 @@ data class PostEvent(
                 postId = post.postId,
                 accountId = post.accountId,
                 title = post.title,
-                content = post.content,
+                content = "", // TODO: 섹션으로 변경
                 createdAt = post.createdAt,
                 updatedAt = post.updatedAt,
             ),
@@ -49,7 +49,7 @@ data class PostEvent(
                 postId = post.postId,
                 accountId = post.accountId,
                 title = post.title,
-                content = post.content,
+                content = "", // TODO: 섹션으로 변경
                 createdAt = post.createdAt,
                 updatedAt = post.updatedAt,
             ),

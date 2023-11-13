@@ -36,7 +36,7 @@ class PostModifyApi(
             postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)가 요청되었습니다"),
             accountId = authContext.getRequiredRequestAccountId(),
             title = request.title,
-            content = request.content,
+            sections = request.toSections(),
         )
         return ApiResponse.OK
     }

@@ -91,7 +91,6 @@ internal class PostRemoverTest(
                 it.key.postId shouldBe post.key.postId
                 it.accountId shouldBe post.accountId
                 it.title shouldBe post.title
-                it.content shouldBe post.content
                 it.extra shouldBe post.extra
             }
 
@@ -104,7 +103,6 @@ internal class PostRemoverTest(
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.postId shouldBe post.key.postId
                 it.title shouldBe post.title
-                it.content shouldBe post.content
                 it.extra shouldBe post.extra
             }
         }

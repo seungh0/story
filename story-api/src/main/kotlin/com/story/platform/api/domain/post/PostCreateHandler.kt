@@ -6,6 +6,7 @@ import com.story.platform.core.domain.nonce.NonceManager
 import com.story.platform.core.domain.post.PostCreator
 import com.story.platform.core.domain.post.PostEventProducer
 import com.story.platform.core.domain.post.PostSpaceKey
+import com.story.platform.core.domain.post.section.PostSectionContentRequest
 import com.story.platform.core.domain.resource.ResourceId
 
 @HandlerAdapter
@@ -20,7 +21,7 @@ class PostCreateHandler(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         title: String,
-        content: String,
+        sections: List<PostSectionContentRequest>,
         nonce: String?,
     ): Long {
         nonce?.let { nonceManager.verify(nonce) }
@@ -34,7 +35,7 @@ class PostCreateHandler(
             postSpaceKey = postSpaceKey,
             accountId = accountId,
             title = title,
-            content = content,
+            sections = sections,
         )
         postEventProducer.publishCreatedEvent(post = post)
         return post.postId

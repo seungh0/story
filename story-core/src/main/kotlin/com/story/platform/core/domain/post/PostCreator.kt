@@ -1,5 +1,7 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.domain.post.section.PostSection
+import com.story.platform.core.domain.post.section.PostSectionContentRequest
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
@@ -15,7 +17,7 @@ class PostCreator(
         postSpaceKey: PostSpaceKey,
         accountId: String,
         title: String,
-        content: String,
+        sections: List<PostSectionContentRequest>,
     ): PostResponse {
         val postId = postSequenceRepository.generate(postSpaceKey = postSpaceKey)
         val post = Post.of(
@@ -23,14 +25,25 @@ class PostCreator(
             accountId = accountId,
             postId = postId,
             title = title,
-            content = content,
         )
+
+        val postSections = sections.map { section ->
+            PostSection.of(
+                postSpaceKey = postSpaceKey,
+                postId = postId,
+                content = section.toSection(),
+                sectionType = section.sectionType(),
+                priority = section.priority,
+            )
+        }
+
         reactiveCassandraOperations.batchOps()
             .upsert(post)
             .upsert(PostReverse.of(post))
+            .upsert(postSections)
             .executeCoroutine()
 
-        return PostResponse.of(post = post)
+        return PostResponse.of(post = post, sections = postSections)
     }
 
 }

@@ -17,8 +17,6 @@ data class Post(
 
     val accountId: String,
     var title: String,
-    var content: String,
-
     val extra: MutableMap<String, String> = mutableMapOf(),
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
@@ -31,17 +29,11 @@ data class Post(
 
     fun patch(
         title: String?,
-        content: String?,
     ): Boolean {
         var hasChanged = false
         if (!title.isNullOrBlank()) {
             hasChanged = hasChanged || this.title != title
             this.title = title
-        }
-
-        if (content != null) {
-            hasChanged = hasChanged || this.content != content
-            this.content = content
         }
 
         this.auditingTime.updated()
@@ -55,7 +47,6 @@ data class Post(
             accountId: String,
             postId: Long,
             title: String,
-            content: String,
         ) = Post(
             key = PostPrimaryKey.of(
                 postSpaceKey = postSpaceKey,
@@ -63,7 +54,6 @@ data class Post(
             ),
             accountId = accountId,
             title = title,
-            content = content,
             auditingTime = AuditingTime.created(),
         )
     }

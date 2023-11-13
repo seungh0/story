@@ -13,7 +13,6 @@ class PostTest : FunSpec({
             // when
             val hasChanged = post.patch(
                 title = "title",
-                content = null,
             )
 
             // then
@@ -27,25 +26,10 @@ class PostTest : FunSpec({
             // when
             val hasChanged = post.patch(
                 title = post.title,
-                content = null,
             )
 
             // then
             hasChanged shouldBe false
-        }
-
-        test("모든 필드가 변경되는 경우 변경점이 존재한다") {
-            // given
-            val post = PostFixture.create()
-
-            // when
-            val hasChanged = post.patch(
-                title = "title",
-                content = "content",
-            )
-
-            // then
-            hasChanged shouldBe true
         }
     }
 

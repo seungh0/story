@@ -6,6 +6,7 @@ import com.story.platform.core.domain.post.PostEventProducer
 import com.story.platform.core.domain.post.PostModifier
 import com.story.platform.core.domain.post.PostResponse
 import com.story.platform.core.domain.post.PostSpaceKey
+import com.story.platform.core.domain.post.section.PostSectionContentRequest
 import com.story.platform.core.domain.resource.ResourceId
 
 @HandlerAdapter
@@ -20,7 +21,7 @@ class PostModifyHandler(
         accountId: String,
         postId: Long,
         title: String?,
-        content: String?,
+        sections: List<PostSectionContentRequest>?,
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,
@@ -33,7 +34,7 @@ class PostModifyHandler(
             accountId = accountId,
             postId = postId,
             title = title,
-            content = content,
+            sections = sections,
         )
 
         if (!hasChanged) {

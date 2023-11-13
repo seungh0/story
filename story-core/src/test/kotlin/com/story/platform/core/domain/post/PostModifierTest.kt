@@ -3,6 +3,12 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.error.NoPermissionException
+import com.story.platform.core.common.json.toJson
+import com.story.platform.core.domain.post.section.PostSectionRepository
+import com.story.platform.core.domain.post.section.PostSectionSlotAssigner
+import com.story.platform.core.domain.post.section.PostSectionType
+import com.story.platform.core.domain.post.section.text.TextPostSectionContent
+import com.story.platform.core.domain.post.section.text.TextPostSectionContentRequest
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -13,22 +19,28 @@ internal class PostModifierTest(
     private val postModifier: PostModifier,
     private val postRepository: PostRepository,
     private val postReverseRepository: PostReverseRepository,
+    private val postSectionRepository: PostSectionRepository,
 ) : FunSpecIntegrationTest({
 
     context("등록된 포스트를 수정한다") {
         test("기존에 등록된 포스트를 수정합니다") {
             // given
             val title = "포스트 제목"
-            val content = """
-                포스트 내용
-                입니다
-            """.trimIndent()
 
             val post = PostFixture.create()
             val postRev = PostReverse.of(post)
 
             postRepository.save(post)
             postReverseRepository.save(postRev)
+
+            val section1 = TextPostSectionContentRequest(
+                content = "컨텐츠 내용 - 1",
+                priority = 1L,
+            )
+            val section2 = TextPostSectionContentRequest(
+                content = "컨텐츠 내용 - 2",
+                priority = 2L,
+            )
 
             // when
             postModifier.patchPost(
@@ -40,7 +52,7 @@ internal class PostModifierTest(
                 postId = post.key.postId,
                 accountId = post.accountId,
                 title = title,
-                content = content,
+                sections = listOf(section1, section2),
             )
 
             // then
@@ -54,7 +66,6 @@ internal class PostModifierTest(
                 it.key.postId shouldBe post.key.postId
                 it.accountId shouldBe post.accountId
                 it.title shouldBe title
-                it.content shouldBe content
             }
 
             val postReverses = postReverseRepository.findAll().toList()
@@ -65,7 +76,31 @@ internal class PostModifierTest(
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.postId shouldBe post.key.postId
                 it.title shouldBe title
-                it.content shouldBe content
+            }
+
+            val postSections = postSectionRepository.findAll().toList()
+            postSections shouldHaveSize 2
+            postSections[0].also {
+                it.key.workspaceId shouldBe post.key.workspaceId
+                it.key.componentId shouldBe post.key.componentId
+                it.key.spaceId shouldBe post.key.spaceId
+                it.key.slotId shouldBe PostSectionSlotAssigner.assign(postId = post.key.postId)
+                it.key.priority shouldBe 1L
+                it.sectionType shouldBe PostSectionType.TEXT
+                it.data shouldBe TextPostSectionContent(
+                    content = section1.content
+                ).toJson()
+            }
+            postSections[1].also {
+                it.key.workspaceId shouldBe post.key.workspaceId
+                it.key.componentId shouldBe post.key.componentId
+                it.key.spaceId shouldBe post.key.spaceId
+                it.key.slotId shouldBe PostSectionSlotAssigner.assign(postId = post.key.postId)
+                it.key.priority shouldBe 2L
+                it.sectionType shouldBe PostSectionType.TEXT
+                it.data shouldBe TextPostSectionContent(
+                    content = section2.content
+                ).toJson()
             }
         }
 
@@ -85,7 +120,7 @@ internal class PostModifierTest(
                     postId = 10000L,
                     accountId = "accountId",
                     title = title,
-                    content = content,
+                    sections = emptyList(),
                 )
             }
         }
@@ -112,7 +147,7 @@ internal class PostModifierTest(
                     postId = post.key.postId,
                     accountId = "another Account Id",
                     title = title,
-                    content = content,
+                    sections = emptyList(),
                 )
             }
         }

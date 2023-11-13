@@ -63,6 +63,35 @@ object Jsons {
         }
     }
 
+    fun <K, V, T> toObject(map: Map<K, V>, toClass: Class<T>): T? {
+        return try {
+            DEFAULT_OBJECT_MAPPER.convertValue(map, toClass)
+        } catch (exception: Exception) {
+            throw InternalServerException(
+                message = String.format(
+                    "역직렬화 중 에러가 발생하였습니다. map: (%s) toClass: (%s)", map,
+                    toClass.simpleName
+                ),
+                cause = exception
+            )
+        }
+    }
+
+    fun <K, V, T> toObject(map: Map<K, V>, typeReference: TypeReference<T>): T? {
+        return try {
+            DEFAULT_OBJECT_MAPPER.convertValue(map, typeReference)
+        } catch (exception: Exception) {
+            throw InternalServerException(
+                message = String.format(
+                    "역직렬화 중 에러가 발생하였습니다. map: (%s) toClass: (%s)",
+                    map,
+                    typeReference
+                ),
+                cause = exception
+            )
+        }
+    }
+
     fun <T> toJson(input: T): String {
         return try {
             DEFAULT_OBJECT_MAPPER.writeValueAsString(input)

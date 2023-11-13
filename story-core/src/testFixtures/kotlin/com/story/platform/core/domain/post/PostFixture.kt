@@ -12,7 +12,6 @@ object PostFixture {
         accountId: String = RandomGenerator.generateString(),
         postId: Long = RandomGenerator.generateLong(),
         title: String = RandomGenerator.generateString(),
-        content: String = RandomGenerator.generateString(),
         extra: Map<String, String> = emptyMap(),
     ) = Post(
         key = PostPrimaryKey.of(
@@ -25,7 +24,6 @@ object PostFixture {
         ),
         accountId = accountId,
         title = title,
-        content = content,
         extra = extra.toMutableMap(),
         auditingTime = AuditingTime.created(),
     )

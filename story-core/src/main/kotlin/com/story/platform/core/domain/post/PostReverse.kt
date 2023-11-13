@@ -16,7 +16,6 @@ data class PostReverse(
 
     val slotId: Long,
     val title: String,
-    val content: String,
     val extra: MutableMap<String, String> = mutableMapOf(),
 ) {
 
@@ -31,7 +30,6 @@ data class PostReverse(
             ),
             slotId = post.key.slotId,
             title = post.title,
-            content = post.content,
             extra = post.extra,
         )
     }

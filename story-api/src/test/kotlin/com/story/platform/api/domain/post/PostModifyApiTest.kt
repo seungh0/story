@@ -12,6 +12,7 @@ import com.story.platform.api.lib.RestDocsUtils.remarks
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.api.lib.isTrue
 import com.story.platform.core.domain.post.PostSpaceKey
+import com.story.platform.core.domain.post.section.PostSectionType
 import io.mockk.coEvery
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
@@ -38,16 +39,28 @@ class PostModifyApiTest(
         val postId = 7126L
         val spaceId = "user-space-id"
 
-        val request = PostModifyApiRequest(
+        val request = PostCreateApiRequest(
             title = "플랫폼 정보",
-            content = """
-                   1. 스토리 플랫폼(Story Platform)이란?
-                   - "스토리 플랫폼"은 비즈니스를 위한 서비스를 쉽게 개발할 수 있도록 컴포넌트 플랫폼을 제공합니다.
-
-                   2. 누구를 위한 플랫폼 인가요?
-                   - 제품을 신속하게 출시하고 시장 응답을 확인하고자 하는 스타트업 또는 팀.
-                   - 서버 개발과 관리의 비용과 수고를 들이지 않고 비즈니스를 위한 서비스를 만들고자 하는 개인 또는 팀.
-            """.trimIndent(),
+            sections = listOf(
+                PostSectionApiRequest(
+                    sectionType = PostSectionType.TEXT.name,
+                    data = mapOf(
+                        "priority" to 1L,
+                        "content" to "포스트 내용",
+                    )
+                ),
+                PostSectionApiRequest(
+                    sectionType = PostSectionType.IMAGE.name,
+                    data = mapOf(
+                        "priority" to 2L,
+                        "path" to "/store/v1/store.png",
+                        "fileName" to "store.png",
+                        "width" to 480,
+                        "height" to 360,
+                        "fileSize" to 1234123
+                    )
+                )
+            )
         )
 
         coEvery {
@@ -60,7 +73,7 @@ class PostModifyApiTest(
                 postId = postId,
                 accountId = any(),
                 title = request.title,
-                content = request.content,
+                sections = request.toSections(),
             )
         } returns Unit
 
@@ -98,9 +111,27 @@ class PostModifyApiTest(
                         fieldWithPath("title").type(JsonFieldType.STRING)
                             .description("포스트 제목")
                             .attributes(remarks("최대 100자까지 사용할 수 있습니다")),
-                        fieldWithPath("content").type(JsonFieldType.STRING)
-                            .description("포스트 내용")
-                            .attributes(remarks("최대 500자까지 사용할 수 있습니다")),
+                        fieldWithPath("sections").type(JsonFieldType.ARRAY)
+                            .description("포스트 내용 섹션 목록"),
+                        fieldWithPath("sections[].sectionType").type(JsonFieldType.STRING)
+                            .description("포스트 섹션 타입")
+                            .attributes(remarks(RestDocsUtils.convertToString(PostSectionType::class.java))),
+                        fieldWithPath("sections[].data.priority").type(JsonFieldType.NUMBER)
+                            .description("포스트 섹션 순서")
+                            .attributes(remarks("priority가 낮은 것 부터 먼저 조회됩니다")),
+                        fieldWithPath("sections[].data.content").type(JsonFieldType.STRING)
+                            .description("[TEXT 섹션 전용] 섹션 내용")
+                            .attributes(remarks("최대 500자까지 사용할 수 있습니다")).optional(),
+                        fieldWithPath("sections[].data.path").type(JsonFieldType.STRING)
+                            .description("[IMAGE 섹션 전용] 이미지 Path").optional(),
+                        fieldWithPath("sections[].data.fileName").type(JsonFieldType.STRING)
+                            .description("[IMAGE 섹션 전용] 이미지 파일 이름").optional(),
+                        fieldWithPath("sections[].data.width").type(JsonFieldType.NUMBER)
+                            .description("[IMAGE 섹션 전용] 이미지 가로 길이").optional(),
+                        fieldWithPath("sections[].data.height").type(JsonFieldType.NUMBER)
+                            .description("[IMAGE 섹션 전용] 이미지 세로 길이").optional(),
+                        fieldWithPath("sections[].data.fileSize").type(JsonFieldType.NUMBER)
+                            .description("[IMAGE 섹션 전용] 이미지 파일 사이즈").optional()
                     ),
                     responseFields(
                         fieldWithPath("ok")

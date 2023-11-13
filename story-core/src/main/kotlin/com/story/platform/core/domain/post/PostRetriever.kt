@@ -6,6 +6,8 @@ import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.Slice
 import com.story.platform.core.common.model.dto.CursorRequest
 import com.story.platform.core.common.utils.CursorUtils
+import com.story.platform.core.domain.post.section.PostSectionRepository
+import com.story.platform.core.domain.post.section.PostSectionSlotAssigner
 import com.story.platform.core.infrastructure.cache.CacheType
 import com.story.platform.core.infrastructure.cache.Cacheable
 import kotlinx.coroutines.flow.toList
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service
 class PostRetriever(
     private val postRepository: PostRepository,
     private val postSequenceRepository: PostSequenceRepository,
+    private val postSectionRepository: PostSectionRepository,
 ) {
 
     @Cacheable(
@@ -26,15 +29,23 @@ class PostRetriever(
         postSpaceKey: PostSpaceKey,
         postId: Long,
     ): PostResponse {
-        return PostResponse.of(
-            postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
-                workspaceId = postSpaceKey.workspaceId,
-                componentId = postSpaceKey.componentId,
-                spaceId = postSpaceKey.spaceId,
-                slotId = PostSlotAssigner.assign(postId),
-                postId = postId,
-            ) ?: throw PostNotExistsException(message = "해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+            workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
+            spaceId = postSpaceKey.spaceId,
+            slotId = PostSlotAssigner.assign(postId),
+            postId = postId,
+        ) ?: throw PostNotExistsException(message = "해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
+
+        val sections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+            workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
+            spaceId = postSpaceKey.spaceId,
+            slotId = PostSectionSlotAssigner.assign(postId),
+            postId = postId,
         )
+
+        return PostResponse.of(post = post, sections = sections.toList())
     }
 
     suspend fun listPosts(
@@ -43,16 +54,12 @@ class PostRetriever(
         sortBy: PostSortBy,
     ): Slice<PostResponse, String> {
         val (slot: Long, posts: List<Post>) = when (sortBy to cursorRequest.direction) {
-            PostSortBy.LATEST to CursorDirection.NEXT,
-            PostSortBy.OLDEST to CursorDirection.PREVIOUS,
-            -> listNextPosts(
+            PostSortBy.LATEST to CursorDirection.NEXT, PostSortBy.OLDEST to CursorDirection.PREVIOUS -> listNextPosts(
                 cursorRequest,
                 postSpaceKey
             )
 
-            PostSortBy.LATEST to CursorDirection.PREVIOUS,
-            PostSortBy.OLDEST to CursorDirection.NEXT,
-            -> listPreviousPosts(
+            PostSortBy.LATEST to CursorDirection.PREVIOUS, PostSortBy.OLDEST to CursorDirection.NEXT -> listPreviousPosts(
                 cursorRequest,
                 postSpaceKey
             )
@@ -61,9 +68,26 @@ class PostRetriever(
         }
 
         if (posts.size > cursorRequest.pageSize) {
+            val postSections = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
+                .groupBy { post -> PostSlotAssigner.assign(postId = post.key.postId) }
+                .flatMap { (slotId, posts) ->
+                    postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdIn(
+                        workspaceId = postSpaceKey.workspaceId,
+                        componentId = postSpaceKey.componentId,
+                        spaceId = postSpaceKey.spaceId,
+                        slotId = slotId,
+                        postIds = posts.map { post -> post.key.postId },
+                    ).toList()
+                }.groupBy { postSection -> postSection.key.postId }
+
             return Slice(
                 data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
-                    .map { post -> PostResponse.of(post) },
+                    .map { post ->
+                        PostResponse.of(
+                            post = post,
+                            sections = postSections[post.key.postId] ?: emptyList()
+                        )
+                    },
                 cursor = CursorUtils.getCursor(
                     listWithNextCursor = posts,
                     pageSize = cursorRequest.pageSize,
@@ -96,8 +120,25 @@ class PostRetriever(
 
         val data = posts + morePosts.subList(0, (cursorRequest.pageSize - posts.size).coerceAtMost(morePosts.size))
 
+        val postSections = data.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
+            .groupBy { post -> PostSlotAssigner.assign(postId = post.key.postId) }
+            .flatMap { (slotId, posts) ->
+                postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostIdIn(
+                    workspaceId = postSpaceKey.workspaceId,
+                    componentId = postSpaceKey.componentId,
+                    spaceId = postSpaceKey.spaceId,
+                    slotId = slotId,
+                    postIds = posts.map { post -> post.key.postId },
+                ).toList()
+            }.groupBy { postSection -> postSection.key.postId }
+
         return Slice(
-            data = data.map { post -> PostResponse.of(post) },
+            data = data.map { post ->
+                PostResponse.of(
+                    post = post,
+                    sections = postSections[post.key.postId] ?: emptyList()
+                )
+            },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = morePosts,
                 pageSize = cursorRequest.pageSize - posts.size,

@@ -3,6 +3,11 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.common.distribution.XLargeDistributionKey
+import com.story.platform.core.common.json.toJson
+import com.story.platform.core.domain.post.section.PostSectionRepository
+import com.story.platform.core.domain.post.section.PostSectionType
+import com.story.platform.core.domain.post.section.text.TextPostSectionContent
+import com.story.platform.core.domain.post.section.text.TextPostSectionContentRequest
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -13,6 +18,7 @@ internal class PostRegisterTest(
     private val postCreator: PostCreator,
     private val postRepository: PostRepository,
     private val postReverseRepository: PostReverseRepository,
+    private val postSectionRepository: PostSectionRepository,
 ) : FunSpecIntegrationTest({
 
     context("신규 포스트를 등록한다") {
@@ -25,17 +31,21 @@ internal class PostRegisterTest(
             )
             val accountId = "accountId"
             val title = "포스트 제목"
-            val content = """
-                포스트 내용
-                입니다
-            """.trimIndent()
+            val section1 = TextPostSectionContentRequest(
+                content = "컨텐츠 내용 - 1",
+                priority = 1L,
+            )
+            val section2 = TextPostSectionContentRequest(
+                content = "컨텐츠 내용 - 2",
+                priority = 2L,
+            )
 
             // when
             postCreator.createPost(
                 postSpaceKey = postSpaceKey,
                 accountId = accountId,
                 title = title,
-                content = content,
+                sections = listOf(section1, section2),
             )
 
             // then
@@ -49,7 +59,6 @@ internal class PostRegisterTest(
                 it.key.postId shouldNotBe null
                 it.accountId shouldBe accountId
                 it.title shouldBe title
-                it.content shouldBe content
             }
 
             val postReverses = postReverseRepository.findAll().toList()
@@ -62,7 +71,31 @@ internal class PostRegisterTest(
                 it.key.spaceId shouldBe postSpaceKey.spaceId
                 it.key.postId shouldNotBe null
                 it.title shouldBe title
-                it.content shouldBe content
+            }
+
+            val postSections = postSectionRepository.findAll().toList()
+            postSections shouldHaveSize 2
+            postSections[0].also {
+                it.key.workspaceId shouldBe postSpaceKey.workspaceId
+                it.key.componentId shouldBe postSpaceKey.componentId
+                it.key.spaceId shouldBe postSpaceKey.spaceId
+                it.key.slotId shouldBe 1L
+                it.key.priority shouldBe 1L
+                it.sectionType shouldBe PostSectionType.TEXT
+                it.data shouldBe TextPostSectionContent(
+                    content = section1.content
+                ).toJson()
+            }
+            postSections[1].also {
+                it.key.workspaceId shouldBe postSpaceKey.workspaceId
+                it.key.componentId shouldBe postSpaceKey.componentId
+                it.key.spaceId shouldBe postSpaceKey.spaceId
+                it.key.slotId shouldBe 1L
+                it.key.priority shouldBe 2L
+                it.sectionType shouldBe PostSectionType.TEXT
+                it.data shouldBe TextPostSectionContent(
+                    content = section2.content
+                ).toJson()
             }
         }
     }

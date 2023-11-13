@@ -35,7 +35,7 @@ class PostCreateApi(
             ),
             accountId = authContext.getRequiredRequestAccountId(),
             title = request.title,
-            content = request.content,
+            sections = request.toSections(),
             nonce = nonce,
         )
         return ApiResponse.ok(PostCreateApiResponse.of(postId = postId))

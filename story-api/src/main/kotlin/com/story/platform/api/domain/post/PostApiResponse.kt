@@ -6,7 +6,7 @@ import com.story.platform.core.domain.post.PostResponse
 data class PostApiResponse(
     val postId: String,
     val title: String,
-    val content: String,
+    val sections: List<PostSectionApiResponse>,
     val isOwner: Boolean,
     val writer: PostWriterApiResponse,
 ) : AuditingTimeResponse() {
@@ -16,7 +16,12 @@ data class PostApiResponse(
             val response = PostApiResponse(
                 postId = post.postId.toString(),
                 title = post.title,
-                content = post.content,
+                sections = post.sections.map { section ->
+                    PostSectionApiResponse(
+                        sectionType = section.sectionType(),
+                        data = section,
+                    )
+                },
                 isOwner = post.accountId == requestAccountId,
                 writer = PostWriterApiResponse(
                     accountId = post.accountId,

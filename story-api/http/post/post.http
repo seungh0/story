@@ -8,7 +8,33 @@ Accept-Language: en
 
 {
     "title": "토끼의 소확행 일기",
-    "content": "토끼랑 치킨을 먹었따\n히히~"
+    "sections": [
+        {
+            "sectionType": "TEXT",
+            "data": {
+                "content": "토끼랑 치킨을 먹었따\n히히~ 123",
+                "priority": 1
+            }
+        },
+        {
+            "sectionType": "TEXT",
+            "data": {
+                "content": "토끼랑 치킨을 먹었따\n히히~ 234",
+                "priority": 2
+            }
+        },
+        {
+            "sectionType": "IMAGE",
+            "data": {
+                "priority": 3,
+                "path": "/store/v1/store.png",
+                "fileName": "store.png",
+                "width": 480,
+                "height": 360,
+                "fileSize": 10000
+            }
+        }
+    ]
 }
 
 > {%
@@ -27,7 +53,26 @@ X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 {
     "title": "변경이 되나요?",
-    "content": "변경 되나요오"
+    "sections": [
+        {
+            "sectionType": "TEXT",
+            "data": {
+                "content": "토끼랑 치킨을 먹었따\n히히~ 234",
+                "priority": 1
+            }
+        },
+        {
+            "sectionType": "IMAGE",
+            "data": {
+                "priority": 3,
+                "path": "/store/v1/store.png",
+                "fileName": "store.png",
+                "width": 480,
+                "height": 360,
+                "fileSize": 10000
+            }
+        }
+    ]
 }
 
 > {%
@@ -56,6 +101,7 @@ X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 
 ### 포스팅 목록 조회
-GET {{api}}/v1/resources/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts?pageSize=2&direction=NEXT&sortBy=LATEST
+GET {{api}}/v1/resources/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts?pageSize=2&direction=NEXT&
+    sortBy=LATEST
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 X-Story-Request-Account-Id: {{ACCOUNT_ID}}
