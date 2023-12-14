@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -67,7 +66,7 @@ data class PostReversePrimaryKey(
         ) = PostReversePrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
-            distributionKey = XLargeDistributionKey.makeKey(accountId).key, accountId = accountId,
+            distributionKey = PostDistributionKey.makeKey(accountId), accountId = accountId,
             postId = postId,
             spaceId = spaceId,
         )

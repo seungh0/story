@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import org.springframework.data.cassandra.core.cql.Ordering.ASCENDING
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
@@ -77,7 +76,7 @@ data class SubscriptionPrimaryKey(
         ) = SubscriptionPrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
-            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+            distributionKey = SubscriptionDistributionKey.makeKey(subscriberId),
             subscriberId = subscriberId,
             targetId = targetId,
         )

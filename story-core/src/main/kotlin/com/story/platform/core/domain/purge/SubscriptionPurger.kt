@@ -1,10 +1,10 @@
 package com.story.platform.core.domain.purge
 
 import com.story.platform.core.common.distribution.DistributionKey
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.domain.resource.ResourceId
 import com.story.platform.core.domain.subscription.SubscriberPrimaryKey
 import com.story.platform.core.domain.subscription.SubscriberRepository
+import com.story.platform.core.domain.subscription.SubscriptionDistributionKey
 import com.story.platform.core.domain.subscription.SubscriptionRepository
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Pageable
@@ -18,7 +18,7 @@ class SubscriptionPurger(
 
     override fun targetResourceId(): ResourceId = ResourceId.SUBSCRIPTIONS
 
-    override fun distributeKeys(): Collection<DistributionKey> = XLargeDistributionKey.ALL_KEYS
+    override fun distributeKeys(): Collection<DistributionKey> = SubscriptionDistributionKey.ALL_KEYS
 
     override suspend fun clear(workspaceId: String, componentId: String, distributionKey: DistributionKey): Long {
         var pageable: Pageable = CassandraPageRequest.first(500)

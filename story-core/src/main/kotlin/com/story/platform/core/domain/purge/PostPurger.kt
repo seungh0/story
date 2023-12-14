@@ -1,7 +1,7 @@
 package com.story.platform.core.domain.purge
 
 import com.story.platform.core.common.distribution.DistributionKey
-import com.story.platform.core.common.distribution.XLargeDistributionKey
+import com.story.platform.core.domain.post.PostDistributionKey
 import com.story.platform.core.domain.post.PostPrimaryKey
 import com.story.platform.core.domain.post.PostRepository
 import com.story.platform.core.domain.post.PostReverseRepository
@@ -18,7 +18,7 @@ class PostPurger(
 
     override fun targetResourceId(): ResourceId = ResourceId.POSTS
 
-    override fun distributeKeys(): Collection<DistributionKey> = XLargeDistributionKey.ALL_KEYS
+    override fun distributeKeys(): Collection<DistributionKey> = PostDistributionKey.ALL_KEYS
 
     override suspend fun clear(workspaceId: String, componentId: String, distributionKey: DistributionKey): Long {
         var pageable: Pageable = CassandraPageRequest.first(500)

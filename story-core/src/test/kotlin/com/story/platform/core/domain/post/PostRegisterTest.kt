@@ -2,12 +2,12 @@ package com.story.platform.core.domain.post
 
 import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.common.json.toJson
 import com.story.platform.core.domain.post.section.PostSectionRepository
 import com.story.platform.core.domain.post.section.PostSectionType
 import com.story.platform.core.domain.post.section.text.TextPostSectionContent
 import com.story.platform.core.domain.post.section.text.TextPostSectionContentRequest
+import com.story.platform.core.domain.reaction.ReactionDistributionKey
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -66,7 +66,7 @@ internal class PostRegisterTest(
             postReverses[0].also {
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.componentId shouldBe postSpaceKey.componentId
-                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(accountId).key
+                it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(accountId)
                 it.key.accountId shouldBe accountId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
                 it.key.postId shouldNotBe null

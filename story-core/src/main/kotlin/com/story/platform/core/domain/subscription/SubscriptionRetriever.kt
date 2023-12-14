@@ -1,7 +1,6 @@
 package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.common.coroutine.toMutableList
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.Slice
 import com.story.platform.core.common.model.dto.CursorRequest
@@ -80,7 +79,7 @@ class SubscriptionRetriever(
             subscriptionRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetId(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                distributionKey = XLargeDistributionKey.makeKey(cursor).key,
+                distributionKey = SubscriptionDistributionKey.makeKey(cursor),
                 subscriberId = cursor,
                 targetId = targetId,
             )?.slotId
@@ -170,7 +169,7 @@ class SubscriptionRetriever(
             subscriptionRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetId(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                distributionKey = XLargeDistributionKey.makeKey(cursor).key,
+                distributionKey = SubscriptionDistributionKey.makeKey(cursor),
                 subscriberId = cursor,
                 targetId = targetId,
             )?.slotId
@@ -289,7 +288,7 @@ class SubscriptionRetriever(
             return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdAsc(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+                distributionKey = SubscriptionDistributionKey.makeKey(subscriberId),
                 subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             ).toList()
@@ -297,7 +296,7 @@ class SubscriptionRetriever(
         return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
             workspaceId = workspaceId,
             componentId = componentId,
-            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+            distributionKey = SubscriptionDistributionKey.makeKey(subscriberId),
             subscriberId = subscriberId,
             targetId = cursorRequest.cursor,
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
@@ -314,7 +313,7 @@ class SubscriptionRetriever(
             return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdDesc(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+                distributionKey = SubscriptionDistributionKey.makeKey(subscriberId),
                 subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             ).toList()
@@ -323,7 +322,7 @@ class SubscriptionRetriever(
         return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
             workspaceId = workspaceId,
             componentId = componentId,
-            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+            distributionKey = SubscriptionDistributionKey.makeKey(subscriberId),
             subscriberId = subscriberId,
             targetId = cursorRequest.cursor,
             pageable = CassandraPageRequest.of(0, cursorRequest.pageSize + 1)

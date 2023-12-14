@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.reaction
 
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -75,7 +74,7 @@ data class ReactionReversePrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
             accountId = accountId,
-            distributionKey = XLargeDistributionKey.makeKey(spaceId).key,
+            distributionKey = ReactionDistributionKey.makeKey(spaceId),
             spaceId = spaceId,
         )
     }

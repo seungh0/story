@@ -2,7 +2,6 @@ package com.story.platform.core.domain.reaction
 
 import com.story.platform.core.IntegrationTest
 import com.story.platform.core.StringSpecIntegrationTest
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
@@ -39,7 +38,7 @@ class ReactionCreatorTest(
             it.key.componentId shouldBe componentId
             it.key.spaceId shouldBe spaceId
             it.key.accountId shouldBe accountId
-            it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(accountId).key
+            it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(accountId)
             it.emotionIds shouldBe optionIds
         }
 
@@ -50,7 +49,7 @@ class ReactionCreatorTest(
             it.key.componentId shouldBe componentId
             it.key.spaceId shouldBe spaceId
             it.key.accountId shouldBe accountId
-            it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(spaceId).key
+            it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(spaceId)
             it.emotionIds shouldBe optionIds
         }
     }

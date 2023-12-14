@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.feed
 
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.common.model.CursorDirection
 import com.story.platform.core.common.model.Slice
 import com.story.platform.core.common.model.dto.CursorRequest
@@ -59,7 +58,7 @@ class FeedRetriever(
             return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberId(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+                distributionKey = FeedDistributionKey.makeKey(subscriberId),
                 subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize),
             )
@@ -67,7 +66,7 @@ class FeedRetriever(
         return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdLessThan(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+            distributionKey = FeedDistributionKey.makeKey(subscriberId),
             subscriberId = subscriberId,
             feedId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize),
@@ -84,7 +83,7 @@ class FeedRetriever(
             return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyFeedIdAsc(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                distributionKey = XLargeDistributionKey.makeKey(targetId).key,
+                distributionKey = FeedDistributionKey.makeKey(targetId),
                 subscriberId = targetId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
@@ -92,7 +91,7 @@ class FeedRetriever(
         return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            distributionKey = XLargeDistributionKey.makeKey(targetId).key,
+            distributionKey = FeedDistributionKey.makeKey(targetId),
             subscriberId = targetId,
             feedId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),

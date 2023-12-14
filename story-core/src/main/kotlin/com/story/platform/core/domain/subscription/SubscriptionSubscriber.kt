@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.subscription
 
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.infrastructure.cassandra.executeCoroutine
 import com.story.platform.core.infrastructure.cassandra.upsert
 import com.story.platform.core.infrastructure.lock.DistributedLock
@@ -30,7 +29,7 @@ class SubscriptionSubscriber(
             SubscriptionPrimaryKey(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+                distributionKey = SubscriptionDistributionKey.makeKey(subscriberId),
                 subscriberId = subscriberId,
                 targetId = targetId,
             )

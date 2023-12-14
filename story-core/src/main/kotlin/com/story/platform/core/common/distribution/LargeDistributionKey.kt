@@ -6,9 +6,7 @@ data class LargeDistributionKey(
     override val key: String,
 ) : DistributionKey {
 
-    override fun strategy(): DistributionStrategy {
-        return TYPE
-    }
+    override fun strategy() = TYPE
 
     companion object {
         private val TYPE = DistributionStrategy.LARGE

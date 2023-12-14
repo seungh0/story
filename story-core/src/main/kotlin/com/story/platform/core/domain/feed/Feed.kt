@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.feed
 
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
@@ -46,7 +45,7 @@ data class FeedPrimaryKey(
         ) = FeedPrimaryKey(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            distributionKey = XLargeDistributionKey.makeKey(subscriberId).key,
+            distributionKey = FeedDistributionKey.makeKey(subscriberId),
             subscriberId = subscriberId,
             feedId = feedId,
         )

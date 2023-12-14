@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.post
 
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import com.story.platform.core.infrastructure.cache.CacheEvict
 import com.story.platform.core.infrastructure.cache.CacheStrategy
 import com.story.platform.core.infrastructure.cache.CacheType
@@ -29,7 +28,7 @@ class PostRemover(
             postReverseRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyAccountIdAndKeyPostIdAndKeySpaceId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
-                distributionKey = XLargeDistributionKey.makeKey(accountId).key,
+                distributionKey = PostDistributionKey.makeKey(accountId),
                 accountId = accountId,
                 postId = postId,
                 spaceId = postSpaceKey.spaceId,

@@ -2,7 +2,6 @@ package com.story.platform.core.domain.subscription
 
 import com.story.platform.core.FunSpecIntegrationTest
 import com.story.platform.core.IntegrationTest
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
@@ -49,7 +48,7 @@ internal class SubscriptionSubscriberTest(
             subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
-                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(subscriberId).key
+                it.key.distributionKey shouldBe SubscriptionDistributionKey.makeKey(subscriberId)
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
@@ -115,7 +114,7 @@ internal class SubscriptionSubscriberTest(
             subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
-                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(subscriberId).key
+                it.key.distributionKey shouldBe SubscriptionDistributionKey.makeKey(subscriberId)
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
@@ -179,7 +178,7 @@ internal class SubscriptionSubscriberTest(
             subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
-                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(subscriberId).key
+                it.key.distributionKey shouldBe SubscriptionDistributionKey.makeKey(subscriberId)
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe 1L
@@ -245,7 +244,7 @@ internal class SubscriptionSubscriberTest(
             subscriptions[0].also {
                 it.key.workspaceId shouldBe workspaceId
                 it.key.componentId shouldBe componentId
-                it.key.distributionKey shouldBe XLargeDistributionKey.makeKey(subscriberId).key
+                it.key.distributionKey shouldBe SubscriptionDistributionKey.makeKey(subscriberId)
                 it.key.subscriberId shouldBe subscriberId
                 it.key.targetId shouldBe targetId
                 it.slotId shouldBe slotId

@@ -1,6 +1,5 @@
 package com.story.platform.core.domain.reaction
 
-import com.story.platform.core.common.distribution.XLargeDistributionKey
 import org.springframework.stereotype.Service
 
 @Service
@@ -26,7 +25,7 @@ class ReactionRetriever(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 accountId = requestAccountId,
-                distributionKey = XLargeDistributionKey.makeKey(spaceId).key,
+                distributionKey = ReactionDistributionKey.makeKey(spaceId),
                 spaceId = spaceId,
             )
         }
@@ -70,7 +69,7 @@ class ReactionRetriever(
         }.associateBy { it.key }
 
         val spaceIdReactionMap = requestAccountId?.let {
-            val distributionKeyTargetIdMap = spaceIds.groupBy { targetId -> XLargeDistributionKey.makeKey(targetId).key }
+            val distributionKeyTargetIdMap = spaceIds.groupBy { targetId -> ReactionDistributionKey.makeKey(targetId) }
 
             return@let distributionKeyTargetIdMap.flatMap { (distributionKey, spaceIds) ->
                 reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeySpaceIdIn(

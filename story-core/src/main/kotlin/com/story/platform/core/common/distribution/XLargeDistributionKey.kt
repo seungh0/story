@@ -6,12 +6,10 @@ data class XLargeDistributionKey(
     override val key: String,
 ) : DistributionKey {
 
-    override fun strategy(): DistributionStrategy {
-        return TYPE
-    }
+    override fun strategy() = TYPE
 
     companion object {
-        private val TYPE = DistributionStrategy.XLARGE
+        private val TYPE = DistributionStrategy.X_LARGE
         private val DISTRIBUTION_KEY_PATTERN = Pattern.compile(TYPE.pattern)
         val ALL_KEYS: MutableList<XLargeDistributionKey> = mutableListOf()
 
