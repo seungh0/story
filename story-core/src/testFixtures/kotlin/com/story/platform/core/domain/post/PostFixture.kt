@@ -13,6 +13,7 @@ object PostFixture {
         postId: Long = RandomGenerator.generateLong(),
         title: String = RandomGenerator.generateString(),
         extra: Map<String, String> = emptyMap(),
+        metadata: Map<PostMetadata, String> = emptyMap(),
     ) = Post(
         key = PostPrimaryKey.of(
             postSpaceKey = PostSpaceKey(
@@ -25,8 +26,8 @@ object PostFixture {
         accountId = accountId,
         title = title,
         extra = extra.toMutableMap(),
+        metadata = metadata.toMutableMap(),
         auditingTime = AuditingTime.created(),
-        hasChildren = false,
     )
 
 }
