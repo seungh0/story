@@ -4,10 +4,14 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.platform.api.ApiTest
 import com.story.platform.api.DocsTest
 import com.story.platform.api.StringSpecDocsTest
+import com.story.platform.api.domain.workspace.WorkspaceApiResponse
 import com.story.platform.api.lib.PageHeaderSnippet
 import com.story.platform.api.lib.RestDocsUtils
 import com.story.platform.api.lib.WebClientUtils
 import com.story.platform.core.domain.authentication.AuthenticationStatus
+import com.story.platform.core.domain.workspace.WorkspaceFixture
+import com.story.platform.core.domain.workspace.WorkspacePricePlan
+import com.story.platform.core.domain.workspace.WorkspaceResponse
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation
@@ -37,7 +41,10 @@ class AuthenticationRetrieveApiTest(
         } returns AuthenticationApiResponse(
             authenticationKey = authenticationKey,
             status = AuthenticationStatus.ENABLED,
-            description = "Story Platform에서 사용할 인증 키"
+            description = "Story Platform에서 사용할 인증 키",
+            workspace = WorkspaceApiResponse.of(
+                workspace = WorkspaceResponse.of(workspace = WorkspaceFixture.create())
+            )
         )
 
         // when
@@ -81,6 +88,15 @@ class AuthenticationRetrieveApiTest(
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(AuthenticationStatus::class.java))),
                         PayloadDocumentation.fieldWithPath("result.description")
                             .type(JsonFieldType.STRING).description("인증 정보에 대한 설명"),
+                        PayloadDocumentation.fieldWithPath("result.workspace")
+                            .type(JsonFieldType.OBJECT).description("워크스페이스 정보"),
+                        PayloadDocumentation.fieldWithPath("result.workspace.workspaceId")
+                            .type(JsonFieldType.STRING).description("워크스페이스 ID"),
+                        PayloadDocumentation.fieldWithPath("result.workspace.name")
+                            .type(JsonFieldType.STRING).description("워크스페이스 이름"),
+                        PayloadDocumentation.fieldWithPath("result.workspace.plan")
+                            .type(JsonFieldType.STRING).description("워크스페이스 사용 플랜")
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(WorkspacePricePlan::class.java))),
                     )
                 )
             )

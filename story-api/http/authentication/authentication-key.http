@@ -32,9 +32,8 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 %}
 
 
-
 ### 서비스의 인증 키 정보를 조회합니다
-GET {{api}}/v1/authentication/api-keys/api-key
+GET {{api}}/v1/authentication/api-key
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 
