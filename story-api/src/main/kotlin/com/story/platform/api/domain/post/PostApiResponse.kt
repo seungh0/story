@@ -1,6 +1,7 @@
 package com.story.platform.api.domain.post
 
 import com.story.platform.core.common.model.dto.AuditingTimeResponse
+import com.story.platform.core.domain.post.PostMetadataResponse
 import com.story.platform.core.domain.post.PostResponse
 
 data class PostApiResponse(
@@ -9,6 +10,7 @@ data class PostApiResponse(
     val sections: List<PostSectionApiResponse>,
     val isOwner: Boolean,
     val writer: PostWriterApiResponse,
+    val metadata: PostMetadataApiResponse,
 ) : AuditingTimeResponse() {
 
     companion object {
@@ -25,11 +27,24 @@ data class PostApiResponse(
                 isOwner = post.accountId == requestAccountId,
                 writer = PostWriterApiResponse(
                     accountId = post.accountId,
-                )
+                ),
+                metadata = PostMetadataApiResponse.of(metadata = post.metadata),
             )
-            response.from(post)
+            response.setAuditingTime(post)
             return response
         }
+    }
+
+}
+
+data class PostMetadataApiResponse(
+    val hasChildren: Boolean,
+) {
+
+    companion object {
+        fun of(metadata: PostMetadataResponse) = PostMetadataApiResponse(
+            hasChildren = metadata.hasChildren,
+        )
     }
 
 }

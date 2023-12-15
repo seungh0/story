@@ -17,7 +17,7 @@ data class ComponentApiResponse(
                 description = component.description,
                 status = component.status,
             )
-            response.from(component)
+            response.setAuditingTime(component)
             return response
         }
     }

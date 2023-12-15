@@ -11,7 +11,7 @@ data class PostSectionApiRequest(
 ) {
 
     fun toSections(): PostSectionContentRequest {
-        return PostSectionType.findByCode(sectionType).toTypedRequestClass(data)
+        return PostSectionType.findByCode(sectionType).toTypedRequest(data)
     }
 
 }

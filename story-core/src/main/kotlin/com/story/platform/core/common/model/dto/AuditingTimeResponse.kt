@@ -12,12 +12,12 @@ abstract class AuditingTimeResponse {
     @field:JsonProperty
     lateinit var updatedAt: LocalDateTime
 
-    fun from(auditingTime: AuditingTime) {
+    fun setAuditingTime(auditingTime: AuditingTime) {
         this.createdAt = auditingTime.createdAt
         this.updatedAt = auditingTime.updatedAt
     }
 
-    fun from(auditingTimeResponse: AuditingTimeResponse) {
+    fun setAuditingTime(auditingTimeResponse: AuditingTimeResponse) {
         this.createdAt = auditingTimeResponse.createdAt
         this.updatedAt = auditingTimeResponse.updatedAt
     }

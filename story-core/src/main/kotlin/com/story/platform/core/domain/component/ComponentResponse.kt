@@ -17,7 +17,7 @@ data class ComponentResponse(
                 description = component.description,
                 status = component.status,
             )
-            response.from(component.auditingTime)
+            response.setAuditingTime(component.auditingTime)
             return response
         }
     }

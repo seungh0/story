@@ -170,6 +170,8 @@ create table post_v1
     AND min_index_interval = 128
     AND speculative_retry = '99p';
 
+ALTER TABLE post_v1 add metadata map<text,text>;
+
 
 create table post_reverse_v1
 (

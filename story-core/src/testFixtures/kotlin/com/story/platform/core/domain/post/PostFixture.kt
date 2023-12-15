@@ -26,6 +26,7 @@ object PostFixture {
         title = title,
         extra = extra.toMutableMap(),
         auditingTime = AuditingTime.created(),
+        hasChildren = false,
     )
 
 }

@@ -1,5 +1,6 @@
 package com.story.platform.core.domain.post
 
+import com.story.platform.core.common.json.Jsons
 import com.story.platform.core.common.model.AuditingTime
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
@@ -18,6 +19,7 @@ data class Post(
     val accountId: String,
     var title: String,
     val extra: MutableMap<String, String> = mutableMapOf(),
+    val metadata: MutableMap<PostMetadata, String> = mutableMapOf(),
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
     val auditingTime: AuditingTime,
@@ -25,6 +27,14 @@ data class Post(
 
     fun isOwner(accountId: String): Boolean {
         return this.accountId == accountId
+    }
+
+    fun <T> getMetadata(metadata: PostMetadata): T {
+        val rawMetadata = this.metadata[metadata]
+        if (rawMetadata.isNullOrBlank()) {
+            return metadata.defaultValue as T
+        }
+        return Jsons.toObject(rawMetadata, metadata.typedReference)!! as T
     }
 
     fun patch(

@@ -63,7 +63,10 @@ class PostRetrieveApiTest(
                         fileSize = 1234123,
                     )
                 )
-            )
+            ),
+            metadata = PostMetadataApiResponse(
+                hasChildren = false,
+            ),
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -143,6 +146,8 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("포스트 작성자"),
                         PayloadDocumentation.fieldWithPath("result.writer.accountId")
                             .type(JsonFieldType.STRING).description("포스트 작성자의 계정 ID"),
+                        PayloadDocumentation.fieldWithPath("result.metadata.hasChildren")
+                            .type(JsonFieldType.BOOLEAN).description("포스트 하위에 등록된 포스트가 존재하는 지 여부"),
                     )
                 )
             )
@@ -181,9 +186,12 @@ class PostRetrieveApiTest(
                         width = 480,
                         height = 360,
                         fileSize = 1234123,
-                    )
+                    ),
                 )
-            )
+            ),
+            metadata = PostMetadataApiResponse(
+                hasChildren = false,
+            ),
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -284,6 +292,8 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("포스트 작성자"),
                         PayloadDocumentation.fieldWithPath("result.posts[].writer.accountId")
                             .type(JsonFieldType.STRING).description("포스트 작성자의 계정 ID"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].metadata.hasChildren")
+                            .type(JsonFieldType.BOOLEAN).description("포스트 하위에 등록된 포스트가 존재하는 지 여부"),
                         PayloadDocumentation.fieldWithPath("result.cursor")
                             .type(JsonFieldType.OBJECT).description("페이지 커서 정보"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")

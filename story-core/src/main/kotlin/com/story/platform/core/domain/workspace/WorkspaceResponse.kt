@@ -19,7 +19,7 @@ data class WorkspaceResponse(
                 plan = workspace.plan,
                 status = workspace.status,
             )
-            response.from(workspace.auditingTime)
+            response.setAuditingTime(workspace.auditingTime)
             return response
         }
     }

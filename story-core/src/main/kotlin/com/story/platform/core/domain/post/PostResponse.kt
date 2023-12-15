@@ -3,9 +3,6 @@ package com.story.platform.core.domain.post
 import com.story.platform.core.common.model.dto.AuditingTimeResponse
 import com.story.platform.core.domain.post.section.PostSection
 import com.story.platform.core.domain.post.section.PostSectionContentResponse
-import com.story.platform.core.domain.post.section.PostSectionType
-import com.story.platform.core.domain.post.section.image.ImagePostSectionContentResponse
-import com.story.platform.core.domain.post.section.text.TextPostSectionContentResponse
 
 data class PostResponse(
     val workspaceId: String,
@@ -16,6 +13,7 @@ data class PostResponse(
     val title: String,
     val sections: List<PostSectionContentResponse>,
     val extra: Map<String, String>,
+    val metadata: PostMetadataResponse,
 ) : AuditingTimeResponse() {
 
     companion object {
@@ -27,17 +25,19 @@ data class PostResponse(
                 postId = post.key.postId,
                 accountId = post.accountId,
                 title = post.title,
-                sections = sections.map { section ->
-                    when (section.sectionType) {
-                        PostSectionType.IMAGE -> ImagePostSectionContentResponse.fromContent(content = section.data)
-                        PostSectionType.TEXT -> TextPostSectionContentResponse.fromContent(content = section.data)
-                    }
-                },
+                sections = sections.map { section -> section.sectionType.toTypedResponse(sectionData = section.data) },
                 extra = post.extra,
+                metadata = PostMetadataResponse(
+                    hasChildren = post.getMetadata(metadata = PostMetadata.HAS_CHILDREN),
+                ),
             )
-            response.from(post.auditingTime)
+            response.setAuditingTime(post.auditingTime)
             return response
         }
     }
 
 }
+
+data class PostMetadataResponse(
+    val hasChildren: Boolean,
+)
