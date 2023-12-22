@@ -28,7 +28,7 @@ data class PostResponse(
                 sections = sections.map { section -> section.sectionType.toTypedResponse(sectionData = section.data) },
                 extra = post.extra,
                 metadata = PostMetadataResponse(
-                    hasChildren = post.getMetadata(metadata = PostMetadata.HAS_CHILDREN),
+                    hasChildren = post.getMetadata(type = PostMetadataType.HAS_CHILDREN),
                 ),
             )
             response.setAuditingTime(post.auditingTime)

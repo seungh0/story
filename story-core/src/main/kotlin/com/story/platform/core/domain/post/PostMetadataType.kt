@@ -2,7 +2,7 @@ package com.story.platform.core.domain.post
 
 import com.fasterxml.jackson.core.type.TypeReference
 
-enum class PostMetadata(
+enum class PostMetadataType(
     private val description: String,
     val defaultValue: Any?,
     val typedReference: TypeReference<out Any>,

@@ -13,7 +13,7 @@ object PostFixture {
         postId: Long = RandomGenerator.generateLong(),
         title: String = RandomGenerator.generateString(),
         extra: Map<String, String> = emptyMap(),
-        metadata: Map<PostMetadata, String> = emptyMap(),
+        metadata: Map<PostMetadataType, String> = emptyMap(),
     ) = Post(
         key = PostPrimaryKey.of(
             postSpaceKey = PostSpaceKey(

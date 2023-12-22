@@ -19,7 +19,7 @@ data class Post(
     val accountId: String,
     var title: String,
     val extra: MutableMap<String, String> = mutableMapOf(),
-    val metadata: MutableMap<PostMetadata, String> = mutableMapOf(),
+    val metadata: MutableMap<PostMetadataType, String> = mutableMapOf(),
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
     val auditingTime: AuditingTime,
@@ -29,12 +29,12 @@ data class Post(
         return this.accountId == accountId
     }
 
-    fun <T> getMetadata(metadata: PostMetadata): T {
-        val rawMetadata = this.metadata[metadata]
+    fun <T> getMetadata(type: PostMetadataType): T {
+        val rawMetadata = this.metadata[type]
         if (rawMetadata.isNullOrBlank()) {
-            return metadata.defaultValue as T
+            return type.defaultValue as T
         }
-        return Jsons.toObject(rawMetadata, metadata.typedReference)!! as T
+        return Jsons.toObject(rawMetadata, type.typedReference)!! as T
     }
 
     fun patch(

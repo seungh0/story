@@ -2,7 +2,6 @@ package com.story.platform.core.common.distribution
 
 import org.apache.commons.lang3.StringUtils
 import java.nio.charset.StandardCharsets
-import java.util.function.Function
 import java.util.zip.CRC32
 import kotlin.math.abs
 
@@ -19,7 +18,7 @@ object DistributionKeyGenerator {
     internal fun <T : DistributionKey> makeAllDistributionKeys(
         allKey: MutableList<T>,
         maxDigit: Int,
-        func: Function<String, T>,
+        func: (String) -> T,
     ) {
         makeAllDistributionKeys(
             allKey,
@@ -35,10 +34,10 @@ object DistributionKeyGenerator {
         chars: List<Char>,
         maxDigit: Int,
         currentDigit: Int,
-        func: Function<String, T>,
+        func: (String) -> T,
     ) {
         if (currentDigit == maxDigit) {
-            allKey.add(func.apply(StringUtils.join(chars, "")))
+            allKey.add(func.invoke(StringUtils.join(chars, "")))
             return
         }
         val currentDigit2 = currentDigit + 1
