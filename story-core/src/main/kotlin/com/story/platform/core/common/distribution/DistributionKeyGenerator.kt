@@ -9,10 +9,10 @@ object DistributionKeyGenerator {
 
     private val NUMERIC_CHARS = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
 
-    internal fun hashing(format: String?, value: String, distributionSize: Int): String {
+    internal fun hashing(format: String, value: String, distributionSize: Int): String {
         val crc = CRC32()
         crc.update(value.toByteArray(StandardCharsets.UTF_8), 0, value.length)
-        return String.format(format!!, abs(crc.value.toInt()) % distributionSize)
+        return String.format(format, abs(crc.value.toInt()) % distributionSize)
     }
 
     internal fun <T : DistributionKey> makeAllDistributionKeys(

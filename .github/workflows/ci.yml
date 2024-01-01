@@ -118,11 +118,11 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Setup Integration Test Containers
-        run: docker-compose -f "infra/test/docker-compose.yml" up -d --build
+        run: docker-compose -f "docker/test/docker-compose.yml" up -d --build
 
       - name: Integration Test
         run: ./gradlew integrationTest
 
       - name: Stop Integration Test Containers
         if: always()
-        run: docker-compose -f "infra/test/docker-compose.yml" down
+        run: docker-compose -f "docker/test/docker-compose.yml" down

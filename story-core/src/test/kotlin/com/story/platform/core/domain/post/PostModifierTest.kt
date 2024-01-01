@@ -128,7 +128,6 @@ internal class PostModifierTest(
         test("포스트의 작성자만이 포스트를 수정할 수 있습니다") {
             // given
             val title = "포스트 제목"
-            val content = "포스트 내용"
 
             val post = PostFixture.create(accountId = "accountId")
             val postRev = PostReverse.of(post)
