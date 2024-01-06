@@ -1,8 +1,8 @@
 package com.story.platform.api
 
 import com.ninjasquad.springmockk.MockkBean
-import com.story.platform.api.domain.authentication.AuthenticationHandler
-import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
+import com.story.platform.api.application.authentication.AuthenticationHandler
+import com.story.platform.api.application.workspace.WorkspaceRetrieveHandler
 import com.story.platform.core.domain.authentication.AuthenticationResponse
 import com.story.platform.core.domain.authentication.AuthenticationStatus
 import io.kotest.core.spec.style.StringSpec

@@ -1,7 +1,7 @@
 package com.story.platform.api.config.auth
 
-import com.story.platform.api.domain.authentication.AuthenticationHandler
-import com.story.platform.api.domain.workspace.WorkspaceRetrieveHandler
+import com.story.platform.api.application.authentication.AuthenticationHandler
+import com.story.platform.api.application.workspace.WorkspaceRetrieveHandler
 import com.story.platform.core.common.http.RequestIdGenerator
 import com.story.platform.core.common.http.getRequestAccountId
 import com.story.platform.core.common.http.getRequestId
