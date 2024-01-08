@@ -154,7 +154,7 @@ class ReactionRetrieveApiTest(
                 requestAccountId = any(),
             )
         } returns ReactionListApiResponse(
-            reactions = listOf(
+            spaceReactions = listOf(
                 ReactionApiResponse.of(
                     reaction = ReactionResponse(
                         workspaceId = workspaceId,
@@ -258,22 +258,22 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("요청 결과"),
-                        fieldWithPath("result.reactions")
+                        fieldWithPath("result.spaceReactions")
                             .type(JsonFieldType.ARRAY).description("리액션 목록"),
-                        fieldWithPath("result.reactions[].spaceId")
+                        fieldWithPath("result.spaceReactions[].spaceId")
                             .type(JsonFieldType.STRING).description("리액션 공간 Id"),
-                        fieldWithPath("result.reactions[].reactions")
+                        fieldWithPath("result.spaceReactions[].reactions")
                             .type(JsonFieldType.ARRAY).description("리액션에 등록된 이모션 목록"),
-                        fieldWithPath("result.reactions[].reactions[].emotion.emotionId")
+                        fieldWithPath("result.spaceReactions[].reactions[].emotion.emotionId")
                             .type(JsonFieldType.STRING).description("이모션 Id"),
-                        fieldWithPath("result.reactions[].reactions[].emotion.priority")
+                        fieldWithPath("result.spaceReactions[].reactions[].emotion.priority")
                             .type(JsonFieldType.NUMBER).description("이모션 우선순위")
                             .attributes(RestDocsUtils.remarks("우선순위가 낮은 것부터 정렬되서 반환됩니다")),
-                        fieldWithPath("result.reactions[].reactions[].emotion.image")
+                        fieldWithPath("result.spaceReactions[].reactions[].emotion.image")
                             .type(JsonFieldType.STRING).description("이모션 이미지"),
-                        fieldWithPath("result.reactions[].reactions[].count")
+                        fieldWithPath("result.spaceReactions[].reactions[].count")
                             .type(JsonFieldType.NUMBER).description("이모션 선택 횟수"),
-                        fieldWithPath("result.reactions[].reactions[].reactedByMe")
+                        fieldWithPath("result.spaceReactions[].reactions[].reactedByMe")
                             .type(JsonFieldType.BOOLEAN).description("요청자의 이모션 선택 여부")
                             .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
                     )

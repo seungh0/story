@@ -7,13 +7,12 @@ data class AuditingTime(
     val updatedAt: LocalDateTime,
 ) {
 
-    fun updated() = this.copy(
-        updatedAt = LocalDateTime.now()
+    fun updated(now: LocalDateTime = LocalDateTime.now()) = this.copy(
+        updatedAt = now,
     )
 
     companion object {
-        fun created(): AuditingTime {
-            val now = LocalDateTime.now()
+        fun created(now: LocalDateTime = LocalDateTime.now()): AuditingTime {
             return AuditingTime(
                 createdAt = now,
                 updatedAt = now,
