@@ -24,7 +24,7 @@ class WorkspaceRetrieveHandler(
         filterStatus: WorkspaceStatus? = WorkspaceStatus.ENABLED,
     ): WorkspaceApiResponse {
         val workspace = workspaceRetriever.getWorkspace(workspaceId = workspaceId)
-        if (filterStatus != null && filterStatus == workspace.status) {
+        if (filterStatus != null && filterStatus != workspace.status) {
             throw WorkspaceNotExistsException(message = "워크스페이스($workspaceId)가 존재하지 않습니다 [filterStaus: $filterStatus, current: ${workspace.status}]")
         }
         return WorkspaceApiResponse.of(workspace = workspace)

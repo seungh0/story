@@ -1,5 +1,5 @@
 ### 포스팅 등록
-POST {{api}}/v1/resources/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts
+POST {{api}}/v1/resources/posts/components/home/spaces/{{ACCOUNT_ID}}/posts
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 X-Story-Request-Account-Id: {{ACCOUNT_ID}}
@@ -46,7 +46,7 @@ Accept-Language: en
 
 
 ### 포스팅 수정
-PATCH {{api}}/v1/resources/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts/{{POST_ID}}
+PATCH {{api}}/v1/resources/posts/components/home/spaces/{{ACCOUNT_ID}}/posts/{{POST_ID}}
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 X-Story-Request-Account-Id: {{ACCOUNT_ID}}
@@ -83,7 +83,7 @@ X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 
 ### 포스팅 삭제
-DELETE {{api}}/v1/resources/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts/{{POST_ID}}
+DELETE {{api}}/v1/resources/posts/components/home/spaces/{{ACCOUNT_ID}}/posts/{{POST_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
@@ -95,13 +95,13 @@ X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 
 ### 포스팅 조회
-GET {{api}}/v1/resources/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts/{{POST_ID}}
+GET {{api}}/v1/resources/posts/components/home/spaces/{{ACCOUNT_ID}}/posts/{{POST_ID}}
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 
 ### 포스팅 목록 조회
-GET {{api}}/v1/resources/posts/components/account-post/spaces/{{ACCOUNT_ID}}/posts?pageSize=2&direction=NEXT&
+GET {{api}}/v1/resources/posts/components/home/spaces/{{ACCOUNT_ID}}/posts?pageSize=2&direction=NEXT&
     sortBy=LATEST
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 X-Story-Request-Account-Id: {{ACCOUNT_ID}}

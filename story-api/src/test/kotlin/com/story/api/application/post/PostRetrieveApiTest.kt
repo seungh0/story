@@ -43,7 +43,7 @@ class PostRetrieveApiTest(
             postId = postId,
             title = title,
             isOwner = false,
-            writer = PostWriterApiResponse(
+            owner = PostOwnerApiResponse(
                 accountId = "account-id"
             ),
             sections = listOf(
@@ -114,9 +114,6 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("요청 결과"),
                         PayloadDocumentation.fieldWithPath("result.postId")
                             .type(JsonFieldType.STRING).description("포스트 ID"),
-                        PayloadDocumentation.fieldWithPath("result.isOwner")
-                            .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부")
-                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
                         PayloadDocumentation.fieldWithPath("result.title")
                             .type(JsonFieldType.STRING).description("포스트 제목"),
                         PayloadDocumentation.fieldWithPath("result.sections")
@@ -142,9 +139,12 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.updatedAt")
                             .type(JsonFieldType.STRING).description("포스트 최근 수정 일자"),
-                        PayloadDocumentation.fieldWithPath("result.writer")
+                        PayloadDocumentation.fieldWithPath("result.isOwner")
+                            .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부")
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
+                        PayloadDocumentation.fieldWithPath("result.owner")
                             .type(JsonFieldType.OBJECT).description("포스트 작성자"),
-                        PayloadDocumentation.fieldWithPath("result.writer.accountId")
+                        PayloadDocumentation.fieldWithPath("result.owner.accountId")
                             .type(JsonFieldType.STRING).description("포스트 작성자의 계정 ID"),
                         PayloadDocumentation.fieldWithPath("result.metadata.hasChildren")
                             .type(JsonFieldType.BOOLEAN).description("포스트 하위에 등록된 포스트가 존재하는 지 여부"),
@@ -167,7 +167,7 @@ class PostRetrieveApiTest(
         val post = PostApiResponse(
             postId = postId,
             title = title,
-            writer = PostWriterApiResponse(
+            owner = PostOwnerApiResponse(
                 accountId = "account-id"
             ),
             isOwner = false,
@@ -258,9 +258,7 @@ class PostRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result.posts")
                             .type(JsonFieldType.ARRAY).description("포스트 목록"),
                         PayloadDocumentation.fieldWithPath("result.posts[].postId")
-                            .type(JsonFieldType.STRING).description("포스트 ID"),
-                        PayloadDocumentation.fieldWithPath("result.posts[].isOwner")
-                            .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부")
+                            .type(JsonFieldType.STRING).description("포스트 ID")
                             .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
                         PayloadDocumentation.fieldWithPath("result.posts[].title")
                             .type(JsonFieldType.STRING).description("포스트 제목")
@@ -288,9 +286,11 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.posts[].updatedAt")
                             .type(JsonFieldType.STRING).description("포스트 최근 수정 일자"),
-                        PayloadDocumentation.fieldWithPath("result.posts[].writer")
+                        PayloadDocumentation.fieldWithPath("result.posts[].isOwner")
+                            .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].owner")
                             .type(JsonFieldType.OBJECT).description("포스트 작성자"),
-                        PayloadDocumentation.fieldWithPath("result.posts[].writer.accountId")
+                        PayloadDocumentation.fieldWithPath("result.posts[].owner.accountId")
                             .type(JsonFieldType.STRING).description("포스트 작성자의 계정 ID"),
                         PayloadDocumentation.fieldWithPath("result.posts[].metadata.hasChildren")
                             .type(JsonFieldType.BOOLEAN).description("포스트 하위에 등록된 포스트가 존재하는 지 여부"),

@@ -1,0 +1,31 @@
+=== [Reaction] Place API
+
+include::{snippets}/reaction.place/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/reaction.place/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/reaction.place/path-parameters.adoc[]
+
+==== [Request Headers]
+
+include::{snippets}/reaction.place/request-headers.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/reaction.place/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/reaction.place/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/reaction.place/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/reaction.place/curl-request.adoc[]

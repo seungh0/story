@@ -1,5 +1,5 @@
 package com.story.api.application.post
 
-data class PostWriterApiResponse(
+data class PostOwnerApiResponse(
     val accountId: String,
 )

@@ -11,7 +11,7 @@ services:
       - "HEAP_NEWSIZE=256M"
     restart: on-failure
     volumes:
-      - cassandra_data:/var/lib/cassandra
+      - cassandra_data1:/var/lib/cassandra
 
   redis-1:
     container_name: story-redis-local
@@ -21,7 +21,7 @@ services:
       - '6380:6380'
     restart: on-failure
     volumes:
-      - redis_data:/data
+      - redis_data1:/data
 
   zookeeper:
     container_name: story-zookeeper-local
@@ -36,8 +36,8 @@ services:
       - "22181:2181"
     restart: on-failure
     volumes:
-      - zookeeper_data:/var/lib/zookeeper/data
-      - zookeeper_log:/var/lib/zookeeper/log
+      - zookeeper_data1:/var/lib/zookeeper/data
+      - zookeeper_log1:/var/lib/zookeeper/log
 
   kafka:
     container_name: story-kafka-local
@@ -56,7 +56,7 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
     restart: on-failure
     volumes:
-      - kafka_data:/var/lib/kafka/data
+      - kafka_data1:/var/lib/kafka/data
 
   kafka-manager:
     container_name: story-kafka-manager-local
@@ -74,13 +74,13 @@ services:
       - "9000:9000"
 
 volumes:
-  cassandra_data:
+  cassandra_data1:
     driver: local
-  redis_data:
+  redis_data1:
     driver: local
-  kafka_data:
+  kafka_data1:
     driver: local
-  zookeeper_data:
+  zookeeper_data1:
     driver: local
-  zookeeper_log:
+  zookeeper_log1:
     driver: local

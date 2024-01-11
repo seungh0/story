@@ -9,7 +9,7 @@ data class PostApiResponse(
     val title: String,
     val sections: List<PostSectionApiResponse>,
     val isOwner: Boolean,
-    val writer: PostWriterApiResponse,
+    val owner: PostOwnerApiResponse,
     val metadata: PostMetadataApiResponse,
 ) : AuditingTimeResponse() {
 
@@ -25,7 +25,7 @@ data class PostApiResponse(
                     )
                 },
                 isOwner = post.accountId == requestAccountId,
-                writer = PostWriterApiResponse(
+                owner = PostOwnerApiResponse(
                     accountId = post.accountId,
                 ),
                 metadata = PostMetadataApiResponse.of(metadata = post.metadata),

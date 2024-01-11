@@ -71,7 +71,7 @@ class ReactionReplaceApiTest(
             .expectBody()
             .consumeWith(
                 document(
-                    "reaction.upsert",
+                    "reaction.place",
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),

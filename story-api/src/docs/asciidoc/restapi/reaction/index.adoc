@@ -5,7 +5,6 @@
 
 - TBD
 
-include::./reaction-upsert.adoc[]
-include::./reaction-remove.adoc[]
+include::./reaction-replace.adoc[]
 include::./reaction-get.adoc[]
 include::./reaction-list.adoc[]
