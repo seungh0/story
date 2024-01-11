@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   cassandra:
-    container_name: story-platform-cassandra
+    container_name: story-cassandra-local
     image: cassandra:4.1
     ports:
       - "9042:9042"
@@ -14,7 +14,7 @@ services:
       - cassandra_data:/var/lib/cassandra
 
   redis-1:
-    container_name: story-platform-redis
+    container_name: story-redis-local
     image: redis:6.0
     command: redis-server --port 6380 --appendonly yes
     ports:
@@ -24,7 +24,7 @@ services:
       - redis_data:/data
 
   zookeeper:
-    container_name: story-platform-zookeeper
+    container_name: story-zookeeper-local
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_SERVER_ID: 1
@@ -40,7 +40,7 @@ services:
       - zookeeper_log:/var/lib/zookeeper/log
 
   kafka:
-    container_name: story-platform-kafka
+    container_name: story-kafka-local
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
@@ -59,8 +59,9 @@ services:
       - kafka_data:/var/lib/kafka/data
 
   kafka-manager:
-    container_name: kafka-manager
+    container_name: story-kafka-manager-local
     image: hlebalbau/kafka-manager:stable
+    platform: linux/amd64
     depends_on:
       - kafka
       - zookeeper

@@ -46,5 +46,5 @@ tasks.asciidoctor {
 }
 
 application {
-    mainClass.set("com.story.platform.api.ApiApplicationKt")
+    mainClass.set("com.story.api.ApiApplicationKt")
 }

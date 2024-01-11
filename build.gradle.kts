@@ -21,7 +21,7 @@ plugins {
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 allprojects {
-    group = "com.story.platform"
+    group = "com.story"
 
     repositories {
         mavenCentral()
@@ -136,5 +136,5 @@ subprojects {
 }
 
 application {
-    mainClass.set("com.story.platform.api.ApiApplicationKt")
+    mainClass.set("com.story.api.ApiApplicationKt")
 }
