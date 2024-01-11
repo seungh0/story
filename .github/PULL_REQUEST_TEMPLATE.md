@@ -22,7 +22,7 @@
 ## 배포가 필요한 컴포넌트를 선택해주세요.
 
 - [ ] api
-- [ ] event-worker
+- [ ] worker
 - [ ] publisher
 - [ ] 배포 없음 (영향 없음)
 

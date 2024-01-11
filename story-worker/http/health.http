@@ -1,2 +1,2 @@
 ### Readiness
-GET {{executor}}/health/readiness
+GET {{worker}}/health/readiness

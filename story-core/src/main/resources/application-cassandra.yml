@@ -27,22 +27,6 @@ logging:
 ---
 spring.config:
   activate:
-    on-profile: dev
-
-spring:
-  cassandra:
-    keyspace-name: ${secret.cassandra.keyspace-name}
-    contact-points: ${secret.cassandra.contact-points}
-    port: ${secret.cassandra.port}
-    local-datacenter: ${secret.cassandra.local-datacenter}
-    schema-action: none
-    username: ${secret.cassandra.username}
-    password: ${secret.cassandra.password}
-
-
----
-spring.config:
-  activate:
     on-profile: test
 
 spring:
@@ -50,6 +34,7 @@ spring:
     keyspace-name: story_platform_test
     contact-points: localhost:9042
     local-datacenter: datacenter1
+    schema-action: create_if_not_exists
 
 logging:
   level:

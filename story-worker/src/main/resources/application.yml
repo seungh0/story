@@ -17,9 +17,9 @@ server:
 
 spring:
   application:
-    name: story-publisher
+    name: story-worker
   webflux:
-    base-path: /publisher
+    base-path: /worker
     format:
       date: iso
       date-time: iso

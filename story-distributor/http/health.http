@@ -1,2 +1,2 @@
 ### Readiness
-GET {{event-worker}}/health/readiness
+GET {{distributor}}/health/readiness

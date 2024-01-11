@@ -1,19 +1,18 @@
 spring:
   data:
     redis:
-      port: 6380
-      host: localhost
       connect-timeout: 3000
       timeout: 3000
+
 
 ---
 spring.config:
   activate:
     on-profile:
+      - local
       - test
-
 spring:
   data:
     redis:
-      host: localhost
       port: 6380
+      host: localhost
