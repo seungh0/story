@@ -12,6 +12,11 @@ services:
     restart: on-failure
     volumes:
       - cassandra_data1:/var/lib/cassandra
+    healthcheck:
+      test: [ "CMD-SHELL", "[ $$(nodetool statusgossip) = running ]" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   redis-1:
     container_name: story-redis-local
@@ -22,6 +27,8 @@ services:
     restart: on-failure
     volumes:
       - redis_data1:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
 
   zookeeper:
     container_name: story-zookeeper-local
@@ -57,6 +64,12 @@ services:
     restart: on-failure
     volumes:
       - kafka_data1:/var/lib/kafka/data
+    healthcheck:
+     test: nc -z localhost 9092 || exit -1
+     start_period: 15s
+     interval: 5s
+     timeout: 10s
+     retries: 10
 
   kafka-manager:
     container_name: story-kafka-manager-local

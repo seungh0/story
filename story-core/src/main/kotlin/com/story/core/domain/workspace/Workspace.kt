@@ -22,4 +22,20 @@ data class Workspace(
         this.status = WorkspaceStatus.DELETED
     }
 
+    companion object {
+        fun of(
+            workspaceId: String,
+            name: String,
+            plan: WorkspacePricePlan,
+            status: WorkspaceStatus = WorkspaceStatus.ENABLED,
+            auditingTime: AuditingTime = AuditingTime.created(),
+        ) = Workspace(
+            workspaceId = workspaceId,
+            name = name,
+            plan = plan,
+            status = status,
+            auditingTime = auditingTime,
+        )
+    }
+
 }

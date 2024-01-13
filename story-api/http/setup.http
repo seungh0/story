@@ -1,10 +1,11 @@
 ### 셋업
-GET {{api}}/health/readiness
+POST {{api}}/setup?workspaceId=story&authenticationKey=api-key
 
 > {%
     client.test("200 OK", () => {
         client.global.set("ACCOUNT_ID", "seungh0")
         client.global.set("TARGET_ID", "yerim")
+        client.global.set("WORKSPACE_ID", "story")
         client.global.set("AUTHENTICATION_KEY", "api-key")
     });
 %}
@@ -72,8 +73,8 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
     });
 %}
 
-### 피드 설정 연결
-POST {{api}}/v1/resources/feeds/timeline/mappings/posts/home/to/subscriptions/follow
+### 피드 설정 연결 (포스트 -> 팔로워들에게 피드 발행)
+POST {{api}}/v1/resources/feeds/components/timeline/mappings/posts/home/to/subscriptions/follow
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
@@ -87,3 +88,21 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
         client.assert(response.status === 200, "응답 실패");
     });
 %}
+
+
+### 피드 설정 연결 (구독-> 팔로워들에게 피드 발행)
+POST {{api}}/v1/resources/feeds/components/timeline/mappings/subscriptions/follow/to/subscriptions/follow
+Content-Type: application/json
+X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+
+{
+    "description": "팔로워 등록시 구독자들에게 피드 발행",
+    "retention": "PT720H"
+}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+

@@ -4,6 +4,7 @@ import com.story.api.application.post.PostApiResponse
 import com.story.core.domain.event.EventKeyGenerator
 import com.story.core.domain.feed.FeedPayload
 import com.story.core.domain.feed.FeedResponse
+import com.story.core.domain.post.PostNotExistsException
 import com.story.core.domain.post.PostRetriever
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
@@ -21,19 +22,23 @@ class PostFeedPayloadHandler(
         feeds: Collection<FeedResponse>,
         requestAccountId: String?,
     ): Map<Long, FeedPayload> {
-        return feeds.map { feed ->
-            val (spaceId, postId) = EventKeyGenerator.parsePost(feed.eventKey)
-            feed.feedId to PostApiResponse.of(
-                postRetriever.getPost(
-                    postSpaceKey = PostSpaceKey(
-                        workspaceId = workspaceId,
-                        componentId = feed.sourceComponentId,
-                        spaceId = spaceId,
+        return feeds.mapNotNull { feed ->
+            try {
+                val (spaceId, postId) = EventKeyGenerator.parsePost(feed.eventKey)
+                feed.feedId to PostApiResponse.of(
+                    postRetriever.getPost(
+                        postSpaceKey = PostSpaceKey(
+                            workspaceId = workspaceId,
+                            componentId = feed.sourceComponentId,
+                            spaceId = spaceId,
+                        ),
+                        postId = postId,
                     ),
-                    postId = postId,
-                ),
-                requestAccountId = requestAccountId,
-            )
+                    requestAccountId = requestAccountId,
+                )
+            } catch (exception: PostNotExistsException) {
+                return@mapNotNull null
+            }
         }.associate { it.first to it.second }
     }
 

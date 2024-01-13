@@ -1,5 +1,5 @@
 ### 구독 등록
-PUT {{api}}/v1/resources/subscriptions/components/follow/subscribers/{{TARGET_ID}}/targets/{{ACCOUNT_ID}}
+PUT {{api}}/v1/resources/subscriptions/components/follow/subscribers/{{ACCOUNT_ID}}/targets/{{TARGET_ID}}
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 

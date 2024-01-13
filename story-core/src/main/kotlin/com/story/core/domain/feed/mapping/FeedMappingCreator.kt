@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class FeedMappingCreator(
-    private val feedMappingConfigurationRepository: FeedMappingRepository,
+    private val feedMappingRepository: FeedMappingRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
@@ -21,11 +21,11 @@ class FeedMappingCreator(
     suspend fun create(
         request: FeedMappingCreateRequest,
     ) {
-        if (feedMappingConfigurationRepository.existsById(request.toEntity().key)) {
+        if (feedMappingRepository.existsById(request.toEntity().key)) {
             throw FeedMappingAlreadyConnectedException("이미 워크스페이스(${request.workspaceId})의 리소스(${request.sourceResourceId})의 컴포넌트(${request.sourceComponentId})의 구독(${request.subscriptionComponentId})와 피드 연동 설정이 등록되어 있습니다")
         }
 
-        val feeds = feedMappingConfigurationRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySourceResourceIdAndKeySourceComponentId(
+        val feeds = feedMappingRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySourceResourceIdAndKeySourceComponentId(
             workspaceId = request.workspaceId,
             feedComponentId = request.feedComponentId,
             sourceResourceId = request.sourceResourceId,
@@ -37,10 +37,10 @@ class FeedMappingCreator(
             throw FeedMappingCapacityExceededException("워크스페이스(${request.workspaceId})에서 FeedComponent(${request.feedComponentId})의 Source(${request.sourceResourceId}-${request.sourceComponentId})에서 발행할 수 있는 최대 연결은 3개로 제한됩니다")
         }
 
-        val feedMappingConfiguration = request.toEntity()
+        val feedMapping = request.toEntity()
         reactiveCassandraOperations.batchOps()
-            .upsert(feedMappingConfiguration)
-            .upsert(FeedMappingReverse.of(feedMappingConfiguration))
+            .upsert(feedMapping)
+            .upsert(FeedMappingReverse.of(feedMapping))
             .executeCoroutine()
     }
 

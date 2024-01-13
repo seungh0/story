@@ -11,7 +11,7 @@ data class FeedListApiResponse(
 ) {
 
     companion object {
-        fun of(feeds: Slice<FeedResponse, String>, feedPayloads: MutableMap<Long, FeedPayload>) = FeedListApiResponse(
+        fun of(feeds: Slice<FeedResponse, String>, feedPayloads: Map<Long, FeedPayload>) = FeedListApiResponse(
             feeds = feeds.data.mapNotNull { feed ->
                 if (feedPayloads[feed.feedId] == null) {
                     return@mapNotNull null

@@ -2,6 +2,7 @@ package com.story.api.config.auth
 
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpMethod.GET
+import org.springframework.http.HttpMethod.POST
 import java.util.regex.Pattern
 
 object AuthenticationWhitelistChecker {
@@ -12,7 +13,8 @@ object AuthenticationWhitelistChecker {
     private val WHITELIST_PATH_PATTERN = listOf<Pair<HttpMethod, Pattern>>(
         GET to Pattern.compile("/api/health/.*"),
         GET to Pattern.compile("/monitoring/.*"),
-        GET to Pattern.compile("/api/v1/authentication-keys/.*")
+        GET to Pattern.compile("/api/v1/authentications/api-key"),
+        POST to Pattern.compile("/api/setup")
     )
 
     fun checkNoAuthentication(method: HttpMethod, path: String): Boolean {
