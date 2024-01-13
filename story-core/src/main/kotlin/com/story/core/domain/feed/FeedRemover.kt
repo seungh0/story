@@ -11,7 +11,29 @@ import org.springframework.stereotype.Service
 @Service
 class FeedRemover(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
+    private val feedRepository: FeedRepository,
 ) {
+
+    suspend fun remove(
+        workspaceId: String,
+        componentId: String,
+        subscriberId: String,
+        feedId: Long,
+    ) {
+        val feed = feedRepository.findById(
+            FeedPrimaryKey.of(
+                workspaceId = workspaceId,
+                feedComponentId = componentId,
+                subscriberId = subscriberId,
+                feedId = feedId,
+            )
+        ) ?: return
+
+        reactiveCassandraOperations.batchOps()
+            .delete(feed)
+            .delete(FeedSubscriber.from(feed))
+            .executeCoroutine()
+    }
 
     suspend fun remove(
         event: EventRecord<*>,

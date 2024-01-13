@@ -1,4 +1,4 @@
-package com.story.api.application.feed
+package com.story.api.application.feed.mapping
 
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter

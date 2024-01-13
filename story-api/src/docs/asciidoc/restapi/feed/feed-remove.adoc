@@ -1,0 +1,27 @@
+=== [Feed] Remove API
+
+include::{snippets}/feed.remove/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/feed.remove/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/feed.remove/path-parameters.adoc[]
+
+==== [Request Headers]
+
+include::{snippets}/feed.remove/request-headers.adoc[]
+
+==== [Response]
+
+include::{snippets}/feed.remove/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/feed.remove/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/feed.remove/curl-request.adoc[]

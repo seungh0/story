@@ -16,7 +16,22 @@ data class FeedSubscriber(
     val key: FeedSubscriberPrimaryKey,
 
     val feedId: Long,
-)
+) {
+
+    companion object {
+        fun from(feed: Feed) = FeedSubscriber(
+            key = FeedSubscriberPrimaryKey(
+                workspaceId = feed.key.workspaceId,
+                feedComponentId = feed.key.feedComponentId,
+                eventKey = feed.eventKey,
+                slotId = feed.subscriberSlot,
+                subscriberId = feed.key.subscriberId,
+            ),
+            feedId = feed.key.feedId,
+        )
+    }
+
+}
 
 @PrimaryKeyClass
 data class FeedSubscriberPrimaryKey(

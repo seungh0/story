@@ -1,23 +1,24 @@
-package com.story.api.application.feed
+package com.story.api.application.feed.mapping
 
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.component.ComponentRetriever
-import com.story.core.domain.feed.mapping.FeedMappingRemoveRequest
-import com.story.core.domain.feed.mapping.FeedMappingRemover
+import com.story.core.domain.feed.mapping.FeedMappingCreateRequest
+import com.story.core.domain.feed.mapping.FeedMappingCreator
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
-class FeedMappingRemoveHandler(
+class FeedMappingCreateHandler(
     private val componentRetriever: ComponentRetriever,
-    private val feedMappingRemover: FeedMappingRemover,
+    private val feedMappingCreator: FeedMappingCreator,
 ) {
 
-    suspend fun remove(
+    suspend fun create(
         workspaceId: String,
         feedComponentId: String,
         sourceResourceId: ResourceId,
         sourceComponentId: String,
         subscriptionComponentId: String,
+        request: FeedMappingCreateApiRequest,
     ) {
         setOf(
             ResourceId.FEEDS to feedComponentId,
@@ -31,12 +32,14 @@ class FeedMappingRemoveHandler(
             )
         }
 
-        feedMappingRemover.remove(
-            request = FeedMappingRemoveRequest(
+        feedMappingCreator.create(
+            request = FeedMappingCreateRequest(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                resourceId = sourceResourceId,
-                componentId = sourceComponentId,
+                sourceResourceId = sourceResourceId,
+                sourceComponentId = sourceComponentId,
+                description = request.description,
+                retention = request.retention,
                 subscriptionComponentId = subscriptionComponentId,
             )
         )

@@ -1,4 +1,4 @@
-package com.story.api.application.feed
+package com.story.api.application.feed.mapping
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.api.ApiTest
@@ -27,7 +27,7 @@ class FeedMappingRetrieveApiTest(
 
     "설정된 피드 매핑 목록을 조회합니다" {
         // given
-        val feedComponentId = "user-timeline"
+        val feedComponentId = "timeline"
         val sourceResourceId = ResourceId.POSTS
         val sourceComponentId = "user-post"
 
@@ -49,7 +49,7 @@ class FeedMappingRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}",
+                "/v1/resources/feeds/components/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}",
                 feedComponentId, sourceResourceId.code, sourceComponentId,
             )
             .headers(WebClientUtils.authenticationHeader)

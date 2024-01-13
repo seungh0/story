@@ -6,3 +6,5 @@
 - TBD
 
 include::./feed-list.adoc[]
+include::./feed-remove.adoc[]
+

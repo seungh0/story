@@ -1,4 +1,4 @@
-package com.story.api.application.feed
+package com.story.api.application.feed.mapping
 
 import jakarta.validation.constraints.Size
 import org.hibernate.validator.constraints.time.DurationMax

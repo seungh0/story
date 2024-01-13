@@ -7,9 +7,7 @@ import com.story.api.StringSpecDocsTest
 import com.story.api.lib.PageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
 import com.story.api.lib.WebClientUtils
-import com.story.core.domain.resource.ResourceId
 import io.mockk.coEvery
-import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.restdocs.request.RequestDocumentation
@@ -17,39 +15,37 @@ import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @DocsTest
-@ApiTest(FeedMappingRemoveApi::class)
-class FeedMappingRemoveApiTest(
+@ApiTest(FeedRemoveApi::class)
+class FeedRemoveApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val feedMappingRemoveHandler: FeedMappingRemoveHandler,
+    private val feedRemoveHandler: FeedRemoveHandler,
 ) : StringSpecDocsTest({
 
     "특정 컴포넌트 간의 피드 매핑을 해제합니다" {
         // given
-        val feedComponentId = "user-timeline"
-        val sourceResourceId = ResourceId.POSTS
-        val sourceComponentId = "user-post"
-        val subscriptionComponentId = "user-follow"
+        val componentId = "timeline"
+        val subscriberId = "subscriberId"
+        val feedId = 213123L
 
         coEvery {
-            feedMappingRemoveHandler.remove(
+            feedRemoveHandler.remove(
                 workspaceId = any(),
-                feedComponentId = feedComponentId,
-                subscriptionComponentId = subscriptionComponentId,
-                sourceResourceId = sourceResourceId,
-                sourceComponentId = sourceComponentId,
+                componentId = componentId,
+                subscriberId = subscriberId,
+                feedId = feedId,
+
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/resources/feeds/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}",
-                feedComponentId, sourceResourceId.code, sourceComponentId, subscriptionComponentId,
+                "/v1/resources/feeds/components/{componentId}/subscribers/{subscriberId}/feeds/{feedId}",
+                componentId, subscriberId, feedId,
             )
             .headers(WebClientUtils.authenticationHeader)
-            .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
         // then
@@ -57,16 +53,15 @@ class FeedMappingRemoveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "feed-mapping.remove",
+                    "feed.remove",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     RestDocsUtils.authenticationHeaderDocumentation,
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
-                        RequestDocumentation.parameterWithName("feedComponentId").description("피드 컴포넌트 ID"),
-                        RequestDocumentation.parameterWithName("sourceResourceId").description("근원 리소스 ID"),
-                        RequestDocumentation.parameterWithName("sourceComponentId").description("근원 컴포넌트 ID"),
-                        RequestDocumentation.parameterWithName("subscriptionComponentId").description("발행할 구독 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("componentId").description("피드 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("subscriberId").description("피드 구독자 ID"),
+                        RequestDocumentation.parameterWithName("feedId").description("피드 ID"),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")
