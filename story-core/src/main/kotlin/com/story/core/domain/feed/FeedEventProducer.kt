@@ -35,7 +35,15 @@ class FeedEventProducer(
             withContext(dispatcher) {
                 kafkaTemplate.send(
                     kafkaTopic = KafkaTopic.FEED,
-                    key = KafkaRecordKeyGenerator.feed(eventKey = event.eventKey, slotId = event.payload.slotId),
+                    key = KafkaRecordKeyGenerator.feed(
+                        eventKey = event.eventKey,
+                        slotId = event.payload.slotId,
+                        workspaceId = event.payload.workspaceId,
+                        feedComponentId = event.payload.feedComponentId,
+                        sourceResourceId = event.payload.sourceResourceId,
+                        sourceComponentId = event.payload.sourceComponentId,
+                        subscriptionComponentId = event.payload.subscriptionComponentId,
+                    ),
                     data = event.toJson(),
                 )
             }

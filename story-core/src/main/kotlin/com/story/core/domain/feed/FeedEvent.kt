@@ -5,6 +5,7 @@ import com.story.core.domain.event.BaseEvent
 import com.story.core.domain.event.EventAction
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.resource.ResourceId
+import java.time.Duration
 
 data class FeedEvent(
     val workspaceId: String,
@@ -15,6 +16,7 @@ data class FeedEvent(
     val targetId: String,
     val slotId: Long,
     val payloadJson: String,
+    val retention: Duration,
 ) {
 
     companion object {
@@ -28,6 +30,7 @@ data class FeedEvent(
             subscriptionComponentId: String,
             targetId: String,
             slotId: Long,
+            retention: Duration,
             payload: T,
         ) = EventRecord(
             eventAction = eventAction,
@@ -40,6 +43,7 @@ data class FeedEvent(
                 subscriptionComponentId = subscriptionComponentId,
                 targetId = targetId,
                 slotId = slotId,
+                retention = retention,
                 payloadJson = payload.toJson(),
             )
         )

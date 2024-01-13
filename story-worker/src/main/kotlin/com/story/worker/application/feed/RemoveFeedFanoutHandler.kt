@@ -30,9 +30,7 @@ class RemoveFeedFanoutHandler(
             )
 
             feedRemover.remove(
-                event = event,
-                payload = payload,
-                subscriberIds = feedSubscribers.data.map { subscriber -> subscriber.subscriberId },
+                feedSubscribers = feedSubscribers.data,
             )
 
             cursor = feedSubscribers.cursor.nextCursor

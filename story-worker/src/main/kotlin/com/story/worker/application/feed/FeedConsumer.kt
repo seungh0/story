@@ -4,6 +4,7 @@ import com.story.core.common.annotation.EventConsumer
 import com.story.core.common.annotation.IOBound
 import com.story.core.common.json.toJson
 import com.story.core.common.json.toObject
+import com.story.core.domain.event.EventAction
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.feed.FeedEvent
 import com.story.core.infrastructure.kafka.KafkaConsumerConfig
@@ -37,6 +38,10 @@ class FeedConsumer(
                     launch {
                         val event = record.value().toObject(EventRecord::class.java)
                             ?: throw IllegalArgumentException("Record can't be deserialize, record: $records")
+
+                        if (!setOf(EventAction.CREATED, EventAction.DELETED).contains(event.eventAction)) {
+                            return@launch
+                        }
 
                         val payload = event.payload.toJson().toObject(FeedEvent::class.java)
                             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $records")

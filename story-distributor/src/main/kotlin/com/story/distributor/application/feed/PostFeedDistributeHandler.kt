@@ -69,6 +69,7 @@ class PostFeedDistributeHandler(
                                         targetId = payload.accountId,
                                         slotId = slotId,
                                         payload = payload,
+                                        retention = feedMapping.retention,
                                     )
                                 )
                             }

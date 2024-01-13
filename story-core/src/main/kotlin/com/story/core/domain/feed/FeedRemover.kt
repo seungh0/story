@@ -1,6 +1,5 @@
 package com.story.core.domain.feed
 
-import com.story.core.domain.event.EventRecord
 import com.story.core.infrastructure.cassandra.executeCoroutine
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
@@ -36,40 +35,16 @@ class FeedRemover(
     }
 
     suspend fun remove(
-        event: EventRecord<*>,
-        payload: FeedEvent,
-        subscriberIds: Collection<String>,
+        feedSubscribers: Collection<FeedSubscriber>,
         parallelCount: Int = 50,
     ) = coroutineScope {
-        subscriberIds.chunked(parallelCount).forEach { chunkedSubscriberIds ->
-            chunkedSubscriberIds.map { subscriberId ->
+        feedSubscribers.chunked(10).chunked(parallelCount).map { parallelChunkedFeedSubscribers ->
+            parallelChunkedFeedSubscribers.map { feedSubscribers ->
+                val feeds = feedSubscribers.map { feedSubscriber -> Feed.from(feedSubscriber = feedSubscriber) }
                 launch {
-                    val feed = Feed(
-                        key = FeedPrimaryKey.of(
-                            workspaceId = payload.workspaceId,
-                            feedComponentId = payload.feedComponentId,
-                            subscriberId = subscriberId,
-                            feedId = event.eventId,
-                        ),
-                        sourceResourceId = payload.sourceResourceId,
-                        sourceComponentId = payload.sourceComponentId,
-                        eventKey = event.eventKey,
-                        subscriberSlot = payload.slotId,
-                    )
                     reactiveCassandraOperations.batchOps()
-                        .delete(feed)
-                        .delete(
-                            FeedSubscriber(
-                                key = FeedSubscriberPrimaryKey(
-                                    workspaceId = payload.workspaceId,
-                                    feedComponentId = payload.feedComponentId,
-                                    eventKey = event.eventKey,
-                                    slotId = payload.slotId,
-                                    subscriberId = subscriberId,
-                                ),
-                                feedId = event.eventId,
-                            )
-                        )
+                        .delete(feeds)
+                        .delete(feedSubscribers)
                         .executeCoroutine()
                 }
             }.joinAll()

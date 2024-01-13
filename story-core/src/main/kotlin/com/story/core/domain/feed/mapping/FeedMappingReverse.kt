@@ -7,24 +7,27 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
+import java.time.Duration
 
 @Table("feed_mapping_reverse_v1")
 data class FeedMappingReverse(
     @field:PrimaryKey
     val key: FeedMappingReversePrimaryKey,
+    var retention: Duration,
 ) {
 
     companion object {
         fun of(
-            feedMappingConfiguration: FeedMapping,
+            feedMapping: FeedMapping,
         ) = FeedMappingReverse(
             key = FeedMappingReversePrimaryKey(
-                workspaceId = feedMappingConfiguration.key.workspaceId,
-                feedComponentId = feedMappingConfiguration.key.feedComponentId,
-                sourceResourceId = feedMappingConfiguration.key.sourceResourceId,
-                sourceComponentId = feedMappingConfiguration.key.sourceComponentId,
-                subscriptionComponentId = feedMappingConfiguration.key.subscriptionComponentId,
+                workspaceId = feedMapping.key.workspaceId,
+                feedComponentId = feedMapping.key.feedComponentId,
+                sourceResourceId = feedMapping.key.sourceResourceId,
+                sourceComponentId = feedMapping.key.sourceComponentId,
+                subscriptionComponentId = feedMapping.key.subscriptionComponentId,
             ),
+            retention = feedMapping.retention,
         )
     }
 

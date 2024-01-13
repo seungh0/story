@@ -1,5 +1,6 @@
 package com.story.core.domain.feed
 
+import com.story.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -16,6 +17,8 @@ data class FeedSubscriber(
     val key: FeedSubscriberPrimaryKey,
 
     val feedId: Long,
+    val sourceResourceId: ResourceId,
+    val sourceComponentId: String,
 ) {
 
     companion object {
@@ -28,6 +31,8 @@ data class FeedSubscriber(
                 subscriberId = feed.key.subscriberId,
             ),
             feedId = feed.key.feedId,
+            sourceResourceId = feed.sourceResourceId,
+            sourceComponentId = feed.sourceComponentId,
         )
     }
 

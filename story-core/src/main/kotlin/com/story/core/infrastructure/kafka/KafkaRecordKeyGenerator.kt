@@ -4,7 +4,15 @@ import com.story.core.domain.resource.ResourceId
 
 object KafkaRecordKeyGenerator {
 
-    fun feed(eventKey: String, slotId: Long) = "$eventKey:$slotId"
+    fun feed(
+        workspaceId: String,
+        feedComponentId: String,
+        sourceResourceId: ResourceId,
+        sourceComponentId: String,
+        subscriptionComponentId: String,
+        eventKey: String,
+        slotId: Long,
+    ) = ":$workspaceId:$feedComponentId:$sourceResourceId:$sourceComponentId:$subscriptionComponentId:$eventKey:$slotId"
 
     fun component(workspaceId: String, resourceId: ResourceId, componentId: String) =
         "$workspaceId:$resourceId:$componentId"

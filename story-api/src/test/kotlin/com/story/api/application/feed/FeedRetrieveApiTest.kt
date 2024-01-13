@@ -123,7 +123,7 @@ class FeedRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/feeds/components/{componentId}/subscriber/{subscriberId}?cursor={cursor}&direction={direction}&pageSize={pageSize}",
+                "/v1/resources/feeds/components/{componentId}/subscribers/{subscriberId}?cursor={cursor}&direction={direction}&pageSize={pageSize}",
                 componentId, subscriberId, cursor, direction, pageSize
             )
             .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
@@ -250,7 +250,7 @@ class FeedRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/feeds/components/{componentId}/subscriber/{subscriberId}?cursor=cursor&direction=NEXT&pageSize=30",
+                "/v1/resources/feeds/components/{componentId}/subscribers/{subscriberId}?cursor=cursor&direction=NEXT&pageSize=30",
                 componentId, subscriberId
             )
             .headers(WebClientUtils.authenticationHeader)

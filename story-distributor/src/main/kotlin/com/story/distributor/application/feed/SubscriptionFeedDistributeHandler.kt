@@ -69,6 +69,7 @@ class SubscriptionFeedDistributeHandler(
                                         targetId = payload.subscriberId,
                                         slotId = slotId,
                                         payload = payload,
+                                        retention = feedMapping.retention,
                                     ),
                                 )
                             }

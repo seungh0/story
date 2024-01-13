@@ -20,39 +20,41 @@ class FeedCreator(
         subscriberIds: Collection<String>,
         parallelCount: Int = 50,
     ) = coroutineScope {
-        subscriberIds.chunked(parallelCount).forEach { chunkedSubscriberIds ->
-            chunkedSubscriberIds.map { subscriberId ->
+        subscriberIds.asSequence()
+            .chunked(BATCH_SIZE)
+            .chunked(parallelCount)
+            .map { parallelChunkedSubscriberIds ->
                 launch {
-                    val feedSubscriber = FeedSubscriber(
-                        key = FeedSubscriberPrimaryKey.of(
-                            workspaceId = payload.workspaceId,
-                            feedComponentId = payload.feedComponentId,
-                            slotId = payload.slotId,
-                            subscriberId = subscriberId,
-                            eventKey = event.eventKey,
-                        ),
-                        feedId = event.eventId,
-                    )
-                    val feed = Feed(
-                        key = FeedPrimaryKey.of(
-                            workspaceId = payload.workspaceId,
-                            feedComponentId = payload.feedComponentId,
-                            subscriberId = subscriberId,
-                            feedId = event.eventId,
-                        ),
-                        sourceResourceId = payload.sourceResourceId,
-                        sourceComponentId = payload.sourceComponentId,
-                        eventKey = event.eventKey,
-                        subscriberSlot = payload.slotId,
-                    )
+                    parallelChunkedSubscriberIds.map { chunkedSubscriberIds ->
+                        val feedSubscribers = chunkedSubscriberIds.map { subscriberId ->
+                            FeedSubscriber(
+                                key = FeedSubscriberPrimaryKey.of(
+                                    workspaceId = payload.workspaceId,
+                                    feedComponentId = payload.feedComponentId,
+                                    slotId = payload.slotId,
+                                    subscriberId = subscriberId,
+                                    eventKey = event.eventKey,
+                                ),
+                                feedId = event.eventId,
+                                sourceComponentId = payload.sourceComponentId,
+                                sourceResourceId = payload.sourceResourceId,
+                            )
+                        }
+                        val feeds = feedSubscribers.map { feedSubscriber -> Feed.from(feedSubscriber) }
 
-                    reactiveCassandraOperations.batchOps()
-                        .upsert(feedSubscriber)
-                        .upsert(feed)
-                        .executeCoroutine()
+                        reactiveCassandraOperations.batchOps()
+                            .upsert(entities = feedSubscribers, ttl = payload.retention)
+                            .upsert(entities = feeds, ttl = payload.retention)
+                            .executeCoroutine()
+                    }
                 }
-            }.joinAll()
-        }
+            }
+            .toList()
+            .joinAll()
+    }
+
+    companion object {
+        private const val BATCH_SIZE = 10 // 10 * 200byte = 2KB
     }
 
 }
