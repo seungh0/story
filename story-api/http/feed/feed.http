@@ -1,5 +1,5 @@
 ### 피드 조회
-GET {{api}}/v1/resources/feeds/components/timeline/subscriber/{{ACCOUNT_ID}}?pageSize=30
+GET {{api}}/v1/resources/feeds/components/timeline/subscriber/{{TARGET_ID}}?pageSize=30
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 > {%

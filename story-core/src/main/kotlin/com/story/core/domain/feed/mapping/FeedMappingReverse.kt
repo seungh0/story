@@ -8,17 +8,17 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table("feed_mapping_configuration_reverse_v1")
-data class FeedMappingConfigurationReverse(
+@Table("feed_mapping_reverse_v1")
+data class FeedMappingReverse(
     @field:PrimaryKey
-    val key: FeedMappingConfigurationReversePrimaryKey,
+    val key: FeedMappingReversePrimaryKey,
 ) {
 
     companion object {
         fun of(
-            feedMappingConfiguration: FeedMappingConfiguration,
-        ) = FeedMappingConfigurationReverse(
-            key = FeedMappingConfigurationReversePrimaryKey(
+            feedMappingConfiguration: FeedMapping,
+        ) = FeedMappingReverse(
+            key = FeedMappingReversePrimaryKey(
                 workspaceId = feedMappingConfiguration.key.workspaceId,
                 feedComponentId = feedMappingConfiguration.key.feedComponentId,
                 sourceResourceId = feedMappingConfiguration.key.sourceResourceId,
@@ -31,7 +31,7 @@ data class FeedMappingConfigurationReverse(
 }
 
 @PrimaryKeyClass
-data class FeedMappingConfigurationReversePrimaryKey(
+data class FeedMappingReversePrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
     val workspaceId: String,
 

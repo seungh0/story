@@ -42,8 +42,8 @@ class FeedCreator(
                         ),
                         sourceResourceId = payload.sourceResourceId,
                         sourceComponentId = payload.sourceComponentId,
-                        payloadJson = payload.payloadJson,
                         eventKey = event.eventKey,
+                        subscriberSlot = payload.slotId,
                     )
 
                     reactiveCassandraOperations.batchOps()

@@ -1,10 +1,11 @@
 ### 피드 설정 연결
-POST {{api}}/v1/resources/feeds/timeline/mappings/subscriptions/follow/to/subscriptions/follow
+POST {{api}}/v1/resources/feeds/timeline/mappings/posts/home/to/subscriptions/follow
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 {
-    "description": "구독시 구독자에게 피드 발행"
+    "description": "포스트 등록시 구독자들에게 피드 발행",
+    "retention": "PT720H"
 }
 
 > {%

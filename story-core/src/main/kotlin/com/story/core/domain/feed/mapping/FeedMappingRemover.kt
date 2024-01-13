@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class FeedMappingRemover(
-    private val feedMappingConfigurationRepository: FeedMappingConfigurationRepository,
+    private val feedMappingConfigurationRepository: FeedMappingRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
@@ -27,7 +27,7 @@ class FeedMappingRemover(
 
         reactiveCassandraOperations.batchOps()
             .upsert(feedMappingConfiguration)
-            .delete(FeedMappingConfigurationReverse.of(feedMappingConfiguration))
+            .delete(FeedMappingReverse.of(feedMappingConfiguration))
             .executeCoroutine()
     }
 

@@ -8,14 +8,18 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
+/**
+ * 유저 당 100,000개의 피드 내로 되어야 최적이 성능을 보장함 (최대 1,000,000)
+ * - 100,000 (10 MB /100byte)
+ */
 @Table("feed_v1")
 data class Feed(
     @field:PrimaryKey
     val key: FeedPrimaryKey,
     val eventKey: String,
+    val subscriberSlot: Long,
     val sourceResourceId: ResourceId,
     val sourceComponentId: String,
-    val payloadJson: String,
 )
 
 @PrimaryKeyClass
@@ -25,9 +29,6 @@ data class FeedPrimaryKey(
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
     val feedComponentId: String,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val distributionKey: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
     val subscriberId: String,
@@ -45,7 +46,6 @@ data class FeedPrimaryKey(
         ) = FeedPrimaryKey(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            distributionKey = FeedDistributionKey.makeKey(subscriberId),
             subscriberId = subscriberId,
             feedId = feedId,
         )

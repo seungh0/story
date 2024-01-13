@@ -16,6 +16,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation
 import org.springframework.test.web.reactive.server.WebTestClient
+import java.time.Duration
 
 @DocsTest
 @ApiTest(FeedMappingCreateApi::class)
@@ -34,7 +35,8 @@ class FeedMappingCreateApiTest(
         val subscriptionComponentId = "user-follow"
 
         val request = FeedMappingCreateApiRequest(
-            description = "유저 포스트가 생성되면 유저를 팔로워 한 구독자들의 타임라인 피드에 발행한다"
+            description = "유저 포스트가 생성되면 유저를 팔로워 한 구독자들의 타임라인 피드에 발행한다",
+            retention = Duration.ofDays(30),
         )
 
         coEvery {
@@ -81,6 +83,9 @@ class FeedMappingCreateApiTest(
                             .description("피드에 대한 설명")
                             .attributes(remarks("최대 300자까지 사용할 수 있습니다"))
                             .optional(),
+                        PayloadDocumentation.fieldWithPath("retention").type(JsonFieldType.STRING)
+                            .description("피드 데이터 유지 시간")
+                            .attributes(remarks("최소 1분 부터 최대 100일까지 설정할 수 있습니다")),
                     ),
                     PayloadDocumentation.responseFields(
                         PayloadDocumentation.fieldWithPath("ok")

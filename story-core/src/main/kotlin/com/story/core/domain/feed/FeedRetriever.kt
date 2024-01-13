@@ -4,7 +4,6 @@ import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.Slice
 import com.story.core.common.model.dto.CursorRequest
 import com.story.core.common.utils.CursorUtils
-import com.story.core.domain.event.BaseEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
@@ -20,7 +19,7 @@ class FeedRetriever(
         feedComponentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): Slice<FeedResponse<out BaseEvent>, String> {
+    ): Slice<FeedResponse, String> {
         val feeds = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextFeeds(
                 workspaceId = workspaceId,
@@ -55,18 +54,16 @@ class FeedRetriever(
         cursorRequest: CursorRequest,
     ): Flow<Feed> {
         if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberId(
+            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberId(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                distributionKey = FeedDistributionKey.makeKey(subscriberId),
                 subscriberId = subscriberId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize),
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdLessThan(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdLessThan(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            distributionKey = FeedDistributionKey.makeKey(subscriberId),
             subscriberId = subscriberId,
             feedId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize),
@@ -80,18 +77,16 @@ class FeedRetriever(
         cursorRequest: CursorRequest,
     ): Flow<Feed> {
         if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyFeedIdAsc(
+            return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdOrderByKeyFeedIdAsc(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                distributionKey = FeedDistributionKey.makeKey(targetId),
                 subscriberId = targetId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             )
         }
-        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
+        return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
-            distributionKey = FeedDistributionKey.makeKey(targetId),
             subscriberId = targetId,
             feedId = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),

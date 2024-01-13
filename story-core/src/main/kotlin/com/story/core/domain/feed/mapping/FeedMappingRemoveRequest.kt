@@ -10,7 +10,7 @@ data class FeedMappingRemoveRequest(
     val subscriptionComponentId: String,
 ) {
 
-    fun toConfigurationPrimaryKey() = FeedMappingConfigurationPrimaryKey(
+    fun toConfigurationPrimaryKey() = FeedMappingPrimaryKey(
         workspaceId = workspaceId,
         feedComponentId = feedComponentId,
         sourceResourceId = resourceId,

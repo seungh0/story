@@ -1,21 +1,19 @@
 package com.story.api.application.feed
 
-import com.story.core.domain.event.BaseEvent
 import com.story.core.domain.feed.FeedResponse
 
-data class FeedApiResponse<T : BaseEvent>(
+data class FeedApiResponse(
     val feedId: String,
     val resourceId: String,
     val componentId: String,
-    val payload: T,
+    val payload: Any? = null,
 ) {
 
     companion object {
-        fun <T : BaseEvent> of(feed: FeedResponse<T>) = FeedApiResponse(
+        fun of(feed: FeedResponse) = FeedApiResponse(
             feedId = feed.feedId.toString(),
             resourceId = feed.resourceId,
             componentId = feed.componentId,
-            payload = feed.payload,
         )
     }
 

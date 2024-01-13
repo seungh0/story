@@ -11,7 +11,7 @@ data class FeedMappingResponse(
 ) {
 
     companion object {
-        fun of(feedMapping: FeedMappingConfigurationReverse) = FeedMappingResponse(
+        fun of(feedMapping: FeedMappingReverse) = FeedMappingResponse(
             workspaceId = feedMapping.key.workspaceId,
             feedComponentId = feedMapping.key.feedComponentId,
             sourceResourceId = feedMapping.key.sourceResourceId,

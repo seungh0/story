@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class FeedMappingRetriever(
-    private val feedMappingConfigurationReverseRepository: FeedMappingConfigurationReverseRepository,
+    private val feedMappingConfigurationReverseRepository: FeedMappingReverseRepository,
 ) {
 
     @Cacheable(

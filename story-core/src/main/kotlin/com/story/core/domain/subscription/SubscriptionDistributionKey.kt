@@ -1,11 +1,11 @@
 package com.story.core.domain.subscription
 
-import com.story.core.common.distribution.XLargeDistributionKey
+import com.story.core.common.distribution.TenThousandDistributionKey
 
 object SubscriptionDistributionKey {
 
-    val ALL_KEYS = XLargeDistributionKey.ALL_KEYS
+    val ALL_KEYS = TenThousandDistributionKey.ALL_KEYS
 
-    fun makeKey(subscriberId: String) = XLargeDistributionKey.makeKey(subscriberId).key
+    fun makeKey(subscriberId: String) = TenThousandDistributionKey.makeKey(subscriberId).key
 
 }

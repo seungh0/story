@@ -1,6 +1,6 @@
 package com.story.core.domain.feed.mapping
 
-enum class FeedMappingConfigurationStatus {
+enum class FeedMappingStatus {
 
     ENABLED,
     DISABLED,

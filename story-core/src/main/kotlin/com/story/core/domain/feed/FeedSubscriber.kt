@@ -8,8 +8,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
 /**
- * 특정 피드에 대해서 변경 & 삭제를 해야할 경우
- * eventId에 해당하는 대상자들을 조회해서 처리한다.
+ * - 100 (partition) * 100,000 (10 MB /100byte) = 한 피드에 대한 발송 대상자는 10,000,000
  */
 @Table("feed_subscriber_v1")
 data class FeedSubscriber(

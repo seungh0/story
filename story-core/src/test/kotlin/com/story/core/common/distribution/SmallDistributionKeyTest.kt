@@ -14,7 +14,7 @@ class SmallDistributionKeyTest : StringSpec({
         val random = Random().nextInt().toString()
 
         // when
-        val sut = SmallDistributionKey.makeKey(random).key
+        val sut = TenDistributionKey.makeKey(random).key
 
         // then
         sut shouldHaveLength 1
@@ -23,7 +23,7 @@ class SmallDistributionKeyTest : StringSpec({
 
     "0~9 사이의 모든 분산 키를 생성합니다" {
         // when
-        val sut = SmallDistributionKey.ALL_KEYS
+        val sut = TenDistributionKey.ALL_KEYS
 
         // then
         sut shouldHaveSize 10

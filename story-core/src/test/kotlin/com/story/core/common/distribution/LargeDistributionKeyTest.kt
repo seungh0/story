@@ -14,7 +14,7 @@ class LargeDistributionKeyTest : StringSpec({
         val random = Random().nextInt().toString()
 
         // when
-        val sut = LargeDistributionKey.makeKey(random).key
+        val sut = ThousandDistributionKey.makeKey(random).key
 
         // then
         sut shouldHaveLength 3
@@ -23,7 +23,7 @@ class LargeDistributionKeyTest : StringSpec({
 
     "000~999 사이의 모든 분산 키를 생성합니다" {
         // when
-        val sut = LargeDistributionKey.ALL_KEYS
+        val sut = ThousandDistributionKey.ALL_KEYS
 
         // then
         sut shouldHaveSize 1000

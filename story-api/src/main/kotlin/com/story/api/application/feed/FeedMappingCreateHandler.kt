@@ -39,6 +39,7 @@ class FeedMappingCreateHandler(
                 sourceResourceId = sourceResourceId,
                 sourceComponentId = sourceComponentId,
                 description = request.description,
+                retention = request.retention,
                 subscriptionComponentId = subscriptionComponentId,
             )
         )

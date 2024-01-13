@@ -9,29 +9,35 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
+import java.time.Duration
 
-@Table("feed_mapping_configuration_v1")
-data class FeedMappingConfiguration(
+@Table("feed_mapping_v1")
+data class FeedMapping(
     @field:PrimaryKey
-    val key: FeedMappingConfigurationPrimaryKey,
+    val key: FeedMappingPrimaryKey,
 
     var description: String,
-    var status: FeedMappingConfigurationStatus,
+    var status: FeedMappingStatus,
+    var retention: Duration,
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
     var auditingTime: AuditingTime,
 ) {
 
-    fun patch(description: String?) {
+    fun patch(description: String?, retention: Duration?) {
         if (description != null) {
             this.description = description
+        }
+
+        if (retention != null) {
+            this.retention = retention
         }
 
         this.auditingTime = this.auditingTime.updated()
     }
 
     fun disconnect() {
-        this.status = FeedMappingConfigurationStatus.DISABLED
+        this.status = FeedMappingStatus.DISABLED
         this.auditingTime = this.auditingTime.updated()
     }
 
@@ -43,9 +49,10 @@ data class FeedMappingConfiguration(
             sourceComponentId: String,
             subscriptionComponentId: String,
             description: String,
-            status: FeedMappingConfigurationStatus = FeedMappingConfigurationStatus.ENABLED,
-        ) = FeedMappingConfiguration(
-            key = FeedMappingConfigurationPrimaryKey(
+            retention: Duration,
+            status: FeedMappingStatus = FeedMappingStatus.ENABLED,
+        ) = FeedMapping(
+            key = FeedMappingPrimaryKey(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
                 sourceResourceId = sourceResourceId,
@@ -53,15 +60,16 @@ data class FeedMappingConfiguration(
                 subscriptionComponentId = subscriptionComponentId,
             ),
             description = description,
-            auditingTime = AuditingTime.created(),
+            retention = retention,
             status = status,
+            auditingTime = AuditingTime.created(),
         )
     }
 
 }
 
 @PrimaryKeyClass
-data class FeedMappingConfigurationPrimaryKey(
+data class FeedMappingPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
     val workspaceId: String,
 

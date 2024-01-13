@@ -250,7 +250,7 @@ create table subscription_v1
     AND speculative_retry = '99p';
 
 
-create table feed_mapping_configuration_v1
+create table feed_mapping_v1
 (
     workspace_id              text,
     feed_component_id         text,
@@ -277,7 +277,7 @@ create table feed_mapping_configuration_v1
     AND speculative_retry = '99p';
 
 
-create table feed_mapping_configuration_reverse_v1
+create table feed_mapping_reverse_v1
 (
     workspace_id              text,
     source_resource_id        text,

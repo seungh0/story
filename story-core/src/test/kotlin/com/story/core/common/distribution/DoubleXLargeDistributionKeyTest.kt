@@ -14,7 +14,7 @@ class DoubleXLargeDistributionKeyTest : StringSpec({
         val random = Random().nextInt().toString()
 
         // when
-        val sut = DoubleXLargeDistributionKey.makeKey(random).key
+        val sut = HunredThousandDistributionKey.makeKey(random).key
 
         // then
         sut shouldHaveLength 5
@@ -23,7 +23,7 @@ class DoubleXLargeDistributionKeyTest : StringSpec({
 
     "00000~99999 사이의 모든 분산 키를 생성합니다" {
         // when
-        val sut = DoubleXLargeDistributionKey.ALL_KEYS
+        val sut = HunredThousandDistributionKey.ALL_KEYS
 
         // then
         sut shouldHaveSize 100000

@@ -6,35 +6,31 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface FeedRepository : CoroutineCrudRepository<Feed, FeedPrimaryKey> {
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberId(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberId(
         workspaceId: String,
         feedComponentId: String,
-        distributionKey: String,
         subscriberId: String,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdLessThan(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdLessThan(
         workspaceId: String,
         feedComponentId: String,
-        distributionKey: String,
         subscriberId: String,
         feedId: Long,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyFeedIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdOrderByKeyFeedIdAsc(
         workspaceId: String,
         feedComponentId: String,
-        distributionKey: String,
         subscriberId: String,
         pageable: Pageable,
     ): Flow<Feed>
 
-    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
+    fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
         workspaceId: String,
         feedComponentId: String,
-        distributionKey: String,
         subscriberId: String,
         feedId: Long,
         pageable: Pageable,

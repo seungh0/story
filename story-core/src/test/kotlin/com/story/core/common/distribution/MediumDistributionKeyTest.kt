@@ -14,7 +14,7 @@ class MediumDistributionKeyTest : StringSpec({
         val random = Random().nextInt().toString()
 
         // when
-        val sut = MediumDistributionKey.makeKey(random).key
+        val sut = HundredDistributionKey.makeKey(random).key
 
         // then
         sut shouldHaveLength 2
@@ -23,7 +23,7 @@ class MediumDistributionKeyTest : StringSpec({
 
     "00~99 사이의 모든 분산 키를 생성합니다" {
         // when
-        val sut = MediumDistributionKey.ALL_KEYS
+        val sut = HundredDistributionKey.ALL_KEYS
 
         // then
         sut shouldHaveSize 100
