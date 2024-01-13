@@ -17,7 +17,7 @@ class AuthenticationModifyApi(
     /**
      * 서비스 인증 키의 정보를 수정합니다
      */
-    @PatchMapping("/v1/authentication/{authenticationKey}")
+    @PatchMapping("/v1/authentications/{authenticationKey}")
     suspend fun patchAuthentication(
         @PathVariable authenticationKey: String,
         @RequestAuthContext authContext: AuthContext,

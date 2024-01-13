@@ -14,7 +14,7 @@ class AuthenticationRetrieveApi(
     /**
      * 서비스 인증 키를 조회합니다
      */
-    @GetMapping("/v1/authentication/{authenticationKey}")
+    @GetMapping("/v1/authentications/{authenticationKey}")
     suspend fun getAuthentication(
         @PathVariable authenticationKey: String,
         @Valid request: AuthenticationGetApiRequest,

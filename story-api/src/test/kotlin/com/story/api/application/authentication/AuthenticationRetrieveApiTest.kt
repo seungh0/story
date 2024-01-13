@@ -38,7 +38,7 @@ class AuthenticationRetrieveApiTest(
                 authenticationKey = authenticationKey,
                 filterStatus = any(),
             )
-        } returns com.story.api.application.authentication.AuthenticationApiResponse(
+        } returns AuthenticationApiResponse(
             authenticationKey = authenticationKey,
             status = AuthenticationStatus.ENABLED,
             description = "Story Platform에서 사용할 인증 키",
@@ -50,7 +50,7 @@ class AuthenticationRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/authentication/{authenticationKey}?filterStatus={filterStatus}",
+                "/v1/authentications/{authenticationKey}?filterStatus={filterStatus}",
                 authenticationKey,
                 AuthenticationStatus.ENABLED
             )
