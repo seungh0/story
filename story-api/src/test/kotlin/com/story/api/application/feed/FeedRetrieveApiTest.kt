@@ -4,14 +4,20 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.api.ApiTest
 import com.story.api.DocsTest
 import com.story.api.StringSpecDocsTest
+import com.story.api.application.post.PostApiResponse
+import com.story.api.application.post.PostMetadataApiResponse
+import com.story.api.application.post.PostOwnerApiResponse
+import com.story.api.application.post.PostSectionApiResponse
+import com.story.api.application.subscription.SubscriptionApiResponse
 import com.story.api.lib.PageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
 import com.story.api.lib.WebClientUtils
 import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.dto.CursorResponse
-import com.story.core.domain.post.PostEvent
+import com.story.core.domain.post.section.PostSectionType
+import com.story.core.domain.post.section.image.ImagePostSectionContentResponse
+import com.story.core.domain.post.section.text.TextPostSectionContentResponse
 import com.story.core.domain.resource.ResourceId
-import com.story.core.domain.subscription.SubscriptionEvent
 import io.mockk.coEvery
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
@@ -53,18 +59,59 @@ class FeedRetrieveApiTest(
                     feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
                     componentId = "account-post",
-                    payload = PostEvent(
-                        workspaceId = "story",
-                        resourceId = ResourceId.POSTS,
-                        componentId = "account-post",
-                        spaceId = "accountId",
-                        postId = 1000L,
-                        accountId = "account-id",
+                    payload = PostApiResponse(
+                        postId = "1000",
                         title = "스토리 플랫폼(Story Platform)이란?",
-                        content = "\"스토리 플랫폼\"은 비즈니스를 위한 서비스를 쉽게 개발할 수 있도록 컴포넌트 플랫폼을 제공합니다.",
-                        createdAt = LocalDateTime.now(),
-                        updatedAt = LocalDateTime.now(),
-                    )
+                        isOwner = false,
+                        sections = listOf(
+                            PostSectionApiResponse(
+                                sectionType = PostSectionType.TEXT,
+                                data = TextPostSectionContentResponse(
+                                    content = "섹션 내용"
+                                )
+                            )
+                        ),
+                        owner = PostOwnerApiResponse(
+                            accountId = "account-id"
+                        ),
+                        metadata = PostMetadataApiResponse(
+                            hasChildren = false,
+                        )
+                    ).apply {
+                        this.createdAt = LocalDateTime.now()
+                        this.updatedAt = LocalDateTime.now()
+                    }
+                ),
+                FeedApiResponse(
+                    feedId = "30000",
+                    resourceId = ResourceId.POSTS.code,
+                    componentId = "account-post",
+                    payload = PostApiResponse(
+                        postId = "1000",
+                        title = "스토리 플랫폼(Story Platform)이란?",
+                        isOwner = false,
+                        sections = listOf(
+                            PostSectionApiResponse(
+                                sectionType = PostSectionType.IMAGE,
+                                data = ImagePostSectionContentResponse(
+                                    path = "/store/v1/store.png",
+                                    fileName = "store.png",
+                                    width = 480,
+                                    height = 360,
+                                    fileSize = 1234123,
+                                )
+                            )
+                        ),
+                        owner = PostOwnerApiResponse(
+                            accountId = "account-id"
+                        ),
+                        metadata = PostMetadataApiResponse(
+                            hasChildren = false,
+                        )
+                    ).apply {
+                        this.createdAt = LocalDateTime.now()
+                        this.updatedAt = LocalDateTime.now()
+                    }
                 )
             ),
             cursor = CursorResponse(
@@ -88,7 +135,7 @@ class FeedRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "feed.list",
+                    "feed-post.list",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
@@ -120,22 +167,39 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("컴포넌트 ID"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload")
                             .type(JsonFieldType.OBJECT).description("피드로 발행된 포스트 정보"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.workspaceId")
-                            .type(JsonFieldType.STRING).description("포스트 워크스페이스 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.resourceId")
-                            .type(JsonFieldType.STRING).description("포스트 리소스 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.componentId")
-                            .type(JsonFieldType.STRING).description("포스트 컴포넌트 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.spaceId")
-                            .type(JsonFieldType.STRING).description("포스트 공간 ID"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.postId")
-                            .type(JsonFieldType.NUMBER).description("포스트 ID"), // TODO: Number -> String 변환 필요
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.accountId")
+                            .type(JsonFieldType.STRING).description("포스트 ID"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.owner")
+                            .type(JsonFieldType.OBJECT).description("포스트 작성자"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.owner.accountId")
                             .type(JsonFieldType.STRING).description("포스트 작성자의 계정 ID"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.isOwner")
+                            .type(JsonFieldType.BOOLEAN).description("포스트 작성자 여부"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.metadata")
+                            .type(JsonFieldType.OBJECT).description("포스트 메타 정보"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.metadata.hasChildren")
+                            .type(JsonFieldType.BOOLEAN).description("포스트의 하위 포스트 존재 여부"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.title")
                             .type(JsonFieldType.STRING).description("포스트 제목"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.content")
-                            .type(JsonFieldType.STRING).description("포스트 내용"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections")
+                            .type(JsonFieldType.ARRAY).description("포스트 섹션 목록"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].sectionType")
+                            .type(JsonFieldType.STRING).description("포스트 섹션 타입")
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(PostSectionType::class.java))),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data")
+                            .type(JsonFieldType.OBJECT).description("포스트 섹션 목록"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.content")
+                            .type(JsonFieldType.STRING).description("[TEXT 섹션 전용] 포스트 섹션 내용").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.path")
+                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 Path").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.fileName")
+                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 파일 명").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.width")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 가로 길이").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.height")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 세로 길이").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.fileSize")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 파일 사이즈").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.createdAt")
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.updatedAt")
@@ -169,15 +233,11 @@ class FeedRetrieveApiTest(
             feeds = listOf(
                 FeedApiResponse(
                     feedId = "30000",
-                    resourceId = ResourceId.SUBSCRIPTIONS.code,
-                    componentId = "follow",
-                    payload = SubscriptionEvent(
-                        workspaceId = "story",
-                        resourceId = ResourceId.SUBSCRIPTIONS,
-                        componentId = "follow",
-                        subscriberId = "subscriberId",
-                        targetId = "targetId",
-                        createdAt = LocalDateTime.now(),
+                    resourceId = ResourceId.POSTS.code,
+                    componentId = "account-post",
+                    payload = SubscriptionApiResponse(
+                        targetId = "target-id",
+                        subscriberId = "subscriber-id"
                     )
                 )
             ),
@@ -202,7 +262,7 @@ class FeedRetrieveApiTest(
             .expectBody()
             .consumeWith(
                 WebTestClientRestDocumentation.document(
-                    "FEED-LIST-API-SUBSCRIPTION",
+                    "feed-subscription.list",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
@@ -233,18 +293,10 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("컴포넌트 ID"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload")
                             .type(JsonFieldType.OBJECT).description("피드로 발행된 구독 정보"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.workspaceId")
-                            .type(JsonFieldType.STRING).description("구독 워크스페이스 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.resourceId")
-                            .type(JsonFieldType.STRING).description("구독 리소스 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.componentId")
-                            .type(JsonFieldType.STRING).description("구독 컴포넌트 ID"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.subscriberId")
                             .type(JsonFieldType.STRING).description("구독자 ID"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.targetId")
                             .type(JsonFieldType.STRING).description("구독 대상 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.createdAt")
-                            .type(JsonFieldType.STRING).description("구독 일자"),
                         PayloadDocumentation.fieldWithPath("result.cursor")
                             .type(JsonFieldType.OBJECT).description("페이지 커서 정보"),
                         PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")

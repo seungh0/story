@@ -12,4 +12,20 @@ object EventKeyGenerator {
     fun workspace(workspaceId: String) = "workspace:$workspaceId"
     fun reaction(spaceId: String, accountId: String) = "reaction::$spaceId::$accountId"
 
+    fun parsePost(key: String): Pair<String, Long> {
+        if (!key.startsWith("post::")) {
+            throw IllegalArgumentException("") // TODO:
+        }
+        val split = key.split("::")
+        return split[1] to split[2].toLong()
+    }
+
+    fun parseSubscription(key: String): Pair<String, String> {
+        if (!key.startsWith("subscription::")) {
+            throw IllegalArgumentException("") // TODO:
+        }
+        val split = key.split("::")
+        return split[1] to split[2]
+    }
+
 }

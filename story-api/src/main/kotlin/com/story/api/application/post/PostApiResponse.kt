@@ -1,6 +1,7 @@
 package com.story.api.application.post
 
 import com.story.core.common.model.dto.AuditingTimeResponse
+import com.story.core.domain.feed.FeedPayload
 import com.story.core.domain.post.PostMetadataResponse
 import com.story.core.domain.post.PostResponse
 
@@ -11,7 +12,7 @@ data class PostApiResponse(
     val isOwner: Boolean,
     val owner: PostOwnerApiResponse,
     val metadata: PostMetadataApiResponse,
-) : AuditingTimeResponse() {
+) : FeedPayload, AuditingTimeResponse() {
 
     companion object {
         fun of(post: PostResponse, requestAccountId: String?): PostApiResponse {

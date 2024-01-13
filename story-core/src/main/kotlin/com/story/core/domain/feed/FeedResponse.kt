@@ -1,17 +1,21 @@
 package com.story.core.domain.feed
 
+import com.story.core.domain.resource.ResourceId
+
 data class FeedResponse(
     val feedId: Long,
-    val resourceId: String,
-    val componentId: String,
+    val eventKey: String,
+    val sourceResourceId: ResourceId,
+    val sourceComponentId: String,
 ) {
 
     companion object {
         fun of(feed: Feed): FeedResponse {
             return FeedResponse(
                 feedId = feed.key.feedId,
-                resourceId = feed.sourceResourceId.code,
-                componentId = feed.sourceComponentId,
+                sourceResourceId = feed.sourceResourceId,
+                sourceComponentId = feed.sourceComponentId,
+                eventKey = feed.eventKey,
             )
         }
     }
