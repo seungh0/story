@@ -9,6 +9,7 @@ import com.story.core.domain.subscription.SubscriberSequenceRepository
 import com.story.core.domain.subscription.SubscriptionEvent
 import com.story.core.domain.subscription.SubscriptionSlotAssigner
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 
 @HandlerAdapter
@@ -37,13 +38,13 @@ class SubscriptionFeedDistributeHandler(
             }
 
             feedMappings.forEach { feedMapping ->
-                val subscriberSequences = subscriberSequenceRepository.getLastSequence(
+                val subscriberCount = subscriberSequenceRepository.getLastSequence(
                     workspaceId = feedMapping.workspaceId,
                     componentId = feedMapping.subscriptionComponentId,
                     targetId = payload.subscriberId,
                 )
 
-                if (subscriberSequences <= 0) {
+                if (subscriberCount <= 0) {
                     return@coroutineScope
                 }
 
@@ -51,7 +52,7 @@ class SubscriptionFeedDistributeHandler(
 
                 LongRange(
                     start = SubscriptionSlotAssigner.FIRST_SLOT_ID,
-                    endInclusive = SubscriptionSlotAssigner.assign(sequence = subscriberSequences)
+                    endInclusive = SubscriptionSlotAssigner.assign(sequence = subscriberCount)
                 )
                     .chunked(size = concurrency)
                     .forEach { chunkedSlotIds ->
@@ -73,7 +74,7 @@ class SubscriptionFeedDistributeHandler(
                                     ),
                                 )
                             }
-                        }
+                        }.joinAll()
                     }
             }
         }

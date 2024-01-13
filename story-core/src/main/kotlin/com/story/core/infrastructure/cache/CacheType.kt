@@ -37,8 +37,8 @@ enum class CacheType(
         globalCacheTtl = Duration.ofMinutes(30),
         typeReference = object : TypeReference<WorkspaceResponse>() {}
     ),
-    FEED_MAPPING_CONFIGURATIONS(
-        description = "피드 매핑 설정 목록",
+    FEED_MAPPING(
+        description = "피드 매핑 목록",
         key = "feed-mapping:v1",
         localCacheTtl = Duration.ofMinutes(3),
         globalCacheTtl = Duration.ofMinutes(30),

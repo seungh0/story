@@ -35,8 +35,8 @@ class FeedMappingRemoveHandler(
             request = FeedMappingRemoveRequest(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
-                resourceId = sourceResourceId,
-                componentId = sourceComponentId,
+                sourceResourceId = sourceResourceId,
+                sourceComponentId = sourceComponentId,
                 subscriptionComponentId = subscriptionComponentId,
             )
         )

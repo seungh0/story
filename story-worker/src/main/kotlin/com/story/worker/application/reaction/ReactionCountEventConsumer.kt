@@ -30,7 +30,7 @@ class ReactionCountEventConsumer(
         groupId = GROUP_ID,
         containerFactory = KafkaConsumerConfig.DEFAULT_BATCH_KAFKA_CONSUMER,
     )
-    fun handleSubscriptionFeedEvent(@Payload records: List<ConsumerRecord<String, String>>) = runBlocking {
+    fun handleReactionCount(@Payload records: List<ConsumerRecord<String, String>>) = runBlocking {
         val reactions = records.map { record ->
             val event = record.value().toObject(EventRecord::class.java)
                 ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
@@ -61,7 +61,7 @@ class ReactionCountEventConsumer(
         withContext(dispatcher) {
             reactionCountMap.map { (key, count) -> key to count }
                 .chunked(PARALLEL_COUNT)
-                .map { chunkedKeyCounts ->
+                .forEach { chunkedKeyCounts ->
                     chunkedKeyCounts.map { (key, count) ->
                         launch {
                             reactionCountRepository.increase(key = key, count = count)

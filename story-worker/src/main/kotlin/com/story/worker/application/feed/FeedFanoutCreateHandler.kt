@@ -11,7 +11,7 @@ import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Pageable
 
 @HandlerAdapter
-class CreateFeedFanoutHandler(
+class FeedFanoutCreateHandler(
     private val feedCreator: FeedCreator,
     private val subscriberRepository: SubscriberRepository,
 ) : FeedFanoutHandler {

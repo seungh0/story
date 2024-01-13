@@ -14,7 +14,7 @@ class FeedMappingRetriever(
 ) {
 
     @Cacheable(
-        cacheType = CacheType.FEED_MAPPING_CONFIGURATIONS,
+        cacheType = CacheType.FEED_MAPPING,
         key = "'workspaceId:' + {#workspaceId} + ':sourceResourceId:' + {#sourceResourceId} + ':sourceComponentId:' + {#sourceComponentId}",
     )
     suspend fun listConnectedFeedMappings(

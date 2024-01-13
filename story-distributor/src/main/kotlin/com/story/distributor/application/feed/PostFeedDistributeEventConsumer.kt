@@ -31,27 +31,26 @@ class PostFeedDistributeEventConsumer(
     fun handlePostFeedEvent(
         @Payload records: List<ConsumerRecord<String, String>>,
     ) = runBlocking {
-        records.chunked(MAX_PARALLEL_COUNT)
-            .map { chunkedRecords ->
-                chunkedRecords.map { record ->
-                    launch {
-                        val event = record.value().toObject(EventRecord::class.java)
-                            ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
+        for (chunkedRecords in records.chunked(MAX_PARALLEL_COUNT)) {
+            chunkedRecords.map { record ->
+                launch {
+                    val event = record.value().toObject(EventRecord::class.java)
+                        ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
-                        val payload = event.payload.toJson().toObject(PostEvent::class.java)
-                            ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
+                    val payload = event.payload.toJson().toObject(PostEvent::class.java)
+                        ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
-                        withContext(dispatcher) {
-                            postFeedDistributeHandler.distributePostFeeds(
-                                payload = payload,
-                                eventId = event.eventId,
-                                eventAction = event.eventAction,
-                                eventKey = event.eventKey,
-                            )
-                        }
+                    withContext(dispatcher) {
+                        postFeedDistributeHandler.distributePostFeeds(
+                            payload = payload,
+                            eventId = event.eventId,
+                            eventAction = event.eventAction,
+                            eventKey = event.eventKey,
+                        )
                     }
-                }.joinAll()
-            }
+                }
+            }.joinAll()
+        }
     }
 
     companion object {

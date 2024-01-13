@@ -11,7 +11,7 @@ import com.story.core.domain.feed.FeedSubscriberRetriever
 import kotlinx.coroutines.coroutineScope
 
 @HandlerAdapter
-class RemoveFeedFanoutHandler(
+class FeedFanoutRemoveHandler(
     private val feedSubscriberRetriever: FeedSubscriberRetriever,
     private val feedRemover: FeedRemover,
 ) : FeedFanoutHandler {
@@ -29,9 +29,7 @@ class RemoveFeedFanoutHandler(
                 cursorRequest = CursorRequest(cursor = cursor, direction = CursorDirection.NEXT, pageSize = 500),
             )
 
-            feedRemover.remove(
-                feedSubscribers = feedSubscribers.data,
-            )
+            feedRemover.remove(feedSubscribers = feedSubscribers.data)
 
             cursor = feedSubscribers.cursor.nextCursor
         } while (feedSubscribers.hasNext)

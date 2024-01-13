@@ -16,7 +16,7 @@ class FeedMappingCreator(
 
     @DistributedLock(
         lockType = DistributedLockType.FEED_MAPPING,
-        key = "'workspaceId:' + {#request.workspaceId} + ':feedComponentId:' + {#request.feedComponentId}"
+        key = "'workspaceId:' + {#request.workspaceId} + ':feedComponentId:' + {#request.feedComponentId} + ':sourceResourceId:' + {#request.sourceResourceId} + ':sourceComponentId:' + {#request.sourceComponentId}"
     )
     suspend fun create(
         request: FeedMappingCreateRequest,
