@@ -1,4 +1,4 @@
-=== [Reaction] Place API
+=== [Reaction] Replace API
 
 include::{snippets}/reaction.place/request-path.adoc[]
 
