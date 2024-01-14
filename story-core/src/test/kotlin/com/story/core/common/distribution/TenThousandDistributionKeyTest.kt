@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldHaveLength
 import java.util.Random
 
-class XLargeDistributionKeyTest : StringSpec({
+class TenThousandDistributionKeyTest : StringSpec({
 
     "0000~9999 사이의 분산 키를 생성합니다" {
         // given

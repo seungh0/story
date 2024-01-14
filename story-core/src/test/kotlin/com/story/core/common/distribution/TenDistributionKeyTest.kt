@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldHaveLength
 import java.util.Random
 
-class SmallDistributionKeyTest : StringSpec({
+class TenDistributionKeyTest : StringSpec({
 
     "0~9 사이의 분산 키를 생성합니다" {
         // given
