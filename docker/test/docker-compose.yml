@@ -17,7 +17,6 @@ services:
       timeout: 10s
       retries: 5
 
-
   redis:
     image: redis:6.0
     command: redis-server --port 6379 --save "" --appendonly no

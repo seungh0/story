@@ -40,7 +40,7 @@ class FeedRetrieveApiTest(
     "피드를 조회합니다 (Post)" {
         // given
         val componentId = "timeline"
-        val subscriberId = "user-subscriber-id"
+        val subscriberId = "user-100"
 
         val cursor = UUID.randomUUID().toString()
         val direction = CursorDirection.NEXT

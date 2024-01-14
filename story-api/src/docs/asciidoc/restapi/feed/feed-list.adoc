@@ -1,22 +1,22 @@
 === [Feed] List API
 
-include::{snippets}/feed.list/request-path.adoc[]
+include::{snippets}/feed-post.list/request-path.adoc[]
 
 ==== [Request]
 
-include::{snippets}/feed.list/http-request.adoc[]
+include::{snippets}/feed-post.list/http-request.adoc[]
 
 ==== [Request Path Parameters]
 
-include::{snippets}/feed.list/path-parameters.adoc[]
+include::{snippets}/feed-post.list/path-parameters.adoc[]
 
 ==== [Request Headers]
 
-include::{snippets}/feed.list/request-headers.adoc[]
+include::{snippets}/feed-post.list/request-headers.adoc[]
 
 ==== [Request Query Parameters]
 
-include::{snippets}/feed.list/query-parameters.adoc[]
+include::{snippets}/feed-post.list/query-parameters.adoc[]
 
 ==== [Response]
 

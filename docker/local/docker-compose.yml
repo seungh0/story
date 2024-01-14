@@ -21,9 +21,9 @@ services:
   redis-1:
     container_name: story-redis-local
     image: redis:6.0
-    command: redis-server --port 6380 --appendonly yes
+    command: redis-server --port 6379 --appendonly yes
     ports:
-      - '6380:6380'
+      - '6380:6379'
     restart: on-failure
     volumes:
       - redis_data1:/data

@@ -4,7 +4,7 @@
 | 400 | invalid_arguments | 필수 파라미터가 없거나, 파라미터가 유효하지 않는 경우
 | 400 | inactivated_workspace | 비활성화된 워크스페이스인 경우
 | 400 | invalid_nonce | 유효하지 않은 Nonce인 경우
-| 400 | missing_request_USER_ID | 요청자("X-Request-User-Id") 헤더가 없는 경우
+| 400 | missing_request_user_id | 요청자("X-Request-User-Id") 헤더가 없는 경우
 | 400 | invalid_event_key | 유효하지 않은 EventKey인 경우
 | 401 | invalid_authentication_key | 유효하지 않은 인증 키가 요청된 경우
 | 401 | inactivated_authentication_key | 비활성화된 인증 키가 요청된 경우
@@ -20,6 +20,8 @@
 | 404 | not_exists_connect_mapping_feed | 존재하지 않는 피드 매핑 설정인 경우
 | 404 | not_exists_workspace | 존재하지 않는 워크스페이스인 경우
 | 404 | not_exists_emotion | 존재하지 않는 이모션인 경우
+| 404 | not_exists_feed | 존재하지 않는 피드인 경우
+| 404 | not_exists_feed_mapping | 존재하지 않는 피드 매핑인 경우
 | 405 | method_not_allowed | 허용하지 않는 HTTP Method인 경우
 | 409 | already_exists_authentication_key | 인증 키 중복 시
 | 409 | already_exists_component | 컴포넌트 중복 시
