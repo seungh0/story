@@ -2,7 +2,6 @@ package com.story.core.domain.reaction
 
 import com.story.core.domain.event.BaseEvent
 import com.story.core.domain.event.EventAction
-import com.story.core.domain.event.EventKeyGenerator
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.resource.ResourceId
 
@@ -25,10 +24,10 @@ data class ReactionEvent(
             createdOptionIds: Set<String>,
         ) = EventRecord(
             eventAction = EventAction.CREATED,
-            eventKey = EventKeyGenerator.reaction(
+            eventKey = ReactionEventKey(
                 spaceId = spaceId,
                 accountId = accountId,
-            ),
+            ).makeKey(),
             payload = ReactionEvent(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.REACTIONS,
@@ -49,10 +48,10 @@ data class ReactionEvent(
             deletedOptionIds: Set<String>,
         ) = EventRecord(
             eventAction = EventAction.UPDATED,
-            eventKey = EventKeyGenerator.reaction(
+            eventKey = ReactionEventKey(
                 spaceId = spaceId,
                 accountId = accountId,
-            ),
+            ).makeKey(),
             payload = ReactionEvent(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.REACTIONS,
@@ -72,10 +71,10 @@ data class ReactionEvent(
             deletedOptionIds: Set<String>,
         ) = EventRecord(
             eventAction = EventAction.DELETED,
-            eventKey = EventKeyGenerator.reaction(
+            eventKey = ReactionEventKey(
                 spaceId = spaceId,
                 accountId = accountId,
-            ),
+            ).makeKey(),
             payload = ReactionEvent(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.REACTIONS,

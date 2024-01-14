@@ -1,7 +1,6 @@
 package com.story.core.domain.authentication
 
 import com.story.core.domain.event.EventAction
-import com.story.core.domain.event.EventKeyGenerator
 import com.story.core.domain.event.EventRecord
 
 data class AuthenticationEvent(
@@ -20,7 +19,7 @@ data class AuthenticationEvent(
                 authenticationKey = workspaceAuthentication.key.authenticationKey,
                 status = workspaceAuthentication.status,
             ),
-            eventKey = EventKeyGenerator.authenticationKey(authenticationKey = workspaceAuthentication.key.authenticationKey),
+            eventKey = AuthenticationEventKey(authenticationKey = workspaceAuthentication.key.authenticationKey).makeKey(),
         )
     }
 

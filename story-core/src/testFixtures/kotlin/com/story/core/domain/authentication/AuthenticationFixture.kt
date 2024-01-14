@@ -10,9 +10,7 @@ object AuthenticationFixture {
         status: AuthenticationStatus = RandomGenerator.generateEnum(AuthenticationStatus::class.java),
         description: String = RandomGenerator.generateString(),
     ) = Authentication(
-        key = AuthenticationPrimaryKey(
-            authenticationKey = authenticationKey,
-        ),
+        authenticationKey = authenticationKey,
         workspaceId = workspaceId,
         status = status,
         description = description,

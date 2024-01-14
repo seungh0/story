@@ -1,7 +1,6 @@
 package com.story.core.domain.component
 
 import com.story.core.domain.event.EventAction
-import com.story.core.domain.event.EventKeyGenerator
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.resource.ResourceId
 
@@ -23,7 +22,7 @@ data class ComponentEvent(
                 resourceId = resourceId,
                 componentId = componentId,
             ),
-            eventKey = EventKeyGenerator.component(componentId = componentId),
+            eventKey = ComponentEventKey(componentId = componentId).makeKey(),
         )
     }
 

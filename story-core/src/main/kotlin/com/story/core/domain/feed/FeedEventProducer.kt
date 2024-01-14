@@ -25,7 +25,7 @@ class FeedEventProducer(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun publishEvent(event: EventRecord<FeedEvent>) {
+    suspend fun publishEvent(event: EventRecord<FeedFanoutEvent>) {
         eventHistoryManager.withSaveEventHistory(
             workspaceId = event.payload.workspaceId,
             resourceId = ResourceId.FEEDS,
@@ -40,9 +40,6 @@ class FeedEventProducer(
                         slotId = event.payload.slotId,
                         workspaceId = event.payload.workspaceId,
                         feedComponentId = event.payload.feedComponentId,
-                        sourceResourceId = event.payload.sourceResourceId,
-                        sourceComponentId = event.payload.sourceComponentId,
-                        subscriptionComponentId = event.payload.subscriptionComponentId,
                     ),
                     data = event.toJson(),
                 )

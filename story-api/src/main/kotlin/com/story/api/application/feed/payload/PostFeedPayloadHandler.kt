@@ -1,9 +1,9 @@
 package com.story.api.application.feed.payload
 
 import com.story.api.application.post.PostApiResponse
-import com.story.core.domain.event.EventKeyGenerator
 import com.story.core.domain.feed.FeedPayload
 import com.story.core.domain.feed.FeedResponse
+import com.story.core.domain.post.PostEventKey
 import com.story.core.domain.post.PostNotExistsException
 import com.story.core.domain.post.PostRetriever
 import com.story.core.domain.post.PostSpaceKey
@@ -24,15 +24,15 @@ class PostFeedPayloadHandler(
     ): Map<Long, FeedPayload> {
         return feeds.mapNotNull { feed ->
             try {
-                val (spaceId, postId) = EventKeyGenerator.parsePost(feed.eventKey)
+                val eventKey = PostEventKey.parse(eventKey = feed.eventKey)
                 feed.feedId to PostApiResponse.of(
                     postRetriever.getPost(
                         postSpaceKey = PostSpaceKey(
                             workspaceId = workspaceId,
                             componentId = feed.sourceComponentId,
-                            spaceId = spaceId,
+                            spaceId = eventKey.spaceId,
                         ),
-                        postId = postId,
+                        postId = eventKey.postId,
                     ),
                     requestAccountId = requestAccountId,
                 )

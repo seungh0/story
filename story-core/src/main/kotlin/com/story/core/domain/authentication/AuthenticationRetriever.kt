@@ -17,9 +17,8 @@ class AuthenticationRetriever(
         authenticationKey: String,
     ): AuthenticationResponse {
         return AuthenticationResponse.of(
-            authenticationRepository.findById(
-                AuthenticationPrimaryKey(authenticationKey = authenticationKey)
-            ) ?: throw AuthenticationKeyNotExistsException(message = "등록되지 않은 인증 키($authenticationKey) 입니다")
+            authenticationRepository.findById(authenticationKey)
+                ?: throw AuthenticationKeyNotExistsException(message = "등록되지 않은 인증 키($authenticationKey) 입니다")
         )
     }
 

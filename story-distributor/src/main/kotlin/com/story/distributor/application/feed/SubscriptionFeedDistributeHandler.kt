@@ -2,8 +2,8 @@ package com.story.distributor.application.feed
 
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.event.EventAction
-import com.story.core.domain.feed.FeedEvent
 import com.story.core.domain.feed.FeedEventProducer
+import com.story.core.domain.feed.FeedFanoutEvent
 import com.story.core.domain.feed.mapping.FeedMappingRetriever
 import com.story.core.domain.subscription.SubscriberSequenceRepository
 import com.story.core.domain.subscription.SubscriptionEvent
@@ -59,7 +59,7 @@ class SubscriptionFeedDistributeHandler(
                         chunkedSlotIds.map { slotId ->
                             launch {
                                 feedEventProducer.publishEvent(
-                                    event = FeedEvent.of(
+                                    event = FeedFanoutEvent.of(
                                         eventKey = eventKey,
                                         eventAction = eventAction,
                                         workspaceId = feedMapping.workspaceId,

@@ -2,7 +2,6 @@ package com.story.core.domain.subscription
 
 import com.story.core.domain.event.BaseEvent
 import com.story.core.domain.event.EventAction
-import com.story.core.domain.event.EventKeyGenerator
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.resource.ResourceId
 import java.time.LocalDateTime
@@ -25,7 +24,7 @@ data class SubscriptionEvent(
             createdAt: LocalDateTime,
         ) = EventRecord(
             eventAction = EventAction.CREATED,
-            eventKey = EventKeyGenerator.subscription(subscriberId = subscriberId, targetId = targetId),
+            eventKey = SubscriptionEventKey(subscriberId = subscriberId, targetId = targetId).makeKey(),
             payload = SubscriptionEvent(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.SUBSCRIPTIONS,
@@ -43,7 +42,7 @@ data class SubscriptionEvent(
             targetId: String,
         ) = EventRecord(
             eventAction = EventAction.DELETED,
-            eventKey = EventKeyGenerator.subscription(subscriberId = subscriberId, targetId = targetId),
+            eventKey = SubscriptionEventKey(subscriberId = subscriberId, targetId = targetId).makeKey(),
             payload = SubscriptionEvent(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.SUBSCRIPTIONS,

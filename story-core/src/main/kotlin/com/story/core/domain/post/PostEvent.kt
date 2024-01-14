@@ -2,7 +2,6 @@ package com.story.core.domain.post
 
 import com.story.core.domain.event.BaseEvent
 import com.story.core.domain.event.EventAction
-import com.story.core.domain.event.EventKeyGenerator
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.resource.ResourceId
 import java.time.LocalDateTime
@@ -14,8 +13,7 @@ data class PostEvent(
     val spaceId: String,
     val postId: Long,
     val accountId: String,
-    val title: String,
-    val content: String,
+    val title: String?,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
 ) : BaseEvent {
@@ -23,7 +21,7 @@ data class PostEvent(
     companion object {
         fun created(post: PostResponse) = EventRecord(
             eventAction = EventAction.CREATED,
-            eventKey = EventKeyGenerator.post(spaceId = post.spaceId, postId = post.postId),
+            eventKey = PostEventKey(spaceId = post.spaceId, postId = post.postId).makeKey(),
             payload = PostEvent(
                 workspaceId = post.workspaceId,
                 resourceId = ResourceId.POSTS,
@@ -32,7 +30,6 @@ data class PostEvent(
                 postId = post.postId,
                 accountId = post.accountId,
                 title = post.title,
-                content = "", // TODO: 섹션으로 변경
                 createdAt = post.createdAt,
                 updatedAt = post.updatedAt,
             ),
@@ -40,7 +37,7 @@ data class PostEvent(
 
         fun modified(post: PostResponse) = EventRecord(
             eventAction = EventAction.UPDATED,
-            eventKey = EventKeyGenerator.post(spaceId = post.spaceId, postId = post.postId),
+            eventKey = PostEventKey(spaceId = post.spaceId, postId = post.postId).makeKey(),
             payload = PostEvent(
                 workspaceId = post.workspaceId,
                 resourceId = ResourceId.POSTS,
@@ -49,7 +46,6 @@ data class PostEvent(
                 postId = post.postId,
                 accountId = post.accountId,
                 title = post.title,
-                content = "", // TODO: 섹션으로 변경
                 createdAt = post.createdAt,
                 updatedAt = post.updatedAt,
             ),
@@ -63,7 +59,7 @@ data class PostEvent(
             accountId: String,
         ) = EventRecord(
             eventAction = EventAction.DELETED,
-            eventKey = EventKeyGenerator.post(spaceId = spaceId, postId = postId),
+            eventKey = PostEventKey(spaceId = spaceId, postId = postId).makeKey(),
             payload = PostEvent(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.POSTS,
@@ -71,8 +67,7 @@ data class PostEvent(
                 spaceId = spaceId,
                 postId = postId,
                 accountId = accountId,
-                title = "",
-                content = "",
+                title = null,
                 createdAt = null,
                 updatedAt = null,
             ),

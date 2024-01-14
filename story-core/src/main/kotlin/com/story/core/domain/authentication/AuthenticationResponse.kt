@@ -19,7 +19,7 @@ data class AuthenticationResponse(
 
         fun of(authentication: Authentication) = AuthenticationResponse(
             workspaceId = authentication.workspaceId,
-            authenticationKey = authentication.key.authenticationKey,
+            authenticationKey = authentication.authenticationKey,
             status = authentication.status,
             description = authentication.description,
         )

@@ -2,7 +2,6 @@ package com.story.core.domain.purge
 
 import com.story.core.common.distribution.DistributionKey
 import com.story.core.domain.event.EventAction
-import com.story.core.domain.event.EventKeyGenerator
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.resource.ResourceId
 
@@ -21,10 +20,10 @@ data class PurgeDistributeEvent(
             distributionKey: DistributionKey,
         ) = EventRecord(
             eventAction = EventAction.CREATED,
-            eventKey = EventKeyGenerator.purge(
+            eventKey = PurgeEventKey(
                 resourceId = resourceId,
                 componentId = componentId
-            ),
+            ).makeKey(),
             payload = PurgeDistributeEvent(
                 workspaceId = workspaceId,
                 resourceId = resourceId,

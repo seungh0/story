@@ -21,6 +21,7 @@ enum class ErrorCode(
         code = "missing_request_account_id",
         description = "요청자(\"X-Request-Account-Id\") 헤더가 없는 경우"
     ),
+    E400_INVALID_EVENT_KEY(httpStatusCode = 400, code = "invalid_event_key", description = "유효하지 않은 EventKey인 경우"),
 
     /**
      * 401 UnAuthorized

@@ -7,12 +7,9 @@ object KafkaRecordKeyGenerator {
     fun feed(
         workspaceId: String,
         feedComponentId: String,
-        sourceResourceId: ResourceId,
-        sourceComponentId: String,
-        subscriptionComponentId: String,
         eventKey: String,
         slotId: Long,
-    ) = ":$workspaceId:$feedComponentId:$sourceResourceId:$sourceComponentId:$subscriptionComponentId:$eventKey:$slotId"
+    ) = ":$workspaceId:$feedComponentId:$eventKey:$slotId"
 
     fun component(workspaceId: String, resourceId: ResourceId, componentId: String) =
         "$workspaceId:$resourceId:$componentId"
