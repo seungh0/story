@@ -4,7 +4,7 @@ services:
   cassandra:
     image: cassandra:4.1
     ports:
-      - "9043:9042"
+      - "9042:9042"
     restart: unless-stopped
     environment:
       - "MAX_HEAP_SIZE=512M"
@@ -21,7 +21,7 @@ services:
     image: redis:6.0
     command: redis-server --port 6379 --save "" --appendonly no
     ports:
-      - '6381:6379'
+      - '6380:6379'
     restart: on-failure
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
@@ -39,14 +39,14 @@ services:
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
     ports:
-      - "22182:2181"
+      - "22181:2181"
 
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
     ports:
-      - "29093:29092"
+      - "29092:29092"
     restart: on-failure
     environment:
       KAFKA_BROKER_ID: 1

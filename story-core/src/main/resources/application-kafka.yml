@@ -33,12 +33,17 @@ story:
       purge:
         name: story.purge-event-v1
         partition-count: 3
-      feed:
-        name: story.feed-v1
+      feed-fanout:
+        name: story.feed-fanout-v1
         partition-count: 10
       feed-mapping:
         name: story.feed-mapping-v1
         partition-count: 3
+        dlt:
+          enabled: true
+        retry:
+          attempts: 3
+          partition-count: 3
       workspace:
         name: story.workspace-v1
         partition-count: 3
@@ -64,6 +69,7 @@ spring.config:
   activate:
     on-profile:
       - local
+      - test
 
 spring:
   kafka:
@@ -76,20 +82,3 @@ story:
     default:
       replication-count: 1
 
-
----
-spring.config:
-  activate:
-    on-profile:
-      - test
-
-spring:
-  kafka:
-    bootstrap-servers: localhost:29093
-    admin:
-      auto-create: true
-
-story:
-  kafka:
-    default:
-      replication-count: 1

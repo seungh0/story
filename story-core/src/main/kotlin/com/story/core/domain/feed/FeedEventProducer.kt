@@ -34,7 +34,7 @@ class FeedEventProducer(
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    kafkaTopic = KafkaTopic.FEED,
+                    kafkaTopic = KafkaTopic.FEED_FANOUT,
                     key = KafkaRecordKeyGenerator.feed(
                         eventKey = event.eventKey,
                         slotId = event.payload.slotId,
