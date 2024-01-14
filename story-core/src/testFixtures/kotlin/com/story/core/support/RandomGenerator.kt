@@ -14,7 +14,6 @@ object RandomGenerator {
         end: Int = 10000,
     ) = "${Random.nextInt(start, end)}"
 
-    @JvmOverloads
     @JvmStatic
     fun generateBoolean(): Boolean {
         return Random.nextInt(1, 2) % 2 == 0

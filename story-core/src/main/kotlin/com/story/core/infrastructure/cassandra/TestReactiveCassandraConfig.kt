@@ -1,5 +1,7 @@
 package com.story.core.infrastructure.cassandra
 
+import com.datastax.oss.driver.api.core.config.DefaultDriverOption
+import com.datastax.oss.driver.api.core.config.DriverConfigLoader
 import com.story.core.CoreRoot
 import com.story.core.common.StoryPackageConst
 import com.story.core.infrastructure.cassandra.converter.VersionReadConverter
@@ -11,6 +13,7 @@ import org.springframework.context.annotation.Profile
 import org.springframework.data.cassandra.CassandraManagedTypes
 import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfiguration
 import org.springframework.data.cassandra.config.SchemaAction
+import org.springframework.data.cassandra.config.SessionBuilderConfigurer
 import org.springframework.data.cassandra.core.convert.CassandraCustomConversions
 import org.springframework.data.cassandra.core.cql.keyspace.CreateKeyspaceSpecification
 import org.springframework.data.cassandra.core.cql.keyspace.DropKeyspaceSpecification
@@ -27,6 +30,14 @@ class TestReactiveCassandraConfig(
     private val versionWriteConverter: VersionWriteConverter,
     private val versionReadConverter: VersionReadConverter,
 ) : AbstractReactiveCassandraConfiguration() {
+
+    override fun getLocalDataCenter(): String {
+        return cassandraProperties.localDatacenter
+    }
+
+    override fun getContactPoints(): String {
+        return cassandraProperties.contactPoints.joinToString(separator = ",")
+    }
 
     override fun cassandraMappingContext(cassandraManagedTypes: CassandraManagedTypes): CassandraMappingContext {
         val mappingContext = CassandraMappingContext()
@@ -64,6 +75,25 @@ class TestReactiveCassandraConfig(
 
     override fun getEntityBasePackages(): Array<String> {
         return arrayOf(StoryPackageConst.BASE_PACKAGE)
+    }
+
+    override fun getSessionBuilderConfigurer(): SessionBuilderConfigurer {
+        return SessionBuilderConfigurer { cqlSessionBuilder ->
+            cqlSessionBuilder
+                .withConfigLoader(
+                    DriverConfigLoader.programmaticBuilder()
+                        .withString(
+                            DefaultDriverOption.REQUEST_CONSISTENCY,
+                            cassandraProperties.request.consistency.toString()
+                        )
+                        .withDuration(
+                            DefaultDriverOption.CONNECTION_INIT_QUERY_TIMEOUT,
+                            cassandraProperties.connection.connectTimeout
+                        )
+                        .withDuration(DefaultDriverOption.REQUEST_TIMEOUT, cassandraProperties.request.timeout)
+                        .build()
+                )
+        }
     }
 
 }

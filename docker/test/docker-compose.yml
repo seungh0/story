@@ -4,22 +4,35 @@ services:
   cassandra:
     image: cassandra:4.1
     ports:
-      - "9042:9042"
+      - "9043:9042"
+    restart: unless-stopped
     environment:
       - "MAX_HEAP_SIZE=512M"
       - "HEAP_NEWSIZE=256M"
     tmpfs:
       - /var/lib/cassandra
+    healthcheck:
+      test: [ "CMD-SHELL", "[ $$(nodetool statusgossip) = running ]" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
 
   redis:
     image: redis:6.0
-    command: redis-server --port 6380 --save "" --appendonly no
+    command: redis-server --port 6379 --save "" --appendonly no
     ports:
-      - '6380:6380'
-    restart: unless-stopped
+      - '6381:6379'
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    restart: on-failure
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -27,14 +40,15 @@ services:
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
     ports:
-      - "22181:2181"
+      - "22182:2181"
 
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
     ports:
-      - "29092:29092"
+      - "29093:29092"
+    restart: on-failure
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
@@ -43,3 +57,9 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    healthcheck:
+      test: nc -z localhost 9092 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10

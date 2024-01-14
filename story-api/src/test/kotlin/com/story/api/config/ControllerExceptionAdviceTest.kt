@@ -2,6 +2,7 @@ package com.story.api.config
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.api.ApiTest
+import com.story.api.application.AvailabilityCheckApi
 import com.story.api.application.authentication.AuthenticationHandler
 import com.story.api.application.workspace.WorkspaceRetrieveHandler
 import com.story.api.lib.isFalse
@@ -17,7 +18,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @ApiTest(
-    com.story.api.application.AvailabilityCheckApi::class,
+    AvailabilityCheckApi::class,
     ControllerExceptionAdvice::class,
 )
 internal class ControllerExceptionAdviceTest(

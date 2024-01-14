@@ -10,9 +10,20 @@ spring.config:
   activate:
     on-profile:
       - local
-      - test
 spring:
   data:
     redis:
       port: 6380
+      host: localhost
+
+
+---
+spring.config:
+  activate:
+    on-profile:
+      - test
+spring:
+  data:
+    redis:
+      port: 6381
       host: localhost
