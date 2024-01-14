@@ -29,7 +29,7 @@ internal class PostRegisterTest(
                 componentId = "post",
                 spaceId = "commentId",
             )
-            val accountId = "accountId"
+            val ownerId = "ownerId"
             val title = "포스트 제목"
             val section1 = TextPostSectionContentRequest(
                 content = "컨텐츠 내용 - 1",
@@ -43,7 +43,7 @@ internal class PostRegisterTest(
             // when
             postCreator.createPost(
                 postSpaceKey = postSpaceKey,
-                accountId = accountId,
+                ownerId = ownerId,
                 title = title,
                 sections = listOf(section1, section2),
             )
@@ -57,7 +57,7 @@ internal class PostRegisterTest(
                 it.key.spaceId shouldBe postSpaceKey.spaceId
                 it.key.slotId shouldBe 1L
                 it.key.postId shouldNotBe null
-                it.accountId shouldBe accountId
+                it.ownerId shouldBe ownerId
                 it.title shouldBe title
             }
 
@@ -66,8 +66,8 @@ internal class PostRegisterTest(
             postReverses[0].also {
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.componentId shouldBe postSpaceKey.componentId
-                it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(accountId)
-                it.key.accountId shouldBe accountId
+                it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(ownerId)
+                it.key.ownerId shouldBe ownerId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
                 it.key.postId shouldNotBe null
                 it.title shouldBe title

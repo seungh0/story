@@ -11,7 +11,7 @@ interface FeedPayloadHandler {
     suspend fun handle(
         workspaceId: String,
         feeds: Collection<FeedResponse>,
-        requestAccountId: String?,
+        requestUserId: String?,
     ): Map<Long, FeedPayload>
 
 }

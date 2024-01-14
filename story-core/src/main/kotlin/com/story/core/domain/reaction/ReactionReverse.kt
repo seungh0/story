@@ -19,14 +19,14 @@ data class ReactionReverse(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            accountId: String,
+            userId: String,
             emotionIds: Set<String>,
         ) = ReactionReverse(
             key = ReactionReversePrimaryKey.of(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
             ),
             emotionIds = emotionIds,
         )
@@ -37,7 +37,7 @@ data class ReactionReverse(
             key = ReactionReversePrimaryKey.of(
                 workspaceId = reaction.key.workspaceId,
                 componentId = reaction.key.componentId,
-                accountId = reaction.key.accountId,
+                userId = reaction.key.userId,
                 spaceId = reaction.key.spaceId,
             ),
             emotionIds = reaction.emotionIds,
@@ -55,7 +55,7 @@ data class ReactionReversePrimaryKey(
     val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val accountId: String,
+    val userId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
     val distributionKey: String,
@@ -68,12 +68,12 @@ data class ReactionReversePrimaryKey(
         fun of(
             workspaceId: String,
             componentId: String,
-            accountId: String,
+            userId: String,
             spaceId: String,
         ) = ReactionReversePrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
-            accountId = accountId,
+            userId = userId,
             distributionKey = ReactionDistributionKey.makeKey(spaceId),
             spaceId = spaceId,
         )

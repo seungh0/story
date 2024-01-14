@@ -20,7 +20,7 @@ class ReactionRetrieveHandler(
         componentId: String,
         spaceId: String,
         request: ReactionGetApiRequest,
-        requestAccountId: String?,
+        requestUserId: String?,
     ): ReactionApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -32,7 +32,7 @@ class ReactionRetrieveHandler(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            requestAccountId = requestAccountId,
+            requestUserId = requestUserId,
         )
 
         val emotions = getEmotions(
@@ -70,7 +70,7 @@ class ReactionRetrieveHandler(
         workspaceId: String,
         componentId: String,
         request: ReactionListApiRequest,
-        requestAccountId: String?,
+        requestUserId: String?,
     ): ReactionListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -82,7 +82,7 @@ class ReactionRetrieveHandler(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceIds = request.spaceIds,
-            requestAccountId = requestAccountId,
+            requestUserId = requestUserId,
         )
 
         val emotionIds = reactions.asSequence()

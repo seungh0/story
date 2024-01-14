@@ -110,6 +110,20 @@ class KafkaProducerConfig(
         )
     }
 
+    @Bean(FEED_MAPPING_KAFKA_PRODUCER)
+    fun feedMappingKafkaTemplate(): KafkaTemplate<String, String> {
+        return KafkaTemplate(
+            DefaultKafkaProducerFactory(
+                kafkaConfiguration(
+                    acksConfig = "all",
+                    retries = 5,
+                    enableIdempotence = true,
+                    linger = Duration.ofMillis(200), // 200ms 모아서 배치로 발송
+                )
+            )
+        )
+    }
+
     private fun kafkaConfiguration(
         acksConfig: String,
         maxInflightRequestsPerConnection: Int = 5,
@@ -178,6 +192,7 @@ class KafkaProducerConfig(
         const val POST_KAFKA_PRODUCER = "postKafkaProducer"
         const val REACTION_KAFKA_PRODUCER = "reactionKafkaProducer"
         const val FEED_KAFKA_PRODUCER = "feedKafkaProducer"
+        const val FEED_MAPPING_KAFKA_PRODUCER = "feedMappingKafkaProducer"
     }
 
 }

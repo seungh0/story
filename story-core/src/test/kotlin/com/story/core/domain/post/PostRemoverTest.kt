@@ -30,7 +30,7 @@ internal class PostRemoverTest(
                     spaceId = post.key.spaceId,
                 ),
                 postId = post.key.postId,
-                accountId = post.accountId,
+                ownerId = post.ownerId,
             )
 
             // then
@@ -50,7 +50,7 @@ internal class PostRemoverTest(
                     spaceId = "포스트 작성 공간 ID",
                 ),
                 postId = -1L,
-                accountId = "포스트 작성자 ID",
+                ownerId = "포스트 작성자 ID",
             )
 
             // then
@@ -63,7 +63,7 @@ internal class PostRemoverTest(
 
         test("다른 계정이 작성한 포스트를 삭제할 수 없다") {
             // given
-            val post = PostFixture.create(accountId = "account-1")
+            val post = PostFixture.create(ownerId = "user-1")
             postRepository.save(post)
 
             val postReverse = PostReverse.of(post)
@@ -77,7 +77,7 @@ internal class PostRemoverTest(
                     spaceId = post.key.spaceId,
                 ),
                 postId = post.key.postId,
-                accountId = "account-2",
+                ownerId = "user-2",
             )
 
             // then
@@ -89,7 +89,7 @@ internal class PostRemoverTest(
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.slotId shouldBe 1L
                 it.key.postId shouldBe post.key.postId
-                it.accountId shouldBe post.accountId
+                it.ownerId shouldBe post.ownerId
                 it.title shouldBe post.title
                 it.extra shouldBe post.extra
             }
@@ -99,7 +99,7 @@ internal class PostRemoverTest(
             postReverses[0].also {
                 it.key.workspaceId shouldBe post.key.workspaceId
                 it.key.componentId shouldBe post.key.componentId
-                it.key.accountId shouldBe post.accountId
+                it.key.ownerId shouldBe post.ownerId
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.postId shouldBe post.key.postId
                 it.title shouldBe post.title

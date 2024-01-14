@@ -3,8 +3,8 @@ POST {{api}}/setup?workspaceId=story&authenticationKey=api-key
 
 > {%
     client.test("200 OK", () => {
-        client.global.set("ACCOUNT_ID", "seungh0")
-        client.global.set("TARGET_ID", "yerim")
+        client.global.set("USER_ID", "seungh0")
+        client.global.set("KITTO_USER_ID", "yerim")
         client.global.set("WORKSPACE_ID", "story")
         client.global.set("AUTHENTICATION_KEY", "api-key")
     });
@@ -12,7 +12,7 @@ POST {{api}}/setup?workspaceId=story&authenticationKey=api-key
 
 
 ### 포스트 컴포넌트 등록 (홈)
-POST {{api}}/v1/resources/posts/components/home
+POST {{api}}/v1/resources/posts/components/user-home
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
@@ -73,8 +73,8 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
     });
 %}
 
-### 피드 설정 연결 (포스트 -> 팔로워들에게 피드 발행)
-POST {{api}}/v1/resources/feeds/components/timeline/mappings/posts/home/to/subscriptions/follow
+### 피드 설정 연결 (유저 홈 포스트 -> 팔로워들에게 피드 발행)
+POST {{api}}/v1/resources/feeds/components/timeline/mappings/posts/user-home/to/subscriptions/follow
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 

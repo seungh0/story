@@ -28,7 +28,7 @@ class PostModifier(
     )
     suspend fun patchPost(
         postSpaceKey: PostSpaceKey,
-        accountId: String,
+        ownerId: String,
         postId: Long,
         title: String?,
         sections: List<PostSectionContentRequest>?,
@@ -43,8 +43,8 @@ class PostModifier(
             postId = postId,
         ) ?: throw PostNotExistsException(message = "해당하는 포스트($postId)는 존재하지 않습니다 [postSpaceKey: $postSpaceKey]")
 
-        if (!post.isOwner(accountId)) {
-            throw NoPermissionException("계정($accountId)는 해당하는 포스트($postId)를 수정할 권한이 없습니다 [postSpaceKey: $postSpaceKey]")
+        if (!post.isOwner(ownerId)) {
+            throw NoPermissionException("계정($ownerId)는 해당하는 포스트($postId)를 수정할 권한이 없습니다 [postSpaceKey: $postSpaceKey]")
         }
 
         val previousPostSections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(

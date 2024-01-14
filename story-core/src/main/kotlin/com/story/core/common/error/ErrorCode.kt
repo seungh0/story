@@ -16,10 +16,10 @@ enum class ErrorCode(
     ),
     E400_INACTIVATED_WORKSPACE(httpStatusCode = 400, code = "inactivated_workspace", description = "비활성화된 워크스페이스인 경우"),
     E400_INVALID_NONCE(httpStatusCode = 400, code = "invalid_nonce", description = "유효하지 않은 Nonce인 경우"),
-    E400_MISSING_REQUEST_ACCOUNT_ID(
+    E400_MISSING_REQUEST_USER_ID(
         httpStatusCode = 400,
-        code = "missing_request_account_id",
-        description = "요청자(\"X-Request-Account-Id\") 헤더가 없는 경우"
+        code = "missing_request_user_id",
+        description = "요청자(\"X-Request-User-Id\") 헤더가 없는 경우"
     ),
     E400_INVALID_EVENT_KEY(httpStatusCode = 400, code = "invalid_event_key", description = "유효하지 않은 EventKey인 경우"),
 
@@ -84,6 +84,12 @@ enum class ErrorCode(
         description = "존재하지 않는 워크스페이스인 경우"
     ),
     E404_NOT_EXISTS_EMOTION(httpStatusCode = 404, code = "not_exists_emotion", description = "존재하지 않는 이모션인 경우"),
+    E404_NOT_EXISTS_FEED(httpStatusCode = 404, code = "not_exists_feed", description = "존재하지 않는 피드인 경우"),
+    E404_NOT_EXISTS_FEED_MAPPING(
+        httpStatusCode = 404,
+        code = "not_exists_feed_mapping",
+        description = "존재하지 않는 피드 매핑인 경우"
+    ),
 
     /**
      * 405 Method Not Allowed

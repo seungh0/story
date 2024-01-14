@@ -9,13 +9,12 @@ data class PostApiResponse(
     val postId: String,
     val title: String,
     val sections: List<PostSectionApiResponse>,
-    val isOwner: Boolean,
     val owner: PostOwnerApiResponse,
     val metadata: PostMetadataApiResponse,
 ) : FeedPayload, AuditingTimeResponse() {
 
     companion object {
-        fun of(post: PostResponse, requestAccountId: String?): PostApiResponse {
+        fun of(post: PostResponse, requestUserId: String?): PostApiResponse {
             val response = PostApiResponse(
                 postId = post.postId.toString(),
                 title = post.title,
@@ -25,9 +24,9 @@ data class PostApiResponse(
                         data = section,
                     )
                 },
-                isOwner = post.accountId == requestAccountId,
-                owner = PostOwnerApiResponse(
-                    accountId = post.accountId,
+                owner = PostOwnerApiResponse.of(
+                    ownerId = post.ownerId,
+                    requestUserId = requestUserId,
                 ),
                 metadata = PostMetadataApiResponse.of(metadata = post.metadata),
             )

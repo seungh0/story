@@ -71,14 +71,14 @@ class PostEventProducer(
     suspend fun publishDeletedEvent(
         postSpaceKey: PostSpaceKey,
         postId: Long,
-        accountId: String,
+        ownerId: String,
     ) {
         val event = PostEvent.deleted(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
             postId = postId,
-            accountId = accountId,
+            ownerId = ownerId,
         )
         eventHistoryManager.withSaveEventHistory(
             workspaceId = postSpaceKey.workspaceId,

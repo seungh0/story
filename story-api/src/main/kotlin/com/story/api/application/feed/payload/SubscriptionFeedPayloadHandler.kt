@@ -15,7 +15,7 @@ class SubscriptionFeedPayloadHandler : FeedPayloadHandler {
     override suspend fun handle(
         workspaceId: String,
         feeds: Collection<FeedResponse>,
-        requestAccountId: String?,
+        requestUserId: String?,
     ): Map<Long, FeedPayload> {
         return feeds.map { feed ->
             val eventKey = SubscriptionEventKey.parse(feed.eventKey)

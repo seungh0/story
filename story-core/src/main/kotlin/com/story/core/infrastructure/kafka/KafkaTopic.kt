@@ -7,6 +7,7 @@ enum class KafkaTopic(
 
     SUBSCRIPTION(description = "구독", property = "subscription"),
     FEED(description = "구독 분산", property = "feed"),
+    FEED_MAPPING(description = "구독 매핑", property = "feed-mapping"),
     POST(description = "포스팅", property = "post"),
     COMPONENT(description = "컴포넌트", property = "component"),
     AUTHENTICATION(description = "인증", property = "authentication"),

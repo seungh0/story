@@ -20,7 +20,7 @@ class PostFeedPayloadHandler(
     override suspend fun handle(
         workspaceId: String,
         feeds: Collection<FeedResponse>,
-        requestAccountId: String?,
+        requestUserId: String?,
     ): Map<Long, FeedPayload> {
         return feeds.mapNotNull { feed ->
             try {
@@ -34,7 +34,7 @@ class PostFeedPayloadHandler(
                         ),
                         postId = eventKey.postId,
                     ),
-                    requestAccountId = requestAccountId,
+                    requestUserId = requestUserId,
                 )
             } catch (exception: PostNotExistsException) {
                 return@mapNotNull null

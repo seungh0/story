@@ -2,10 +2,10 @@
 PUT {{api}}/v1/resources/reactions/components/post-like/spaces/{{POST_ID}}
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
-X-Story-Request-Account-Id: {{ACCOUNT_ID}}
+X-Story-Request-User-Id: {{USER_ID}}
 
 {
-    "accountId": "{{ACCOUNT_ID}}",
+    "userId": "{{USER_ID}}",
     "emotions": [
         {
             "emotionId": "1"
@@ -26,7 +26,7 @@ X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 ### 대상에 등록된 리액션을 조회합니다
 GET {{api}}/v1/resources/reactions/components/post-like/spaces/{{POST_ID}}?includeUnselectedEmotions=true
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
-X-Story-Request-Account-Id: {{ACCOUNT_ID}}
+X-Story-Request-User-Id: {{USER_ID}}
 
 > {%
     client.test("200 OK", () => {
@@ -36,9 +36,9 @@ X-Story-Request-Account-Id: {{ACCOUNT_ID}}
 
 
 ### 대상 목록들에 등록된 리액션을 조회합니다
-GET {{api}}/v1/resources/reactions/components/post-like/spaces?accountId={{ACCOUNT_ID}}&spaceIds={{POST_ID}}&includeUnselectedEmotions=true
+GET {{api}}/v1/resources/reactions/components/post-like/spaces?userId={{USER_ID}}&spaceIds={{POST_ID}}&includeUnselectedEmotions=true
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
-X-Story-Request-Account-Id: {{ACCOUNT_ID}}
+X-Story-Request-User-Id: {{USER_ID}}
 
 > {%
     client.test("200 OK", () => {

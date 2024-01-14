@@ -16,7 +16,7 @@ class PostRemoveHandler(
 
     suspend fun removePost(
         postSpaceKey: PostSpaceKey,
-        accountId: String,
+        ownerId: String,
         postId: Long,
     ) {
         componentCheckHandler.checkExistsComponent(
@@ -27,14 +27,14 @@ class PostRemoveHandler(
 
         postRemover.removePost(
             postSpaceKey = postSpaceKey,
-            accountId = accountId,
+            ownerId = ownerId,
             postId = postId,
         )
 
         postEventProducer.publishDeletedEvent(
             postSpaceKey = postSpaceKey,
             postId = postId,
-            accountId = accountId,
+            ownerId = ownerId,
         )
     }
 

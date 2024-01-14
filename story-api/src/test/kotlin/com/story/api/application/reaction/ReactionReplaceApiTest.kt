@@ -53,14 +53,14 @@ class ReactionReplaceApiTest(
                 componentId = componentId,
                 spaceId = spaceId,
                 request = request,
-                accountId = any(),
+                userId = any(),
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.put()
             .uri("/v1/resources/reactions/components/{componentId}/spaces/{spaceId}", componentId, spaceId)
-            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
+            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -75,7 +75,7 @@ class ReactionReplaceApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
+                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("리액션 컴포넌트 ID"),
                         parameterWithName("spaceId").description("리액션 공간 ID")

@@ -18,7 +18,7 @@ class ReactionCreatorTest(
         val workspaceId = "workspaceId"
         val componentId = "sticker"
         val spaceId = "post-1"
-        val accountId = "accountId"
+        val userId = "user-id"
         val optionIds = setOf("1", "2")
 
         // when
@@ -26,7 +26,7 @@ class ReactionCreatorTest(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            accountId = accountId,
+            userId = userId,
             emotionIds = optionIds,
         )
 
@@ -37,8 +37,8 @@ class ReactionCreatorTest(
             it.key.workspaceId shouldBe workspaceId
             it.key.componentId shouldBe componentId
             it.key.spaceId shouldBe spaceId
-            it.key.accountId shouldBe accountId
-            it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(accountId)
+            it.key.userId shouldBe userId
+            it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(userId)
             it.emotionIds shouldBe optionIds
         }
 
@@ -48,7 +48,7 @@ class ReactionCreatorTest(
             it.key.workspaceId shouldBe workspaceId
             it.key.componentId shouldBe componentId
             it.key.spaceId shouldBe spaceId
-            it.key.accountId shouldBe accountId
+            it.key.userId shouldBe userId
             it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(spaceId)
             it.emotionIds shouldBe optionIds
         }

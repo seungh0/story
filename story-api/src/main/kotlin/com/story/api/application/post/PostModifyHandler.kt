@@ -18,7 +18,7 @@ class PostModifyHandler(
 
     suspend fun patchPost(
         postSpaceKey: PostSpaceKey,
-        accountId: String,
+        ownerId: String,
         postId: Long,
         title: String?,
         sections: List<PostSectionContentRequest>?,
@@ -31,7 +31,7 @@ class PostModifyHandler(
 
         val (post: PostResponse, hasChanged: Boolean) = postModifier.patchPost(
             postSpaceKey = postSpaceKey,
-            accountId = accountId,
+            ownerId = ownerId,
             postId = postId,
             title = title,
             sections = sections,

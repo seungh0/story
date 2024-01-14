@@ -3,6 +3,10 @@ POST {{api}}/v1/nonce
 Content-Type: application/json
 X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
+{
+    "expirationSeconds": 60
+}
+
 > {%
     client.test("200 OK", () => {
         client.assert(response.status === 200, "응답 실패");

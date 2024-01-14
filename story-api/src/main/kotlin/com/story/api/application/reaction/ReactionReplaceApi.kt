@@ -26,7 +26,7 @@ class ReactionReplaceApi(
             componentId = componentId,
             spaceId = spaceId,
             request = request,
-            accountId = authContext.getRequiredRequestAccountId(),
+            userId = authContext.getRequiredRequestUserId(),
         )
         return ApiResponse.OK
     }

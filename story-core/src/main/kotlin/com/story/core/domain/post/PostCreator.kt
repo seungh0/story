@@ -15,14 +15,14 @@ class PostCreator(
 
     suspend fun createPost(
         postSpaceKey: PostSpaceKey,
-        accountId: String,
+        ownerId: String,
         title: String,
         sections: List<PostSectionContentRequest>,
     ): PostResponse {
         val postId = postSequenceRepository.generate(postSpaceKey = postSpaceKey)
         val post = Post.of(
             postSpaceKey = postSpaceKey,
-            accountId = accountId,
+            ownerId = ownerId,
             postId = postId,
             title = title,
         )

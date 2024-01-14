@@ -4,12 +4,14 @@ import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.component.ComponentRetriever
 import com.story.core.domain.feed.mapping.FeedMappingCreateRequest
 import com.story.core.domain.feed.mapping.FeedMappingCreator
+import com.story.core.domain.feed.mapping.FeedMappingEventProducer
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
 class FeedMappingCreateHandler(
     private val componentRetriever: ComponentRetriever,
     private val feedMappingCreator: FeedMappingCreator,
+    private val feedMappingEventProducer: FeedMappingEventProducer,
 ) {
 
     suspend fun create(
@@ -42,6 +44,14 @@ class FeedMappingCreateHandler(
                 retention = request.retention,
                 subscriptionComponentId = subscriptionComponentId,
             )
+        )
+
+        feedMappingEventProducer.publishCreatedEvent(
+            workspaceId = workspaceId,
+            feedComponentId = feedComponentId,
+            sourceComponentId = sourceComponentId,
+            sourceResourceId = sourceResourceId,
+            subscriptionComponentId = subscriptionComponentId,
         )
     }
 

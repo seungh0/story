@@ -10,7 +10,7 @@ data class ReactionEvent(
     val resourceId: ResourceId,
     val componentId: String,
     val spaceId: String,
-    val accountId: String,
+    val userId: String,
     val createdOptionIds: Set<String>,
     val deletedOptionIds: Set<String>,
 ) : BaseEvent {
@@ -20,20 +20,20 @@ data class ReactionEvent(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            accountId: String,
+            userId: String,
             createdOptionIds: Set<String>,
         ) = EventRecord(
             eventAction = EventAction.CREATED,
             eventKey = ReactionEventKey(
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
             ).makeKey(),
             payload = ReactionEvent(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.REACTIONS,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
                 createdOptionIds = createdOptionIds,
                 deletedOptionIds = emptySet(),
             )
@@ -43,21 +43,21 @@ data class ReactionEvent(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            accountId: String,
+            userId: String,
             createdOptionIds: Set<String>,
             deletedOptionIds: Set<String>,
         ) = EventRecord(
             eventAction = EventAction.UPDATED,
             eventKey = ReactionEventKey(
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
             ).makeKey(),
             payload = ReactionEvent(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.REACTIONS,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
                 createdOptionIds = createdOptionIds,
                 deletedOptionIds = deletedOptionIds,
             )
@@ -67,20 +67,20 @@ data class ReactionEvent(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            accountId: String,
+            userId: String,
             deletedOptionIds: Set<String>,
         ) = EventRecord(
             eventAction = EventAction.DELETED,
             eventKey = ReactionEventKey(
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
             ).makeKey(),
             payload = ReactionEvent(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.REACTIONS,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
                 createdOptionIds = emptySet(),
                 deletedOptionIds = deletedOptionIds,
             )

@@ -52,7 +52,7 @@ class FeedRetrieveHandler(
                 handler.handle(
                     workspaceId = workspaceId,
                     feeds = feesGroupByResource,
-                    requestAccountId = subscriberId
+                    requestUserId = subscriberId
                 )
             )
         }

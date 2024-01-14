@@ -43,7 +43,7 @@ class PostRemoveApiTest(
         coEvery {
             postRemoveHandler.removePost(
                 postSpaceKey = postSpaceKey,
-                accountId = any(),
+                ownerId = any(),
                 postId = postId,
             )
         } returns Unit
@@ -56,7 +56,7 @@ class PostRemoveApiTest(
                 postSpaceKey.spaceId,
                 postId,
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
+            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -70,7 +70,7 @@ class PostRemoveApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
+                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         parameterWithName("spaceId").description("포스트 공간 ID"),

@@ -3,8 +3,8 @@ package com.story.api.config.auth
 import com.story.api.application.authentication.AuthenticationHandler
 import com.story.api.application.workspace.WorkspaceRetrieveHandler
 import com.story.core.common.http.RequestIdGenerator
-import com.story.core.common.http.getRequestAccountId
 import com.story.core.common.http.getRequestId
+import com.story.core.common.http.getRequestUserId
 import org.springframework.stereotype.Component
 import org.springframework.web.server.CoWebFilter
 import org.springframework.web.server.CoWebFilterChain
@@ -31,7 +31,7 @@ class AuthenticationHandlerFilter(
         exchange.attributes[AUTH_CONTEXT] = AuthContext(
             workspaceId = authentication.workspaceId,
             requestId = exchange.getRequestId() ?: RequestIdGenerator.generate(),
-            requestAccountId = exchange.getRequestAccountId(),
+            requestUserId = exchange.getRequestUserId(),
         )
         return chain.filter(exchange = exchange)
     }

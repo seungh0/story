@@ -23,7 +23,7 @@ class ReactionReplaceHandler(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        accountId: String,
+        userId: String,
         request: ReactionReplaceApiRequest,
     ) {
         componentCheckHandler.checkExistsComponent(
@@ -31,7 +31,7 @@ class ReactionReplaceHandler(
             resourceId = ResourceId.REACTIONS,
             componentId = componentId,
         )
-        val change = replaceReactions(request, workspaceId, componentId, spaceId, accountId)
+        val change = replaceReactions(request, workspaceId, componentId, spaceId, userId)
         reactionEventProducer.publishEvent(change = change)
     }
 
@@ -40,17 +40,17 @@ class ReactionReplaceHandler(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        accountId: String,
+        userId: String,
     ): ReactionChangeResponse {
         if (request.isClearRequest()) {
             return reactionRemover.removeReaction(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
             )
         }
-        return upsertReactions(workspaceId, componentId, request, spaceId, accountId)
+        return upsertReactions(workspaceId, componentId, request, spaceId, userId)
     }
 
     private suspend fun upsertReactions(
@@ -58,7 +58,7 @@ class ReactionReplaceHandler(
         componentId: String,
         request: ReactionReplaceApiRequest,
         spaceId: String,
-        accountId: String,
+        userId: String,
     ): ReactionChangeResponse {
         emotionRetriever.validateExistsEmotions(
             workspaceId = workspaceId,
@@ -71,7 +71,7 @@ class ReactionReplaceHandler(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            accountId = accountId,
+            userId = userId,
             emotionIds = request.emotions.mapToSet { option -> option.emotionId },
         )
     }

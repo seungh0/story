@@ -21,15 +21,15 @@ class PostRemover(
     )
     suspend fun removePost(
         postSpaceKey: PostSpaceKey,
-        accountId: String,
+        ownerId: String,
         postId: Long,
     ) {
         val postReverse =
-            postReverseRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyAccountIdAndKeyPostIdAndKeySpaceId(
+            postReverseRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdAndKeySpaceId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
-                distributionKey = PostDistributionKey.makeKey(accountId),
-                accountId = accountId,
+                distributionKey = PostDistributionKey.makeKey(ownerId),
+                ownerId = ownerId,
                 postId = postId,
                 spaceId = postSpaceKey.spaceId,
             ) ?: return

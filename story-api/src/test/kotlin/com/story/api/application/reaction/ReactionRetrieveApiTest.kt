@@ -6,7 +6,7 @@ import com.story.api.DocsTest
 import com.story.api.FunSpecDocsTest
 import com.story.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
-import com.story.api.lib.RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation
+import com.story.api.lib.RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation
 import com.story.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.WebClientUtils
@@ -45,7 +45,7 @@ class ReactionRetrieveApiTest(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                requestAccountId = any(),
+                requestUserId = any(),
                 request = any(),
             )
         } returns ReactionApiResponse.of(
@@ -88,7 +88,7 @@ class ReactionRetrieveApiTest(
                 spaceId,
                 includeUnselectedEmotions,
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
+            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -103,7 +103,7 @@ class ReactionRetrieveApiTest(
                     pageHeaderSnippet(
                         "- Component에 등록되지 않은 Emotion은 결과에 포함되지 않습니다."
                     ),
-                    authenticationHeaderWithRequestAccountIdDocumentation,
+                    authenticationHeaderWithRequestUserIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("리액션 컴포넌트 ID"),
                         parameterWithName("spaceId").description("리액션 공간 ID")
@@ -133,7 +133,7 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.NUMBER).description("이모션 선택 횟수"),
                         fieldWithPath("result.reactions[].reactedByMe")
                             .type(JsonFieldType.BOOLEAN).description("요청자의 이모션 선택 여부")
-                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
                     )
                 )
             )
@@ -151,7 +151,7 @@ class ReactionRetrieveApiTest(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 request = any(),
-                requestAccountId = any(),
+                requestUserId = any(),
             )
         } returns ReactionListApiResponse(
             spaceReactions = listOf(
@@ -228,7 +228,7 @@ class ReactionRetrieveApiTest(
                 includeUnselectedEmotions,
                 spaceIds,
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
+            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -243,7 +243,7 @@ class ReactionRetrieveApiTest(
                     pageHeaderSnippet(
                         "- Component에 등록되지 않은 Emotion은 결과에 포함되지 않습니다."
                     ),
-                    authenticationHeaderWithRequestAccountIdDocumentation,
+                    authenticationHeaderWithRequestUserIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("리액션 컴포넌트 ID"),
                     ),
@@ -275,7 +275,7 @@ class ReactionRetrieveApiTest(
                             .type(JsonFieldType.NUMBER).description("이모션 선택 횟수"),
                         fieldWithPath("result.spaceReactions[].reactions[].reactedByMe")
                             .type(JsonFieldType.BOOLEAN).description("요청자의 이모션 선택 여부")
-                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
                     )
                 )
             )

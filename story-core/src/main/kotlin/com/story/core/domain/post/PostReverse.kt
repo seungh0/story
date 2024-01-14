@@ -23,7 +23,7 @@ data class PostReverse(
             key = PostReversePrimaryKey.of(
                 workspaceId = post.key.workspaceId,
                 componentId = post.key.componentId,
-                accountId = post.accountId,
+                ownerId = post.ownerId,
                 postId = post.key.postId,
                 spaceId = post.key.spaceId,
             ),
@@ -47,7 +47,7 @@ data class PostReversePrimaryKey(
     val distributionKey: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 4)
-    val accountId: String,
+    val ownerId: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 5)
     val postId: Long,
@@ -60,13 +60,13 @@ data class PostReversePrimaryKey(
         fun of(
             workspaceId: String,
             componentId: String,
-            accountId: String,
+            ownerId: String,
             postId: Long,
             spaceId: String,
         ) = PostReversePrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
-            distributionKey = PostDistributionKey.makeKey(accountId), accountId = accountId,
+            distributionKey = PostDistributionKey.makeKey(ownerId), ownerId = ownerId,
             postId = postId,
             spaceId = spaceId,
         )

@@ -19,14 +19,14 @@ data class Reaction(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            accountId: String,
+            userId: String,
             emotionIds: Set<String>,
         ) = Reaction(
             key = ReactionPrimaryKey.of(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
             ),
             emotionIds = emotionIds,
         )
@@ -49,7 +49,7 @@ data class ReactionPrimaryKey(
     val distributionKey: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
-    val accountId: String,
+    val userId: String,
 ) {
 
     companion object {
@@ -57,13 +57,13 @@ data class ReactionPrimaryKey(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            accountId: String,
+            userId: String,
         ) = ReactionPrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            distributionKey = ReactionDistributionKey.makeKey(accountId),
-            accountId = accountId,
+            distributionKey = ReactionDistributionKey.makeKey(userId),
+            userId = userId,
         )
     }
 

@@ -78,7 +78,7 @@ class PostCreateApiTest(
                     componentId = componentId,
                     spaceId = spaceId,
                 ),
-                accountId = any(),
+                ownerId = any(),
                 title = request.title,
                 sections = request.toSections(),
                 nonce = any(),
@@ -93,7 +93,7 @@ class PostCreateApiTest(
                 spaceId,
                 nonce,
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
+            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -109,7 +109,7 @@ class PostCreateApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
+                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         parameterWithName("spaceId").description("포스트 공간 ID"),

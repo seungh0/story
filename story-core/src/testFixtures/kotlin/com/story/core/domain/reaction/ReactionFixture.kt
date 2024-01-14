@@ -8,13 +8,13 @@ object ReactionFixture {
         workspaceId: String = RandomGenerator.generateString(),
         componentId: String = RandomGenerator.generateString(),
         spaceId: String = RandomGenerator.generateString(),
-        accountId: String = RandomGenerator.generateString(),
+        userId: String = RandomGenerator.generateString(),
         optionIds: Set<String> = setOf(RandomGenerator.generateString(), RandomGenerator.generateString()),
     ) = Reaction.of(
         workspaceId = workspaceId,
         componentId = componentId,
         spaceId = spaceId,
-        accountId = accountId,
+        userId = userId,
         emotionIds = optionIds,
     )
 

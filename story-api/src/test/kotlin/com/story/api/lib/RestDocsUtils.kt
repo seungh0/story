@@ -76,7 +76,7 @@ object RestDocsUtils {
         headerWithName(HttpHeader.X_STORY_API_KEY.header).description("인증 키"),
     )
 
-    val authenticationHeaderWithRequestAccountIdDocumentation = HeaderDocumentation.requestHeaders(
+    val authenticationHeaderWithRequestUserIdDocumentation = HeaderDocumentation.requestHeaders(
         headerWithName(HttpHeader.X_FORWARDED_FOR.header).description("X-Forwarded-For")
             .attributes(remarks("127.0.0.1"))
             .optional(),
@@ -84,7 +84,7 @@ object RestDocsUtils {
             .attributes(remarks(UUID.randomUUID().toString()))
             .optional(),
         headerWithName(HttpHeader.X_STORY_API_KEY.header).description("인증 키"),
-        headerWithName(HttpHeader.X_STORY_REQUEST_ACCOUNT_ID.header).description("요청자의 계정 ID"),
+        headerWithName(HttpHeader.X_STORY_REQUEST_USER_ID.header).description("요청자의 ID"),
     )
 
 }

@@ -4,7 +4,7 @@ data class ReactionChangeResponse(
     val workspaceId: String,
     val componentId: String,
     val spaceId: String,
-    val accountId: String,
+    val userId: String,
     val createdOptionIds: Set<String>,
     val deletedOptionIds: Set<String>,
 ) {
@@ -14,13 +14,13 @@ data class ReactionChangeResponse(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            accountId: String,
+            actorId: String,
             createdOptionIds: Set<String>,
         ) = ReactionChangeResponse(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            accountId = accountId,
+            userId = actorId,
             createdOptionIds = createdOptionIds,
             deletedOptionIds = emptySet(),
         )
@@ -29,14 +29,14 @@ data class ReactionChangeResponse(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            accountId: String,
+            actorId: String,
             createdOptionIds: Set<String>,
             deletedOptionIds: Set<String>,
         ) = ReactionChangeResponse(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            accountId = accountId,
+            userId = actorId,
             createdOptionIds = createdOptionIds,
             deletedOptionIds = deletedOptionIds,
         )
@@ -45,13 +45,13 @@ data class ReactionChangeResponse(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            accountId: String,
+            actorId: String,
             deletedOptionIds: Set<String>,
         ) = ReactionChangeResponse(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            accountId = accountId,
+            userId = actorId,
             createdOptionIds = emptySet(),
             deletedOptionIds = deletedOptionIds,
         )

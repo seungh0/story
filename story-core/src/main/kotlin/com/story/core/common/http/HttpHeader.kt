@@ -11,8 +11,8 @@ enum class HttpHeader(
         description = "Story Platform 인증 키",
         example = "a6d63e0e-7e5c-4fd8-85f2-fc9eb36fa9bd"
     ),
-    X_STORY_REQUEST_ACCOUNT_ID(
-        header = "X-Story-Request-Account-Id",
+    X_STORY_REQUEST_USER_ID(
+        header = "X-Story-Request-User-Id",
         description = "요청자의 계정 ID",
         "ac6e589e-5411-43c0-a166-d3fe068db77c"
     ),

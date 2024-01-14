@@ -15,7 +15,7 @@ class ReactionCreator(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        accountId: String,
+        userId: String,
         emotionIds: Set<String>,
     ): ReactionChangeResponse {
         val reaction = reactionRepository.findById(
@@ -23,7 +23,7 @@ class ReactionCreator(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
             )
         )
         if (reaction == null) {
@@ -31,7 +31,7 @@ class ReactionCreator(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                userId = userId,
                 emotionIds = emotionIds,
             )
             reactiveCassandraOperations.batchOps()
@@ -43,7 +43,7 @@ class ReactionCreator(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                accountId = accountId,
+                actorId = userId,
                 createdOptionIds = emotionIds,
             )
         }
@@ -63,7 +63,7 @@ class ReactionCreator(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
-            accountId = accountId,
+            actorId = userId,
             createdOptionIds = createdOptionIds,
             deletedOptionIds = deletedOptionIds,
         )

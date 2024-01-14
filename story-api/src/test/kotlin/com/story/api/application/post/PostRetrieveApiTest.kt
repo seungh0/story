@@ -34,7 +34,7 @@ class PostRetrieveApiTest(
 
     "포스트를 조회합니다" {
         // given
-        val componentId = "account-post"
+        val componentId = "user-post"
         val title = "플랫폼 정보"
         val spaceId = "spaceId"
         val postId = "200000"
@@ -42,9 +42,9 @@ class PostRetrieveApiTest(
         val post = PostApiResponse(
             postId = postId,
             title = title,
-            isOwner = false,
             owner = PostOwnerApiResponse(
-                accountId = "account-id"
+                isOwner = false,
+                ownerId = "user-1"
             ),
             sections = listOf(
                 PostSectionApiResponse(
@@ -77,7 +77,7 @@ class PostRetrieveApiTest(
                 componentId = componentId,
                 spaceId = spaceId,
                 postId = postId,
-                requestAccountId = any(),
+                requestUserId = any(),
             )
         } returns post
 
@@ -89,7 +89,7 @@ class PostRetrieveApiTest(
                 spaceId,
                 postId
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
+            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
             .exchange()
 
         // then
@@ -101,7 +101,7 @@ class PostRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
+                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("spaceId").description("포스트 공간 ID"),
@@ -139,13 +139,13 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.updatedAt")
                             .type(JsonFieldType.STRING).description("포스트 최근 수정 일자"),
-                        PayloadDocumentation.fieldWithPath("result.isOwner")
-                            .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부")
-                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
                         PayloadDocumentation.fieldWithPath("result.owner")
                             .type(JsonFieldType.OBJECT).description("포스트 작성자"),
-                        PayloadDocumentation.fieldWithPath("result.owner.accountId")
-                            .type(JsonFieldType.STRING).description("포스트 작성자의 계정 ID"),
+                        PayloadDocumentation.fieldWithPath("result.owner.ownerId")
+                            .type(JsonFieldType.STRING).description("포스트 작성자 ID"),
+                        PayloadDocumentation.fieldWithPath("result.owner.isOwner")
+                            .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부")
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
                         PayloadDocumentation.fieldWithPath("result.metadata.hasChildren")
                             .type(JsonFieldType.BOOLEAN).description("포스트 하위에 등록된 포스트가 존재하는 지 여부"),
                     )
@@ -155,7 +155,7 @@ class PostRetrieveApiTest(
 
     "포스트 목록을 조회합니다" {
         // given
-        val componentId = "account-post"
+        val componentId = "user-post"
         val title = "플랫폼 정보"
         val spaceId = "user-spaceId"
         val postId = "20000"
@@ -168,9 +168,9 @@ class PostRetrieveApiTest(
             postId = postId,
             title = title,
             owner = PostOwnerApiResponse(
-                accountId = "account-id"
+                ownerId = "user-1",
+                isOwner = false,
             ),
-            isOwner = false,
             sections = listOf(
                 PostSectionApiResponse(
                     sectionType = PostSectionType.TEXT,
@@ -202,7 +202,7 @@ class PostRetrieveApiTest(
                 componentId = componentId,
                 spaceId = spaceId,
                 request = any(),
-                requestAccountId = any(),
+                requestUserId = any(),
             )
         } returns PostListApiResponse(
             posts = listOf(post),
@@ -223,7 +223,7 @@ class PostRetrieveApiTest(
                 pageSize,
                 sortBy
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
+            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
             .exchange()
 
         // then
@@ -235,7 +235,7 @@ class PostRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
+                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("spaceId").description("포스트 공간 ID"),
@@ -259,7 +259,7 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.ARRAY).description("포스트 목록"),
                         PayloadDocumentation.fieldWithPath("result.posts[].postId")
                             .type(JsonFieldType.STRING).description("포스트 ID")
-                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-Account-Id 헤더를 기준으로 합니다")),
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
                         PayloadDocumentation.fieldWithPath("result.posts[].title")
                             .type(JsonFieldType.STRING).description("포스트 제목")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
@@ -286,12 +286,13 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.posts[].updatedAt")
                             .type(JsonFieldType.STRING).description("포스트 최근 수정 일자"),
-                        PayloadDocumentation.fieldWithPath("result.posts[].isOwner")
-                            .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부"),
                         PayloadDocumentation.fieldWithPath("result.posts[].owner")
                             .type(JsonFieldType.OBJECT).description("포스트 작성자"),
-                        PayloadDocumentation.fieldWithPath("result.posts[].owner.accountId")
-                            .type(JsonFieldType.STRING).description("포스트 작성자의 계정 ID"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].owner.ownerId")
+                            .type(JsonFieldType.STRING).description("포스트 작성자의 ID"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].owner.isOwner")
+                            .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부")
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
                         PayloadDocumentation.fieldWithPath("result.posts[].metadata.hasChildren")
                             .type(JsonFieldType.BOOLEAN).description("포스트 하위에 등록된 포스트가 존재하는 지 여부"),
                         PayloadDocumentation.fieldWithPath("result.cursor")

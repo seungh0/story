@@ -805,7 +805,7 @@ class PostRetrieverTest(
         val POST_SPACE_KEY = PostSpaceKey(
             workspaceId = "workspaceId",
             componentId = "post",
-            spaceId = "account-id",
+            spaceId = "user-100",
         )
     }
 

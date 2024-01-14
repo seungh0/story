@@ -42,7 +42,7 @@ class PostFeedDistributeHandler(
                 val subscriberCount = subscriberSequenceRepository.getLastSequence(
                     workspaceId = feedMapping.workspaceId,
                     componentId = feedMapping.subscriptionComponentId,
-                    targetId = payload.accountId,
+                    targetId = payload.ownerId,
                 )
 
                 if (subscriberCount <= 0) {
@@ -65,7 +65,7 @@ class PostFeedDistributeHandler(
                                         subscriptionComponentId = feedMapping.subscriptionComponentId,
                                         sourceResourceId = feedMapping.sourceResourceId,
                                         sourceComponentId = feedMapping.sourceComponentId,
-                                        targetId = payload.accountId,
+                                        targetId = payload.ownerId,
                                         slotId = slotId,
                                         payload = payload,
                                         retention = feedMapping.retention,

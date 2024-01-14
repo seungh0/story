@@ -149,7 +149,7 @@ create table post_v1
     space_id     text,
     slot_id      bigint,
     post_id      bigint,
-    account_id   text,
+    USER_ID   text,
     title        text,
     content      text,
     extra map<text,text>,
@@ -178,16 +178,16 @@ create table post_reverse_v1
     workspace_id     text,
     component_id     text,
     distribution_key text,
-    account_id       text,
+    USER_ID       text,
     post_id          bigint,
     space_id         text,
     title            text,
     content          text,
     extra map<text,text>,
     slot_id          bigint,
-    primary key ((workspace_id, component_id, distribution_key), account_id, post_id, space_id)
+    primary key ((workspace_id, component_id, distribution_key), USER_ID, post_id, space_id)
 )
-    with clustering order by (account_id desc, post_id desc, space_id desc)
+    with clustering order by (USER_ID desc, post_id desc, space_id desc)
     and bloom_filter_fp_chance = 0.01
     AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
     AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}

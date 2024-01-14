@@ -4,9 +4,9 @@ import com.story.core.domain.event.EventKey
 
 data class ReactionEventKey(
     val spaceId: String,
-    val accountId: String,
+    val userId: String,
 ) : EventKey {
 
-    override fun makeKey(): String = "reaction::$spaceId::$accountId"
+    override fun makeKey(): String = "reaction::$spaceId::$userId"
 
 }

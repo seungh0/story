@@ -12,7 +12,7 @@ class ReactionRetriever(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        requestAccountId: String?,
+        requestUserId: String?,
     ): ReactionResponse {
         val reactionCountMap = reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
             workspaceId = workspaceId,
@@ -20,11 +20,11 @@ class ReactionRetriever(
             spaceId = spaceId,
         ).associateBy { it.key }
 
-        val spaceIdReaction = requestAccountId?.let {
-            reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeySpaceId(
+        val spaceIdReaction = requestUserId?.let {
+            reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyUserIdAndKeyDistributionKeyAndKeySpaceId(
                 workspaceId = workspaceId,
                 componentId = componentId,
-                accountId = requestAccountId,
+                userId = requestUserId,
                 distributionKey = ReactionDistributionKey.makeKey(spaceId),
                 spaceId = spaceId,
             )
@@ -58,7 +58,7 @@ class ReactionRetriever(
         workspaceId: String,
         componentId: String,
         spaceIds: Set<String>,
-        requestAccountId: String?,
+        requestUserId: String?,
     ): List<ReactionResponse> {
         val reactionCountMap = spaceIds.flatMap { spaceId ->
             reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
@@ -68,14 +68,14 @@ class ReactionRetriever(
             )
         }.associateBy { it.key }
 
-        val spaceIdReactionMap = requestAccountId?.let {
+        val spaceIdReactionMap = requestUserId?.let {
             val distributionKeyTargetIdMap = spaceIds.groupBy { targetId -> ReactionDistributionKey.makeKey(targetId) }
 
             return@let distributionKeyTargetIdMap.flatMap { (distributionKey, spaceIds) ->
-                reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyAccountIdAndKeyDistributionKeyAndKeySpaceIdIn(
+                reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyUserIdAndKeyDistributionKeyAndKeySpaceIdIn(
                     workspaceId = workspaceId,
                     componentId = componentId,
-                    accountId = requestAccountId,
+                    userId = requestUserId,
                     distributionKey = distributionKey,
                     spaceIds = spaceIds,
                 )
@@ -83,7 +83,7 @@ class ReactionRetriever(
         } ?: emptyMap()
 
         return spaceIds.map { spaceId ->
-            val accountReaction = spaceIdReactionMap[spaceId]
+            val reactionByRequestUserId = spaceIdReactionMap[spaceId]
             ReactionResponse(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -101,7 +101,8 @@ class ReactionRetriever(
                                     spaceId = spaceId,
                                 )
                             ]?.count ?: 0L,
-                            reactedByMe = accountReaction != null && accountReaction.emotionIds.contains(reactionCount.key.emotionId),
+                            reactedByMe = reactionByRequestUserId != null &&
+                                reactionByRequestUserId.emotionIds.contains(reactionCount.key.emotionId),
                         )
                     }
                     .toList()

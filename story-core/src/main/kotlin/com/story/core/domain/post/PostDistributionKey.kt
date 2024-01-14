@@ -6,6 +6,6 @@ object PostDistributionKey {
 
     val ALL_KEYS = TenThousandDistributionKey.ALL_KEYS
 
-    fun makeKey(accountId: String) = TenThousandDistributionKey.makeKey(accountId).key
+    fun makeKey(ownerId: String) = TenThousandDistributionKey.makeKey(ownerId).key
 
 }

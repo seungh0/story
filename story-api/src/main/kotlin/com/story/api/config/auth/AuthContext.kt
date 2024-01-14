@@ -1,18 +1,18 @@
 package com.story.api.config.auth
 
-import com.story.core.common.error.MissingRequestAccountIdException
+import com.story.core.common.error.MissingRequestUserIdException
 
 data class AuthContext(
     val workspaceId: String,
     val requestId: String,
-    val requestAccountId: String?,
+    val requestUserId: String?,
 ) {
 
-    fun getRequiredRequestAccountId(): String {
-        if (requestAccountId.isNullOrBlank()) {
-            throw MissingRequestAccountIdException("requestAccountId가 필수로 필요합니다")
+    fun getRequiredRequestUserId(): String {
+        if (requestUserId.isNullOrBlank()) {
+            throw MissingRequestUserIdException("requestUserId가 필수로 필요합니다")
         }
-        return requestAccountId
+        return requestUserId
     }
 
 }

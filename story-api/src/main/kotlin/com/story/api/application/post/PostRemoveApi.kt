@@ -30,7 +30,7 @@ class PostRemoveApi(
                 componentId = componentId,
                 spaceId = spaceId,
             ),
-            accountId = authContext.getRequiredRequestAccountId(),
+            ownerId = authContext.getRequiredRequestUserId(),
             postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)가 요청되었습니다"),
         )
 

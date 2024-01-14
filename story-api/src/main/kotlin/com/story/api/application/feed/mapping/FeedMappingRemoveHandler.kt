@@ -2,6 +2,7 @@ package com.story.api.application.feed.mapping
 
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.component.ComponentRetriever
+import com.story.core.domain.feed.mapping.FeedMappingEventProducer
 import com.story.core.domain.feed.mapping.FeedMappingRemoveRequest
 import com.story.core.domain.feed.mapping.FeedMappingRemover
 import com.story.core.domain.resource.ResourceId
@@ -10,6 +11,7 @@ import com.story.core.domain.resource.ResourceId
 class FeedMappingRemoveHandler(
     private val componentRetriever: ComponentRetriever,
     private val feedMappingRemover: FeedMappingRemover,
+    private val feedMappingEventProducer: FeedMappingEventProducer,
 ) {
 
     suspend fun remove(
@@ -39,6 +41,14 @@ class FeedMappingRemoveHandler(
                 sourceComponentId = sourceComponentId,
                 subscriptionComponentId = subscriptionComponentId,
             )
+        )
+
+        feedMappingEventProducer.publishDeletedEvent(
+            workspaceId = workspaceId,
+            feedComponentId = feedComponentId,
+            sourceComponentId = sourceComponentId,
+            sourceResourceId = sourceResourceId,
+            subscriptionComponentId = subscriptionComponentId,
         )
     }
 

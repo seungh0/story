@@ -58,11 +58,10 @@ class FeedRetrieveApiTest(
                 FeedApiResponse(
                     feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
-                    componentId = "account-post",
+                    componentId = "user-post",
                     payload = PostApiResponse(
                         postId = "1000",
                         title = "스토리 플랫폼(Story Platform)이란?",
-                        isOwner = false,
                         sections = listOf(
                             PostSectionApiResponse(
                                 sectionType = PostSectionType.TEXT,
@@ -72,7 +71,8 @@ class FeedRetrieveApiTest(
                             )
                         ),
                         owner = PostOwnerApiResponse(
-                            accountId = "account-id"
+                            ownerId = "user-1",
+                            isOwner = false,
                         ),
                         metadata = PostMetadataApiResponse(
                             hasChildren = false,
@@ -85,11 +85,10 @@ class FeedRetrieveApiTest(
                 FeedApiResponse(
                     feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
-                    componentId = "account-post",
+                    componentId = "user-post",
                     payload = PostApiResponse(
                         postId = "1000",
                         title = "스토리 플랫폼(Story Platform)이란?",
-                        isOwner = false,
                         sections = listOf(
                             PostSectionApiResponse(
                                 sectionType = PostSectionType.IMAGE,
@@ -103,7 +102,8 @@ class FeedRetrieveApiTest(
                             )
                         ),
                         owner = PostOwnerApiResponse(
-                            accountId = "account-id"
+                            ownerId = "user-10",
+                            isOwner = false,
                         ),
                         metadata = PostMetadataApiResponse(
                             hasChildren = false,
@@ -126,7 +126,7 @@ class FeedRetrieveApiTest(
                 "/v1/resources/feeds/components/{componentId}/subscribers/{subscriberId}?cursor={cursor}&direction={direction}&pageSize={pageSize}",
                 componentId, subscriberId, cursor, direction, pageSize
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestAccountId)
+            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -139,7 +139,7 @@ class FeedRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestAccountIdDocumentation,
+                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("피드 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("subscriberId").description("피드 구독자 ID"),
@@ -171,9 +171,9 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("포스트 ID"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.owner")
                             .type(JsonFieldType.OBJECT).description("포스트 작성자"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.owner.accountId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.owner.ownerId")
                             .type(JsonFieldType.STRING).description("포스트 작성자의 계정 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.isOwner")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.owner.isOwner")
                             .type(JsonFieldType.BOOLEAN).description("포스트 작성자 여부"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.metadata")
                             .type(JsonFieldType.OBJECT).description("포스트 메타 정보"),
@@ -234,7 +234,7 @@ class FeedRetrieveApiTest(
                 FeedApiResponse(
                     feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
-                    componentId = "account-post",
+                    componentId = "user-post",
                     payload = SubscriptionApiResponse(
                         targetId = "target-id",
                         subscriberId = "subscriber-id"

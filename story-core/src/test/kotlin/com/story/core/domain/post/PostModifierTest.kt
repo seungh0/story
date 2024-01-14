@@ -50,7 +50,7 @@ internal class PostModifierTest(
                     spaceId = post.key.spaceId,
                 ),
                 postId = post.key.postId,
-                accountId = post.accountId,
+                ownerId = post.ownerId,
                 title = title,
                 sections = listOf(section1, section2),
             )
@@ -64,7 +64,7 @@ internal class PostModifierTest(
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.slotId shouldBe post.key.slotId
                 it.key.postId shouldBe post.key.postId
-                it.accountId shouldBe post.accountId
+                it.ownerId shouldBe post.ownerId
                 it.title shouldBe title
             }
 
@@ -72,7 +72,7 @@ internal class PostModifierTest(
             postReverses shouldHaveSize 1
             postReverses[0].also {
                 it.key.workspaceId shouldBe post.key.workspaceId
-                it.key.accountId shouldBe post.accountId
+                it.key.ownerId shouldBe post.ownerId
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.postId shouldBe post.key.postId
                 it.title shouldBe title
@@ -107,7 +107,6 @@ internal class PostModifierTest(
         test("존재하지 않는 포스트의 경우 포스트 정보를 수정할 수 없습니다") {
             // given
             val title = "포스트 제목"
-            val content = "포스트 내용"
 
             // when & then
             shouldThrowExactly<PostNotExistsException> {
@@ -118,7 +117,7 @@ internal class PostModifierTest(
                         spaceId = "50000",
                     ),
                     postId = 10000L,
-                    accountId = "accountId",
+                    ownerId = "user-1",
                     title = title,
                     sections = emptyList(),
                 )
@@ -129,7 +128,7 @@ internal class PostModifierTest(
             // given
             val title = "포스트 제목"
 
-            val post = PostFixture.create(accountId = "accountId")
+            val post = PostFixture.create(ownerId = "user-10")
             val postRev = PostReverse.of(post)
 
             postRepository.save(post)
@@ -144,7 +143,7 @@ internal class PostModifierTest(
                         spaceId = post.key.spaceId,
                     ),
                     postId = post.key.postId,
-                    accountId = "another Account Id",
+                    ownerId = "another Owner Id",
                     title = title,
                     sections = emptyList(),
                 )

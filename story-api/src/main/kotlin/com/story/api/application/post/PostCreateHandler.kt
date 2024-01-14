@@ -19,7 +19,7 @@ class PostCreateHandler(
 
     suspend fun createPost(
         postSpaceKey: PostSpaceKey,
-        accountId: String,
+        ownerId: String,
         title: String,
         sections: List<PostSectionContentRequest>,
         nonce: String?,
@@ -33,7 +33,7 @@ class PostCreateHandler(
 
         val post = postCreator.createPost(
             postSpaceKey = postSpaceKey,
-            accountId = accountId,
+            ownerId = ownerId,
             title = title,
             sections = sections,
         )

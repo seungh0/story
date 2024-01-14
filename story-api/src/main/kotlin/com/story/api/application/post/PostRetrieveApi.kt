@@ -28,7 +28,7 @@ class PostRetrieveApi(
             componentId = componentId,
             spaceId = spaceId,
             postId = postId,
-            requestAccountId = authContext.requestAccountId,
+            requestUserId = authContext.requestUserId,
         )
         return ApiResponse.ok(response)
     }
@@ -48,7 +48,7 @@ class PostRetrieveApi(
             componentId = componentId,
             spaceId = spaceId,
             request = request,
-            requestAccountId = authContext.requestAccountId,
+            requestUserId = authContext.requestUserId,
         )
         return ApiResponse.ok(response)
     }

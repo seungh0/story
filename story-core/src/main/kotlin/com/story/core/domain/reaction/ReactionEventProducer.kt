@@ -50,7 +50,7 @@ class ReactionEventProducer(
                 workspaceId = reaction.workspaceId,
                 componentId = reaction.componentId,
                 spaceId = reaction.spaceId,
-                accountId = reaction.accountId,
+                userId = reaction.userId,
                 createdOptionIds = reaction.createdOptionIds,
             )
         }
@@ -59,7 +59,7 @@ class ReactionEventProducer(
                 workspaceId = reaction.workspaceId,
                 componentId = reaction.componentId,
                 spaceId = reaction.spaceId,
-                accountId = reaction.accountId,
+                userId = reaction.userId,
                 deletedOptionIds = reaction.deletedOptionIds,
             )
         }
@@ -68,7 +68,7 @@ class ReactionEventProducer(
             workspaceId = reaction.workspaceId,
             componentId = reaction.componentId,
             spaceId = reaction.spaceId,
-            accountId = reaction.accountId,
+            userId = reaction.userId,
             createdOptionIds = reaction.createdOptionIds,
             deletedOptionIds = reaction.deletedOptionIds,
         )

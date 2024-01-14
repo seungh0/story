@@ -16,7 +16,7 @@ data class Post(
     @field:PrimaryKey
     val key: PostPrimaryKey,
 
-    val accountId: String,
+    val ownerId: String,
     var title: String,
     val extra: MutableMap<String, String> = mutableMapOf(),
     val metadata: MutableMap<PostMetadataType, String> = mutableMapOf(),
@@ -25,8 +25,8 @@ data class Post(
     val auditingTime: AuditingTime,
 ) {
 
-    fun isOwner(accountId: String): Boolean {
-        return this.accountId == accountId
+    fun isOwner(ownerId: String): Boolean {
+        return this.ownerId == ownerId
     }
 
     fun <T> getMetadata(type: PostMetadataType): T {
@@ -54,7 +54,7 @@ data class Post(
     companion object {
         fun of(
             postSpaceKey: PostSpaceKey,
-            accountId: String,
+            ownerId: String,
             postId: Long,
             title: String,
         ) = Post(
@@ -62,7 +62,7 @@ data class Post(
                 postSpaceKey = postSpaceKey,
                 postId = postId,
             ),
-            accountId = accountId,
+            ownerId = ownerId,
             title = title,
             auditingTime = AuditingTime.created(),
         )

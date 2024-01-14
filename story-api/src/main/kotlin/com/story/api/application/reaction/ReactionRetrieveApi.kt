@@ -25,7 +25,7 @@ class ReactionRetrieveApi(
             componentId = componentId,
             spaceId = spaceId,
             request = request,
-            requestAccountId = authContext.requestAccountId,
+            requestUserId = authContext.requestUserId,
         )
         return ApiResponse.ok(response)
     }
@@ -40,7 +40,7 @@ class ReactionRetrieveApi(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             request = request,
-            requestAccountId = authContext.requestAccountId,
+            requestUserId = authContext.requestUserId,
         )
         return ApiResponse.ok(response)
     }

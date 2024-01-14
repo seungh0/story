@@ -33,7 +33,7 @@ class PostCreateApi(
                 componentId = componentId,
                 spaceId = spaceId,
             ),
-            accountId = authContext.getRequiredRequestAccountId(),
+            ownerId = authContext.getRequiredRequestUserId(),
             title = request.title,
             sections = request.toSections(),
             nonce = nonce,

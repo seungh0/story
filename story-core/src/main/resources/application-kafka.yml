@@ -36,6 +36,9 @@ story:
       feed:
         name: story.feed-v1
         partition-count: 10
+      feed-mapping:
+        name: story.feed-mapping-v1
+        partition-count: 3
       workspace:
         name: story.workspace-v1
         partition-count: 3

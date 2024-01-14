@@ -26,7 +26,8 @@ class FeedRemover(
                 subscriberId = subscriberId,
                 feedId = feedId,
             )
-        ) ?: return
+        )
+            ?: throw FeedNotExistsExeption("워크스페이스($workspaceId)의 피드 컴포넌트($componentId)상에서 피드 구독자($subscriberId)에게 존재하지 않는 피드($feedId)입니다")
 
         reactiveCassandraOperations.batchOps()
             .delete(feed)
