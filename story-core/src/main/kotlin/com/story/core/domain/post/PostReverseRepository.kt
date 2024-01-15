@@ -3,9 +3,7 @@ package com.story.core.domain.post
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
-import org.springframework.stereotype.Repository
 
-@Repository
 interface PostReverseRepository : CoroutineCrudRepository<PostReverse, PostReversePrimaryKey> {
 
     suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdAndKeySpaceId(

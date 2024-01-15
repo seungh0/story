@@ -2,9 +2,7 @@ package com.story.core.domain.subscription
 
 import org.springframework.data.cassandra.repository.Query
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
-import org.springframework.stereotype.Repository
 
-@Repository
 interface SubscriptionCountRepository : CoroutineCrudRepository<SubscriptionCount, SubscriptionCountPrimaryKey> {
 
     @Query(
