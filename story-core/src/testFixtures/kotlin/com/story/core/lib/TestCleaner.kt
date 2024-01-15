@@ -16,7 +16,7 @@ class TestCleaner(
         val redisCleanJob = redisCleaner.cleanup()
         cacheCleanJob.joinAll()
         cassandraCleanJob.joinAll()
-        redisCleanJob.joinAll()
+        redisCleanJob.join()
     }
 
 }

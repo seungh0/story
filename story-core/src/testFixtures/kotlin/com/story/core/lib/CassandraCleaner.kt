@@ -1,5 +1,6 @@
 package com.story.core.lib
 
+import com.datastax.oss.driver.api.core.cql.SimpleStatement
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.toList
@@ -20,10 +21,11 @@ class CassandraCleaner(
         val query = "SELECT table_name FROM system_schema.tables WHERE keyspace_name = '${cassandraProperties.keyspaceName}'"
         return coroutineScope {
             val jobs = mutableListOf<Job>()
-            for (result in reactiveCqlOperations.queryForFlux(query).asFlow().toList()) {
+
+            for (result in reactiveCqlOperations.queryForFlux(SimpleStatement.newInstance(query)).asFlow().toList()) {
                 result.values.map { tableName ->
                     jobs += launch {
-                        reactiveCqlOperations.execute("TRUNCATE $tableName").awaitSingle()
+                        reactiveCqlOperations.execute(SimpleStatement.newInstance("TRUNCATE $tableName")).awaitSingle()
                     }
                 }
             }

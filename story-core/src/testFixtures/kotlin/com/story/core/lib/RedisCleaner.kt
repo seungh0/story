@@ -13,8 +13,8 @@ class RedisCleaner(
     private val reactiveRedisTemplate: ReactiveRedisTemplate<String, String>,
 ) {
 
-    suspend fun cleanup(): List<Job> {
-        val keyStrings = reactiveRedisTemplate.execute { action ->
+    suspend fun cleanup(): Job {
+        val keyBytes = reactiveRedisTemplate.execute { action ->
             action.keyCommands().scan(
                 ScanOptions.scanOptions()
                     .match("*")
@@ -24,12 +24,13 @@ class RedisCleaner(
         }.awaitSingle()
 
         return coroutineScope {
-            return@coroutineScope keyStrings.map {
-                launch {
-                    reactiveRedisTemplate.execute { action ->
-                        action.keyCommands().del(it)
-                    }.awaitSingle()
+            launch {
+                if (keyBytes.isEmpty()) {
+                    return@launch
                 }
+                reactiveRedisTemplate.execute { pipeline ->
+                    pipeline.keyCommands().mUnlink(keyBytes)
+                }.awaitSingle()
             }
         }
     }
