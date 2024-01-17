@@ -1,9 +1,9 @@
 package com.story.core.domain.post.section
 
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface PostSectionRepository : CoroutineCrudRepository<PostSection, PostSectionPrimaryKey> {
+interface PostSectionRepository : CassandraBasicRepository<PostSection, PostSectionPrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
         workspaceId: String,

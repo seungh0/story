@@ -1,10 +1,10 @@
 package com.story.core.domain.post
 
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface PostReverseRepository : CoroutineCrudRepository<PostReverse, PostReversePrimaryKey> {
+interface PostReverseRepository : CassandraBasicRepository<PostReverse, PostReversePrimaryKey> {
 
     suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdAndKeySpaceId(
         workspaceId: String,

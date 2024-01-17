@@ -1,10 +1,10 @@
 package com.story.core.domain.post
 
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface PostRepository : CoroutineCrudRepository<Post, PostPrimaryKey> {
+interface PostRepository : CassandraBasicRepository<Post, PostPrimaryKey> {
 
     suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
         workspaceId: String,

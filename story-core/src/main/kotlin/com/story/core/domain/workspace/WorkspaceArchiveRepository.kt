@@ -1,5 +1,5 @@
 package com.story.core.domain.workspace
 
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 
-interface WorkspaceArchiveRepository : CoroutineCrudRepository<WorkspaceArchive, String>
+interface WorkspaceArchiveRepository : CassandraBasicRepository<WorkspaceArchive, String>

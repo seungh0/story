@@ -14,7 +14,7 @@ class EmotionRemover(
         componentId: String,
         emotionId: String,
     ) {
-        emotionRepository.deleteById(
+        emotionRepository.deleteByKey(
             EmotionPrimaryKey(
                 workspaceId = workspaceId,
                 resourceId = resourceId,

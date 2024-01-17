@@ -118,8 +118,8 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
         }
     }
 
-    override suspend fun del(key: K) {
-        reactiveRedisTemplate.delete(key.makeKeyString()).awaitSingle()
+    override suspend fun del(key: K): Boolean {
+        return reactiveRedisTemplate.delete(key.makeKeyString()).awaitSingle() == 1L
     }
 
     override suspend fun delBulk(keys: Set<K>, batchSize: Int, concurrency: Int) = coroutineScope {
@@ -137,8 +137,8 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
         }
     }
 
-    override suspend fun unlink(key: K) {
-        reactiveRedisTemplate.unlink(key.makeKeyString()).awaitSingle()
+    override suspend fun unlink(key: K): Boolean {
+        return reactiveRedisTemplate.unlink(key.makeKeyString()).awaitSingle() == 1L
     }
 
     override suspend fun unlinkBulk(keys: Set<K>, batchSize: Int, concurrency: Int) = coroutineScope {
@@ -190,8 +190,8 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
         return reactiveRedisTemplate.getExpire(key.makeKeyString()).awaitSingle()
     }
 
-    override suspend fun setTtl(key: K, duration: Duration) {
-        reactiveRedisTemplate.expire(key.makeKeyString(), duration).awaitSingle()
+    override suspend fun setTtl(key: K, duration: Duration): Boolean {
+        return reactiveRedisTemplate.expire(key.makeKeyString(), duration).awaitSingleOrNull() ?: false
     }
 
 }

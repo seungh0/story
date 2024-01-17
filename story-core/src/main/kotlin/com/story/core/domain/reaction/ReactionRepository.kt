@@ -1,5 +1,5 @@
 package com.story.core.domain.reaction
 
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 
-interface ReactionRepository : CoroutineCrudRepository<Reaction, ReactionPrimaryKey>
+interface ReactionRepository : CassandraBasicRepository<Reaction, ReactionPrimaryKey>

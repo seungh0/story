@@ -46,11 +46,11 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
 
     suspend fun setBulk(keyValues: Map<K, V>, batchSize: Int = 100, concurrency: Int = 1)
 
-    suspend fun del(key: K)
+    suspend fun del(key: K): Boolean
 
     suspend fun delBulk(keys: Set<K>, batchSize: Int = 100, concurrency: Int = 1)
 
-    suspend fun unlink(key: K)
+    suspend fun unlink(key: K): Boolean
 
     suspend fun unlinkBulk(keys: Set<K>, batchSize: Int = 300, concurrency: Int = 1)
 
@@ -80,6 +80,6 @@ interface StringRedisRepository<K : StringRedisKey<K, V>, V> {
 
     suspend fun getTtl(key: K): Duration
 
-    suspend fun setTtl(key: K, duration: Duration)
+    suspend fun setTtl(key: K, duration: Duration): Boolean
 
 }

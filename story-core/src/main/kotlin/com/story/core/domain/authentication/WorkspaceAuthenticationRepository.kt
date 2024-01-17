@@ -1,6 +1,6 @@
 package com.story.core.domain.authentication
 
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 
 interface WorkspaceAuthenticationRepository :
-    CoroutineCrudRepository<WorkspaceAuthentication, WorkspaceAuthenticationPrimaryKey>
+    CassandraBasicRepository<WorkspaceAuthentication, WorkspaceAuthenticationPrimaryKey>

@@ -1,5 +1,7 @@
 package com.story.core.domain.reaction
 
+import com.story.core.infrastructure.cassandra.CassandraEntity
+import com.story.core.infrastructure.cassandra.CassandraKey
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -10,9 +12,9 @@ import org.springframework.data.cassandra.core.mapping.Table
 @Table("reaction_v1")
 data class Reaction(
     @field:PrimaryKey
-    val key: ReactionPrimaryKey,
+    override val key: ReactionPrimaryKey,
     var emotionIds: Set<String>,
-) {
+) : CassandraEntity {
 
     companion object {
         fun of(
@@ -50,7 +52,7 @@ data class ReactionPrimaryKey(
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val userId: String,
-) {
+) : CassandraKey {
 
     companion object {
         fun of(

@@ -1,10 +1,10 @@
 package com.story.core.domain.feed
 
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface FeedRepository : CoroutineCrudRepository<Feed, FeedPrimaryKey> {
+interface FeedRepository : CassandraBasicRepository<Feed, FeedPrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberId(
         workspaceId: String,

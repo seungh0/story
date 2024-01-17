@@ -1,9 +1,9 @@
 package com.story.core.domain.reaction
 
+import com.story.core.infrastructure.cassandra.CassandraCounterRepository
 import org.springframework.data.cassandra.repository.Query
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface ReactionCountRepository : CoroutineCrudRepository<ReactionCount, ReactionCountPrimaryKey> {
+interface ReactionCountRepository : CassandraCounterRepository<ReactionCount, ReactionCountPrimaryKey> {
 
     @Query(
         """

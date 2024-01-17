@@ -28,7 +28,7 @@ class EmotionRetriever(
                 emotionId = emotionId,
             )
         }
-        val emotions = emotionRepository.findAllById(keys).toList()
+        val emotions = emotionRepository.findAllByKeyIn(keys).toList()
 
         if (emotions.size < emotionIds.size) {
             val existsEmotionIds = emotions.mapToSet { emotion -> emotion.key.emotionId }

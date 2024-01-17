@@ -1,12 +1,12 @@
 package com.story.core.domain.feed.mapping
 
 import com.story.core.domain.resource.ResourceId
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface FeedMappingReverseRepository :
-    CoroutineCrudRepository<FeedMappingReverse, FeedMappingReversePrimaryKey> {
+    CassandraBasicRepository<FeedMappingReverse, FeedMappingReversePrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeySourceResourceIdAndKeySourceComponentId(
         workspaceId: String,

@@ -1,9 +1,9 @@
 package com.story.core.domain.subscription
 
+import com.story.core.infrastructure.cassandra.CassandraCounterRepository
 import org.springframework.data.cassandra.repository.Query
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface SubscriberCountRepository : CoroutineCrudRepository<SubscriberCount, SubscriberCountPrimaryKey> {
+interface SubscriberCountRepository : CassandraCounterRepository<SubscriberCount, SubscriberCountPrimaryKey> {
 
     @Query(
         """

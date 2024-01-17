@@ -1,8 +1,8 @@
 package com.story.core.domain.reaction
 
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 
-interface ReactionReverseRepository : CoroutineCrudRepository<ReactionReverse, ReactionReversePrimaryKey> {
+interface ReactionReverseRepository : CassandraBasicRepository<ReactionReverse, ReactionReversePrimaryKey> {
 
     suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyUserIdAndKeyDistributionKeyAndKeySpaceIdIn(
         workspaceId: String,

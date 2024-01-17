@@ -1,5 +1,5 @@
 package com.story.core.domain.policy
 
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 
-interface ApiLimitPolicyRepository : CoroutineCrudRepository<ApiLimitPolicy, ApiLimitPolicyPrimaryKey>
+interface ApiLimitPolicyRepository : CassandraBasicRepository<ApiLimitPolicy, ApiLimitPolicyPrimaryKey>

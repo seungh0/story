@@ -1,5 +1,5 @@
 package com.story.core.domain.event
 
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
+import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 
-interface EventKeyIdMappingRepository : CoroutineCrudRepository<EventKeyIdMapping, EventKeyIdMappingPrimaryKey>
+interface EventKeyIdMappingRepository : CassandraBasicRepository<EventKeyIdMapping, EventKeyIdMappingPrimaryKey>
