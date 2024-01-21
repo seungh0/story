@@ -8,7 +8,7 @@ object KafkaTopicFinder {
     private val KAFKA_TOPIC_NAME_MAP: HashMap<KafkaTopic, KafkaTopicProperty?> = object :
         HashMap<KafkaTopic, KafkaTopicProperty?>() {
         init {
-            val env = ApplicationContextProvider.applicationContext.environment
+            val env = ApplicationContextProvider.getApplicationContext().environment
 
             val defaultReplicationCount = env.getProperty("story.kafka.default.replication-count")?.toIntOrNull()
                 ?: throw IllegalStateException("기본 레플리케이션 수 설정(story.kafka.default.replicationCount)이 누락되어 있습니다")

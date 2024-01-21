@@ -9,4 +9,10 @@ data class TextPostSectionContentResponse(
 
     override fun sectionType() = PostSectionType.TEXT
 
+    companion object {
+        fun from(sectionContent: TextPostSectionContent) = TextPostSectionContentResponse(
+            content = sectionContent.content,
+        )
+    }
+
 }

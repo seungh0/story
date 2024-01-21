@@ -6,5 +6,5 @@ import org.springframework.test.context.ActiveProfiles
 
 @Tags("integration-test")
 @ActiveProfiles("test")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 annotation class IntegrationTest

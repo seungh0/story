@@ -3,19 +3,18 @@ package com.story.core.infrastructure.spring
 import com.story.core.common.logger.LoggerExtension.log
 import org.springframework.boot.SpringApplication
 import org.springframework.context.ApplicationContext
-import org.springframework.context.annotation.DependsOn
 import org.springframework.stereotype.Component
 import java.util.function.Function
 
-@DependsOn(value = ["applicationContextProvider"])
 @Component
-class SpringBeanProvider {
+class SpringBeanProvider(
+    private val applicationContext: ApplicationContext,
+) {
 
     fun <K, V> convertBeanMap(
         clazz: Class<V>,
         keyGenerator: Function<V, K>,
     ): Map<K, V> {
-        val applicationContext: ApplicationContext = ApplicationContextProvider.applicationContext
         val applicationContextBeanMap: Map<String, V> = applicationContext.getBeansOfType(clazz)
 
         val beanMap = mutableMapOf<K, V>()

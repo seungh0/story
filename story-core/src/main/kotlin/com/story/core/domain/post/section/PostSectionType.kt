@@ -4,27 +4,36 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.story.core.common.error.InvalidArgumentsException
 import com.story.core.common.error.NotSupportedException
 import com.story.core.common.json.Jsons
+import com.story.core.domain.post.section.image.ImagePostSectionContent
 import com.story.core.domain.post.section.image.ImagePostSectionContentRequest
 import com.story.core.domain.post.section.image.ImagePostSectionContentResponse
+import com.story.core.domain.post.section.text.TextPostSectionContent
 import com.story.core.domain.post.section.text.TextPostSectionContentRequest
 import com.story.core.domain.post.section.text.TextPostSectionContentResponse
 
 enum class PostSectionType(
     private val description: String,
     val requestClass: TypeReference<out PostSectionContentRequest>,
-    val responseClass: TypeReference<out PostSectionContentResponse>,
+    private val contentClass: TypeReference<out PostSectionContent>,
+    val responseClass: (PostSectionContent) -> PostSectionContentResponse,
 ) {
 
     TEXT(
         description = "텍스트 섹션",
         requestClass = object : TypeReference<TextPostSectionContentRequest>() {},
-        responseClass = object : TypeReference<TextPostSectionContentResponse>() {},
+        contentClass = object : TypeReference<TextPostSectionContent>() {},
+        responseClass = { content ->
+            TextPostSectionContentResponse.from(content as TextPostSectionContent)
+        },
     ),
     IMAGE(
         description = "이미지 섹션",
         requestClass = object : TypeReference<ImagePostSectionContentRequest>() {},
-        responseClass = object : TypeReference<ImagePostSectionContentResponse>() {},
-    )
+        contentClass = object : TypeReference<ImagePostSectionContent>() {},
+        responseClass = { content ->
+            ImagePostSectionContentResponse.from(content as ImagePostSectionContent)
+        },
+    ),
     ;
 
     fun toTypedRequest(sectionMap: Map<String, Any>): PostSectionContentRequest {
@@ -43,7 +52,7 @@ enum class PostSectionType(
 
     fun toTypedResponse(sectionData: String): PostSectionContentResponse {
         try {
-            return Jsons.toObject(sectionData, this.responseClass)!!
+            return responseClass.invoke(Jsons.toObject(sectionData, this.contentClass)!!)
         } catch (exception: Exception) {
             throw InvalidArgumentsException(
                 message = "PostSectionContentRequest parse failed",

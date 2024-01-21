@@ -1,6 +1,7 @@
 spring.profiles.default: local
 spring.config:
   import:
+    - classpath:/application-core.yml
     - classpath:/application-kafka.yml
     - classpath:/application-cassandra.yml
     - classpath:/application-redis.yml

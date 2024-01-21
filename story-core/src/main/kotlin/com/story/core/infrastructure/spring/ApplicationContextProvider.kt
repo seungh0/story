@@ -12,7 +12,9 @@ class ApplicationContextProvider : ApplicationContextAware {
     }
 
     companion object {
-        lateinit var applicationContext: ApplicationContext
+        fun getApplicationContext() = applicationContext
+
+        private lateinit var applicationContext: ApplicationContext
     }
 
 }

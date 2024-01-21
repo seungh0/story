@@ -21,7 +21,6 @@ data class ImagePostSectionContentRequest(
         height = height,
         fileSize = fileSize,
         fileName = fileName,
-        imageType = "PNG" // 파싱
     )
 
 }

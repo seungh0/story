@@ -8,5 +8,4 @@ data class ImagePostSectionContent(
     val height: Int,
     val fileSize: Long,
     val fileName: String, // flower.png
-    val imageType: String, // PNG
 ) : PostSectionContent
