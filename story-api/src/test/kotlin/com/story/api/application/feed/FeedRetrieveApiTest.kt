@@ -94,10 +94,10 @@ class FeedRetrieveApiTest(
                                 sectionType = PostSectionType.IMAGE,
                                 data = ImagePostSectionContentResponse(
                                     path = "/store/v1/store.png",
-                                    fileName = "store.png",
                                     width = 480,
                                     height = 360,
                                     fileSize = 1234123,
+                                    domain = "https://localhost"
                                 )
                             )
                         ),
@@ -192,8 +192,8 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("[TEXT 섹션 전용] 포스트 섹션 내용").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.path")
                             .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 Path").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.fileName")
-                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 파일 명").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.domain")
+                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 도메인").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.width")
                             .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 가로 길이").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.height")
