@@ -120,28 +120,6 @@ create table event_history_v1
      AND min_index_interval = 128
      AND speculative_retry = '99p';
 
-
-create table event_key_id_mapping_v1
-(
-    workspace_id text,
-    event_key    text,
-    event_id     bigint,
-    primary key ((workspace_id, event_key), event_id)
-)
-    with clustering order by (event_id desc)
-     and bloom_filter_fp_chance = 0.01
-     AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
-     AND compaction = {'class':'TimeWindowCompactionStrategy', 'unchecked_tombstone_compaction':'true'}
-     AND compression = {'enabled':'false'}
-     AND crc_check_chance = 1.0
-     AND default_time_to_live = 2592000 // 30d
-     AND gc_grace_seconds = 259200 // 3d
-     AND max_index_interval = 2048
-     AND memtable_flush_period_in_ms = 0
-     AND min_index_interval = 128
-     AND speculative_retry = '99p';
-
-
 create table post_v1
 (
     workspace_id text,

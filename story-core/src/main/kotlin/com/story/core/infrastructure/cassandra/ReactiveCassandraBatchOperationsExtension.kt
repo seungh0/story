@@ -3,6 +3,7 @@ package com.story.core.infrastructure.cassandra
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.data.cassandra.core.InsertOptions
 import org.springframework.data.cassandra.core.ReactiveCassandraBatchOperations
+import org.springframework.data.cassandra.core.WriteResult
 import java.time.Duration
 
 fun ReactiveCassandraBatchOperations.upsert(entity: Any, ttl: Duration? = null) =
@@ -14,7 +15,7 @@ fun ReactiveCassandraBatchOperations.upsert(vararg entities: Any, ttl: Duration?
 fun ReactiveCassandraBatchOperations.upsert(entities: Iterable<*>, ttl: Duration? = null) =
     this.insert(entities, upsertOptions(ttl))
 
-suspend fun ReactiveCassandraBatchOperations.executeCoroutine() = this.execute().awaitSingle()
+suspend fun ReactiveCassandraBatchOperations.executeCoroutine(): WriteResult = this.execute().awaitSingle()
 
 private fun upsertOptions(ttl: Duration?) = InsertOptions.builder()
     .withInsertNulls()

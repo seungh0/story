@@ -1,16 +1,14 @@
 package com.story.core.domain.event
 
 import com.story.core.domain.resource.ResourceId
-import com.story.core.infrastructure.cassandra.executeCoroutine
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
 @Service
 class EventHistoryManager(
-    private val reactiveCassandraOperations: ReactiveCassandraOperations,
+    private val eventHistoryRepository: EventHistoryRepository,
 ) {
 
     suspend fun <T> withSaveEventHistories(
@@ -46,42 +44,24 @@ class EventHistoryManager(
         runCatching {
             eventPublisher.invoke(event)
         }.onSuccess {
-            reactiveCassandraOperations.batchOps()
-                .insert(
-                    EventHistory.success(
-                        workspaceId = workspaceId,
-                        resourceId = resourceId,
-                        componentId = componentId,
-                        eventRecord = event,
-                    )
+            eventHistoryRepository.save(
+                EventHistory.success(
+                    workspaceId = workspaceId,
+                    resourceId = resourceId,
+                    componentId = componentId,
+                    eventRecord = event,
                 )
-                .insert(
-                    EventKeyIdMapping.of(
-                        workspaceId = workspaceId,
-                        eventKey = event.eventKey,
-                        eventId = event.eventId,
-                    )
-                )
-                .executeCoroutine()
+            )
         }.onFailure { exception ->
-            reactiveCassandraOperations.batchOps()
-                .insert(
-                    EventHistory.failed(
-                        workspaceId = workspaceId,
-                        resourceId = resourceId,
-                        componentId = componentId,
-                        eventRecord = event,
-                        exception = exception,
-                    )
+            eventHistoryRepository.save(
+                EventHistory.failed(
+                    workspaceId = workspaceId,
+                    resourceId = resourceId,
+                    componentId = componentId,
+                    eventRecord = event,
+                    exception = exception,
                 )
-                .insert(
-                    EventKeyIdMapping.of(
-                        workspaceId = workspaceId,
-                        eventKey = event.eventKey,
-                        eventId = event.eventId,
-                    )
-                )
-                .executeCoroutine()
+            )
             throw exception
         }
     }
