@@ -2,7 +2,7 @@
 
 ## Documentation
 
-- [Documentation](https://seungh0.github.io/story-platform)
+- [Documentation](https://seungh0.github.io/story)
 
 ## Architecture
 
