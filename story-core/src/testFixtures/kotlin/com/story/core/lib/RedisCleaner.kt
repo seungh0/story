@@ -5,7 +5,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.reactive.awaitSingle
 import org.springframework.data.redis.core.ReactiveRedisTemplate
-import org.springframework.data.redis.core.ScanOptions
 import org.springframework.stereotype.Component
 
 @Component
@@ -14,23 +13,10 @@ class RedisCleaner(
 ) {
 
     suspend fun cleanup(): Job {
-        val keyBytes = reactiveRedisTemplate.execute { action ->
-            action.keyCommands().scan(
-                ScanOptions.scanOptions()
-                    .match("*")
-                    .count(300)
-                    .build()
-            ).collectList()
-        }.awaitSingle()
-
         return coroutineScope {
             launch {
-                if (keyBytes.isEmpty()) {
-                    return@launch
-                }
-                reactiveRedisTemplate.execute { pipeline ->
-                    pipeline.keyCommands().mUnlink(keyBytes)
-                }.awaitSingle()
+                val connection = reactiveRedisTemplate.connectionFactory.reactiveConnection
+                connection.serverCommands().flushDb().awaitSingle()
             }
         }
     }

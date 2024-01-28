@@ -1,6 +1,7 @@
 package com.story.core.lib
 
 import com.story.core.infrastructure.cache.CacheManager
+import com.story.core.infrastructure.cache.CacheStrategy
 import com.story.core.infrastructure.cache.CacheType
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
@@ -12,10 +13,10 @@ class CacheCleaner(
     private val cacheManager: CacheManager,
 ) {
 
-    suspend fun cleanUp(): List<Job> = coroutineScope {
+    suspend fun cleanUp(cacheStrategies: Set<CacheStrategy>): List<Job> = coroutineScope {
         CacheType.values().map { cacheType ->
             launch {
-                cacheManager.evictAllCachesLayeredCache(cacheType = cacheType)
+                cacheManager.evictAllCachesLayeredCache(cacheType = cacheType, targetCacheStrategies = cacheStrategies)
             }
         }
     }

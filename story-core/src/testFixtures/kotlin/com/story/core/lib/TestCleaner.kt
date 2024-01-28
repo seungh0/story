@@ -1,5 +1,6 @@
 package com.story.core.lib
 
+import com.story.core.infrastructure.cache.CacheStrategy
 import kotlinx.coroutines.joinAll
 import org.springframework.stereotype.Component
 
@@ -11,7 +12,7 @@ class TestCleaner(
 ) {
 
     suspend fun cleanUp() {
-        val cacheCleanJob = cacheCleaner.cleanUp()
+        val cacheCleanJob = cacheCleaner.cleanUp(setOf(CacheStrategy.LOCAL))
         val cassandraCleanJob = cassandraCleaner.cleanUp()
         val redisCleanJob = redisCleaner.cleanup()
         cacheCleanJob.joinAll()

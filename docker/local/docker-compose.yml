@@ -20,7 +20,7 @@ services:
 
   redis-1:
     container_name: story-redis-local
-    image: redis:6.0
+    image: redis:6.2-alpine
     command: redis-server --port 6379 --appendonly yes
     ports:
       - '6380:6379'

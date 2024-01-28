@@ -84,13 +84,20 @@ class CacheManager(
         }
     }
 
-    suspend fun evictAllCachesLayeredCache(cacheType: CacheType) {
-        cacheHandlerDelegator.evictAll(cacheStrategy = CacheStrategy.LOCAL, cacheType = cacheType)
+    suspend fun evictAllCachesLayeredCache(
+        cacheType: CacheType,
+        targetCacheStrategies: Set<CacheStrategy> = CacheStrategy.values().toSet(),
+    ) {
+        if (targetCacheStrategies.contains(CacheStrategy.LOCAL)) {
+            cacheHandlerDelegator.evictAll(cacheStrategy = CacheStrategy.LOCAL, cacheType = cacheType)
+        }
 
-        runCatching {
-            cacheHandlerDelegator.evictAll(cacheStrategy = CacheStrategy.GLOBAL, cacheType = cacheType)
-        }.onFailure { throwable ->
-            log.error(throwable) { throwable.message }
+        if (targetCacheStrategies.contains(CacheStrategy.GLOBAL)) {
+            runCatching {
+                cacheHandlerDelegator.evictAll(cacheStrategy = CacheStrategy.GLOBAL, cacheType = cacheType)
+            }.onFailure { throwable ->
+                log.error(throwable) { throwable.message }
+            }
         }
     }
 
