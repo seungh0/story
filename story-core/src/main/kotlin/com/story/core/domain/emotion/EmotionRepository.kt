@@ -7,10 +7,6 @@ import org.springframework.data.domain.Pageable
 
 interface EmotionRepository : CassandraBasicRepository<Emotion, EmotionPrimaryKey> {
 
-    fun findAllByKeyIn(keys: Collection<EmotionPrimaryKey>): Flow<Emotion>
-
-    suspend fun deleteByKey(key: EmotionPrimaryKey)
-
     fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
         workspaceId: String,
         resourceId: ResourceId,

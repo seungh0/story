@@ -17,6 +17,30 @@ interface CassandraBasicRepository<T, K> : Repository<T, K> {
     fun findAll(): Flow<T>
 
     /**
+     * Returns all instances of the type {@code T} with the given IDs.
+     * If some or all ids are not found, no entities are returned for these IDs.
+     * Note that the order of elements in the result is not guaranteed.
+     *
+     * @param ids must not be `null` nor contain any `null` values.
+     * @return [Flow] emitting the found entities. The size can be equal or less than the number of given
+     * ids.
+     * @throws IllegalArgumentException in case the given [ids][Iterable] or one of its items is `null`.
+     */
+    fun findAllById(ids: Iterable<K>): Flow<T>
+
+    /**
+     * Returns all instances of the type {@code T} with the given IDs.
+     * If some or all ids are not found, no entities are returned for these IDs.
+     * Note that the order of elements in the result is not guaranteed.
+     *
+     * @param ids must not be `null` nor contain any `null` values.
+     * @return [Flow] emitting the found entities. The size can be equal or less than the number of given
+     * ids.
+     * @throws IllegalArgumentException in case the given [ids][Iterable] or one of its items is `null`.
+     */
+    fun findAllById(ids: Flow<K>): Flow<T>
+
+    /**
      * Retrieves an entity by its id.
      *
      * @param id must not be `null`.
@@ -67,6 +91,16 @@ interface CassandraBasicRepository<T, K> : Repository<T, K> {
      *           found in the persistence store. Also thrown if the entity is assumed to be present but does not exist in the database.
      */
     suspend fun delete(entity: T)
+
+    /**
+     * Deletes the entity with the given id.
+     * <p>
+     * If the entity is not found in the persistence store it is silently ignored.
+     *
+     * @param id must not be `null`.
+     * @throws IllegalArgumentException in case the given id is `null`.
+     */
+    suspend fun deleteById(id: K)
 
     /**
      * Deletes all instances of the type {@code T} with the given IDs.

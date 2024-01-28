@@ -1,4 +1,4 @@
-package com.story.api.config
+package com.story.api.config.advice
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.api.ApiTest
@@ -19,7 +19,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @ApiTest(
     AvailabilityCheckApi::class,
-    ControllerExceptionAdvice::class,
 )
 internal class ControllerExceptionAdviceTest(
     private val webClient: WebTestClient,

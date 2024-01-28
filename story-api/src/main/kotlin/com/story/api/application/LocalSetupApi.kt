@@ -1,5 +1,6 @@
 package com.story.api.application
 
+import com.story.core.common.model.dto.ApiResponse
 import com.story.core.domain.authentication.Authentication
 import com.story.core.domain.authentication.WorkspaceAuthentication
 import com.story.core.domain.workspace.Workspace
@@ -22,7 +23,7 @@ class LocalSetupApi(
     suspend fun setup(
         @RequestParam workspaceId: String,
         @RequestParam authenticationKey: String,
-    ) {
+    ): ApiResponse<Nothing?> {
         val authentication = Authentication.of(
             authenticationKey = authenticationKey,
             workspaceId = workspaceId,
@@ -45,6 +46,8 @@ class LocalSetupApi(
             .upsert(workspaceAuthentication)
             .execute()
             .awaitSingle()
+
+        return ApiResponse.OK
     }
 
 }

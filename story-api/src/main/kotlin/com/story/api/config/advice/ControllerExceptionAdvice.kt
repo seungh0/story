@@ -1,4 +1,4 @@
-package com.story.api.config
+package com.story.api.config.advice
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.story.core.common.error.ErrorCode

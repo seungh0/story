@@ -30,7 +30,8 @@ Accept-Language: en
                 "path": "/store/v1/store.png",
                 "width": 480,
                 "height": 360,
-                "fileSize": 10000
+                "fileSize": 10000,
+                "fileName": "store.png"
             }
         }
     ]

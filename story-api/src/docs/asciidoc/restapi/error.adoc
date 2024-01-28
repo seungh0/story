@@ -6,6 +6,7 @@
 | 400 | invalid_nonce | 유효하지 않은 Nonce인 경우
 | 400 | missing_request_user_id | 요청자("X-Request-User-Id") 헤더가 없는 경우
 | 400 | invalid_event_key | 유효하지 않은 EventKey인 경우
+| 400 | nonce_header_empty | X-Story-Nonce 헤더가 비어 있는 경우 (Nonce 키가 필수인 경우)
 | 401 | invalid_authentication_key | 유효하지 않은 인증 키가 요청된 경우
 | 401 | inactivated_authentication_key | 비활성화된 인증 키가 요청된 경우
 | 401 | empty_authentication_key | 인증 키 헤더("X-Story-Api-Key")가 없는 경우

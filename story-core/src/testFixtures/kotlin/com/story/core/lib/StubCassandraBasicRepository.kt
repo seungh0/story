@@ -5,6 +5,7 @@ import com.story.core.infrastructure.cassandra.CassandraEntity
 import com.story.core.infrastructure.cassandra.CassandraKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.mapNotNull
 
 class StubCassandraBasicRepository<T : CassandraEntity, K : CassandraKey> : CassandraBasicRepository<T, K> {
 
@@ -46,6 +47,18 @@ class StubCassandraBasicRepository<T : CassandraEntity, K : CassandraKey> : Cass
 
     override suspend fun findById(id: K): T? {
         return database[id]
+    }
+
+    override fun findAllById(ids: Iterable<K>): Flow<T> {
+        return ids.mapNotNull { id -> database[id] }.asFlow()
+    }
+
+    override fun findAllById(ids: Flow<K>): Flow<T> {
+        return ids.mapNotNull { id -> database[id] }
+    }
+
+    override suspend fun deleteById(id: K) {
+        database.remove(key = id)
     }
 
 }

@@ -1,6 +1,7 @@
 package com.story.api.config
 
 import com.story.api.config.auth.AuthContextMethodArgumentResolver
+import com.story.api.config.nonce.NonceMethodArgumentResolver
 import com.story.core.common.json.Jsons
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
@@ -17,10 +18,14 @@ import org.springframework.web.reactive.result.method.annotation.ArgumentResolve
 @Configuration
 class WebFluxConfig(
     private val authContextMethodArgumentResolver: AuthContextMethodArgumentResolver,
+    private val nonceMethodArgumentResolver: NonceMethodArgumentResolver,
 ) : WebFluxConfigurer {
 
     override fun configureArgumentResolvers(configurer: ArgumentResolverConfigurer) {
-        configurer.addCustomResolver(authContextMethodArgumentResolver)
+        configurer.apply {
+            addCustomResolver(authContextMethodArgumentResolver)
+            addCustomResolver(nonceMethodArgumentResolver)
+        }
     }
 
     override fun configureHttpMessageCodecs(configurer: ServerCodecConfigurer) {

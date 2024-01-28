@@ -22,6 +22,11 @@ enum class ErrorCode(
         description = "요청자(\"X-Request-User-Id\") 헤더가 없는 경우"
     ),
     E400_INVALID_EVENT_KEY(httpStatusCode = 400, code = "invalid_event_key", description = "유효하지 않은 EventKey인 경우"),
+    E400_NONCE_HEADER_EMPTY(
+        httpStatusCode = 400,
+        code = "nonce_header_empty",
+        description = "X-Story-Nonce 헤더가 비어 있는 경우 (Nonce 키가 필수인 경우)"
+    ),
 
     /**
      * 401 UnAuthorized
