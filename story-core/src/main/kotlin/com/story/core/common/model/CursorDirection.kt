@@ -12,7 +12,7 @@ enum class CursorDirection {
         private val cachedCursorDirectionMap = mutableMapOf<String, CursorDirection>()
 
         init {
-            CursorDirection.values()
+            entries
                 .forEach { cursorDirection -> cachedCursorDirectionMap[cursorDirection.name.lowercase()] = cursorDirection }
         }
 
@@ -20,7 +20,7 @@ enum class CursorDirection {
             return cachedCursorDirectionMap[code.lowercase()]
                 ?: throw InvalidArgumentsException(
                     message = "해당하는 CursorDirection($code)는 존재하지 않습니다",
-                    reasons = listOf("invalid direction. available list: [${values().joinToString(separator = ",")}]")
+                    reasons = listOf("invalid direction. available list: [${entries.joinToString(separator = ",")}]")
                 )
         }
     }

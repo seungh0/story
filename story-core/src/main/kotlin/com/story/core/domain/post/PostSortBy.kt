@@ -14,7 +14,7 @@ enum class PostSortBy(
         private val cachedPostSortByMap = mutableMapOf<String, PostSortBy>()
 
         init {
-            PostSortBy.values()
+            entries
                 .forEach { sortBy -> cachedPostSortByMap[sortBy.name.lowercase()] = sortBy }
         }
 
@@ -24,7 +24,7 @@ enum class PostSortBy(
                     message = "해당하는 PostSortBy($code)는 존재하지 않습니다",
                     reasons = listOf(
                         "invalid sortBy. available list: [${
-                        PostSortBy.values().joinToString(separator = ",")
+                        entries.joinToString(separator = ",")
                         }]"
                     )
                 )

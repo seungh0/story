@@ -7,7 +7,7 @@ import com.story.core.domain.resource.ResourceId
 class ResourceRetrieveHandler {
 
     suspend fun listResources(request: ResourceListApiRequest): ResourceListApiResponse {
-        val resources = ResourceId.values().map { resourceId ->
+        val resources = ResourceId.entries.map { resourceId ->
             ResourceApiResponse(
                 resourceId = resourceId.code,
                 description = resourceId.description,

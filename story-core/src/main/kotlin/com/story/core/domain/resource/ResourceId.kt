@@ -23,7 +23,7 @@ enum class ResourceId(
         private val cachedResourceIdMap = mutableMapOf<String, ResourceId>()
 
         init {
-            values().forEach { resourceId -> cachedResourceIdMap[resourceId.code.lowercase()] = resourceId }
+            entries.forEach { resourceId -> cachedResourceIdMap[resourceId.code.lowercase()] = resourceId }
         }
 
         fun findByCode(code: String): ResourceId {

@@ -14,7 +14,7 @@ class CacheCleaner(
 ) {
 
     suspend fun cleanUp(cacheStrategies: Set<CacheStrategy>): List<Job> = coroutineScope {
-        CacheType.values().map { cacheType ->
+        CacheType.entries.map { cacheType ->
             launch {
                 cacheManager.evictAllCachesLayeredCache(cacheType = cacheType, targetCacheStrategies = cacheStrategies)
             }

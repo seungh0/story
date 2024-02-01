@@ -27,7 +27,7 @@ class WorkspacePurger(
             throw WorkspacePurgeRetentionPeriodViolationException("삭제 전 최소 보관 기간이 지나지 않은 워크스페이스($workspaceId)입니다")
         }
 
-        ResourceId.values().forEach { resourceId ->
+        ResourceId.entries.forEach { resourceId ->
             var cursor = CursorRequest.first(direction = CursorDirection.NEXT, pageSize = 50)
             do {
                 val components = componentRetriever.listComponents(

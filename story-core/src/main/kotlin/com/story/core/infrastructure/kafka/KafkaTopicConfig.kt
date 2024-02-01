@@ -14,7 +14,7 @@ class KafkaTopicConfig {
     fun topics(): NewTopics {
         val topics = mutableListOf<NewTopic>()
 
-        for (topicType in KafkaTopic.values()) {
+        for (topicType in KafkaTopic.entries) {
             val topicProperty = KafkaTopicFinder.getTopicProperty(kafkaTopic = topicType)
             topics += TopicBuilder.name(topicProperty.name)
                 .replicas(topicProperty.replication)

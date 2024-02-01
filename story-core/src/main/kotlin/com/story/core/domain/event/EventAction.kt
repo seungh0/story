@@ -23,7 +23,7 @@ enum class EventAction(
         private val resourceIdEventActionsMap = mutableMapOf<ResourceId, MutableSet<EventAction>>()
 
         init {
-            resourceIdEventActionsMap += values().flatMap { eventAction ->
+            resourceIdEventActionsMap += entries.flatMap { eventAction ->
                 eventAction.resourceIds.map { resourceId ->
                     resourceId to eventAction
                 }

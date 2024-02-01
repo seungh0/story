@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+
+    <springProfile name="local,test">
+        <logger name="com.depromeet.threedollar" level="DEBUG"/>
+
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="org.springframework.cache" level="TRACE"/>
+        <logger name="org.springframework.data.repository.config.RepositoryConfigurationDelegate" level="WARN"/>
+        <logger name="org.springframework.data.convert.CustomConversions" level="ERROR"/>
+        <logger name="io.netty.resolver.dns.DnsServerAddressStreamProviders" level="ERROR"/>
+
+        <logger name="ch.qos.logback" level="WARN"/>
+
+        <logger name="io.mockk" level="INFO"/>
+
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>${LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+</configuration>

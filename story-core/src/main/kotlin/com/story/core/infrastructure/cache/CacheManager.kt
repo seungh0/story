@@ -86,7 +86,7 @@ class CacheManager(
 
     suspend fun evictAllCachesLayeredCache(
         cacheType: CacheType,
-        targetCacheStrategies: Set<CacheStrategy> = CacheStrategy.values().toSet(),
+        targetCacheStrategies: Set<CacheStrategy> = CacheStrategy.entries.toSet(),
     ) {
         if (targetCacheStrategies.contains(CacheStrategy.LOCAL)) {
             cacheHandlerDelegator.evictAll(cacheStrategy = CacheStrategy.LOCAL, cacheType = cacheType)

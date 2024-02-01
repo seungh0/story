@@ -13,7 +13,7 @@ object KafkaTopicFinder {
             val defaultReplicationCount = env.getProperty("story.kafka.default.replication-count")?.toIntOrNull()
                 ?: throw IllegalStateException("기본 레플리케이션 수 설정(story.kafka.default.replicationCount)이 누락되어 있습니다")
 
-            KafkaTopic.values().forEach { topicType ->
+            KafkaTopic.entries.forEach { topicType ->
                 val name = env.getProperty("story.kafka.topic.${topicType.property}.name")
                     ?: throw IllegalStateException("카프카 토픽($topicType) 이름 설정(story.kafka.topic.${topicType.property}.name)이 누락되어 있습니다")
 

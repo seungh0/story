@@ -63,7 +63,7 @@ enum class CacheType(
 
     companion object {
         @JvmField
-        val LOCAL_CACHE_TYPES = CacheType.values()
+        val LOCAL_CACHE_TYPES = entries
             .filter { cacheType -> cacheType.enableLocalCache() }
     }
 
