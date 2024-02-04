@@ -1,6 +1,6 @@
 ### 피드 조회
 GET {{api}}/v1/resources/feeds/components/timeline/subscribers/{{KITTO_USER_ID}}?pageSize=30
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 > {%
     client.test("200 OK", () => {
@@ -12,7 +12,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 ### 피드 삭제
 DELETE {{api}}/v1/resources/feeds/components/timeline/subscribers/{{KITTO_USER_ID}}/feeds/71627881039622144
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 > {%
     client.test("200 OK", () => {

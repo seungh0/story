@@ -45,7 +45,7 @@ class FeedRemoveApiTest(
                 "/v1/resources/feeds/components/{componentId}/subscribers/{subscriberId}/feeds/{feedId}",
                 componentId, subscriberId, feedId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .exchange()
 
         // then
@@ -56,7 +56,7 @@ class FeedRemoveApiTest(
                     "feed.remove",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("피드 컴포넌트 ID"),

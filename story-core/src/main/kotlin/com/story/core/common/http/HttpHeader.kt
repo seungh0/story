@@ -8,7 +8,7 @@ enum class HttpHeader(
 
     X_STORY_API_KEY(
         header = "X-Story-Api-Key",
-        description = "Story Platform 인증 키",
+        description = "Story Platform API-Key",
         example = "a6d63e0e-7e5c-4fd8-85f2-fc9eb36fa9bd"
     ),
     X_STORY_REQUEST_USER_ID(

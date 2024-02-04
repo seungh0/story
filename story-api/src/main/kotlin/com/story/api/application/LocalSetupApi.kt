@@ -1,8 +1,8 @@
 package com.story.api.application
 
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.domain.authentication.Authentication
-import com.story.core.domain.authentication.WorkspaceAuthentication
+import com.story.core.domain.apikey.ApiKey
+import com.story.core.domain.apikey.WorkspaceApiKey
 import com.story.core.domain.workspace.Workspace
 import com.story.core.domain.workspace.WorkspacePricePlan
 import com.story.core.infrastructure.cassandra.upsert
@@ -22,28 +22,30 @@ class LocalSetupApi(
     @PostMapping("/setup")
     suspend fun setup(
         @RequestParam workspaceId: String,
-        @RequestParam authenticationKey: String,
+        @RequestParam apiKey: String,
     ): ApiResponse<Nothing?> {
-        val authentication = Authentication.of(
-            authenticationKey = authenticationKey,
-            workspaceId = workspaceId,
-            description = "story",
-        )
-        val workspace = Workspace.of(
-            workspaceId = workspaceId,
-            name = "story",
-            plan = WorkspacePricePlan.FREE,
-        )
-        val workspaceAuthentication = WorkspaceAuthentication.of(
-            workspaceId = workspaceId,
-            authenticationKey = authenticationKey,
-            description = "story"
-        )
-
         reactiveCassandraOperations.batchOps()
-            .upsert(authentication)
-            .upsert(workspace)
-            .upsert(workspaceAuthentication)
+            .upsert(
+                ApiKey.of(
+                    apiKey = apiKey,
+                    workspaceId = workspaceId,
+                    description = "story",
+                )
+            )
+            .upsert(
+                Workspace.of(
+                    workspaceId = workspaceId,
+                    name = "story",
+                    plan = WorkspacePricePlan.FREE,
+                )
+            )
+            .upsert(
+                WorkspaceApiKey.of(
+                    workspaceId = workspaceId,
+                    apiKey = apiKey,
+                    description = "story"
+                )
+            )
             .execute()
             .awaitSingle()
 

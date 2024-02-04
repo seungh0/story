@@ -62,7 +62,7 @@ class EmotionRetrieveApiTest(
                 resourceId.code,
                 componentId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -75,7 +75,7 @@ class EmotionRetrieveApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     pathParameters(
                         parameterWithName("resourceId").description("이모션을 사용할 리소스 ID"),
                         parameterWithName("componentId").description("이모션을 사용할 컴포넌트 ID"),

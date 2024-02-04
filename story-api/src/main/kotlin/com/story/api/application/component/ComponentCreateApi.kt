@@ -1,7 +1,7 @@
 package com.story.api.application.component
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import com.story.core.domain.resource.ResourceId
 import jakarta.validation.Valid
@@ -22,7 +22,7 @@ class ComponentCreateApi(
     suspend fun createComponent(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
         @Valid @RequestBody request: ComponentCreateApiRequest,
     ): ApiResponse<Nothing?> {
         componentCreateHandler.createComponent(

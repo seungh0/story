@@ -22,8 +22,8 @@ story:
         retry:
           attempts: 3
           partition-count: 3
-      authentication:
-        name: story.authentication-event-v1
+      api-key:
+        name: story.api-key-event-v1
         partition-count: 3
         dlt:
           enabled: true

@@ -1,0 +1,31 @@
+=== [Api-Key] Modify API
+
+include::{snippets}/api-key.modify/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/api-key.modify/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/api-key.modify/path-parameters.adoc[]
+
+==== [Request Headers]
+
+include::{snippets}/api-key.get/request-headers.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/api-key.modify/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/api-key.modify/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/api-key.modify/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/api-key.modify/curl-request.adoc[]

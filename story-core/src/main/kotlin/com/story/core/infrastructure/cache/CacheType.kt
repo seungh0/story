@@ -1,7 +1,7 @@
 package com.story.core.infrastructure.cache
 
 import com.fasterxml.jackson.core.type.TypeReference
-import com.story.core.domain.authentication.AuthenticationResponse
+import com.story.core.domain.apikey.ApiKeyResponse
 import com.story.core.domain.component.ComponentResponse
 import com.story.core.domain.feed.mapping.FeedMappingResponse
 import com.story.core.domain.post.PostResponse
@@ -16,12 +16,12 @@ enum class CacheType(
     val typeReference: TypeReference<*>,
 ) {
 
-    AUTHENTICATION_REVERSE_KEY(
-        description = "인증 키 정보",
-        key = "authentication-key:v1",
+    API_KEY_REVERSE(
+        description = "API 키 정보",
+        key = "api-key:v1",
         localCacheTtl = Duration.ofMinutes(3),
         globalCacheTtl = Duration.ofMinutes(30),
-        typeReference = object : TypeReference<AuthenticationResponse>() {}
+        typeReference = object : TypeReference<ApiKeyResponse>() {}
     ),
     COMPONENT(
         description = "컴포넌트 정보",

@@ -1,7 +1,7 @@
 [cols="5%,30%,30%"]
 |===
 | Http Header | 설명 | 예시
-| X-Story-Api-Key | Story Platform 인증 키 | a6d63e0e-7e5c-4fd8-85f2-fc9eb36fa9bd
+| X-Story-Api-Key | Story Platform API-Key | a6d63e0e-7e5c-4fd8-85f2-fc9eb36fa9bd
 | X-Story-Request-User-Id | 요청자의 계정 ID | ac6e589e-5411-43c0-a166-d3fe068db77c
 | X-Story-Nonce | 논스 토큰 (About Nonce 참고) | 92a41af5-1b70-48db-9948-99b114bce9ee
 | X-Request-Id | Request-Id | c64af254-d067-475c-b4ce-15a6f0a73f99

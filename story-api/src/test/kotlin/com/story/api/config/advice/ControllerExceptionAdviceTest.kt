@@ -3,13 +3,13 @@ package com.story.api.config.advice
 import com.ninjasquad.springmockk.MockkBean
 import com.story.api.ApiTest
 import com.story.api.application.AvailabilityCheckApi
-import com.story.api.application.authentication.AuthenticationHandler
+import com.story.api.application.apikey.ApiKeyHandler
 import com.story.api.application.workspace.WorkspaceRetrieveHandler
 import com.story.api.lib.isFalse
 import com.story.core.common.error.ErrorCode
 import com.story.core.common.error.InternalServerException
-import com.story.core.domain.authentication.AuthenticationResponse
-import com.story.core.domain.authentication.AuthenticationStatus
+import com.story.core.domain.apikey.ApiKeyResponse
+import com.story.core.domain.apikey.ApiKeyStatus
 import com.story.core.domain.component.ComponentAlreadyExistsException
 import com.story.core.infrastructure.spring.AvailabilityChecker
 import io.kotest.core.spec.style.FunSpec
@@ -27,17 +27,17 @@ internal class ControllerExceptionAdviceTest(
     private val applicationAvailability: AvailabilityChecker,
 
     @MockkBean
-    private val authenticationHandler: AuthenticationHandler,
+    private val apiKeyHandler: ApiKeyHandler,
 
     @MockkBean
     private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
 ) : FunSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { apiKeyHandler.handleApiKey(any()) } returns ApiKeyResponse(
             workspaceId = "story",
-            authenticationKey = "api-key",
-            status = AuthenticationStatus.ENABLED,
+            apiKey = "api-key",
+            status = ApiKeyStatus.ENABLED,
             description = ""
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit

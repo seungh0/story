@@ -89,7 +89,7 @@ class PostRetrieveApiTest(
                 spaceId,
                 postId
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
+            .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .exchange()
 
         // then
@@ -101,7 +101,7 @@ class PostRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
+                    RestDocsUtils.apiKeyHeaderWithRequestUserIdDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("spaceId").description("포스트 공간 ID"),
@@ -223,7 +223,7 @@ class PostRetrieveApiTest(
                 pageSize,
                 sortBy
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
+            .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .exchange()
 
         // then
@@ -235,7 +235,7 @@ class PostRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
+                    RestDocsUtils.apiKeyHeaderWithRequestUserIdDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("spaceId").description("포스트 공간 ID"),

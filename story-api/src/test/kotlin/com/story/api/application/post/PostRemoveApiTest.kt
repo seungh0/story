@@ -56,7 +56,7 @@ class PostRemoveApiTest(
                 postSpaceKey.spaceId,
                 postId,
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
+            .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -70,7 +70,7 @@ class PostRemoveApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
+                    RestDocsUtils.apiKeyHeaderWithRequestUserIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         parameterWithName("spaceId").description("포스트 공간 ID"),

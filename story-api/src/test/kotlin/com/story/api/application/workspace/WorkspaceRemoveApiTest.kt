@@ -38,7 +38,7 @@ class WorkspaceRemoveApiTest(
         // when
         val exchange = webTestClient.delete()
             .uri("/v1/workspaces/{workspaceId}", workspaceId)
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -52,7 +52,7 @@ class WorkspaceRemoveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("workspaceId").description("워크스페이스 ID"),
                     ),

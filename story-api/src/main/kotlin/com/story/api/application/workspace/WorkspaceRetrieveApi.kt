@@ -1,7 +1,7 @@
 package com.story.api.application.workspace
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import com.story.core.domain.workspace.WorkspaceNoPermissionException
 import jakarta.validation.Valid
@@ -17,7 +17,7 @@ class WorkspaceRetrieveApi(
     @GetMapping("/v1/workspaces/{workspaceId}")
     suspend fun getWorkspace(
         @PathVariable workspaceId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
         @Valid request: WorkspaceGetApiRequest,
     ): ApiResponse<WorkspaceApiResponse> {
         if (authContext.workspaceId != workspaceId) {

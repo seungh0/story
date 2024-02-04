@@ -5,7 +5,7 @@ import com.story.api.DocsTest
 import com.story.api.StringSpecDocsTest
 import com.story.api.lib.PageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
-import com.story.api.lib.WebClientUtils.authenticationHeader
+import com.story.api.lib.WebClientUtils.apiKeyHeader
 import com.story.api.lib.isTrue
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
@@ -27,7 +27,7 @@ class ResourceRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri("/v1/resources?pageSize={pageSize}", pageSize)
-            .headers(authenticationHeader)
+            .headers(apiKeyHeader)
             .exchange()
 
         // then
@@ -40,7 +40,7 @@ class ResourceRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.queryParameters(
                         RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
                             .attributes(RestDocsUtils.remarks("최대 50개까지 조회할 수 있습니다")),

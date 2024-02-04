@@ -1,7 +1,7 @@
 package com.story.api.application.feed.mapping
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import com.story.core.domain.resource.ResourceId
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -19,7 +19,7 @@ class FeedMappingRemoveApi(
         @PathVariable sourceResourceId: String,
         @PathVariable sourceComponentId: String,
         @PathVariable subscriptionComponentId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         feedMappingRemoveHandler.remove(
             workspaceId = authContext.workspaceId,

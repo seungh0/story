@@ -3,6 +3,7 @@ package com.story.api.lib
 import com.story.core.common.http.HttpHeader
 import org.springframework.restdocs.headers.HeaderDocumentation
 import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
+import org.springframework.restdocs.headers.RequestHeadersSnippet
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor
 import org.springframework.restdocs.operation.preprocess.Preprocessors.modifyHeaders
@@ -57,7 +58,7 @@ object RestDocsUtils {
         )
     }
 
-    val commonHeadersDocumentation = HeaderDocumentation.requestHeaders(
+    val commonHeadersDocumentation: RequestHeadersSnippet = HeaderDocumentation.requestHeaders(
         headerWithName(HttpHeader.X_FORWARDED_FOR.header).description("X-Forwarded-For")
             .attributes(remarks("127.0.0.1"))
             .optional(),
@@ -66,24 +67,24 @@ object RestDocsUtils {
             .optional(),
     )
 
-    val authenticationHeaderDocumentation = HeaderDocumentation.requestHeaders(
+    val apiKeyHeaderDocumentation: RequestHeadersSnippet = HeaderDocumentation.requestHeaders(
         headerWithName(HttpHeader.X_FORWARDED_FOR.header).description("X-Forwarded-For")
             .attributes(remarks("127.0.0.1"))
             .optional(),
         headerWithName(HttpHeader.X_REQUEST_ID.header).description("X-Request-Id")
             .attributes(remarks(UUID.randomUUID().toString()))
             .optional(),
-        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("인증 키"),
+        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("API-Key"),
     )
 
-    val authenticationHeaderWithRequestUserIdDocumentation = HeaderDocumentation.requestHeaders(
+    val apiKeyHeaderWithRequestUserIdDocumentation: RequestHeadersSnippet = HeaderDocumentation.requestHeaders(
         headerWithName(HttpHeader.X_FORWARDED_FOR.header).description("X-Forwarded-For")
             .attributes(remarks("127.0.0.1"))
             .optional(),
         headerWithName(HttpHeader.X_REQUEST_ID.header).description("X-Request-Id")
             .attributes(remarks(UUID.randomUUID().toString()))
             .optional(),
-        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("인증 키"),
+        headerWithName(HttpHeader.X_STORY_API_KEY.header).description("API-Key"),
         headerWithName(HttpHeader.X_STORY_REQUEST_USER_ID.header).description("요청자의 ID"),
     )
 

@@ -1,7 +1,7 @@
 package com.story.api.application.subscription
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,7 +21,7 @@ class SubscriptionRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<SubscriptionExistsApiResponse> {
         val response = subscriptionRetrieveHandler.existsSubscription(
             workspaceId = authContext.workspaceId,
@@ -39,7 +39,7 @@ class SubscriptionRetrieveApi(
     suspend fun countSubscribers(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<SubscriberCountApiResponse> {
         val response = subscriptionRetrieveHandler.countSubscribers(
             workspaceId = authContext.workspaceId,
@@ -56,7 +56,7 @@ class SubscriptionRetrieveApi(
     suspend fun countTargets(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<SubscriptionTargetCountApiResponse> {
         val response = subscriptionRetrieveHandler.countTargets(
             workspaceId = authContext.workspaceId,
@@ -74,7 +74,7 @@ class SubscriptionRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
         @Valid request: SubscriberListApiRequest,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<SubscriberListApiResponse> {
         val response = subscriptionRetrieveHandler.listSubscribers(
             workspaceId = authContext.workspaceId,
@@ -93,7 +93,7 @@ class SubscriptionRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @Valid request: SubscriptionTargetListApiRequest,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<SubscriptionTargetListApiResponse> {
         val response = subscriptionRetrieveHandler.listSubscriptionTargets(
             workspaceId = authContext.workspaceId,

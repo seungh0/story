@@ -1,7 +1,7 @@
 package com.story.api.application.post
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,7 +21,7 @@ class PostRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<PostApiResponse> {
         val response = postRetrieveHandler.getPost(
             workspaceId = authContext.workspaceId,
@@ -40,7 +40,7 @@ class PostRetrieveApi(
     suspend fun listPosts(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
         @Valid request: PostListApiRequest,
     ): ApiResponse<PostListApiResponse> {
         val response = postRetrieveHandler.listPosts(

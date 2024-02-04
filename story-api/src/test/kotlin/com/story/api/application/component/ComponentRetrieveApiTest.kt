@@ -64,7 +64,7 @@ class ComponentRetrieveApiTest(
                 componentId,
                 request.filterStatus
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .exchange()
 
         // then
@@ -76,7 +76,7 @@ class ComponentRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("resourceId").description("리소스 ID"),
                         RequestDocumentation.parameterWithName("componentId").description("컴포넌트 ID"),
@@ -145,7 +145,7 @@ class ComponentRetrieveApiTest(
                 "/v1/resources/{resourceId}/components?cursor={cursor}&pageSize={pageSize}",
                 resourceId.code, cursor, pageSize
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .exchange()
 
         // then
@@ -157,7 +157,7 @@ class ComponentRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("resourceId").description("리소스 ID"),
                     ),

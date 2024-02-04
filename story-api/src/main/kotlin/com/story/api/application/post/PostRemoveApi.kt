@@ -1,7 +1,7 @@
 package com.story.api.application.post
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import com.story.core.domain.post.PostIdInvalidException
 import com.story.core.domain.post.PostSpaceKey
@@ -22,7 +22,7 @@ class PostRemoveApi(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @PathVariable postId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         postRemoveHandler.removePost(
             postSpaceKey = PostSpaceKey(

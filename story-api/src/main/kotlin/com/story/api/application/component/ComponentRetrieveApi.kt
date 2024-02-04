@@ -1,7 +1,7 @@
 package com.story.api.application.component
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import com.story.core.domain.resource.ResourceId
 import jakarta.validation.Valid
@@ -18,7 +18,7 @@ class ComponentRetrieveApi(
     suspend fun getComponent(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
         @Valid request: ComponentGetApiRequest,
     ): ApiResponse<ComponentApiResponse> {
         val component = componentRetrieveHandler.getComponent(
@@ -33,7 +33,7 @@ class ComponentRetrieveApi(
     @GetMapping("/v1/resources/{resourceId}/components")
     suspend fun listComponents(
         @PathVariable resourceId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
         @Valid request: ComponentListApiRequest,
     ): ApiResponse<ComponentListApiResponse> {
         val response = componentRetrieveHandler.listComponents(

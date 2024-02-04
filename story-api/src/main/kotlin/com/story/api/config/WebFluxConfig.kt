@@ -1,6 +1,6 @@
 package com.story.api.config
 
-import com.story.api.config.auth.AuthContextMethodArgumentResolver
+import com.story.api.config.apikey.ApiKeyContextMethodArgumentResolver
 import com.story.api.config.nonce.NonceMethodArgumentResolver
 import com.story.core.common.json.Jsons
 import org.springframework.context.MessageSource
@@ -17,7 +17,7 @@ import org.springframework.web.reactive.result.method.annotation.ArgumentResolve
 
 @Configuration
 class WebFluxConfig(
-    private val authContextMethodArgumentResolver: AuthContextMethodArgumentResolver,
+    private val authContextMethodArgumentResolver: ApiKeyContextMethodArgumentResolver,
     private val nonceMethodArgumentResolver: NonceMethodArgumentResolver,
 ) : WebFluxConfigurer {
 

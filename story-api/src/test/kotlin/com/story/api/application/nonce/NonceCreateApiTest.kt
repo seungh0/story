@@ -42,7 +42,7 @@ class NonceCreateApiTest(
         // when
         val exchange = webTestClient.post()
             .uri("/v1/nonce")
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -57,7 +57,7 @@ class NonceCreateApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     requestFields(
                         fieldWithPath("expirationSeconds").type(JsonFieldType.NUMBER)
                             .description("유효 기간 (초 단위)")

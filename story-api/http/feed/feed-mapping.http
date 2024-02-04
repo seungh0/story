@@ -1,7 +1,7 @@
 ### 피드 설정 연결
 POST {{api}}/v1/resources/feeds/components/timeline/mappings/posts/user-home/to/subscriptions/follow
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "description": "포스트 등록시 구독자들에게 피드 발행",
@@ -18,7 +18,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 ### 피드 설정 연결 해제
 DELETE {{api}}/v1/resources/feeds/components/timeline/mappings/posts/user-home/to/subscriptions/follow
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 > {%
     client.test("200 OK", () => {
@@ -29,7 +29,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 ### 피드 설정 목록 확인
 GET {{api}}/v1/resources/feeds/components/timeline/mappings/posts/user-home?pageSize=10
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 > {%
     client.test("200 OK", () => {

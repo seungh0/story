@@ -1,0 +1,31 @@
+=== [Api-Key] Create API
+
+include::{snippets}/api-key.create/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/api-key.create/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/api-key.create/path-parameters.adoc[]
+
+==== [Request Headers]
+
+include::{snippets}/api-key.create/request-headers.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/api-key.create/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/api-key.create/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/api-key.create/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/api-key.create/curl-request.adoc[]

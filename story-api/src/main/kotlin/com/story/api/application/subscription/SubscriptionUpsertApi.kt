@@ -1,7 +1,7 @@
 package com.story.api.application.subscription
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,7 +23,7 @@ class SubscriptionUpsertApi(
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
         @Valid @RequestBody request: SubscriptionUpsertApiRequest,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         subscriptionUpsertHandler.upsertSubscription(
             workspaceId = authContext.workspaceId,

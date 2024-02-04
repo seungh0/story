@@ -93,7 +93,7 @@ class PostCreateApiTest(
                 spaceId,
                 nonce,
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
+            .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -109,7 +109,7 @@ class PostCreateApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
+                    RestDocsUtils.apiKeyHeaderWithRequestUserIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("포스트 컴포넌트 ID"),
                         parameterWithName("spaceId").description("포스트 공간 ID"),

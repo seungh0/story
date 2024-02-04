@@ -25,7 +25,7 @@ object KafkaRecordKeyGenerator {
 
     fun post(workspaceId: String, componentId: String, postId: Long) = "$workspaceId:$componentId:$postId"
 
-    fun authentication(authenticationKey: String) = authenticationKey
+    fun apiKey(key: String) = key
 
     fun workspace(workspaceId: String) = workspaceId
 

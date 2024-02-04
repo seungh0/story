@@ -6,7 +6,7 @@ import com.story.api.DocsTest
 import com.story.api.FunSpecDocsTest
 import com.story.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
-import com.story.api.lib.RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation
+import com.story.api.lib.RestDocsUtils.apiKeyHeaderWithRequestUserIdDocumentation
 import com.story.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.WebClientUtils
@@ -88,7 +88,7 @@ class ReactionRetrieveApiTest(
                 spaceId,
                 includeUnselectedEmotions,
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
+            .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -103,7 +103,7 @@ class ReactionRetrieveApiTest(
                     pageHeaderSnippet(
                         "- Component에 등록되지 않은 Emotion은 결과에 포함되지 않습니다."
                     ),
-                    authenticationHeaderWithRequestUserIdDocumentation,
+                    apiKeyHeaderWithRequestUserIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("리액션 컴포넌트 ID"),
                         parameterWithName("spaceId").description("리액션 공간 ID")
@@ -228,7 +228,7 @@ class ReactionRetrieveApiTest(
                 includeUnselectedEmotions,
                 spaceIds,
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
+            .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -243,7 +243,7 @@ class ReactionRetrieveApiTest(
                     pageHeaderSnippet(
                         "- Component에 등록되지 않은 Emotion은 결과에 포함되지 않습니다."
                     ),
-                    authenticationHeaderWithRequestUserIdDocumentation,
+                    apiKeyHeaderWithRequestUserIdDocumentation,
                     pathParameters(
                         parameterWithName("componentId").description("리액션 컴포넌트 ID"),
                     ),

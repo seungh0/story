@@ -1,7 +1,7 @@
 ### Nonce를 할당 받습니다
 POST {{api}}/v1/nonce
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "expirationSeconds": 60

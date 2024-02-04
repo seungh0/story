@@ -45,7 +45,7 @@ class SubscriptionRemoveApiTest(
                 "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
                 componentId, subscriberId, targetId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -58,7 +58,7 @@ class SubscriptionRemoveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("구독 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("subscriberId").description("구독자 ID"),

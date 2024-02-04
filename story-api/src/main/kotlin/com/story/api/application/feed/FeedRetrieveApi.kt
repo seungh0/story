@@ -1,7 +1,7 @@
 package com.story.api.application.feed
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +18,7 @@ class FeedRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @Valid request: FeedListApiRequest,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<FeedListApiResponse> {
         val response = feedRetrieveHandler.listFeeds(
             workspaceId = authContext.workspaceId,

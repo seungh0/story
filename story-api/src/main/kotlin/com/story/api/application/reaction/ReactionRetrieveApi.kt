@@ -1,7 +1,7 @@
 package com.story.api.application.reaction
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +18,7 @@ class ReactionRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @Valid request: ReactionGetApiRequest,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<ReactionApiResponse> {
         val response = reactionRetrieveHandler.getReaction(
             workspaceId = authContext.workspaceId,
@@ -34,7 +34,7 @@ class ReactionRetrieveApi(
     suspend fun listReactions(
         @PathVariable componentId: String,
         @Valid request: ReactionListApiRequest,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<ReactionListApiResponse> {
         val response = reactionRetrieveHandler.listReactions(
             workspaceId = authContext.workspaceId,

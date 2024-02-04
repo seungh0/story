@@ -1,12 +1,12 @@
 ### 셋업
-POST {{api}}/setup?workspaceId=story&authenticationKey=api-key
+POST {{api}}/setup?workspaceId=story&apiKey=api-key
 
 > {%
     client.test("200 OK", () => {
         client.global.set("USER_ID", "seungh0")
         client.global.set("KITTO_USER_ID", "yerim")
         client.global.set("WORKSPACE_ID", "story")
-        client.global.set("AUTHENTICATION_KEY", "api-key")
+        client.global.set("API_KEY", "api-key")
     });
 %}
 
@@ -14,7 +14,7 @@ POST {{api}}/setup?workspaceId=story&authenticationKey=api-key
 ### 포스트 컴포넌트 등록 (홈)
 POST {{api}}/v1/resources/posts/components/user-home
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "description": "계정 홈"
@@ -29,7 +29,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 ### 구독 컴포넌트 등록 (팔로워)
 POST {{api}}/v1/resources/subscriptions/components/follow
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "description": "팔로워"
@@ -45,7 +45,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 ### 리액션 컴포넌트 등록 (포스트 좋아요)
 POST {{api}}/v1/resources/reactions/components/post-like
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "description": "포스트 좋아요"
@@ -61,7 +61,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 ### 피드 컴포넌트 등록 (타임라인)
 POST {{api}}/v1/resources/feeds/components/timeline
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "description": "타임라인"
@@ -76,7 +76,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 ### 피드 설정 연결 (유저 홈 포스트 -> 팔로워들에게 피드 발행)
 POST {{api}}/v1/resources/feeds/components/timeline/mappings/posts/user-home/to/subscriptions/follow
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "description": "포스트 등록시 구독자들에게 피드 발행",
@@ -93,7 +93,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 ### 피드 설정 연결 (구독-> 팔로워들에게 피드 발행)
 POST {{api}}/v1/resources/feeds/components/timeline/mappings/subscriptions/follow/to/subscriptions/follow
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 {
     "description": "팔로워 등록시 구독자들에게 피드 발행",

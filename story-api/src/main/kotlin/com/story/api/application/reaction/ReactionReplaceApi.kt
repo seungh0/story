@@ -1,7 +1,7 @@
 package com.story.api.application.reaction
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,7 +19,7 @@ class ReactionReplaceApi(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @Valid @RequestBody request: ReactionReplaceApiRequest,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         reactionUpsertHandler.replaceReactions(
             workspaceId = authContext.workspaceId,

@@ -48,7 +48,7 @@ class FeedMappingRemoveApiTest(
                 "/v1/resources/feeds/components/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}",
                 feedComponentId, sourceResourceId.code, sourceComponentId, subscriptionComponentId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -60,7 +60,7 @@ class FeedMappingRemoveApiTest(
                     "feed-mapping.remove",
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("feedComponentId").description("피드 컴포넌트 ID"),

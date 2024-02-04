@@ -6,7 +6,7 @@ import com.story.api.DocsTest
 import com.story.api.FunSpecDocsTest
 import com.story.api.lib.PageHeaderSnippet.Companion.pageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
-import com.story.api.lib.RestDocsUtils.authenticationHeaderDocumentation
+import com.story.api.lib.RestDocsUtils.apiKeyHeaderDocumentation
 import com.story.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.WebClientUtils
@@ -60,7 +60,7 @@ class EmotionModifyApiTest(
                 componentId,
                 emotionId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -75,7 +75,7 @@ class EmotionModifyApiTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     pageHeaderSnippet(),
-                    authenticationHeaderDocumentation,
+                    apiKeyHeaderDocumentation,
                     pathParameters(
                         parameterWithName("resourceId").description("이모션을 사용할 리소스 ID"),
                         parameterWithName("componentId").description("이모션을 사용할 컴포넌트 ID"),

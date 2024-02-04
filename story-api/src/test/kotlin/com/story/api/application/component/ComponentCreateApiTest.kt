@@ -53,7 +53,7 @@ class ComponentCreateApiTest(
         // when
         val exchange = webTestClient.post()
             .uri("/v1/resources/{resourceId}/components/{componentId}", resourceId.code, componentId)
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -68,7 +68,7 @@ class ComponentCreateApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("resourceId").description("리소스 ID"),
                         RequestDocumentation.parameterWithName("componentId").description("컴포넌트 ID"),

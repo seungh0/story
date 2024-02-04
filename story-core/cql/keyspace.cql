@@ -26,9 +26,9 @@ create table workspace_v1
      AND speculative_retry = '99p';
 
 
-create table authentication_v1
+create table api_key_v1
 (
-    authentication_key text primary key,
+    api_key text primary key,
     workspace_id       text,
     status             text,
     description        text,
@@ -45,17 +45,17 @@ create table authentication_v1
     AND speculative_retry = '99p';
 
 
-create table workspace_authentication_v1
+create table workspace_api_key_v1
 (
     workspace_id       text,
-    authentication_key text,
+    api_key text,
     status             text,
     description        text,
     created_at         timestamp,
     updated_at         timestamp,
-    primary key (workspace_id, authentication_key)
+    primary key (workspace_id, api_key)
 )
-    with clustering order by (authentication_key desc)
+    with clustering order by (api_key desc)
     and bloom_filter_fp_chance = 0.01
     AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
     AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}

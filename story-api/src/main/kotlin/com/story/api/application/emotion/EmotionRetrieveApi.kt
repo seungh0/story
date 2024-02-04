@@ -1,7 +1,7 @@
 package com.story.api.application.emotion
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import com.story.core.domain.resource.ResourceId
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +17,7 @@ class EmotionRetrieveApi(
     suspend fun listEmotions(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<EmotionListApiResponse> {
         val response = emotionRetrieveHandler.listEmotions(
             workspaceId = authContext.workspaceId,

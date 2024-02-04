@@ -1,6 +1,6 @@
 ### 워크스페이스를 조회합니다
 GET {{api}}/v1/workspaces/{{WORKSPACE_ID}}
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 > {%
     client.test("200 OK", () => {
@@ -10,7 +10,7 @@ X-Story-Api-Key: {{AUTHENTICATION_KEY}}
 
 ### 워크스페이스를 삭제합니다
 DELETE {{api}}/v1/workspaces/{{WORKSPACE_ID}}
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 
 > {%
     client.test("200 OK", () => {

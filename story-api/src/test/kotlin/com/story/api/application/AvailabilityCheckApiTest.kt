@@ -2,14 +2,14 @@ package com.story.api.application
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.api.ApiTest
-import com.story.api.application.authentication.AuthenticationHandler
+import com.story.api.application.apikey.ApiKeyHandler
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.api.application.workspace.WorkspaceRetrieveHandler
 import com.story.api.lib.WebClientUtils
 import com.story.api.lib.isTrue
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.domain.authentication.AuthenticationResponse
-import com.story.core.domain.authentication.AuthenticationStatus
+import com.story.core.domain.apikey.ApiKeyResponse
+import com.story.core.domain.apikey.ApiKeyStatus
 import com.story.core.infrastructure.spring.AvailabilityChecker
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
@@ -24,7 +24,7 @@ internal class AvailabilityCheckApiTest(
     private val applicationAvailability: AvailabilityChecker,
 
     @MockkBean
-    private val authenticationHandler: AuthenticationHandler,
+    private val apiKeyHandler: ApiKeyHandler,
 
     @MockkBean
     private val componentCheckHandler: ComponentCheckHandler,
@@ -34,10 +34,10 @@ internal class AvailabilityCheckApiTest(
 ) : FunSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { apiKeyHandler.handleApiKey(any()) } returns ApiKeyResponse(
             workspaceId = "story",
-            authenticationKey = "api-key",
-            status = AuthenticationStatus.ENABLED,
+            apiKey = "api-key",
+            status = ApiKeyStatus.ENABLED,
             description = "",
         )
 

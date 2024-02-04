@@ -1,7 +1,7 @@
 package com.story.api.application.emotion
 
-import com.story.api.config.auth.AuthContext
-import com.story.api.config.auth.RequestAuthContext
+import com.story.api.config.apikey.ApiKeyContext
+import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
 import com.story.core.domain.resource.ResourceId
 import jakarta.validation.Valid
@@ -21,7 +21,7 @@ class EmotionCreateApi(
         @PathVariable componentId: String,
         @PathVariable emotionId: String,
         @Valid @RequestBody request: EmotionCreateApiRequest,
-        @RequestAuthContext authContext: AuthContext,
+        @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         emotionCreateHandler.createEmotion(
             workspaceId = authContext.workspaceId,

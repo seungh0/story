@@ -50,7 +50,7 @@ class SubscriptionUpsertApiTest(
                 "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}",
                 componentId, subscriberId, targetId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -65,7 +65,7 @@ class SubscriptionUpsertApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("구독 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("subscriberId").description("구독자 ID"),

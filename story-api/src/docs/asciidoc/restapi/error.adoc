@@ -7,14 +7,14 @@
 | 400 | missing_request_user_id | 요청자("X-Request-User-Id") 헤더가 없는 경우
 | 400 | invalid_event_key | 유효하지 않은 EventKey인 경우
 | 400 | nonce_header_empty | X-Story-Nonce 헤더가 비어 있는 경우 (Nonce 키가 필수인 경우)
-| 401 | invalid_authentication_key | 유효하지 않은 인증 키가 요청된 경우
-| 401 | inactivated_authentication_key | 비활성화된 인증 키가 요청된 경우
-| 401 | empty_authentication_key | 인증 키 헤더("X-Story-Api-Key")가 없는 경우
+| 401 | invalid_api_key | 유효하지 않은 API 키가 요청된 경우
+| 401 | inactivated_api_key | 비활성화된 API 키가 요청된 경우
+| 401 | empty_api_key | API-Key 헤더("X-Story-Api-Key")가 없는 경우
 | 403 | no_permission | 권한이 없는 경우
 | 403 | feed_mapping_capacity_exceed | 최대 허용할 수 있는 피드 매핑 갯수를 초과하는 경우
 | 403 | workspace_no_permission | 워크스페이스의 권한이 없는 경우
 | 403 | emotion_count_limit_exceeded | 최대 등록할 수 있는 이모션 갯수를 초과하는 경우
-| 404 | not_exists_authentication_key | 존재하지 않는 인증 키인 경우 발생
+| 404 | not_exists_api_key | 존재하지 않는 API-Key인 경우 발생
 | 404 | not_exists_component | 존재하지 않는 컴포넌트인 경우
 | 404 | not_exists_resource | 존재하지 않는 리소스인 경우
 | 404 | not_exists_post | 존재하지 않는 포스트인 경우
@@ -24,7 +24,7 @@
 | 404 | not_exists_feed | 존재하지 않는 피드인 경우
 | 404 | not_exists_feed_mapping | 존재하지 않는 피드 매핑인 경우
 | 405 | method_not_allowed | 허용하지 않는 HTTP Method인 경우
-| 409 | already_exists_authentication_key | 인증 키 중복 시
+| 409 | already_exists_api_key | API-Key 중복 시
 | 409 | already_exists_component | 컴포넌트 중복 시
 | 409 | already_connected_feed_mapping | 피드 매핑 중복 시
 | 409 | already_exists_emotion | 이모션 중복 시

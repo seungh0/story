@@ -126,7 +126,7 @@ class FeedRetrieveApiTest(
                 "/v1/resources/feeds/components/{componentId}/subscribers/{subscriberId}?cursor={cursor}&direction={direction}&pageSize={pageSize}",
                 componentId, subscriberId, cursor, direction, pageSize
             )
-            .headers(WebClientUtils.authenticationHeaderWithRequestUserId)
+            .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -139,7 +139,7 @@ class FeedRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderWithRequestUserIdDocumentation,
+                    RestDocsUtils.apiKeyHeaderWithRequestUserIdDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("피드 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("subscriberId").description("피드 구독자 ID"),
@@ -253,7 +253,7 @@ class FeedRetrieveApiTest(
                 "/v1/resources/feeds/components/{componentId}/subscribers/{subscriberId}?cursor=cursor&direction=NEXT&pageSize=30",
                 componentId, subscriberId
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 

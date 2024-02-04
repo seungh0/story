@@ -50,7 +50,7 @@ class SubscriptionRetrieveApiTest(
                 "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets/{targetId}/exists",
                 componentId, subscriberId, targetId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -63,7 +63,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("구독 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("subscriberId").description("구독자 ID"),
@@ -102,7 +102,7 @@ class SubscriptionRetrieveApiTest(
                 "/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscriber-count",
                 componentId, targetId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -115,7 +115,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("구독 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("targetId").description("구독 대상 ID"),
@@ -153,7 +153,7 @@ class SubscriptionRetrieveApiTest(
                 "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/subscription-count",
                 componentId, subscriberId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -166,7 +166,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("구독 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("subscriberId").description("구독자 ID"),
@@ -222,7 +222,7 @@ class SubscriptionRetrieveApiTest(
                 "/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers?cursor={cursor}&pageSize={pageSize}&direction={direction}",
                 componentId, targetId, request.cursor, request.pageSize, request.direction
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -235,7 +235,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("구독 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("targetId").description("구독 대상 ID"),
@@ -315,7 +315,7 @@ class SubscriptionRetrieveApiTest(
                 "/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets?cursor={cursor}&pageSize={pageSize}&direction={direction}",
                 componentId, subscriberId, request.cursor, request.pageSize, request.direction
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
 
@@ -328,7 +328,7 @@ class SubscriptionRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("구독 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("subscriberId").description("구독자 ID"),

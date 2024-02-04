@@ -56,7 +56,7 @@ class FeedMappingCreateApiTest(
                 "/v1/resources/feeds/components/{feedComponentId}/mappings/{sourceResourceId}/{sourceComponentId}/to/subscriptions/{subscriptionComponentId}",
                 feedComponentId, sourceResourceId.code, sourceComponentId, subscriptionComponentId,
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(request)
@@ -71,7 +71,7 @@ class FeedMappingCreateApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("feedComponentId").description("피드 컴포넌트 ID"),
                         RequestDocumentation.parameterWithName("sourceResourceId").description("근원 리소스 ID"),

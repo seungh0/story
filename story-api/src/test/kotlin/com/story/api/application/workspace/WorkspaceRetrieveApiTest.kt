@@ -3,13 +3,13 @@ package com.story.api.application.workspace
 import com.ninjasquad.springmockk.MockkBean
 import com.story.api.ApiTest
 import com.story.api.DocsTest
-import com.story.api.application.authentication.AuthenticationHandler
+import com.story.api.application.apikey.ApiKeyHandler
 import com.story.api.lib.PageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
 import com.story.api.lib.WebClientUtils
 import com.story.api.lib.isTrue
-import com.story.core.domain.authentication.AuthenticationResponse
-import com.story.core.domain.authentication.AuthenticationStatus
+import com.story.core.domain.apikey.ApiKeyResponse
+import com.story.core.domain.apikey.ApiKeyStatus
 import com.story.core.domain.workspace.WorkspaceFixture
 import com.story.core.domain.workspace.WorkspacePricePlan
 import com.story.core.domain.workspace.WorkspaceResponse
@@ -28,17 +28,17 @@ class WorkspaceRetrieveApiTest(
     private val webTestClient: WebTestClient,
 
     @MockkBean
-    private val authenticationHandler: AuthenticationHandler,
+    private val apiKeyHandler: ApiKeyHandler,
 
     @MockkBean
     private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
 ) : FunSpec({
 
     beforeEach {
-        coEvery { authenticationHandler.handleAuthentication(any()) } returns AuthenticationResponse(
+        coEvery { apiKeyHandler.handleApiKey(any()) } returns ApiKeyResponse(
             workspaceId = "story",
-            authenticationKey = "api-key",
-            status = AuthenticationStatus.ENABLED,
+            apiKey = "api-key",
+            status = ApiKeyStatus.ENABLED,
             description = "Story Platform",
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
@@ -66,7 +66,7 @@ class WorkspaceRetrieveApiTest(
                 workspace.workspaceId,
                 WorkspaceStatus.ENABLED
             )
-            .headers(WebClientUtils.authenticationHeader)
+            .headers(WebClientUtils.apiKeyHeader)
             .exchange()
 
         // then
@@ -79,7 +79,7 @@ class WorkspaceRetrieveApiTest(
                     RestDocsUtils.getDocumentRequest(),
                     RestDocsUtils.getDocumentResponse(),
                     PageHeaderSnippet.pageHeaderSnippet(),
-                    RestDocsUtils.authenticationHeaderDocumentation,
+                    RestDocsUtils.apiKeyHeaderDocumentation,
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("workspaceId").description("워크스페이스 ID"),
                     ),

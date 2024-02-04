@@ -31,20 +31,20 @@ enum class ErrorCode(
     /**
      * 401 UnAuthorized
      */
-    E401_INVALID_AUTHENTICATION_KEY(
+    E401_INVALID_API_KEY(
         httpStatusCode = 401,
-        code = "invalid_authentication_key",
-        description = "유효하지 않은 인증 키가 요청된 경우"
+        code = "invalid_api_key",
+        description = "유효하지 않은 API 키가 요청된 경우"
     ),
-    E401_INACTIVATED_AUTHENTICATION_KEY(
+    E401_INACTIVATED_API_KEY(
         httpStatusCode = 401,
-        code = "inactivated_authentication_key",
-        description = "비활성화된 인증 키가 요청된 경우"
+        code = "inactivated_api_key",
+        description = "비활성화된 API 키가 요청된 경우"
     ),
-    E401_EMPTY_AUTHENTICATION_KEY(
+    E401_EMPTY_API_KEY(
         httpStatusCode = 401,
-        code = "empty_authentication_key",
-        description = "인증 키 헤더(\"X-Story-Api-Key\")가 없는 경우"
+        code = "empty_api_key",
+        description = "API-Key 헤더(\"X-Story-Api-Key\")가 없는 경우"
     ),
 
     /**
@@ -70,10 +70,10 @@ enum class ErrorCode(
     /**
      * 404 NotFound
      */
-    E404_NOT_EXISTS_AUTHENTICATION_KEY(
+    E404_NOT_EXISTS_API_KEY(
         httpStatusCode = 404,
-        code = "not_exists_authentication_key",
-        description = "존재하지 않는 인증 키인 경우 발생"
+        code = "not_exists_api_key",
+        description = "존재하지 않는 API-Key인 경우 발생"
     ),
     E404_NOT_EXISTS_COMPONENT(httpStatusCode = 404, code = "not_exists_component", description = "존재하지 않는 컴포넌트인 경우"),
     E404_NOT_EXISTS_RESOURCE(httpStatusCode = 404, code = "not_exists_resource", description = "존재하지 않는 리소스인 경우"),
@@ -108,10 +108,10 @@ enum class ErrorCode(
     /**
      * 409 Conflict
      */
-    E409_ALREADY_EXISTS_AUTHENTICATION_KEY(
+    E409_ALREADY_EXISTS_API_KEY(
         httpStatusCode = 409,
-        code = "already_exists_authentication_key",
-        description = "인증 키 중복 시"
+        code = "already_exists_api_key",
+        description = "API-Key 중복 시"
     ),
     E409_ALREADY_EXISTS_COMPONENT(
         httpStatusCode = 409,

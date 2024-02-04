@@ -1,7 +1,7 @@
 ### 포스팅 등록
 POST {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
 Accept-Language: en
 #X-Story-Nonce: {{NONCE}}
@@ -48,7 +48,7 @@ Accept-Language: en
 ### 포스팅 수정
 PATCH {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts/{{POST_ID}}
 Content-Type: application/json
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
 
 {
@@ -83,7 +83,7 @@ X-Story-Request-User-Id: {{USER_ID}}
 
 ### 포스팅 삭제
 DELETE {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts/{{POST_ID}}
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
 
 > {%
@@ -95,12 +95,12 @@ X-Story-Request-User-Id: {{USER_ID}}
 
 ### 포스팅 조회
 GET {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts/{{POST_ID}}
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
 
 
 ### 포스팅 목록 조회
 GET {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts?pageSize=2&direction=NEXT&
     sortBy=LATEST
-X-Story-Api-Key: {{AUTHENTICATION_KEY}}
+X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
