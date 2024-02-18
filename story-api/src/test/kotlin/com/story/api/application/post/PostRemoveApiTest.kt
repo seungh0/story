@@ -10,6 +10,7 @@ import com.story.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.WebClientUtils
 import com.story.api.lib.isTrue
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostSpaceKey
 import io.mockk.coEvery
 import org.springframework.http.MediaType
@@ -38,13 +39,13 @@ class PostRemoveApiTest(
             spaceId = "user-space-id"
         )
 
-        val postId = 30000L
+        val postKey = PostKey(spaceId = postSpaceKey.spaceId, parentId = null, postId = 30000L, depth = 1)
 
         coEvery {
             postRemoveHandler.removePost(
                 postSpaceKey = postSpaceKey,
                 ownerId = any(),
-                postId = postId,
+                postId = postKey,
             )
         } returns Unit
 
@@ -54,7 +55,7 @@ class PostRemoveApiTest(
                 "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}",
                 postSpaceKey.componentId,
                 postSpaceKey.spaceId,
-                postId,
+                postKey.serialize(),
             )
             .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .accept(MediaType.APPLICATION_JSON)

@@ -2,7 +2,7 @@ package com.story.api.application.post
 
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
-import com.story.core.domain.post.PostIdInvalidException
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostRetriever
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
@@ -17,7 +17,7 @@ class PostRetrieveHandler(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        postId: String,
+        postId: PostKey,
         requestUserId: String?,
     ): PostApiResponse {
         componentCheckHandler.checkExistsComponent(
@@ -32,7 +32,7 @@ class PostRetrieveHandler(
                 componentId = componentId,
                 spaceId = spaceId,
             ),
-            postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)이 요청되었습니다"),
+            postId = postId,
         )
         return PostApiResponse.of(post = post, requestUserId = requestUserId)
     }
@@ -56,6 +56,7 @@ class PostRetrieveHandler(
                 componentId = componentId,
                 spaceId = spaceId,
             ),
+            parentId = request.parentId,
             cursorRequest = request.toCursor(),
             sortBy = request.getSortBy(),
         )

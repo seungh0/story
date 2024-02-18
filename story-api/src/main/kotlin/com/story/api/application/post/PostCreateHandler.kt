@@ -5,6 +5,7 @@ import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.nonce.NonceManager
 import com.story.core.domain.post.PostCreator
 import com.story.core.domain.post.PostEventProducer
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.post.section.PostSectionContentRequest
 import com.story.core.domain.resource.ResourceId
@@ -19,11 +20,12 @@ class PostCreateHandler(
 
     suspend fun createPost(
         postSpaceKey: PostSpaceKey,
+        parentId: PostKey?,
         ownerId: String,
         title: String,
         sections: List<PostSectionContentRequest>,
         nonce: String?,
-    ): Long {
+    ): PostKey {
         nonce?.let { nonceManager.verify(nonce) }
         componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,
@@ -33,6 +35,7 @@ class PostCreateHandler(
 
         val post = postCreator.createPost(
             postSpaceKey = postSpaceKey,
+            parentId = parentId,
             ownerId = ownerId,
             title = title,
             sections = sections,

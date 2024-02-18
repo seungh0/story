@@ -78,6 +78,7 @@ enum class ErrorCode(
     E404_NOT_EXISTS_COMPONENT(httpStatusCode = 404, code = "not_exists_component", description = "존재하지 않는 컴포넌트인 경우"),
     E404_NOT_EXISTS_RESOURCE(httpStatusCode = 404, code = "not_exists_resource", description = "존재하지 않는 리소스인 경우"),
     E404_NOT_EXISTS_POST(httpStatusCode = 404, code = "not_exists_post", description = "존재하지 않는 포스트인 경우"),
+    E404_NOT_EXISTS_PARENT_POST(httpStatusCode = 404, code = "not_exists_parent_post", description = "존재하지 않는 부모 포스트인 경우"),
     E404_NOT_EXISTS_CONNECT_FEED_MAPPING(
         httpStatusCode = 404,
         code = "not_exists_connect_mapping_feed",

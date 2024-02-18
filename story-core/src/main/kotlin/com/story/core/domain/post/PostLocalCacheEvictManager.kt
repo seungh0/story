@@ -11,14 +11,14 @@ class PostLocalCacheEvictManager {
 
     @CacheEvict(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':spaceId:' + {#spaceId} + ':postId:' + {#postId}",
-        targetCacheStrategies = [CacheStrategy.LOCAL]
+        key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':spaceId:' + {#spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+        targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun evictPost(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        postId: Long,
+        postId: PostKey,
     ) {
         log.info { "Post 캐시가 만료됩니다 [workspaceId: $workspaceId componentId: $componentId spaceId: $spaceId postId: $postId]" }
     }

@@ -3,7 +3,7 @@ package com.story.api.application.post
 import com.story.api.config.apikey.ApiKeyContext
 import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.domain.post.PostIdInvalidException
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostSpaceKey
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,7 +21,7 @@ class PostRemoveApi(
     suspend fun removePost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @PathVariable postId: String,
+        @PathVariable postId: PostKey,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         postRemoveHandler.removePost(
@@ -31,7 +31,7 @@ class PostRemoveApi(
                 spaceId = spaceId,
             ),
             ownerId = authContext.getRequiredRequestUserId(),
-            postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)가 요청되었습니다"),
+            postId = postId,
         )
 
         return ApiResponse.OK

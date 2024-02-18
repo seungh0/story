@@ -37,6 +37,7 @@ class PostCreateApi(
             title = request.title,
             sections = request.toSections(),
             nonce = nonce,
+            parentId = request.parentId,
         )
         return ApiResponse.ok(PostCreateApiResponse.of(postId = postId))
     }

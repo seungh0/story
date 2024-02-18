@@ -11,7 +11,7 @@ data class PostEvent(
     val resourceId: ResourceId,
     val componentId: String,
     val spaceId: String,
-    val postId: Long,
+    val postId: PostKey,
     val ownerId: String,
     val title: String?,
     val createdAt: LocalDateTime?,
@@ -55,7 +55,7 @@ data class PostEvent(
             workspaceId: String,
             componentId: String,
             spaceId: String,
-            postId: Long,
+            postId: PostKey,
             ownerId: String,
         ) = EventRecord(
             eventAction = EventAction.DELETED,

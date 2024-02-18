@@ -3,6 +3,7 @@ package com.story.api.application.post
 import com.story.api.config.apikey.ApiKeyContext
 import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
+import com.story.core.domain.post.PostKey
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -20,7 +21,7 @@ class PostRetrieveApi(
     suspend fun getPost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @PathVariable postId: String,
+        @PathVariable postId: PostKey,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<PostApiResponse> {
         val response = postRetrieveHandler.getPost(

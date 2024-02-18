@@ -18,6 +18,7 @@
 | 404 | not_exists_component | 존재하지 않는 컴포넌트인 경우
 | 404 | not_exists_resource | 존재하지 않는 리소스인 경우
 | 404 | not_exists_post | 존재하지 않는 포스트인 경우
+| 404 | not_exists_parent_post | 존재하지 않는 부모 포스트인 경우
 | 404 | not_exists_connect_mapping_feed | 존재하지 않는 피드 매핑 설정인 경우
 | 404 | not_exists_workspace | 존재하지 않는 워크스페이스인 경우
 | 404 | not_exists_emotion | 존재하지 않는 이모션인 경우

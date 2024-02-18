@@ -3,6 +3,7 @@ package com.story.api.application.post
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.post.PostEventProducer
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostRemover
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
@@ -17,7 +18,7 @@ class PostRemoveHandler(
     suspend fun removePost(
         postSpaceKey: PostSpaceKey,
         ownerId: String,
-        postId: Long,
+        postId: PostKey,
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,

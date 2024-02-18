@@ -3,6 +3,7 @@ package com.story.api.application.post
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.post.PostEventProducer
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostModifier
 import com.story.core.domain.post.PostResponse
 import com.story.core.domain.post.PostSpaceKey
@@ -19,7 +20,7 @@ class PostModifyHandler(
     suspend fun patchPost(
         postSpaceKey: PostSpaceKey,
         ownerId: String,
-        postId: Long,
+        postId: PostKey,
         title: String?,
         sections: List<PostSectionContentRequest>?,
     ) {

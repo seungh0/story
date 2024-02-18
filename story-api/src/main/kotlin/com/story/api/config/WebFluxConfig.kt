@@ -3,10 +3,13 @@ package com.story.api.config
 import com.story.api.config.apikey.ApiKeyContextMethodArgumentResolver
 import com.story.api.config.nonce.NonceMethodArgumentResolver
 import com.story.core.common.json.Jsons
+import com.story.core.infrastructure.cassandra.converter.PostKeyReadConverter
+import com.story.core.infrastructure.cassandra.converter.PostKeyWriteConverter
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.ReloadableResourceBundleMessageSource
+import org.springframework.format.FormatterRegistry
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.http.codec.json.Jackson2JsonDecoder
 import org.springframework.http.codec.json.Jackson2JsonEncoder
@@ -19,6 +22,8 @@ import org.springframework.web.reactive.result.method.annotation.ArgumentResolve
 class WebFluxConfig(
     private val authContextMethodArgumentResolver: ApiKeyContextMethodArgumentResolver,
     private val nonceMethodArgumentResolver: NonceMethodArgumentResolver,
+    private val postKeyWriteConverter: PostKeyWriteConverter,
+    private val postKeyReadConverter: PostKeyReadConverter,
 ) : WebFluxConfigurer {
 
     override fun configureArgumentResolvers(configurer: ArgumentResolverConfigurer) {
@@ -26,6 +31,11 @@ class WebFluxConfig(
             addCustomResolver(authContextMethodArgumentResolver)
             addCustomResolver(nonceMethodArgumentResolver)
         }
+    }
+
+    override fun addFormatters(registry: FormatterRegistry) {
+        registry.addConverter(postKeyReadConverter)
+        registry.addConverter(postKeyWriteConverter)
     }
 
     override fun configureHttpMessageCodecs(configurer: ServerCodecConfigurer) {

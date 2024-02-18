@@ -3,7 +3,7 @@ package com.story.api.application.post
 import com.story.api.config.apikey.ApiKeyContext
 import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.domain.post.PostIdInvalidException
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostSpaceKey
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.PatchMapping
@@ -23,7 +23,7 @@ class PostModifyApi(
     suspend fun patchPost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @PathVariable postId: String,
+        @PathVariable postId: PostKey,
         @Valid @RequestBody request: PostModifyApiRequest,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
@@ -33,7 +33,7 @@ class PostModifyApi(
                 componentId = componentId,
                 spaceId = spaceId,
             ),
-            postId = postId.toLongOrNull() ?: throw PostIdInvalidException("잘못된 PostId($postId)가 요청되었습니다"),
+            postId = postId,
             ownerId = authContext.getRequiredRequestUserId(),
             title = request.title,
             sections = request.toSections(),

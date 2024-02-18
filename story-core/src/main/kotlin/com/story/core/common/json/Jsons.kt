@@ -8,11 +8,15 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import com.story.core.common.error.InternalServerException
+import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostKeyJsonDeserializer
+import com.story.core.domain.post.PostKeyJsonSerializer
 
 object Jsons {
 
@@ -32,6 +36,12 @@ object Jsons {
         .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
         .setSerializationInclusion(JsonInclude.Include.NON_NULL)
         .registerModules(JavaTimeModule(), ParameterNamesModule(), kotlinModule)
+        .registerModules(
+            SimpleModule().apply {
+                addSerializer(PostKey::class.java, PostKeyJsonSerializer())
+                addDeserializer(PostKey::class.java, PostKeyJsonDeserializer())
+            }
+        )
 
     fun <T> toObject(input: String, typeReference: TypeReference<T>): T? {
         return try {

@@ -11,6 +11,7 @@ import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.RestDocsUtils.remarks
 import com.story.api.lib.WebClientUtils
 import com.story.api.lib.isTrue
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.post.section.PostSectionType
 import io.mockk.coEvery
@@ -38,8 +39,9 @@ class PostModifyApiTest(
         val componentId = "user-post"
         val postId = 7126L
         val spaceId = "user-space-id"
+        val postKey = PostKey(spaceId = spaceId, depth = 1, parentId = null, postId = postId)
 
-        val request = PostCreateApiRequest(
+        val request = PostModifyApiRequest(
             title = "플랫폼 정보",
             sections = listOf(
                 PostSectionApiRequest(
@@ -60,7 +62,7 @@ class PostModifyApiTest(
                         "fileSize" to 1234123
                     )
                 )
-            )
+            ),
         )
 
         coEvery {
@@ -70,7 +72,7 @@ class PostModifyApiTest(
                     componentId = componentId,
                     spaceId = spaceId,
                 ),
-                postId = postId,
+                postId = postKey,
                 ownerId = any(),
                 title = request.title,
                 sections = request.toSections(),
@@ -83,7 +85,7 @@ class PostModifyApiTest(
                 "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}",
                 componentId,
                 spaceId,
-                postId
+                postKey.serialize(),
             )
             .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .contentType(MediaType.APPLICATION_JSON)

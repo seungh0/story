@@ -6,7 +6,9 @@ import com.story.core.domain.post.PostMetadataResponse
 import com.story.core.domain.post.PostResponse
 
 data class PostApiResponse(
+    val parentId: String?,
     val postId: String,
+    val depth: Int,
     val title: String,
     val sections: List<PostSectionApiResponse>,
     val owner: PostOwnerApiResponse,
@@ -16,7 +18,9 @@ data class PostApiResponse(
     companion object {
         fun of(post: PostResponse, requestUserId: String?): PostApiResponse {
             val response = PostApiResponse(
-                postId = post.postId.toString(),
+                parentId = post.parentId?.serialize(),
+                postId = post.postId.serialize(),
+                depth = post.depth,
                 title = post.title,
                 sections = post.sections.map { section ->
                     PostSectionApiResponse(

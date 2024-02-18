@@ -1,5 +1,6 @@
 package com.story.core.domain.post
 
+import org.apache.commons.lang3.StringUtils
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -24,6 +25,7 @@ data class PostReverse(
                 workspaceId = post.key.workspaceId,
                 componentId = post.key.componentId,
                 ownerId = post.ownerId,
+                parentId = post.key.parentIdKey,
                 postId = post.key.postId,
                 spaceId = post.key.spaceId,
             ),
@@ -50,9 +52,12 @@ data class PostReversePrimaryKey(
     val ownerId: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 5)
-    val postId: Long,
+    val parentId: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 6)
+    val postId: Long,
+
+    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 7)
     val spaceId: String,
 ) {
 
@@ -61,6 +66,7 @@ data class PostReversePrimaryKey(
             workspaceId: String,
             componentId: String,
             ownerId: String,
+            parentId: PostKey?,
             postId: Long,
             spaceId: String,
         ) = PostReversePrimaryKey(
@@ -69,6 +75,7 @@ data class PostReversePrimaryKey(
             distributionKey = PostDistributionKey.makeKey(ownerId), ownerId = ownerId,
             postId = postId,
             spaceId = spaceId,
+            parentId = parentId?.serialize() ?: StringUtils.EMPTY,
         )
     }
 

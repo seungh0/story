@@ -29,7 +29,7 @@ internal class PostRemoverTest(
                     componentId = post.key.componentId,
                     spaceId = post.key.spaceId,
                 ),
-                postId = post.key.postId,
+                postId = post.key.toPostKey(),
                 ownerId = post.ownerId,
             )
 
@@ -47,9 +47,9 @@ internal class PostRemoverTest(
                 postSpaceKey = PostSpaceKey(
                     workspaceId = "story",
                     componentId = "post",
-                    spaceId = "포스트 작성 공간 ID",
+                    spaceId = "spaceId",
                 ),
-                postId = -1L,
+                postId = PostKey(spaceId = "spaceId", depth = 1, parentId = null, postId = -1),
                 ownerId = "포스트 작성자 ID",
             )
 
@@ -76,7 +76,7 @@ internal class PostRemoverTest(
                     componentId = post.key.componentId,
                     spaceId = post.key.spaceId,
                 ),
-                postId = post.key.postId,
+                postId = post.key.toPostKey(),
                 ownerId = "user-2",
             )
 

@@ -4,6 +4,7 @@ import com.story.core.infrastructure.cache.CacheEvict
 import com.story.core.infrastructure.cache.CacheStrategy
 import com.story.core.infrastructure.cache.CacheType
 import com.story.core.infrastructure.cassandra.executeCoroutine
+import org.apache.commons.lang3.StringUtils
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -16,30 +17,32 @@ class PostRemover(
 
     @CacheEvict(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':postId:' + {#postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
         targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun removePost(
         postSpaceKey: PostSpaceKey,
         ownerId: String,
-        postId: Long,
+        postId: PostKey,
     ) {
         val postReverse =
-            postReverseRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdAndKeySpaceId(
+            postReverseRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyParentIdAndKeyPostIdAndKeySpaceId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 distributionKey = PostDistributionKey.makeKey(ownerId),
                 ownerId = ownerId,
-                postId = postId,
+                parentId = postId.parentId ?: StringUtils.EMPTY,
+                postId = postId.postId,
                 spaceId = postSpaceKey.spaceId,
             ) ?: return
 
-        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
             slotId = postReverse.slotId,
-            postId = postId,
+            parentId = postId.parentId ?: StringUtils.EMPTY,
+            postId = postId.postId,
         )
 
         reactiveCassandraOperations.batchOps()

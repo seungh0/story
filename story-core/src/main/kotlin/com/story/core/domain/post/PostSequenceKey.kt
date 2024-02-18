@@ -5,10 +5,15 @@ import java.time.Duration
 
 data class PostSequenceKey(
     val postSpaceKey: PostSpaceKey,
+    val parentId: PostKey?,
 ) : StringRedisKey<PostSequenceKey, Long> {
 
-    override fun makeKeyString(): String =
-        "post-sequence:v1:${postSpaceKey.workspaceId}:${postSpaceKey.spaceId}"
+    override fun makeKeyString(): String {
+        if (parentId == null) {
+            return "post-sequence:v1:${postSpaceKey.workspaceId}:${postSpaceKey.spaceId}"
+        }
+        return "post-sequence:v1:${postSpaceKey.workspaceId}:${postSpaceKey.spaceId}:${parentId.serialize()}"
+    }
 
     override fun deserializeValue(value: String?): Long? = value?.toLongOrNull()
 

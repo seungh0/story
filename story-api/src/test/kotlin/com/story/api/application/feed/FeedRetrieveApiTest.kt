@@ -76,7 +76,9 @@ class FeedRetrieveApiTest(
                         ),
                         metadata = PostMetadataApiResponse(
                             hasChildren = false,
-                        )
+                        ),
+                        parentId = null,
+                        depth = 1,
                     ).apply {
                         this.createdAt = LocalDateTime.now()
                         this.updatedAt = LocalDateTime.now()
@@ -107,7 +109,9 @@ class FeedRetrieveApiTest(
                         ),
                         metadata = PostMetadataApiResponse(
                             hasChildren = false,
-                        )
+                        ),
+                        parentId = null,
+                        depth = 1,
                     ).apply {
                         this.createdAt = LocalDateTime.now()
                         this.updatedAt = LocalDateTime.now()
@@ -167,8 +171,12 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("컴포넌트 ID"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload")
                             .type(JsonFieldType.OBJECT).description("피드로 발행된 포스트 정보"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.parentId")
+                            .type(JsonFieldType.STRING).description("포스트 Parent ID").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.postId")
                             .type(JsonFieldType.STRING).description("포스트 ID"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.depth")
+                            .type(JsonFieldType.NUMBER).description("포스트가 속한 Depth"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.owner")
                             .type(JsonFieldType.OBJECT).description("포스트 작성자"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.owner.ownerId")

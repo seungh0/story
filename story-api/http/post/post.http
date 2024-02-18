@@ -7,7 +7,7 @@ Accept-Language: en
 #X-Story-Nonce: {{NONCE}}
 
 {
-    "title": "토끼의 소확행 일기",
+    "title": "depth 1-1",
     "sections": [
         {
             "sectionType": "TEXT",
@@ -68,7 +68,8 @@ X-Story-Request-User-Id: {{USER_ID}}
                 "path": "/store/v1/store.png",
                 "width": 480,
                 "height": 360,
-                "fileSize": 10000
+                "fileSize": 10000,
+                "fileName": "store.png"
             }
         }
     ]

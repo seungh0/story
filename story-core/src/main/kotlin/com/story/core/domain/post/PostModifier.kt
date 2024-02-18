@@ -11,6 +11,7 @@ import com.story.core.infrastructure.cache.CacheType
 import com.story.core.infrastructure.cassandra.executeCoroutine
 import com.story.core.infrastructure.cassandra.upsert
 import kotlinx.coroutines.flow.toList
+import org.apache.commons.lang3.StringUtils
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Service
 
@@ -23,36 +24,38 @@ class PostModifier(
 
     @CacheEvict(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':postId:' + {#postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
         targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun patchPost(
         postSpaceKey: PostSpaceKey,
         ownerId: String,
-        postId: Long,
+        postId: PostKey,
         title: String?,
         sections: List<PostSectionContentRequest>?,
     ): PostPatchResponse {
-        val slotId = PostSlotAssigner.assign(postId)
+        val slotId = PostSlotAssigner.assign(postId.postId)
 
-        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
+            parentId = postId.parentId ?: StringUtils.EMPTY,
             slotId = slotId,
-            postId = postId,
+            postId = postId.postId,
         ) ?: throw PostNotExistsException(message = "해당하는 포스트($postId)는 존재하지 않습니다 [postSpaceKey: $postSpaceKey]")
 
         if (!post.isOwner(ownerId)) {
             throw NoPermissionException("계정($ownerId)는 해당하는 포스트($postId)를 수정할 권한이 없습니다 [postSpaceKey: $postSpaceKey]")
         }
 
-        val previousPostSections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeySlotIdAndKeyPostId(
+        val previousPostSections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            slotId = PostSectionSlotAssigner.assign(postId = postId),
-            postId = postId,
+            parentId = postId.parentId ?: StringUtils.EMPTY,
+            slotId = PostSectionSlotAssigner.assign(postId = postId.postId),
+            postId = postId.postId,
         ).toList()
 
         var hasChanged = post.patch(
@@ -73,7 +76,8 @@ class PostModifier(
         val newPostSections = sections.map { section ->
             PostSection.of(
                 postSpaceKey = postSpaceKey,
-                postId = postId,
+                parentId = post.key.parentIdKey,
+                postId = postId.postId,
                 content = section.toSection(),
                 sectionType = section.sectionType(),
                 priority = section.priority,

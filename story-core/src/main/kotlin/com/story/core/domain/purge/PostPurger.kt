@@ -32,7 +32,7 @@ class PostPurger(
             )
 
             val postPrimaryKeys = postReverses.content.map { postReverse ->
-                PostPrimaryKey.from(postReverse = postReverse)
+                PostPrimaryKey.from(reverse = postReverse)
             }
 
             postRepository.deleteAllById(postPrimaryKeys)

@@ -1,6 +1,8 @@
 package com.story.core.infrastructure.cassandra
 
 import com.story.core.CoreRoot
+import com.story.core.infrastructure.cassandra.converter.PostKeyReadConverter
+import com.story.core.infrastructure.cassandra.converter.PostKeyWriteConverter
 import com.story.core.infrastructure.cassandra.converter.VersionReadConverter
 import com.story.core.infrastructure.cassandra.converter.VersionWriteConverter
 import org.springframework.boot.autoconfigure.domain.EntityScan
@@ -23,10 +25,14 @@ class ReactiveCassandraConfig {
     fun cassandraCustomConversions(
         versionWriteConverter: VersionWriteConverter,
         versionReadConverter: VersionReadConverter,
+        postKeyReadConverter: PostKeyReadConverter,
+        postKeyWriteConverter: PostKeyWriteConverter,
     ) = CassandraCustomConversions(
         listOf(
             versionWriteConverter,
             versionReadConverter,
+            postKeyWriteConverter,
+            postKeyReadConverter,
         )
     )
 

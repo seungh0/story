@@ -1,5 +1,6 @@
 package com.story.core.infrastructure.kafka
 
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.resource.ResourceId
 
 object KafkaRecordKeyGenerator {
@@ -23,7 +24,8 @@ object KafkaRecordKeyGenerator {
     fun subscription(workspaceId: String, componentId: String, subscriberId: String) =
         "$workspaceId:$componentId:$subscriberId"
 
-    fun post(workspaceId: String, componentId: String, postId: Long) = "$workspaceId:$componentId:$postId"
+    fun post(workspaceId: String, componentId: String, postId: PostKey) =
+        "$workspaceId:$componentId:${postId.serialize()}"
 
     fun apiKey(key: String) = key
 

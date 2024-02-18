@@ -10,6 +10,7 @@ import com.story.api.lib.WebClientUtils
 import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.dto.CursorResponse
 import com.story.core.domain.component.ComponentStatus
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostSortBy
 import com.story.core.domain.post.section.PostSectionType
 import com.story.core.domain.post.section.image.ImagePostSectionContentResponse
@@ -37,10 +38,14 @@ class PostRetrieveApiTest(
         val componentId = "user-post"
         val title = "플랫폼 정보"
         val spaceId = "spaceId"
-        val postId = "200000"
+        val postId = 200000L
+
+        val parentId = PostKey(spaceId = spaceId, depth = 1, parentId = null, postId = 1000).serialize()
+        val postKey = PostKey(spaceId = spaceId, depth = 2, parentId = parentId, postId = postId)
 
         val post = PostApiResponse(
-            postId = postId,
+            parentId = parentId,
+            postId = postKey.serialize(),
             title = title,
             owner = PostOwnerApiResponse(
                 isOwner = false,
@@ -67,6 +72,7 @@ class PostRetrieveApiTest(
             metadata = PostMetadataApiResponse(
                 hasChildren = false,
             ),
+            depth = 2,
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -76,7 +82,7 @@ class PostRetrieveApiTest(
                 workspaceId = "story",
                 componentId = componentId,
                 spaceId = spaceId,
-                postId = postId,
+                postId = postKey,
                 requestUserId = any(),
             )
         } returns post
@@ -87,7 +93,7 @@ class PostRetrieveApiTest(
                 "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts/{postId}",
                 componentId,
                 spaceId,
-                postId
+                postKey.serialize(),
             )
             .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .exchange()
@@ -112,8 +118,12 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("요청 결과"),
+                        PayloadDocumentation.fieldWithPath("result.parentId")
+                            .type(JsonFieldType.STRING).description("포스트 Parent ID").optional(),
                         PayloadDocumentation.fieldWithPath("result.postId")
                             .type(JsonFieldType.STRING).description("포스트 ID"),
+                        PayloadDocumentation.fieldWithPath("result.depth")
+                            .type(JsonFieldType.NUMBER).description("포스트가 속한 Depth"),
                         PayloadDocumentation.fieldWithPath("result.title")
                             .type(JsonFieldType.STRING).description("포스트 제목"),
                         PayloadDocumentation.fieldWithPath("result.sections")
@@ -158,6 +168,7 @@ class PostRetrieveApiTest(
         val componentId = "user-post"
         val title = "플랫폼 정보"
         val spaceId = "user-spaceId"
+        val parentId = PostKey(spaceId = spaceId, depth = 1, parentId = null, postId = 1000).serialize()
         val postId = "20000"
         val cursor = UUID.randomUUID().toString()
         val direction = CursorDirection.NEXT
@@ -165,6 +176,7 @@ class PostRetrieveApiTest(
         val sortBy = PostSortBy.LATEST
 
         val post = PostApiResponse(
+            parentId = parentId,
             postId = postId,
             title = title,
             owner = PostOwnerApiResponse(
@@ -192,6 +204,7 @@ class PostRetrieveApiTest(
             metadata = PostMetadataApiResponse(
                 hasChildren = false,
             ),
+            depth = 2,
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -215,13 +228,14 @@ class PostRetrieveApiTest(
         // when
         val exchange = webTestClient.get()
             .uri(
-                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts?cursor={cursor}&direction={direction}&pageSize={pageSize}&sortBy={sortBy}",
+                "/v1/resources/posts/components/{componentId}/spaces/{spaceId}/posts?cursor={cursor}&direction={direction}&pageSize={pageSize}&sortBy={sortBy}&parentId={parentId}",
                 componentId,
                 spaceId,
                 cursor,
                 direction,
                 pageSize,
-                sortBy
+                sortBy,
+                parentId,
             )
             .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
             .exchange()
@@ -241,6 +255,7 @@ class PostRetrieveApiTest(
                         RequestDocumentation.parameterWithName("spaceId").description("포스트 공간 ID"),
                     ),
                     RequestDocumentation.queryParameters(
+                        RequestDocumentation.parameterWithName("parentId").description("부모 포스트 ID").optional(),
                         RequestDocumentation.parameterWithName("cursor").description("페이지 커서").optional()
                             .attributes(RestDocsUtils.remarks("첫 페이지의 경우 null")),
                         RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
@@ -257,9 +272,13 @@ class PostRetrieveApiTest(
                             .type(JsonFieldType.OBJECT).description("요청 결과"),
                         PayloadDocumentation.fieldWithPath("result.posts")
                             .type(JsonFieldType.ARRAY).description("포스트 목록"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].parentId")
+                            .type(JsonFieldType.STRING).description("포스트 Parent ID").optional(),
                         PayloadDocumentation.fieldWithPath("result.posts[].postId")
                             .type(JsonFieldType.STRING).description("포스트 ID")
                             .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
+                        PayloadDocumentation.fieldWithPath("result.posts[].depth")
+                            .type(JsonFieldType.NUMBER).description("포스트가 속한 Depth"),
                         PayloadDocumentation.fieldWithPath("result.posts[].title")
                             .type(JsonFieldType.STRING).description("포스트 제목")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),

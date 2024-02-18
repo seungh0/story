@@ -2,6 +2,8 @@ package com.story.core.domain.post
 
 import com.story.core.common.json.Jsons
 import com.story.core.common.model.AuditingTime
+import org.apache.commons.lang3.StringUtils
+import org.springframework.data.annotation.Transient
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
@@ -54,6 +56,7 @@ data class Post(
     companion object {
         fun of(
             postSpaceKey: PostSpaceKey,
+            parentId: PostKey?,
             ownerId: String,
             postId: Long,
             title: String,
@@ -61,6 +64,7 @@ data class Post(
             key = PostPrimaryKey.of(
                 postSpaceKey = postSpaceKey,
                 postId = postId,
+                parentId = parentId,
             ),
             ownerId = ownerId,
             title = title,
@@ -82,30 +86,53 @@ data class PostPrimaryKey(
     val spaceId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 4)
+    val parentId: String,
+
+    @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 5)
     val slotId: Long,
 
-    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
+    @field:PrimaryKeyColumn(type = CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
     val postId: Long,
 ) {
+
+    @Transient
+    val parentIdKey: PostKey? = if (parentId.isBlank()) null else PostKey.parsed(parentId)
+
+    fun toPostKey() = PostKey(
+        spaceId = spaceId,
+        postId = postId,
+        depth = getDepth(),
+        parentId = parentId,
+    )
+
+    fun getDepth(): Int {
+        if (parentIdKey == null) {
+            return 1
+        }
+        return parentIdKey.depth + 1
+    }
 
     companion object {
         fun of(
             postSpaceKey: PostSpaceKey,
+            parentId: PostKey?,
             postId: Long,
         ) = PostPrimaryKey(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
+            parentId = parentId?.serialize() ?: StringUtils.EMPTY,
             slotId = PostSlotAssigner.assign(postId),
             postId = postId,
         )
 
-        fun from(postReverse: PostReverse) = PostPrimaryKey(
-            workspaceId = postReverse.key.workspaceId,
-            componentId = postReverse.key.componentId,
-            spaceId = postReverse.key.spaceId,
-            slotId = PostSlotAssigner.assign(postId = postReverse.key.postId),
-            postId = postReverse.key.postId,
+        fun from(reverse: PostReverse) = PostPrimaryKey(
+            workspaceId = reverse.key.workspaceId,
+            componentId = reverse.key.componentId,
+            spaceId = reverse.key.spaceId,
+            slotId = PostSlotAssigner.assign(postId = reverse.key.postId),
+            postId = reverse.key.postId,
+            parentId = reverse.key.parentId,
         )
     }
 

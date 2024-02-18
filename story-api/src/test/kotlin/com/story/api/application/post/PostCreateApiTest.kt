@@ -11,6 +11,7 @@ import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.RestDocsUtils.remarks
 import com.story.api.lib.WebClientUtils
 import com.story.core.domain.nonce.NonceManager
+import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.post.section.PostSectionType
 import io.mockk.coEvery
@@ -48,6 +49,7 @@ class PostCreateApiTest(
         val nonce = UUID.randomUUID().toString()
 
         val request = PostCreateApiRequest(
+            parentId = null,
             title = "플랫폼 정보",
             sections = listOf(
                 PostSectionApiRequest(
@@ -68,7 +70,7 @@ class PostCreateApiTest(
                         "fileSize" to 1234123
                     )
                 )
-            )
+            ),
         )
 
         coEvery {
@@ -82,8 +84,9 @@ class PostCreateApiTest(
                 title = request.title,
                 sections = request.toSections(),
                 nonce = any(),
+                parentId = any(),
             )
-        } returns 1
+        } returns PostKey(spaceId = spaceId, parentId = null, postId = 100, depth = 2)
 
         // when
         val exchange = webTestClient.post()
@@ -102,7 +105,6 @@ class PostCreateApiTest(
         // then
         exchange.expectStatus().isOk
             .expectBody()
-            .jsonPath("$.result.postId").isEqualTo("1")
             .consumeWith(
                 document(
                     "post.create",
@@ -118,6 +120,9 @@ class PostCreateApiTest(
                         parameterWithName("nonce").description("논스 토큰 (Nonce Create API로 생성)").optional(),
                     ),
                     requestFields(
+                        fieldWithPath("parentId").type(JsonFieldType.STRING)
+                            .description("부모 포스트 ID")
+                            .optional(),
                         fieldWithPath("title").type(JsonFieldType.STRING)
                             .description("포스트 제목")
                             .attributes(remarks("최대 100자까지 사용할 수 있습니다")),
