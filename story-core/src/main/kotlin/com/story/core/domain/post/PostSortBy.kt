@@ -23,9 +23,7 @@ enum class PostSortBy(
                 ?: throw InvalidArgumentsException(
                     message = "해당하는 PostSortBy($code)는 존재하지 않습니다",
                     reasons = listOf(
-                        "invalid sortBy. available list: [${
-                        entries.joinToString(separator = ",")
-                        }]"
+                        "invalid sortBy. available list: [${entries.joinToString(separator = ",")}]"
                     )
                 )
         }
