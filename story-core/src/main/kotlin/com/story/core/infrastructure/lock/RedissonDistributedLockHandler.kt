@@ -1,12 +1,14 @@
 package com.story.core.infrastructure.lock
 
-import com.story.core.common.error.InternalServerException
-import org.redisson.api.RedissonClient
+import io.netty.util.internal.ThreadLocalRandom
+import kotlinx.coroutines.reactor.awaitSingle
+import kotlinx.coroutines.reactor.awaitSingleOrNull
+import org.redisson.api.RedissonReactiveClient
 import org.springframework.stereotype.Service
 
 @Service
 class RedissonDistributedLockHandler(
-    private val redissonClient: RedissonClient,
+    private val redissonReactiveClient: RedissonReactiveClient,
 ) : DistributedLockHandler {
 
     override suspend fun executeInCriticalSection(
@@ -14,17 +16,24 @@ class RedissonDistributedLockHandler(
         lockKey: String,
         runnable: () -> Any?,
     ): Any? {
-        val redisLock = redissonClient.getLock(lockKey)
+        val redisLock = redissonReactiveClient.getLock(lockKey)
+        val threadId = ThreadLocalRandom.current().nextLong()
 
-        val acquired = redisLock.tryLock(distributedLock.waitTime, distributedLock.leaseTime, distributedLock.timeUnit)
+        val acquired = redisLock.tryLock(
+            distributedLock.waitTime,
+            distributedLock.leaseTime,
+            distributedLock.timeUnit,
+            threadId
+        ).awaitSingle()
+
         if (!acquired) {
-            throw InternalServerException("분산 락($lockKey)을 선점하는데 실패하였습니다. [lockType: ${distributedLock.lockType} lockKey: $lockKey]")
+            throw IllegalStateException("분산 락($lockKey)을 획득하는데 실패하였습니다.")
         }
 
         return try {
             runnable.invoke()
         } finally {
-            redisLock.unlock()
+            redisLock.unlock(threadId).awaitSingleOrNull()
         }
     }
 
