@@ -3,6 +3,7 @@ package com.story.core.domain.post
 import com.story.core.common.error.NoPermissionException
 import com.story.core.domain.post.section.PostSection
 import com.story.core.domain.post.section.PostSectionContentRequest
+import com.story.core.domain.post.section.PostSectionHandlerManager
 import com.story.core.domain.post.section.PostSectionRepository
 import com.story.core.domain.post.section.PostSectionSlotAssigner
 import com.story.core.infrastructure.cache.CacheEvict
@@ -20,6 +21,7 @@ class PostModifier(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val postRepository: PostRepository,
     private val postSectionRepository: PostSectionRepository,
+    private val postSectionHandlerManager: PostSectionHandlerManager,
 ) {
 
     @CacheEvict(
@@ -68,7 +70,10 @@ class PostModifier(
                 .upsert(PostReverse.of(post))
                 .executeCoroutine()
             return PostPatchResponse(
-                post = PostResponse.of(post = post, sections = previousPostSections),
+                post = PostResponse.of(
+                    post = post,
+                    sections = postSectionHandlerManager.makePostSectionContentResponse(previousPostSections)
+                ),
                 hasChanged = hasChanged
             )
         }
@@ -97,7 +102,10 @@ class PostModifier(
         hasChanged = hasChanged || (deletedPostSections.isNotEmpty() && insertedPostSections.isNotEmpty())
 
         return PostPatchResponse(
-            post = PostResponse.of(post = post, sections = previousPostSections),
+            post = PostResponse.of(
+                post = post,
+                sections = postSectionHandlerManager.makePostSectionContentResponse(previousPostSections)
+            ),
             hasChanged = hasChanged
         )
     }

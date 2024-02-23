@@ -1,7 +1,6 @@
 package com.story.core.domain.post
 
 import com.story.core.common.model.dto.AuditingTimeResponse
-import com.story.core.domain.post.section.PostSection
 import com.story.core.domain.post.section.PostSectionContentResponse
 
 data class PostResponse(
@@ -19,7 +18,7 @@ data class PostResponse(
 ) : AuditingTimeResponse() {
 
     companion object {
-        fun of(post: Post, sections: List<PostSection>): PostResponse {
+        fun of(post: Post, sections: List<PostSectionContentResponse>): PostResponse {
             val response = PostResponse(
                 workspaceId = post.key.workspaceId,
                 componentId = post.key.componentId,
@@ -34,7 +33,7 @@ data class PostResponse(
                 depth = post.key.getDepth(),
                 ownerId = post.ownerId,
                 title = post.title,
-                sections = sections.map { section -> section.sectionType.toTypedResponse(sectionData = section.data) },
+                sections = sections,
                 extra = post.extra,
                 metadata = PostMetadataResponse(
                     hasChildren = post.getMetadata(type = PostMetadataType.HAS_CHILDREN),

@@ -1,7 +1,7 @@
 package com.story.core.domain.post
 
-import com.story.core.domain.post.section.PostSection
 import com.story.core.domain.post.section.PostSectionContentRequest
+import com.story.core.domain.post.section.PostSectionHandlerManager
 import com.story.core.infrastructure.cassandra.executeCoroutine
 import com.story.core.infrastructure.cassandra.upsert
 import org.apache.commons.lang3.StringUtils
@@ -13,6 +13,7 @@ class PostCreator(
     private val postSequenceRepository: PostSequenceRepository,
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val postRepository: PostRepository,
+    private val postSectionHandlerManager: PostSectionHandlerManager,
 ) {
 
     suspend fun createPost(
@@ -47,16 +48,13 @@ class PostCreator(
             title = title,
         )
 
-        val postSections = sections.map { section ->
-            PostSection.of(
-                postSpaceKey = postSpaceKey,
-                parentId = parentId,
-                postId = postId,
-                content = section.toSection(),
-                sectionType = section.sectionType(),
-                priority = section.priority,
-            )
-        }
+        val postSections = postSectionHandlerManager.makePostSections(
+            requests = sections,
+            postSpaceKey = postSpaceKey,
+            postId = postId,
+            parentId = parentId,
+            ownerId = ownerId,
+        )
 
         reactiveCassandraOperations.batchOps()
             .upsert(post)
@@ -64,7 +62,10 @@ class PostCreator(
             .upsert(postSections)
             .executeCoroutine()
 
-        return PostResponse.of(post = post, sections = postSections)
+        return PostResponse.of(
+            post = post,
+            sections = postSectionHandlerManager.makePostSectionContentResponse(postSections)
+        )
     }
 
 }

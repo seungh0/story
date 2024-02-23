@@ -29,9 +29,14 @@ class ControllerExceptionAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServerWebInputException::class)
-    private fun handleServerWebInputException(exception: ServerWebInputException): ApiResponse<Nothing> {
+    private fun handleServerWebInputException(exception: ServerWebInputException): ResponseEntity<ApiResponse<Nothing>> {
         log.warn(exception) { exception.message }
-        return ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS)
+        val rootCause = exception.rootCause
+        if (rootCause is StoryBaseException) {
+            return ResponseEntity.status(rootCause.errorCode.httpStatusCode)
+                .body(ApiResponse.fail(error = rootCause.errorCode, reasons = rootCause.reasons))
+        }
+        return ResponseEntity.badRequest().body(ApiResponse.fail(ErrorCode.E400_INVALID_ARGUMENTS))
     }
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
