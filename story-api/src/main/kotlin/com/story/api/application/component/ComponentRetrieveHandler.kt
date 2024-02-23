@@ -37,7 +37,7 @@ class ComponentRetrieveHandler(
         val components = componentRetriever.listComponents(
             workspaceId = workspaceId,
             resourceId = resourceId,
-            cursorRequest = request.toCursor(),
+            cursorRequest = request.toSimpleCursor(),
         )
         return ComponentListApiResponse.of(components = components)
     }

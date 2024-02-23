@@ -49,7 +49,7 @@ class SubscriptionRetrieveHandler(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
-            cursorRequest = request.toCursor(),
+            cursorRequest = request.toDecodedCursor(),
         )
 
         return SubscriberListApiResponse.of(subscriptions = subscriptions)
@@ -71,7 +71,7 @@ class SubscriptionRetrieveHandler(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
-            cursorRequest = request.toCursor(),
+            cursorRequest = request.toDecodedCursor(),
         )
 
         return SubscriptionTargetListApiResponse.of(subscriptions = subscriptions)

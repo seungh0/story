@@ -12,14 +12,14 @@ Accept-Language: en
         {
             "sectionType": "TEXT",
             "data": {
-                "content": "토끼랑 치킨을 먹었따\n히히~ 123",
+                "content": "뽀민데요\n123",
                 "priority": 1
             }
         },
         {
             "sectionType": "TEXT",
             "data": {
-                "content": "토끼랑 치킨을 먹었따\n히히~ 234",
+                "content": "토킨데요\n히히~ 234",
                 "priority": 2
             }
         },
@@ -60,14 +60,14 @@ Accept-Language: en
         {
             "sectionType": "TEXT",
             "data": {
-                "content": "토끼랑 치킨을 먹었따\n히히~ 123",
+                "content": "뻐미\n히히~ 123",
                 "priority": 1
             }
         },
         {
             "sectionType": "TEXT",
             "data": {
-                "content": "토끼랑 치킨을 먹었따\n히히~ 234",
+                "content": "터키\n히히~ 234",
                 "priority": 2
             }
         },
@@ -129,8 +129,8 @@ X-Story-Request-User-Id: {{USER_ID}}
 %}
 
 
-### 포스팅 삭제
-DELETE {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts/{{POST_ID}}
+### 포스팅 조회
+GET {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts/{{POST_ID}}
 X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
 
@@ -141,17 +141,17 @@ X-Story-Request-User-Id: {{USER_ID}}
 %}
 
 
-### 포스팅 조회
-GET {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts/{{POST_ID}}
-X-Story-Api-Key: {{API_KEY}}
-X-Story-Request-User-Id: {{USER_ID}}
-
-
 ### 포스팅 목록 조회 (Root)
 GET {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts?pageSize=10&direction=NEXT&
     sortBy=LATEST
 X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
 
 
 ### 하위 포스팅 목록 조회
@@ -159,3 +159,22 @@ GET {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts?pag
     sortBy=LATEST&parentId={{POST_ID}}
 X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
+
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+
+
+### 포스팅 삭제
+DELETE {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts/{{POST_ID}}
+X-Story-Api-Key: {{API_KEY}}
+X-Story-Request-User-Id: {{USER_ID}}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}

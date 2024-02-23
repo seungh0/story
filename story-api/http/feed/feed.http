@@ -5,13 +5,14 @@ X-Story-Api-Key: {{API_KEY}}
 > {%
     client.test("200 OK", () => {
         client.assert(response.status === 200, "응답 실패");
+        client.global.set("FEED_ID", response.body["result"]["feeds"][0]["feedId"])
     });
 %}
 
 
 
 ### 피드 삭제
-DELETE {{api}}/v1/resources/feeds/components/timeline/subscribers/{{KITTO_USER_ID}}/feeds/71627881039622144
+DELETE {{api}}/v1/resources/feeds/components/timeline/subscribers/{{KITTO_USER_ID}}/feeds/{{FEED_ID}}
 X-Story-Api-Key: {{API_KEY}}
 
 > {%

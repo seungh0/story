@@ -57,7 +57,7 @@ class PostRetrieveHandler(
                 spaceId = spaceId,
             ),
             parentId = request.parentId,
-            cursorRequest = request.toCursor(),
+            cursorRequest = request.toDecodedCursor(),
             sortBy = request.getSortBy(),
         )
 

@@ -11,10 +11,10 @@ data class PostKey(
 ) {
 
     fun serialize(): String {
-        return encoder.encodeToString(
+        return ENCODER.encodeToString(
             StringJoiner("-")
-                .add(encoder.encodeToString(spaceId.toByteArray()))
-                .add(if (parentId == null) null else encoder.encodeToString(parentId.toByteArray()))
+                .add(ENCODER.encodeToString(spaceId.toByteArray()))
+                .add(if (parentId == null) null else ENCODER.encodeToString(parentId.toByteArray()))
                 .add(depth.toString())
                 .add(postId.toString())
                 .toString()
@@ -23,13 +23,13 @@ data class PostKey(
     }
 
     companion object {
-        private val encoder = Base64.getUrlEncoder()
-        private val decoder = Base64.getUrlDecoder()
+        private val ENCODER = Base64.getUrlEncoder()
+        private val DECODER = Base64.getUrlDecoder()
 
         fun parsed(key: String): PostKey {
-            val elements = String(decoder.decode(key)).split("-")
+            val elements = String(DECODER.decode(key)).split("-")
             return PostKey(
-                spaceId = String(decoder.decode(elements[0])),
+                spaceId = String(DECODER.decode(elements[0])),
                 parentId = getParentId(elements),
                 depth = elements[2].toInt(),
                 postId = elements[3].toLong(),
@@ -41,7 +41,7 @@ data class PostKey(
             if (parentId == "null") {
                 return null
             }
-            return String(decoder.decode(parentId))
+            return String(DECODER.decode(parentId))
         }
     }
 

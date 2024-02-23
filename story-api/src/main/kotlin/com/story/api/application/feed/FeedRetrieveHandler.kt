@@ -32,7 +32,7 @@ class FeedRetrieveHandler(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             subscriberId = subscriberId,
-            cursorRequest = request.toCursor(),
+            cursorRequest = request.toDecodedCursor(),
         )
 
         val feedPayloads = handleFeedPayloads(feeds = feeds, workspaceId = workspaceId, subscriberId = subscriberId)
