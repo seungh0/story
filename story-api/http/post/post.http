@@ -45,6 +45,53 @@ Accept-Language: en
 %}
 
 
+### 하위 포스팅 등록
+POST {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts
+Content-Type: application/json
+X-Story-Api-Key: {{API_KEY}}
+X-Story-Request-User-Id: {{USER_ID}}
+Accept-Language: en
+#X-Story-Nonce: {{NONCE}}
+
+{
+    "parentId": "{{POST_ID}}",
+    "title": "depth 1-1",
+    "sections": [
+        {
+            "sectionType": "TEXT",
+            "data": {
+                "content": "토끼랑 치킨을 먹었따\n히히~ 123",
+                "priority": 1
+            }
+        },
+        {
+            "sectionType": "TEXT",
+            "data": {
+                "content": "토끼랑 치킨을 먹었따\n히히~ 234",
+                "priority": 2
+            }
+        },
+        {
+            "sectionType": "IMAGE",
+            "data": {
+                "priority": 3,
+                "path": "/store/v1/store.png",
+                "width": 480,
+                "height": 360,
+                "fileSize": 10000,
+                "fileName": "store.png"
+            }
+        }
+    ]
+}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+        client.global.set("POST_ID", response.body["result"]["postId"])
+    });
+%}
+
 ### 포스팅 수정
 PATCH {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts/{{POST_ID}}
 Content-Type: application/json
@@ -100,8 +147,15 @@ X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
 
 
-### 포스팅 목록 조회
-GET {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts?pageSize=2&direction=NEXT&
+### 포스팅 목록 조회 (Root)
+GET {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts?pageSize=10&direction=NEXT&
     sortBy=LATEST
+X-Story-Api-Key: {{API_KEY}}
+X-Story-Request-User-Id: {{USER_ID}}
+
+
+### 하위 포스팅 목록 조회
+GET {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts?pageSize=10&direction=NEXT&
+    sortBy=LATEST&parentId={{POST_ID}}
 X-Story-Api-Key: {{API_KEY}}
 X-Story-Request-User-Id: {{USER_ID}}
