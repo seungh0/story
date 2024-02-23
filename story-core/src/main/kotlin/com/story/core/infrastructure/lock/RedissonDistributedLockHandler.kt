@@ -1,5 +1,6 @@
 package com.story.core.infrastructure.lock
 
+import com.story.core.common.logger.LoggerExtension.log
 import io.netty.util.internal.ThreadLocalRandom
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.awaitSingleOrNull
@@ -11,10 +12,10 @@ class RedissonDistributedLockHandler(
     private val redissonReactiveClient: RedissonReactiveClient,
 ) : DistributedLockHandler {
 
-    override suspend fun executeInCriticalSection(
+    override suspend fun runWithLock(
         distributedLock: DistributedLock,
         lockKey: String,
-        runnable: () -> Any?,
+        runnable: suspend () -> Any?,
     ): Any? {
         val redisLock = redissonReactiveClient.getLock(lockKey)
         val threadId = ThreadLocalRandom.current().nextLong()
@@ -26,12 +27,16 @@ class RedissonDistributedLockHandler(
             threadId
         ).awaitSingle()
 
+        log.info { Thread.currentThread().id }
+
         if (!acquired) {
             throw IllegalStateException("분산 락($lockKey)을 획득하는데 실패하였습니다.")
         }
 
-        return try {
-            runnable.invoke()
+        try {
+            val invoke = runnable.invoke()
+            log.info { Thread.currentThread().id }
+            return invoke
         } finally {
             redisLock.unlock(threadId).awaitSingleOrNull()
         }
