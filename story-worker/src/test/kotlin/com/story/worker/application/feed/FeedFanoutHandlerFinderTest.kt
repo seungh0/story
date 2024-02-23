@@ -8,7 +8,7 @@ import io.kotest.matchers.types.beInstanceOf
 
 @IntegrationTest
 class FeedFanoutHandlerFinderTest(
-    private val feedHandlerFinder: FeedFanoutHandlerFinder,
+    private val feedHandlerFinder: FeedFanoutHandlerBeanFinder,
 ) : StringSpec({
 
     "Feed Create Handler" {

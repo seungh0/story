@@ -21,7 +21,7 @@ import org.springframework.messaging.handler.annotation.Payload
 class FeedConsumer(
     @IOBound
     private val dispatcher: CoroutineDispatcher,
-    private val feedHandlerFinder: FeedFanoutHandlerFinder,
+    private val feedFanoutHandlerFinder: FeedFanoutHandlerFinder,
 ) {
 
     @KafkaListener(
@@ -47,7 +47,7 @@ class FeedConsumer(
                             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $records")
 
                         withContext(dispatcher) {
-                            val publisher = feedHandlerFinder.get(eventAction = event.eventAction)
+                            val publisher = feedFanoutHandlerFinder.get(eventAction = event.eventAction)
                             publisher.handle(event = event, payload = payload)
                         }
                     }

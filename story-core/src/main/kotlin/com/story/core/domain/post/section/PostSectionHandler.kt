@@ -4,8 +4,8 @@ interface PostSectionHandler {
 
     fun sectionType(): PostSectionType
 
-    fun toContent(requests: Collection<PostSectionContentRequest>): Map<PostSectionContentRequest, PostSectionContent>
+    fun makeContents(requests: Collection<PostSectionContentRequest>): Map<PostSectionContentRequest, PostSectionContent>
 
-    fun toResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse>
+    fun makeContentResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse>
 
 }

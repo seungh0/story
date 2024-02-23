@@ -12,7 +12,7 @@ class ImagePostSectionHandler : PostSectionHandler {
 
     override fun sectionType(): PostSectionType = PostSectionType.IMAGE
 
-    override fun toContent(requests: Collection<PostSectionContentRequest>): Map<PostSectionContentRequest, PostSectionContent> {
+    override fun makeContents(requests: Collection<PostSectionContentRequest>): Map<PostSectionContentRequest, PostSectionContent> {
         return requests.associateWith { request ->
             if (request !is ImagePostSectionContentRequest) {
                 throw IllegalArgumentException("request is not ImagePostSectionContentRequest")
@@ -27,7 +27,7 @@ class ImagePostSectionHandler : PostSectionHandler {
         }
     }
 
-    override fun toResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse> {
+    override fun makeContentResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse> {
         return contents.associateWith { content ->
             ImagePostSectionContentResponse.from(content as ImagePostSectionContent)
         }

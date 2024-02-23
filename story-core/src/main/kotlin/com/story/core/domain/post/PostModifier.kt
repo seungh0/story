@@ -2,7 +2,7 @@ package com.story.core.domain.post
 
 import com.story.core.common.error.NoPermissionException
 import com.story.core.domain.post.section.PostSectionContentRequest
-import com.story.core.domain.post.section.PostSectionHandlerManager
+import com.story.core.domain.post.section.PostSectionManager
 import com.story.core.domain.post.section.PostSectionRepository
 import com.story.core.domain.post.section.PostSectionSlotAssigner
 import com.story.core.infrastructure.cache.CacheEvict
@@ -20,7 +20,7 @@ class PostModifier(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
     private val postRepository: PostRepository,
     private val postSectionRepository: PostSectionRepository,
-    private val postSectionHandlerManager: PostSectionHandlerManager,
+    private val postSectionManager: PostSectionManager,
 ) {
 
     @CacheEvict(
@@ -71,13 +71,13 @@ class PostModifier(
             return PostPatchResponse(
                 post = PostResponse.of(
                     post = post,
-                    sections = postSectionHandlerManager.makePostSectionContentResponse(previousPostSections)
+                    sections = postSectionManager.makePostSectionContentResponse(previousPostSections)
                 ),
                 hasChanged = hasChanged
             )
         }
 
-        val newPostSections = postSectionHandlerManager.makePostSections(
+        val newPostSections = postSectionManager.makePostSections(
             requests = sections,
             postSpaceKey = postSpaceKey,
             postId = postId.postId,
@@ -101,7 +101,7 @@ class PostModifier(
         return PostPatchResponse(
             post = PostResponse.of(
                 post = post,
-                sections = postSectionHandlerManager.makePostSectionContentResponse(previousPostSections)
+                sections = postSectionManager.makePostSectionContentResponse(previousPostSections)
             ),
             hasChanged = hasChanged
         )

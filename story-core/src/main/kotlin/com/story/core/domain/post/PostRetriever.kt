@@ -6,7 +6,7 @@ import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.Slice
 import com.story.core.common.model.dto.CursorRequest
 import com.story.core.common.utils.CursorUtils
-import com.story.core.domain.post.section.PostSectionHandlerManager
+import com.story.core.domain.post.section.PostSectionManager
 import com.story.core.domain.post.section.PostSectionRepository
 import com.story.core.domain.post.section.PostSectionSlotAssigner
 import com.story.core.infrastructure.cache.CacheType
@@ -21,7 +21,7 @@ class PostRetriever(
     private val postRepository: PostRepository,
     private val postSequenceRepository: PostSequenceRepository,
     private val postSectionRepository: PostSectionRepository,
-    private val postSectionHandlerManager: PostSectionHandlerManager,
+    private val postSectionManager: PostSectionManager,
 ) {
 
     @Cacheable(
@@ -52,7 +52,7 @@ class PostRetriever(
 
         return PostResponse.of(
             post = post,
-            sections = postSectionHandlerManager.makePostSectionContentResponse(sections.toList())
+            sections = postSectionManager.makePostSectionContentResponse(sections.toList())
         )
     }
 
@@ -97,7 +97,7 @@ class PostRetriever(
                     .map { post ->
                         PostResponse.of(
                             post = post,
-                            sections = postSectionHandlerManager.makePostSectionContentResponse(
+                            sections = postSectionManager.makePostSectionContentResponse(
                                 postSections[post.key.postId] ?: emptyList()
                             )
                         )
@@ -153,7 +153,7 @@ class PostRetriever(
             data = data.map { post ->
                 PostResponse.of(
                     post = post,
-                    sections = postSectionHandlerManager.makePostSectionContentResponse(
+                    sections = postSectionManager.makePostSectionContentResponse(
                         postSections[post.key.postId] ?: emptyList()
                     )
                 )

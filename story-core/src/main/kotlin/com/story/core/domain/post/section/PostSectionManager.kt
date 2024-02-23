@@ -5,7 +5,7 @@ import com.story.core.domain.post.PostSpaceKey
 import org.springframework.stereotype.Service
 
 @Service
-class PostSectionHandlerManager(
+class PostSectionManager(
     private val postSectionHandlerFinder: PostSectionHandlerFinder,
 ) {
 
@@ -18,7 +18,7 @@ class PostSectionHandlerManager(
     ): List<PostSection> {
         val sectionContents = mutableMapOf<PostSectionContentRequest, PostSectionContent>()
         for ((sectionType, sectionRequests) in requests.groupBy { request -> request.sectionType() }.entries) {
-            val contents = postSectionHandlerFinder[sectionType].toContent(sectionRequests)
+            val contents = postSectionHandlerFinder[sectionType].makeContents(sectionRequests)
             sectionContents += sectionRequests.associateWith { request -> contents[request]!! }
         }
 
@@ -39,13 +39,13 @@ class PostSectionHandlerManager(
         for ((sectionType, sectionsGroupByType) in sections.groupBy { section -> section.sectionType }.entries) {
             sectionContents += sectionsGroupByType.associate { section -> section.key to sectionType.toContent(section.data) }
         }
-        return toResponse(sections.mapNotNull { section -> sectionContents[section.key] })
+        return transformToPostSectionContentResponse(sections.mapNotNull { section -> sectionContents[section.key] })
     }
 
-    private fun toResponse(sections: Collection<PostSectionContent>): List<PostSectionContentResponse> {
+    private fun transformToPostSectionContentResponse(sections: Collection<PostSectionContent>): List<PostSectionContentResponse> {
         val sectionContents = mutableMapOf<PostSectionContent, PostSectionContentResponse>()
         for ((sectionType, sectionsGroupByType) in sections.groupBy { section -> section.sectionType() }.entries) {
-            sectionContents += postSectionHandlerFinder[sectionType].toResponse(sectionsGroupByType)
+            sectionContents += postSectionHandlerFinder[sectionType].makeContentResponse(sectionsGroupByType)
         }
         return sections.mapNotNull { section -> sectionContents[section] }
     }
