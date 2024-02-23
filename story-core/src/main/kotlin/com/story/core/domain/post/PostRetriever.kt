@@ -9,6 +9,8 @@ import com.story.core.common.utils.CursorUtils
 import com.story.core.domain.post.section.PostSectionHandlerManager
 import com.story.core.domain.post.section.PostSectionRepository
 import com.story.core.domain.post.section.PostSectionSlotAssigner
+import com.story.core.infrastructure.cache.CacheType
+import com.story.core.infrastructure.cache.Cacheable
 import kotlinx.coroutines.flow.toList
 import org.apache.commons.lang3.StringUtils
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
@@ -22,10 +24,10 @@ class PostRetriever(
     private val postSectionHandlerManager: PostSectionHandlerManager,
 ) {
 
-    //    @Cacheable(
-//        cacheType = CacheType.POST,
-//        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
-//    )
+    @Cacheable(
+        cacheType = CacheType.POST,
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+    )
     suspend fun getPost(
         postSpaceKey: PostSpaceKey,
         postId: PostKey,

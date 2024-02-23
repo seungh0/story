@@ -1,7 +1,6 @@
 package com.story.core.domain.post
 
 import com.story.core.common.error.NoPermissionException
-import com.story.core.domain.post.section.PostSection
 import com.story.core.domain.post.section.PostSectionContentRequest
 import com.story.core.domain.post.section.PostSectionHandlerManager
 import com.story.core.domain.post.section.PostSectionRepository
@@ -78,25 +77,23 @@ class PostModifier(
             )
         }
 
-        val newPostSections = sections.map { section ->
-            PostSection.of(
-                postSpaceKey = postSpaceKey,
-                parentId = post.key.parentIdKey,
-                postId = postId.postId,
-                content = section.toSection(),
-                sectionType = section.sectionType(),
-                priority = section.priority,
-            )
-        }
+        val newPostSections = postSectionHandlerManager.makePostSections(
+            requests = sections,
+            postSpaceKey = postSpaceKey,
+            postId = postId.postId,
+            parentId = post.key.parentIdKey,
+            ownerId = ownerId,
+        )
 
-        val deletedPostSections = previousPostSections - newPostSections.toSet()
+        val newPostSectionPriorities = newPostSections.map { section -> section.key.priority } // 동일한 키로 변경시 삭제되는 버그가 있어서 upsert로 동작하도록 필터링
+        val deletedPostSections = previousPostSections.filterNot { section -> newPostSectionPriorities.contains(section.key.priority) } - newPostSections.toSet()
         val insertedPostSections = newPostSections - previousPostSections.toSet()
 
         reactiveCassandraOperations.batchOps()
             .upsert(post)
             .upsert(PostReverse.of(post))
             .delete(deletedPostSections)
-            .upsert(insertedPostSections) // TODO: 동일한 키로 변경시 삭제되는 버그 있음
+            .upsert(insertedPostSections)
             .executeCoroutine()
 
         hasChanged = hasChanged || (deletedPostSections.isNotEmpty() && insertedPostSections.isNotEmpty())

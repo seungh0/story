@@ -6,6 +6,4 @@ interface PostSectionContentRequest {
 
     fun sectionType(): PostSectionType
 
-    fun toSection(): PostSectionContent
-
 }
