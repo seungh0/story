@@ -63,8 +63,7 @@ class PostCreateApiTest(
                     sectionType = PostSectionType.IMAGE.name,
                     data = mapOf(
                         "priority" to 2L,
-                        "path" to "/store/v1/store.png",
-                        "fileName" to "store.png",
+                        "fileId" to 12345123,
                     )
                 )
             ),
@@ -134,10 +133,8 @@ class PostCreateApiTest(
                         fieldWithPath("sections[].data.content").type(JsonFieldType.STRING)
                             .description("[TEXT 섹션 전용] 섹션 내용")
                             .attributes(remarks("최대 500자까지 사용할 수 있습니다")).optional(),
-                        fieldWithPath("sections[].data.path").type(JsonFieldType.STRING)
-                            .description("[IMAGE 섹션 전용] 이미지 Path").optional(),
-                        fieldWithPath("sections[].data.fileName").type(JsonFieldType.STRING)
-                            .description("[IMAGE 섹션 전용] 이미지 파일 이름").optional(),
+                        fieldWithPath("sections[].data.fileId").type(JsonFieldType.NUMBER)
+                            .description("[IMAGE 섹션 전용] 이미지 파일 ID").optional(),
                     ),
                     responseFields(
                         fieldWithPath("ok")

@@ -1,0 +1,5 @@
+### 파일을 등록합니다
+POST {{api}}/v1/files
+Content-Type: multipart/form-data
+X-Story-Api-Key: {{API_KEY}}
+

@@ -12,7 +12,10 @@ class TextPostSectionHandler : PostSectionHandler {
 
     override fun sectionType(): PostSectionType = PostSectionType.TEXT
 
-    override fun makeContents(requests: Collection<PostSectionContentRequest>): Map<PostSectionContentRequest, PostSectionContent> {
+    override suspend fun makeContents(
+        workspaceId: String,
+        requests: Collection<PostSectionContentRequest>,
+    ): Map<PostSectionContentRequest, PostSectionContent> {
         return requests.map { request ->
             if (request !is TextPostSectionContentRequest) {
                 throw IllegalArgumentException("request is not TextPostSectionContentRequest")
@@ -23,7 +26,7 @@ class TextPostSectionHandler : PostSectionHandler {
         }.toMap()
     }
 
-    override fun makeContentResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse> {
+    override suspend fun makeContentResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse> {
         return contents.associateWith { content ->
             TextPostSectionContentResponse.from(content as TextPostSectionContent)
         }

@@ -20,7 +20,7 @@ class TextPostSectionHandlerTest : StringSpec({
         )
 
         // when
-        val sut = handler.makeContents(listOf(section1, section2))
+        val sut = handler.makeContents(workspaceId = "1", requests = listOf(section1, section2))
 
         // then
         sut shouldHaveSize 2

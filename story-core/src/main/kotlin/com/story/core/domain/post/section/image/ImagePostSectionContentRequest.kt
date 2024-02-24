@@ -5,8 +5,7 @@ import com.story.core.domain.post.section.PostSectionType
 
 data class ImagePostSectionContentRequest(
     override val priority: Long,
-    val path: String,
-    val fileName: String,
+    val fileId: Long,
 ) : PostSectionContentRequest {
 
     override fun sectionType() = PostSectionType.IMAGE

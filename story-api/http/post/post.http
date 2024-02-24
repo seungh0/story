@@ -27,11 +27,7 @@ Accept-Language: en
             "sectionType": "IMAGE",
             "data": {
                 "priority": 3,
-                "path": "/store/v1/store.png",
-                "width": 480,
-                "height": 360,
-                "fileSize": 10000,
-                "fileName": "store.png"
+                "fileId": 86471063135047680
             }
         }
     ]
@@ -71,12 +67,11 @@ Accept-Language: en
                 "priority": 2
             }
         },
-        {
+       {
             "sectionType": "IMAGE",
             "data": {
                 "priority": 3,
-                "path": "/store/v1",
-                "fileName": "store.png"
+                "fileId": 86471063135047680
             }
         }
     ]

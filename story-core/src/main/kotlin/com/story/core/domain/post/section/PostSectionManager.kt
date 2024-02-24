@@ -9,7 +9,7 @@ class PostSectionManager(
     private val postSectionHandlerFinder: PostSectionHandlerFinder,
 ) {
 
-    fun makePostSections(
+    suspend fun makePostSections(
         postSpaceKey: PostSpaceKey,
         parentId: PostKey?,
         ownerId: String,
@@ -18,7 +18,10 @@ class PostSectionManager(
     ): List<PostSection> {
         val sectionContents = mutableMapOf<PostSectionContentRequest, PostSectionContent>()
         for ((sectionType, sectionRequests) in requests.groupBy { request -> request.sectionType() }.entries) {
-            val contents = postSectionHandlerFinder[sectionType].makeContents(sectionRequests)
+            val contents = postSectionHandlerFinder[sectionType].makeContents(
+                workspaceId = postSpaceKey.workspaceId,
+                requests = sectionRequests
+            )
             sectionContents += sectionRequests.associateWith { request -> contents[request]!! }
         }
 
@@ -34,7 +37,7 @@ class PostSectionManager(
         }
     }
 
-    fun makePostSectionContentResponse(sections: Collection<PostSection>): List<PostSectionContentResponse> {
+    suspend fun makePostSectionContentResponse(sections: Collection<PostSection>): List<PostSectionContentResponse> {
         val sectionContents = mutableMapOf<PostSectionPrimaryKey, PostSectionContent>()
         for ((sectionType, sectionsGroupByType) in sections.groupBy { section -> section.sectionType }.entries) {
             sectionContents += sectionsGroupByType.associate { section -> section.key to sectionType.toContent(section.data) }
@@ -42,7 +45,7 @@ class PostSectionManager(
         return transformToPostSectionContentResponse(sections.mapNotNull { section -> sectionContents[section.key] })
     }
 
-    private fun transformToPostSectionContentResponse(sections: Collection<PostSectionContent>): List<PostSectionContentResponse> {
+    private suspend fun transformToPostSectionContentResponse(sections: Collection<PostSectionContent>): List<PostSectionContentResponse> {
         val sectionContents = mutableMapOf<PostSectionContent, PostSectionContentResponse>()
         for ((sectionType, sectionsGroupByType) in sections.groupBy { section -> section.sectionType() }.entries) {
             sectionContents += postSectionHandlerFinder[sectionType].makeContentResponse(sectionsGroupByType)

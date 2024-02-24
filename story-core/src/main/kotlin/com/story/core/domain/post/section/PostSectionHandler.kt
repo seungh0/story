@@ -4,8 +4,11 @@ interface PostSectionHandler {
 
     fun sectionType(): PostSectionType
 
-    fun makeContents(requests: Collection<PostSectionContentRequest>): Map<PostSectionContentRequest, PostSectionContent>
+    suspend fun makeContents(
+        workspaceId: String,
+        requests: Collection<PostSectionContentRequest>,
+    ): Map<PostSectionContentRequest, PostSectionContent>
 
-    fun makeContentResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse>
+    suspend fun makeContentResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse>
 
 }

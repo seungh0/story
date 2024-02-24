@@ -14,16 +14,15 @@ class FileRetriever(
         fileType: FileType,
         fileIds: Collection<Long>,
     ): Map<Long, FileResponse> {
-        val fileIdsGroupBySlot = fileIds.groupBy { fileId -> FileIdHelper.getSlot(fileId) }
-
-        val files = fileIdsGroupBySlot.map { (slotId, fileIdsInSlot) ->
-            fileRepository.findAllByKeyWorkspaceIdAndKeyFileTypeAndKeySlotIdAndKeyFileIdIn(
-                workspaceId = workspaceId,
-                fileType = fileType,
-                slotId = slotId,
-                fileIds = fileIdsInSlot,
-            )
-        }.flatten()
+        val files = fileIds.groupBy { fileId -> FileIdHelper.getSlot(fileId) }
+            .map { (slotId, fileIdsInSlot) ->
+                fileRepository.findAllByKeyWorkspaceIdAndKeyFileTypeAndKeySlotIdAndKeyFileIdIn(
+                    workspaceId = workspaceId,
+                    fileType = fileType,
+                    slotId = slotId,
+                    fileIds = fileIdsInSlot,
+                )
+            }.flatten()
         return files.asSequence()
             .map { file -> FileResponse.of(file = file, properties.getProperties(fileType = fileType).domain) }
             .associateBy { file -> file.fileId }
