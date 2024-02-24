@@ -1,3 +1,5 @@
 story:
   photo:
-    domain: http://localhost:1000
+    properties:
+      IMAGE:
+        domain: http://localhost:1000

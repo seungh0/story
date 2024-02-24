@@ -1,16 +1,17 @@
 package com.story.core.domain.post.section.image
 
+import com.story.core.domain.file.FileType
 import com.story.core.domain.post.section.PostSectionContent
 import com.story.core.domain.post.section.PostSectionContentRequest
 import com.story.core.domain.post.section.PostSectionContentResponse
 import com.story.core.domain.post.section.PostSectionHandler
 import com.story.core.domain.post.section.PostSectionType
-import com.story.core.infrastructure.photo.PhotoProperties
+import com.story.core.infrastructure.file.FileProperties
 import org.springframework.stereotype.Service
 
 @Service
 class ImagePostSectionHandler(
-    private val properties: PhotoProperties,
+    private val properties: FileProperties,
 ) : PostSectionHandler {
 
     override fun sectionType(): PostSectionType = PostSectionType.IMAGE
@@ -34,7 +35,7 @@ class ImagePostSectionHandler(
         return contents.associateWith { content ->
             ImagePostSectionContentResponse.from(
                 sectionContent = content as ImagePostSectionContent,
-                imageDomain = properties.domain
+                imageDomain = properties.getProperties(fileType = FileType.IMAGE).domain
             )
         }
     }

@@ -1,6 +1,7 @@
 package com.story.core.domain.post.section
 
 import com.story.core.common.json.toJson
+import com.story.core.domain.file.FileType
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.post.section.image.ImagePostSectionContent
 import com.story.core.domain.post.section.image.ImagePostSectionContentRequest
@@ -8,7 +9,7 @@ import com.story.core.domain.post.section.image.ImagePostSectionHandler
 import com.story.core.domain.post.section.text.TextPostSectionContent
 import com.story.core.domain.post.section.text.TextPostSectionContentRequest
 import com.story.core.domain.post.section.text.TextPostSectionHandler
-import com.story.core.infrastructure.photo.PhotoProperties
+import com.story.core.infrastructure.file.FileProperties
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -20,8 +21,12 @@ class PostSectionManagerTest : StringSpec({
             when (sectionType) {
                 PostSectionType.TEXT -> TextPostSectionHandler()
                 PostSectionType.IMAGE -> ImagePostSectionHandler(
-                    properties = PhotoProperties(
-                        domain = "https://cdn.story.com"
+                    properties = FileProperties(
+                        properties = mapOf(
+                            FileType.IMAGE to FileProperties(
+                                domain = "https://cdn.story.com"
+                            )
+                        )
                     )
                 )
 

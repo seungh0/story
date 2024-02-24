@@ -1,6 +1,7 @@
 package com.story.core.domain.post.section.image
 
-import com.story.core.infrastructure.photo.PhotoProperties
+import com.story.core.domain.file.FileType
+import com.story.core.infrastructure.file.FileProperties
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldHaveSize
@@ -8,8 +9,12 @@ import io.kotest.matchers.maps.shouldHaveSize
 class ImagePostSectionHandlerTest : StringSpec({
 
     val handler = ImagePostSectionHandler(
-        properties = PhotoProperties(
-            domain = "https://cdn.story.com"
+        properties = FileProperties(
+            properties = mapOf(
+                FileType.IMAGE to FileProperties(
+                    domain = "https://cdn.story.com"
+                )
+            ),
         )
     )
 
