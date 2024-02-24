@@ -23,4 +23,10 @@ interface PostReverseRepository : CassandraBasicRepository<PostReverse, PostReve
         pageable: Pageable,
     ): Slice<PostReverse>
 
+    suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
+        workspaceId: String,
+        componentId: String,
+        distributionKey: String,
+    )
+
 }

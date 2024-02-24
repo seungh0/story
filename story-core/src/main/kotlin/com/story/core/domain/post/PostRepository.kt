@@ -53,4 +53,12 @@ interface PostRepository : CassandraBasicRepository<Post, PostPrimaryKey> {
         pageable: Pageable,
     ): Flow<Post>
 
+    suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
+        workspaceId: String,
+        componentId: String,
+        spaceId: String,
+        parentId: String,
+        slotId: Long,
+    )
+
 }

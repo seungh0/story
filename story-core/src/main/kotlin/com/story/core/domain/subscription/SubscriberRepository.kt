@@ -50,4 +50,11 @@ interface SubscriberRepository : CassandraBasicRepository<Subscriber, Subscriber
         pageable: CassandraPageRequest,
     ): Flow<Subscriber>
 
+    suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
+        workspaceId: String,
+        componentId: String,
+        targetId: String,
+        slotId: Long,
+    )
+
 }

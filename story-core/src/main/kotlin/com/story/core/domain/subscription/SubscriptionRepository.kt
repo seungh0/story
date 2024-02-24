@@ -57,4 +57,10 @@ interface SubscriptionRepository :
         pageable: Pageable,
     ): Flow<Subscription>
 
+    suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
+        workspaceId: String,
+        componentId: String,
+        distributionKey: String,
+    )
+
 }

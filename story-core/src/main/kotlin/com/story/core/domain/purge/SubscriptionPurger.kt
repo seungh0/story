@@ -2,8 +2,8 @@ package com.story.core.domain.purge
 
 import com.story.core.common.distribution.DistributionKey
 import com.story.core.domain.resource.ResourceId
-import com.story.core.domain.subscription.SubscriberPrimaryKey
 import com.story.core.domain.subscription.SubscriberRepository
+import com.story.core.domain.subscription.Subscription
 import com.story.core.domain.subscription.SubscriptionDistributionKey
 import com.story.core.domain.subscription.SubscriptionRepository
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
@@ -31,12 +31,21 @@ class SubscriptionPurger(
                 pageable = pageable,
             )
 
-            val subscriberPrimaryKey = subscriptions.content.map { subscription ->
-                SubscriberPrimaryKey.from(subscription = subscription)
-            }
+            subscriptions.content.groupBy { subscription -> SubscriberPartitionKey.of(subscription) }.keys
+                .forEach { key ->
+                    subscriberRepository.deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
+                        workspaceId = key.workspaceId,
+                        componentId = key.componentId,
+                        targetId = key.targetId,
+                        slotId = key.slotId,
+                    )
+                }
 
-            subscriberRepository.deleteAllById(subscriberPrimaryKey)
-            subscriptionRepository.deleteAllById(subscriptions.content.map { postReverse -> postReverse.key })
+            subscriptionRepository.deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
+                workspaceId = workspaceId,
+                componentId = componentId,
+                distributionKey = distributionKey.key,
+            )
 
             deletedCount += subscriptions.size
 
@@ -44,6 +53,24 @@ class SubscriptionPurger(
         } while (subscriptions.hasNext())
 
         return deletedCount
+    }
+
+    data class SubscriberPartitionKey(
+        val workspaceId: String,
+        val componentId: String,
+        val targetId: String,
+        val slotId: Long,
+    ) {
+
+        companion object {
+            fun of(subscriber: Subscription) = SubscriberPartitionKey(
+                workspaceId = subscriber.key.workspaceId,
+                componentId = subscriber.key.componentId,
+                targetId = subscriber.key.targetId,
+                slotId = subscriber.slotId,
+            )
+        }
+
     }
 
 }
