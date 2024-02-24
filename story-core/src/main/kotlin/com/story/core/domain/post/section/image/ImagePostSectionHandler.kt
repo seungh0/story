@@ -5,10 +5,13 @@ import com.story.core.domain.post.section.PostSectionContentRequest
 import com.story.core.domain.post.section.PostSectionContentResponse
 import com.story.core.domain.post.section.PostSectionHandler
 import com.story.core.domain.post.section.PostSectionType
+import com.story.core.infrastructure.photo.PhotoProperties
 import org.springframework.stereotype.Service
 
 @Service
-class ImagePostSectionHandler : PostSectionHandler {
+class ImagePostSectionHandler(
+    private val properties: PhotoProperties,
+) : PostSectionHandler {
 
     override fun sectionType(): PostSectionType = PostSectionType.IMAGE
 
@@ -19,9 +22,9 @@ class ImagePostSectionHandler : PostSectionHandler {
             }
             return@associateWith ImagePostSectionContent(
                 path = request.path,
-                width = request.width,
-                height = request.height,
-                fileSize = request.fileSize,
+                width = 0,
+                height = 0,
+                fileSize = 0, // TODO: 계산해서 넣기
                 fileName = request.fileName,
             )
         }
@@ -29,7 +32,10 @@ class ImagePostSectionHandler : PostSectionHandler {
 
     override fun makeContentResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse> {
         return contents.associateWith { content ->
-            ImagePostSectionContentResponse.from(content as ImagePostSectionContent)
+            ImagePostSectionContentResponse.from(
+                sectionContent = content as ImagePostSectionContent,
+                imageDomain = properties.domain
+            )
         }
     }
 

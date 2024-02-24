@@ -57,9 +57,6 @@ class PostModifyApiTest(
                         "priority" to 2L,
                         "path" to "/store/v1/store.png",
                         "fileName" to "store.png",
-                        "width" to 480,
-                        "height" to 360,
-                        "fileSize" to 1234123
                     )
                 )
             ),
@@ -128,12 +125,6 @@ class PostModifyApiTest(
                             .description("[IMAGE 섹션 전용] 이미지 Path").optional(),
                         fieldWithPath("sections[].data.fileName").type(JsonFieldType.STRING)
                             .description("[IMAGE 섹션 전용] 이미지 파일 이름").optional(),
-                        fieldWithPath("sections[].data.width").type(JsonFieldType.NUMBER)
-                            .description("[IMAGE 섹션 전용] 이미지 가로 길이").optional(),
-                        fieldWithPath("sections[].data.height").type(JsonFieldType.NUMBER)
-                            .description("[IMAGE 섹션 전용] 이미지 세로 길이").optional(),
-                        fieldWithPath("sections[].data.fileSize").type(JsonFieldType.NUMBER)
-                            .description("[IMAGE 섹션 전용] 이미지 파일 사이즈").optional()
                     ),
                     responseFields(
                         fieldWithPath("ok")

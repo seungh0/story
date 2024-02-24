@@ -75,10 +75,7 @@ Accept-Language: en
             "sectionType": "IMAGE",
             "data": {
                 "priority": 3,
-                "path": "/store/v1/store.png",
-                "width": 480,
-                "height": 360,
-                "fileSize": 10000,
+                "path": "/store/v1",
                 "fileName": "store.png"
             }
         }
@@ -112,10 +109,7 @@ X-Story-Request-User-Id: {{USER_ID}}
             "sectionType": "IMAGE",
             "data": {
                 "priority": 3,
-                "path": "/store/v1/store.png",
-                "width": 480,
-                "height": 360,
-                "fileSize": 10000,
+                "path": "/store/v1",
                 "fileName": "store.png"
             }
         }
