@@ -8,7 +8,7 @@ data class ImagePostSectionContentResponse(
     val path: String,
     val width: Int,
     val height: Int,
-    val fileSize: Long,
+    val extra: Map<String, Any>,
 ) : PostSectionContentResponse {
 
     override fun sectionType() = PostSectionType.IMAGE
@@ -19,7 +19,7 @@ data class ImagePostSectionContentResponse(
             path = sectionContent.path + "/" + sectionContent.fileName,
             width = sectionContent.width,
             height = sectionContent.height,
-            fileSize = sectionContent.fileSize,
+            extra = sectionContent.extra,
         )
     }
 

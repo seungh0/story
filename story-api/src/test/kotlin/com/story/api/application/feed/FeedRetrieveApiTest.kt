@@ -16,6 +16,7 @@ import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.dto.CursorResponse
 import com.story.core.domain.post.section.PostSectionType
 import com.story.core.domain.post.section.image.ImagePostSectionContentResponse
+import com.story.core.domain.post.section.link.LinkPostSectionContentResponse
 import com.story.core.domain.post.section.text.TextPostSectionContentResponse
 import com.story.core.domain.resource.ResourceId
 import io.mockk.coEvery
@@ -66,7 +67,8 @@ class FeedRetrieveApiTest(
                             PostSectionApiResponse(
                                 sectionType = PostSectionType.TEXT,
                                 data = TextPostSectionContentResponse(
-                                    content = "섹션 내용"
+                                    content = "섹션 내용",
+                                    extra = emptyMap(),
                                 )
                             )
                         ),
@@ -98,8 +100,8 @@ class FeedRetrieveApiTest(
                                     path = "/store/v1/store.png",
                                     width = 480,
                                     height = 360,
-                                    fileSize = 1234123,
-                                    domain = "https://localhost"
+                                    domain = "https://localhost",
+                                    extra = emptyMap(),
                                 )
                             )
                         ),
@@ -116,7 +118,41 @@ class FeedRetrieveApiTest(
                         this.createdAt = LocalDateTime.now()
                         this.updatedAt = LocalDateTime.now()
                     }
-                )
+                ),
+                FeedApiResponse(
+                    feedId = "30000",
+                    resourceId = ResourceId.POSTS.code,
+                    componentId = "user-post",
+                    payload = PostApiResponse(
+                        postId = "1000",
+                        title = "스토리 플랫폼(Story Platform)이란?",
+                        sections = listOf(
+                            PostSectionApiResponse(
+                                sectionType = PostSectionType.LINK,
+                                data = LinkPostSectionContentResponse(
+                                    link = "https://intro.threedollars.co.kr",
+                                    extra = mapOf(
+                                        "og:image" to "http://localhost:5000/abc.png",
+                                        "og:title" to "뽀미 토키",
+                                        "og:description" to "뽀미랑 토키의 사진입니다",
+                                    ),
+                                )
+                            )
+                        ),
+                        owner = PostOwnerApiResponse(
+                            ownerId = "user-1",
+                            isOwner = false,
+                        ),
+                        metadata = PostMetadataApiResponse(
+                            hasChildren = false,
+                        ),
+                        parentId = null,
+                        depth = 1,
+                    ).apply {
+                        this.createdAt = LocalDateTime.now()
+                        this.updatedAt = LocalDateTime.now()
+                    }
+                ),
             ),
             cursor = CursorResponse(
                 hasNext = true,
@@ -196,6 +232,8 @@ class FeedRetrieveApiTest(
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(PostSectionType::class.java))),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data")
                             .type(JsonFieldType.OBJECT).description("포스트 섹션 목록"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.extra")
+                            .type(JsonFieldType.OBJECT).description("부가적으로 사용할 필드").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.content")
                             .type(JsonFieldType.STRING).description("[TEXT 섹션 전용] 포스트 섹션 내용").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.path")
@@ -208,6 +246,17 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 세로 길이").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.fileSize")
                             .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 파일 사이즈").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.link")
+                            .type(JsonFieldType.STRING).description("[LINK 섹션 전용] Link").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.extra.og:image")
+                            .type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] OG 태그 (image)").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.extra.og:title")
+                            .type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] OG 태그 (title)").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.extra.og:description")
+                            .type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] OG 태그 (description)").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.createdAt")
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.updatedAt")

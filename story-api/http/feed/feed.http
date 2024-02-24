@@ -10,7 +10,6 @@ X-Story-Api-Key: {{API_KEY}}
 %}
 
 
-
 ### 피드 삭제
 DELETE {{api}}/v1/resources/feeds/components/timeline/subscribers/{{KITTO_USER_ID}}/feeds/{{FEED_ID}}
 X-Story-Api-Key: {{API_KEY}}

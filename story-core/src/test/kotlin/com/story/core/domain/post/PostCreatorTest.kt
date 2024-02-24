@@ -89,7 +89,8 @@ internal class PostCreatorTest(
                 it.key.priority shouldBe 1L
                 it.sectionType shouldBe PostSectionType.TEXT
                 it.data shouldBe TextPostSectionContent(
-                    content = section1.content
+                    content = section1.content,
+                    extra = emptyMap(),
                 ).toJson()
             }
             postSections[1].also {
@@ -101,7 +102,8 @@ internal class PostCreatorTest(
                 it.key.priority shouldBe 2L
                 it.sectionType shouldBe PostSectionType.TEXT
                 it.data shouldBe TextPostSectionContent(
-                    content = section2.content
+                    content = section2.content,
+                    extra = emptyMap(),
                 ).toJson()
             }
         }

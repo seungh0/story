@@ -6,6 +6,8 @@ import com.story.core.common.error.NotSupportedException
 import com.story.core.common.json.Jsons
 import com.story.core.domain.post.section.image.ImagePostSectionContent
 import com.story.core.domain.post.section.image.ImagePostSectionContentRequest
+import com.story.core.domain.post.section.link.LinkPostSectionContent
+import com.story.core.domain.post.section.link.LinkPostSectionContentRequest
 import com.story.core.domain.post.section.text.TextPostSectionContent
 import com.story.core.domain.post.section.text.TextPostSectionContentRequest
 
@@ -24,6 +26,11 @@ enum class PostSectionType(
         description = "이미지 섹션",
         requestClass = object : TypeReference<ImagePostSectionContentRequest>() {},
         contentClass = object : TypeReference<ImagePostSectionContent>() {},
+    ),
+    LINK(
+        description = "링크 섹션",
+        requestClass = object : TypeReference<LinkPostSectionContentRequest>() {},
+        contentClass = object : TypeReference<LinkPostSectionContent>() {},
     ),
     ;
 

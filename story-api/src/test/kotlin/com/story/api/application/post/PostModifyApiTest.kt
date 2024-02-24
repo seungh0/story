@@ -49,6 +49,7 @@ class PostModifyApiTest(
                     data = mapOf(
                         "priority" to 1L,
                         "content" to "포스트 내용",
+                        "extra" to emptyMap<String, Any>(),
                     )
                 ),
                 PostSectionApiRequest(
@@ -56,6 +57,19 @@ class PostModifyApiTest(
                     data = mapOf(
                         "priority" to 2L,
                         "fileId" to 12345123,
+                        "extra" to emptyMap<String, Any>(),
+                    )
+                ),
+                PostSectionApiRequest(
+                    sectionType = PostSectionType.LINK.name,
+                    data = mapOf(
+                        "priority" to 3L,
+                        "link" to "https://intro.threedollars.co.kr",
+                        "extra" to mapOf(
+                            "og:image" to "http://localhost:5000/abc.png",
+                            "og:title" to "뽀미 토키",
+                            "og:description" to "뽀미랑 토키의 사진입니다",
+                        )
                     )
                 )
             ),
@@ -117,13 +131,21 @@ class PostModifyApiTest(
                         fieldWithPath("sections[].data.priority").type(JsonFieldType.NUMBER)
                             .description("포스트 섹션 순서")
                             .attributes(remarks("priority가 낮은 것 부터 먼저 조회됩니다")),
+                        fieldWithPath("sections[].data.extra").type(JsonFieldType.OBJECT)
+                            .description("부가적으로 사용할 필드").optional(),
                         fieldWithPath("sections[].data.content").type(JsonFieldType.STRING)
                             .description("[TEXT 섹션 전용] 섹션 내용")
                             .attributes(remarks("최대 500자까지 사용할 수 있습니다")).optional(),
-                        fieldWithPath("sections[].data.path").type(JsonFieldType.STRING)
-                            .description("[IMAGE 섹션 전용] 이미지 Path").optional(),
                         fieldWithPath("sections[].data.fileId").type(JsonFieldType.NUMBER)
                             .description("[IMAGE 섹션 전용] 이미지 파일 ID").optional(),
+                        fieldWithPath("sections[].data.link").type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] Link").optional(),
+                        fieldWithPath("sections[].data.extra.og:image").type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] OG 태그 (image)").optional(),
+                        fieldWithPath("sections[].data.extra.og:title").type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] OG 태그 (title)").optional(),
+                        fieldWithPath("sections[].data.extra.og:description").type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] OG 태그 (description)").optional(),
                     ),
                     responseFields(
                         fieldWithPath("ok")

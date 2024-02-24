@@ -26,10 +26,12 @@ class TextPostSectionHandlerTest : StringSpec({
         sut shouldHaveSize 2
         sut shouldContainExactly mapOf(
             section1 to TextPostSectionContent(
-                content = "토키에요"
+                content = "토키에요",
+                extra = emptyMap(),
             ),
             section2 to TextPostSectionContent(
-                content = "뽀미에요"
+                content = "뽀미에요",
+                extra = emptyMap(),
             )
         )
     }
@@ -37,10 +39,12 @@ class TextPostSectionHandlerTest : StringSpec({
     "TextPostSectionContent -> TextPostSectionContentResponse" {
         // given
         val content1 = TextPostSectionContent(
-            content = "토키에요"
+            content = "토키에요",
+            extra = emptyMap(),
         )
         val content2 = TextPostSectionContent(
-            content = "뽀미에요"
+            content = "뽀미에요",
+            extra = emptyMap(),
         )
 
         // when
@@ -50,10 +54,12 @@ class TextPostSectionHandlerTest : StringSpec({
         sut shouldHaveSize 2
         sut shouldContainExactly mapOf(
             content1 to TextPostSectionContentResponse(
-                content = "토키에요"
+                content = "토키에요",
+                extra = emptyMap(),
             ),
             content2 to TextPostSectionContentResponse(
-                content = "뽀미에요"
+                content = "뽀미에요",
+                extra = emptyMap(),
             )
         )
     }

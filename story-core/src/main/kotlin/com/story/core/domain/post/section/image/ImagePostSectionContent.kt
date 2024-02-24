@@ -9,6 +9,7 @@ data class ImagePostSectionContent(
     val height: Int,
     val fileSize: Long,
     val fileName: String, // flower.png
+    val extra: Map<String, Any>,
 ) : PostSectionContent {
 
     override fun sectionType(): PostSectionType = PostSectionType.IMAGE
