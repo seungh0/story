@@ -24,6 +24,7 @@
 | 404 | not_exists_emotion | 존재하지 않는 이모션인 경우
 | 404 | not_exists_feed | 존재하지 않는 피드인 경우
 | 404 | not_exists_feed_mapping | 존재하지 않는 피드 매핑인 경우
+| 404 | not_exists_file | 존재하지 않는 파일인 경우
 | 405 | method_not_allowed | 허용하지 않는 HTTP Method인 경우
 | 409 | already_exists_api_key | API-Key 중복 시
 | 409 | already_exists_component | 컴포넌트 중복 시

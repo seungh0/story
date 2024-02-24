@@ -96,6 +96,11 @@ enum class ErrorCode(
         code = "not_exists_feed_mapping",
         description = "존재하지 않는 피드 매핑인 경우"
     ),
+    E404_NOT_EXISTS_FILE(
+        httpStatusCode = 404,
+        code = "not_exists_file",
+        description = "존재하지 않는 파일인 경우"
+    ),
 
     /**
      * 405 Method Not Allowed

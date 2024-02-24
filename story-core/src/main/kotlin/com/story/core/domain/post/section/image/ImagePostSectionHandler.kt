@@ -1,6 +1,7 @@
 package com.story.core.domain.post.section.image
 
 import com.story.core.common.utils.mapToSet
+import com.story.core.domain.file.FileNotExistsException
 import com.story.core.domain.file.FileRetriever
 import com.story.core.domain.file.FileType
 import com.story.core.domain.post.section.PostSectionContent
@@ -36,7 +37,10 @@ class ImagePostSectionHandler(
             if (request !is ImagePostSectionContentRequest) {
                 throw IllegalArgumentException("request is not ImagePostSectionContentRequest")
             }
-            val file = files[request.fileId] ?: throw IllegalArgumentException("no file")
+
+            val file = files[request.fileId]
+                ?: throw FileNotExistsException("워크스페이스($workspaceId)에 등록된 이미지(IMAGE) 파일(${request.fileId})이 존재하지 않습니다")
+
             return@associateWith ImagePostSectionContent(
                 path = file.path,
                 width = file.width,
