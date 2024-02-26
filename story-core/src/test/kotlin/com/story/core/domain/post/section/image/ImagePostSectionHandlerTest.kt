@@ -42,20 +42,18 @@ class ImagePostSectionHandlerTest : StringSpec({
 
         coEvery { fileRetriever.getFiles(any(), any(), any()) } returns mapOf(
             1L to FileResponse(
-                path = "/pictures",
+                path = "/pictures/flower.png",
                 width = 40,
                 height = 20,
                 fileSize = 100,
-                fileName = "flower.png",
                 domain = "https://cdn.story.com",
                 fileId = 1L,
             ),
             2L to FileResponse(
-                path = "/pictures",
+                path = "/pictures/dog.png",
                 width = 80,
                 height = 60,
                 fileSize = 1000,
-                fileName = "dog.png",
                 domain = "https://cdn.story.com",
                 fileId = 2L,
             )
@@ -68,21 +66,19 @@ class ImagePostSectionHandlerTest : StringSpec({
         sut shouldHaveSize 2
         sut shouldContainExactly mapOf(
             section1 to ImagePostSectionContent(
-                path = "/pictures",
+                path = "/pictures/flower.png",
                 width = 40,
                 height = 20,
                 fileSize = 100,
-                fileName = "flower.png",
                 extra = mapOf(
                     "extra" to 10
                 ),
             ),
             section2 to ImagePostSectionContent(
-                path = "/pictures",
+                path = "/pictures/dog.png",
                 width = 80,
                 height = 60,
                 fileSize = 1000,
-                fileName = "dog.png",
                 extra = emptyMap(),
             )
         )
@@ -91,19 +87,17 @@ class ImagePostSectionHandlerTest : StringSpec({
     "ImagePostSectionContent -> ImagePostSectionContentResponse" {
         // given
         val content1 = ImagePostSectionContent(
-            path = "/pictures",
+            path = "/pictures/flower.png",
             width = 120,
             height = 86,
             fileSize = 1024,
-            fileName = "flower.png",
             extra = emptyMap(),
         )
         val content2 = ImagePostSectionContent(
-            path = "/pictures",
+            path = "/pictures/dog.png",
             width = 120,
             height = 86,
             fileSize = 1024,
-            fileName = "dog.png",
             extra = mapOf(
                 "extra" to 10
             ),

@@ -17,7 +17,6 @@ data class FeedMapping(
     val key: FeedMappingPrimaryKey,
 
     var description: String,
-    var status: FeedMappingStatus,
     var retention: Duration,
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
@@ -36,11 +35,6 @@ data class FeedMapping(
         this.auditingTime = this.auditingTime.updated()
     }
 
-    fun disconnect() {
-        this.status = FeedMappingStatus.DISABLED
-        this.auditingTime = this.auditingTime.updated()
-    }
-
     companion object {
         fun of(
             workspaceId: String,
@@ -50,7 +44,6 @@ data class FeedMapping(
             subscriptionComponentId: String,
             description: String,
             retention: Duration,
-            status: FeedMappingStatus = FeedMappingStatus.ENABLED,
         ) = FeedMapping(
             key = FeedMappingPrimaryKey(
                 workspaceId = workspaceId,
@@ -61,7 +54,6 @@ data class FeedMapping(
             ),
             description = description,
             retention = retention,
-            status = status,
             auditingTime = AuditingTime.created(),
         )
     }

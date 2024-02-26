@@ -15,7 +15,6 @@ class LocalFileUploader(
             val fileName = UUID.randomUUID().toString()
             FileInfo(
                 domain = properties.getProperties(fileType).domain,
-                fileName = fileName,
                 width = 80,
                 height = 60,
                 path = "/image/$fileName",

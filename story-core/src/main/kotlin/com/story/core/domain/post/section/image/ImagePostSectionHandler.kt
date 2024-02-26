@@ -46,7 +46,6 @@ class ImagePostSectionHandler(
                 width = file.width,
                 height = file.height,
                 fileSize = file.fileSize,
-                fileName = file.fileName,
                 extra = request.extra,
             )
         }

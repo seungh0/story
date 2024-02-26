@@ -16,7 +16,6 @@ data class File(
     val width: Int,
     val height: Int,
     val fileSize: Long,
-    val fileName: String,
 ) {
 
     companion object {
@@ -34,7 +33,6 @@ data class File(
             width = fileInfo.width,
             height = fileInfo.height,
             fileSize = fileInfo.fileSize,
-            fileName = fileInfo.fileName,
         )
     }
 

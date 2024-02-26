@@ -13,7 +13,6 @@ object FeedMappingFixture {
         sourceComponentId: String = RandomGenerator.generateString(),
         subscriptionComponentId: String = RandomGenerator.generateString(),
         description: String = RandomGenerator.generateString(),
-        status: FeedMappingStatus = RandomGenerator.generateEnum(FeedMappingStatus::class.java),
         retention: Duration = Duration.ofDays(30),
     ) = FeedMapping.of(
         workspaceId = workspaceId,
@@ -22,7 +21,6 @@ object FeedMappingFixture {
         sourceComponentId = sourceComponentId,
         subscriptionComponentId = subscriptionComponentId,
         description = description,
-        status = status,
         retention = retention,
     )
 

@@ -6,5 +6,4 @@ data class FileInfo(
     val width: Int,
     val height: Int,
     val fileSize: Long,
-    val fileName: String,
 )

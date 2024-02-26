@@ -41,7 +41,6 @@ class FeedMappingCreatorTest(
             it.key.sourceResourceId shouldBe request.sourceResourceId
             it.key.sourceComponentId shouldBe request.sourceComponentId
             it.key.subscriptionComponentId shouldBe request.subscriptionComponentId
-            it.status shouldBe FeedMappingStatus.ENABLED
             it.description shouldBe request.description
             it.retention shouldBe request.retention
             it.auditingTime.createdAt shouldNotBe null

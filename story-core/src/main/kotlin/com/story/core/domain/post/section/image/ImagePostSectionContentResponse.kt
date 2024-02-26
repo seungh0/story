@@ -16,7 +16,7 @@ data class ImagePostSectionContentResponse(
     companion object {
         fun from(sectionContent: ImagePostSectionContent, imageDomain: String) = ImagePostSectionContentResponse(
             domain = imageDomain,
-            path = sectionContent.path + "/" + sectionContent.fileName,
+            path = sectionContent.path,
             width = sectionContent.width,
             height = sectionContent.height,
             extra = sectionContent.extra,
