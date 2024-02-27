@@ -6,7 +6,7 @@
     <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
 
     <springProfile name="local,test">
-        <logger name="com.depromeet.threedollar" level="DEBUG"/>
+        <logger name="com.story" level="DEBUG"/>
 
         <logger name="org.springframework" level="INFO"/>
         <logger name="org.springframework.cache" level="TRACE"/>

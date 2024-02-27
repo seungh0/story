@@ -20,7 +20,7 @@ class ApiKeyRetrieveApi(
         @Valid request: ApiKeyGetApiRequest,
     ): ApiResponse<ApiKeyApiResponse> {
         val response = apiKeyRetrieveHandler.getApiKey(
-            key = apiKey,
+            requestApiKey = apiKey,
             filterStatus = request.filterStatus
         )
         return ApiResponse.ok(response)

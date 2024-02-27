@@ -1,6 +1,7 @@
 package com.story.api.application.apikey
 
 import com.story.core.common.annotation.HandlerAdapter
+import com.story.core.domain.apikey.ApiKeyInvalidException
 import com.story.core.domain.apikey.ApiKeyNotExistsException
 import com.story.core.domain.apikey.ApiKeyRetriever
 import com.story.core.domain.apikey.ApiKeyStatus
@@ -13,12 +14,16 @@ class ApiKeyRetrieveHandler(
 ) {
 
     suspend fun getApiKey(
-        key: String,
+        requestApiKey: String,
         filterStatus: ApiKeyStatus?,
     ): ApiKeyApiResponse {
-        val apiKey = apiKeyRetriever.getApiKey(apiKey = key)
+        val apiKey = apiKeyRetriever.getApiKey(apiKey = requestApiKey)
+        if (apiKey.isNotFound()) {
+            throw ApiKeyNotExistsException("존재하지 않는 ApiKey($requestApiKey)입니다")
+        }
+
         if (filterStatus != null && apiKey.status != filterStatus) {
-            throw ApiKeyNotExistsException(message = "요청한 상태($filterStatus)가 아닌 API 키($key) 입니다. 현재 상태: ${apiKey.status}")
+            throw ApiKeyInvalidException(message = "요청한 상태($filterStatus)가 아닌 API 키($requestApiKey) 입니다. 현재 상태: ${apiKey.status}")
         }
         val workspace = workspaceRetriever.getWorkspace(workspaceId = apiKey.workspaceId)
         return ApiKeyApiResponse.of(apiKey = apiKey, workspace = workspace)

@@ -17,7 +17,7 @@ class ApiKeyLocalCacheEvictManager {
     suspend fun evictApiKey(
         apiKey: String,
     ) {
-        log.info { "ApiKey 캐시가 만료됩니다 [apiKey: $apiKey]" }
+        log.debug { "ApiKey 캐시가 만료됩니다 [apiKey: $apiKey]" }
     }
 
 }

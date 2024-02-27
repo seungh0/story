@@ -20,7 +20,7 @@ class PostLocalCacheEvictManager {
         spaceId: String,
         postId: PostKey,
     ) {
-        log.info { "Post 캐시가 만료됩니다 [workspaceId: $workspaceId componentId: $componentId spaceId: $spaceId postId: $postId]" }
+        log.debug { "Post 캐시가 만료됩니다 [workspaceId: $workspaceId componentId: $componentId spaceId: $spaceId postId: $postId]" }
     }
 
 }

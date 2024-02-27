@@ -20,7 +20,7 @@ class ComponentLocalCacheEvictManager {
         resourceId: ResourceId,
         componentId: String,
     ) {
-        log.info { "Component 캐시가 만료됩니다 [workspaceId: $workspaceId resourceId: $resourceId componentId: $componentId]" }
+        log.debug { "Component 캐시가 만료됩니다 [workspaceId: $workspaceId resourceId: $resourceId componentId: $componentId]" }
     }
 
 }

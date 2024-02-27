@@ -17,7 +17,7 @@ class WorkspaceLocalCacheEvictManager {
     suspend fun evict(
         workspaceId: String,
     ) {
-        log.info { "Workspace 로컬 캐시가 만료됩니다 [workspaceId: $workspaceId]" }
+        log.debug { "Workspace 로컬 캐시가 만료됩니다 [workspaceId: $workspaceId]" }
     }
 
 }

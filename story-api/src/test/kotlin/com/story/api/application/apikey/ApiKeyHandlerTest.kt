@@ -5,7 +5,6 @@ import com.story.core.common.http.HttpHeader
 import com.story.core.domain.apikey.ApiKeyEmptyException
 import com.story.core.domain.apikey.ApiKeyInactivatedException
 import com.story.core.domain.apikey.ApiKeyInvalidException
-import com.story.core.domain.apikey.ApiKeyNotExistsException
 import com.story.core.domain.apikey.ApiKeyResponse
 import com.story.core.domain.apikey.ApiKeyRetriever
 import com.story.core.domain.apikey.ApiKeyStatus
@@ -30,9 +29,9 @@ class ApiKeyHandlerTest(
             // given
             coEvery { apiKeyRetriever.getApiKey(apiKey) } returns ApiKeyResponse(
                 workspaceId = "story",
-                apiKey = apiKey,
                 status = ApiKeyStatus.ENABLED,
                 description = "",
+                exists = true,
             )
 
             // when
@@ -45,7 +44,6 @@ class ApiKeyHandlerTest(
 
             // then
             sut.workspaceId shouldBe "story"
-            sut.apiKey shouldBe apiKey
             sut.status shouldBe ApiKeyStatus.ENABLED
         }
 
@@ -54,9 +52,9 @@ class ApiKeyHandlerTest(
             val apiKey = "api-key"
             coEvery { apiKeyRetriever.getApiKey(apiKey) } returns ApiKeyResponse(
                 workspaceId = "story",
-                apiKey = apiKey,
                 status = ApiKeyStatus.DISABLED,
                 description = "",
+                exists = true,
             )
 
             // when & then
@@ -73,9 +71,7 @@ class ApiKeyHandlerTest(
         test("등록되지 않은 API-Key 인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { apiKeyRetriever.getApiKey(apiKey) } throws ApiKeyNotExistsException(
-                "등록되지 않은 API-Key 입니다"
-            )
+            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns ApiKeyResponse.notExist
 
             // when & then
             shouldThrowExactly<ApiKeyInvalidException> {

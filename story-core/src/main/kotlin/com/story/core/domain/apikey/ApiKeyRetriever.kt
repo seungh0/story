@@ -16,10 +16,7 @@ class ApiKeyRetriever(
     suspend fun getApiKey(
         apiKey: String,
     ): ApiKeyResponse {
-        return ApiKeyResponse.of(
-            apiKeyRepository.findById(apiKey)
-                ?: throw ApiKeyNotExistsException(message = "등록되지 않은 APIKey($apiKey) 입니다")
-        )
+        return ApiKeyResponse.of(apiKey = apiKeyRepository.findById(apiKey) ?: return ApiKeyResponse.notExist)
     }
 
 }

@@ -20,7 +20,7 @@ class FeedMappingLocalCacheEvictManager {
         sourceResourceId: ResourceId,
         sourceComponentId: String,
     ) {
-        log.info { "FeedMapping 캐시가 만료됩니다 [workspaceId: $workspaceId sourceResourceId: $sourceResourceId sourceComponentId: $sourceComponentId]" }
+        log.debug { "FeedMapping 캐시가 만료됩니다 [workspaceId: $workspaceId sourceResourceId: $sourceResourceId sourceComponentId: $sourceComponentId]" }
     }
 
 }

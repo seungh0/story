@@ -20,9 +20,9 @@ abstract class FunSpecDocsTest(body: FunSpec.() -> Unit = {}) : FunSpec() {
     override suspend fun beforeEach(testCase: TestCase) {
         coEvery { apiKeyHandler.handleApiKey(any()) } returns ApiKeyResponse(
             workspaceId = "story",
-            apiKey = "api-key",
             status = ApiKeyStatus.ENABLED,
             description = "",
+            exists = true,
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }

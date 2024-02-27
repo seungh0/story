@@ -35,11 +35,10 @@ class ApiKeyRetrieveApiTest(
 
         coEvery {
             apiKeyRetrieveHandler.getApiKey(
-                key = apiKey,
+                requestApiKey = apiKey,
                 filterStatus = any(),
             )
         } returns ApiKeyApiResponse(
-            apiKey = apiKey,
             status = ApiKeyStatus.ENABLED,
             description = "Story Platform에서 사용할 API-Key",
             workspace = WorkspaceApiResponse.of(
@@ -81,8 +80,6 @@ class ApiKeyRetrieveApiTest(
                             .type(JsonFieldType.BOOLEAN).description("성공 여부"),
                         PayloadDocumentation.fieldWithPath("result")
                             .type(JsonFieldType.OBJECT).description("요청 결과"),
-                        PayloadDocumentation.fieldWithPath("result.apiKey")
-                            .type(JsonFieldType.STRING).description("API 키"),
                         PayloadDocumentation.fieldWithPath("result.status")
                             .type(JsonFieldType.STRING).description("API 키에 대한 상태 값")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ApiKeyStatus::class.java))),
