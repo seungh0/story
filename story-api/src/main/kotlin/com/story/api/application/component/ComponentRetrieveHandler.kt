@@ -21,6 +21,7 @@ class ComponentRetrieveHandler(
             resourceId = resourceId,
             componentId = componentId
         )
+            .orElseThrow { ComponentNotExistsException(message = "워크스페이스($workspaceId)에 등록되지 않은 컴포넌트($resourceId-$componentId)입니다") }
 
         if (request.filterStatus != null && component.status != request.filterStatus) {
             throw ComponentNotExistsException(message = "워크스페이스($workspaceId)에 상태가 다른 컴포넌트($resourceId-$componentId)입니다. [filterStatus: ${request.filterStatus}, current: ${component.status}]")

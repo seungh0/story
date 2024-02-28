@@ -23,9 +23,7 @@ class ApiKeyHandler(
             ?: throw ApiKeyEmptyException("API Key 헤더(${HttpHeader.X_STORY_API_KEY.header})가 비어있습니다")
 
         val apiKey = apiKeyRetriever.getApiKey(apiKey = requestApiKey)
-        if (apiKey.isNotFound()) {
-            throw ApiKeyInvalidException("등록되지 않은 ApiKey($requestApiKey)입니다")
-        }
+            .orElseThrow { ApiKeyInvalidException("등록되지 않은 ApiKey($requestApiKey)입니다") }
 
         if (!allowedDisabledApiKey && !apiKey.isActivated()) {
             throw ApiKeyInactivatedException("비활성화된 ApiKey($requestApiKey)입니다. [워크스페이스(${apiKey.workspaceId}) 현재 상태: ${apiKey.status}]")

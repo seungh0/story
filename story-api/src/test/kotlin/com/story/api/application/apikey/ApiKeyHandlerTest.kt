@@ -14,6 +14,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest
 import org.springframework.mock.web.server.MockServerWebExchange
+import java.util.Optional
 
 class ApiKeyHandlerTest(
     @MockkBean
@@ -27,11 +28,12 @@ class ApiKeyHandlerTest(
             val apiKey = "api-key"
 
             // given
-            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns ApiKeyResponse(
-                workspaceId = "story",
-                status = ApiKeyStatus.ENABLED,
-                description = "",
-                exists = true,
+            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns Optional.of(
+                ApiKeyResponse(
+                    workspaceId = "story",
+                    status = ApiKeyStatus.ENABLED,
+                    description = "",
+                )
             )
 
             // when
@@ -50,11 +52,12 @@ class ApiKeyHandlerTest(
         test("비활성화되어 있는 API-Key인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns ApiKeyResponse(
-                workspaceId = "story",
-                status = ApiKeyStatus.DISABLED,
-                description = "",
-                exists = true,
+            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns Optional.of(
+                ApiKeyResponse(
+                    workspaceId = "story",
+                    status = ApiKeyStatus.DISABLED,
+                    description = "",
+                )
             )
 
             // when & then
@@ -71,7 +74,7 @@ class ApiKeyHandlerTest(
         test("등록되지 않은 API-Key 인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns ApiKeyResponse.notExist
+            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns Optional.empty()
 
             // when & then
             shouldThrowExactly<ApiKeyInvalidException> {

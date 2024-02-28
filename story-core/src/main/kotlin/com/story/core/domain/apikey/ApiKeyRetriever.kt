@@ -3,6 +3,7 @@ package com.story.core.domain.apikey
 import com.story.core.infrastructure.cache.CacheType
 import com.story.core.infrastructure.cache.Cacheable
 import org.springframework.stereotype.Service
+import java.util.Optional
 
 @Service
 class ApiKeyRetriever(
@@ -15,8 +16,10 @@ class ApiKeyRetriever(
     )
     suspend fun getApiKey(
         apiKey: String,
-    ): ApiKeyResponse {
-        return ApiKeyResponse.of(apiKey = apiKeyRepository.findById(apiKey) ?: return ApiKeyResponse.notExist)
+    ): Optional<ApiKeyResponse> {
+        val entity = apiKeyRepository.findById(apiKey)
+            ?: return Optional.empty()
+        return Optional.of(ApiKeyResponse.of(apiKey = entity))
     }
 
 }

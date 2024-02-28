@@ -39,7 +39,6 @@ class WorkspaceRetrieveApiTest(
             workspaceId = "story",
             status = ApiKeyStatus.ENABLED,
             description = "Story Platform",
-            exists = true,
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }

@@ -9,6 +9,7 @@ import com.story.core.infrastructure.cache.Cacheable
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
+import java.util.Optional
 
 @Service
 class ComponentRetriever(
@@ -23,17 +24,15 @@ class ComponentRetriever(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
-    ): ComponentResponse {
+    ): Optional<ComponentResponse> {
         val component = componentRepository.findById(
             ComponentPrimaryKey(
                 workspaceId = workspaceId,
                 resourceId = resourceId,
                 componentId = componentId,
             )
-        )
-            ?: throw ComponentNotExistsException(message = "워크스페이스($workspaceId)에 등록되지 않은 컴포넌트($resourceId-$componentId)입니다")
-
-        return ComponentResponse.of(component = component)
+        ) ?: return Optional.empty()
+        return Optional.of(ComponentResponse.of(component = component))
     }
 
     suspend fun listComponents(

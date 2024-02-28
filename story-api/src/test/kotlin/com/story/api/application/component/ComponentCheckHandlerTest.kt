@@ -11,6 +11,7 @@ import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import io.mockk.mockk
+import java.util.Optional
 
 class ComponentCheckHandlerTest : FunSpec({
 
@@ -32,12 +33,14 @@ class ComponentCheckHandlerTest : FunSpec({
                     resourceId = resourceId,
                     componentId = componentId,
                 )
-            } returns ComponentResponse.of(
-                ComponentFixutre.create(
-                    workspaceId = workspaceId,
-                    resourceId = resourceId,
-                    componentId = componentId,
-                    status = ComponentStatus.ENABLED,
+            } returns Optional.of(
+                ComponentResponse.of(
+                    ComponentFixutre.create(
+                        workspaceId = workspaceId,
+                        resourceId = resourceId,
+                        componentId = componentId,
+                        status = ComponentStatus.ENABLED,
+                    )
                 )
             )
 
@@ -63,12 +66,14 @@ class ComponentCheckHandlerTest : FunSpec({
                     resourceId = resourceId,
                     componentId = componentId,
                 )
-            } returns ComponentResponse.of(
-                ComponentFixutre.create(
-                    workspaceId = workspaceId,
-                    resourceId = resourceId,
-                    componentId = componentId,
-                    status = ComponentStatus.DISABLED,
+            } returns Optional.of(
+                ComponentResponse.of(
+                    ComponentFixutre.create(
+                        workspaceId = workspaceId,
+                        resourceId = resourceId,
+                        componentId = componentId,
+                        status = ComponentStatus.DISABLED,
+                    )
                 )
             )
 

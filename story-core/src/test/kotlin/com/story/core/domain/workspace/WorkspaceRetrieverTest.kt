@@ -2,8 +2,8 @@ package com.story.core.domain.workspace
 
 import com.story.core.IntegrationTest
 import com.story.core.StringSpecIntegrationTest
-import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
+import kotlin.jvm.optionals.getOrNull
 
 @IntegrationTest
 class WorkspaceRetrieverTest(
@@ -17,7 +17,7 @@ class WorkspaceRetrieverTest(
         workspaceRepository.save(workspace)
 
         // when
-        val sut = workspaceRetriever.getWorkspace(workspaceId = workspace.workspaceId)
+        val sut = workspaceRetriever.getWorkspace(workspaceId = workspace.workspaceId).get()
 
         // then
         sut.workspaceId shouldBe workspace.workspaceId
@@ -30,10 +30,12 @@ class WorkspaceRetrieverTest(
         // given
         val workspace = WorkspaceFixture.create()
 
-        // when & then
-        shouldThrowExactly<WorkspaceNotExistsException> {
-            workspaceRetriever.getWorkspace(workspaceId = workspace.workspaceId)
-        }
+        // when
+        val sut = workspaceRetriever.getWorkspace(workspaceId = workspace.workspaceId)
+
+        // then
+        sut.getOrNull() shouldBe null
+        sut.isEmpty shouldBe true
     }
 
 })

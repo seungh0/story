@@ -22,7 +22,6 @@ abstract class StringSpecDocsTest(body: StringSpec.() -> Unit = {}) : StringSpec
             workspaceId = "story",
             status = ApiKeyStatus.ENABLED,
             description = "",
-            exists = true,
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }

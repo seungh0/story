@@ -1,6 +1,7 @@
 package com.story.api.application.feed.mapping
 
 import com.story.core.common.annotation.HandlerAdapter
+import com.story.core.domain.component.ComponentNotExistsException
 import com.story.core.domain.component.ComponentRetriever
 import com.story.core.domain.feed.mapping.FeedMappingCreateRequest
 import com.story.core.domain.feed.mapping.FeedMappingCreator
@@ -32,6 +33,7 @@ class FeedMappingCreateHandler(
                 resourceId = resourceId,
                 componentId = componentId,
             )
+                .orElseThrow { ComponentNotExistsException(message = "워크스페이스($workspaceId)에 등록되지 않은 컴포넌트($resourceId-$componentId)입니다") }
         }
 
         feedMappingCreator.create(
