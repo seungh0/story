@@ -42,7 +42,10 @@ Accept-Language: en
                 }
             }
         }
-    ]
+    ],
+    "extra": {
+        "allowComment": "false"
+    }
 }
 
 > {%
@@ -127,9 +130,8 @@ X-Story-Request-User-Id: {{USER_ID}}
         {
             "sectionType": "IMAGE",
             "data": {
-                "priority": 3,
-                "path": "/store/v1",
-                "fileName": "store.png"
+                "priority": 2,
+                "fileId": 86471063135047680
             }
         },
         {
@@ -144,7 +146,10 @@ X-Story-Request-User-Id: {{USER_ID}}
                 }
             }
         }
-    ]
+    ],
+    "extra": {
+        "allowComment": "true"
+    }
 }
 
 > {%

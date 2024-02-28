@@ -11,6 +11,7 @@ data class PostApiResponse(
     val depth: Int,
     val title: String,
     val sections: List<PostSectionApiResponse>,
+    val extra: Map<String, String>,
     val owner: PostOwnerApiResponse,
     val metadata: PostMetadataApiResponse,
 ) : FeedPayload, AuditingTimeResponse() {
@@ -33,6 +34,7 @@ data class PostApiResponse(
                     requestUserId = requestUserId,
                 ),
                 metadata = PostMetadataApiResponse.of(metadata = post.metadata),
+                extra = post.extra,
             )
             response.setAuditingTime(post)
             return response

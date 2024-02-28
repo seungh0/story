@@ -34,6 +34,7 @@ class PostModifier(
         postId: PostKey,
         title: String?,
         sections: List<PostSectionContentRequest>?,
+        extra: Map<String, String>?,
     ): PostPatchResponse {
         val slotId = PostSlotAssigner.assign(postId.postId)
 
@@ -61,6 +62,7 @@ class PostModifier(
 
         var hasChanged = post.patch(
             title = title,
+            extra = extra,
         )
 
         if (sections == null) {

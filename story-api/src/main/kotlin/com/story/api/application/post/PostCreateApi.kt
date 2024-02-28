@@ -34,10 +34,8 @@ class PostCreateApi(
                 spaceId = spaceId,
             ),
             ownerId = authContext.getRequiredRequestUserId(),
-            title = request.title,
-            sections = request.toSections(),
             nonce = nonce,
-            parentId = request.parentId,
+            request = request,
         )
         return ApiResponse.ok(PostCreateApiResponse.of(postId = postId))
     }

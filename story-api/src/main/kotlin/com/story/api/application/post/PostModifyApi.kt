@@ -35,8 +35,7 @@ class PostModifyApi(
             ),
             postId = postId,
             ownerId = authContext.getRequiredRequestUserId(),
-            title = request.title,
-            sections = request.toSections(),
+            request = request,
         )
         return ApiResponse.OK
     }

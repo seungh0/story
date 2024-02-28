@@ -7,7 +7,6 @@ import com.story.core.domain.post.PostCreator
 import com.story.core.domain.post.PostEventProducer
 import com.story.core.domain.post.PostKey
 import com.story.core.domain.post.PostSpaceKey
-import com.story.core.domain.post.section.PostSectionContentRequest
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
@@ -20,13 +19,12 @@ class PostCreateHandler(
 
     suspend fun createPost(
         postSpaceKey: PostSpaceKey,
-        parentId: PostKey?,
         ownerId: String,
-        title: String,
-        sections: List<PostSectionContentRequest>,
+        request: PostCreateApiRequest,
         nonce: String?,
     ): PostKey {
         nonce?.let { nonceManager.verify(nonce) }
+
         componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,
             resourceId = ResourceId.POSTS,
@@ -35,10 +33,11 @@ class PostCreateHandler(
 
         val post = postCreator.createPost(
             postSpaceKey = postSpaceKey,
-            parentId = parentId,
+            parentId = request.parentId,
             ownerId = ownerId,
-            title = title,
-            sections = sections,
+            title = request.title,
+            sections = request.toSections(),
+            extra = request.extra,
         )
         postEventProducer.publishCreatedEvent(post = post)
         return post.postId

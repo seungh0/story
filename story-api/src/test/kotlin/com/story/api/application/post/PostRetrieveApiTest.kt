@@ -86,6 +86,7 @@ class PostRetrieveApiTest(
                 hasChildren = false,
             ),
             depth = 2,
+            extra = emptyMap(),
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -184,6 +185,8 @@ class PostRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result.owner.isOwner")
                             .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부")
                             .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
+                        PayloadDocumentation.fieldWithPath("result.extra")
+                            .type(JsonFieldType.OBJECT).description("포스트 추가 정보"),
                         PayloadDocumentation.fieldWithPath("result.metadata.hasChildren")
                             .type(JsonFieldType.BOOLEAN).description("포스트 하위에 등록된 포스트가 존재하는 지 여부"),
                     )
@@ -245,6 +248,7 @@ class PostRetrieveApiTest(
                 hasChildren = false,
             ),
             depth = 2,
+            extra = emptyMap(),
         )
         post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
         post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
@@ -368,6 +372,8 @@ class PostRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result.posts[].owner.isOwner")
                             .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부")
                             .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
+                        PayloadDocumentation.fieldWithPath("result.posts[].extra")
+                            .type(JsonFieldType.OBJECT).description("포스트 추가 정보"),
                         PayloadDocumentation.fieldWithPath("result.posts[].metadata.hasChildren")
                             .type(JsonFieldType.BOOLEAN).description("포스트 하위에 등록된 포스트가 존재하는 지 여부"),
                         PayloadDocumentation.fieldWithPath("result.cursor")

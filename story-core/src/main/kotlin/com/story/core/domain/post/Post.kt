@@ -20,7 +20,7 @@ data class Post(
 
     val ownerId: String,
     var title: String,
-    val extra: MutableMap<String, String> = mutableMapOf(),
+    var extra: MutableMap<String, String> = mutableMapOf(),
     val metadata: MutableMap<PostMetadataType, String> = mutableMapOf(),
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
@@ -29,6 +29,10 @@ data class Post(
 
     fun isOwner(ownerId: String): Boolean {
         return this.ownerId == ownerId
+    }
+
+    fun putMetadata(type: PostMetadataType, value: Any) {
+        this.metadata[type] = value.toString()
     }
 
     fun <T> getMetadata(type: PostMetadataType): T {
@@ -41,11 +45,17 @@ data class Post(
 
     fun patch(
         title: String?,
+        extra: Map<String, String>?,
     ): Boolean {
         var hasChanged = false
         if (!title.isNullOrBlank()) {
             hasChanged = hasChanged || this.title != title
             this.title = title
+        }
+
+        if (extra != null) {
+            hasChanged = hasChanged || this.extra != extra
+            this.extra = extra.toMutableMap()
         }
 
         this.auditingTime.updated()
@@ -60,6 +70,7 @@ data class Post(
             ownerId: String,
             postId: Long,
             title: String,
+            extra: Map<String, String>,
         ) = Post(
             key = PostPrimaryKey.of(
                 postSpaceKey = postSpaceKey,
@@ -68,6 +79,7 @@ data class Post(
             ),
             ownerId = ownerId,
             title = title,
+            extra = extra.toMutableMap(),
             auditingTime = AuditingTime.created(),
         )
     }

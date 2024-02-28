@@ -41,6 +41,9 @@ internal class PostModifierTest(
                 content = "컨텐츠 내용 - 2",
                 priority = 2L,
             )
+            val extra = mapOf(
+                "enableComment" to "true"
+            )
 
             // when
             postModifier.patchPost(
@@ -53,6 +56,7 @@ internal class PostModifierTest(
                 ownerId = post.ownerId,
                 title = title,
                 sections = listOf(section1, section2),
+                extra = extra,
             )
 
             // then
@@ -66,6 +70,7 @@ internal class PostModifierTest(
                 it.key.postId shouldBe post.key.postId
                 it.ownerId shouldBe post.ownerId
                 it.title shouldBe title
+                it.extra shouldBe extra
             }
 
             val postReverses = postReverseRepository.findAll().toList()
@@ -122,6 +127,7 @@ internal class PostModifierTest(
                     ownerId = "user-1",
                     title = title,
                     sections = emptyList(),
+                    extra = emptyMap(),
                 )
             }
         }
@@ -148,6 +154,7 @@ internal class PostModifierTest(
                     ownerId = "another Owner Id",
                     title = title,
                     sections = emptyList(),
+                    extra = emptyMap(),
                 )
             }
         }

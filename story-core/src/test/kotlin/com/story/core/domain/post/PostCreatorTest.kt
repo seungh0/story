@@ -41,6 +41,9 @@ internal class PostCreatorTest(
                 content = "컨텐츠 내용 - 2",
                 priority = 2L,
             )
+            val extra = mapOf(
+                "enableComment" to "true"
+            )
 
             // when
             postCreator.createPost(
@@ -49,6 +52,7 @@ internal class PostCreatorTest(
                 ownerId = ownerId,
                 title = title,
                 sections = listOf(section1, section2),
+                extra = extra,
             )
 
             // then
@@ -63,6 +67,7 @@ internal class PostCreatorTest(
                 it.key.postId shouldNotBe null
                 it.ownerId shouldBe ownerId
                 it.title shouldBe title
+                it.extra shouldBe extra
             }
 
             val postReverses = postReverseRepository.findAll().toList()
@@ -137,6 +142,9 @@ internal class PostCreatorTest(
                 content = "컨텐츠 내용 - 2",
                 priority = 2L,
             )
+            val extra = mapOf(
+                "enableComment" to "true"
+            )
 
             // when
             postCreator.createPost(
@@ -145,6 +153,7 @@ internal class PostCreatorTest(
                 ownerId = ownerId,
                 title = title,
                 sections = listOf(section1, section2),
+                extra = extra,
             )
 
             // then
@@ -167,6 +176,7 @@ internal class PostCreatorTest(
                 it.ownerId shouldBe parentPost.ownerId
                 it.title shouldBe parentPost.title
                 it.metadata shouldContainExactly mapOf(PostMetadataType.HAS_CHILDREN to true.toString())
+                it.extra shouldBe parentPost.extra
             }
         }
 
@@ -197,6 +207,7 @@ internal class PostCreatorTest(
                     ownerId = ownerId,
                     title = title,
                     sections = listOf(section1, section2),
+                    extra = emptyMap(),
                 )
             }
         }

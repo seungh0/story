@@ -81,6 +81,7 @@ class FeedRetrieveApiTest(
                         ),
                         parentId = null,
                         depth = 1,
+                        extra = emptyMap(),
                     ).apply {
                         this.createdAt = LocalDateTime.now()
                         this.updatedAt = LocalDateTime.now()
@@ -114,6 +115,7 @@ class FeedRetrieveApiTest(
                         ),
                         parentId = null,
                         depth = 1,
+                        extra = emptyMap(),
                     ).apply {
                         this.createdAt = LocalDateTime.now()
                         this.updatedAt = LocalDateTime.now()
@@ -148,6 +150,7 @@ class FeedRetrieveApiTest(
                         ),
                         parentId = null,
                         depth = 1,
+                        extra = emptyMap(),
                     ).apply {
                         this.createdAt = LocalDateTime.now()
                         this.updatedAt = LocalDateTime.now()
@@ -257,6 +260,8 @@ class FeedRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.sections[].data.extra.og:description")
                             .type(JsonFieldType.STRING)
                             .description("[LINK 섹션 전용] OG 태그 (description)").optional(),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].payload.extra")
+                            .type(JsonFieldType.OBJECT).description("포스트 추가 정보").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.createdAt")
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].payload.updatedAt")

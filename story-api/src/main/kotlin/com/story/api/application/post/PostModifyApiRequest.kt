@@ -8,6 +8,7 @@ data class PostModifyApiRequest(
     @field:Size(max = 100)
     val title: String?,
     val sections: List<PostSectionApiRequest>?,
+    val extra: Map<String, String>?,
 ) {
 
     @JsonIgnore

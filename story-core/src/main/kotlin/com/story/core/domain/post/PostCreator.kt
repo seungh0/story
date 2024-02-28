@@ -22,6 +22,7 @@ class PostCreator(
         ownerId: String,
         title: String,
         sections: List<PostSectionContentRequest>,
+        extra: Map<String, String>,
     ): PostResponse {
         if (parentId != null) {
             val parentPost = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
@@ -34,7 +35,7 @@ class PostCreator(
             ) ?: throw ParentPostNotExistsException("부모 포스트($parentId)가 존재하지 않습니다")
 
             if (!parentPost.getMetadata<Boolean>(type = PostMetadataType.HAS_CHILDREN)) {
-                parentPost.metadata[PostMetadataType.HAS_CHILDREN] = true.toString()
+                parentPost.putMetadata(PostMetadataType.HAS_CHILDREN, true)
                 postRepository.save(parentPost)
             }
         }
@@ -46,6 +47,7 @@ class PostCreator(
             parentId = parentId,
             postId = postId,
             title = title,
+            extra = extra,
         )
 
         val postSections = postSectionManager.makePostSections(

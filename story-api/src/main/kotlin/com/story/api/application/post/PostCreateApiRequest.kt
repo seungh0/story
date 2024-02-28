@@ -12,6 +12,7 @@ data class PostCreateApiRequest(
     @field:Size(max = 100)
     val title: String = "",
     val sections: List<PostSectionApiRequest>,
+    val extra: Map<String, String>,
 ) {
 
     fun toSections(): List<PostSectionContentRequest> {

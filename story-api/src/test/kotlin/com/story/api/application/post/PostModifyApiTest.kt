@@ -73,6 +73,7 @@ class PostModifyApiTest(
                     )
                 )
             ),
+            extra = emptyMap(),
         )
 
         coEvery {
@@ -84,8 +85,7 @@ class PostModifyApiTest(
                 ),
                 postId = postKey,
                 ownerId = any(),
-                title = request.title,
-                sections = request.toSections(),
+                request = any(),
             )
         } returns Unit
 
@@ -146,6 +146,8 @@ class PostModifyApiTest(
                             .description("[LINK 섹션 전용] OG 태그 (title)").optional(),
                         fieldWithPath("sections[].data.extra.og:description").type(JsonFieldType.STRING)
                             .description("[LINK 섹션 전용] OG 태그 (description)").optional(),
+                        fieldWithPath("extra").type(JsonFieldType.OBJECT)
+                            .description("포스트 추가 정보").optional(),
                     ),
                     responseFields(
                         fieldWithPath("ok")
