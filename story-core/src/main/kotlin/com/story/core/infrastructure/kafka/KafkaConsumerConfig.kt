@@ -27,6 +27,19 @@ class KafkaConsumerConfig(
             ackMode = AckMode.RECORD,
             batchListener = false,
             concurrency = 1,
+            autoOffsetRest = "latest"
+        )
+    }
+
+    @Bean(name = [EARLIEST_KAFKA_CONSUMER])
+    fun earliestKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
+        return concurrentKafkaListenerContainerFactory(
+            maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
+            enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
+            ackMode = AckMode.RECORD,
+            batchListener = false,
+            concurrency = 1,
+            autoOffsetRest = "earliest"
         )
     }
 
@@ -38,6 +51,7 @@ class KafkaConsumerConfig(
             ackMode = AckMode.BATCH,
             batchListener = true,
             concurrency = 1,
+            autoOffsetRest = "latest"
         )
     }
 
@@ -47,12 +61,14 @@ class KafkaConsumerConfig(
         concurrency: Int,
         ackMode: AckMode,
         batchListener: Boolean,
+        autoOffsetRest: String,
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
         factory.consumerFactory = DefaultKafkaConsumerFactory(
             defaultKafkaConsumerConfig(
                 maxPollRecords = maxPollRecords,
                 enableAutoCommit = enableAutoCommit,
+                autoOffsetRest = autoOffsetRest,
             )
         )
         factory.setConcurrency(concurrency)
@@ -89,6 +105,7 @@ class KafkaConsumerConfig(
         sessionTimeout: Duration = Duration.ofSeconds(45),
         maxPollInterval: Duration = Duration.ofMinutes(5),
         requestTimeout: Duration = Duration.ofSeconds(30),
+        autoOffsetRest: String = "latest",
     ): Map<String, Any> {
         val config: MutableMap<String, Any> = HashMap()
         config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaProperties.bootstrapServers
@@ -101,7 +118,7 @@ class KafkaConsumerConfig(
         // 커밋된 오프셋이 없을 때나 컨슈머가 브로커에 없는 오프셋을 요청할 때 컨슈머가 어떻게 처리할지 여부
         // earliest -> 유효한 오프싯에 없는 한 컨슈머는 파티션의 맨 앞에서부터 읽기를 시작 (컨슈머는 많은 메시지들을 중복 처리할 수 있지만, 데이터 유실은 최소화 가능)
         // latest -> 컨슈머는 파티션의 끝에서부터 읽기를 시작 (중복 처리는 최소화, 일부 메시지는 누락)
-        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "latest"
+        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = autoOffsetRest
 
         // poll을 호출할때마다 리턴되는 최대 레코드 수
         config[ConsumerConfig.MAX_POLL_RECORDS_CONFIG] = maxPollRecords
@@ -128,6 +145,7 @@ class KafkaConsumerConfig(
 
     companion object {
         const val DEFAULT_KAFKA_CONSUMER = "defaultKafkaConsumer"
+        const val EARLIEST_KAFKA_CONSUMER = "earliestKafkaConsumer"
         const val DEFAULT_BATCH_KAFKA_CONSUMER = "defaultBatchKafkaConsumer"
     }
 

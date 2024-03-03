@@ -13,6 +13,7 @@ annotation class RetryableKafkaListener(
     @get:AliasFor(annotation = KafkaListener::class) val topics: Array<String>,
     @get:AliasFor(annotation = KafkaListener::class) val groupId: String,
     @get:AliasFor(annotation = KafkaListener::class) val containerFactory: String,
+    @get:AliasFor(annotation = KafkaListener::class) val concurrency: String = "",
     @get:AliasFor(annotation = RetryableTopic::class) val backoff: Backoff = Backoff(delay = 200, multiplier = 1.5),
     @get:AliasFor(
         annotation = RetryableTopic::class,
