@@ -7,6 +7,7 @@ import com.story.core.domain.feed.mapping.FeedMappingResponse
 import com.story.core.domain.post.PostResponse
 import com.story.core.domain.workspace.WorkspaceResponse
 import java.time.Duration
+import java.util.Optional
 
 enum class CacheType(
     private val description: String,
@@ -21,21 +22,21 @@ enum class CacheType(
         key = "api-key:v1",
         localCacheTtl = Duration.ofMinutes(3),
         globalCacheTtl = Duration.ofMinutes(30),
-        typeReference = object : TypeReference<ApiKeyResponse>() {}
+        typeReference = object : TypeReference<Optional<ApiKeyResponse>>() {}
     ),
     COMPONENT(
         description = "컴포넌트 정보",
         key = "component:v1",
         localCacheTtl = Duration.ofMinutes(3),
         globalCacheTtl = Duration.ofMinutes(30),
-        typeReference = object : TypeReference<ComponentResponse>() {}
+        typeReference = object : TypeReference<Optional<ComponentResponse>>() {}
     ),
     WORKSPACE(
         description = "워크스페이스",
         key = "workspace:v1",
         localCacheTtl = Duration.ofMinutes(3),
         globalCacheTtl = Duration.ofMinutes(30),
-        typeReference = object : TypeReference<WorkspaceResponse>() {}
+        typeReference = object : TypeReference<Optional<WorkspaceResponse>>() {}
     ),
     FEED_MAPPING(
         description = "피드 매핑 목록",
