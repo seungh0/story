@@ -42,7 +42,7 @@ internal class PostCreatorTest(
                 priority = 2L,
             )
             val extra = mapOf(
-                "enableComment" to "true"
+                "commentEnabled" to "true"
             )
 
             // when
@@ -143,7 +143,7 @@ internal class PostCreatorTest(
                 priority = 2L,
             )
             val extra = mapOf(
-                "enableComment" to "true"
+                "commentEnabled" to "true"
             )
 
             // when

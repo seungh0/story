@@ -32,7 +32,7 @@ class PostTest : FunSpec({
             val hasChanged = post.patch(
                 title = post.title,
                 extra = mapOf(
-                    "enableComment" to "true"
+                    "commentEnabled" to "true"
                 ),
             )
 
