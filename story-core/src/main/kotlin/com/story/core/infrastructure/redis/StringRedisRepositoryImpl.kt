@@ -187,7 +187,7 @@ class StringRedisRepositoryImpl<K : StringRedisKey<K, V>, V>(
     }
 
     override suspend fun getTtl(key: K): Duration {
-        return reactiveRedisTemplate.getExpire(key.makeKeyString()).awaitSingle()
+        return reactiveRedisTemplate.getExpire(key.makeKeyString()).awaitSingleOrNull() ?: Duration.ZERO
     }
 
     override suspend fun setTtl(key: K, duration: Duration): Boolean {

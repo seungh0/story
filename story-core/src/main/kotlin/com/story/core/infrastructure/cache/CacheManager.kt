@@ -67,18 +67,22 @@ class CacheManager(
         cacheKey: String,
         targetCacheStrategies: Set<CacheStrategy>,
     ) {
-        cacheHandlerDelegator.evict(
-            cacheStrategy = CacheStrategy.LOCAL,
-            cacheType = cacheType,
-            cacheKey = cacheKey
-        )
-
-        runCatching {
+        if (CacheStrategy.LOCAL in targetCacheStrategies) {
             cacheHandlerDelegator.evict(
-                cacheStrategy = CacheStrategy.GLOBAL,
+                cacheStrategy = CacheStrategy.LOCAL,
                 cacheType = cacheType,
                 cacheKey = cacheKey
             )
+        }
+
+        runCatching {
+            if (CacheStrategy.GLOBAL in targetCacheStrategies) {
+                cacheHandlerDelegator.evict(
+                    cacheStrategy = CacheStrategy.GLOBAL,
+                    cacheType = cacheType,
+                    cacheKey = cacheKey
+                )
+            }
         }.onFailure { throwable ->
             log.error(throwable) { throwable.message }
         }
@@ -88,11 +92,11 @@ class CacheManager(
         cacheType: CacheType,
         targetCacheStrategies: Set<CacheStrategy> = CacheStrategy.entries.toSet(),
     ) {
-        if (targetCacheStrategies.contains(CacheStrategy.LOCAL)) {
+        if (CacheStrategy.LOCAL in targetCacheStrategies) {
             cacheHandlerDelegator.evictAll(cacheStrategy = CacheStrategy.LOCAL, cacheType = cacheType)
         }
 
-        if (targetCacheStrategies.contains(CacheStrategy.GLOBAL)) {
+        if (CacheStrategy.GLOBAL in targetCacheStrategies) {
             runCatching {
                 cacheHandlerDelegator.evictAll(cacheStrategy = CacheStrategy.GLOBAL, cacheType = cacheType)
             }.onFailure { throwable ->

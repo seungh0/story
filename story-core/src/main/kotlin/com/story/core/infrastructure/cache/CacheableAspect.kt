@@ -34,7 +34,7 @@ class CacheableAspect(
             )
 
             if (cacheKey.isNullOrBlank()) {
-                throw InternalServerException("@Cacheable key can't be blank. [cacheType: ${cacheable.cacheType} parameterNames: ${methodSignature.parameterNames} args: ${joinPoint.args} key: ${cacheable.key}]")
+                throw InternalServerException("@Cacheable key can't be blank. [cacheType: ${cacheable.cacheType} parameterNames: ${methodSignature.parameterNames} args: ${joinPoint.coroutineArgs} key: ${cacheable.key}]")
             }
 
             val cacheValue = cacheManager.getCacheFromLayeredCache(
@@ -45,17 +45,17 @@ class CacheableAspect(
                 return@runCoroutine cacheValue
             }
 
-            val value = joinPoint.proceedCoroutine(joinPoint.coroutineArgs)
+            val result = joinPoint.proceedCoroutine(joinPoint.coroutineArgs)
 
-            if (value != null) {
+            if (result != null) {
                 cacheManager.refreshCacheLayeredCache(
                     cacheType = cacheable.cacheType,
                     cacheKey = cacheKey,
-                    value = value
+                    value = result
                 )
             }
 
-            return@runCoroutine value
+            return@runCoroutine result
         }
     }
 
