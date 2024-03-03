@@ -1,6 +1,5 @@
 package com.story.core.domain.post
 
-import com.story.core.common.logger.LoggerExtension.log
 import com.story.core.infrastructure.cache.CacheEvict
 import com.story.core.infrastructure.cache.CacheStrategy
 import com.story.core.infrastructure.cache.CacheType
@@ -12,7 +11,7 @@ class PostLocalCacheEvictManager {
     @CacheEvict(
         cacheType = CacheType.POST,
         key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':spaceId:' + {#spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
-        targetCacheStrategies = [CacheStrategy.GLOBAL]
+        targetCacheStrategies = [CacheStrategy.LOCAL]
     )
     suspend fun evictPost(
         workspaceId: String,
@@ -20,7 +19,6 @@ class PostLocalCacheEvictManager {
         spaceId: String,
         postId: PostKey,
     ) {
-        log.debug { "Post 캐시가 만료됩니다 [workspaceId: $workspaceId componentId: $componentId spaceId: $spaceId postId: $postId]" }
     }
 
 }

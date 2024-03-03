@@ -21,7 +21,7 @@ Content-Type: application/json
 X-Story-Api-Key: {{API_KEY}}
 
 {
-    "description": "트위터 API 키",
+    "description": "트위터 API",
     "status": "ENABLED"
 }
 

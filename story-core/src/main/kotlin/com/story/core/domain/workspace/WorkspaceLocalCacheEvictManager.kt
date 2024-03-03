@@ -1,6 +1,5 @@
 package com.story.core.domain.workspace
 
-import com.story.core.common.logger.LoggerExtension.log
 import com.story.core.infrastructure.cache.CacheEvict
 import com.story.core.infrastructure.cache.CacheStrategy
 import com.story.core.infrastructure.cache.CacheType
@@ -17,7 +16,6 @@ class WorkspaceLocalCacheEvictManager {
     suspend fun evict(
         workspaceId: String,
     ) {
-        log.debug { "Workspace 로컬 캐시가 만료됩니다 [workspaceId: $workspaceId]" }
     }
 
 }
