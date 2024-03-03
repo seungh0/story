@@ -19,6 +19,7 @@ class ReactiveRedissonConfig(
             .setAddress("redis://" + redisProperties.host + ":" + redisProperties.port)
             .setConnectionMinimumIdleSize(5)
             .setConnectionPoolSize(5)
+            .setDatabase(redisProperties.database)
         return Redisson.create(config).reactive()
     }
 
