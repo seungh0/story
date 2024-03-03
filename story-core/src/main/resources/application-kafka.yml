@@ -4,10 +4,10 @@ story:
       replication-count: 3
     topic:
       subscription:
-        name: story.subscription-event-v1
+        name: story-subscription-event-v1
         partition-count: 10
       post:
-        name: story.post-event-v1
+        name: story-post-event-v1
         partition-count: 10
         dlt:
           enabled: true
@@ -15,7 +15,7 @@ story:
           attempts: 3
           partition-count: 3
       component:
-        name: story.component-event-v1
+        name: story-component-event-v1
         partition-count: 3
         dlt:
           enabled: true
@@ -23,7 +23,7 @@ story:
           attempts: 3
           partition-count: 3
       api-key:
-        name: story.api-key-event-v1
+        name: story-api-key-event-v1
         partition-count: 3
         dlt:
           enabled: true
@@ -31,13 +31,13 @@ story:
           attempts: 3
           partition-count: 3
       purge:
-        name: story.purge-event-v1
+        name: story-purge-event-v1
         partition-count: 3
       feed-fanout:
-        name: story.feed-fanout-v1
+        name: story-feed-fanout-v1
         partition-count: 10
       feed-mapping:
-        name: story.feed-mapping-v1
+        name: story-feed-mapping-v1
         partition-count: 3
         dlt:
           enabled: true
@@ -45,7 +45,7 @@ story:
           attempts: 3
           partition-count: 3
       workspace:
-        name: story.workspace-v1
+        name: story-workspace-v1
         partition-count: 3
         dlt:
           enabled: true
@@ -53,7 +53,7 @@ story:
           attempts: 3
           partition-count: 3
       reaction:
-        name: story.reaction-v1
+        name: story-reaction-v1
         partition-count: 10
 logging:
   level:
@@ -82,3 +82,20 @@ story:
     default:
       replication-count: 1
 
+
+---
+spring.config:
+  activate:
+    on-profile:
+      - dev
+
+spring:
+  kafka:
+    bootstrap-servers: 223.130.136.209:9092,110.165.18.231:9092,223.130.138.92:9092
+    admin:
+      auto-create: true
+
+story:
+  kafka:
+    default:
+      replication-count: 1

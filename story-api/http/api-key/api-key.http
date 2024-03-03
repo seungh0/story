@@ -1,5 +1,5 @@
 ### 서비스의 API-Key를 등록합니다
-POST {{api}}/v1/api-keys/api-key1
+POST {{api}}/v1/api-keys/{{API_KEY}}
 Content-Type: application/json
 X-Story-Api-Key: {{API_KEY}}
 
@@ -16,7 +16,7 @@ X-Story-Api-Key: {{API_KEY}}
 
 
 ### 서비스의 API-Key 정보를 수정합니다
-PATCH {{api}}/v1/api-keys/api-key1
+PATCH {{api}}/v1/api-keys/{{API_KEY}}
 Content-Type: application/json
 X-Story-Api-Key: {{API_KEY}}
 

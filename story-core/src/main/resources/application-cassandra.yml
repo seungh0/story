@@ -39,3 +39,20 @@ logging:
   level:
     org.springframework.data.cassandra.core.cql.CqlTemplate: DEBUG
     org.springframework.data.cassandra.core.cql.ReactiveCqlTemplate: DEBUG
+
+---
+spring.config:
+  activate:
+    on-profile: dev # TODO: 변경
+
+spring:
+  cassandra:
+    keyspace-name: story_platform_dev
+    contact-points: localhost:9042
+    local-datacenter: datacenter1
+    schema-action: create_if_not_exists
+
+logging:
+  level:
+    org.springframework.data.cassandra.core.cql.CqlTemplate: DEBUG
+    org.springframework.data.cassandra.core.cql.ReactiveCqlTemplate: DEBUG
