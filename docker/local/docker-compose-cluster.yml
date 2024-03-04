@@ -3,7 +3,7 @@ version: "3.9"
 services:
   cassandra-1:
     container_name: story-platform-cassandra-1
-    image: cassandra:4.1
+    image: cassandra:5.0
     ports:
       - "9042:9042"
     environment:
@@ -21,7 +21,7 @@ services:
 
   cassandra-2:
     container_name: story-platform-cassandra-2
-    image: cassandra:4.1
+    image: cassandra:5.0
     ports:
       - "9043:9042"
     environment:
@@ -38,7 +38,7 @@ services:
       - cassandra_data-2:/var/lib/cassandra
   cassandra-3:
     container_name: story-platform-cassandra-3
-    image: cassandra:4.1
+    image: cassandra:5.0
     ports:
       - "9044:9042"
     environment:
@@ -54,9 +54,9 @@ services:
     volumes:
       - cassandra_data-3:/var/lib/cassandra-3
 
-  redis-1:
+  redis:
     container_name: story-platform-redis
-    image: redis:6.2-alpine
+    image: redis:7.2-alpine
     command: redis-server --port 6380 --appendonly yes
     ports:
       - '6380:6380'

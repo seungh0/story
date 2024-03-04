@@ -3,7 +3,7 @@ version: "3.9"
 services:
   cassandra:
     container_name: story-cassandra-local
-    image: cassandra:4.1
+    image: cassandra:5.0
     ports:
       - "9042:9042"
     environment:
@@ -18,9 +18,9 @@ services:
       timeout: 10s
       retries: 5
 
-  redis-1:
+  redis:
     container_name: story-redis-local
-    image: redis:6.2-alpine
+    image: redis:7.2-alpine
     command: redis-server --port 6379 --appendonly yes
     ports:
       - '6380:6379'
