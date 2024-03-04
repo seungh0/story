@@ -12,7 +12,7 @@ data class WorkspaceEvent(
         fun deleted(
             workspaceId: String,
         ) = EventRecord(
-            eventAction = EventAction.DELETED,
+            eventAction = EventAction.REMOVED,
             eventKey = WorkspaceEventKey(workspaceId = workspaceId).makeKey(),
             payload = WorkspaceEvent(
                 workspaceId = workspaceId,

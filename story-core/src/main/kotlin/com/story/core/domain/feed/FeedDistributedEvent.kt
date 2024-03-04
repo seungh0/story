@@ -7,7 +7,7 @@ import com.story.core.domain.event.EventRecord
 import com.story.core.domain.resource.ResourceId
 import java.time.Duration
 
-data class FeedFanoutEvent(
+data class FeedDistributedEvent(
     val workspaceId: String,
     val feedComponentId: String,
     val sourceResourceId: ResourceId,
@@ -35,7 +35,7 @@ data class FeedFanoutEvent(
         ) = EventRecord(
             eventAction = eventAction,
             eventKey = eventKey,
-            payload = FeedFanoutEvent(
+            payload = FeedDistributedEvent(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
                 sourceResourceId = sourceResourceId,

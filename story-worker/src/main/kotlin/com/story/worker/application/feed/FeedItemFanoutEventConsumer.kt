@@ -4,9 +4,8 @@ import com.story.core.common.annotation.EventConsumer
 import com.story.core.common.annotation.IOBound
 import com.story.core.common.json.toJson
 import com.story.core.common.json.toObject
-import com.story.core.domain.event.EventAction
 import com.story.core.domain.event.EventRecord
-import com.story.core.domain.feed.FeedFanoutEvent
+import com.story.core.domain.feed.FeedDistributedEvent
 import com.story.core.infrastructure.kafka.KafkaConsumerConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.joinAll
@@ -18,14 +17,14 @@ import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Payload
 
 @EventConsumer
-class FeedConsumer(
+class FeedItemFanoutEventConsumer(
     @IOBound
     private val dispatcher: CoroutineDispatcher,
-    private val feedFanoutHandlerFinder: FeedFanoutHandlerFinder,
+    private val feedFanoutHandlerFinder: FeedItemFanoutActionHandlerFinder,
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.feed-fanout.name}"],
+        topics = ["\${story.kafka.topic.feed.name}"],
         groupId = GROUP_ID,
         containerFactory = KafkaConsumerConfig.DEFAULT_BATCH_KAFKA_CONSUMER,
     )
@@ -33,22 +32,20 @@ class FeedConsumer(
         @Payload records: List<ConsumerRecord<String, String>>,
     ) = runBlocking {
         records.chunked(MAX_PARALLEL_COUNT)
-            .map { chunkedRecords ->
+            .forEach { chunkedRecords ->
                 chunkedRecords.map { record ->
-                    launch {
-                        val event = record.value().toObject(EventRecord::class.java)
-                            ?: throw IllegalArgumentException("Record can't be deserialize, record: $records")
+                    withContext(dispatcher) {
+                        launch {
+                            val event = record.value().toObject(EventRecord::class.java)
+                                ?: throw IllegalArgumentException("Record can't be deserialize, record: $records")
 
-                        if (!setOf(EventAction.CREATED, EventAction.DELETED).contains(event.eventAction)) {
-                            return@launch
-                        }
+                            val handler = feedFanoutHandlerFinder.get(eventAction = event.eventAction)
+                                ?: return@launch
 
-                        val payload = event.payload.toJson().toObject(FeedFanoutEvent::class.java)
-                            ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $records")
+                            val payload = event.payload.toJson().toObject(FeedDistributedEvent::class.java)
+                                ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $records")
 
-                        withContext(dispatcher) {
-                            val publisher = feedFanoutHandlerFinder.get(eventAction = event.eventAction)
-                            publisher.handle(event = event, payload = payload)
+                            handler.handle(event = event, payload = payload)
                         }
                     }
                 }.joinAll()

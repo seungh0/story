@@ -41,7 +41,7 @@ data class SubscriptionEvent(
             subscriberId: String,
             targetId: String,
         ) = EventRecord(
-            eventAction = EventAction.DELETED,
+            eventAction = EventAction.REMOVED,
             eventKey = SubscriptionEventKey(subscriberId = subscriberId, targetId = targetId).makeKey(),
             payload = SubscriptionEvent(
                 workspaceId = workspaceId,

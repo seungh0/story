@@ -2,8 +2,8 @@ package com.story.distributor.application.feed
 
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.event.EventAction
+import com.story.core.domain.feed.FeedDistributedEvent
 import com.story.core.domain.feed.FeedEventProducer
-import com.story.core.domain.feed.FeedFanoutEvent
 import com.story.core.domain.feed.mapping.FeedMappingRetriever
 import com.story.core.domain.subscription.SubscriberSequenceRepository
 import com.story.core.domain.subscription.SubscriptionEvent
@@ -13,13 +13,13 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 
 @HandlerAdapter
-class SubscriptionFeedDistributeHandler(
+class SubscriptionFeedEventDistributor(
     private val feedMappingRetriever: FeedMappingRetriever,
     private val subscriberSequenceRepository: SubscriberSequenceRepository,
     private val feedEventProducer: FeedEventProducer,
 ) {
 
-    suspend fun distributePostFeeds(
+    suspend fun distribute(
         payload: SubscriptionEvent,
         eventId: Long,
         eventAction: EventAction,
@@ -59,7 +59,7 @@ class SubscriptionFeedDistributeHandler(
                         chunkedSlotIds.map { slotId ->
                             launch {
                                 feedEventProducer.publishEvent(
-                                    event = FeedFanoutEvent.of(
+                                    event = FeedDistributedEvent.of(
                                         eventKey = eventKey,
                                         eventAction = eventAction,
                                         workspaceId = feedMapping.workspaceId,

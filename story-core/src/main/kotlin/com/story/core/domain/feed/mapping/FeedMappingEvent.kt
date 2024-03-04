@@ -45,7 +45,7 @@ data class FeedMappingEvent(
             sourceComponentId: String,
             subscriptionComponentId: String,
         ) = EventRecord(
-            eventAction = EventAction.DELETED,
+            eventAction = EventAction.REMOVED,
             eventKey = FeedMappingEventKey(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,

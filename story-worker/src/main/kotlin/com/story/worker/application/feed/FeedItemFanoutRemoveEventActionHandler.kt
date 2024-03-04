@@ -5,20 +5,20 @@ import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.dto.CursorRequest
 import com.story.core.domain.event.EventAction
 import com.story.core.domain.event.EventRecord
-import com.story.core.domain.feed.FeedFanoutEvent
+import com.story.core.domain.feed.FeedDistributedEvent
 import com.story.core.domain.feed.FeedRemover
 import com.story.core.domain.feed.FeedSubscriberRetriever
 import kotlinx.coroutines.coroutineScope
 
 @HandlerAdapter
-class FeedFanoutRemoveHandler(
+class FeedItemFanoutRemoveEventActionHandler(
     private val feedSubscriberRetriever: FeedSubscriberRetriever,
     private val feedRemover: FeedRemover,
-) : FeedFanoutHandler {
+) : FeedItemFanoutActionHandler {
 
-    override fun targetEventAction(): EventAction = EventAction.DELETED
+    override fun eventAction(): EventAction = EventAction.REMOVED
 
-    override suspend fun handle(event: EventRecord<*>, payload: FeedFanoutEvent) = coroutineScope {
+    override suspend fun handle(event: EventRecord<*>, payload: FeedDistributedEvent) = coroutineScope {
         var cursor: String? = null
         do {
             val feedSubscribers = feedSubscriberRetriever.listFeedSubscribersBySlot(

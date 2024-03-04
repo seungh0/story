@@ -25,7 +25,7 @@ class FeedEventProducer(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun publishEvent(event: EventRecord<FeedFanoutEvent>) {
+    suspend fun publishEvent(event: EventRecord<FeedDistributedEvent>) {
         eventHistoryManager.withSaveEventHistory(
             workspaceId = event.payload.workspaceId,
             resourceId = ResourceId.FEEDS,
@@ -34,7 +34,7 @@ class FeedEventProducer(
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    kafkaTopic = KafkaTopic.FEED_FANOUT,
+                    kafkaTopic = KafkaTopic.FEED,
                     key = KafkaRecordKeyGenerator.feed(
                         eventKey = event.eventKey,
                         slotId = event.payload.slotId,

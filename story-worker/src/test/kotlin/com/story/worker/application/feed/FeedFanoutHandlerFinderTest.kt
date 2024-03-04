@@ -8,7 +8,7 @@ import io.kotest.matchers.types.beInstanceOf
 
 @IntegrationTest
 class FeedFanoutHandlerFinderTest(
-    private val feedHandlerFinder: FeedFanoutHandlerBeanFinder,
+    private val feedHandlerFinder: FeedItemFanoutActionHandlerBeanFinder,
 ) : StringSpec({
 
     "Feed Create Handler" {
@@ -19,18 +19,18 @@ class FeedFanoutHandlerFinderTest(
         val sut = feedHandlerFinder.get(eventAction = eventAction)
 
         // then
-        sut should beInstanceOf<FeedFanoutCreateHandler>()
+        sut should beInstanceOf<FeedItemFanoutCreateActionHandler>()
     }
 
     "Feed Remove Handler" {
         // given
-        val eventAction = EventAction.DELETED
+        val eventAction = EventAction.REMOVED
 
         // when
         val sut = feedHandlerFinder.get(eventAction = eventAction)
 
         // then
-        sut should beInstanceOf<FeedFanoutRemoveHandler>()
+        sut should beInstanceOf<FeedItemFanoutRemoveEventActionHandler>()
     }
 
 })

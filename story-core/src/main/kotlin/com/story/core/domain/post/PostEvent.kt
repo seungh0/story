@@ -36,7 +36,7 @@ data class PostEvent(
         )
 
         fun modified(post: PostResponse) = EventRecord(
-            eventAction = EventAction.UPDATED,
+            eventAction = EventAction.MODIFIED,
             eventKey = PostEventKey(spaceId = post.spaceId, postId = post.postId).makeKey(),
             payload = PostEvent(
                 workspaceId = post.workspaceId,
@@ -58,7 +58,7 @@ data class PostEvent(
             postId: PostKey,
             ownerId: String,
         ) = EventRecord(
-            eventAction = EventAction.DELETED,
+            eventAction = EventAction.REMOVED,
             eventKey = PostEventKey(spaceId = spaceId, postId = postId).makeKey(),
             payload = PostEvent(
                 workspaceId = workspaceId,

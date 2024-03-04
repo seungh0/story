@@ -19,7 +19,7 @@ import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Payload
 
 @EventConsumer
-class ReactionCountEventConsumer(
+class ReactionCountManageEventConsumer(
     @IOBound
     private val dispatcher: CoroutineDispatcher,
     private val reactionCountRepository: ReactionCountRepository,
@@ -31,7 +31,7 @@ class ReactionCountEventConsumer(
         containerFactory = KafkaConsumerConfig.DEFAULT_BATCH_KAFKA_CONSUMER,
     )
     fun handleReactionCount(@Payload records: List<ConsumerRecord<String, String>>) = runBlocking {
-        val reactions = records.map { record ->
+        val events = records.map { record ->
             val event = record.value().toObject(EventRecord::class.java)
                 ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
@@ -39,13 +39,13 @@ class ReactionCountEventConsumer(
                 ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
         }
 
-        val reactionCountMap = reactions.flatMap { reaction ->
-            (reaction.createdOptionIds.map { emotionId -> emotionId to 1L } + reaction.deletedOptionIds.map { emotionId -> emotionId to -1L })
+        val reactionCountMap = events.flatMap { event ->
+            (event.createdOptionIds.map { emotionId -> emotionId to 1L } + event.deletedOptionIds.map { emotionId -> emotionId to -1L })
                 .map { (emotionId, delta) ->
                     ReactionCountPrimaryKey(
-                        workspaceId = reaction.workspaceId,
-                        componentId = reaction.componentId,
-                        spaceId = reaction.spaceId,
+                        workspaceId = event.workspaceId,
+                        componentId = event.componentId,
+                        spaceId = event.spaceId,
                         emotionId = emotionId
                     ) to delta
                 }

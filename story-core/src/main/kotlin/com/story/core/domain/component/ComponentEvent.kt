@@ -16,7 +16,7 @@ data class ComponentEvent(
             resourceId: ResourceId,
             componentId: String,
         ) = EventRecord(
-            eventAction = EventAction.UPDATED,
+            eventAction = EventAction.MODIFIED,
             payload = ComponentEvent(
                 workspaceId = workspaceId,
                 resourceId = resourceId,

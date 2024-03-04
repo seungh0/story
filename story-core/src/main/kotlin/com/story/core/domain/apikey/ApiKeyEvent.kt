@@ -13,7 +13,7 @@ data class ApiKeyEvent(
         fun updated(
             workspaceApiKey: WorkspaceApiKey,
         ) = EventRecord(
-            eventAction = EventAction.UPDATED,
+            eventAction = EventAction.MODIFIED,
             payload = ApiKeyEvent(
                 workspaceId = workspaceApiKey.key.workspaceId,
                 apiKey = workspaceApiKey.key.apiKey,

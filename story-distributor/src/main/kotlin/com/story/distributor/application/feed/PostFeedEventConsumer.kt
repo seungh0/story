@@ -5,7 +5,7 @@ import com.story.core.common.annotation.IOBound
 import com.story.core.common.json.toJson
 import com.story.core.common.json.toObject
 import com.story.core.domain.event.EventRecord
-import com.story.core.domain.subscription.SubscriptionEvent
+import com.story.core.domain.post.PostEvent
 import com.story.core.infrastructure.kafka.KafkaConsumerConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.joinAll
@@ -17,43 +17,41 @@ import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Payload
 
 @EventConsumer
-class SubscriptionFeedDistributeEventConsumer(
+class PostFeedEventConsumer(
     @IOBound
     private val dispatcher: CoroutineDispatcher,
-    private val subscriptionFeedDistributeHandler: SubscriptionFeedDistributeHandler,
+    private val postFeedDistributedEventHandlerFinder: PostFeedActionHandlerFinder,
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.subscription.name}"],
-        groupId = GROUP_ID,
+        topics = ["\${story.kafka.topic.post.name}"],
+        groupId = "post-feed-event-consumer",
         containerFactory = KafkaConsumerConfig.DEFAULT_BATCH_KAFKA_CONSUMER,
     )
-    fun handleSubscriptionFeedEvent(@Payload records: List<ConsumerRecord<String, String>>) = runBlocking {
-        records.chunked(MAX_PARALLEL_COUNT)
-            .map { chunkedRecords ->
-                chunkedRecords.map { record ->
+    fun handlePostFeedEvent(
+        @Payload records: List<ConsumerRecord<String, String>>,
+    ) = runBlocking {
+        records.chunked(MAX_PARALLEL_COUNT).forEach { chunkedRecords ->
+            chunkedRecords.map { record ->
+                withContext(dispatcher) {
                     launch {
                         val event = record.value().toObject(EventRecord::class.java)
                             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
-                        val payload = event.payload.toJson().toObject(SubscriptionEvent::class.java)
+                        val handler = postFeedDistributedEventHandlerFinder[event.eventAction]
+                            ?: return@launch
+
+                        val payload = event.payload.toJson().toObject(PostEvent::class.java)
                             ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
 
-                        withContext(dispatcher) {
-                            subscriptionFeedDistributeHandler.distributePostFeeds(
-                                payload = payload,
-                                eventId = event.eventId,
-                                eventAction = event.eventAction,
-                                eventKey = event.eventKey,
-                            )
-                        }
+                        handler.handle(event = event, payload = payload)
                     }
-                }.joinAll()
-            }
+                }
+            }.joinAll()
+        }
     }
 
     companion object {
-        private const val GROUP_ID = "subscription-feed-event-consumer"
         private const val MAX_PARALLEL_COUNT = 5
     }
 
