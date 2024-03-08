@@ -389,4 +389,183 @@ class PostRetrieveApiTest(
             )
     }
 
+    "유저가 등록한 포스트 목록을 조회합니다" {
+        // given
+        val componentId = "user-post"
+        val title = "플랫폼 정보"
+        val postId = "20000"
+        val cursor = UUID.randomUUID().toString()
+        val pageSize = 10
+        val userId = "user-id"
+
+        val post = PostApiResponse(
+            parentId = null,
+            postId = postId,
+            title = title,
+            owner = PostOwnerApiResponse(
+                ownerId = userId,
+                isOwner = false,
+            ),
+            sections = listOf(
+                PostSectionApiResponse(
+                    sectionType = PostSectionType.TEXT,
+                    data = TextPostSectionContentResponse(
+                        content = "뽀미",
+                        extra = emptyMap()
+                    )
+                ),
+                PostSectionApiResponse(
+                    sectionType = PostSectionType.IMAGE,
+                    data = ImagePostSectionContentResponse(
+                        path = "/store/v1/store.png",
+                        width = 480,
+                        height = 360,
+                        domain = "https://localhost",
+                        extra = emptyMap(),
+                    ),
+                ),
+                PostSectionApiResponse(
+                    sectionType = PostSectionType.LINK,
+                    data = LinkPostSectionContentResponse(
+                        link = "https://intro.threedollars.co.kr",
+                        extra = mapOf(
+                            "og:image" to "http://localhost:5000/abc.png",
+                            "og:title" to "뽀미 토키",
+                            "og:description" to "뽀미랑 토키의 사진입니다",
+                        ),
+                    )
+                )
+            ),
+            metadata = null,
+            depth = 2,
+            extra = emptyMap(),
+        )
+        post.createdAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
+        post.updatedAt = LocalDateTime.of(2023, 1, 1, 0, 0, 0)
+
+        coEvery {
+            postRetrieveHandler.listOwnerPosts(
+                workspaceId = "story",
+                componentId = componentId,
+                ownerId = userId,
+                request = any(),
+            )
+        } returns PostListApiResponse(
+            posts = listOf(post),
+            cursor = CursorResponse(
+                nextCursor = UUID.randomUUID().toString(),
+                hasNext = true,
+            )
+        )
+
+        // when
+        val exchange = webTestClient.get()
+            .uri(
+                "/v1/resources/posts/components/{componentId}/users/{userId}/posts?cursor={cursor}&pageSize={pageSize}",
+                componentId,
+                userId,
+                cursor,
+                pageSize,
+            )
+            .headers(WebClientUtils.apiKeyHeaderWithRequestUserId)
+            .exchange()
+
+        // then
+        exchange.expectStatus().isOk
+            .expectBody()
+            .consumeWith(
+                WebTestClientRestDocumentation.document(
+                    "user-post.list",
+                    RestDocsUtils.getDocumentRequest(),
+                    RestDocsUtils.getDocumentResponse(),
+                    PageHeaderSnippet.pageHeaderSnippet(),
+                    RestDocsUtils.apiKeyHeaderWithRequestUserIdDocumentation,
+                    RequestDocumentation.pathParameters(
+                        RequestDocumentation.parameterWithName("componentId").description("포스트 컴포넌트 ID"),
+                        RequestDocumentation.parameterWithName("userId").description("유저 ID"),
+                    ),
+                    RequestDocumentation.queryParameters(
+                        RequestDocumentation.parameterWithName("cursor").description("페이지 커서").optional()
+                            .attributes(RestDocsUtils.remarks("첫 페이지의 경우 null")),
+                        RequestDocumentation.parameterWithName("pageSize").description("조회할 갯수")
+                            .attributes(RestDocsUtils.remarks("최대 50개까지 조회할 수 있습니다")),
+                    ),
+                    PayloadDocumentation.responseFields(
+                        PayloadDocumentation.fieldWithPath("ok")
+                            .type(JsonFieldType.BOOLEAN).description("성공 여부"),
+                        PayloadDocumentation.fieldWithPath("result")
+                            .type(JsonFieldType.OBJECT).description("요청 결과"),
+                        PayloadDocumentation.fieldWithPath("result.posts")
+                            .type(JsonFieldType.ARRAY).description("포스트 목록"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].parentId")
+                            .type(JsonFieldType.STRING).description("포스트 Parent ID").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].postId")
+                            .type(JsonFieldType.STRING).description("포스트 ID")
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
+                        PayloadDocumentation.fieldWithPath("result.posts[].depth")
+                            .type(JsonFieldType.NUMBER).description("포스트가 속한 Depth"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].title")
+                            .type(JsonFieldType.STRING).description("포스트 제목")
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(ComponentStatus::class.java))),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections")
+                            .type(JsonFieldType.ARRAY).description("포스트 섹션 목록"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].sectionType")
+                            .type(JsonFieldType.STRING).description("포스트 섹션 타입")
+                            .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(PostSectionType::class.java))),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data")
+                            .type(JsonFieldType.OBJECT).description("포스트 섹션 목록"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.extra")
+                            .type(JsonFieldType.OBJECT).description("부가적으로 사용할 필드").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.content")
+                            .type(JsonFieldType.STRING).description("[TEXT 섹션 전용] 포스트 섹션 내용").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.path")
+                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 Path").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.domain")
+                            .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 도메인").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.width")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 가로 길이").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.height")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 세로 길이").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.fileSize")
+                            .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 파일 사이즈").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.link")
+                            .type(JsonFieldType.STRING).description("[LINK 섹션 전용] Link").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.link")
+                            .type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] Link").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.extra.og:image")
+                            .type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] OG 태그 (image)").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.extra.og:title")
+                            .type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] OG 태그 (title)").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].sections[].data.extra.og:description")
+                            .type(JsonFieldType.STRING)
+                            .description("[LINK 섹션 전용] OG 태그 (description)").optional(),
+                        PayloadDocumentation.fieldWithPath("result.posts[].createdAt")
+                            .type(JsonFieldType.STRING).description("포스트 생성 일자"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].updatedAt")
+                            .type(JsonFieldType.STRING).description("포스트 최근 수정 일자"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].owner")
+                            .type(JsonFieldType.OBJECT).description("포스트 작성자"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].owner.ownerId")
+                            .type(JsonFieldType.STRING).description("포스트 작성자의 ID"),
+                        PayloadDocumentation.fieldWithPath("result.posts[].owner.isOwner")
+                            .type(JsonFieldType.BOOLEAN).description("요청자의 포스트 작성자 여부")
+                            .attributes(RestDocsUtils.remarks("요청자는 X-Request-User-Id 헤더를 기준으로 합니다")),
+                        PayloadDocumentation.fieldWithPath("result.posts[].extra")
+                            .type(JsonFieldType.OBJECT).description("포스트 추가 정보"),
+                        PayloadDocumentation.fieldWithPath("result.cursor")
+                            .type(JsonFieldType.OBJECT).description("페이지 커서 정보"),
+                        PayloadDocumentation.fieldWithPath("result.cursor.nextCursor")
+                            .type(JsonFieldType.STRING).description("다음 페이지를 조회하기 위한 커서")
+                            .attributes(RestDocsUtils.remarks("다음 페이지가 없는 경우 null"))
+                            .optional(),
+                        PayloadDocumentation.fieldWithPath("result.cursor.hasNext")
+                            .type(JsonFieldType.BOOLEAN).description("다음 페이지의 존재 여부)"),
+                    )
+                )
+            )
+    }
+
 })

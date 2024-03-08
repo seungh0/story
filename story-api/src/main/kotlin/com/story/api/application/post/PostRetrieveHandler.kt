@@ -64,4 +64,26 @@ class PostRetrieveHandler(
         return PostListApiResponse.of(posts = posts, requestUserId = requestUserId)
     }
 
+    suspend fun listOwnerPosts(
+        workspaceId: String,
+        componentId: String,
+        request: PostListApiRequest,
+        ownerId: String,
+    ): PostListApiResponse {
+        componentCheckHandler.checkExistsComponent(
+            workspaceId = workspaceId,
+            resourceId = ResourceId.POSTS,
+            componentId = componentId,
+        )
+
+        val posts = postRetriever.listOwnerPosts(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            ownerId = ownerId,
+            cursorRequest = request.toDecodedCursor(),
+        )
+
+        return PostListApiResponse.of(posts = posts, requestUserId = ownerId)
+    }
+
 }

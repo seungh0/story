@@ -1,0 +1,31 @@
+=== [Post] User's Post List API
+
+include::{snippets}/user-post.list/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/user-post.list/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/user-post.list/path-parameters.adoc[]
+
+==== [Request Headers]
+
+include::{snippets}/user-post.list/request-headers.adoc[]
+
+==== [Request Query Parameters]
+
+include::{snippets}/user-post.list/query-parameters.adoc[]
+
+==== [Response]
+
+include::{snippets}/user-post.list/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/user-post.list/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/user-post.list/curl-request.adoc[]

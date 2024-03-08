@@ -54,4 +54,23 @@ class PostRetrieveApi(
         return ApiResponse.ok(response)
     }
 
+    /**
+     * 유저가 작성한 포스트 목록을 조회한다
+     */
+    @GetMapping("/v1/resources/posts/components/{componentId}/users/{userId}/posts")
+    suspend fun listUserPosts(
+        @PathVariable componentId: String,
+        @PathVariable userId: String,
+        @RequestApiKey authContext: ApiKeyContext,
+        @Valid request: PostListApiRequest,
+    ): ApiResponse<PostListApiResponse> {
+        val response = postRetrieveHandler.listOwnerPosts(
+            workspaceId = authContext.workspaceId,
+            componentId = componentId,
+            ownerId = userId,
+            request = request,
+        )
+        return ApiResponse.ok(response)
+    }
+
 }

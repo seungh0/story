@@ -6,11 +6,16 @@ import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.Slice
 import com.story.core.common.model.dto.CursorRequest
 import com.story.core.common.utils.CursorUtils
+import com.story.core.domain.post.section.PostSection
 import com.story.core.domain.post.section.PostSectionManager
+import com.story.core.domain.post.section.PostSectionPartitionKey
 import com.story.core.domain.post.section.PostSectionRepository
 import com.story.core.domain.post.section.PostSectionSlotAssigner
 import com.story.core.infrastructure.cache.CacheType
 import com.story.core.infrastructure.cache.Cacheable
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.toList
 import org.apache.commons.lang3.StringUtils
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Service
 @Service
 class PostRetriever(
     private val postRepository: PostRepository,
+    private val postReverseRepository: PostReverseRepository,
     private val postSequenceRepository: PostSequenceRepository,
     private val postSectionRepository: PostSectionRepository,
     private val postSectionManager: PostSectionManager,
@@ -136,18 +142,7 @@ class PostRetriever(
 
         val data = posts + morePosts.subList(0, (cursorRequest.pageSize - posts.size).coerceAtMost(morePosts.size))
 
-        val postSections = data.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
-            .groupBy { post -> PostSlotAssigner.assign(postId = post.key.postId) }
-            .flatMap { (slotId, posts) ->
-                postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostIdIn(
-                    workspaceId = postSpaceKey.workspaceId,
-                    componentId = postSpaceKey.componentId,
-                    spaceId = postSpaceKey.spaceId,
-                    parentId = parentId?.serialize() ?: StringUtils.EMPTY,
-                    slotId = slotId,
-                    postIds = posts.map { post -> post.key.postId },
-                ).toList()
-            }.groupBy { postSection -> postSection.key.postId }
+        val postSections = getPostSections(data.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size)))
 
         return Slice(
             data = data.map { post ->
@@ -234,6 +229,102 @@ class PostRetriever(
                 ?: throw InvalidCursorException("잘못된 CursorResponse(${cursorRequest.cursor})입니다"),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
         ).toList()
+    }
+
+    suspend fun listOwnerPosts(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        cursorRequest: CursorRequest,
+    ): Slice<PostResponse, String> = coroutineScope {
+        val posts = postReverses(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            ownerId = ownerId,
+            cursorRequest = cursorRequest,
+        )
+
+        val postSections = getPostReverseSections(
+            posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
+        )
+
+        return@coroutineScope Slice(
+            data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
+                .map { post ->
+                    PostResponse.of(
+                        post = post,
+                        sections = postSectionManager.makePostSectionContentResponse(
+                            postSections[post.key.postId] ?: emptyList()
+                        )
+                    )
+                },
+            cursor = CursorUtils.getCursor(
+                listWithNextCursor = posts,
+                pageSize = cursorRequest.pageSize,
+                keyGenerator = { post -> post?.key?.postId?.toString() }
+            )
+        )
+    }
+
+    private suspend fun postReverses(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        cursorRequest: CursorRequest,
+    ): List<PostReverse> {
+        if (cursorRequest.cursor.isNullOrBlank()) {
+            return postReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerId(
+                workspaceId = workspaceId,
+                componentId = componentId,
+                distributionKey = PostDistributionKey.makeKey(ownerId),
+                ownerId = ownerId,
+                pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
+            ).toList()
+        }
+        return postReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdLessThan(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            distributionKey = PostDistributionKey.makeKey(ownerId),
+            ownerId = ownerId,
+            postId = cursorRequest.cursor.toLong(),
+            pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
+        ).toList()
+    }
+
+    private suspend fun getPostSections(
+        posts: List<Post>,
+    ): Map<Long, List<PostSection>> = coroutineScope {
+        return@coroutineScope posts.groupBy { post -> PostSectionPartitionKey.from(post) }
+            .map { (sectionPartition, posts) ->
+                async {
+                    postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostIdIn(
+                        workspaceId = sectionPartition.workspaceId,
+                        componentId = sectionPartition.componentId,
+                        spaceId = sectionPartition.spaceId,
+                        parentId = sectionPartition.parentId,
+                        slotId = sectionPartition.slotId,
+                        postIds = posts.map { post -> post.key.postId },
+                    ).toList()
+                }
+            }.awaitAll().flatten().groupBy { postSection -> postSection.key.postId }
+    }
+
+    private suspend fun getPostReverseSections(
+        posts: List<PostReverse>,
+    ): Map<Long, List<PostSection>> = coroutineScope {
+        return@coroutineScope posts.groupBy { post -> PostSectionPartitionKey.from(post) }
+            .map { (sectionPartition, posts) ->
+                async {
+                    postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostIdIn(
+                        workspaceId = sectionPartition.workspaceId,
+                        componentId = sectionPartition.componentId,
+                        spaceId = sectionPartition.spaceId,
+                        parentId = sectionPartition.parentId,
+                        slotId = sectionPartition.slotId,
+                        postIds = posts.map { post -> post.key.postId },
+                    ).toList()
+                }
+            }.awaitAll().flatten().groupBy { postSection -> postSection.key.postId }
     }
 
 }

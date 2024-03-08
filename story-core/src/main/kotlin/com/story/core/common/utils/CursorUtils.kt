@@ -5,7 +5,11 @@ import java.util.function.Function
 
 object CursorUtils {
 
-    fun <T, K> getCursor(listWithNextCursor: List<T>, pageSize: Int, keyGenerator: Function<T?, K?>): CursorResponse<K> {
+    fun <T, K> getCursor(
+        listWithNextCursor: List<T>,
+        pageSize: Int,
+        keyGenerator: Function<T?, K?>,
+    ): CursorResponse<K> {
         if (listWithNextCursor.size <= pageSize) {
             return CursorResponse.noMore()
         }

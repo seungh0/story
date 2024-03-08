@@ -13,7 +13,7 @@ data class PostApiResponse(
     val sections: List<PostSectionApiResponse>,
     val extra: Map<String, String>,
     val owner: PostOwnerApiResponse,
-    val metadata: PostMetadataApiResponse,
+    val metadata: PostMetadataApiResponse?,
 ) : FeedPayload, AuditingTimeResponse() {
 
     companion object {
@@ -33,7 +33,7 @@ data class PostApiResponse(
                     ownerId = post.ownerId,
                     requestUserId = requestUserId,
                 ),
-                metadata = PostMetadataApiResponse.of(metadata = post.metadata),
+                metadata = post.metadata?.let { PostMetadataApiResponse.of(metadata = it) },
                 extra = post.extra,
             )
             response.setAuditingTime(post)

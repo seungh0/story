@@ -1,9 +1,12 @@
 package com.story.core.domain.post
 
+import com.story.core.common.model.AuditingTime
 import org.apache.commons.lang3.StringUtils
+import org.springframework.data.annotation.Transient
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.CLUSTERED
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType.PARTITIONED
+import org.springframework.data.cassandra.core.mapping.Embedded
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
@@ -17,6 +20,9 @@ data class PostReverse(
     val slotId: Long,
     val title: String,
     val extra: MutableMap<String, String> = mutableMapOf(),
+
+    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    val auditingTime: AuditingTime,
 ) {
 
     companion object {
@@ -32,6 +38,7 @@ data class PostReverse(
             slotId = post.key.slotId,
             title = post.title,
             extra = post.extra,
+            auditingTime = AuditingTime.created(),
         )
     }
 
@@ -52,30 +59,53 @@ data class PostReversePrimaryKey(
     val ownerId: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 5)
-    val parentId: String,
+    val postId: Long,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 6)
-    val postId: Long,
+    val parentId: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 7)
     val spaceId: String,
 ) {
+
+    @Transient
+    val parentIdKey: PostKey? = with(this.parentId) {
+        if (this.isBlank()) {
+            return@with null
+        }
+        return@with PostKey.parsed(this)
+    }
+
+    fun toPostKey() = PostKey(
+        spaceId = spaceId,
+        postId = postId,
+        depth = getDepth(),
+        parentId = parentId,
+    )
+
+    fun getDepth(): Int {
+        if (parentIdKey == null) {
+            return 1
+        }
+        return parentIdKey.depth + 1
+    }
 
     companion object {
         fun of(
             workspaceId: String,
             componentId: String,
             ownerId: String,
-            parentId: PostKey?,
             postId: Long,
+            parentId: PostKey?,
             spaceId: String,
         ) = PostReversePrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
-            distributionKey = PostDistributionKey.makeKey(ownerId), ownerId = ownerId,
+            distributionKey = PostDistributionKey.makeKey(ownerId),
+            ownerId = ownerId,
             postId = postId,
-            spaceId = spaceId,
             parentId = parentId?.serialize() ?: StringUtils.EMPTY,
+            spaceId = spaceId,
         )
     }
 

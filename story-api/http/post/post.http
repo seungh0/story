@@ -198,6 +198,18 @@ X-Story-Request-User-Id: {{USER_ID}}
 %}
 
 
+### 유저가 등록한 포스팅 목록을 조회합니다
+GET {{api}}/v1/resources/posts/components/user-home/users/{{USER_ID}}/posts?pageSize=10
+X-Story-Api-Key: {{API_KEY}}
+X-Story-Request-User-Id: {{USER_ID}}
+
+> {%
+    client.test("200 OK", () => {
+        client.assert(response.status === 200, "응답 실패");
+    });
+%}
+
+
 ### 포스팅 삭제
 DELETE {{api}}/v1/resources/posts/components/user-home/spaces/{{USER_ID}}/posts/{{POST_ID}}
 X-Story-Api-Key: {{API_KEY}}
