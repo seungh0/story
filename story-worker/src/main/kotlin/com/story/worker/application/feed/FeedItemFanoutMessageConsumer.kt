@@ -5,7 +5,7 @@ import com.story.core.common.annotation.IOBound
 import com.story.core.common.json.toJson
 import com.story.core.common.json.toObject
 import com.story.core.domain.event.EventRecord
-import com.story.core.domain.feed.FeedDistributedEvent
+import com.story.core.domain.feed.FeedFanoutMessage
 import com.story.core.infrastructure.kafka.KafkaConsumerConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.joinAll
@@ -17,18 +17,18 @@ import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Payload
 
 @EventConsumer
-class FeedItemFanoutEventConsumer(
+class FeedItemFanoutMessageConsumer(
     @IOBound
     private val dispatcher: CoroutineDispatcher,
     private val feedFanoutHandlerFinder: FeedItemFanoutActionHandlerFinder,
 ) {
 
     @KafkaListener(
-        topics = ["\${story.kafka.topic.feed.name}"],
+        topics = ["\${story.kafka.topic.feed-fanout.name}"],
         groupId = GROUP_ID,
         containerFactory = KafkaConsumerConfig.DEFAULT_BATCH_KAFKA_CONSUMER,
     )
-    fun handleFeedExecutor(
+    fun handleFeedFanoutMessage(
         @Payload records: List<ConsumerRecord<String, String>>,
     ) = runBlocking {
         records.chunked(MAX_PARALLEL_COUNT)
@@ -36,16 +36,16 @@ class FeedItemFanoutEventConsumer(
                 chunkedRecords.map { record ->
                     withContext(dispatcher) {
                         launch {
-                            val event = record.value().toObject(EventRecord::class.java)
+                            val message = record.value().toObject(EventRecord::class.java)
                                 ?: throw IllegalArgumentException("Record can't be deserialize, record: $records")
 
-                            val handler = feedFanoutHandlerFinder.get(eventAction = event.eventAction)
+                            val handler = feedFanoutHandlerFinder.get(eventAction = message.eventAction)
                                 ?: return@launch
 
-                            val payload = event.payload.toJson().toObject(FeedDistributedEvent::class.java)
+                            val payload = message.payload.toJson().toObject(FeedFanoutMessage::class.java)
                                 ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $records")
 
-                            handler.handle(event = event, payload = payload)
+                            handler.handle(record = message, payload = payload)
                         }
                     }
                 }.joinAll()
@@ -53,7 +53,7 @@ class FeedItemFanoutEventConsumer(
     }
 
     companion object {
-        private const val GROUP_ID = "feed-event-publisher"
+        private const val GROUP_ID = "feed-fanout-message-consumer"
         private const val MAX_PARALLEL_COUNT = 5
     }
 

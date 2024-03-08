@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.kafka.core.KafkaTemplate
 
 @EventProducer
-class FeedEventProducer(
+class FeedFanoutMessageProducer(
     @Qualifier(KafkaProducerConfig.FEED_KAFKA_PRODUCER)
     private val kafkaTemplate: KafkaTemplate<String, String>,
     private val eventHistoryManager: EventHistoryManager,
@@ -25,7 +25,7 @@ class FeedEventProducer(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun publishEvent(event: EventRecord<FeedDistributedEvent>) {
+    suspend fun publish(event: EventRecord<FeedFanoutMessage>) {
         eventHistoryManager.withSaveEventHistory(
             workspaceId = event.payload.workspaceId,
             resourceId = ResourceId.FEEDS,
@@ -34,7 +34,7 @@ class FeedEventProducer(
         ) {
             withContext(dispatcher) {
                 kafkaTemplate.send(
-                    kafkaTopic = KafkaTopic.FEED,
+                    kafkaTopic = KafkaTopic.FEED_FANOUT,
                     key = KafkaRecordKeyGenerator.feed(
                         eventKey = event.eventKey,
                         slotId = event.payload.slotId,

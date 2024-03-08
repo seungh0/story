@@ -25,7 +25,7 @@ class SubscriptionFeedEventConsumer(
 
     @KafkaListener(
         topics = ["\${story.kafka.topic.subscription.name}"],
-        groupId = GROUP_ID,
+        groupId = "subscription-feed-distribute-event-consumer",
         containerFactory = KafkaConsumerConfig.DEFAULT_BATCH_KAFKA_CONSUMER,
     )
     fun handleSubscriptionFeedEvent(@Payload records: List<ConsumerRecord<String, String>>) = runBlocking {
@@ -50,7 +50,6 @@ class SubscriptionFeedEventConsumer(
     }
 
     companion object {
-        private const val GROUP_ID = "subscription-feed-event-consumer"
         private const val MAX_PARALLEL_COUNT = 5
     }
 

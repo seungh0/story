@@ -16,7 +16,7 @@ class FeedCreator(
 
     suspend fun createFeeds(
         event: EventRecord<*>,
-        payload: FeedDistributedEvent,
+        payload: FeedFanoutMessage,
         subscriberIds: Collection<String>,
         parallelCount: Int = 50,
     ) = coroutineScope {

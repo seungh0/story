@@ -4,7 +4,7 @@ import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.event.EventAction
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.feed.FeedCreator
-import com.story.core.domain.feed.FeedDistributedEvent
+import com.story.core.domain.feed.FeedFanoutMessage
 import com.story.core.domain.subscription.SubscriberRepository
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
@@ -18,7 +18,7 @@ class FeedItemFanoutCreateActionHandler(
 
     override fun eventAction(): EventAction = EventAction.CREATED
 
-    override suspend fun handle(event: EventRecord<*>, payload: FeedDistributedEvent) = coroutineScope {
+    override suspend fun handle(record: EventRecord<*>, payload: FeedFanoutMessage) = coroutineScope {
         var pageable: Pageable = CassandraPageRequest.first(500)
         do {
             val subscribers = subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdAsc(
@@ -30,7 +30,7 @@ class FeedItemFanoutCreateActionHandler(
             )
 
             feedCreator.createFeeds(
-                event = event,
+                event = record,
                 payload = payload,
                 subscriberIds = subscribers.content.map { subscriber -> subscriber.key.subscriberId },
             )
