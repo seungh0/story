@@ -2,14 +2,15 @@ version: "3.9"
 
 services:
   cassandra:
-    container_name: story-cassandra-local
     image: cassandra:5.0
+    container_name: story-cassandra-local
     ports:
       - "9042:9042"
     environment:
       - "MAX_HEAP_SIZE=512M"
       - "HEAP_NEWSIZE=256M"
-    restart: on-failure
+    networks:
+      - story-local-network
     volumes:
       - cassandra_data1:/var/lib/cassandra
     healthcheck:
@@ -19,12 +20,14 @@ services:
       retries: 5
 
   redis:
-    container_name: story-redis-local
     image: redis:7.2-alpine
+    container_name: story-redis-local
     command: redis-server --port 6379 --appendonly yes
     ports:
       - '6380:6379'
-    restart: on-failure
+    restart: unless-stopped
+    networks:
+      - story-local-network
     volumes:
       - redis_data1:/data
     healthcheck:
@@ -34,26 +37,35 @@ services:
       retries: 5
 
   zookeeper:
-    container_name: story-zookeeper-local
     image: confluentinc/cp-zookeeper:latest
+    container_name: story-zookeeper-local
+    ports:
+      - "22181:2181"
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
-    ports:
-      - "22181:2181"
-    restart: on-failure
+    restart: unless-stopped
+    networks:
+      - story-local-network
     volumes:
       - zookeeper_data1:/var/lib/zookeeper/data
       - zookeeper_log1:/var/lib/zookeeper/log
+    healthcheck:
+      test: nc -z localhost 2181 || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   kafka:
-    container_name: story-kafka-local
     image: confluentinc/cp-kafka:latest
+    container_name: story-kafka-local
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     ports:
       - "29092:29092"
     environment:
@@ -64,30 +76,34 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-    restart: on-failure
+    restart: unless-stopped
+    networks:
+      - story-local-network
     volumes:
       - kafka_data1:/var/lib/kafka/data
     healthcheck:
-     test: nc -z localhost 9092 || exit -1
-     start_period: 15s
-     interval: 5s
-     timeout: 10s
-     retries: 10
+      test: nc -z localhost 9092 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
 
   kafka-manager:
-    container_name: story-kafka-manager-local
     image: hlebalbau/kafka-manager:stable
     platform: linux/amd64
+    container_name: story-kafka-manager-local
     depends_on:
-      - kafka
-      - zookeeper
+      kafka:
+        condition: service_healthy
+    ports:
+      - "9000:9000"
     environment:
       ZK_HOSTS: zookeeper:2181
       APPLICATION_SECRET: "random-secret"
       KM_ARGS: -Djava.net.preferIPv4Stack=true
-    restart: on-failure
-    ports:
-      - "9000:9000"
+    restart: unless-stopped
+    networks:
+      - story-local-network
 
 volumes:
   cassandra_data1:
@@ -100,3 +116,7 @@ volumes:
     driver: local
   zookeeper_log1:
     driver: local
+
+networks:
+  story-local-network:
+    driver: bridge

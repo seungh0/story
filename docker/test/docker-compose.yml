@@ -3,12 +3,15 @@ version: "3.9"
 services:
   cassandra:
     image: cassandra:5.0
+    container_name: story-cassandra-test
     ports:
       - "19042:9042"
-    restart: unless-stopped
     environment:
       - "MAX_HEAP_SIZE=512M"
       - "HEAP_NEWSIZE=256M"
+    restart: unless-stopped
+    networks:
+      - story-test-network
     tmpfs:
       - /var/lib/cassandra
     healthcheck:
@@ -19,10 +22,15 @@ services:
 
   redis:
     image: redis:7.2-alpine
+    container_name: story-redis-test
     command: redis-server --port 6379 --save "" --appendonly no
     ports:
       - '16380:6379'
-    restart: on-failure
+    restart: unless-stopped
+    networks:
+      - story-test-network
+    tmpfs:
+      - /data
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
@@ -31,23 +39,33 @@ services:
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
-    restart: on-failure
+    container_name: story-zookeeper-test
+    ports:
+      - "32181:2181"
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
-    ports:
-      - "32181:2181"
+    restart: unless-stopped
+    networks:
+      - story-test-network
+    healthcheck:
+      test: nc -z localhost 2181 || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   kafka:
     image: confluentinc/cp-kafka:latest
+    container_name: story-kafka-test
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     ports:
       - "39092:29092"
-    restart: on-failure
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
@@ -56,9 +74,16 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+    restart: unless-stopped
+    networks:
+      - story-test-network
     healthcheck:
       test: nc -z localhost 9092 || exit -1
       start_period: 15s
       interval: 5s
       timeout: 10s
       retries: 10
+
+networks:
+  story-test-network:
+    driver: bridge
