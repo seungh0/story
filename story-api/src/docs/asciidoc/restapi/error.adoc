@@ -14,6 +14,7 @@
 | 403 | feed_mapping_capacity_exceed | 최대 허용할 수 있는 피드 매핑 갯수를 초과하는 경우
 | 403 | workspace_no_permission | 워크스페이스의 권한이 없는 경우
 | 403 | emotion_count_limit_exceeded | 최대 등록할 수 있는 이모션 갯수를 초과하는 경우
+| 403 | self_subscription_not_allowed | 구독자가 스스로를 구독하려는 경우
 | 404 | not_exists_api_key | 존재하지 않는 API-Key인 경우 발생
 | 404 | not_exists_component | 존재하지 않는 컴포넌트인 경우
 | 404 | not_exists_resource | 존재하지 않는 리소스인 경우

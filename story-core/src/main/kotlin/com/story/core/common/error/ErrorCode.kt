@@ -66,6 +66,11 @@ enum class ErrorCode(
         code = "emotion_count_limit_exceeded",
         description = "최대 등록할 수 있는 이모션 갯수를 초과하는 경우"
     ),
+    E403_SELF_SUBSCRIPTION_NOT_ALLOWED(
+        httpStatusCode = 403,
+        code = "self_subscription_not_allowed",
+        description = "구독자가 스스로를 구독하려는 경우"
+    ),
 
     /**
      * 404 NotFound
@@ -78,7 +83,11 @@ enum class ErrorCode(
     E404_NOT_EXISTS_COMPONENT(httpStatusCode = 404, code = "not_exists_component", description = "존재하지 않는 컴포넌트인 경우"),
     E404_NOT_EXISTS_RESOURCE(httpStatusCode = 404, code = "not_exists_resource", description = "존재하지 않는 리소스인 경우"),
     E404_NOT_EXISTS_POST(httpStatusCode = 404, code = "not_exists_post", description = "존재하지 않는 포스트인 경우"),
-    E404_NOT_EXISTS_PARENT_POST(httpStatusCode = 404, code = "not_exists_parent_post", description = "존재하지 않는 부모 포스트인 경우"),
+    E404_NOT_EXISTS_PARENT_POST(
+        httpStatusCode = 404,
+        code = "not_exists_parent_post",
+        description = "존재하지 않는 부모 포스트인 경우"
+    ),
     E404_NOT_EXISTS_CONNECT_FEED_MAPPING(
         httpStatusCode = 404,
         code = "not_exists_connect_mapping_feed",

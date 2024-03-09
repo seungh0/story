@@ -42,7 +42,7 @@ class SubscriptionRemoveHandler(
                 subscriberId = subscriberId,
             )
 
-            subscriptionEventProducer.publishUnsubscribedEvent(
+            subscriptionEventProducer.publishRemovedEvent(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 subscriberId = subscriberId,

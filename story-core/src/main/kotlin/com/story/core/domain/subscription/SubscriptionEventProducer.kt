@@ -25,7 +25,7 @@ class SubscriptionEventProducer(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun publishSubscribedEvent(
+    suspend fun publishCreatedEvent(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
@@ -60,7 +60,7 @@ class SubscriptionEventProducer(
         }
     }
 
-    suspend fun publishUnsubscribedEvent(
+    suspend fun publishRemovedEvent(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
