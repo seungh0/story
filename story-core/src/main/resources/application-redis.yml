@@ -28,7 +28,7 @@ spring.config:
 spring:
   data:
     redis:
-      port: 6380
+      port: 16380
       host: localhost
       database: 1
 

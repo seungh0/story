@@ -69,11 +69,27 @@ spring.config:
   activate:
     on-profile:
       - local
-      - test
 
 spring:
   kafka:
     bootstrap-servers: localhost:29092
+    admin:
+      auto-create: true
+
+story:
+  kafka:
+    default:
+      replication-count: 1
+
+---
+spring.config:
+  activate:
+    on-profile:
+      - test
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:39092
     admin:
       auto-create: true
 
