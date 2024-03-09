@@ -35,8 +35,7 @@ class PostCreator(
             ) ?: throw ParentPostNotExistsException("부모 포스트($parentId)가 존재하지 않습니다")
 
             if (!parentPost.getMetadata<Boolean>(type = PostMetadataType.HAS_CHILDREN)) {
-                parentPost.putMetadata(PostMetadataType.HAS_CHILDREN, true)
-                postRepository.save(parentPost)
+                postRepository.putMetadata(parentPost.key, PostMetadataType.HAS_CHILDREN, true.toString())
             }
         }
 

@@ -31,10 +31,6 @@ data class Post(
         return this.ownerId == ownerId
     }
 
-    fun putMetadata(type: PostMetadataType, value: Any) {
-        this.metadata[type] = value.toString()
-    }
-
     fun <T> getMetadata(type: PostMetadataType): T {
         val rawMetadata = this.metadata[type]
         if (rawMetadata.isNullOrBlank()) {

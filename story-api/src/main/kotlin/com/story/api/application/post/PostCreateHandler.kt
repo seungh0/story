@@ -3,9 +3,15 @@ package com.story.api.application.post
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.nonce.NonceManager
+import com.story.core.domain.post.ParentPostNotExistsException
 import com.story.core.domain.post.PostCreator
 import com.story.core.domain.post.PostEventProducer
 import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostMetadataType
+import com.story.core.domain.post.PostModifier
+import com.story.core.domain.post.PostNotExistsException
+import com.story.core.domain.post.PostResponse
+import com.story.core.domain.post.PostRetriever
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
 
@@ -15,6 +21,8 @@ class PostCreateHandler(
     private val componentCheckHandler: ComponentCheckHandler,
     private val postEventProducer: PostEventProducer,
     private val nonceManager: NonceManager,
+    private val postRetriever: PostRetriever,
+    private val postModifier: PostModifier,
 ) {
 
     suspend fun createPost(
@@ -31,6 +39,8 @@ class PostCreateHandler(
             componentId = postSpaceKey.componentId,
         )
 
+        validateParentPost(request, postSpaceKey)
+
         val post = postCreator.createPost(
             postSpaceKey = postSpaceKey,
             parentId = request.parentId,
@@ -41,6 +51,42 @@ class PostCreateHandler(
         )
         postEventProducer.publishCreatedEvent(post = post)
         return post.postId
+    }
+
+    private suspend fun validateParentPost(
+        request: PostCreateApiRequest,
+        postSpaceKey: PostSpaceKey,
+    ) {
+        if (request.parentId == null) {
+            return
+        }
+
+        try {
+            val parentPost = postRetriever.getPost(
+                postSpaceKey = postSpaceKey,
+                postId = request.parentId,
+            )
+            updateParentPostHasChildrenMetadata(parentPost, postSpaceKey)
+        } catch (exception: PostNotExistsException) {
+            throw ParentPostNotExistsException(exception.message, exception)
+        }
+    }
+
+    private suspend fun updateParentPostHasChildrenMetadata(
+        parentPost: PostResponse,
+        postSpaceKey: PostSpaceKey,
+    ) {
+        if (!parentPost.hasChidrenMetadata()) {
+            val hasChanged = postModifier.putMetadata(
+                postSpaceKey = postSpaceKey,
+                postId = parentPost.postId,
+                metadataType = PostMetadataType.HAS_CHILDREN,
+                value = true
+            )
+            if (hasChanged) {
+                postEventProducer.publishModifiedEvent(post = parentPost)
+            }
+        }
     }
 
 }

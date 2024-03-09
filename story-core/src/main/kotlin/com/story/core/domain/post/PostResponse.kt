@@ -17,6 +17,13 @@ data class PostResponse(
     val metadata: PostMetadataResponse?,
 ) : AuditingTimeResponse() {
 
+    fun hasChidrenMetadata(): Boolean {
+        if (this.metadata == null) {
+            return false
+        }
+        return this.metadata.hasChildren
+    }
+
     companion object {
         fun of(post: Post, sections: List<PostSectionContentResponse>): PostResponse {
             val response = PostResponse(

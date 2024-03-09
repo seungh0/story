@@ -10,6 +10,8 @@ import com.story.core.infrastructure.cache.CacheStrategy
 import com.story.core.infrastructure.cache.CacheType
 import com.story.core.infrastructure.cassandra.executeCoroutine
 import com.story.core.infrastructure.cassandra.upsert
+import com.story.core.infrastructure.lock.DistributedLock
+import com.story.core.infrastructure.lock.DistributedLockType
 import kotlinx.coroutines.flow.toList
 import org.apache.commons.lang3.StringUtils
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
@@ -23,6 +25,10 @@ class PostModifier(
     private val postSectionManager: PostSectionManager,
 ) {
 
+    @DistributedLock(
+        lockType = DistributedLockType.POST,
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+    )
     @CacheEvict(
         cacheType = CacheType.POST,
         key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
@@ -107,6 +113,38 @@ class PostModifier(
             ),
             hasChanged = hasChanged
         )
+    }
+
+    @DistributedLock(
+        lockType = DistributedLockType.POST,
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+    )
+    @CacheEvict(
+        cacheType = CacheType.POST,
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+        targetCacheStrategies = [CacheStrategy.GLOBAL]
+    )
+    suspend fun putMetadata(
+        postSpaceKey: PostSpaceKey,
+        postId: PostKey,
+        metadataType: PostMetadataType,
+        value: Any,
+    ): Boolean {
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
+            workspaceId = postSpaceKey.workspaceId,
+            componentId = postSpaceKey.componentId,
+            spaceId = postSpaceKey.spaceId,
+            parentId = postId.parentId ?: StringUtils.EMPTY,
+            slotId = PostSlotAssigner.assign(postId = postId.postId),
+            postId = postId.postId,
+        ) ?: throw PostNotExistsException("포스트($postId)가 존재하지 않습니다 [postSpaceKey: $postSpaceKey]")
+
+        if (post.metadata[metadataType] == value) {
+            return false
+        }
+
+        postRepository.putMetadata(post.key, metadataType, value.toString())
+        return true
     }
 
 }

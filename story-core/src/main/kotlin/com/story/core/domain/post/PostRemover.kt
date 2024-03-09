@@ -5,6 +5,8 @@ import com.story.core.infrastructure.cache.CacheEvict
 import com.story.core.infrastructure.cache.CacheStrategy
 import com.story.core.infrastructure.cache.CacheType
 import com.story.core.infrastructure.cassandra.executeCoroutine
+import com.story.core.infrastructure.lock.DistributedLock
+import com.story.core.infrastructure.lock.DistributedLockType
 import kotlinx.coroutines.flow.toList
 import org.apache.commons.lang3.StringUtils
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
@@ -18,6 +20,10 @@ class PostRemover(
     private val postSectionRepository: PostSectionRepository,
 ) {
 
+    @DistributedLock(
+        lockType = DistributedLockType.POST,
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+    )
     @CacheEvict(
         cacheType = CacheType.POST,
         key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",

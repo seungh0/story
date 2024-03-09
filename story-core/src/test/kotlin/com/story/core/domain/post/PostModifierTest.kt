@@ -160,4 +160,54 @@ internal class PostModifierTest(
         }
     }
 
+    context("포스트의 메타 정보를 수정한다") {
+
+        test("포스트의 하위 댓글 존재 여부에 대한 메타 정보를 수정한다") {
+            // given
+            val post = PostFixture.create()
+            val postRev = PostReverse.of(post)
+
+            postRepository.save(post)
+            postReverseRepository.save(postRev)
+
+            // when
+            postModifier.putMetadata(
+                postSpaceKey = PostSpaceKey(
+                    workspaceId = post.key.workspaceId,
+                    componentId = post.key.componentId,
+                    spaceId = post.key.spaceId,
+                ),
+                postId = PostKey(spaceId = post.key.spaceId, depth = 1, parentId = null, postId = post.key.postId),
+                metadataType = PostMetadataType.HAS_CHILDREN,
+                value = true,
+            )
+
+            // then
+            val posts = postRepository.findAll().toList()
+            posts shouldHaveSize 1
+            posts[0].key shouldBe post.key
+            posts[0].metadata shouldBe mutableMapOf(PostMetadataType.HAS_CHILDREN to true.toString())
+        }
+
+        test("포스트 메타데이터 수정시 포스트가 존재하지 않는 경우 실패한다") {
+            // given
+            val post = PostFixture.create()
+
+            // when & then
+            shouldThrowExactly<PostNotExistsException> {
+                postModifier.putMetadata(
+                    postSpaceKey = PostSpaceKey(
+                        workspaceId = post.key.workspaceId,
+                        componentId = post.key.componentId,
+                        spaceId = post.key.spaceId,
+                    ),
+                    postId = PostKey(spaceId = post.key.spaceId, depth = 1, parentId = null, postId = post.key.postId),
+                    metadataType = PostMetadataType.HAS_CHILDREN,
+                    value = true,
+                )
+            }
+        }
+
+    }
+
 })

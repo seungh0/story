@@ -8,9 +8,7 @@ import com.story.core.domain.post.section.PostSectionType
 import com.story.core.domain.post.section.text.TextPostSectionContent
 import com.story.core.domain.post.section.text.TextPostSectionContentRequest
 import com.story.core.domain.reaction.ReactionDistributionKey
-import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlinx.coroutines.flow.toList
@@ -110,105 +108,6 @@ internal class PostCreatorTest(
                     content = section2.content,
                     extra = emptyMap(),
                 ).toJson()
-            }
-        }
-
-        test("포스트에 하위 포스트가 생성되면, 하위 포스트가 존재한다고 메타데이터가 추가된다") {
-            // given
-            val postSpaceKey = PostSpaceKey(
-                workspaceId = "story",
-                componentId = "post",
-                spaceId = "commentId",
-            )
-
-            val parentPost = PostFixture.create(
-                workspaceId = postSpaceKey.workspaceId,
-                componentId = postSpaceKey.componentId,
-                spaceId = postSpaceKey.spaceId,
-                parentId = null,
-            )
-            val parentPostReverse = PostReverse.of(parentPost)
-
-            postRepository.save(parentPost)
-            postReverseRepository.save(parentPostReverse)
-
-            val ownerId = "ownerId"
-            val title = "포스트 제목"
-            val section1 = TextPostSectionContentRequest(
-                content = "컨텐츠 내용 - 1",
-                priority = 1L,
-            )
-            val section2 = TextPostSectionContentRequest(
-                content = "컨텐츠 내용 - 2",
-                priority = 2L,
-            )
-            val extra = mapOf(
-                "commentEnabled" to "true"
-            )
-
-            // when
-            postCreator.createPost(
-                postSpaceKey = postSpaceKey,
-                parentId = parentPost.key.toPostKey(),
-                ownerId = ownerId,
-                title = title,
-                sections = listOf(section1, section2),
-                extra = extra,
-            )
-
-            // then
-            val findParentPost = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
-                workspaceId = parentPost.key.workspaceId,
-                componentId = parentPost.key.componentId,
-                spaceId = parentPost.key.spaceId,
-                parentId = parentPost.key.parentId,
-                slotId = parentPost.key.slotId,
-                postId = parentPost.key.postId,
-            )
-            findParentPost shouldNotBe null
-            findParentPost!!.also {
-                it.key.workspaceId shouldBe postSpaceKey.workspaceId
-                it.key.componentId shouldBe postSpaceKey.componentId
-                it.key.spaceId shouldBe postSpaceKey.spaceId
-                it.key.parentId shouldBe ""
-                it.key.slotId shouldBe parentPost.key.slotId
-                it.key.postId shouldBe parentPost.key.postId
-                it.ownerId shouldBe parentPost.ownerId
-                it.title shouldBe parentPost.title
-                it.metadata shouldContainExactly mapOf(PostMetadataType.HAS_CHILDREN to true.toString())
-                it.extra shouldBe parentPost.extra
-            }
-        }
-
-        test("포스트의 하위에 포스트를 추가할때, 해당 부모 포스트가 존재하지 않는 경우 등록에 실패한다") {
-            // given
-            val postSpaceKey = PostSpaceKey(
-                workspaceId = "story",
-                componentId = "post",
-                spaceId = "commentId",
-            )
-
-            val ownerId = "ownerId"
-            val title = "포스트 제목"
-            val section1 = TextPostSectionContentRequest(
-                content = "컨텐츠 내용 - 1",
-                priority = 1L,
-            )
-            val section2 = TextPostSectionContentRequest(
-                content = "컨텐츠 내용 - 2",
-                priority = 2L,
-            )
-
-            // when & then
-            shouldThrowExactly<ParentPostNotExistsException> {
-                postCreator.createPost(
-                    postSpaceKey = postSpaceKey,
-                    parentId = PostKey(spaceId = postSpaceKey.spaceId, depth = 1, postId = 1, parentId = null),
-                    ownerId = ownerId,
-                    title = title,
-                    sections = listOf(section1, section2),
-                    extra = emptyMap(),
-                )
             }
         }
     }
