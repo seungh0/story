@@ -15,9 +15,9 @@ import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import com.story.core.common.error.InternalServerException
-import com.story.core.domain.post.PostKey
-import com.story.core.domain.post.PostKeyJsonDeserializer
-import com.story.core.domain.post.PostKeyJsonSerializer
+import com.story.core.domain.post.PostId
+import com.story.core.domain.post.PostIdJsonDeserializer
+import com.story.core.domain.post.PostIdJsonSerializer
 
 object Jsons {
 
@@ -39,8 +39,8 @@ object Jsons {
         .registerModules(JavaTimeModule(), ParameterNamesModule(), Jdk8Module(), kotlinModule)
         .registerModules(
             SimpleModule().apply {
-                addSerializer(PostKey::class.java, PostKeyJsonSerializer())
-                addDeserializer(PostKey::class.java, PostKeyJsonDeserializer())
+                addSerializer(PostId::class.java, PostIdJsonSerializer())
+                addDeserializer(PostId::class.java, PostIdJsonDeserializer())
             }
         )
 

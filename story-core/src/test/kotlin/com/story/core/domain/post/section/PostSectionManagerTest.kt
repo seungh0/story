@@ -42,7 +42,7 @@ class PostSectionManagerTest(
                 spaceId = "tokki",
             ),
             ownerId = "tokki",
-            postId = 1000L,
+            postNo = 1000L,
             parentId = null,
         )
 
@@ -52,9 +52,9 @@ class PostSectionManagerTest(
             section.key.workspaceId shouldBe "story"
             section.key.componentId shouldBe "user-post"
             section.key.spaceId shouldBe "tokki"
-            section.key.parentKey shouldBe ""
+            section.key.parentId shouldBe ""
             section.key.slotId shouldBe 10L
-            section.key.postId shouldBe 1000L
+            section.key.postNo shouldBe 1000L
         }
 
         sut[0].sectionType shouldBe PostSectionType.TEXT

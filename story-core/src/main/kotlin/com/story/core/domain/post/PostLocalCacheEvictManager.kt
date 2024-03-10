@@ -10,14 +10,14 @@ class PostLocalCacheEvictManager {
 
     @CacheEvict(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':spaceId:' + {#spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#workspaceId} + ':componentId:' + {#componentId} + ':spaceId:' + {#spaceId} + ':parentId:' + {#postId.parentId} + ':postNo:' + {#postId.postNo}",
         targetCacheStrategies = [CacheStrategy.LOCAL]
     )
     suspend fun evictPost(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        postId: PostKey,
+        postId: PostId,
     ) {
     }
 

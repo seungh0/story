@@ -9,9 +9,9 @@ import com.story.core.common.distribution.SlotAssigner
 object PostSlotAssigner {
 
     fun assign(
-        postId: Long,
+        postNo: Long,
     ) = SlotAssigner.assign(
-        id = postId,
+        seq = postNo,
         firstSlotId = FIRST_SLOT_ID,
         slotSize = SLOT_SIZE,
     )

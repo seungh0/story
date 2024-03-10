@@ -7,7 +7,7 @@ object PostSectionSlotAssigner {
     fun assign(
         postId: Long,
     ) = SlotAssigner.assign(
-        id = postId,
+        seq = postId,
         firstSlotId = FIRST_SLOT_ID,
         slotSize = SLOT_SIZE,
     )

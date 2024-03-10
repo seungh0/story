@@ -52,7 +52,7 @@ internal class PostModifierTest(
                     componentId = post.key.componentId,
                     spaceId = post.key.spaceId,
                 ),
-                postId = PostKey(spaceId = post.key.spaceId, depth = 1, parentKey = null, postId = post.key.postId),
+                postId = PostId(spaceId = post.key.spaceId, depth = 1, parentId = null, postNo = post.key.postNo),
                 ownerId = post.ownerId,
                 title = title,
                 sections = listOf(section1, section2),
@@ -67,7 +67,7 @@ internal class PostModifierTest(
                 it.key.componentId shouldBe post.key.componentId
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.slotId shouldBe post.key.slotId
-                it.key.postId shouldBe post.key.postId
+                it.key.postNo shouldBe post.key.postNo
                 it.ownerId shouldBe post.ownerId
                 it.title shouldBe title
                 it.extra shouldBe extra
@@ -79,7 +79,7 @@ internal class PostModifierTest(
                 it.key.workspaceId shouldBe post.key.workspaceId
                 it.key.ownerId shouldBe post.ownerId
                 it.key.spaceId shouldBe post.key.spaceId
-                it.key.postId shouldBe post.key.postId
+                it.key.postNo shouldBe post.key.postNo
                 it.title shouldBe title
             }
 
@@ -89,7 +89,7 @@ internal class PostModifierTest(
                 it.key.workspaceId shouldBe post.key.workspaceId
                 it.key.componentId shouldBe post.key.componentId
                 it.key.spaceId shouldBe post.key.spaceId
-                it.key.slotId shouldBe PostSectionSlotAssigner.assign(postId = post.key.postId)
+                it.key.slotId shouldBe PostSectionSlotAssigner.assign(postId = post.key.postNo)
                 it.key.priority shouldBe 1L
                 it.sectionType shouldBe PostSectionType.TEXT
                 it.data shouldBe TextPostSectionContent(
@@ -101,7 +101,7 @@ internal class PostModifierTest(
                 it.key.workspaceId shouldBe post.key.workspaceId
                 it.key.componentId shouldBe post.key.componentId
                 it.key.spaceId shouldBe post.key.spaceId
-                it.key.slotId shouldBe PostSectionSlotAssigner.assign(postId = post.key.postId)
+                it.key.slotId shouldBe PostSectionSlotAssigner.assign(postId = post.key.postNo)
                 it.key.priority shouldBe 2L
                 it.sectionType shouldBe PostSectionType.TEXT
                 it.data shouldBe TextPostSectionContent(
@@ -123,7 +123,7 @@ internal class PostModifierTest(
                         componentId = "post",
                         spaceId = "50000",
                     ),
-                    postId = PostKey(spaceId = "50000", depth = 1, parentKey = null, postId = 1000),
+                    postId = PostId(spaceId = "50000", depth = 1, parentId = null, postNo = 1000),
                     ownerId = "user-1",
                     title = title,
                     sections = emptyList(),
@@ -150,7 +150,7 @@ internal class PostModifierTest(
                         componentId = post.key.componentId,
                         spaceId = post.key.spaceId,
                     ),
-                    postId = PostKey(spaceId = post.key.spaceId, depth = 1, parentKey = null, postId = post.key.postId),
+                    postId = PostId(spaceId = post.key.spaceId, depth = 1, parentId = null, postNo = post.key.postNo),
                     ownerId = "another Owner Id",
                     title = title,
                     sections = emptyList(),
@@ -177,7 +177,7 @@ internal class PostModifierTest(
                     componentId = post.key.componentId,
                     spaceId = post.key.spaceId,
                 ),
-                postId = PostKey(spaceId = post.key.spaceId, depth = 1, parentKey = null, postId = post.key.postId),
+                postId = PostId(spaceId = post.key.spaceId, depth = 1, parentId = null, postNo = post.key.postNo),
                 metadataType = PostMetadataType.HAS_CHILDREN,
                 value = true,
             )
@@ -201,7 +201,7 @@ internal class PostModifierTest(
                         componentId = post.key.componentId,
                         spaceId = post.key.spaceId,
                     ),
-                    postId = PostKey(spaceId = post.key.spaceId, depth = 1, parentKey = null, postId = post.key.postId),
+                    postId = PostId(spaceId = post.key.spaceId, depth = 1, parentId = null, postNo = post.key.postNo),
                     metadataType = PostMetadataType.HAS_CHILDREN,
                     value = true,
                 )

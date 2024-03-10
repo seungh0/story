@@ -62,15 +62,15 @@ data class Post(
     companion object {
         fun of(
             postSpaceKey: PostSpaceKey,
-            parentId: PostKey?,
+            parentId: PostId?,
             ownerId: String,
-            postId: Long,
+            postNo: Long,
             title: String,
             extra: Map<String, String>,
         ) = Post(
             key = PostPrimaryKey.of(
                 postSpaceKey = postSpaceKey,
-                postId = postId,
+                postNo = postNo,
                 parentId = parentId,
             ),
             ownerId = ownerId,
@@ -94,53 +94,54 @@ data class PostPrimaryKey(
     val spaceId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 4)
-    val parentKey: String,
+    val parentId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 5)
     val slotId: Long,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
-    val postId: Long,
+    val postNo: Long,
 ) {
 
     @Transient
-    val parentPostKey: PostKey? = if (parentKey.isBlank()) null else PostKey.parsed(parentKey)
+    val parentPostId: PostId? = if (parentId.isBlank()) null else PostId.parsed(parentId)
 
-    fun toPostKey() = PostKey(
+    @Transient
+    val postId = PostId(
         spaceId = spaceId,
-        postId = postId,
+        postNo = postNo,
         depth = getDepth(),
-        parentKey = parentKey,
+        parentId = parentId,
     )
 
     fun getDepth(): Int {
-        if (parentPostKey == null) {
+        if (parentPostId == null) {
             return 1
         }
-        return parentPostKey.depth + 1
+        return parentPostId.depth + 1
     }
 
     companion object {
         fun of(
             postSpaceKey: PostSpaceKey,
-            parentId: PostKey?,
-            postId: Long,
+            parentId: PostId?,
+            postNo: Long,
         ) = PostPrimaryKey(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
-            slotId = PostSlotAssigner.assign(postId),
-            postId = postId,
+            parentId = parentId?.serialize() ?: StringUtils.EMPTY,
+            slotId = PostSlotAssigner.assign(postNo),
+            postNo = postNo,
         )
 
         fun from(reverse: PostReverse) = PostPrimaryKey(
             workspaceId = reverse.key.workspaceId,
             componentId = reverse.key.componentId,
             spaceId = reverse.key.spaceId,
-            slotId = PostSlotAssigner.assign(postId = reverse.key.postId),
-            postId = reverse.key.postId,
-            parentKey = reverse.key.parentKey,
+            slotId = PostSlotAssigner.assign(postNo = reverse.key.postNo),
+            postNo = reverse.key.postNo,
+            parentId = reverse.key.parentId,
         )
     }
 

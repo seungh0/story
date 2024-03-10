@@ -5,7 +5,7 @@ import com.story.core.domain.event.EventKeyInvalidException
 
 data class PostEventKey(
     val spaceId: String,
-    val postId: PostKey,
+    val postId: PostId,
 ) : EventKey {
 
     override fun makeKey(): String = "post::$spaceId::${postId.serialize()}"
@@ -20,7 +20,7 @@ data class PostEventKey(
                 val split = eventKey.split("::")
                 return PostEventKey(
                     spaceId = split[1],
-                    postId = split[2].let { PostKey.parsed(it) },
+                    postId = split[2].let { PostId.parsed(it) },
                 )
             } catch (exception: Exception) {
                 throw EventKeyInvalidException("유효하지 않은 EventKey($eventKey)입니다")

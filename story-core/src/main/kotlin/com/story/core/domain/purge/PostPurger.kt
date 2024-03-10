@@ -33,11 +33,11 @@ class PostPurger(
 
             postReverses.content.groupBy { postReverse -> PostPartitionKey.from(postReverse) }.keys
                 .forEach { key ->
-                    postRepository.deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotId(
+                    postRepository.deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
                         workspaceId = key.workspaceId,
                         componentId = key.componentId,
                         spaceId = key.spaceId,
-                        parentKey = key.parentKey,
+                        parentId = key.parentId,
                         slotId = key.slotId,
                     )
                 }

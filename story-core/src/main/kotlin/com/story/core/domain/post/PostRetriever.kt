@@ -32,28 +32,28 @@ class PostRetriever(
 
     @Cacheable(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postNo:' + {#postId.postNo}",
     )
     suspend fun getPost(
         postSpaceKey: PostSpaceKey,
-        postId: PostKey,
+        postId: PostId,
     ): PostResponse {
-        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentKey = postId.parentKey ?: StringUtils.EMPTY,
-            slotId = PostSlotAssigner.assign(postId.postId),
-            postId = postId.postId,
+            parentId = postId.parentId ?: StringUtils.EMPTY,
+            slotId = PostSlotAssigner.assign(postId.postNo),
+            postNo = postId.postNo,
         ) ?: throw PostNotExistsException(message = "해당하는 Space($postSpaceKey)에 포스트($postId)가 존재하지 않습니다")
 
-        val sections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
+        val sections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentKey = postId.parentKey ?: StringUtils.EMPTY,
-            slotId = PostSectionSlotAssigner.assign(postId.postId),
-            postId = postId.postId,
+            parentId = postId.parentId ?: StringUtils.EMPTY,
+            slotId = PostSectionSlotAssigner.assign(postId.postNo),
+            postNo = postId.postNo,
         )
 
         return PostResponse.of(
@@ -64,7 +64,7 @@ class PostRetriever(
 
     suspend fun listPosts(
         postSpaceKey: PostSpaceKey,
-        parentId: PostKey?,
+        parentId: PostId?,
         cursorRequest: CursorRequest,
         sortBy: PostSortBy,
     ): Slice<PostResponse, String> {
@@ -86,17 +86,17 @@ class PostRetriever(
 
         if (posts.size > cursorRequest.pageSize) {
             val postSections = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
-                .groupBy { post -> PostSlotAssigner.assign(postId = post.key.postId) }
+                .groupBy { post -> PostSlotAssigner.assign(postNo = post.key.postNo) }
                 .flatMap { (slotId, posts) ->
-                    postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostIdIn(
+                    postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoIn(
                         workspaceId = postSpaceKey.workspaceId,
                         componentId = postSpaceKey.componentId,
                         spaceId = postSpaceKey.spaceId,
-                        parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
+                        parentId = parentId?.serialize() ?: StringUtils.EMPTY,
                         slotId = slotId,
-                        postIds = posts.map { post -> post.key.postId },
+                        postNos = posts.map { post -> post.key.postNo },
                     ).toList()
-                }.groupBy { postSection -> postSection.key.postId }
+                }.groupBy { postSection -> postSection.key.postNo }
 
             return Slice(
                 data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
@@ -104,36 +104,36 @@ class PostRetriever(
                         PostResponse.of(
                             post = post,
                             sections = postSectionManager.makePostSectionContentResponse(
-                                postSections[post.key.postId] ?: emptyList()
+                                postSections[post.key.postNo] ?: emptyList()
                             )
                         )
                     },
                 cursor = CursorUtils.getCursor(
                     listWithNextCursor = posts,
                     pageSize = cursorRequest.pageSize,
-                    keyGenerator = { post -> post?.key?.postId?.toString() }
+                    keyGenerator = { post -> post?.key?.postNo?.toString() }
                 )
             )
         }
 
         val morePosts = when (cursorRequest.direction) {
             CursorDirection.NEXT -> {
-                postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotId(
+                postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
                     workspaceId = postSpaceKey.workspaceId,
                     componentId = postSpaceKey.componentId,
                     spaceId = postSpaceKey.spaceId,
-                    parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
+                    parentId = parentId?.serialize() ?: StringUtils.EMPTY,
                     slotId = slot - 1,
                     pageable = CassandraPageRequest.first(cursorRequest.pageSize - posts.size + 1),
                 ).toList()
             }
 
             CursorDirection.PREVIOUS -> {
-                postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdOrderByKeyPostIdAsc(
+                postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdOrderByKeyPostNoAsc(
                     workspaceId = postSpaceKey.workspaceId,
                     componentId = postSpaceKey.componentId,
                     spaceId = postSpaceKey.spaceId,
-                    parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
+                    parentId = parentId?.serialize() ?: StringUtils.EMPTY,
                     slotId = slot + 1,
                     pageable = CassandraPageRequest.first(cursorRequest.pageSize - posts.size + 1),
                 ).toList()
@@ -149,83 +149,83 @@ class PostRetriever(
                 PostResponse.of(
                     post = post,
                     sections = postSectionManager.makePostSectionContentResponse(
-                        postSections[post.key.postId] ?: emptyList()
+                        postSections[post.key.postNo] ?: emptyList()
                     )
                 )
             },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = morePosts,
                 pageSize = cursorRequest.pageSize - posts.size,
-                keyGenerator = { post -> post?.key?.postId?.toString() }
+                keyGenerator = { post -> post?.key?.postNo?.toString() }
             )
         )
     }
 
     private suspend fun listNextPosts(
         cursorRequest: CursorRequest,
-        parentId: PostKey?,
+        parentId: PostId?,
         postSpaceKey: PostSpaceKey,
     ): Pair<Long, List<Post>> {
         if (cursorRequest.cursor == null) {
             val lastSlotId = PostSlotAssigner.assign(
-                postId = postSequenceRepository.getLastSequence(
+                postNo = postSequenceRepository.getLastSequence(
                     postSpaceKey = postSpaceKey,
                     parentId = parentId
                 )
             )
-            return lastSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotId(
+            return lastSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 spaceId = postSpaceKey.spaceId,
-                parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
+                parentId = parentId?.serialize() ?: StringUtils.EMPTY,
                 slotId = lastSlotId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
             ).toList()
         }
 
         val currentSlot = PostSlotAssigner.assign(
-            postId = cursorRequest.cursor.toLongOrNull()
+            postNo = cursorRequest.cursor.toLongOrNull()
                 ?: throw InvalidCursorException("잘못된 CursorResponse(${cursorRequest.cursor})입니다")
         )
-        return currentSlot to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostIdLessThan(
+        return currentSlot to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoLessThan(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
+            parentId = parentId?.serialize() ?: StringUtils.EMPTY,
             slotId = currentSlot,
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
-            postId = cursorRequest.cursor.toLongOrNull()
+            postNo = cursorRequest.cursor.toLongOrNull()
                 ?: throw InvalidCursorException("잘못된 CursorResponse(${cursorRequest.cursor})입니다"),
         ).toList()
     }
 
     private suspend fun listPreviousPosts(
         cursorRequest: CursorRequest,
-        parentId: PostKey?,
+        parentId: PostId?,
         postSpaceKey: PostSpaceKey,
     ): Pair<Long, List<Post>> {
         if (cursorRequest.cursor == null) {
             val firstSlotId = PostSlotAssigner.FIRST_SLOT_ID
-            return firstSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdOrderByKeyPostIdAsc(
+            return firstSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdOrderByKeyPostNoAsc(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 spaceId = postSpaceKey.spaceId,
-                parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
+                parentId = parentId?.serialize() ?: StringUtils.EMPTY,
                 slotId = firstSlotId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
             ).toList()
         }
         val currentSlot = PostSlotAssigner.assign(
-            postId = cursorRequest.cursor.toLongOrNull()
+            postNo = cursorRequest.cursor.toLongOrNull()
                 ?: throw InvalidCursorException("잘못된 CursorResponse(${cursorRequest.cursor})입니다"),
         )
-        return currentSlot to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
+        return currentSlot to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoGreaterThanOrderByKeyPostNoAsc(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
+            parentId = parentId?.serialize() ?: StringUtils.EMPTY,
             slotId = currentSlot,
-            postId = cursorRequest.cursor.toLongOrNull()
+            postNo = cursorRequest.cursor.toLongOrNull()
                 ?: throw InvalidCursorException("잘못된 CursorResponse(${cursorRequest.cursor})입니다"),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
         ).toList()
@@ -254,14 +254,14 @@ class PostRetriever(
                     PostResponse.of(
                         post = post,
                         sections = postSectionManager.makePostSectionContentResponse(
-                            postSections[post.key.postId] ?: emptyList()
+                            postSections[post.key.postNo] ?: emptyList()
                         )
                     )
                 },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = posts,
                 pageSize = cursorRequest.pageSize,
-                keyGenerator = { post -> post?.key?.postId?.toString() }
+                keyGenerator = { post -> post?.key?.postNo?.toString() }
             )
         )
     }
@@ -281,12 +281,12 @@ class PostRetriever(
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
             ).toList()
         }
-        return postReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdLessThan(
+        return postReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostNoLessThan(
             workspaceId = workspaceId,
             componentId = componentId,
             distributionKey = PostDistributionKey.makeKey(ownerId),
             ownerId = ownerId,
-            postId = cursorRequest.cursor.toLong(),
+            postNo = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
         ).toList()
     }
@@ -297,16 +297,16 @@ class PostRetriever(
         return@coroutineScope posts.groupBy { post -> PostSectionPartitionKey.from(post) }
             .map { (sectionPartition, posts) ->
                 async {
-                    postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostIdIn(
+                    postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoIn(
                         workspaceId = sectionPartition.workspaceId,
                         componentId = sectionPartition.componentId,
                         spaceId = sectionPartition.spaceId,
-                        parentKey = sectionPartition.parentKey,
+                        parentId = sectionPartition.parentId,
                         slotId = sectionPartition.slotId,
-                        postIds = posts.map { post -> post.key.postId },
+                        postNos = posts.map { post -> post.key.postNo },
                     ).toList()
                 }
-            }.awaitAll().flatten().groupBy { postSection -> postSection.key.postId }
+            }.awaitAll().flatten().groupBy { postSection -> postSection.key.postNo }
     }
 
     private suspend fun getPostReverseSections(
@@ -315,16 +315,16 @@ class PostRetriever(
         return@coroutineScope posts.groupBy { post -> PostSectionPartitionKey.from(post) }
             .map { (sectionPartition, posts) ->
                 async {
-                    postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostIdIn(
+                    postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoIn(
                         workspaceId = sectionPartition.workspaceId,
                         componentId = sectionPartition.componentId,
                         spaceId = sectionPartition.spaceId,
-                        parentKey = sectionPartition.parentKey,
+                        parentId = sectionPartition.parentId,
                         slotId = sectionPartition.slotId,
-                        postIds = posts.map { post -> post.key.postId },
+                        postNos = posts.map { post -> post.key.postNo },
                     ).toList()
                 }
-            }.awaitAll().flatten().groupBy { postSection -> postSection.key.postId }
+            }.awaitAll().flatten().groupBy { postSection -> postSection.key.postNo }
     }
 
 }

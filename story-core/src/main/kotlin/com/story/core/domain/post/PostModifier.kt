@@ -27,43 +27,43 @@ class PostModifier(
 
     @DistributedLock(
         lockType = DistributedLockType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postNo:' + {#postId.postNo}",
     )
     @CacheEvict(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postNo:' + {#postId.postNo}",
         targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun patchPost(
         postSpaceKey: PostSpaceKey,
         ownerId: String,
-        postId: PostKey,
+        postId: PostId,
         title: String?,
         sections: List<PostSectionContentRequest>?,
         extra: Map<String, String>?,
     ): PostPatchResponse {
-        val slotId = PostSlotAssigner.assign(postId.postId)
+        val slotId = PostSlotAssigner.assign(postId.postNo)
 
-        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentKey = postId.parentKey ?: StringUtils.EMPTY,
+            parentId = postId.parentId ?: StringUtils.EMPTY,
             slotId = slotId,
-            postId = postId.postId,
+            postNo = postId.postNo,
         ) ?: throw PostNotExistsException(message = "해당하는 포스트($postId)는 존재하지 않습니다 [postSpaceKey: $postSpaceKey]")
 
         if (!post.isOwner(ownerId)) {
             throw NoPermissionException("계정($ownerId)는 해당하는 포스트($postId)를 수정할 권한이 없습니다 [postSpaceKey: $postSpaceKey]")
         }
 
-        val previousPostSections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
+        val previousPostSections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentKey = postId.parentKey ?: StringUtils.EMPTY,
-            slotId = PostSectionSlotAssigner.assign(postId = postId.postId),
-            postId = postId.postId,
+            parentId = postId.parentId ?: StringUtils.EMPTY,
+            slotId = PostSectionSlotAssigner.assign(postId = postId.postNo),
+            postNo = postId.postNo,
         ).toList()
 
         var hasChanged = post.patch(
@@ -88,8 +88,8 @@ class PostModifier(
         val newPostSections = postSectionManager.makePostSections(
             requests = sections,
             postSpaceKey = postSpaceKey,
-            postId = postId.postId,
-            parentId = post.key.parentPostKey,
+            postNo = postId.postNo,
+            parentId = post.key.parentPostId,
             ownerId = ownerId,
         )
 
@@ -117,26 +117,26 @@ class PostModifier(
 
     @DistributedLock(
         lockType = DistributedLockType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postNo:' + {#postId.postNo}",
     )
     @CacheEvict(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postNo:' + {#postId.postNo}",
         targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun putMetadata(
         postSpaceKey: PostSpaceKey,
-        postId: PostKey,
+        postId: PostId,
         metadataType: PostMetadataType,
         value: Any,
     ): Boolean {
-        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentKey = postId.parentKey ?: StringUtils.EMPTY,
-            slotId = PostSlotAssigner.assign(postId = postId.postId),
-            postId = postId.postId,
+            parentId = postId.parentId ?: StringUtils.EMPTY,
+            slotId = PostSlotAssigner.assign(postNo = postId.postNo),
+            postNo = postId.postNo,
         ) ?: throw PostNotExistsException("포스트($postId)가 존재하지 않습니다 [postSpaceKey: $postSpaceKey]")
 
         if (post.metadata[metadataType] == value) {

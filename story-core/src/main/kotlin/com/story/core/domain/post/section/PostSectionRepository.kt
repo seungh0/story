@@ -5,22 +5,22 @@ import kotlinx.coroutines.flow.Flow
 
 interface PostSectionRepository : CassandraBasicRepository<PostSection, PostSectionPrimaryKey> {
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        parentKey: String,
+        parentId: String,
         slotId: Long,
-        postId: Long,
+        postNo: Long,
     ): Flow<PostSection>
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostIdIn(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoIn(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        parentKey: String,
+        parentId: String,
         slotId: Long,
-        postIds: Collection<Long>,
+        postNos: Collection<Long>,
     ): Flow<PostSection>
 
 }

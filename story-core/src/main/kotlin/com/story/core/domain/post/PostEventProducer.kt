@@ -70,7 +70,7 @@ class PostEventProducer(
 
     suspend fun publishDeletedEvent(
         postSpaceKey: PostSpaceKey,
-        postId: PostKey,
+        postId: PostId,
         ownerId: String,
     ) {
         val event = PostEvent.deleted(

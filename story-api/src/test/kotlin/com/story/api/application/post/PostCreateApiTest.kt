@@ -11,7 +11,7 @@ import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.RestDocsUtils.remarks
 import com.story.api.lib.WebClientUtils
 import com.story.core.domain.nonce.NonceManager
-import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.post.section.PostSectionType
 import io.mockk.coEvery
@@ -95,7 +95,7 @@ class PostCreateApiTest(
                 request = any(),
                 nonce = any(),
             )
-        } returns PostKey(spaceId = spaceId, parentKey = null, postId = 100, depth = 2)
+        } returns PostId(spaceId = spaceId, parentId = null, postNo = 100, depth = 2)
 
         // when
         val exchange = webTestClient.post()

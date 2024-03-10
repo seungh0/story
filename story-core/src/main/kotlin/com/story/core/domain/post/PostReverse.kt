@@ -31,8 +31,8 @@ data class PostReverse(
                 workspaceId = post.key.workspaceId,
                 componentId = post.key.componentId,
                 ownerId = post.ownerId,
-                parentId = post.key.parentPostKey,
-                postId = post.key.postId,
+                parentId = post.key.parentPostId,
+                postNo = post.key.postNo,
                 spaceId = post.key.spaceId,
             ),
             slotId = post.key.slotId,
@@ -59,28 +59,36 @@ data class PostReversePrimaryKey(
     val ownerId: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 5)
-    val postId: Long,
+    val postNo: Long,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 6)
-    val parentKey: String,
+    val parentId: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 7)
     val spaceId: String,
 ) {
 
     @Transient
-    val parentPostKey: PostKey? = with(this.parentKey) {
+    val postId = PostId(
+        spaceId = spaceId,
+        postNo = postNo,
+        depth = getDepth(),
+        parentId = parentId,
+    )
+
+    @Transient
+    val parentPostId: PostId? = with(this.parentId) {
         if (this.isBlank()) {
             return@with null
         }
-        return@with PostKey.parsed(this)
+        return@with PostId.parsed(this)
     }
 
     fun getDepth(): Int {
-        if (parentPostKey == null) {
+        if (parentPostId == null) {
             return 1
         }
-        return parentPostKey.depth + 1
+        return parentPostId.depth + 1
     }
 
     companion object {
@@ -88,16 +96,16 @@ data class PostReversePrimaryKey(
             workspaceId: String,
             componentId: String,
             ownerId: String,
-            postId: Long,
-            parentId: PostKey?,
+            postNo: Long,
+            parentId: PostId?,
             spaceId: String,
         ) = PostReversePrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
             distributionKey = PostDistributionKey.makeKey(ownerId),
             ownerId = ownerId,
-            postId = postId,
-            parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
+            postNo = postNo,
+            parentId = parentId?.serialize() ?: StringUtils.EMPTY,
             spaceId = spaceId,
         )
     }

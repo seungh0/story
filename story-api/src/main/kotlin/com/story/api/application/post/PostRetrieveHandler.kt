@@ -2,7 +2,7 @@ package com.story.api.application.post
 
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
-import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostRetriever
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
@@ -17,7 +17,7 @@ class PostRetrieveHandler(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        postId: PostKey,
+        postId: PostId,
         requestUserId: String?,
     ): PostApiResponse {
         componentCheckHandler.checkExistsComponent(

@@ -21,12 +21,12 @@ class PostRetrieverTest(
             test("첫 페이지 조회 with 다음 커서") {
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
-                (1..9).forEach { postId ->
+                (1..9).forEach { postNo ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postNo.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -48,9 +48,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 9
-                sut.data[1].postId.postId shouldBe 8
-                sut.data[2].postId.postId shouldBe 7
+                sut.data[0].postId.postNo shouldBe 9
+                sut.data[1].postId.postNo shouldBe 8
+                sut.data[2].postId.postNo shouldBe 7
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "7"
@@ -59,12 +59,12 @@ class PostRetrieverTest(
             test("첫 페이지 조회 without (pageSize == contents)") {
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
-                (1..3).forEach { postId ->
+                (1..3).forEach { postNo ->
                     val post = PostFixture.create(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postNo.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -86,9 +86,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 3
-                sut.data[1].postId.postId shouldBe 2
-                sut.data[2].postId.postId shouldBe 1
+                sut.data[0].postId.postNo shouldBe 3
+                sut.data[1].postId.postNo shouldBe 2
+                sut.data[2].postId.postNo shouldBe 1
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -102,7 +102,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -124,9 +124,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 3
-                sut.data[1].postId.postId shouldBe 2
-                sut.data[2].postId.postId shouldBe 1
+                sut.data[0].postId.postNo shouldBe 3
+                sut.data[1].postId.postNo shouldBe 2
+                sut.data[2].postId.postNo shouldBe 1
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -136,7 +136,7 @@ class PostRetrieverTest(
         context("첫 페이지 멀티 슬롯 조회") {
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다") {
                 // given
-                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, count = 10001L, parentId = null)
+                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -145,7 +145,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -167,9 +167,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 10001
-                sut.data[1].postId.postId shouldBe 10000
-                sut.data[2].postId.postId shouldBe 9999
+                sut.data[0].postId.postNo shouldBe 10001
+                sut.data[1].postId.postNo shouldBe 10000
+                sut.data[2].postId.postNo shouldBe 9999
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "9999"
@@ -177,7 +177,7 @@ class PostRetrieverTest(
 
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다 (without 다음 커서)") {
                 // given
-                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, count = 10001L, parentId = null)
+                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -186,7 +186,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -208,9 +208,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 10001
-                sut.data[1].postId.postId shouldBe 10000
-                sut.data[2].postId.postId shouldBe 9999
+                sut.data[0].postId.postNo shouldBe 10001
+                sut.data[1].postId.postNo shouldBe 10000
+                sut.data[2].postId.postNo shouldBe 9999
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -226,7 +226,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -248,9 +248,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 6
-                sut.data[1].postId.postId shouldBe 5
-                sut.data[2].postId.postId shouldBe 4
+                sut.data[0].postId.postNo shouldBe 6
+                sut.data[1].postId.postNo shouldBe 5
+                sut.data[2].postId.postNo shouldBe 4
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "4"
@@ -264,7 +264,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -286,9 +286,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 3
-                sut.data[1].postId.postId shouldBe 2
-                sut.data[2].postId.postId shouldBe 1
+                sut.data[0].postId.postNo shouldBe 3
+                sut.data[1].postId.postNo shouldBe 2
+                sut.data[2].postId.postNo shouldBe 1
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -302,7 +302,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -324,9 +324,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 3
-                sut.data[1].postId.postId shouldBe 2
-                sut.data[2].postId.postId shouldBe 1
+                sut.data[0].postId.postNo shouldBe 3
+                sut.data[1].postId.postNo shouldBe 2
+                sut.data[2].postId.postNo shouldBe 1
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -336,7 +336,7 @@ class PostRetrieverTest(
         context("커서 기준 멀티 슬롯 조회") {
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다") {
                 // given
-                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, count = 10001L, parentId = null)
+                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -345,7 +345,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -367,9 +367,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 10001
-                sut.data[1].postId.postId shouldBe 10000
-                sut.data[2].postId.postId shouldBe 9999
+                sut.data[0].postId.postNo shouldBe 10001
+                sut.data[1].postId.postNo shouldBe 10000
+                sut.data[2].postId.postNo shouldBe 9999
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "9999"
@@ -377,7 +377,7 @@ class PostRetrieverTest(
 
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다 (without 다음 커서)") {
                 // given
-                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, count = 10001L, parentId = null)
+                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -386,7 +386,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -408,9 +408,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 10001
-                sut.data[1].postId.postId shouldBe 10000
-                sut.data[2].postId.postId shouldBe 9999
+                sut.data[0].postId.postNo shouldBe 10001
+                sut.data[1].postId.postNo shouldBe 10000
+                sut.data[2].postId.postNo shouldBe 9999
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -428,7 +428,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -450,9 +450,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 1
-                sut.data[1].postId.postId shouldBe 2
-                sut.data[2].postId.postId shouldBe 3
+                sut.data[0].postId.postNo shouldBe 1
+                sut.data[1].postId.postNo shouldBe 2
+                sut.data[2].postId.postNo shouldBe 3
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "3"
@@ -466,7 +466,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -488,9 +488,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 1
-                sut.data[1].postId.postId shouldBe 2
-                sut.data[2].postId.postId shouldBe 3
+                sut.data[0].postId.postNo shouldBe 1
+                sut.data[1].postId.postNo shouldBe 2
+                sut.data[2].postId.postNo shouldBe 3
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -504,7 +504,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -526,9 +526,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 1
-                sut.data[1].postId.postId shouldBe 2
-                sut.data[2].postId.postId shouldBe 3
+                sut.data[0].postId.postNo shouldBe 1
+                sut.data[1].postId.postNo shouldBe 2
+                sut.data[2].postId.postNo shouldBe 3
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -538,7 +538,7 @@ class PostRetrieverTest(
         context("첫 페이지 멀티 슬롯 조회") {
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다") {
                 // given
-                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, count = 10001L, parentId = null)
+                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -547,7 +547,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -569,9 +569,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 9999
-                sut.data[1].postId.postId shouldBe 10000
-                sut.data[2].postId.postId shouldBe 10001
+                sut.data[0].postId.postNo shouldBe 9999
+                sut.data[1].postId.postNo shouldBe 10000
+                sut.data[2].postId.postNo shouldBe 10001
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "10001"
@@ -579,7 +579,7 @@ class PostRetrieverTest(
 
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다 (without 다음 커서)") {
                 // given
-                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, count = 10001L, parentId = null)
+                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -588,7 +588,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -610,9 +610,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 9999
-                sut.data[1].postId.postId shouldBe 10000
-                sut.data[2].postId.postId shouldBe 10001
+                sut.data[0].postId.postNo shouldBe 9999
+                sut.data[1].postId.postNo shouldBe 10000
+                sut.data[2].postId.postNo shouldBe 10001
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -628,7 +628,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -650,9 +650,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 3
-                sut.data[1].postId.postId shouldBe 4
-                sut.data[2].postId.postId shouldBe 5
+                sut.data[0].postId.postNo shouldBe 3
+                sut.data[1].postId.postNo shouldBe 4
+                sut.data[2].postId.postNo shouldBe 5
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "5"
@@ -666,7 +666,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -688,9 +688,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 7
-                sut.data[1].postId.postId shouldBe 8
-                sut.data[2].postId.postId shouldBe 9
+                sut.data[0].postId.postNo shouldBe 7
+                sut.data[1].postId.postNo shouldBe 8
+                sut.data[2].postId.postNo shouldBe 9
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -704,7 +704,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -726,9 +726,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 7
-                sut.data[1].postId.postId shouldBe 8
-                sut.data[2].postId.postId shouldBe 9
+                sut.data[0].postId.postNo shouldBe 7
+                sut.data[1].postId.postNo shouldBe 8
+                sut.data[2].postId.postNo shouldBe 9
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null
@@ -738,7 +738,7 @@ class PostRetrieverTest(
         context("커서 기준 멀티 슬롯 조회") {
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다") {
                 // given
-                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, count = 10001L, parentId = null)
+                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -747,7 +747,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -769,9 +769,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 9999
-                sut.data[1].postId.postId shouldBe 10000
-                sut.data[2].postId.postId shouldBe 10001
+                sut.data[0].postId.postNo shouldBe 9999
+                sut.data[1].postId.postNo shouldBe 10000
+                sut.data[2].postId.postNo shouldBe 10001
 
                 sut.cursor.hasNext shouldBe true
                 sut.cursor.nextCursor shouldBe "10001"
@@ -779,7 +779,7 @@ class PostRetrieverTest(
 
             test("현재 슬롯에서 더 이상 포스트가 없는 경우, 이전 슬롯의 처음부터 조회한다 (without 다음 커서)") {
                 // given
-                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, count = 10001L, parentId = null)
+                postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
                 val posts = mutableListOf<Post>()
                 val postReverses = mutableListOf<PostReverse>()
@@ -788,7 +788,7 @@ class PostRetrieverTest(
                         workspaceId = POST_SPACE_KEY.workspaceId,
                         componentId = POST_SPACE_KEY.componentId,
                         spaceId = POST_SPACE_KEY.spaceId,
-                        postId = postId.toLong(),
+                        postNo = postId.toLong(),
                     )
                     posts += post
                     postReverses += PostReverse.of(post)
@@ -810,9 +810,9 @@ class PostRetrieverTest(
 
                 // then
                 sut.data shouldHaveSize 3
-                sut.data[0].postId.postId shouldBe 9999
-                sut.data[1].postId.postId shouldBe 10000
-                sut.data[2].postId.postId shouldBe 10001
+                sut.data[0].postId.postNo shouldBe 9999
+                sut.data[1].postId.postNo shouldBe 10000
+                sut.data[2].postId.postNo shouldBe 10001
 
                 sut.cursor.hasNext shouldBe false
                 sut.cursor.nextCursor shouldBe null

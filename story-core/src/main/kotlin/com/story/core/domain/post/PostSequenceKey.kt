@@ -5,7 +5,7 @@ import java.time.Duration
 
 data class PostSequenceKey(
     val postSpaceKey: PostSpaceKey,
-    val parentId: PostKey?,
+    val parentId: PostId?,
 ) : StringRedisKey<PostSequenceKey, Long> {
 
     override fun makeKeyString(): String {

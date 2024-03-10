@@ -1,6 +1,6 @@
 package com.story.core.domain.post.section
 
-import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostSpaceKey
 import org.apache.commons.lang3.StringUtils
 import org.springframework.data.cassandra.core.cql.Ordering
@@ -21,8 +21,8 @@ data class PostSection(
     companion object {
         fun of(
             postSpaceKey: PostSpaceKey,
-            parentId: PostKey?,
-            postId: Long,
+            parentId: PostId?,
+            postNo: Long,
             priority: Long,
             sectionType: PostSectionType,
             content: PostSectionContent,
@@ -31,9 +31,9 @@ data class PostSection(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 spaceId = postSpaceKey.spaceId,
-                parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
-                slotId = PostSectionSlotAssigner.assign(postId = postId),
-                postId = postId,
+                parentId = parentId?.serialize() ?: StringUtils.EMPTY,
+                slotId = PostSectionSlotAssigner.assign(postId = postNo),
+                postNo = postNo,
                 priority = priority,
             ),
             sectionType = sectionType,
@@ -55,13 +55,13 @@ data class PostSectionPrimaryKey(
     val spaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
-    val parentKey: String,
+    val parentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 5)
     val slotId: Long,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
-    val postId: Long,
+    val postNo: Long,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING, ordinal = 7)
     val priority: Long,

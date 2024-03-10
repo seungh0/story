@@ -7,14 +7,14 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.ser.std.StdSerializer
 
-class PostKeyJsonDeserializer : StdDeserializer<PostKey>(PostKey::class.java) {
-    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): PostKey {
-        return PostKey.parsed(p.valueAsString)
+class PostIdJsonDeserializer : StdDeserializer<PostId>(PostId::class.java) {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): PostId {
+        return PostId.parsed(p.valueAsString)
     }
 }
 
-class PostKeyJsonSerializer : StdSerializer<PostKey>(PostKey::class.java) {
-    override fun serialize(value: PostKey, gen: JsonGenerator, provider: SerializerProvider?) {
+class PostIdJsonSerializer : StdSerializer<PostId>(PostId::class.java) {
+    override fun serialize(value: PostId, gen: JsonGenerator, provider: SerializerProvider?) {
         gen.writeString(value.serialize())
     }
 }

@@ -7,8 +7,8 @@ data class PostResponse(
     val workspaceId: String,
     val componentId: String,
     val spaceId: String,
-    val parentId: PostKey?,
-    val postId: PostKey,
+    val parentId: PostId?,
+    val postId: PostId,
     val depth: Int,
     val ownerId: String,
     val title: String,
@@ -17,7 +17,7 @@ data class PostResponse(
     val metadata: PostMetadataResponse?,
 ) : AuditingTimeResponse() {
 
-    fun hasChidrenMetadata(): Boolean {
+    fun hasChildrenMetadata(): Boolean {
         if (this.metadata == null) {
             return false
         }
@@ -30,21 +30,14 @@ data class PostResponse(
                 workspaceId = post.key.workspaceId,
                 componentId = post.key.componentId,
                 spaceId = post.key.spaceId,
-                parentId = post.key.parentPostKey,
-                postId = PostKey(
-                    spaceId = post.key.spaceId,
-                    parentKey = post.key.parentKey,
-                    depth = post.key.getDepth(),
-                    postId = post.key.postId,
-                ),
+                parentId = post.key.parentPostId,
+                postId = post.key.postId,
                 depth = post.key.getDepth(),
                 ownerId = post.ownerId,
                 title = post.title,
                 sections = sections,
                 extra = post.extra,
-                metadata = PostMetadataResponse(
-                    hasChildren = post.getMetadata(type = PostMetadataType.HAS_CHILDREN),
-                ),
+                metadata = PostMetadataResponse.of(post),
             )
             response.setAuditingTime(post.auditingTime)
             return response
@@ -55,13 +48,8 @@ data class PostResponse(
                 workspaceId = post.key.workspaceId,
                 componentId = post.key.componentId,
                 spaceId = post.key.spaceId,
-                parentId = post.key.parentPostKey,
-                postId = PostKey(
-                    spaceId = post.key.spaceId,
-                    parentKey = post.key.parentKey,
-                    depth = post.key.getDepth(),
-                    postId = post.key.postId,
-                ),
+                parentId = post.key.parentPostId,
+                postId = post.key.postId,
                 depth = post.key.getDepth(),
                 ownerId = post.key.ownerId,
                 title = post.title,
@@ -75,7 +63,3 @@ data class PostResponse(
     }
 
 }
-
-data class PostMetadataResponse(
-    val hasChildren: Boolean,
-)

@@ -5,12 +5,12 @@ object SlotAssigner {
     private const val MIN_ID = 1L
 
     fun assign(
-        id: Long,
+        seq: Long,
         firstSlotId: Long,
         slotSize: Int,
     ): Long {
-        require(value = id >= MIN_ID, lazyMessage = { "id($id)는 최소 ${MIN_ID}보다 커야합니다" })
-        return ((id - MIN_ID) / slotSize) + firstSlotId
+        require(value = seq >= MIN_ID, lazyMessage = { "id($seq)는 최소 ${MIN_ID}보다 커야합니다" })
+        return ((seq - MIN_ID) / slotSize) + firstSlotId
     }
 
 }

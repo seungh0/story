@@ -60,9 +60,9 @@ internal class PostCreatorTest(
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.componentId shouldBe postSpaceKey.componentId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
-                it.key.parentKey shouldBe ""
+                it.key.parentId shouldBe ""
                 it.key.slotId shouldBe 1L
-                it.key.postId shouldNotBe null
+                it.key.postNo shouldNotBe null
                 it.ownerId shouldBe ownerId
                 it.title shouldBe title
                 it.extra shouldBe extra
@@ -76,8 +76,8 @@ internal class PostCreatorTest(
                 it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(ownerId)
                 it.key.ownerId shouldBe ownerId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
-                it.key.parentKey shouldBe ""
-                it.key.postId shouldNotBe null
+                it.key.parentId shouldBe ""
+                it.key.postNo shouldNotBe null
                 it.title shouldBe title
             }
 
@@ -87,7 +87,7 @@ internal class PostCreatorTest(
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.componentId shouldBe postSpaceKey.componentId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
-                it.key.parentKey shouldBe ""
+                it.key.parentId shouldBe ""
                 it.key.slotId shouldBe 1L
                 it.key.priority shouldBe 1L
                 it.sectionType shouldBe PostSectionType.TEXT
@@ -100,7 +100,7 @@ internal class PostCreatorTest(
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.componentId shouldBe postSpaceKey.componentId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
-                it.key.parentKey shouldBe ""
+                it.key.parentId shouldBe ""
                 it.key.slotId shouldBe 1L
                 it.key.priority shouldBe 2L
                 it.sectionType shouldBe PostSectionType.TEXT

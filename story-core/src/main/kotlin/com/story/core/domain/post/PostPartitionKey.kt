@@ -4,7 +4,7 @@ data class PostPartitionKey(
     val workspaceId: String,
     val componentId: String,
     val spaceId: String,
-    val parentKey: String,
+    val parentId: String,
     val slotId: Long,
 ) {
 
@@ -13,7 +13,7 @@ data class PostPartitionKey(
             workspaceId = postReverse.key.workspaceId,
             componentId = postReverse.key.componentId,
             spaceId = postReverse.key.spaceId,
-            parentKey = postReverse.key.parentKey,
+            parentId = postReverse.key.parentId,
             slotId = postReverse.slotId,
         )
     }

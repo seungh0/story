@@ -3,8 +3,8 @@ package com.story.api.config
 import com.story.api.config.apikey.ApiKeyContextMethodArgumentResolver
 import com.story.api.config.nonce.NonceMethodArgumentResolver
 import com.story.core.common.json.Jsons
-import com.story.core.infrastructure.cassandra.converter.PostKeyReadConverter
-import com.story.core.infrastructure.cassandra.converter.PostKeyWriteConverter
+import com.story.core.infrastructure.cassandra.converter.PostIdReadConverter
+import com.story.core.infrastructure.cassandra.converter.PostIdWriteConverter
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -22,8 +22,8 @@ import org.springframework.web.reactive.result.method.annotation.ArgumentResolve
 class WebFluxConfig(
     private val authContextMethodArgumentResolver: ApiKeyContextMethodArgumentResolver,
     private val nonceMethodArgumentResolver: NonceMethodArgumentResolver,
-    private val postKeyWriteConverter: PostKeyWriteConverter,
-    private val postKeyReadConverter: PostKeyReadConverter,
+    private val postKeyWriteConverter: PostIdWriteConverter,
+    private val postKeyReadConverter: PostIdReadConverter,
 ) : WebFluxConfigurer {
 
     override fun configureArgumentResolvers(configurer: ArgumentResolverConfigurer) {

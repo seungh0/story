@@ -18,20 +18,20 @@ class PostCreator(
 
     suspend fun createPost(
         postSpaceKey: PostSpaceKey,
-        parentId: PostKey?,
+        parentId: PostId?,
         ownerId: String,
         title: String,
         sections: List<PostSectionContentRequest>,
         extra: Map<String, String>,
     ): PostResponse {
         if (parentId != null) {
-            val parentPost = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
+            val parentPost = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 spaceId = postSpaceKey.spaceId,
-                parentKey = parentId.parentKey ?: StringUtils.EMPTY,
-                slotId = PostSlotAssigner.assign(postId = parentId.postId),
-                postId = parentId.postId,
+                parentId = parentId.parentId ?: StringUtils.EMPTY,
+                slotId = PostSlotAssigner.assign(postNo = parentId.postNo),
+                postNo = parentId.postNo,
             ) ?: throw ParentPostNotExistsException("부모 포스트($parentId)가 존재하지 않습니다")
 
             if (!parentPost.getMetadata<Boolean>(type = PostMetadataType.HAS_CHILDREN)) {
@@ -39,12 +39,12 @@ class PostCreator(
             }
         }
 
-        val postId = postSequenceRepository.generate(postSpaceKey = postSpaceKey, parentId = parentId)
+        val postNo = postSequenceRepository.generatePostNo(postSpaceKey = postSpaceKey, parentId = parentId)
         val post = Post.of(
             postSpaceKey = postSpaceKey,
             ownerId = ownerId,
             parentId = parentId,
-            postId = postId,
+            postNo = postNo,
             title = title,
             extra = extra,
         )
@@ -52,7 +52,7 @@ class PostCreator(
         val postSections = postSectionManager.makePostSections(
             requests = sections,
             postSpaceKey = postSpaceKey,
-            postId = postId,
+            postNo = postNo,
             parentId = parentId,
             ownerId = ownerId,
         )

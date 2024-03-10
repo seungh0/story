@@ -1,6 +1,6 @@
 package com.story.core.domain.post.section
 
-import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostSpaceKey
 import org.springframework.stereotype.Service
 
@@ -11,9 +11,9 @@ class PostSectionManager(
 
     suspend fun makePostSections(
         postSpaceKey: PostSpaceKey,
-        parentId: PostKey?,
+        parentId: PostId?,
         ownerId: String,
-        postId: Long,
+        postNo: Long,
         requests: Collection<PostSectionContentRequest>,
     ): List<PostSection> {
         val sectionContents = mutableMapOf<PostSectionContentRequest, PostSectionContent>()
@@ -29,7 +29,7 @@ class PostSectionManager(
             PostSection.of(
                 postSpaceKey = postSpaceKey,
                 parentId = parentId,
-                postId = postId,
+                postNo = postNo,
                 content = sectionContents[request]!!,
                 sectionType = request.sectionType(),
                 priority = request.priority,

@@ -10,7 +10,7 @@ import com.story.api.lib.WebClientUtils
 import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.dto.CursorResponse
 import com.story.core.domain.component.ComponentStatus
-import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostSortBy
 import com.story.core.domain.post.section.PostSectionType
 import com.story.core.domain.post.section.image.ImagePostSectionContentResponse
@@ -41,8 +41,8 @@ class PostRetrieveApiTest(
         val spaceId = "spaceId"
         val postId = 200000L
 
-        val parentId = PostKey(spaceId = spaceId, depth = 1, parentKey = null, postId = 1000).serialize()
-        val postKey = PostKey(spaceId = spaceId, depth = 2, parentKey = parentId, postId = postId)
+        val parentId = PostId(spaceId = spaceId, depth = 1, parentId = null, postNo = 1000).serialize()
+        val postKey = PostId(spaceId = spaceId, depth = 2, parentId = parentId, postNo = postId)
 
         val post = PostApiResponse(
             parentId = parentId,
@@ -199,7 +199,7 @@ class PostRetrieveApiTest(
         val componentId = "user-post"
         val title = "플랫폼 정보"
         val spaceId = "user-spaceId"
-        val parentId = PostKey(spaceId = spaceId, depth = 1, parentKey = null, postId = 1000).serialize()
+        val parentId = PostId(spaceId = spaceId, depth = 1, parentId = null, postNo = 1000).serialize()
         val postId = "20000"
         val cursor = UUID.randomUUID().toString()
         val direction = CursorDirection.NEXT

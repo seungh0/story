@@ -6,7 +6,7 @@ import com.story.core.domain.nonce.NonceManager
 import com.story.core.domain.post.ParentPostNotExistsException
 import com.story.core.domain.post.PostCreator
 import com.story.core.domain.post.PostEventProducer
-import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostMetadataType
 import com.story.core.domain.post.PostModifier
 import com.story.core.domain.post.PostNotExistsException
@@ -30,7 +30,7 @@ class PostCreateHandler(
         ownerId: String,
         request: PostCreateApiRequest,
         nonce: String?,
-    ): PostKey {
+    ): PostId {
         nonce?.let { nonceManager.verify(nonce) }
 
         componentCheckHandler.checkExistsComponent(
@@ -76,7 +76,7 @@ class PostCreateHandler(
         parentPost: PostResponse,
         postSpaceKey: PostSpaceKey,
     ) {
-        if (!parentPost.hasChidrenMetadata()) {
+        if (!parentPost.hasChildrenMetadata()) {
             val hasChanged = postModifier.putMetadata(
                 postSpaceKey = postSpaceKey,
                 postId = parentPost.postId,

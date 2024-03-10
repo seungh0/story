@@ -7,13 +7,13 @@ import org.springframework.data.domain.Slice
 
 interface PostReverseRepository : CassandraBasicRepository<PostReverse, PostReversePrimaryKey> {
 
-    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdAndKeyParentKeyAndKeySpaceId(
+    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostNoAndKeyParentIdAndKeySpaceId(
         workspaceId: String,
         componentId: String,
         distributionKey: String,
         ownerId: String,
-        postId: Long,
-        parentKey: String,
+        postNo: Long,
+        parentId: String,
         spaceId: String,
     ): PostReverse?
 
@@ -32,12 +32,12 @@ interface PostReverseRepository : CassandraBasicRepository<PostReverse, PostReve
         pageable: Pageable,
     ): Flow<PostReverse>
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdLessThan(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostNoLessThan(
         workspaceId: String,
         componentId: String,
         distributionKey: String,
         ownerId: String,
-        postId: Long,
+        postNo: Long,
         pageable: Pageable,
     ): Flow<PostReverse>
 

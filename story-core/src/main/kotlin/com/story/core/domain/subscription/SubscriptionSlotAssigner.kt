@@ -7,7 +7,7 @@ object SubscriptionSlotAssigner {
     fun assign(
         sequence: Long,
     ) = SlotAssigner.assign(
-        id = sequence,
+        seq = sequence,
         firstSlotId = FIRST_SLOT_ID,
         slotSize = SLOT_SIZE,
     )

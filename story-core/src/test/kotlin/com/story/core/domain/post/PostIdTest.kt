@@ -3,24 +3,24 @@ package com.story.core.domain.post
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
-class PostKeyTest : StringSpec({
+class PostIdTest : StringSpec({
 
-    "PostKey -> keyString" {
+    "PostId -> keyString" {
         // given
         val spaceId = "user1"
         val parentId: String? = null
         val depth = 1
         val postId = 10000L
-        val key = PostKey(
+        val key = PostId(
             spaceId = spaceId,
-            parentKey = parentId,
+            parentId = parentId,
             depth = depth,
-            postId = postId,
+            postNo = postId,
         )
 
         // when
         val keyString = key.serialize()
-        val sut = PostKey.parsed(keyString)
+        val sut = PostId.parsed(keyString)
 
         // then
         sut shouldBe key

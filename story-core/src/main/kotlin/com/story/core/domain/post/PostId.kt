@@ -3,20 +3,20 @@ package com.story.core.domain.post
 import java.util.Base64
 import java.util.StringJoiner
 
-data class PostKey(
+data class PostId(
     val spaceId: String,
-    val parentKey: String?,
+    val parentId: String?,
     val depth: Int,
-    val postId: Long,
+    val postNo: Long,
 ) {
 
     fun serialize(): String {
         return ENCODER.encodeToString(
             StringJoiner("-")
                 .add(ENCODER.encodeToString(spaceId.toByteArray()))
-                .add(if (parentKey == null) null else ENCODER.encodeToString(parentKey.toByteArray()))
+                .add(if (parentId == null) null else ENCODER.encodeToString(parentId.toByteArray()))
                 .add(depth.toString())
-                .add(postId.toString())
+                .add(postNo.toString())
                 .toString()
                 .toByteArray()
         )
@@ -26,13 +26,13 @@ data class PostKey(
         private val ENCODER = Base64.getUrlEncoder()
         private val DECODER = Base64.getUrlDecoder()
 
-        fun parsed(key: String): PostKey {
+        fun parsed(key: String): PostId {
             val elements = String(DECODER.decode(key)).split("-")
-            return PostKey(
+            return PostId(
                 spaceId = String(DECODER.decode(elements[0])),
-                parentKey = getParentId(elements),
+                parentId = getParentId(elements),
                 depth = elements[2].toInt(),
-                postId = elements[3].toLong(),
+                postNo = elements[3].toLong(),
             )
         }
 

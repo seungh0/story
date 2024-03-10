@@ -29,7 +29,7 @@ internal class PostRemoverTest(
                     componentId = post.key.componentId,
                     spaceId = post.key.spaceId,
                 ),
-                postId = post.key.toPostKey(),
+                postId = post.key.postId,
                 ownerId = post.ownerId,
             )
 
@@ -49,7 +49,7 @@ internal class PostRemoverTest(
                     componentId = "post",
                     spaceId = "spaceId",
                 ),
-                postId = PostKey(spaceId = "spaceId", depth = 1, parentKey = null, postId = -1),
+                postId = PostId(spaceId = "spaceId", depth = 1, parentId = null, postNo = -1),
                 ownerId = "포스트 작성자 ID",
             )
 
@@ -76,7 +76,7 @@ internal class PostRemoverTest(
                     componentId = post.key.componentId,
                     spaceId = post.key.spaceId,
                 ),
-                postId = post.key.toPostKey(),
+                postId = post.key.postId,
                 ownerId = "user-2",
             )
 
@@ -88,7 +88,7 @@ internal class PostRemoverTest(
                 it.key.componentId shouldBe post.key.componentId
                 it.key.spaceId shouldBe post.key.spaceId
                 it.key.slotId shouldBe 1L
-                it.key.postId shouldBe post.key.postId
+                it.key.postNo shouldBe post.key.postNo
                 it.ownerId shouldBe post.ownerId
                 it.title shouldBe post.title
                 it.extra shouldBe post.extra
@@ -101,7 +101,7 @@ internal class PostRemoverTest(
                 it.key.componentId shouldBe post.key.componentId
                 it.key.ownerId shouldBe post.ownerId
                 it.key.spaceId shouldBe post.key.spaceId
-                it.key.postId shouldBe post.key.postId
+                it.key.postNo shouldBe post.key.postNo
                 it.title shouldBe post.title
                 it.extra shouldBe post.extra
             }

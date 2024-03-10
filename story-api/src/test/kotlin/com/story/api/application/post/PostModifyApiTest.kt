@@ -11,7 +11,7 @@ import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.RestDocsUtils.remarks
 import com.story.api.lib.WebClientUtils
 import com.story.api.lib.isTrue
-import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.post.section.PostSectionType
 import io.mockk.coEvery
@@ -39,7 +39,7 @@ class PostModifyApiTest(
         val componentId = "user-post"
         val postId = 7126L
         val spaceId = "user-space-id"
-        val postKey = PostKey(spaceId = spaceId, depth = 1, parentKey = null, postId = postId)
+        val postKey = PostId(spaceId = spaceId, depth = 1, parentId = null, postNo = postId)
 
         val request = PostModifyApiRequest(
             title = "플랫폼 정보",

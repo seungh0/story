@@ -3,7 +3,7 @@ package com.story.api.application.post
 import com.story.api.config.apikey.ApiKeyContext
 import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.domain.post.PostKey
+import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostSpaceKey
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,7 +21,7 @@ class PostRemoveApi(
     suspend fun removePost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @PathVariable postId: PostKey,
+        @PathVariable postId: PostId,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         postRemoveHandler.removePost(
