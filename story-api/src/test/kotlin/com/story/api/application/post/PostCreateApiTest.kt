@@ -95,7 +95,7 @@ class PostCreateApiTest(
                 request = any(),
                 nonce = any(),
             )
-        } returns PostKey(spaceId = spaceId, parentId = null, postId = 100, depth = 2)
+        } returns PostKey(spaceId = spaceId, parentKey = null, postId = 100, depth = 2)
 
         // when
         val exchange = webTestClient.post()

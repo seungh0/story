@@ -49,7 +49,7 @@ internal class PostRemoverTest(
                     componentId = "post",
                     spaceId = "spaceId",
                 ),
-                postId = PostKey(spaceId = "spaceId", depth = 1, parentId = null, postId = -1),
+                postId = PostKey(spaceId = "spaceId", depth = 1, parentKey = null, postId = -1),
                 ownerId = "포스트 작성자 ID",
             )
 

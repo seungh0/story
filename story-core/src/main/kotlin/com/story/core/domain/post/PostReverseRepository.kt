@@ -7,13 +7,13 @@ import org.springframework.data.domain.Slice
 
 interface PostReverseRepository : CassandraBasicRepository<PostReverse, PostReversePrimaryKey> {
 
-    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdAndKeyParentIdAndKeySpaceId(
+    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdAndKeyParentKeyAndKeySpaceId(
         workspaceId: String,
         componentId: String,
         distributionKey: String,
         ownerId: String,
         postId: Long,
-        parentId: String,
+        parentKey: String,
         spaceId: String,
     ): PostReverse?
 

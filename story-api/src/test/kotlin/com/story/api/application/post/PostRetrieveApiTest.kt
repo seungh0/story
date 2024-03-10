@@ -41,8 +41,8 @@ class PostRetrieveApiTest(
         val spaceId = "spaceId"
         val postId = 200000L
 
-        val parentId = PostKey(spaceId = spaceId, depth = 1, parentId = null, postId = 1000).serialize()
-        val postKey = PostKey(spaceId = spaceId, depth = 2, parentId = parentId, postId = postId)
+        val parentId = PostKey(spaceId = spaceId, depth = 1, parentKey = null, postId = 1000).serialize()
+        val postKey = PostKey(spaceId = spaceId, depth = 2, parentKey = parentId, postId = postId)
 
         val post = PostApiResponse(
             parentId = parentId,
@@ -199,7 +199,7 @@ class PostRetrieveApiTest(
         val componentId = "user-post"
         val title = "플랫폼 정보"
         val spaceId = "user-spaceId"
-        val parentId = PostKey(spaceId = spaceId, depth = 1, parentId = null, postId = 1000).serialize()
+        val parentId = PostKey(spaceId = spaceId, depth = 1, parentKey = null, postId = 1000).serialize()
         val postId = "20000"
         val cursor = UUID.randomUUID().toString()
         val direction = CursorDirection.NEXT

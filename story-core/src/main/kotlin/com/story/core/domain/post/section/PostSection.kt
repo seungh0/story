@@ -31,7 +31,7 @@ data class PostSection(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 spaceId = postSpaceKey.spaceId,
-                parentId = parentId?.serialize() ?: StringUtils.EMPTY,
+                parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
                 slotId = PostSectionSlotAssigner.assign(postId = postId),
                 postId = postId,
                 priority = priority,
@@ -55,7 +55,7 @@ data class PostSectionPrimaryKey(
     val spaceId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 4)
-    val parentId: String,
+    val parentKey: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 5)
     val slotId: Long,

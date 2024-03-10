@@ -2,8 +2,8 @@ package com.story.core.domain.purge
 
 import com.story.core.common.distribution.DistributionKey
 import com.story.core.domain.post.PostDistributionKey
+import com.story.core.domain.post.PostPartitionKey
 import com.story.core.domain.post.PostRepository
-import com.story.core.domain.post.PostReverse
 import com.story.core.domain.post.PostReverseRepository
 import com.story.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
@@ -33,11 +33,11 @@ class PostPurger(
 
             postReverses.content.groupBy { postReverse -> PostPartitionKey.from(postReverse) }.keys
                 .forEach { key ->
-                    postRepository.deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
+                    postRepository.deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotId(
                         workspaceId = key.workspaceId,
                         componentId = key.componentId,
                         spaceId = key.spaceId,
-                        parentId = key.parentId,
+                        parentKey = key.parentKey,
                         slotId = key.slotId,
                     )
                 }
@@ -54,26 +54,6 @@ class PostPurger(
         } while (postReverses.hasNext())
 
         return deletedCount
-    }
-
-    data class PostPartitionKey(
-        val workspaceId: String,
-        val componentId: String,
-        val spaceId: String,
-        val parentId: String,
-        val slotId: Long,
-    ) {
-
-        companion object {
-            fun from(postReverse: PostReverse) = PostPartitionKey(
-                workspaceId = postReverse.key.workspaceId,
-                componentId = postReverse.key.componentId,
-                spaceId = postReverse.key.spaceId,
-                parentId = postReverse.key.parentId,
-                slotId = postReverse.slotId,
-            )
-        }
-
     }
 
 }

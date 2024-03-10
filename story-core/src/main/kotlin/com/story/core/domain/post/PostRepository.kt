@@ -17,58 +17,58 @@ interface PostRepository : CassandraBasicRepository<Post, PostPrimaryKey> {
     )
     suspend fun putMetadata(key: PostPrimaryKey, metadataType: PostMetadataType, value: String)
 
-    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
+    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        parentId: String,
+        parentKey: String,
         slotId: Long,
         postId: Long,
     ): Post?
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotId(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        parentId: String,
+        parentKey: String,
         slotId: Long,
         pageable: Pageable,
     ): Flow<Post>
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostIdLessThan(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostIdLessThan(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        parentId: String,
-        slotId: Long,
-        postId: Long,
-        pageable: Pageable,
-    ): Flow<Post>
-
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdOrderByKeyPostIdAsc(
-        workspaceId: String,
-        componentId: String,
-        spaceId: String,
-        parentId: String,
-        slotId: Long,
-        pageable: Pageable,
-    ): Flow<Post>
-
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
-        workspaceId: String,
-        componentId: String,
-        spaceId: String,
-        parentId: String,
+        parentKey: String,
         slotId: Long,
         postId: Long,
         pageable: Pageable,
     ): Flow<Post>
 
-    suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdOrderByKeyPostIdAsc(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        parentId: String,
+        parentKey: String,
+        slotId: Long,
+        pageable: Pageable,
+    ): Flow<Post>
+
+    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostIdGreaterThanOrderByKeyPostIdAsc(
+        workspaceId: String,
+        componentId: String,
+        spaceId: String,
+        parentKey: String,
+        slotId: Long,
+        postId: Long,
+        pageable: Pageable,
+    ): Flow<Post>
+
+    suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotId(
+        workspaceId: String,
+        componentId: String,
+        spaceId: String,
+        parentKey: String,
         slotId: Long,
     )
 

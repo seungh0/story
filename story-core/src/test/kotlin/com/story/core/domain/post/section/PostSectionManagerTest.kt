@@ -52,7 +52,7 @@ class PostSectionManagerTest(
             section.key.workspaceId shouldBe "story"
             section.key.componentId shouldBe "user-post"
             section.key.spaceId shouldBe "tokki"
-            section.key.parentId shouldBe ""
+            section.key.parentKey shouldBe ""
             section.key.slotId shouldBe 10L
             section.key.postId shouldBe 1000L
         }

@@ -31,7 +31,7 @@ data class PostReverse(
                 workspaceId = post.key.workspaceId,
                 componentId = post.key.componentId,
                 ownerId = post.ownerId,
-                parentId = post.key.parentIdKey,
+                parentId = post.key.parentPostKey,
                 postId = post.key.postId,
                 spaceId = post.key.spaceId,
             ),
@@ -62,32 +62,25 @@ data class PostReversePrimaryKey(
     val postId: Long,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 6)
-    val parentId: String,
+    val parentKey: String,
 
     @field:PrimaryKeyColumn(type = CLUSTERED, ordering = DESCENDING, ordinal = 7)
     val spaceId: String,
 ) {
 
     @Transient
-    val parentIdKey: PostKey? = with(this.parentId) {
+    val parentPostKey: PostKey? = with(this.parentKey) {
         if (this.isBlank()) {
             return@with null
         }
         return@with PostKey.parsed(this)
     }
 
-    fun toPostKey() = PostKey(
-        spaceId = spaceId,
-        postId = postId,
-        depth = getDepth(),
-        parentId = parentId,
-    )
-
     fun getDepth(): Int {
-        if (parentIdKey == null) {
+        if (parentPostKey == null) {
             return 1
         }
-        return parentIdKey.depth + 1
+        return parentPostKey.depth + 1
     }
 
     companion object {
@@ -104,7 +97,7 @@ data class PostReversePrimaryKey(
             distributionKey = PostDistributionKey.makeKey(ownerId),
             ownerId = ownerId,
             postId = postId,
-            parentId = parentId?.serialize() ?: StringUtils.EMPTY,
+            parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
             spaceId = spaceId,
         )
     }

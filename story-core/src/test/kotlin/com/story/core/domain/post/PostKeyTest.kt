@@ -13,7 +13,7 @@ class PostKeyTest : StringSpec({
         val postId = 10000L
         val key = PostKey(
             spaceId = spaceId,
-            parentId = parentId,
+            parentKey = parentId,
             depth = depth,
             postId = postId,
         )

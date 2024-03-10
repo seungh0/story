@@ -39,7 +39,7 @@ class PostRemoveApiTest(
             spaceId = "user-space-id"
         )
 
-        val postKey = PostKey(spaceId = postSpaceKey.spaceId, parentId = null, postId = 30000L, depth = 1)
+        val postKey = PostKey(spaceId = postSpaceKey.spaceId, parentKey = null, postId = 30000L, depth = 1)
 
         coEvery {
             postRemoveHandler.removePost(

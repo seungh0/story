@@ -39,7 +39,7 @@ class PostModifyApiTest(
         val componentId = "user-post"
         val postId = 7126L
         val spaceId = "user-space-id"
-        val postKey = PostKey(spaceId = spaceId, depth = 1, parentId = null, postId = postId)
+        val postKey = PostKey(spaceId = spaceId, depth = 1, parentKey = null, postId = postId)
 
         val request = PostModifyApiRequest(
             title = "플랫폼 정보",

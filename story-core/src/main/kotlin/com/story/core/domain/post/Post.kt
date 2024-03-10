@@ -94,7 +94,7 @@ data class PostPrimaryKey(
     val spaceId: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 4)
-    val parentId: String,
+    val parentKey: String,
 
     @field:PrimaryKeyColumn(type = PARTITIONED, ordinal = 5)
     val slotId: Long,
@@ -104,20 +104,20 @@ data class PostPrimaryKey(
 ) {
 
     @Transient
-    val parentIdKey: PostKey? = if (parentId.isBlank()) null else PostKey.parsed(parentId)
+    val parentPostKey: PostKey? = if (parentKey.isBlank()) null else PostKey.parsed(parentKey)
 
     fun toPostKey() = PostKey(
         spaceId = spaceId,
         postId = postId,
         depth = getDepth(),
-        parentId = parentId,
+        parentKey = parentKey,
     )
 
     fun getDepth(): Int {
-        if (parentIdKey == null) {
+        if (parentPostKey == null) {
             return 1
         }
-        return parentIdKey.depth + 1
+        return parentPostKey.depth + 1
     }
 
     companion object {
@@ -129,7 +129,7 @@ data class PostPrimaryKey(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentId = parentId?.serialize() ?: StringUtils.EMPTY,
+            parentKey = parentId?.serialize() ?: StringUtils.EMPTY,
             slotId = PostSlotAssigner.assign(postId),
             postId = postId,
         )
@@ -140,7 +140,7 @@ data class PostPrimaryKey(
             spaceId = reverse.key.spaceId,
             slotId = PostSlotAssigner.assign(postId = reverse.key.postId),
             postId = reverse.key.postId,
-            parentId = reverse.key.parentId,
+            parentKey = reverse.key.parentKey,
         )
     }
 

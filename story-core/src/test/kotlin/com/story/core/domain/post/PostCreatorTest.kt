@@ -60,7 +60,7 @@ internal class PostCreatorTest(
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.componentId shouldBe postSpaceKey.componentId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
-                it.key.parentId shouldBe ""
+                it.key.parentKey shouldBe ""
                 it.key.slotId shouldBe 1L
                 it.key.postId shouldNotBe null
                 it.ownerId shouldBe ownerId
@@ -76,7 +76,7 @@ internal class PostCreatorTest(
                 it.key.distributionKey shouldBe ReactionDistributionKey.makeKey(ownerId)
                 it.key.ownerId shouldBe ownerId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
-                it.key.parentId shouldBe ""
+                it.key.parentKey shouldBe ""
                 it.key.postId shouldNotBe null
                 it.title shouldBe title
             }
@@ -87,7 +87,7 @@ internal class PostCreatorTest(
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.componentId shouldBe postSpaceKey.componentId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
-                it.key.parentId shouldBe ""
+                it.key.parentKey shouldBe ""
                 it.key.slotId shouldBe 1L
                 it.key.priority shouldBe 1L
                 it.sectionType shouldBe PostSectionType.TEXT
@@ -100,7 +100,7 @@ internal class PostCreatorTest(
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
                 it.key.componentId shouldBe postSpaceKey.componentId
                 it.key.spaceId shouldBe postSpaceKey.spaceId
-                it.key.parentId shouldBe ""
+                it.key.parentKey shouldBe ""
                 it.key.slotId shouldBe 1L
                 it.key.priority shouldBe 2L
                 it.sectionType shouldBe PostSectionType.TEXT

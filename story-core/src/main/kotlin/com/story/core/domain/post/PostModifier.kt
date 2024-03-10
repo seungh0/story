@@ -27,11 +27,11 @@ class PostModifier(
 
     @DistributedLock(
         lockType = DistributedLockType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
     )
     @CacheEvict(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
         targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun patchPost(
@@ -44,11 +44,11 @@ class PostModifier(
     ): PostPatchResponse {
         val slotId = PostSlotAssigner.assign(postId.postId)
 
-        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentId = postId.parentId ?: StringUtils.EMPTY,
+            parentKey = postId.parentKey ?: StringUtils.EMPTY,
             slotId = slotId,
             postId = postId.postId,
         ) ?: throw PostNotExistsException(message = "해당하는 포스트($postId)는 존재하지 않습니다 [postSpaceKey: $postSpaceKey]")
@@ -57,11 +57,11 @@ class PostModifier(
             throw NoPermissionException("계정($ownerId)는 해당하는 포스트($postId)를 수정할 권한이 없습니다 [postSpaceKey: $postSpaceKey]")
         }
 
-        val previousPostSections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
+        val previousPostSections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentId = postId.parentId ?: StringUtils.EMPTY,
+            parentKey = postId.parentKey ?: StringUtils.EMPTY,
             slotId = PostSectionSlotAssigner.assign(postId = postId.postId),
             postId = postId.postId,
         ).toList()
@@ -89,7 +89,7 @@ class PostModifier(
             requests = sections,
             postSpaceKey = postSpaceKey,
             postId = postId.postId,
-            parentId = post.key.parentIdKey,
+            parentId = post.key.parentPostKey,
             ownerId = ownerId,
         )
 
@@ -117,11 +117,11 @@ class PostModifier(
 
     @DistributedLock(
         lockType = DistributedLockType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
     )
     @CacheEvict(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
         targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun putMetadata(
@@ -130,11 +130,11 @@ class PostModifier(
         metadataType: PostMetadataType,
         value: Any,
     ): Boolean {
-        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentId = postId.parentId ?: StringUtils.EMPTY,
+            parentKey = postId.parentKey ?: StringUtils.EMPTY,
             slotId = PostSlotAssigner.assign(postId = postId.postId),
             postId = postId.postId,
         ) ?: throw PostNotExistsException("포스트($postId)가 존재하지 않습니다 [postSpaceKey: $postSpaceKey]")

@@ -22,11 +22,11 @@ class PostRemover(
 
     @DistributedLock(
         lockType = DistributedLockType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
     )
     @CacheEvict(
         cacheType = CacheType.POST,
-        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postId:' + {#postId.postId}",
+        key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentKey} + ':postId:' + {#postId.postId}",
         targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun removePost(
@@ -35,30 +35,30 @@ class PostRemover(
         postId: PostKey,
     ) {
         val postReverse =
-            postReverseRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdAndKeyParentIdAndKeySpaceId(
+            postReverseRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostIdAndKeyParentKeyAndKeySpaceId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 distributionKey = PostDistributionKey.makeKey(ownerId),
                 ownerId = ownerId,
                 postId = postId.postId,
-                parentId = postId.parentId ?: StringUtils.EMPTY,
+                parentKey = postId.parentKey ?: StringUtils.EMPTY,
                 spaceId = postSpaceKey.spaceId,
             ) ?: return
 
-        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
+        val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
             slotId = postReverse.slotId,
-            parentId = postId.parentId ?: StringUtils.EMPTY,
+            parentKey = postId.parentKey ?: StringUtils.EMPTY,
             postId = postId.postId,
         )
 
-        val postSections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
+        val postSections = postSectionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
             spaceId = postSpaceKey.spaceId,
-            parentId = postReverse.key.parentId,
+            parentKey = postReverse.key.parentKey,
             postId = postId.postId,
             slotId = PostSlotAssigner.assign(postId = postId.postId)
         ).toList()

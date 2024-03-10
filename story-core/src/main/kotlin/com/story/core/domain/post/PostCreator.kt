@@ -25,11 +25,11 @@ class PostCreator(
         extra: Map<String, String>,
     ): PostResponse {
         if (parentId != null) {
-            val parentPost = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostId(
+            val parentPost = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentKeyAndKeySlotIdAndKeyPostId(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,
                 spaceId = postSpaceKey.spaceId,
-                parentId = parentId.parentId ?: StringUtils.EMPTY,
+                parentKey = parentId.parentKey ?: StringUtils.EMPTY,
                 slotId = PostSlotAssigner.assign(postId = parentId.postId),
                 postId = parentId.postId,
             ) ?: throw ParentPostNotExistsException("부모 포스트($parentId)가 존재하지 않습니다")

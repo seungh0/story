@@ -7,7 +7,7 @@ data class PostSectionPartitionKey(
     val workspaceId: String,
     val componentId: String,
     val spaceId: String,
-    val parentId: String,
+    val parentKey: String,
     val slotId: Long,
 ) {
 
@@ -16,7 +16,7 @@ data class PostSectionPartitionKey(
             workspaceId = post.key.workspaceId,
             componentId = post.key.componentId,
             spaceId = post.key.spaceId,
-            parentId = post.key.parentId,
+            parentKey = post.key.parentKey,
             slotId = PostSectionSlotAssigner.assign(post.key.postId),
         )
 
@@ -24,7 +24,7 @@ data class PostSectionPartitionKey(
             workspaceId = post.key.workspaceId,
             componentId = post.key.componentId,
             spaceId = post.key.spaceId,
-            parentId = post.key.parentId,
+            parentKey = post.key.parentKey,
             slotId = PostSectionSlotAssigner.assign(post.key.postId),
         )
     }
