@@ -22,7 +22,7 @@ class KafkaConsumerConfig(
     @Bean(name = [DEFAULT_KAFKA_CONSUMER])
     fun defaultKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
         return concurrentKafkaListenerContainerFactory(
-            maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
+            maxPollRecords = 100, // 리밸런싱시 중복 레코드 컨슈밍 가능
             enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
             ackMode = AckMode.RECORD,
             batchListener = false,
@@ -34,7 +34,7 @@ class KafkaConsumerConfig(
     @Bean(name = [EARLIEST_KAFKA_CONSUMER])
     fun earliestKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
         return concurrentKafkaListenerContainerFactory(
-            maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
+            maxPollRecords = 100, // 리밸런싱시 중복 레코드 컨슈밍 가능
             enableAutoCommit = true, // 중복 레코드 컨슈밍 가능
             ackMode = AckMode.RECORD,
             batchListener = false,
@@ -46,7 +46,7 @@ class KafkaConsumerConfig(
     @Bean(name = [DEFAULT_BATCH_KAFKA_CONSUMER])
     fun defaultBatchKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
         return concurrentKafkaListenerContainerFactory(
-            maxPollRecords = 500, // 리밸런싱시 중복 레코드 컨슈밍 가능
+            maxPollRecords = 100, // 리밸런싱시 중복 레코드 컨슈밍 가능
             enableAutoCommit = true, // 중복 레코드 컨슈밍 가능,
             ackMode = AckMode.BATCH,
             batchListener = true,
@@ -56,7 +56,7 @@ class KafkaConsumerConfig(
     }
 
     fun concurrentKafkaListenerContainerFactory(
-        maxPollRecords: Int = 500,
+        maxPollRecords: Int = 100,
         enableAutoCommit: Boolean = true,
         concurrency: Int,
         ackMode: AckMode,
