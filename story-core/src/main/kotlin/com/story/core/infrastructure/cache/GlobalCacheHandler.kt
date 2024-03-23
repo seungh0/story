@@ -27,7 +27,7 @@ class GlobalCacheHandler(
         }
 
         val globalCacheValue = redisCacheValueJson.toObject(cacheType.typeReference)
-        log.debug { "글로벌 캐시로부터 데이터를 가져옵니다 [key:$cacheKey value: $globalCacheValue]" }
+        log.debug { "[Cache] 글로벌 캐시로부터 데이터를 가져옵니다 [key:$cacheKey value: $globalCacheValue]" }
         return globalCacheValue
     }
 
@@ -36,7 +36,7 @@ class GlobalCacheHandler(
             return
         }
         globalCacheRepository.setCache(cacheType = cacheType, cacheKey = cacheKey, value = value.toJson())
-        log.debug { "글로벌 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
+        log.debug { "[Cache] 글로벌 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
     }
 
     override suspend fun evict(cacheType: CacheType, cacheKey: String) {
@@ -44,7 +44,7 @@ class GlobalCacheHandler(
             return
         }
         globalCacheRepository.evict(cacheType = cacheType, cacheKey = cacheKey)
-        log.debug { "글로벌 캐시를 삭제합니다 [cacheType: $cacheType keyString: $cacheKey]" }
+        log.debug { "[Cache] 글로벌 캐시를 삭제합니다 [cacheType: $cacheType keyString: $cacheKey]" }
     }
 
     override suspend fun evictAll(cacheType: CacheType) {

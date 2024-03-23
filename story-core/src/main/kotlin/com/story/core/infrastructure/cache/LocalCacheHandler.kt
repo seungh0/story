@@ -24,7 +24,7 @@ class LocalCacheHandler(
         val cacheValue = cacheValueWrapper.get()
 
         if (cacheValue != null) {
-            log.debug { "로컬 캐시로부터 데이터를 가져옵니다 [key:$cacheKey value: $cacheValue]" }
+            log.debug { "[Cache] 로컬 캐시로부터 데이터를 가져옵니다 [key:$cacheKey value: $cacheValue]" }
         }
 
         return cacheValue
@@ -35,7 +35,7 @@ class LocalCacheHandler(
             return
         }
         cacheManager.getCache(cacheType.key)?.put(cacheKey, value)
-        log.debug { "로컬 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
+        log.debug { "[Cache] 로컬 캐시를 갱신합니다 [cacheType: $cacheType keyString: $cacheKey value: $value]" }
     }
 
     override suspend fun evict(cacheType: CacheType, cacheKey: String) {
@@ -43,7 +43,7 @@ class LocalCacheHandler(
             return
         }
         cacheManager.getCache(cacheType.key)?.evictIfPresent(cacheKey)
-        log.debug { "로컬 캐시를 삭제합니다 [cacheType: $cacheType keyString: $cacheKey]" }
+        log.debug { "[Cache] 로컬 캐시를 삭제합니다 [cacheType: $cacheType keyString: $cacheKey]" }
     }
 
     override suspend fun evictAll(cacheType: CacheType) {

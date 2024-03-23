@@ -27,18 +27,18 @@ class RedissonDistributedLockHandler(
             threadId
         ).awaitSingle()
 
-        log.info { Thread.currentThread().id }
-
         if (!acquired) {
             throw IllegalStateException("분산 락($lockKey)을 획득하는데 실패하였습니다.")
         }
 
+        log.debug { "[DistributedLock] 락을 선점합니다. [lockKey: $lockKey]" }
+
         try {
-            val invoke = runnable.invoke()
-            log.info { Thread.currentThread().id }
-            return invoke
+            return runnable.invoke()
         } finally {
             redisLock.unlock(threadId).awaitSingleOrNull()
+
+            log.debug { "[DistributedLock] 락을 해제합니다. [lockKey: $lockKey]" }
         }
     }
 
