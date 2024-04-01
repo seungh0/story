@@ -2,31 +2,31 @@ package com.story.core.common.distribution
 
 object RangePartitioner {
 
-    fun partition(startInclusive: Long, endInclusive: Long, numOfPartitions: Int): List<Long> {
+    fun partition(startInclusive: Long, endInclusive: Long, partitionSize: Int): List<Long> {
         require(
             startInclusive <= endInclusive
         ) { "startInclusive($startInclusive)은 endInclusive($endInclusive)보다 클 수 없습니다" }
 
-        require(numOfPartitions > 0) {
-            "파티션 수($numOfPartitions)는 0보다 커야합니다"
+        require(partitionSize > 0) {
+            "파티션 수($partitionSize)는 0보다 커야합니다"
         }
 
         val range = endInclusive - startInclusive + 1
-        val quotient = range / numOfPartitions
-        val remainder = range % numOfPartitions
+        val quotient = range / partitionSize
+        val remainder = range % partitionSize
 
         if (quotient <= 0) {
             return partition(
                 startInclusive = startInclusive,
                 endInclusive = endInclusive,
-                numOfPartitions = remainder.toInt(),
+                partitionSize = remainder.toInt(),
             )
         }
 
         val result = mutableListOf<Long>()
         var mark = endInclusive
 
-        repeat(numOfPartitions) { i ->
+        repeat(partitionSize) { i ->
             result.add(mark)
             mark = if (i < remainder) {
                 mark - quotient - 1

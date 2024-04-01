@@ -1,0 +1,121 @@
+package com.story.core.domain.subscription
+
+import com.story.core.common.distribution.RangePartitioner
+import com.story.core.common.distribution.SlotRangeMarker
+import com.story.core.common.model.dto.SlotRangeMarkerResponse
+import kotlinx.coroutines.flow.toList
+import org.springframework.data.cassandra.core.query.CassandraPageRequest
+import org.springframework.stereotype.Service
+
+@Service
+class SubscriptionDistributedRetriever(
+    private val subscriberRepository: SubscriberRepository,
+    private val subscriberSequenceRepository: SubscriberSequenceRepository,
+) {
+
+    suspend fun getSubscriberDistributedMarkers(
+        workspaceId: String,
+        componentId: String,
+        targetId: String,
+        markerSize: Int,
+    ): List<SlotRangeMarker> {
+        val lastSequence = subscriberSequenceRepository.getLastSequence(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            targetId = targetId
+        )
+        if (lastSequence <= 0) {
+            return emptyList()
+        }
+
+        val slotMarkers: List<Long> = RangePartitioner.partition(
+            startInclusive = SubscriptionSlotAssigner.FIRST_SLOT_ID,
+            endInclusive = SubscriptionSlotAssigner.assign(lastSequence),
+            partitionSize = markerSize,
+        )
+
+        return slotMarkers.mapIndexed { index, marker ->
+            if (index > 0) {
+                return@mapIndexed SlotRangeMarker.fromSlot(
+                    startSlotNoInclusive = marker,
+                    endSlotNoExclusive = slotMarkers[index - 1],
+                )
+            } else {
+                return@mapIndexed SlotRangeMarker.fromLastSlot(
+                    startSlotNoInclusive = marker,
+                )
+            }
+        }
+    }
+
+    suspend fun listSubscribersByDistributedmarkers(
+        workspaceId: String,
+        componentId: String,
+        targetId: String,
+        marker: SlotRangeMarker,
+        pageSize: Int,
+    ): SlotRangeMarkerResponse<List<SubscriptionResponse>> {
+        val startSlot = marker.startSlotInclusive
+            ?: throw IllegalArgumentException("Invalid marker for distributed query. The startSlotInclusive(${marker.startSlotInclusive}) parameter must be not null")
+
+        val endSlot = marker.endSlotExclusive
+            ?: (SubscriptionSlotAssigner.FIRST_SLOT_ID - 1)
+
+        val volumes = mutableListOf<Subscriber>()
+
+        var currentCursor = marker.startKeyInclusive
+        var currentSlot = startSlot
+        var remainingRecordsSize = pageSize
+        var hasMoreRecords = true
+
+        while (currentSlot > endSlot && remainingRecordsSize > 0) {
+            val currentSubscribers = if (currentCursor.isBlank()) {
+                subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
+                    workspaceId = workspaceId,
+                    componentId = componentId,
+                    targetId = targetId,
+                    slotId = currentSlot,
+                    pageable = CassandraPageRequest.first(remainingRecordsSize + 1),
+                ).toList()
+            } else {
+                subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThanOrderByKeySubscriberIdDesc(
+                    workspaceId = workspaceId,
+                    componentId = componentId,
+                    targetId = targetId,
+                    slotId = currentSlot,
+                    subscriberId = currentCursor,
+                    pageable = CassandraPageRequest.first(remainingRecordsSize + 1),
+                ).toList()
+            }
+
+            val currentRecords = currentSubscribers.subList(
+                0,
+                remainingRecordsSize.coerceAtMost(currentSubscribers.size)
+            )
+
+            volumes += currentRecords
+
+            if (currentSubscribers.size > remainingRecordsSize) {
+                currentCursor = currentSubscribers.last().key.subscriberId
+                hasMoreRecords = true
+            } else {
+                currentCursor = ""
+                currentSlot -= 1
+                hasMoreRecords = currentSlot > endSlot
+            }
+
+            remainingRecordsSize -= currentRecords.size
+        }
+
+        return SlotRangeMarkerResponse(
+            data = volumes.map { SubscriptionResponse.of(it) },
+            nextMarker = if (hasMoreRecords) {
+                marker.copy(
+                    startSlotInclusive = currentSlot,
+                    startKeyInclusive = currentCursor,
+                )
+            } else null
+        )
+    }
+
+}

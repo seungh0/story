@@ -19,7 +19,7 @@ class RangePartitionerTest : FunSpec({
         val sut = RangePartitioner.partition(
             startInclusive = startInclusive,
             endInclusive = 100,
-            numOfPartitions = 3,
+            partitionSize = 3,
         )
 
         // then
@@ -37,7 +37,7 @@ class RangePartitionerTest : FunSpec({
         val sut = RangePartitioner.partition(
             startInclusive = startInclusive,
             endInclusive = 100_000_000,
-            numOfPartitions = 3,
+            partitionSize = 3,
         )
 
         // then
@@ -52,7 +52,7 @@ class RangePartitionerTest : FunSpec({
         val sut = RangePartitioner.partition(
             startInclusive = 1,
             endInclusive = 2,
-            numOfPartitions = 3,
+            partitionSize = 3,
         )
 
         // then
@@ -67,7 +67,7 @@ class RangePartitionerTest : FunSpec({
         val sut = RangePartitioner.partition(
             startInclusive = startInclusive,
             endInclusive = startInclusive,
-            numOfPartitions = 3,
+            partitionSize = 3,
         )
 
         // then
@@ -80,7 +80,7 @@ class RangePartitionerTest : FunSpec({
             RangePartitioner.partition(
                 startInclusive = 3,
                 endInclusive = 2,
-                numOfPartitions = 3,
+                partitionSize = 3,
             )
         }
     }
@@ -100,7 +100,7 @@ class RangePartitionerTest : FunSpec({
                 RangePartitioner.partition(
                     startInclusive = 3,
                     endInclusive = 2,
-                    numOfPartitions = numOfPartition,
+                    partitionSize = numOfPartition,
                 )
             }
         }
