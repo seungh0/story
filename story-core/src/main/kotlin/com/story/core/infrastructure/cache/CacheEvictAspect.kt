@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 @Aspect
 @Component
 class CacheEvictAspect(
-    private val cacheManager: CacheManager,
+    private val cacheManager: LayeredCacheManager,
 ) {
 
     @Around("args(.., kotlin.coroutines.Continuation) && @annotation(CacheEvict)")

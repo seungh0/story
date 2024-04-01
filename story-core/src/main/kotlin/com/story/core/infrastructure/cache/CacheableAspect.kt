@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
 @Aspect
 @Component
 class CacheableAspect(
-    private val cacheManager: CacheManager,
+    private val cacheManager: LayeredCacheManager,
 ) {
 
     @Around("args(.., kotlin.coroutines.Continuation) && @annotation(Cacheable)")
