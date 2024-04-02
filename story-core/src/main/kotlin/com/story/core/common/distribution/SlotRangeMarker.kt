@@ -5,17 +5,15 @@ import java.util.StringJoiner
 
 data class SlotRangeMarker(
     val startSlotInclusive: Long? = null,
-    val startKeyInclusive: String = "",
+    val startKeyExclusive: String? = null,
     val endSlotExclusive: Long? = null,
-    val endKeyInclusive: String = "",
 ) {
 
     fun makeCursor(): String = encoder.encodeToString(
         StringJoiner(SPLITTER)
             .add(startSlotInclusive.toString())
-            .add(encoder.encodeToString(startKeyInclusive.toByteArray()))
+            .add(if (startKeyExclusive.isNullOrBlank()) null else encoder.encodeToString(startKeyExclusive.toByteArray()))
             .add(endSlotExclusive.toString())
-            .add(endKeyInclusive)
             .toString()
             .toByteArray()
     )
@@ -24,27 +22,33 @@ data class SlotRangeMarker(
         private val encoder = Base64.getUrlEncoder()
         private val decoder = Base64.getUrlDecoder()
 
-        private const val SPLITTER = "/"
+        private const val SPLITTER = "-"
 
         fun fromCursor(cursor: String): SlotRangeMarker {
             try {
-                val (encodedstartSlotInclusive, encodedStartKeyInclusive, encodedEndSlotEnclusive, encodedEndKeyInclusive) = String(
-                    decoder.decode(cursor)
-                ).split(SPLITTER)
+                val (encodedStartSlotInclusive, encodedStartKeyInclusive, encodedEndSlotExclusive) =
+                    String(decoder.decode(cursor)).split(SPLITTER)
 
-                val startSlotInclusive = encodedstartSlotInclusive.toLong()
-                val startKeyInclusive = String(decoder.decode(encodedStartKeyInclusive))
-                val endSlotEnclusive = encodedEndSlotEnclusive.toLong()
-                val endKeyInclusive = String(decoder.decode(encodedEndKeyInclusive))
+                val startSlotInclusive = encodedStartSlotInclusive.toLong()
+                val startKeyInclusive = if (encodedStartKeyInclusive == "null") {
+                    null
+                } else {
+                    String(decoder.decode(encodedStartKeyInclusive))
+                }
+
+                val endSlotExclusive = if (encodedEndSlotExclusive == "null") {
+                    null
+                } else {
+                    encodedEndSlotExclusive.toLong()
+                }
 
                 return SlotRangeMarker(
                     startSlotInclusive = startSlotInclusive,
-                    startKeyInclusive = startKeyInclusive,
-                    endSlotExclusive = endSlotEnclusive,
-                    endKeyInclusive = endKeyInclusive,
+                    startKeyExclusive = startKeyInclusive,
+                    endSlotExclusive = endSlotExclusive,
                 )
             } catch (exception: Exception) {
-                throw IllegalArgumentException("invalid cursor")
+                throw IllegalArgumentException("invalid cursor ($cursor)")
             }
         }
 

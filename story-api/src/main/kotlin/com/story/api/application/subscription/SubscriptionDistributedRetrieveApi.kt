@@ -3,7 +3,6 @@ package com.story.api.application.subscription
 import com.story.api.config.apikey.ApiKeyContext
 import com.story.api.config.apikey.RequestApiKey
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.common.model.dto.SlotRangeMarkerResponse
 import com.story.core.domain.subscription.SubscriptionResponse
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +17,7 @@ class SubscriptionDistributedRetrieveApi(
     /**
      * 구독자 목록을 분산 조회한다 (마커 조회)
      */
-    @GetMapping("/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers/distributed-markers")
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers/distributed-cursors")
     suspend fun getSubscriberDistributedMarkers(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
@@ -41,9 +40,9 @@ class SubscriptionDistributedRetrieveApi(
     suspend fun listSubscribersByDistributedMarkers(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
-        @Valid request: SubscriberListApiRequest,
+        @Valid request: SubscriberDistributedListApiRequest,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<SlotRangeMarkerResponse<List<SubscriptionResponse>>> {
+    ): ApiResponse<SubscriberDistributedListApiResponse<List<SubscriptionResponse>>> {
         val response = subscriptionDistributedRetrieveHandler.listSubscribersByDistributedMarkers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,

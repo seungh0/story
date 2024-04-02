@@ -3,6 +3,7 @@ package com.story.core.domain.subscription
 import com.story.core.common.distribution.RangePartitioner
 import com.story.core.common.distribution.SlotRangeMarker
 import com.story.core.common.model.dto.SlotRangeMarkerResponse
+import com.story.core.domain.subscription.SubscriptionSlotAssigner.FIRST_SLOT_ID
 import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
@@ -29,7 +30,7 @@ class SubscriptionDistributedRetriever(
         }
 
         val slotMarkers: List<Long> = RangePartitioner.partition(
-            startInclusive = SubscriptionSlotAssigner.FIRST_SLOT_ID,
+            startInclusive = FIRST_SLOT_ID,
             endInclusive = SubscriptionSlotAssigner.assign(lastSequence),
             partitionSize = markerSize,
         )
@@ -56,20 +57,21 @@ class SubscriptionDistributedRetriever(
         pageSize: Int,
     ): SlotRangeMarkerResponse<List<SubscriptionResponse>> {
         val startSlot = marker.startSlotInclusive
-            ?: throw IllegalArgumentException("Invalid marker for distributed query. The startSlotInclusive(${marker.startSlotInclusive}) parameter must be not null")
+            ?: throw IllegalArgumentException("Invalid marker for distributed query. The startSlotInclusive parameter must be not null")
 
-        val endSlot = marker.endSlotExclusive
-            ?: (SubscriptionSlotAssigner.FIRST_SLOT_ID - 1)
+        val subscribers = mutableListOf<Subscriber>()
 
-        val volumes = mutableListOf<Subscriber>()
-
-        var currentCursor = marker.startKeyInclusive
         var currentSlot = startSlot
+        val endSlot = marker.endSlotExclusive ?: (FIRST_SLOT_ID - 1)
+
+        var currentCursor = marker.startKeyExclusive
+
         var remainingRecordsSize = pageSize
+
         var hasMoreRecords = true
 
         while (currentSlot > endSlot && remainingRecordsSize > 0) {
-            val currentSubscribers = if (currentCursor.isBlank()) {
+            val currentSubscribersWithNextCursor = if (currentCursor.isNullOrBlank()) {
                 subscriberRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
                     workspaceId = workspaceId,
                     componentId = componentId,
@@ -88,31 +90,31 @@ class SubscriptionDistributedRetriever(
                 ).toList()
             }
 
-            val currentRecords = currentSubscribers.subList(
+            val currentSubscribers = currentSubscribersWithNextCursor.subList(
                 0,
-                remainingRecordsSize.coerceAtMost(currentSubscribers.size)
+                remainingRecordsSize.coerceAtMost(currentSubscribersWithNextCursor.size)
             )
 
-            volumes += currentRecords
+            subscribers += currentSubscribers
 
-            if (currentSubscribers.size > remainingRecordsSize) {
+            if (currentSubscribersWithNextCursor.size > remainingRecordsSize) {
                 currentCursor = currentSubscribers.last().key.subscriberId
                 hasMoreRecords = true
             } else {
-                currentCursor = ""
+                currentCursor = null
                 currentSlot -= 1
                 hasMoreRecords = currentSlot > endSlot
             }
 
-            remainingRecordsSize -= currentRecords.size
+            remainingRecordsSize -= currentSubscribers.size
         }
 
         return SlotRangeMarkerResponse(
-            data = volumes.map { SubscriptionResponse.of(it) },
+            data = subscribers.map { subscriber -> SubscriptionResponse.of(subscriber) },
             nextMarker = if (hasMoreRecords) {
                 marker.copy(
                     startSlotInclusive = currentSlot,
-                    startKeyInclusive = currentCursor,
+                    startKeyExclusive = currentCursor,
                 )
             } else null
         )

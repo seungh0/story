@@ -81,7 +81,7 @@ X-Story-Api-Key: {{API_KEY}}
 
 
 ### 특정 유저의 구독 대상자 목록 조회 (분산 Step 1)
-GET {{api}}/v1/resources/subscriptions/components/follow/subscribers/{{KITTO_USER_ID}}/targets/distributed-markers?partitionSize=5
+GET {{api}}/v1/resources/subscriptions/components/follow/targets/{{USER_ID}}/subscribers/distributed-cursors?parallelSize=5
 X-Story-Api-Key: {{API_KEY}}
 
 > {%
@@ -92,7 +92,7 @@ X-Story-Api-Key: {{API_KEY}}
 
 
 ### 특정 유저의 구독 대상자 목록 조회 (분산 Step 2)
-GET {{api}}/v1/resources/subscriptions/components/follow/subscribers/{{KITTO_USER_ID}}/targets/distributed?pageSize=2
+GET {{api}}/v1/resources/subscriptions/components/follow/targets/{{USER_ID}}/subscribers/distributed?pageSize=1&cursor=MS1udWxsLW51bGw=
 X-Story-Api-Key: {{API_KEY}}
 
 > {%
