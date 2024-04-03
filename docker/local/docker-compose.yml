@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   cassandra:
     image: cassandra:5.0
@@ -93,6 +91,8 @@ services:
     platform: linux/amd64
     container_name: story-kafka-manager-local
     depends_on:
+      zookeeper:
+        condition: service_healthy
       kafka:
         condition: service_healthy
     ports:

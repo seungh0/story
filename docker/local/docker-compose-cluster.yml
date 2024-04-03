@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   cassandra-1:
     image: cassandra:5.0
@@ -78,15 +76,15 @@ services:
 
   redis:
     image: redis:7.2-alpine
-    container_name: story-local-redis
-    command: redis-server --port 6380 --appendonly yes
+    container_name: story-redis-local
+    command: redis-server --port 6379 --appendonly yes
     ports:
-      - '6380:6380'
+      - '6380:6379'
     restart: unless-stopped
     networks:
       - story-local-network
     volumes:
-      - redis_data:/data
+      - redis_data1:/data
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 30s
@@ -95,7 +93,7 @@ services:
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
-    container_name: story-local-zookeeper
+    container_name: story-zookeeper-local
     ports:
       - "22181:2181"
     environment:
@@ -108,12 +106,18 @@ services:
     networks:
       - story-local-network
     volumes:
-      - zookeeper_data:/var/lib/zookeeper/data
-      - zookeeper_log:/var/lib/zookeeper/log
+      - zookeeper_data1:/var/lib/zookeeper/data
+      - zookeeper_log1:/var/lib/zookeeper/log
+    healthcheck:
+      test: nc -z localhost 2181 || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   kafka:
     image: confluentinc/cp-kafka:latest
-    container_name: story-local-kafka
+    container_name: story-kafka-local
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -131,7 +135,7 @@ services:
     networks:
       - story-local-network
     volumes:
-      - kafka_data:/var/lib/kafka/data
+      - kafka_data1:/var/lib/kafka/data
     healthcheck:
       test: nc -z localhost 9092 || exit -1
       start_period: 15s
@@ -140,18 +144,23 @@ services:
       retries: 10
 
   kafka-manager:
-    container_name: kafka-manager
     image: hlebalbau/kafka-manager:stable
-    restart: unless-stopped
+    platform: linux/amd64
+    container_name: story-kafka-manager-local
     depends_on:
-      - kafka
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    ports:
+      - "9000:9000"
     environment:
       ZK_HOSTS: zookeeper:2181
       APPLICATION_SECRET: "random-secret"
       KM_ARGS: -Djava.net.preferIPv4Stack=true
-    ports:
-      - "9000:9000"
+    restart: unless-stopped
+    networks:
+      - story-local-network
 
 volumes:
   cassandra_data-1:
