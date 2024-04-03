@@ -120,14 +120,14 @@ jobs:
       # Pull the latest image to build, and avoid caching pull-only images.
       # (docker pull is faster than caching in most cases.)
       - name: Docker Compose Pull
-        run: docker-compose -f "docker/test/docker-compose.yml" pull
+        run: docker compose -f "docker/test/docker-compose.yml" pull
 
       - name: Setup Integration Test Containers
-        run: docker-compose -f "docker/test/docker-compose.yml" up -d
+        run: docker compose -f "docker/test/docker-compose.yml" up -d
 
       - name: Integration Test
         run: ./gradlew integrationTest
 
       - name: Stop Integration Test Containers
         if: always()
-        run: docker-compose -f "docker/test/docker-compose.yml" down
+        run: docker compose -f "docker/test/docker-compose.yml" down
