@@ -17,7 +17,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 45s
+      start_period: 15s
     stop_grace_period: 3s
 
   redis:
