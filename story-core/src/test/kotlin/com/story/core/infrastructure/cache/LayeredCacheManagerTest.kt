@@ -12,7 +12,7 @@ import java.util.Optional
 internal class LayeredCacheManagerTest : FunSpec({
 
     val cacheManager = mockk<CacheManager>()
-    val coroutineLayeredCacheManager = LayeredCacheManager(cacheManager = cacheManager)
+    val layeredCacheManager = LayeredCacheManager(cacheManager = cacheManager)
 
     context("Get Cache") {
         test("로컬 캐시에 대상 캐시가 있으면 해당 캐시를 반환한다") {
@@ -36,7 +36,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } returns apiKey
 
             // when
-            val result = coroutineLayeredCacheManager.getCacheFromLayeredCache(
+            val result = layeredCacheManager.getCacheFromLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
             )
@@ -83,7 +83,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } returns Unit
 
             // when
-            val result = coroutineLayeredCacheManager.getCacheFromLayeredCache(
+            val result = layeredCacheManager.getCacheFromLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
             )
@@ -114,7 +114,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } throws RuntimeException("레디스에 에러가 발생하였습니다")
 
             // when
-            val result = coroutineLayeredCacheManager.getCacheFromLayeredCache(
+            val result = layeredCacheManager.getCacheFromLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
             )
@@ -161,7 +161,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } returns Unit
 
             // when
-            coroutineLayeredCacheManager.getCacheFromLayeredCache(
+            layeredCacheManager.getCacheFromLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
             )
@@ -218,7 +218,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } returns Unit
 
             // when
-            coroutineLayeredCacheManager.refreshCacheLayeredCache(
+            layeredCacheManager.refreshCacheLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
                 value = value
@@ -282,7 +282,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } throws RuntimeException("레디스에 문제가 발생하였습니다")
 
             // when
-            coroutineLayeredCacheManager.refreshCacheLayeredCache(
+            layeredCacheManager.refreshCacheLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
                 value = value
@@ -339,7 +339,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } returns Unit
 
             // when
-            coroutineLayeredCacheManager.evictCacheLayeredCache(
+            layeredCacheManager.evictCacheLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
                 targetCacheStrategies = setOf(CacheStrategy.LOCAL, CacheStrategy.GLOBAL)
@@ -391,7 +391,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } throws RuntimeException("레디스에 에러가 발생하였습니다")
 
             // when
-            coroutineLayeredCacheManager.evictCacheLayeredCache(
+            layeredCacheManager.evictCacheLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
                 targetCacheStrategies = setOf(CacheStrategy.LOCAL, CacheStrategy.GLOBAL)
@@ -435,7 +435,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } returns Unit
 
             // when
-            coroutineLayeredCacheManager.evictCacheLayeredCache(
+            layeredCacheManager.evictCacheLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
                 targetCacheStrategies = setOf(CacheStrategy.LOCAL)
@@ -479,7 +479,7 @@ internal class LayeredCacheManagerTest : FunSpec({
             } returns Unit
 
             // when
-            coroutineLayeredCacheManager.evictCacheLayeredCache(
+            layeredCacheManager.evictCacheLayeredCache(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
                 targetCacheStrategies = setOf(CacheStrategy.GLOBAL)

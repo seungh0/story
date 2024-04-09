@@ -37,7 +37,7 @@ class LayeredCacheManager(
                 return globalCacheValue
             }
         }.onFailure { throwable ->
-            log.error(throwable) { throwable.message }
+            log.error(throwable) { "글로벌 캐시($cacheType)를 가져오는데 실패하여 fallback으로 동작합니다" }
         }
         return null
     }
@@ -58,7 +58,7 @@ class LayeredCacheManager(
                 value = value
             )
         }.onFailure { throwable ->
-            log.error(throwable) { throwable.message }
+            log.error(throwable) { "글로벌 캐시($cacheType)를 갱신하는데 실패하여 fallback으로 동작합니다" }
         }
     }
 
@@ -84,7 +84,7 @@ class LayeredCacheManager(
                 )
             }
         }.onFailure { throwable ->
-            log.error(throwable) { throwable.message }
+            log.error(throwable) { "글로벌 캐시($cacheType)를 만료하는데 실패하여 fallback으로 동작합니다" }
         }
     }
 
@@ -100,7 +100,7 @@ class LayeredCacheManager(
             runCatching {
                 cacheManager.evictAll(cacheStrategy = CacheStrategy.GLOBAL, cacheType = cacheType)
             }.onFailure { throwable ->
-                log.error(throwable) { throwable.message }
+                log.error(throwable) { "글로벌 캐시($cacheType)를 만료하는데 실패하여 fallback으로 동작합니다" }
             }
         }
     }

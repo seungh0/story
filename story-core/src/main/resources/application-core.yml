@@ -3,3 +3,14 @@ story:
     properties:
       IMAGE:
         domain: http://localhost:1000
+
+spring:
+  cloud:
+    circuitbreaker:
+      resilience4j:
+        disable-time-limiter: true
+
+resilience4j:
+  circuitbreaker:
+    metrics:
+      enabled: true

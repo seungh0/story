@@ -1,3 +1,4 @@
+import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -7,6 +8,7 @@ val kotlinLoggingJvmVersion: String by project.extra
 val springMockkVersion: String by project.extra
 val kotestVersion: String by project.extra
 val kotestSpringExtensionVersion: String by project.extra
+val springCloudVersion: String by project.extra
 
 plugins {
     id("org.springframework.boot") version "3.1.5"
@@ -82,6 +84,12 @@ subprojects {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict", "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
             jvmTarget = "17"
+        }
+    }
+
+    the<DependencyManagementExtension>().apply {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
         }
     }
 

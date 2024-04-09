@@ -15,6 +15,9 @@ dependencies {
     api("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("org.redisson:redisson:$redissonVersion")
 
+    // CircuitBreaker
+    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
+
     // CommonsLang3
     api("org.apache.commons:commons-lang3")
 
