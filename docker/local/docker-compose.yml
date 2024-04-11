@@ -4,6 +4,10 @@ services:
     container_name: story-cassandra-local
     ports:
       - "9042:9042"
+      - "7199:7199"
+      - "7000:7000"
+      - "7001:7001"
+      - "9160:9160"
     environment:
       - "MAX_HEAP_SIZE=512M"
       - "HEAP_NEWSIZE=256M"
@@ -26,6 +30,26 @@ services:
       retries: 5
       start_period: 30s
     stop_grace_period: 3s
+
+#  cassandra-reaper:
+#    image: thelastpickle/cassandra-reaper:master
+#    environment:
+#      - "REAPER_CASS_KEYSPACE=reaper"
+#      - "REAPER_STORAGE_TYPE=cassandra"
+#      - "REAPER_CASS_CLUSTER_NAME=pickle-db"
+#      - "REAPER_CASS_CONTACT_POINTS=[cassandra]"
+#      - "LOCAL_JMX=no"
+#    restart: unless-stopped
+#    networks:
+#      - story-local-network
+#    links:
+#      - cassandra:cassandra
+#    ports:
+#      - "28080:8080"
+#      - "28081:8081"
+#    depends_on:
+#      cassandra:
+#        condition: service_healthy
 
   redis:
     image: redis:7.2-alpine
