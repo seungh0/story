@@ -16,7 +16,7 @@ spring:
   cassandra:
     keyspace-name: story_platform_local
     contact-points: localhost:9042
-    local-datacenter: datacenter1
+    local-datacenter: dc1
     schema-action: create_if_not_exists
 
 logging:
@@ -33,7 +33,7 @@ spring:
   cassandra:
     keyspace-name: story_platform_test
     contact-points: localhost:19042
-    local-datacenter: datacenter1
+    local-datacenter: dc1
 
 logging:
   level:
@@ -49,7 +49,7 @@ spring:
   cassandra:
     keyspace-name: story_platform_dev
     contact-points: localhost:9042
-    local-datacenter: datacenter1
+    local-datacenter: dc1
     schema-action: create_if_not_exists
 
 logging:

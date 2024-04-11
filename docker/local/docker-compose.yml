@@ -7,10 +7,18 @@ services:
     environment:
       - "MAX_HEAP_SIZE=512M"
       - "HEAP_NEWSIZE=256M"
+      - "CASSANDRA_SEEDS=cassandra"
+      - "CASSANDRA_CLUSTER_NAME=story-local"
+      - "CASSANDRA_NUM_TOKENS=16"
+      - "CASSANDRA_DC=dc1"
+      - "CASSANDRA_RACK=rack1"
+      - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
+    restart: unless-stopped
     networks:
       - story-local-network
     volumes:
-      - cassandra_data1:/var/lib/cassandra
+      - cassandra_data:/var/lib/cassandra
+      - ./conf/docker-entrypoint.sh:/docker-entrypoint.sh
     healthcheck:
       test: [ "CMD-SHELL", "[ $$(nodetool statusgossip) = running ]" ]
       interval: 30s
@@ -112,7 +120,7 @@ services:
       - story-local-network
 
 volumes:
-  cassandra_data1:
+  cassandra_data:
     driver: local
   redis_data1:
     driver: local

@@ -7,6 +7,12 @@ services:
     environment:
       - "MAX_HEAP_SIZE=512M"
       - "HEAP_NEWSIZE=256M"
+      - "CASSANDRA_SEEDS=cassandra"
+      - "CASSANDRA_CLUSTER_NAME=story-test"
+      - "CASSANDRA_NUM_TOKENS=16"
+      - "CASSANDRA_DC=dc1"
+      - "CASSANDRA_RACK=rack1"
+      - "CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch"
     restart: unless-stopped
     networks:
       - story-test-network
