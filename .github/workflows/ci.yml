@@ -123,7 +123,7 @@ jobs:
         run: docker compose -f "docker/test/docker-compose.yml" pull
 
       - name: Setup Integration Test Containers
-        run: docker compose -f "docker/test/docker-compose.yml" up -d
+        run: docker compose -f "docker/test/docker-compose.yml" up -d --build --wait
 
       - name: Integration Test
         run: ./gradlew integrationTest
