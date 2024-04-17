@@ -35,7 +35,7 @@ class AvailabilityChecker(
         val isIoBoundLivenessCorrect = withContext(ioBoundCoroutineDispatcher) {
             return@withContext withTimeout(timeMillis = CoroutineConfig.DEFAULT_TIMEOUT_MS) {
                 try {
-                    return@withTimeout applicationAvailability.livenessState != LivenessState.BROKEN
+                    return@withTimeout applicationAvailability.livenessState == LivenessState.CORRECT
                 } catch (exception: TimeoutCancellationException) {
                     throw InternalServerException(
                         message = "Liveness Probe 체크 중 Coroutine Timeout이 발생하였습니다",
@@ -53,7 +53,7 @@ class AvailabilityChecker(
         val isCpuBoundLivenessCorrect = withContext(cpuBoundCoroutineDispatcher) {
             return@withContext withTimeout(timeMillis = CoroutineConfig.DEFAULT_TIMEOUT_MS) {
                 try {
-                    return@withTimeout applicationAvailability.livenessState != LivenessState.BROKEN
+                    return@withTimeout applicationAvailability.livenessState == LivenessState.CORRECT
                 } catch (exception: TimeoutCancellationException) {
                     throw InternalServerException(
                         message = "Liveness Probe 체크 중 Coroutine Timeout이 발생하였습니다",
@@ -75,7 +75,7 @@ class AvailabilityChecker(
         val isIoBoundAcceptingTraffic = withContext(ioBoundCoroutineDispatcher) {
             return@withContext withTimeout(timeMillis = CoroutineConfig.DEFAULT_TIMEOUT_MS) {
                 try {
-                    return@withTimeout applicationAvailability.readinessState != ReadinessState.REFUSING_TRAFFIC
+                    return@withTimeout applicationAvailability.readinessState == ReadinessState.ACCEPTING_TRAFFIC
                 } catch (exception: TimeoutCancellationException) {
                     throw InternalServerException(
                         message = "Readiness Probe 체크 중 Coroutine Timeout이 발생하였습니다",
@@ -93,7 +93,7 @@ class AvailabilityChecker(
         val isCpuBoundAcceptingTraffic = withContext(cpuBoundCoroutineDispatcher) {
             return@withContext withTimeout(timeMillis = CoroutineConfig.DEFAULT_TIMEOUT_MS) {
                 try {
-                    return@withTimeout applicationAvailability.readinessState != ReadinessState.REFUSING_TRAFFIC
+                    return@withTimeout applicationAvailability.readinessState == ReadinessState.ACCEPTING_TRAFFIC
                 } catch (exception: TimeoutCancellationException) {
                     throw InternalServerException(
                         message = "Readiness Probe 체크 중 Coroutine Timeout이 발생하였습니다",
