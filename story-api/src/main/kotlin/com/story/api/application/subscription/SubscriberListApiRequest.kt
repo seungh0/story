@@ -4,11 +4,9 @@ import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.dto.CursorRequestConvertible
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotBlank
 
 data class SubscriberListApiRequest(
-    @field:NotBlank
-    override val cursor: String = "",
+    override val cursor: String?,
 
     override val direction: String = CursorDirection.NEXT.name,
 

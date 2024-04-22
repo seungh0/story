@@ -52,7 +52,7 @@ class SubscriptionRetrieveHandler(
             cursorRequest = request.toDecodedCursor(),
         )
 
-        return SubscriberListApiResponse.of(subscriptions = subscriptions)
+        return SubscriberListApiResponse.of(subscribers = subscriptions)
     }
 
     suspend fun listSubscriptionTargets(

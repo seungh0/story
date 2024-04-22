@@ -139,7 +139,7 @@ create table subscriber_v1
     target_id     text,
     slot_id       bigint,
     subscriber_id text,
-    alarmEnabled  boolean,
+    alarm_enabled  boolean,
     primary key ((workspace_id, component_id, target_id, slot_id), subscriber_id)
 );
 
@@ -152,7 +152,7 @@ create table subscription_v1
     subscriber_id    text,
     target_id        text,
     status           text,
-    alarmEnabled     boolean,
+    alarm_enabled     boolean,
     slot_id          bigint,
     primary key ((workspace_id, component_id, distribution_key), subscriber_id, target_id)
 );

@@ -3,10 +3,9 @@ package com.story.api.application.subscription
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.common.distribution.SlotRangeMarker
-import com.story.core.common.model.dto.CursorResponse
+import com.story.core.common.error.InvalidArgumentsException
 import com.story.core.domain.resource.ResourceId
 import com.story.core.domain.subscription.SubscriptionDistributedRetriever
-import com.story.core.domain.subscription.SubscriptionResponse
 
 @HandlerAdapter
 class SubscriptionDistributedRetrieveHandler(
@@ -14,7 +13,7 @@ class SubscriptionDistributedRetrieveHandler(
     private val subscriptionDistributedRetriever: SubscriptionDistributedRetriever,
 ) {
 
-    suspend fun getSubscriberDistributedMarkers(
+    suspend fun listSubscriberDistributedMarkers(
         workspaceId: String,
         componentId: String,
         targetId: String,
@@ -41,26 +40,28 @@ class SubscriptionDistributedRetrieveHandler(
         workspaceId: String,
         componentId: String,
         targetId: String,
-        request: SubscriberDistributedListApiRequest,
-    ): SubscriberDistributedListApiResponse<List<SubscriptionResponse>> {
+        request: SubscriberListApiRequest,
+    ): SubscriberListApiResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
         )
 
-        val response = subscriptionDistributedRetriever.listSubscribersByDistributedmarkers(
+        val subscribers = subscriptionDistributedRetriever.listSubscribersByDistributedmarkers(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
-            marker = SlotRangeMarker.fromCursor(request.cursor),
+            marker = SlotRangeMarker.fromCursor(
+                request.cursor ?: throw InvalidArgumentsException(
+                    message = "cursor is null",
+                    reasons = listOf("cursor is null")
+                )
+            ),
             pageSize = request.pageSize,
         )
 
-        return SubscriberDistributedListApiResponse(
-            data = response.data,
-            cursor = CursorResponse.of(response.nextMarker?.makeCursor()),
-        )
+        return SubscriberListApiResponse.of(subscribers = subscribers)
     }
 
 }
