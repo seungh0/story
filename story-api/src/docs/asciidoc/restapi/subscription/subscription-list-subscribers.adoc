@@ -1,4 +1,4 @@
-=== [Subscription] Subscriber List API
+=== [Subscription] Subscriber List API (Non-Parallel)
 
 include::{snippets}/subscription-subscriber.list/request-path.adoc[]
 

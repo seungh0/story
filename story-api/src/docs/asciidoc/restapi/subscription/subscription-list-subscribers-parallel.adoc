@@ -1,0 +1,65 @@
+=== [Subscription] Subscriber List API (Parallel)
+
+==== Step 1: List Parallel Cursors
+
+include::{snippets}/subscription-subscriber.parallel-cursor-list/request-path.adoc[]
+
+===== [Request]
+
+include::{snippets}/subscription-subscriber.parallel-cursor-list/http-request.adoc[]
+
+===== [Request Path Parameters]
+
+include::{snippets}/subscription-subscriber.parallel-cursor-list/path-parameters.adoc[]
+
+===== [Request Headers]
+
+include::{snippets}/subscription-subscriber.parallel-cursor-list/request-headers.adoc[]
+
+===== [Request Query Parameters]
+
+include::{snippets}/subscription-subscriber.parallel-cursor-list/query-parameters.adoc[]
+
+===== [Response]
+
+include::{snippets}/subscription-subscriber.parallel-cursor-list/http-response.adoc[]
+
+====== [Response Body Fields]
+
+include::{snippets}/subscription-subscriber.parallel-cursor-list/response-fields.adoc[]
+
+====== [Curl Request HTTP Example]
+
+include::{snippets}/subscription-subscriber.parallel-cursor-list/curl-request.adoc[]
+
+==== Step 2: List Subscribers By Cursors
+
+include::{snippets}/subscription-subscriber.parallel-list/request-path.adoc[]
+
+===== [Request]
+
+include::{snippets}/subscription-subscriber.parallel-list/http-request.adoc[]
+
+===== [Request Path Parameters]
+
+include::{snippets}/subscription-subscriber.parallel-list/path-parameters.adoc[]
+
+===== [Request Headers]
+
+include::{snippets}/subscription-subscriber.parallel-list/request-headers.adoc[]
+
+===== [Request Query Parameters]
+
+include::{snippets}/subscription-subscriber.parallel-list/query-parameters.adoc[]
+
+===== [Response]
+
+include::{snippets}/subscription-subscriber.parallel-list/http-response.adoc[]
+
+====== [Response Body Fields]
+
+include::{snippets}/subscription-subscriber.parallel-list/response-fields.adoc[]
+
+====== [Curl Request HTTP Example]
+
+include::{snippets}/subscription-subscriber.parallel-list/curl-request.adoc[]

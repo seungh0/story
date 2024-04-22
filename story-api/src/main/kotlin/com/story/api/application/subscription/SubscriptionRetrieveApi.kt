@@ -33,23 +33,6 @@ class SubscriptionRetrieveApi(
     }
 
     /**
-     * 구독자 수를 조회한다
-     */
-    @GetMapping("/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscriber-count")
-    suspend fun countSubscribers(
-        @PathVariable componentId: String,
-        @PathVariable targetId: String,
-        @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<SubscriberCountApiResponse> {
-        val response = subscriptionRetrieveHandler.countSubscribers(
-            workspaceId = authContext.workspaceId,
-            componentId = componentId,
-            targetId = targetId,
-        )
-        return ApiResponse.ok(result = response)
-    }
-
-    /**
      * 구독 대상자 수를 조회한다
      */
     @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/subscription-count")
@@ -62,6 +45,42 @@ class SubscriptionRetrieveApi(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
+        )
+        return ApiResponse.ok(result = response)
+    }
+
+    /**
+     * 구독중인 대상자 목록을 조회한다
+     */
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets")
+    suspend fun listSubscriptionTargets(
+        @PathVariable componentId: String,
+        @PathVariable subscriberId: String,
+        @Valid request: SubscriptionTargetListApiRequest,
+        @RequestApiKey authContext: ApiKeyContext,
+    ): ApiResponse<SubscriptionTargetListApiResponse> {
+        val response = subscriptionRetrieveHandler.listSubscriptionTargets(
+            workspaceId = authContext.workspaceId,
+            componentId = componentId,
+            subscriberId = subscriberId,
+            request = request,
+        )
+        return ApiResponse.ok(response)
+    }
+
+    /**
+     * 구독자 수를 조회한다
+     */
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscriber-count")
+    suspend fun countSubscribers(
+        @PathVariable componentId: String,
+        @PathVariable targetId: String,
+        @RequestApiKey authContext: ApiKeyContext,
+    ): ApiResponse<SubscriberCountApiResponse> {
+        val response = subscriptionRetrieveHandler.countSubscribers(
+            workspaceId = authContext.workspaceId,
+            componentId = componentId,
+            targetId = targetId,
         )
         return ApiResponse.ok(result = response)
     }
@@ -86,19 +105,38 @@ class SubscriptionRetrieveApi(
     }
 
     /**
-     * 구독중인 대상자 목록을 조회한다
+     * 구독자 목록을 병렬 조회한다 (Step1: 커서 목록 조회)
      */
-    @GetMapping("/v1/resources/subscriptions/components/{componentId}/subscribers/{subscriberId}/targets")
-    suspend fun listSubscriptionTargets(
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers/parallel-cursors")
+    suspend fun getSubscriberDistributedMarkers(
         @PathVariable componentId: String,
-        @PathVariable subscriberId: String,
-        @Valid request: SubscriptionTargetListApiRequest,
+        @PathVariable targetId: String,
+        @Valid request: SubscriberDistributedMarkerListRequest,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<SubscriptionTargetListApiResponse> {
-        val response = subscriptionRetrieveHandler.listSubscriptionTargets(
+    ): ApiResponse<SubscriberDistributedMarkerListResponse> {
+        val response = subscriptionRetrieveHandler.listSubscriberDistributedMarkers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
-            subscriberId = subscriberId,
+            targetId = targetId,
+            request = request,
+        )
+        return ApiResponse.ok(response)
+    }
+
+    /**
+     * 구독자 목록을 병렬 조회한다 (Step2: 커서 기반의 구독자 조회)
+     */
+    @GetMapping("/v1/resources/subscriptions/components/{componentId}/targets/{targetId}/subscribers/parallel-by-cursor")
+    suspend fun listSubscribersByDistributedMarkers(
+        @PathVariable componentId: String,
+        @PathVariable targetId: String,
+        @Valid request: SubscriberListApiRequest,
+        @RequestApiKey authContext: ApiKeyContext,
+    ): ApiResponse<SubscriberListApiResponse> {
+        val response = subscriptionRetrieveHandler.listSubscribersByDistributedMarkers(
+            workspaceId = authContext.workspaceId,
+            componentId = componentId,
+            targetId = targetId,
             request = request,
         )
         return ApiResponse.ok(response)
