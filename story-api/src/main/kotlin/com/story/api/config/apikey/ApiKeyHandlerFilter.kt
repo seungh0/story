@@ -14,25 +14,25 @@ import org.springframework.web.server.ServerWebExchange
 class ApiKeyHandlerFilter(
     private val apiKeyHandler: ApiKeyHandler,
     private val workspaceRetrieveHandler: WorkspaceRetrieveHandler,
+    private val apiKeyWhitelistChecker: ApiKeyChecker,
 ) : CoWebFilter() {
 
     override suspend fun filter(exchange: ServerWebExchange, chain: CoWebFilterChain) {
-        if (ApiKeyWhitelistChecker.checkNoApiKey(
+        if (apiKeyWhitelistChecker.shouldCheckApiKey(
                 method = exchange.request.method,
                 path = exchange.request.uri.path
             )
         ) {
-            return chain.filter(exchange)
+            val apiKey = apiKeyHandler.handleApiKey(serverWebExchange = exchange)
+
+            workspaceRetrieveHandler.validateEnabledWorkspace(workspaceId = apiKey.workspaceId)
+
+            exchange.attributes[API_KEY_CONTEXT] = ApiKeyContext(
+                workspaceId = apiKey.workspaceId,
+                requestId = exchange.getRequestId() ?: RequestIdGenerator.generate(),
+                requestUserId = exchange.getRequestUserId(),
+            )
         }
-        val apiKey = apiKeyHandler.handleApiKey(serverWebExchange = exchange)
-
-        workspaceRetrieveHandler.validateEnabledWorkspace(workspaceId = apiKey.workspaceId)
-
-        exchange.attributes[API_KEY_CONTEXT] = ApiKeyContext(
-            workspaceId = apiKey.workspaceId,
-            requestId = exchange.getRequestId() ?: RequestIdGenerator.generate(),
-            requestUserId = exchange.getRequestUserId(),
-        )
         return chain.filter(exchange = exchange)
     }
 
