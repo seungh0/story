@@ -6,6 +6,8 @@ spring:
       timeout: 3s
     connection:
       connect-timeout: 3s
+    pool:
+      heartbeat-interval: 10s
 
 ---
 spring.config:
