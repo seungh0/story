@@ -28,6 +28,7 @@ jobs:
           java-version: 17
           distribution: adopt
           cache: gradle
+        timeout-minutes: 3
 
       - uses: actions/cache@v4
         with:
@@ -80,6 +81,7 @@ jobs:
           java-version: 17
           distribution: adopt
           cache: gradle
+        timeout-minutes: 3
 
       - uses: actions/cache@v4
         with:
@@ -106,6 +108,7 @@ jobs:
           java-version: 17
           distribution: adopt
           cache: gradle
+        timeout-minutes: 3
 
       - uses: actions/cache@v4
         with:
@@ -121,9 +124,11 @@ jobs:
       # (docker pull is faster than caching in most cases.)
       - name: Docker Compose Pull
         run: docker compose -f "docker/test/docker-compose.yml" pull
+        timeout-minutes: 3
 
       - name: Setup Integration Test Containers
         run: docker compose -f "docker/test/docker-compose.yml" up -d --build --wait
+        timeout-minutes: 3
 
       - name: Integration Test
         run: ./gradlew integrationTest
