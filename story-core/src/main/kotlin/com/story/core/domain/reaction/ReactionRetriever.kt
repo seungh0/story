@@ -1,5 +1,9 @@
 package com.story.core.domain.reaction
 
+import com.story.core.common.utils.mapToSet
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
@@ -59,50 +63,69 @@ class ReactionRetriever(
         componentId: String,
         spaceIds: Set<String>,
         requestUserId: String?,
-    ): List<ReactionResponse> {
-        val reactionCountMap = spaceIds.flatMap { spaceId ->
-            reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                spaceId = spaceId,
-            )
-        }.associateBy { it.key }
+    ): List<ReactionResponse> = coroutineScope {
+        val reactionCounts = spaceIds.map { spaceId ->
+            async {
+                reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
+                    workspaceId = workspaceId,
+                    componentId = componentId,
+                    spaceId = spaceId,
+                )
+            }
+        }
 
         val spaceIdReactionMap = requestUserId?.let {
             val distributionKeyTargetIdMap = spaceIds.groupBy { targetId -> ReactionDistributionKey.makeKey(targetId) }
 
-            return@let distributionKeyTargetIdMap.flatMap { (distributionKey, spaceIds) ->
-                reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyUserIdAndKeyDistributionKeyAndKeySpaceIdIn(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    userId = requestUserId,
-                    distributionKey = distributionKey,
-                    spaceIds = spaceIds,
-                )
-            }.associateBy { it.key.spaceId }
+            return@let distributionKeyTargetIdMap.map { (distributionKey, spaceIds) ->
+                async {
+                    reactionReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyUserIdAndKeyDistributionKeyAndKeySpaceIdIn(
+                        workspaceId = workspaceId,
+                        componentId = componentId,
+                        userId = requestUserId,
+                        distributionKey = distributionKey,
+                        spaceIds = spaceIds,
+                    )
+                }
+            }.awaitAll().flatten().associateBy { it.key.spaceId }
         } ?: emptyMap()
 
-        return spaceIds.map { spaceId ->
+        val reactionCountMap = reactionCounts.awaitAll().flatten().associateBy { it.key }
+
+        val emotionIds = reactionCountMap.values.mapToSet { reactionCount -> reactionCount.key.emotionId }
+
+        return@coroutineScope spaceIds.map { spaceId ->
             val reactionByRequestUserId = spaceIdReactionMap[spaceId]
             ReactionResponse(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
-                emotions = reactionCountMap.values.asSequence()
-                    .filter { reactionCount -> reactionCount.count > 0 }
-                    .map { reactionCount ->
+                emotions = emotionIds.asSequence()
+                    .filter { emotionId ->
+                        (
+                            reactionCountMap[
+                                ReactionCountPrimaryKey(
+                                    workspaceId = workspaceId,
+                                    componentId = componentId,
+                                    spaceId = spaceId,
+                                    emotionId = emotionId,
+                                )
+                            ]?.count ?: 0L
+                            ) > 0
+                    }
+                    .map { emotionId ->
                         ReactionEmotionResponse.of(
-                            emotionId = reactionCount.key.emotionId,
+                            emotionId = emotionId,
                             count = reactionCountMap[
                                 ReactionCountPrimaryKey(
                                     workspaceId = workspaceId,
                                     componentId = componentId,
-                                    emotionId = reactionCount.key.emotionId,
+                                    emotionId = emotionId,
                                     spaceId = spaceId,
                                 )
                             ]?.count ?: 0L,
                             reactedByMe = reactionByRequestUserId != null &&
-                                reactionByRequestUserId.emotionIds.contains(reactionCount.key.emotionId),
+                                reactionByRequestUserId.emotionIds.contains(emotionId),
                         )
                     }
                     .toList()
