@@ -1,6 +1,6 @@
-package com.story.core.domain.subscription
+package com.story.core.domain.reaction
 
-import com.story.core.domain.subscription.SubscriptionTableNames.SUBSCRIBER_COUNT_V1
+import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
@@ -8,17 +8,17 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table(SUBSCRIBER_COUNT_V1)
-data class SubscriberCount(
+@Table("reaction_count_v1")
+data class ReactionCountEntity(
     @field:PrimaryKey
-    val key: SubscriberCountPrimaryKey,
+    val key: ReactionCountPrimaryKey,
 
     @field:CassandraType(type = CassandraType.Name.COUNTER)
     val count: Long,
 )
 
 @PrimaryKeyClass
-data class SubscriberCountPrimaryKey(
+data class ReactionCountPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
     val workspaceId: String,
 
@@ -26,5 +26,8 @@ data class SubscriberCountPrimaryKey(
     val componentId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
-    val targetId: String,
+    val spaceId: String,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
+    val emotionId: String,
 )

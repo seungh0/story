@@ -18,7 +18,7 @@ data class FeedMappingReverse(
 
     companion object {
         fun of(
-            feedMapping: FeedMapping,
+            feedMapping: FeedMappingEntity,
         ) = FeedMappingReverse(
             key = FeedMappingReversePrimaryKey(
                 workspaceId = feedMapping.key.workspaceId,

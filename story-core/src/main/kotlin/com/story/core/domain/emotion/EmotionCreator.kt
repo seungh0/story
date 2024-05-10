@@ -22,7 +22,7 @@ class EmotionCreator(
         validateNotExistsEmotion(workspaceId, resourceId, componentId, emotionId)
         validateNotExceededEmotionCountLimit(workspaceId, resourceId, componentId)
 
-        val emotion = Emotion.of(
+        val emotion = EmotionEntity.of(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,

@@ -1,6 +1,6 @@
 package com.story.core.domain.post
 
-import com.story.core.common.model.AuditingTime
+import com.story.core.common.model.AuditingTimeEntity
 import org.apache.commons.lang3.StringUtils
 import org.springframework.data.annotation.Transient
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
@@ -22,11 +22,11 @@ data class PostReverse(
     val extra: MutableMap<String, String> = mutableMapOf(),
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
-    val auditingTime: AuditingTime,
+    val auditingTime: AuditingTimeEntity,
 ) {
 
     companion object {
-        fun of(post: Post) = PostReverse(
+        fun of(post: PostEntity) = PostReverse(
             key = PostReversePrimaryKey.of(
                 workspaceId = post.key.workspaceId,
                 componentId = post.key.componentId,
@@ -38,7 +38,7 @@ data class PostReverse(
             slotId = post.key.slotId,
             title = post.title,
             extra = post.extra,
-            auditingTime = AuditingTime.created(),
+            auditingTime = AuditingTimeEntity.created(),
         )
     }
 

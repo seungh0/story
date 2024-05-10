@@ -27,7 +27,7 @@ class FeedCreator(
                 launch {
                     parallelChunkedSubscriberIds.map { chunkedSubscriberIds ->
                         val feedSubscribers = chunkedSubscriberIds.map { subscriberId ->
-                            FeedSubscriber(
+                            FeedSubscriberEntity(
                                 key = FeedSubscriberPrimaryKey.of(
                                     workspaceId = payload.workspaceId,
                                     feedComponentId = payload.feedComponentId,
@@ -40,7 +40,7 @@ class FeedCreator(
                                 sourceResourceId = payload.sourceResourceId,
                             )
                         }
-                        val feeds = feedSubscribers.map { feedSubscriber -> Feed.from(feedSubscriber) }
+                        val feeds = feedSubscribers.map { feedSubscriber -> FeedEntity.from(feedSubscriber) }
 
                         reactiveCassandraOperations.batchOps()
                             .upsert(entities = feedSubscribers, ttl = payload.retention)

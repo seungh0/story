@@ -45,7 +45,7 @@ class EventHistoryManager(
             eventPublisher.invoke(event)
         }.onSuccess {
             eventHistoryRepository.save(
-                EventHistory.success(
+                EventHistoryEntity.success(
                     workspaceId = workspaceId,
                     resourceId = resourceId,
                     componentId = componentId,
@@ -54,7 +54,7 @@ class EventHistoryManager(
             )
         }.onFailure { exception ->
             eventHistoryRepository.save(
-                EventHistory.failed(
+                EventHistoryEntity.failed(
                     workspaceId = workspaceId,
                     resourceId = resourceId,
                     componentId = componentId,

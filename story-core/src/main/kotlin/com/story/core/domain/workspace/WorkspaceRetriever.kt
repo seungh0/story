@@ -16,10 +16,10 @@ class WorkspaceRetriever(
     )
     suspend fun getWorkspace(
         workspaceId: String,
-    ): Optional<WorkspaceResponse> {
+    ): Optional<Workspace> {
         val workspace = workspaceRepository.findById(workspaceId)
             ?: return Optional.empty()
-        return Optional.of(WorkspaceResponse.of(workspace = workspace))
+        return Optional.of(Workspace.of(workspace = workspace))
     }
 
 }

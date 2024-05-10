@@ -13,7 +13,7 @@ data class FeedMappingCreateRequest(
     val retention: Duration,
 ) {
 
-    fun toEntity() = FeedMapping.of(
+    fun toEntity() = FeedMappingEntity.of(
         workspaceId = workspaceId,
         feedComponentId = feedComponentId,
         sourceResourceId = sourceResourceId,

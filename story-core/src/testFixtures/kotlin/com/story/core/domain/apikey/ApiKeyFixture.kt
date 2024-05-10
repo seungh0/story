@@ -9,7 +9,7 @@ object ApiKeyFixture {
         workspaceId: String = RandomGenerator.generateString(),
         status: ApiKeyStatus = RandomGenerator.generateEnum(ApiKeyStatus::class.java),
         description: String = RandomGenerator.generateString(),
-    ) = ApiKey.of(
+    ) = ApiKeyEntity.of(
         apiKey = apiKey,
         workspaceId = workspaceId,
         status = status,

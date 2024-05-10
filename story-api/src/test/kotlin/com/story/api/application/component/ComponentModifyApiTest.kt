@@ -9,7 +9,7 @@ import com.story.api.lib.RestDocsUtils
 import com.story.api.lib.RestDocsUtils.convertToString
 import com.story.api.lib.RestDocsUtils.remarks
 import com.story.api.lib.WebClientUtils
-import com.story.core.domain.component.ComponentResponse
+import com.story.core.domain.component.Component
 import com.story.core.domain.component.ComponentStatus
 import com.story.core.domain.resource.ResourceId
 import io.mockk.coEvery
@@ -49,7 +49,7 @@ class ComponentModifyApiTest(
                 description = description,
                 status = status,
             )
-        } returns ComponentResponse(
+        } returns Component(
             componentId = componentId,
             description = description,
             status = ComponentStatus.ENABLED,

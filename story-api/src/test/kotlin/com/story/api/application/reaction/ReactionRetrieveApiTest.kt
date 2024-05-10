@@ -10,9 +10,9 @@ import com.story.api.lib.RestDocsUtils.apiKeyHeaderWithRequestUserIdDocumentatio
 import com.story.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.WebClientUtils
-import com.story.core.domain.emotion.EmotionResponse
+import com.story.core.domain.emotion.Emotion
+import com.story.core.domain.reaction.Reaction
 import com.story.core.domain.reaction.ReactionEmotionResponse
-import com.story.core.domain.reaction.ReactionResponse
 import io.mockk.coEvery
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
@@ -49,7 +49,7 @@ class ReactionRetrieveApiTest(
                 request = any(),
             )
         } returns ReactionApiResponse.of(
-            reaction = ReactionResponse(
+            reaction = Reaction(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
@@ -67,12 +67,12 @@ class ReactionRetrieveApiTest(
                 )
             ),
             emotions = mapOf(
-                "emotion-1" to EmotionResponse(
+                "emotion-1" to Emotion(
                     emotionId = "emotion-1",
                     image = "\uD83D\uDE21",
                     priority = 1,
                 ),
-                "emotion-2" to EmotionResponse(
+                "emotion-2" to Emotion(
                     emotionId = "emotion-2",
                     image = "\uD83E\uDEE4",
                     priority = 2,
@@ -156,7 +156,7 @@ class ReactionRetrieveApiTest(
         } returns ReactionListApiResponse(
             spaceReactions = listOf(
                 ReactionApiResponse.of(
-                    reaction = ReactionResponse(
+                    reaction = Reaction(
                         workspaceId = workspaceId,
                         componentId = componentId,
                         spaceId = "space-1",
@@ -174,12 +174,12 @@ class ReactionRetrieveApiTest(
                         )
                     ),
                     emotions = mapOf(
-                        "emotion-1" to EmotionResponse(
+                        "emotion-1" to Emotion(
                             emotionId = "emotion-1",
                             image = "\uD83D\uDE21",
                             priority = 1,
                         ),
-                        "emotion-2" to EmotionResponse(
+                        "emotion-2" to Emotion(
                             emotionId = "emotion-2",
                             image = "\uD83E\uDEE4",
                             priority = 2,
@@ -187,7 +187,7 @@ class ReactionRetrieveApiTest(
                     )
                 ),
                 ReactionApiResponse.of(
-                    reaction = ReactionResponse(
+                    reaction = Reaction(
                         workspaceId = workspaceId,
                         componentId = componentId,
                         spaceId = "space-2",
@@ -205,12 +205,12 @@ class ReactionRetrieveApiTest(
                         )
                     ),
                     emotions = mapOf(
-                        "emotion-1" to EmotionResponse(
+                        "emotion-1" to Emotion(
                             emotionId = "emotion-1",
                             image = "\uD83D\uDE21",
                             priority = 1,
                         ),
-                        "emotion-2" to EmotionResponse(
+                        "emotion-2" to Emotion(
                             emotionId = "emotion-2",
                             image = "\uD83E\uDEE4",
                             priority = 2,

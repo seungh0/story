@@ -7,8 +7,8 @@ interface PostSectionHandler {
     suspend fun makeContents(
         workspaceId: String,
         requests: Collection<PostSectionContentRequest>,
-    ): Map<PostSectionContentRequest, PostSectionContent>
+    ): Map<PostSectionContentRequest, PostSectionContentEntity>
 
-    suspend fun makeContentResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse>
+    suspend fun makeContentResponse(contents: Collection<PostSectionContentEntity>): Map<PostSectionContentEntity, PostSectionContent>
 
 }

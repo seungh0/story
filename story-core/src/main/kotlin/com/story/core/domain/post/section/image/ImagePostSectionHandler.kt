@@ -5,8 +5,8 @@ import com.story.core.domain.file.FileNotExistsException
 import com.story.core.domain.file.FileRetriever
 import com.story.core.domain.file.FileType
 import com.story.core.domain.post.section.PostSectionContent
+import com.story.core.domain.post.section.PostSectionContentEntity
 import com.story.core.domain.post.section.PostSectionContentRequest
-import com.story.core.domain.post.section.PostSectionContentResponse
 import com.story.core.domain.post.section.PostSectionHandler
 import com.story.core.domain.post.section.PostSectionType
 import com.story.core.infrastructure.file.FileProperties
@@ -23,7 +23,7 @@ class ImagePostSectionHandler(
     override suspend fun makeContents(
         workspaceId: String,
         requests: Collection<PostSectionContentRequest>,
-    ): Map<PostSectionContentRequest, PostSectionContent> {
+    ): Map<PostSectionContentRequest, PostSectionContentEntity> {
         val fileIds = requests.mapToSet { request ->
             if (request !is ImagePostSectionContentRequest) {
                 throw IllegalArgumentException("request is not ImagePostSectionContentRequest")
@@ -41,7 +41,7 @@ class ImagePostSectionHandler(
             val file = files[request.fileId]
                 ?: throw FileNotExistsException("워크스페이스($workspaceId)에 등록된 이미지(IMAGE) 파일(${request.fileId})이 존재하지 않습니다")
 
-            return@associateWith ImagePostSectionContent(
+            return@associateWith ImagePostSectionContentEntity(
                 path = file.path,
                 width = file.width,
                 height = file.height,
@@ -51,10 +51,10 @@ class ImagePostSectionHandler(
         }
     }
 
-    override suspend fun makeContentResponse(contents: Collection<PostSectionContent>): Map<PostSectionContent, PostSectionContentResponse> {
+    override suspend fun makeContentResponse(contents: Collection<PostSectionContentEntity>): Map<PostSectionContentEntity, PostSectionContent> {
         return contents.associateWith { content ->
-            ImagePostSectionContentResponse.from(
-                sectionContent = content as ImagePostSectionContent,
+            ImagePostSectionContent.from(
+                sectionContent = content as ImagePostSectionContentEntity,
                 imageDomain = properties.getProperties(fileType = FileType.IMAGE).domain
             )
         }

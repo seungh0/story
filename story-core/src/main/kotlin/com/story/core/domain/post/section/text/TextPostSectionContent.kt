@@ -8,6 +8,13 @@ data class TextPostSectionContent(
     val extra: Map<String, Any>,
 ) : PostSectionContent {
 
-    override fun sectionType(): PostSectionType = PostSectionType.TEXT
+    override fun sectionType() = PostSectionType.TEXT
+
+    companion object {
+        fun from(sectionContent: TextPostSectionContentEntity) = TextPostSectionContent(
+            content = sectionContent.content,
+            extra = sectionContent.extra,
+        )
+    }
 
 }

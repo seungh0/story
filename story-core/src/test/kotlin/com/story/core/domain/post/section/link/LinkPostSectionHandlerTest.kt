@@ -35,7 +35,7 @@ class LinkPostSectionHandlerTest : StringSpec({
         // then
         sut shouldHaveSize 2
         sut shouldContainExactly mapOf(
-            section1 to LinkPostSectionContent(
+            section1 to LinkPostSectionContentEntity(
                 link = "https://google.com",
                 extra = mapOf(
                     "og:image" to "https://google.com/icon.png",
@@ -43,7 +43,7 @@ class LinkPostSectionHandlerTest : StringSpec({
                     "og:description" to "google home",
                 ),
             ),
-            section2 to LinkPostSectionContent(
+            section2 to LinkPostSectionContentEntity(
                 link = "https://naver.com",
                 extra = mapOf(
                     "og:image" to "https://naver.com/icon.png",
@@ -56,7 +56,7 @@ class LinkPostSectionHandlerTest : StringSpec({
 
     "LinkPostSectionContent -> LinkPostSectionContentResponse" {
         // given
-        val content1 = LinkPostSectionContent(
+        val content1 = LinkPostSectionContentEntity(
             link = "https://google.com",
             extra = mapOf(
                 "og:image" to "https://google.com/icon.png",
@@ -64,7 +64,7 @@ class LinkPostSectionHandlerTest : StringSpec({
                 "og:description" to "google home",
             ),
         )
-        val content2 = LinkPostSectionContent(
+        val content2 = LinkPostSectionContentEntity(
             link = "https://naver.com",
             extra = mapOf(
                 "og:image" to "https://naver.com/icon.png",
@@ -79,7 +79,7 @@ class LinkPostSectionHandlerTest : StringSpec({
         // then
         sut shouldHaveSize 2
         sut shouldContainExactly mapOf(
-            content1 to LinkPostSectionContentResponse(
+            content1 to LinkPostSectionContent(
                 link = "https://google.com",
                 extra = mapOf(
                     "og:image" to "https://google.com/icon.png",
@@ -87,7 +87,7 @@ class LinkPostSectionHandlerTest : StringSpec({
                     "og:description" to "google home",
                 ),
             ),
-            content2 to LinkPostSectionContentResponse(
+            content2 to LinkPostSectionContent(
                 link = "https://naver.com",
                 extra = mapOf(
                     "og:image" to "https://naver.com/icon.png",

@@ -1,6 +1,6 @@
 package com.story.core.lib
 
-import com.story.core.domain.reaction.Reaction
+import com.story.core.domain.reaction.ReactionEntity
 import com.story.core.domain.reaction.ReactionFixture
 import com.story.core.domain.reaction.ReactionPrimaryKey
 import io.kotest.core.spec.style.StringSpec
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.toList
 
 class StubCassandraBasicRepositoryTest : StringSpec({
 
-    val repository = StubCassandraBasicRepository<Reaction, ReactionPrimaryKey>()
+    val repository = StubCassandraBasicRepository<ReactionEntity, ReactionPrimaryKey>()
 
     afterEach {
         repository.clear()

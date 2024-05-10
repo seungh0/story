@@ -3,7 +3,7 @@ package com.story.core.domain.subscription
 import com.story.core.common.error.ErrorCode
 import com.story.core.common.error.StoryBaseException
 
-data class SelfSubscribeForbiddenException(
+data class SubscribeSelfForbiddenException(
     override val message: String,
     override val cause: Throwable? = null,
 ) : StoryBaseException(

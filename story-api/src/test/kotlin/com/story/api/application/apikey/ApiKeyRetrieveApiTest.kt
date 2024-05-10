@@ -9,9 +9,9 @@ import com.story.api.lib.PageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
 import com.story.api.lib.WebClientUtils
 import com.story.core.domain.apikey.ApiKeyStatus
+import com.story.core.domain.workspace.Workspace
 import com.story.core.domain.workspace.WorkspaceFixture
 import com.story.core.domain.workspace.WorkspacePricePlan
-import com.story.core.domain.workspace.WorkspaceResponse
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation
@@ -42,7 +42,7 @@ class ApiKeyRetrieveApiTest(
             status = ApiKeyStatus.ENABLED,
             description = "Story Platform에서 사용할 API-Key",
             workspace = WorkspaceApiResponse.of(
-                workspace = WorkspaceResponse.of(workspace = WorkspaceFixture.create())
+                workspace = Workspace.of(workspace = WorkspaceFixture.create())
             )
         )
 

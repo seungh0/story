@@ -1,6 +1,6 @@
 package com.story.core.domain.policy
 
-import com.story.core.common.model.AuditingTime
+import com.story.core.common.model.AuditingTimeEntity
 import com.story.core.domain.event.EventAction
 import com.story.core.domain.resource.ResourceId
 import com.story.core.domain.workspace.WorkspacePricePlan
@@ -22,7 +22,7 @@ import java.time.Duration
  * "P2DT3H4M"  -- parses as "2 days, 3 hours and 4 minutes"
  */
 @Table("api_limit_policy_v1")
-data class ApiLimitPolicy(
+data class ApiLimitPolicyEntity(
     @field:PrimaryKey
     val key: ApiLimitPolicyPrimaryKey,
 
@@ -30,7 +30,7 @@ data class ApiLimitPolicy(
     val limitCount: Long,
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
-    val auditingTime: AuditingTime,
+    val auditingTime: AuditingTimeEntity,
 )
 
 @PrimaryKeyClass

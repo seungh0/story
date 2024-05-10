@@ -38,7 +38,7 @@ class SubscriptionRetriever(
         componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): Slice<SubscriptionResponse, String> {
+    ): Slice<Subscription, String> {
         val response = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextSubscribers(
                 workspaceId = workspaceId,
@@ -55,7 +55,7 @@ class SubscriptionRetriever(
             )
         }
         return Slice.of(
-            data = response.data.map { subscriber -> SubscriptionResponse.of(subscriber) },
+            data = response.data.map { subscriber -> Subscription.of(subscriber) },
             cursor = response.cursor,
         )
     }
@@ -65,7 +65,7 @@ class SubscriptionRetriever(
         componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): Slice<Subscriber, String> {
+    ): Slice<SubscriberEntity, String> {
         val firstSlotId = SubscriptionSlotAssigner.FIRST_SLOT_ID
         val lastSlotId = SubscriptionSlotAssigner.assign(
             subscriberSequenceRepository.getLastSequence(
@@ -155,7 +155,7 @@ class SubscriptionRetriever(
         componentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): Slice<Subscriber, String> {
+    ): Slice<SubscriberEntity, String> {
         val firstSlotId = SubscriptionSlotAssigner.FIRST_SLOT_ID
         val lastSlotId = SubscriptionSlotAssigner.assign(
             subscriberSequenceRepository.getLastSequence(
@@ -243,7 +243,7 @@ class SubscriptionRetriever(
         componentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): Slice<SubscriptionResponse, String> {
+    ): Slice<Subscription, String> {
         val subscriptions = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextSubscriptionTargets(
                 cursorRequest = cursorRequest,
@@ -269,7 +269,7 @@ class SubscriptionRetriever(
         }
 
         return Slice.of(
-            data = data.map { subscription -> SubscriptionResponse.of(subscription) },
+            data = data.map { subscription -> Subscription.of(subscription) },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = subscriptions,
                 pageSize = cursorRequest.pageSize,
@@ -283,7 +283,7 @@ class SubscriptionRetriever(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
-    ): List<Subscription> {
+    ): List<SubscriptionEntity> {
         if (cursorRequest.cursor == null) {
             return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdAsc(
                 workspaceId = workspaceId,
@@ -308,7 +308,7 @@ class SubscriptionRetriever(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
-    ): List<Subscription> {
+    ): List<SubscriptionEntity> {
         if (cursorRequest.cursor == null) {
             return subscriptionRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdDesc(
                 workspaceId = workspaceId,

@@ -10,7 +10,7 @@ object ReactionFixture {
         spaceId: String = RandomGenerator.generateString(),
         userId: String = RandomGenerator.generateString(),
         optionIds: Set<String> = setOf(RandomGenerator.generateString(), RandomGenerator.generateString()),
-    ) = Reaction.of(
+    ) = ReactionEntity.of(
         workspaceId = workspaceId,
         componentId = componentId,
         spaceId = spaceId,

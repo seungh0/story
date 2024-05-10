@@ -1,6 +1,6 @@
 package com.story.core.domain.workspace
 
-import com.story.core.common.model.AuditingTime
+import com.story.core.common.model.AuditingTimeEntity
 import com.story.core.support.RandomGenerator
 import java.time.LocalDateTime
 
@@ -13,12 +13,12 @@ object WorkspaceFixture {
         status: WorkspaceStatus = RandomGenerator.generateEnum(WorkspaceStatus::class.java),
         createdAt: LocalDateTime = LocalDateTime.now(),
         updatedAt: LocalDateTime = LocalDateTime.now(),
-    ) = Workspace(
+    ) = WorkspaceEntity(
         workspaceId = workspaceId,
         name = name,
         plan = plan,
         status = status,
-        auditingTime = AuditingTime(createdAt = createdAt, updatedAt = updatedAt),
+        auditingTime = AuditingTimeEntity(createdAt = createdAt, updatedAt = updatedAt),
     )
 
 }

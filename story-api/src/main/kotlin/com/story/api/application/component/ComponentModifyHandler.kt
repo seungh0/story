@@ -1,9 +1,9 @@
 package com.story.api.application.component
 
 import com.story.core.common.annotation.HandlerAdapter
+import com.story.core.domain.component.Component
 import com.story.core.domain.component.ComponentEventProducer
 import com.story.core.domain.component.ComponentModifier
-import com.story.core.domain.component.ComponentResponse
 import com.story.core.domain.component.ComponentStatus
 import com.story.core.domain.resource.ResourceId
 
@@ -19,7 +19,7 @@ class ComponentModifyHandler(
         componentId: String,
         description: String?,
         status: ComponentStatus?,
-    ): ComponentResponse {
+    ): Component {
         val component = componentModifier.patchComponent(
             workspaceId = workspaceId,
             resourceId = resourceId,

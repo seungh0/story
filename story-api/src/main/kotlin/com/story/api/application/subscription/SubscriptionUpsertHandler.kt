@@ -3,7 +3,7 @@ package com.story.api.application.subscription
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.resource.ResourceId
-import com.story.core.domain.subscription.SelfSubscribeForbiddenException
+import com.story.core.domain.subscription.SubscribeSelfForbiddenException
 import com.story.core.domain.subscription.SubscriptionCountManager
 import com.story.core.domain.subscription.SubscriptionEventProducer
 import com.story.core.domain.subscription.SubscriptionSubscriber
@@ -30,7 +30,7 @@ class SubscriptionUpsertHandler(
         )
 
         if (targetId == subscriberId) {
-            throw SelfSubscribeForbiddenException("구독자($subscriberId)가 스스로를($targetId)을 구독할 수 없습니다 [workspaceId: $workspaceId componentId: $componentId]")
+            throw SubscribeSelfForbiddenException("구독자($subscriberId)가 스스로를($targetId)을 구독할 수 없습니다 [workspaceId: $workspaceId componentId: $componentId]")
         }
 
         val isSubscribed = subscriptionSubscriber.upsertSubscription(

@@ -1,8 +1,8 @@
 package com.story.api.application.feed.payload
 
 import com.story.api.application.subscription.SubscriptionApiResponse
+import com.story.core.domain.feed.Feed
 import com.story.core.domain.feed.FeedPayload
-import com.story.core.domain.feed.FeedResponse
 import com.story.core.domain.resource.ResourceId
 import com.story.core.domain.subscription.SubscriptionEventKey
 import org.springframework.stereotype.Service
@@ -14,7 +14,7 @@ class SubscriptionFeedPayloadHandler : FeedPayloadHandler {
 
     override suspend fun handle(
         workspaceId: String,
-        feeds: Collection<FeedResponse>,
+        feeds: Collection<Feed>,
         requestUserId: String?,
     ): Map<Long, FeedPayload> {
         return feeds.map { feed ->

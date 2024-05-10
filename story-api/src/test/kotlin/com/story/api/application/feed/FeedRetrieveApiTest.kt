@@ -15,9 +15,9 @@ import com.story.api.lib.WebClientUtils
 import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.dto.CursorResponse
 import com.story.core.domain.post.section.PostSectionType
-import com.story.core.domain.post.section.image.ImagePostSectionContentResponse
-import com.story.core.domain.post.section.link.LinkPostSectionContentResponse
-import com.story.core.domain.post.section.text.TextPostSectionContentResponse
+import com.story.core.domain.post.section.image.ImagePostSectionContent
+import com.story.core.domain.post.section.link.LinkPostSectionContent
+import com.story.core.domain.post.section.text.TextPostSectionContent
 import com.story.core.domain.resource.ResourceId
 import io.mockk.coEvery
 import org.springframework.http.MediaType
@@ -66,7 +66,7 @@ class FeedRetrieveApiTest(
                         sections = listOf(
                             PostSectionApiResponse(
                                 sectionType = PostSectionType.TEXT,
-                                data = TextPostSectionContentResponse(
+                                data = TextPostSectionContent(
                                     content = "섹션 내용",
                                     extra = emptyMap(),
                                 )
@@ -97,7 +97,7 @@ class FeedRetrieveApiTest(
                         sections = listOf(
                             PostSectionApiResponse(
                                 sectionType = PostSectionType.IMAGE,
-                                data = ImagePostSectionContentResponse(
+                                data = ImagePostSectionContent(
                                     path = "/store/v1/store.png",
                                     width = 480,
                                     height = 360,
@@ -131,7 +131,7 @@ class FeedRetrieveApiTest(
                         sections = listOf(
                             PostSectionApiResponse(
                                 sectionType = PostSectionType.LINK,
-                                data = LinkPostSectionContentResponse(
+                                data = LinkPostSectionContent(
                                     link = "https://intro.threedollars.co.kr",
                                     extra = mapOf(
                                         "og:image" to "http://localhost:5000/abc.png",

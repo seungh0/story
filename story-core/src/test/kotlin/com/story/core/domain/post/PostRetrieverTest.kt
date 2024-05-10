@@ -19,7 +19,7 @@ class PostRetrieverTest(
     context("특정 공간에 등록되어 있는 포스트 목록을 조회한다 - NEXT 방향 조회") {
         context("첫 페이지 단일 슬롯 조회") {
             test("첫 페이지 조회 with 다음 커서") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postNo ->
                     val post = PostFixture.create(
@@ -57,7 +57,7 @@ class PostRetrieverTest(
             }
 
             test("첫 페이지 조회 without (pageSize == contents)") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..3).forEach { postNo ->
                     val post = PostFixture.create(
@@ -95,7 +95,7 @@ class PostRetrieverTest(
             }
 
             test("첫 페이지 조회 without 다음 커서 (pageSize > contents)") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
@@ -138,7 +138,7 @@ class PostRetrieverTest(
                 // given
                 postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (9998..10001).forEach { postId ->
                     val post = PostFixture.create(
@@ -179,7 +179,7 @@ class PostRetrieverTest(
                 // given
                 postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (9999..10001).forEach { postId ->
                     val post = PostFixture.create(
@@ -219,7 +219,7 @@ class PostRetrieverTest(
 
         context("커서 기준으로 단일 슬롯 조회") {
             test("커서 기준으로 페이지 조회 with 다음 커서") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
@@ -257,7 +257,7 @@ class PostRetrieverTest(
             }
 
             test("커서 기준으로 페이지 조회 without 다음 커서 (pageSize == contents)") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
@@ -295,7 +295,7 @@ class PostRetrieverTest(
             }
 
             test("커서 기준으로 페이지 조회 without 다음 커서 (pageSize > contents)") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
@@ -338,7 +338,7 @@ class PostRetrieverTest(
                 // given
                 postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (9998..10002).forEach { postId ->
                     val post = PostFixture.create(
@@ -379,7 +379,7 @@ class PostRetrieverTest(
                 // given
                 postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (9999..10002).forEach { postId ->
                     val post = PostFixture.create(
@@ -421,7 +421,7 @@ class PostRetrieverTest(
     context("특정 공간에 등록되어 있는 포스트 목록을 조회한다 - PREVIOUS 방향 조회") {
         context("첫 페이지 단일 슬롯 조회") {
             test("첫 페이지 조회 with 이전 커서") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
@@ -459,7 +459,7 @@ class PostRetrieverTest(
             }
 
             test("첫 페이지 조회 without (pageSize == contents)") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
@@ -497,7 +497,7 @@ class PostRetrieverTest(
             }
 
             test("첫 페이지 조회 without 다음 커서 (pageSize > contents)") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..3).forEach { postId ->
                     val post = PostFixture.create(
@@ -540,7 +540,7 @@ class PostRetrieverTest(
                 // given
                 postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (9999..10002).forEach { postId ->
                     val post = PostFixture.create(
@@ -581,7 +581,7 @@ class PostRetrieverTest(
                 // given
                 postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (9999..10001).forEach { postId ->
                     val post = PostFixture.create(
@@ -621,7 +621,7 @@ class PostRetrieverTest(
 
         context("커서 기준으로 단일 슬롯 조회") {
             test("커서 기준으로 페이지 조회 with 다음 커서") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
@@ -659,7 +659,7 @@ class PostRetrieverTest(
             }
 
             test("커서 기준으로 페이지 조회 without 다음 커서 (pageSize == contents)") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
@@ -697,7 +697,7 @@ class PostRetrieverTest(
             }
 
             test("커서 기준으로 페이지 조회 without 다음 커서 (pageSize > contents)") {
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (1..9).forEach { postId ->
                     val post = PostFixture.create(
@@ -740,7 +740,7 @@ class PostRetrieverTest(
                 // given
                 postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (9998..10002).forEach { postId ->
                     val post = PostFixture.create(
@@ -781,7 +781,7 @@ class PostRetrieverTest(
                 // given
                 postSequenceRepository.set(postSpaceKey = POST_SPACE_KEY, value = 10001L, parentId = null)
 
-                val posts = mutableListOf<Post>()
+                val posts = mutableListOf<PostEntity>()
                 val postReverses = mutableListOf<PostReverse>()
                 (9998..10001).forEach { postId ->
                     val post = PostFixture.create(

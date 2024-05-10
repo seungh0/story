@@ -2,7 +2,7 @@ package com.story.api.application.subscription
 
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.domain.resource.ResourceId
-import com.story.core.domain.subscription.SelfSubscribeForbiddenException
+import com.story.core.domain.subscription.SubscribeSelfForbiddenException
 import com.story.core.domain.subscription.SubscriptionCountManager
 import com.story.core.domain.subscription.SubscriptionEventProducer
 import com.story.core.domain.subscription.SubscriptionSubscriber
@@ -71,7 +71,7 @@ class SubscriptionUpsertHandlerTest : StringSpec({
         val targetId = "462b0543-e66c-45d7-b937-f93743246df8"
 
         // when & then
-        shouldThrowExactly<SelfSubscribeForbiddenException> {
+        shouldThrowExactly<SubscribeSelfForbiddenException> {
             handler.upsertSubscription(
                 workspaceId = workspaceId,
                 componentId = componentId,

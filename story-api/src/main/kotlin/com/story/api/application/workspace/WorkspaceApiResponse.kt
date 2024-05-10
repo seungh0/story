@@ -1,7 +1,7 @@
 package com.story.api.application.workspace
 
+import com.story.core.domain.workspace.Workspace
 import com.story.core.domain.workspace.WorkspacePricePlan
-import com.story.core.domain.workspace.WorkspaceResponse
 
 data class WorkspaceApiResponse(
     val workspaceId: String,
@@ -10,7 +10,7 @@ data class WorkspaceApiResponse(
 ) {
 
     companion object {
-        fun of(workspace: WorkspaceResponse) = WorkspaceApiResponse(
+        fun of(workspace: Workspace) = WorkspaceApiResponse(
             workspaceId = workspace.workspaceId,
             name = workspace.name,
             plan = workspace.plan,

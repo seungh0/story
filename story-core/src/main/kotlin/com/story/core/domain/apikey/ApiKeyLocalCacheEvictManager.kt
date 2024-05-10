@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 class ApiKeyLocalCacheEvictManager {
 
     @CacheEvict(
-        cacheType = CacheType.API_KEY_REVERSE,
+        cacheType = CacheType.API_KEY,
         key = "'apiKey:' + {#apiKey}",
         targetCacheStrategies = [CacheStrategy.LOCAL],
     )

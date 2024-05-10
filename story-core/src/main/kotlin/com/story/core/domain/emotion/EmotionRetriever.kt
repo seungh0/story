@@ -41,7 +41,7 @@ class EmotionRetriever(
         resourceId: ResourceId,
         componentId: String,
         emotionIds: Set<String>,
-    ): Map<String, EmotionResponse> {
+    ): Map<String, Emotion> {
         val emotions = emotionRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdAndKeyEmotionIdIn(
             workspaceId = workspaceId,
             resourceId = resourceId,
@@ -49,14 +49,14 @@ class EmotionRetriever(
             emotionIds = emotionIds,
         ).toList()
         return emotions.associateBy { emotion -> emotion.key.emotionId }
-            .mapValues { emotion -> EmotionResponse.of(emotion.value) }
+            .mapValues { emotion -> Emotion.of(emotion.value) }
     }
 
     suspend fun listEmotions(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
-    ): Slice<EmotionResponse, String> {
+    ): Slice<Emotion, String> {
         val emotions = emotionRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
             workspaceId = workspaceId,
             resourceId = resourceId,
@@ -65,7 +65,7 @@ class EmotionRetriever(
         ).toList()
 
         return Slice.of(
-            data = emotions.map { emotion -> EmotionResponse.of(emotion = emotion) },
+            data = emotions.map { emotion -> Emotion.of(emotion = emotion) },
             cursor = CursorResponse.noMore(),
         )
     }

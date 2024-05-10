@@ -8,7 +8,7 @@ import com.story.api.application.workspace.WorkspaceRetrieveHandler
 import com.story.api.lib.WebClientUtils
 import com.story.api.lib.isTrue
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.domain.apikey.ApiKeyResponse
+import com.story.core.domain.apikey.ApiKey
 import com.story.core.domain.apikey.ApiKeyStatus
 import com.story.core.infrastructure.spring.AvailabilityChecker
 import io.kotest.core.spec.style.FunSpec
@@ -34,7 +34,7 @@ internal class AvailabilityCheckApiTest(
 ) : FunSpec({
 
     beforeEach {
-        coEvery { apiKeyHandler.handleApiKey(any()) } returns ApiKeyResponse(
+        coEvery { apiKeyHandler.handleApiKey(any()) } returns ApiKey(
             workspaceId = "story",
             status = ApiKeyStatus.ENABLED,
             description = "",

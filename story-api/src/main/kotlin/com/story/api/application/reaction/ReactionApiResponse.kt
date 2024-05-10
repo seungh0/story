@@ -1,8 +1,8 @@
 package com.story.api.application.reaction
 
-import com.story.core.domain.emotion.EmotionResponse
+import com.story.core.domain.emotion.Emotion
+import com.story.core.domain.reaction.Reaction
 import com.story.core.domain.reaction.ReactionEmotionResponse
-import com.story.core.domain.reaction.ReactionResponse
 
 data class ReactionApiResponse(
     val spaceId: String,
@@ -10,7 +10,7 @@ data class ReactionApiResponse(
 ) {
 
     companion object {
-        fun of(reaction: ReactionResponse, emotions: Map<String, EmotionResponse>): ReactionApiResponse {
+        fun of(reaction: Reaction, emotions: Map<String, Emotion>): ReactionApiResponse {
             val reactionGroupByEmotionId = reaction.emotions.associateBy { emotion -> emotion.emotionId }
             return ReactionApiResponse(
                 spaceId = reaction.spaceId,

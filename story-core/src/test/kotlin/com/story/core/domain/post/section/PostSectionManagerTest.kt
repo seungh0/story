@@ -3,9 +3,9 @@ package com.story.core.domain.post.section
 import com.story.core.IntegrationTest
 import com.story.core.common.json.toJson
 import com.story.core.domain.post.PostSpaceKey
-import com.story.core.domain.post.section.link.LinkPostSectionContent
+import com.story.core.domain.post.section.link.LinkPostSectionContentEntity
 import com.story.core.domain.post.section.link.LinkPostSectionContentRequest
-import com.story.core.domain.post.section.text.TextPostSectionContent
+import com.story.core.domain.post.section.text.TextPostSectionContentEntity
 import com.story.core.domain.post.section.text.TextPostSectionContentRequest
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.shouldHaveSize
@@ -59,15 +59,15 @@ class PostSectionManagerTest(
 
         sut[0].sectionType shouldBe PostSectionType.TEXT
         sut[0].key.priority shouldBe 1L
-        sut[0].data shouldBe TextPostSectionContent(content = "토키에요", extra = emptyMap()).toJson()
+        sut[0].data shouldBe TextPostSectionContentEntity(content = "토키에요", extra = emptyMap()).toJson()
 
         sut[1].sectionType shouldBe PostSectionType.TEXT
         sut[1].key.priority shouldBe 2L
-        sut[1].data shouldBe TextPostSectionContent(content = "뽀미에요", extra = emptyMap()).toJson()
+        sut[1].data shouldBe TextPostSectionContentEntity(content = "뽀미에요", extra = emptyMap()).toJson()
 
         sut[2].sectionType shouldBe PostSectionType.LINK
         sut[2].key.priority shouldBe 3L
-        sut[2].data shouldBe LinkPostSectionContent(
+        sut[2].data shouldBe LinkPostSectionContentEntity(
             link = "https://google.com",
             extra = emptyMap(),
         ).toJson()

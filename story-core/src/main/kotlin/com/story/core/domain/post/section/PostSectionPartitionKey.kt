@@ -1,6 +1,6 @@
 package com.story.core.domain.post.section
 
-import com.story.core.domain.post.Post
+import com.story.core.domain.post.PostEntity
 import com.story.core.domain.post.PostReverse
 
 data class PostSectionPartitionKey(
@@ -12,7 +12,7 @@ data class PostSectionPartitionKey(
 ) {
 
     companion object {
-        fun from(post: Post) = PostSectionPartitionKey(
+        fun from(post: PostEntity) = PostSectionPartitionKey(
             workspaceId = post.key.workspaceId,
             componentId = post.key.componentId,
             spaceId = post.key.spaceId,

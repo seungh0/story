@@ -3,7 +3,7 @@ package com.story.core.domain.post.section
 import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 
-interface PostSectionRepository : CassandraBasicRepository<PostSection, PostSectionPrimaryKey> {
+interface PostSectionRepository : CassandraBasicRepository<PostSectionEntity, PostSectionPrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
         workspaceId: String,
@@ -12,7 +12,7 @@ interface PostSectionRepository : CassandraBasicRepository<PostSection, PostSect
         parentId: String,
         slotId: Long,
         postNo: Long,
-    ): Flow<PostSection>
+    ): Flow<PostSectionEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoIn(
         workspaceId: String,
@@ -21,6 +21,6 @@ interface PostSectionRepository : CassandraBasicRepository<PostSection, PostSect
         parentId: String,
         slotId: Long,
         postNos: Collection<Long>,
-    ): Flow<PostSection>
+    ): Flow<PostSectionEntity>
 
 }

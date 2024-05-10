@@ -19,18 +19,18 @@ class SubscriberCountMemoryRepository : SubscriberCountRepository {
         subscriberCountMap[key] = (subscriberCountMap[key] ?: 0L) - count
     }
 
-    override fun findAll(): Flow<SubscriberCount> {
+    override fun findAll(): Flow<SubscriberCountEntity> {
         return subscriberCountMap.map { (key, count) ->
-            SubscriberCount(
+            SubscriberCountEntity(
                 key = key,
                 count = count,
             )
         }.asFlow()
     }
 
-    override suspend fun findById(id: SubscriberCountPrimaryKey): SubscriberCount? {
+    override suspend fun findById(id: SubscriberCountPrimaryKey): SubscriberCountEntity? {
         return subscriberCountMap[id]?.let {
-            SubscriberCount(
+            SubscriberCountEntity(
                 key = id,
                 count = it,
             )

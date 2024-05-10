@@ -1,6 +1,6 @@
 package com.story.core.domain.post.section.image
 
-import com.story.core.domain.file.FileResponse
+import com.story.core.domain.file.File
 import com.story.core.domain.file.FileRetriever
 import com.story.core.domain.file.FileType
 import com.story.core.infrastructure.file.FileProperties
@@ -41,7 +41,7 @@ class ImagePostSectionHandlerTest : StringSpec({
         )
 
         coEvery { fileRetriever.getFiles(any(), any(), any()) } returns mapOf(
-            1L to FileResponse(
+            1L to File(
                 path = "/pictures/flower.png",
                 width = 40,
                 height = 20,
@@ -49,7 +49,7 @@ class ImagePostSectionHandlerTest : StringSpec({
                 domain = "https://cdn.story.com",
                 fileId = 1L,
             ),
-            2L to FileResponse(
+            2L to File(
                 path = "/pictures/dog.png",
                 width = 80,
                 height = 60,
@@ -65,7 +65,7 @@ class ImagePostSectionHandlerTest : StringSpec({
         // then
         sut shouldHaveSize 2
         sut shouldContainExactly mapOf(
-            section1 to ImagePostSectionContent(
+            section1 to ImagePostSectionContentEntity(
                 path = "/pictures/flower.png",
                 width = 40,
                 height = 20,
@@ -74,7 +74,7 @@ class ImagePostSectionHandlerTest : StringSpec({
                     "extra" to 10
                 ),
             ),
-            section2 to ImagePostSectionContent(
+            section2 to ImagePostSectionContentEntity(
                 path = "/pictures/dog.png",
                 width = 80,
                 height = 60,
@@ -86,14 +86,14 @@ class ImagePostSectionHandlerTest : StringSpec({
 
     "ImagePostSectionContent -> ImagePostSectionContentResponse" {
         // given
-        val content1 = ImagePostSectionContent(
+        val content1 = ImagePostSectionContentEntity(
             path = "/pictures/flower.png",
             width = 120,
             height = 86,
             fileSize = 1024,
             extra = emptyMap(),
         )
-        val content2 = ImagePostSectionContent(
+        val content2 = ImagePostSectionContentEntity(
             path = "/pictures/dog.png",
             width = 120,
             height = 86,
@@ -109,14 +109,14 @@ class ImagePostSectionHandlerTest : StringSpec({
         // then
         sut shouldHaveSize 2
         sut shouldContainExactly mapOf(
-            content1 to ImagePostSectionContentResponse(
+            content1 to ImagePostSectionContent(
                 path = "/pictures/flower.png",
                 width = 120,
                 height = 86,
                 domain = "https://cdn.story.com",
                 extra = emptyMap(),
             ),
-            content2 to ImagePostSectionContentResponse(
+            content2 to ImagePostSectionContent(
                 path = "/pictures/dog.png",
                 width = 120,
                 height = 86,

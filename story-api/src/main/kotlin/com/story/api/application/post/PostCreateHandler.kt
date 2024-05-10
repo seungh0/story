@@ -4,13 +4,13 @@ import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.nonce.NonceManager
 import com.story.core.domain.post.ParentPostNotExistsException
+import com.story.core.domain.post.Post
 import com.story.core.domain.post.PostCreator
 import com.story.core.domain.post.PostEventProducer
 import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostMetadataType
 import com.story.core.domain.post.PostModifier
 import com.story.core.domain.post.PostNotExistsException
-import com.story.core.domain.post.PostResponse
 import com.story.core.domain.post.PostRetriever
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
@@ -73,7 +73,7 @@ class PostCreateHandler(
     }
 
     private suspend fun updateParentPostHasChildrenMetadata(
-        parentPost: PostResponse,
+        parentPost: Post,
         postSpaceKey: PostSpaceKey,
     ) {
         if (!parentPost.hasChildrenMetadata()) {

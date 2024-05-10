@@ -5,7 +5,7 @@ import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import org.springframework.data.domain.Pageable
 
 interface FeedMappingRepository :
-    CassandraBasicRepository<FeedMapping, FeedMappingPrimaryKey> {
+    CassandraBasicRepository<FeedMappingEntity, FeedMappingPrimaryKey> {
 
     suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySourceResourceIdAndKeySourceComponentId(
         workspaceId: String,
@@ -13,6 +13,6 @@ interface FeedMappingRepository :
         sourceResourceId: ResourceId,
         sourceComponentId: String,
         pageable: Pageable,
-    ): List<FeedMapping>
+    ): List<FeedMappingEntity>
 
 }

@@ -1,8 +1,8 @@
 package com.story.api.application.component
 
 import com.story.core.common.annotation.HandlerAdapter
+import com.story.core.domain.component.Component
 import com.story.core.domain.component.ComponentCreator
-import com.story.core.domain.component.ComponentResponse
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
@@ -15,7 +15,7 @@ class ComponentCreateHandler(
         resourceId: ResourceId,
         componentId: String,
         description: String,
-    ): ComponentResponse {
+    ): Component {
         return componentCreator.createComponent(
             workspaceId = workspaceId,
             resourceId = resourceId,

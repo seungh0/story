@@ -19,7 +19,7 @@ data class PostEvent(
 ) : BaseEvent {
 
     companion object {
-        fun created(post: PostResponse) = EventRecord(
+        fun created(post: Post) = EventRecord(
             eventAction = EventAction.CREATED,
             eventKey = PostEventKey(spaceId = post.spaceId, postId = post.postId).makeKey(),
             payload = PostEvent(
@@ -35,7 +35,7 @@ data class PostEvent(
             ),
         )
 
-        fun modified(post: PostResponse) = EventRecord(
+        fun modified(post: Post) = EventRecord(
             eventAction = EventAction.MODIFIED,
             eventKey = PostEventKey(spaceId = post.spaceId, postId = post.postId).makeKey(),
             payload = PostEvent(

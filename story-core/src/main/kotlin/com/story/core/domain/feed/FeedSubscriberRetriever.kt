@@ -18,7 +18,7 @@ class FeedSubscriberRetriever(
         eventKey: String,
         slotId: Long,
         cursorRequest: CursorRequest,
-    ): Slice<FeedSubscriber, String> {
+    ): Slice<Feed, String> {
         val feedSubscribers = listSubscribers(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
@@ -28,7 +28,8 @@ class FeedSubscriberRetriever(
             pageSize = cursorRequest.pageSize,
         )
         return Slice.of(
-            data = feedSubscribers.subList(0, cursorRequest.pageSize.coerceAtMost(feedSubscribers.size)),
+            data = feedSubscribers.subList(0, cursorRequest.pageSize.coerceAtMost(feedSubscribers.size))
+                .map { feed -> Feed.of(feed) },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = feedSubscribers, pageSize = cursorRequest.pageSize,
                 keyGenerator = { feedSubscriber -> feedSubscriber?.key?.subscriberId }
@@ -43,7 +44,7 @@ class FeedSubscriberRetriever(
         slotId: Long,
         subscriberId: String?,
         pageSize: Int,
-    ): List<FeedSubscriber> {
+    ): List<FeedSubscriberEntity> {
         if (subscriberId == null) {
             return feedSubscriberRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyEventKeyAndKeySlotId(
                 workspaceId = workspaceId,

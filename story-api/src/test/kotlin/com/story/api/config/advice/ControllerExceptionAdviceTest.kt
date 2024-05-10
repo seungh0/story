@@ -8,7 +8,7 @@ import com.story.api.application.workspace.WorkspaceRetrieveHandler
 import com.story.api.lib.isFalse
 import com.story.core.common.error.ErrorCode
 import com.story.core.common.error.InternalServerException
-import com.story.core.domain.apikey.ApiKeyResponse
+import com.story.core.domain.apikey.ApiKey
 import com.story.core.domain.apikey.ApiKeyStatus
 import com.story.core.domain.component.ComponentAlreadyExistsException
 import com.story.core.infrastructure.spring.AvailabilityChecker
@@ -34,7 +34,7 @@ internal class ControllerExceptionAdviceTest(
 ) : FunSpec({
 
     beforeEach {
-        coEvery { apiKeyHandler.handleApiKey(any()) } returns ApiKeyResponse(
+        coEvery { apiKeyHandler.handleApiKey(any()) } returns ApiKey(
             workspaceId = "story",
             status = ApiKeyStatus.ENABLED,
             description = "",

@@ -2,10 +2,10 @@ package com.story.api.application.apikey
 
 import com.ninjasquad.springmockk.MockkBean
 import com.story.core.common.http.HttpHeader
+import com.story.core.domain.apikey.ApiKey
 import com.story.core.domain.apikey.ApiKeyEmptyException
 import com.story.core.domain.apikey.ApiKeyInactivatedException
 import com.story.core.domain.apikey.ApiKeyInvalidException
-import com.story.core.domain.apikey.ApiKeyResponse
 import com.story.core.domain.apikey.ApiKeyRetriever
 import com.story.core.domain.apikey.ApiKeyStatus
 import io.kotest.assertions.throwables.shouldThrowExactly
@@ -29,7 +29,7 @@ class ApiKeyHandlerTest(
 
             // given
             coEvery { apiKeyRetriever.getApiKey(apiKey) } returns Optional.of(
-                ApiKeyResponse(
+                ApiKey(
                     workspaceId = "story",
                     status = ApiKeyStatus.ENABLED,
                     description = "",
@@ -53,7 +53,7 @@ class ApiKeyHandlerTest(
             // given
             val apiKey = "api-key"
             coEvery { apiKeyRetriever.getApiKey(apiKey) } returns Optional.of(
-                ApiKeyResponse(
+                ApiKey(
                     workspaceId = "story",
                     status = ApiKeyStatus.DISABLED,
                     description = "",

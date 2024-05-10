@@ -19,7 +19,7 @@ class FeedRetriever(
         feedComponentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): Slice<FeedResponse, String> {
+    ): Slice<Feed, String> {
         val feeds = when (cursorRequest.direction) {
             CursorDirection.NEXT -> listNextFeeds(
                 workspaceId = workspaceId,
@@ -38,7 +38,7 @@ class FeedRetriever(
 
         return Slice.of(
             data = feeds.subList(0, cursorRequest.pageSize.coerceAtMost(feeds.size))
-                .map { feed -> FeedResponse.of(feed) },
+                .map { feed -> Feed.of(feed) },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = feeds,
                 pageSize = cursorRequest.pageSize,
@@ -52,7 +52,7 @@ class FeedRetriever(
         feedComponentId: String,
         subscriberId: String,
         cursorRequest: CursorRequest,
-    ): Flow<Feed> {
+    ): Flow<FeedEntity> {
         if (cursorRequest.cursor.isNullOrBlank()) {
             return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberId(
                 workspaceId = workspaceId,
@@ -75,7 +75,7 @@ class FeedRetriever(
         feedComponentId: String,
         targetId: String,
         cursorRequest: CursorRequest,
-    ): Flow<Feed> {
+    ): Flow<FeedEntity> {
         if (cursorRequest.cursor.isNullOrBlank()) {
             return feedRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdOrderByKeyFeedIdAsc(
                 workspaceId = workspaceId,

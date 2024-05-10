@@ -14,7 +14,7 @@ object SubscriptionFixture {
         subscriberId: String = generateString(),
         status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
         alarmEnabled: Boolean = generateBoolean(),
-    ) = Subscription(
+    ) = SubscriptionEntity(
         key = SubscriptionPrimaryKey.of(
             workspaceId = workspaceId,
             componentId = componentId,

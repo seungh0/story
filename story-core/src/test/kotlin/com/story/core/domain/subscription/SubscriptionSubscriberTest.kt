@@ -97,7 +97,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // then
-            val subscribers: List<Subscriber> = subscriberRepository.findAll().toList()
+            val subscribers: List<SubscriberEntity> = subscriberRepository.findAll().toList()
 
             subscribers shouldHaveSize 1
             subscribers[0].also {
@@ -161,7 +161,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // then
-            val subscribers: List<Subscriber> = subscriberRepository.findAll().toList()
+            val subscribers: List<SubscriberEntity> = subscriberRepository.findAll().toList()
 
             subscribers shouldHaveSize 1
             subscribers[0].also {
@@ -227,7 +227,7 @@ internal class SubscriptionSubscriberTest(
             )
 
             // then
-            val subscribers: List<Subscriber> = subscriberRepository.findAll().toList()
+            val subscribers: List<SubscriberEntity> = subscriberRepository.findAll().toList()
 
             subscribers shouldHaveSize 1
             subscribers[0].also {

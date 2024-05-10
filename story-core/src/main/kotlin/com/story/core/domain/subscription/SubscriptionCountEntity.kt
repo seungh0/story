@@ -11,7 +11,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
 @Table(SUBSCRIPTION_COUNT_V1)
-data class SubscriptionCount(
+data class SubscriptionCountEntity(
     @field:PrimaryKey
     override val key: SubscriptionCountPrimaryKey,
 

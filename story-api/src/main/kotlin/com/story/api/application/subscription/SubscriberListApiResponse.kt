@@ -4,7 +4,7 @@ import com.story.core.common.model.Slice
 import com.story.core.common.model.dto.CursorResponse
 import com.story.core.common.model.dto.SlotRangeMarkerResponse
 import com.story.core.common.model.dto.encode
-import com.story.core.domain.subscription.SubscriptionResponse
+import com.story.core.domain.subscription.Subscription
 
 data class SubscriberListApiResponse(
     val subscribers: List<SubscriberApiResponse>,
@@ -12,12 +12,12 @@ data class SubscriberListApiResponse(
 ) {
 
     companion object {
-        fun of(subscribers: Slice<SubscriptionResponse, String>) = SubscriberListApiResponse(
+        fun of(subscribers: Slice<Subscription, String>) = SubscriberListApiResponse(
             subscribers = subscribers.data.map { subscription -> SubscriberApiResponse.of(subscription = subscription) },
             cursor = subscribers.cursor.encode(),
         )
 
-        fun of(subscribers: SlotRangeMarkerResponse<List<SubscriptionResponse>>) = SubscriberListApiResponse(
+        fun of(subscribers: SlotRangeMarkerResponse<List<Subscription>>) = SubscriberListApiResponse(
             subscribers = subscribers.data.map { subscriber -> SubscriberApiResponse.of(subscriber) },
             cursor = CursorResponse.of(subscribers.nextMarker?.makeCursor()),
         )

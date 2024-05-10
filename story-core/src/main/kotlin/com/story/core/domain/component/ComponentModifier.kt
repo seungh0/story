@@ -22,7 +22,7 @@ class ComponentModifier(
         componentId: String,
         description: String?,
         status: ComponentStatus?,
-    ): ComponentResponse {
+    ): Component {
         val component = componentRepository.findById(
             ComponentPrimaryKey(
                 workspaceId = workspaceId,
@@ -36,7 +36,7 @@ class ComponentModifier(
 
         componentRepository.save(component)
 
-        return ComponentResponse.of(component)
+        return Component.of(component)
     }
 
 }

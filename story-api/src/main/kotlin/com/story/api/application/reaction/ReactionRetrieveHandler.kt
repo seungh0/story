@@ -3,7 +3,7 @@ package com.story.api.application.reaction
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.common.utils.mapToSet
-import com.story.core.domain.emotion.EmotionResponse
+import com.story.core.domain.emotion.Emotion
 import com.story.core.domain.emotion.EmotionRetriever
 import com.story.core.domain.reaction.ReactionRetriever
 import com.story.core.domain.resource.ResourceId
@@ -50,7 +50,7 @@ class ReactionRetrieveHandler(
         workspaceId: String,
         componentId: String,
         emotionIds: Set<String>,
-    ): Map<String, EmotionResponse> {
+    ): Map<String, Emotion> {
         if (includeUnselectedEmotions) {
             return emotionRetriever.listEmotions(
                 workspaceId = workspaceId,

@@ -3,7 +3,7 @@ package com.story.core.domain.reaction
 import com.story.core.infrastructure.cassandra.CassandraCounterRepository
 import org.springframework.data.cassandra.repository.Query
 
-interface ReactionCountRepository : CassandraCounterRepository<ReactionCount, ReactionCountPrimaryKey> {
+interface ReactionCountRepository : CassandraCounterRepository<ReactionCountEntity, ReactionCountPrimaryKey> {
 
     @Query(
         """
@@ -31,6 +31,6 @@ interface ReactionCountRepository : CassandraCounterRepository<ReactionCount, Re
         workspaceId: String,
         componentId: String,
         spaceId: String,
-    ): List<ReactionCount>
+    ): List<ReactionCountEntity>
 
 }

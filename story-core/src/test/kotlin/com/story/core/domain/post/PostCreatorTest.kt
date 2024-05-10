@@ -5,7 +5,7 @@ import com.story.core.IntegrationTest
 import com.story.core.common.json.toJson
 import com.story.core.domain.post.section.PostSectionRepository
 import com.story.core.domain.post.section.PostSectionType
-import com.story.core.domain.post.section.text.TextPostSectionContent
+import com.story.core.domain.post.section.text.TextPostSectionContentEntity
 import com.story.core.domain.post.section.text.TextPostSectionContentRequest
 import com.story.core.domain.reaction.ReactionDistributionKey
 import io.kotest.matchers.collections.shouldHaveSize
@@ -91,7 +91,7 @@ internal class PostCreatorTest(
                 it.key.slotId shouldBe 1L
                 it.key.priority shouldBe 1L
                 it.sectionType shouldBe PostSectionType.TEXT
-                it.data shouldBe TextPostSectionContent(
+                it.data shouldBe TextPostSectionContentEntity(
                     content = section1.content,
                     extra = emptyMap(),
                 ).toJson()
@@ -104,7 +104,7 @@ internal class PostCreatorTest(
                 it.key.slotId shouldBe 1L
                 it.key.priority shouldBe 2L
                 it.sectionType shouldBe PostSectionType.TEXT
-                it.data shouldBe TextPostSectionContent(
+                it.data shouldBe TextPostSectionContentEntity(
                     content = section2.content,
                     extra = emptyMap(),
                 ).toJson()

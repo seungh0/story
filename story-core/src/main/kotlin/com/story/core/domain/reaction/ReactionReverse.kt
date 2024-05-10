@@ -32,7 +32,7 @@ data class ReactionReverse(
         )
 
         fun from(
-            reaction: Reaction,
+            reaction: ReactionEntity,
         ) = ReactionReverse(
             key = ReactionReversePrimaryKey.of(
                 workspaceId = reaction.key.workspaceId,

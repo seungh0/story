@@ -1,6 +1,6 @@
 package com.story.core.domain.apikey
 
-import com.story.core.common.model.AuditingTime
+import com.story.core.common.model.AuditingTimeEntity
 import com.story.core.support.RandomGenerator.generateEnum
 import com.story.core.support.RandomGenerator.generateString
 
@@ -18,7 +18,7 @@ object WorkspaceApiKeyFixture {
         ),
         description = description,
         status = status,
-        auditingTime = AuditingTime.created(),
+        auditingTime = AuditingTimeEntity.created(),
     )
 
 }

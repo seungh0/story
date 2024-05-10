@@ -1,9 +1,9 @@
 package com.story.api.application
 
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.domain.apikey.ApiKey
+import com.story.core.domain.apikey.ApiKeyEntity
 import com.story.core.domain.apikey.WorkspaceApiKey
-import com.story.core.domain.workspace.Workspace
+import com.story.core.domain.workspace.WorkspaceEntity
 import com.story.core.domain.workspace.WorkspacePricePlan
 import com.story.core.infrastructure.cassandra.upsert
 import kotlinx.coroutines.reactor.awaitSingle
@@ -26,14 +26,14 @@ class LocalSetupApi(
     ): ApiResponse<Nothing?> {
         reactiveCassandraOperations.batchOps()
             .upsert(
-                ApiKey.of(
+                ApiKeyEntity.of(
                     apiKey = apiKey,
                     workspaceId = workspaceId,
                     description = "story",
                 )
             )
             .upsert(
-                Workspace.of(
+                WorkspaceEntity.of(
                     workspaceId = workspaceId,
                     name = "story",
                     plan = WorkspacePricePlan.FREE,

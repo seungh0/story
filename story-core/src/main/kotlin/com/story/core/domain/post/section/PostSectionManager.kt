@@ -15,8 +15,8 @@ class PostSectionManager(
         ownerId: String,
         postNo: Long,
         requests: Collection<PostSectionContentRequest>,
-    ): List<PostSection> {
-        val sectionContents = mutableMapOf<PostSectionContentRequest, PostSectionContent>()
+    ): List<PostSectionEntity> {
+        val sectionContents = mutableMapOf<PostSectionContentRequest, PostSectionContentEntity>()
         for ((sectionType, sectionRequests) in requests.groupBy { request -> request.sectionType() }.entries) {
             val contents = postSectionHandlerFinder[sectionType].makeContents(
                 workspaceId = postSpaceKey.workspaceId,
@@ -26,7 +26,7 @@ class PostSectionManager(
         }
 
         return requests.map { request ->
-            PostSection.of(
+            PostSectionEntity.of(
                 postSpaceKey = postSpaceKey,
                 parentId = parentId,
                 postNo = postNo,
@@ -37,16 +37,16 @@ class PostSectionManager(
         }
     }
 
-    suspend fun makePostSectionContentResponse(sections: Collection<PostSection>): List<PostSectionContentResponse> {
-        val sectionContents = mutableMapOf<PostSectionPrimaryKey, PostSectionContent>()
+    suspend fun makePostSectionContentResponse(sections: Collection<PostSectionEntity>): List<PostSectionContent> {
+        val sectionContents = mutableMapOf<PostSectionPrimaryKey, PostSectionContentEntity>()
         for ((sectionType, sectionsGroupByType) in sections.groupBy { section -> section.sectionType }.entries) {
             sectionContents += sectionsGroupByType.associate { section -> section.key to sectionType.toContent(section.data) }
         }
         return transformToPostSectionContentResponse(sections.mapNotNull { section -> sectionContents[section.key] })
     }
 
-    private suspend fun transformToPostSectionContentResponse(sections: Collection<PostSectionContent>): List<PostSectionContentResponse> {
-        val sectionContents = mutableMapOf<PostSectionContent, PostSectionContentResponse>()
+    private suspend fun transformToPostSectionContentResponse(sections: Collection<PostSectionContentEntity>): List<PostSectionContent> {
+        val sectionContents = mutableMapOf<PostSectionContentEntity, PostSectionContent>()
         for ((sectionType, sectionsGroupByType) in sections.groupBy { section -> section.sectionType() }.entries) {
             sectionContents += postSectionHandlerFinder[sectionType].makeContentResponse(sectionsGroupByType)
         }

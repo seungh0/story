@@ -1,6 +1,6 @@
 package com.story.core.domain.apikey
 
-import com.story.core.common.model.AuditingTime
+import com.story.core.common.model.AuditingTimeEntity
 import com.story.core.infrastructure.cassandra.CassandraEntity
 import com.story.core.infrastructure.cassandra.CassandraKey
 import org.springframework.data.cassandra.core.cql.Ordering
@@ -20,7 +20,7 @@ data class WorkspaceApiKey(
     var description: String = "",
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
-    var auditingTime: AuditingTime,
+    var auditingTime: AuditingTimeEntity,
 ) : CassandraEntity {
 
     fun patch(
@@ -51,7 +51,7 @@ data class WorkspaceApiKey(
             ),
             description = description,
             status = status,
-            auditingTime = AuditingTime.created(),
+            auditingTime = AuditingTimeEntity.created(),
         )
     }
 

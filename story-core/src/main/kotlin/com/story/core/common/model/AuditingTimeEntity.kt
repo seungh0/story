@@ -2,7 +2,7 @@ package com.story.core.common.model
 
 import java.time.LocalDateTime
 
-data class AuditingTime(
+data class AuditingTimeEntity(
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
 ) {
@@ -12,8 +12,8 @@ data class AuditingTime(
     )
 
     companion object {
-        fun created(now: LocalDateTime = LocalDateTime.now()): AuditingTime {
-            return AuditingTime(
+        fun created(now: LocalDateTime = LocalDateTime.now()): AuditingTimeEntity {
+            return AuditingTimeEntity(
                 createdAt = now,
                 updatedAt = now,
             )

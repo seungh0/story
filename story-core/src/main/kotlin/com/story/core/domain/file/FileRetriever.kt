@@ -13,7 +13,7 @@ class FileRetriever(
         workspaceId: String,
         fileType: FileType,
         fileIds: Collection<Long>,
-    ): Map<Long, FileResponse> {
+    ): Map<Long, File> {
         val files = fileIds.groupBy { fileId -> FileIdHelper.getSlot(fileId) }
             .map { (slotId, fileIdsInSlot) ->
                 fileRepository.findAllByKeyWorkspaceIdAndKeyFileTypeAndKeySlotIdAndKeyFileIdIn(
@@ -24,7 +24,7 @@ class FileRetriever(
                 )
             }.flatten()
         return files.asSequence()
-            .map { file -> FileResponse.of(file = file, properties.getProperties(fileType = fileType).domain) }
+            .map { file -> File.of(file = file, properties.getProperties(fileType = fileType).domain) }
             .associateBy { file -> file.fileId }
     }
 

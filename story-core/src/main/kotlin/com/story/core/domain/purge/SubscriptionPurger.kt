@@ -3,8 +3,8 @@ package com.story.core.domain.purge
 import com.story.core.common.distribution.DistributionKey
 import com.story.core.domain.resource.ResourceId
 import com.story.core.domain.subscription.SubscriberRepository
-import com.story.core.domain.subscription.Subscription
 import com.story.core.domain.subscription.SubscriptionDistributionKey
+import com.story.core.domain.subscription.SubscriptionEntity
 import com.story.core.domain.subscription.SubscriptionRepository
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Pageable
@@ -63,7 +63,7 @@ class SubscriptionPurger(
     ) {
 
         companion object {
-            fun of(subscriber: Subscription) = SubscriberPartitionKey(
+            fun of(subscriber: SubscriptionEntity) = SubscriberPartitionKey(
                 workspaceId = subscriber.key.workspaceId,
                 componentId = subscriber.key.componentId,
                 targetId = subscriber.key.targetId,

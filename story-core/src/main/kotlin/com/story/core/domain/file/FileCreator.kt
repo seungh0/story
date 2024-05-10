@@ -17,17 +17,17 @@ class FileCreator(
         workspaceId: String,
         fileType: FileType,
         multipartFiles: Collection<MultipartFile>,
-    ): List<FileResponse> {
+    ): List<File> {
         val fileInfos = fileUploader.upload(fileType = fileType, files = multipartFiles)
         val files = fileInfos.map { fileInfo ->
-            File.of(
+            FileEntity.of(
                 workspaceId = workspaceId,
                 fileType = fileType,
                 fileInfo = fileInfo,
             )
         }
         fileRepository.saveAll(files).toList()
-        return files.map { file -> FileResponse.of(file = file, domain = properties.getProperties(fileType).domain) }
+        return files.map { file -> File.of(file = file, domain = properties.getProperties(fileType).domain) }
     }
 
 }

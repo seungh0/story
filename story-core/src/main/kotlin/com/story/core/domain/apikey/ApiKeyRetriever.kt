@@ -11,15 +11,15 @@ class ApiKeyRetriever(
 ) {
 
     @Cacheable(
-        cacheType = CacheType.API_KEY_REVERSE,
+        cacheType = CacheType.API_KEY,
         key = "'apiKey:' + {#apiKey}",
     )
     suspend fun getApiKey(
         apiKey: String,
-    ): Optional<ApiKeyResponse> {
+    ): Optional<ApiKey> {
         val entity = apiKeyRepository.findById(apiKey)
             ?: return Optional.empty()
-        return Optional.of(ApiKeyResponse.of(apiKey = entity))
+        return Optional.of(ApiKey.of(apiKey = entity))
     }
 
 }

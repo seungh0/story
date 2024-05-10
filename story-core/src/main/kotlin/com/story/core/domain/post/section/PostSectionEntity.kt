@@ -11,7 +11,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
 @Table("post_section_v1")
-data class PostSection(
+data class PostSectionEntity(
     @field:PrimaryKey
     val key: PostSectionPrimaryKey,
     val sectionType: PostSectionType,
@@ -25,8 +25,8 @@ data class PostSection(
             postNo: Long,
             priority: Long,
             sectionType: PostSectionType,
-            content: PostSectionContent,
-        ) = PostSection(
+            content: PostSectionContentEntity,
+        ) = PostSectionEntity(
             key = PostSectionPrimaryKey(
                 workspaceId = postSpaceKey.workspaceId,
                 componentId = postSpaceKey.componentId,

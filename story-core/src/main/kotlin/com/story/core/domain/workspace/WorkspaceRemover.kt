@@ -27,7 +27,7 @@ class WorkspaceRemover(
         workspace.delete()
         reactiveCassandraOperations.batchOps()
             .upsert(workspace)
-            .upsert(WorkspaceArchive.from(workspace))
+            .upsert(WorkspaceArchiveEntity.from(workspace))
             .executeCoroutine()
     }
 

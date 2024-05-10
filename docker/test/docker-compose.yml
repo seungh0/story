@@ -1,6 +1,6 @@
 services:
   cassandra:
-    image: cassandra:5.0
+    image: cassandra:4.1
     container_name: story-cassandra-test
     ports:
       - "19042:9042"
@@ -22,7 +22,7 @@ services:
       test: [ "CMD-SHELL", "[ $$(nodetool statusgossip) = running ]" ]
       interval: 30s
       timeout: 10s
-      retries: 5
+      retries: 10
       start_period: 15s
     stop_grace_period: 3s
 

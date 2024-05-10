@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import org.springframework.data.cassandra.repository.Query
 import org.springframework.data.domain.Pageable
 
-interface PostRepository : CassandraBasicRepository<Post, PostPrimaryKey> {
+interface PostRepository : CassandraBasicRepository<PostEntity, PostPrimaryKey> {
 
     @Query(
         """
@@ -24,7 +24,7 @@ interface PostRepository : CassandraBasicRepository<Post, PostPrimaryKey> {
         parentId: String,
         slotId: Long,
         postNo: Long,
-    ): Post?
+    ): PostEntity?
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
         workspaceId: String,
@@ -33,7 +33,7 @@ interface PostRepository : CassandraBasicRepository<Post, PostPrimaryKey> {
         parentId: String,
         slotId: Long,
         pageable: Pageable,
-    ): Flow<Post>
+    ): Flow<PostEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoLessThan(
         workspaceId: String,
@@ -43,7 +43,7 @@ interface PostRepository : CassandraBasicRepository<Post, PostPrimaryKey> {
         slotId: Long,
         postNo: Long,
         pageable: Pageable,
-    ): Flow<Post>
+    ): Flow<PostEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdOrderByKeyPostNoAsc(
         workspaceId: String,
@@ -52,7 +52,7 @@ interface PostRepository : CassandraBasicRepository<Post, PostPrimaryKey> {
         parentId: String,
         slotId: Long,
         pageable: Pageable,
-    ): Flow<Post>
+    ): Flow<PostEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoGreaterThanOrderByKeyPostNoAsc(
         workspaceId: String,
@@ -62,7 +62,7 @@ interface PostRepository : CassandraBasicRepository<Post, PostPrimaryKey> {
         slotId: Long,
         postNo: Long,
         pageable: Pageable,
-    ): Flow<Post>
+    ): Flow<PostEntity>
 
     suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
         workspaceId: String,

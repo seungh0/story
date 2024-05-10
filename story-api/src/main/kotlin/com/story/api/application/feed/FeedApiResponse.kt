@@ -1,7 +1,7 @@
 package com.story.api.application.feed
 
+import com.story.core.domain.feed.Feed
 import com.story.core.domain.feed.FeedPayload
-import com.story.core.domain.feed.FeedResponse
 
 data class FeedApiResponse(
     val feedId: String,
@@ -11,7 +11,7 @@ data class FeedApiResponse(
 ) {
 
     companion object {
-        fun of(feed: FeedResponse, payload: FeedPayload) = FeedApiResponse(
+        fun of(feed: Feed, payload: FeedPayload) = FeedApiResponse(
             feedId = feed.feedId.toString(),
             resourceId = feed.sourceResourceId.code,
             componentId = feed.sourceComponentId,

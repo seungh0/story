@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
 interface SubscriptionRepository :
-    CassandraBasicRepository<Subscription, SubscriptionPrimaryKey> {
+    CassandraBasicRepository<SubscriptionEntity, SubscriptionPrimaryKey> {
 
     suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetId(
         workspaceId: String,
@@ -14,14 +14,14 @@ interface SubscriptionRepository :
         distributionKey: String,
         subscriberId: String,
         targetId: String,
-    ): Subscription?
+    ): SubscriptionEntity?
 
     suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyOrderByKeyTargetIdAsc(
         workspaceId: String,
         componentId: String,
         distributionKey: String,
         pageable: Pageable,
-    ): Slice<Subscription>
+    ): Slice<SubscriptionEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdAsc(
         workspaceId: String,
@@ -29,7 +29,7 @@ interface SubscriptionRepository :
         distributionKey: String,
         subscriberId: String,
         pageable: Pageable,
-    ): Flow<Subscription>
+    ): Flow<SubscriptionEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdGreaterThanOrderByKeyTargetIdAsc(
         workspaceId: String,
@@ -38,7 +38,7 @@ interface SubscriptionRepository :
         subscriberId: String,
         targetId: String,
         pageable: Pageable,
-    ): Flow<Subscription>
+    ): Flow<SubscriptionEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdOrderByKeyTargetIdDesc(
         workspaceId: String,
@@ -46,7 +46,7 @@ interface SubscriptionRepository :
         distributionKey: String,
         subscriberId: String,
         pageable: Pageable,
-    ): Flow<Subscription>
+    ): Flow<SubscriptionEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeySubscriberIdAndKeyTargetIdLessThanOrderByKeyTargetIdDesc(
         workspaceId: String,
@@ -55,7 +55,7 @@ interface SubscriptionRepository :
         subscriberId: String,
         targetId: String,
         pageable: Pageable,
-    ): Flow<Subscription>
+    ): Flow<SubscriptionEntity>
 
     suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
         workspaceId: String,

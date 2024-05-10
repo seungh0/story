@@ -9,7 +9,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
 @Table("subscriber_v1")
-data class Subscriber(
+data class SubscriberEntity(
     @field:PrimaryKey
     val key: SubscriberPrimaryKey,
 
@@ -24,7 +24,7 @@ data class Subscriber(
             slotId: Long,
             subscriberId: String,
             alarm: Boolean,
-        ) = Subscriber(
+        ) = SubscriberEntity(
             key = SubscriberPrimaryKey(
                 workspaceId = workspaceId,
                 componentId = componentId,

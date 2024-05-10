@@ -1,6 +1,6 @@
 package com.story.core.domain.component
 
-import com.story.core.common.model.AuditingTime
+import com.story.core.common.model.AuditingTimeEntity
 import com.story.core.domain.resource.ResourceId
 import com.story.core.support.RandomGenerator
 
@@ -12,7 +12,7 @@ object ComponentFixutre {
         componentId: String = RandomGenerator.generateString(),
         status: ComponentStatus = RandomGenerator.generateEnum(ComponentStatus::class.java),
         description: String = RandomGenerator.generateString(),
-    ) = Component(
+    ) = ComponentEntity(
         key = ComponentPrimaryKey(
             workspaceId = workspaceId,
             resourceId = resourceId,
@@ -20,7 +20,7 @@ object ComponentFixutre {
         ),
         status = status,
         description = description,
-        auditingTime = AuditingTime.created(),
+        auditingTime = AuditingTimeEntity.created(),
     )
 
 }

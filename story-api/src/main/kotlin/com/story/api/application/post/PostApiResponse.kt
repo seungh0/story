@@ -2,8 +2,7 @@ package com.story.api.application.post
 
 import com.story.core.common.model.dto.AuditingTimeResponse
 import com.story.core.domain.feed.FeedPayload
-import com.story.core.domain.post.PostMetadataResponse
-import com.story.core.domain.post.PostResponse
+import com.story.core.domain.post.Post
 
 data class PostApiResponse(
     val parentId: String?,
@@ -17,7 +16,7 @@ data class PostApiResponse(
 ) : FeedPayload, AuditingTimeResponse() {
 
     companion object {
-        fun of(post: PostResponse, requestUserId: String?): PostApiResponse {
+        fun of(post: Post, requestUserId: String?): PostApiResponse {
             val response = PostApiResponse(
                 parentId = post.parentId?.serialize(),
                 postId = post.postId.serialize(),
@@ -39,18 +38,6 @@ data class PostApiResponse(
             response.setAuditingTime(post)
             return response
         }
-    }
-
-}
-
-data class PostMetadataApiResponse(
-    val hasChildren: Boolean,
-) {
-
-    companion object {
-        fun of(metadata: PostMetadataResponse) = PostMetadataApiResponse(
-            hasChildren = metadata.hasChildren,
-        )
     }
 
 }

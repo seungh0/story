@@ -1,7 +1,7 @@
 package com.story.api.application.component
 
 import com.story.core.common.model.dto.AuditingTimeResponse
-import com.story.core.domain.component.ComponentResponse
+import com.story.core.domain.component.Component
 import com.story.core.domain.component.ComponentStatus
 
 data class ComponentApiResponse(
@@ -11,7 +11,7 @@ data class ComponentApiResponse(
 ) : AuditingTimeResponse() {
 
     companion object {
-        fun of(component: ComponentResponse): ComponentApiResponse {
+        fun of(component: Component): ComponentApiResponse {
             val response = ComponentApiResponse(
                 componentId = component.componentId,
                 description = component.description,

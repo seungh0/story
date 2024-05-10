@@ -3,7 +3,7 @@ package com.story.core.domain.subscription
 import com.story.core.infrastructure.cassandra.CassandraCounterRepository
 import org.springframework.data.cassandra.repository.Query
 
-interface SubscriptionCountRepository : CassandraCounterRepository<SubscriptionCount, SubscriptionCountPrimaryKey> {
+interface SubscriptionCountRepository : CassandraCounterRepository<SubscriptionCountEntity, SubscriptionCountPrimaryKey> {
 
     @Query(
         """

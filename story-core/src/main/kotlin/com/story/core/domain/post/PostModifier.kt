@@ -77,7 +77,7 @@ class PostModifier(
                 .upsert(PostReverse.of(post))
                 .executeCoroutine()
             return PostPatchResponse(
-                post = PostResponse.of(
+                post = Post.of(
                     post = post,
                     sections = postSectionManager.makePostSectionContentResponse(previousPostSections)
                 ),
@@ -107,7 +107,7 @@ class PostModifier(
         hasChanged = hasChanged || (deletedPostSections.isNotEmpty() && insertedPostSections.isNotEmpty())
 
         return PostPatchResponse(
-            post = PostResponse.of(
+            post = Post.of(
                 post = post,
                 sections = postSectionManager.makePostSectionContentResponse(previousPostSections)
             ),

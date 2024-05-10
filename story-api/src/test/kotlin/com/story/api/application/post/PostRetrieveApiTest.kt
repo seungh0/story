@@ -13,9 +13,9 @@ import com.story.core.domain.component.ComponentStatus
 import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostSortBy
 import com.story.core.domain.post.section.PostSectionType
-import com.story.core.domain.post.section.image.ImagePostSectionContentResponse
-import com.story.core.domain.post.section.link.LinkPostSectionContentResponse
-import com.story.core.domain.post.section.text.TextPostSectionContentResponse
+import com.story.core.domain.post.section.image.ImagePostSectionContent
+import com.story.core.domain.post.section.link.LinkPostSectionContent
+import com.story.core.domain.post.section.text.TextPostSectionContent
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation
@@ -55,14 +55,14 @@ class PostRetrieveApiTest(
             sections = listOf(
                 PostSectionApiResponse(
                     sectionType = PostSectionType.TEXT,
-                    data = TextPostSectionContentResponse(
+                    data = TextPostSectionContent(
                         content = "뽀미뽀미뽀미",
                         extra = emptyMap(),
                     )
                 ),
                 PostSectionApiResponse(
                     sectionType = PostSectionType.IMAGE,
-                    data = ImagePostSectionContentResponse(
+                    data = ImagePostSectionContent(
                         path = "/store/v1/store.png",
                         width = 480,
                         height = 360,
@@ -72,7 +72,7 @@ class PostRetrieveApiTest(
                 ),
                 PostSectionApiResponse(
                     sectionType = PostSectionType.LINK,
-                    data = LinkPostSectionContentResponse(
+                    data = LinkPostSectionContent(
                         link = "https://intro.threedollars.co.kr",
                         extra = mapOf(
                             "og:image" to "http://localhost:5000/abc.png",
@@ -217,14 +217,14 @@ class PostRetrieveApiTest(
             sections = listOf(
                 PostSectionApiResponse(
                     sectionType = PostSectionType.TEXT,
-                    data = TextPostSectionContentResponse(
+                    data = TextPostSectionContent(
                         content = "뽀미",
                         extra = emptyMap()
                     )
                 ),
                 PostSectionApiResponse(
                     sectionType = PostSectionType.IMAGE,
-                    data = ImagePostSectionContentResponse(
+                    data = ImagePostSectionContent(
                         path = "/store/v1/store.png",
                         width = 480,
                         height = 360,
@@ -234,7 +234,7 @@ class PostRetrieveApiTest(
                 ),
                 PostSectionApiResponse(
                     sectionType = PostSectionType.LINK,
-                    data = LinkPostSectionContentResponse(
+                    data = LinkPostSectionContent(
                         link = "https://intro.threedollars.co.kr",
                         extra = mapOf(
                             "og:image" to "http://localhost:5000/abc.png",
@@ -409,14 +409,14 @@ class PostRetrieveApiTest(
             sections = listOf(
                 PostSectionApiResponse(
                     sectionType = PostSectionType.TEXT,
-                    data = TextPostSectionContentResponse(
+                    data = TextPostSectionContent(
                         content = "뽀미",
                         extra = emptyMap()
                     )
                 ),
                 PostSectionApiResponse(
                     sectionType = PostSectionType.IMAGE,
-                    data = ImagePostSectionContentResponse(
+                    data = ImagePostSectionContent(
                         path = "/store/v1/store.png",
                         width = 480,
                         height = 360,
@@ -426,7 +426,7 @@ class PostRetrieveApiTest(
                 ),
                 PostSectionApiResponse(
                     sectionType = PostSectionType.LINK,
-                    data = LinkPostSectionContentResponse(
+                    data = LinkPostSectionContent(
                         link = "https://intro.threedollars.co.kr",
                         extra = mapOf(
                             "og:image" to "http://localhost:5000/abc.png",

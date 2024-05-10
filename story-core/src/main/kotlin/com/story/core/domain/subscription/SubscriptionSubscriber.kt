@@ -74,7 +74,7 @@ class SubscriptionSubscriber(
         subscriberId: String,
         alarm: Boolean,
     ) {
-        val subscriber = Subscriber.of(
+        val subscriber = SubscriberEntity.of(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
@@ -85,7 +85,7 @@ class SubscriptionSubscriber(
 
         reactiveCassandraOperations.batchOps()
             .upsert(subscriber)
-            .upsert(Subscription.of(subscriber = subscriber))
+            .upsert(SubscriptionEntity.of(subscriber = subscriber))
             .executeCoroutine()
     }
 

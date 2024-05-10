@@ -5,20 +5,20 @@ import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 
-interface EmotionRepository : CassandraBasicRepository<Emotion, EmotionPrimaryKey> {
+interface EmotionRepository : CassandraBasicRepository<EmotionEntity, EmotionPrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
         pageable: Pageable,
-    ): Flow<Emotion>
+    ): Flow<EmotionEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdAndKeyEmotionIdIn(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
         emotionIds: Collection<String>,
-    ): Flow<Emotion>
+    ): Flow<EmotionEntity>
 
 }

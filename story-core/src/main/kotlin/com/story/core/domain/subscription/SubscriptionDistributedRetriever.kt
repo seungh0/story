@@ -55,11 +55,11 @@ class SubscriptionDistributedRetriever(
         targetId: String,
         marker: SlotRangeMarker,
         pageSize: Int,
-    ): SlotRangeMarkerResponse<List<SubscriptionResponse>> {
+    ): SlotRangeMarkerResponse<List<Subscription>> {
         val startSlot = marker.startSlotInclusive
             ?: throw IllegalArgumentException("Invalid marker for distributed query. The startSlotInclusive parameter must be not null")
 
-        val subscribers = mutableListOf<Subscriber>()
+        val subscribers = mutableListOf<SubscriberEntity>()
 
         var currentSlot = startSlot
         val endSlot = marker.endSlotExclusive ?: (FIRST_SLOT_ID - 1)
@@ -110,7 +110,7 @@ class SubscriptionDistributedRetriever(
         }
 
         return SlotRangeMarkerResponse(
-            data = subscribers.map { subscriber -> SubscriptionResponse.of(subscriber) },
+            data = subscribers.map { subscriber -> Subscription.of(subscriber) },
             nextMarker = if (hasMoreRecords) {
                 marker.copy(
                     startSlotInclusive = currentSlot,

@@ -14,7 +14,7 @@ object FeedMappingFixture {
         subscriptionComponentId: String = RandomGenerator.generateString(),
         description: String = RandomGenerator.generateString(),
         retention: Duration = Duration.ofDays(30),
-    ) = FeedMapping.of(
+    ) = FeedMappingEntity.of(
         workspaceId = workspaceId,
         feedComponentId = feedComponentId,
         sourceResourceId = sourceResourceId,

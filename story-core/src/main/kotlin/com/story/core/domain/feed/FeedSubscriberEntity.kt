@@ -12,7 +12,7 @@ import org.springframework.data.cassandra.core.mapping.Table
  * - 100 (partition) * 100,000 (10 MB /100byte) = 한 피드에 대한 발송 대상자는 10,000,000
  */
 @Table("feed_subscriber_v1")
-data class FeedSubscriber(
+data class FeedSubscriberEntity(
     @field:PrimaryKey
     val key: FeedSubscriberPrimaryKey,
 
@@ -22,7 +22,7 @@ data class FeedSubscriber(
 ) {
 
     companion object {
-        fun from(feed: Feed) = FeedSubscriber(
+        fun from(feed: FeedEntity) = FeedSubscriberEntity(
             key = FeedSubscriberPrimaryKey(
                 workspaceId = feed.key.workspaceId,
                 feedComponentId = feed.key.feedComponentId,

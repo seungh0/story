@@ -4,14 +4,14 @@ import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 
-interface FeedRepository : CassandraBasicRepository<Feed, FeedPrimaryKey> {
+interface FeedRepository : CassandraBasicRepository<FeedEntity, FeedPrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberId(
         workspaceId: String,
         feedComponentId: String,
         subscriberId: String,
         pageable: Pageable,
-    ): Flow<Feed>
+    ): Flow<FeedEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdLessThan(
         workspaceId: String,
@@ -19,14 +19,14 @@ interface FeedRepository : CassandraBasicRepository<Feed, FeedPrimaryKey> {
         subscriberId: String,
         feedId: Long,
         pageable: Pageable,
-    ): Flow<Feed>
+    ): Flow<FeedEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdOrderByKeyFeedIdAsc(
         workspaceId: String,
         feedComponentId: String,
         subscriberId: String,
         pageable: Pageable,
-    ): Flow<Feed>
+    ): Flow<FeedEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
         workspaceId: String,
@@ -34,6 +34,6 @@ interface FeedRepository : CassandraBasicRepository<Feed, FeedPrimaryKey> {
         subscriberId: String,
         feedId: Long,
         pageable: Pageable,
-    ): Flow<Feed>
+    ): Flow<FeedEntity>
 
 }

@@ -6,7 +6,7 @@ import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.Slice
 import com.story.core.common.model.dto.CursorRequest
 import com.story.core.common.utils.CursorUtils
-import com.story.core.domain.post.section.PostSection
+import com.story.core.domain.post.section.PostSectionEntity
 import com.story.core.domain.post.section.PostSectionManager
 import com.story.core.domain.post.section.PostSectionPartitionKey
 import com.story.core.domain.post.section.PostSectionRepository
@@ -37,7 +37,7 @@ class PostRetriever(
     suspend fun getPost(
         postSpaceKey: PostSpaceKey,
         postId: PostId,
-    ): PostResponse {
+    ): Post {
         val post = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
             workspaceId = postSpaceKey.workspaceId,
             componentId = postSpaceKey.componentId,
@@ -56,7 +56,7 @@ class PostRetriever(
             postNo = postId.postNo,
         )
 
-        return PostResponse.of(
+        return Post.of(
             post = post,
             sections = postSectionManager.makePostSectionContentResponse(sections.toList())
         )
@@ -67,8 +67,8 @@ class PostRetriever(
         parentId: PostId?,
         cursorRequest: CursorRequest,
         sortBy: PostSortBy,
-    ): Slice<PostResponse, String> {
-        val (slot: Long, posts: List<Post>) = when (sortBy to cursorRequest.direction) {
+    ): Slice<Post, String> {
+        val (slot: Long, posts: List<PostEntity>) = when (sortBy to cursorRequest.direction) {
             PostSortBy.LATEST to CursorDirection.NEXT, PostSortBy.OLDEST to CursorDirection.PREVIOUS -> listNextPosts(
                 cursorRequest = cursorRequest,
                 postSpaceKey = postSpaceKey,
@@ -101,7 +101,7 @@ class PostRetriever(
             return Slice(
                 data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
                     .map { post ->
-                        PostResponse.of(
+                        Post.of(
                             post = post,
                             sections = postSectionManager.makePostSectionContentResponse(
                                 postSections[post.key.postNo] ?: emptyList()
@@ -146,7 +146,7 @@ class PostRetriever(
 
         return Slice(
             data = data.map { post ->
-                PostResponse.of(
+                Post.of(
                     post = post,
                     sections = postSectionManager.makePostSectionContentResponse(
                         postSections[post.key.postNo] ?: emptyList()
@@ -165,7 +165,7 @@ class PostRetriever(
         cursorRequest: CursorRequest,
         parentId: PostId?,
         postSpaceKey: PostSpaceKey,
-    ): Pair<Long, List<Post>> {
+    ): Pair<Long, List<PostEntity>> {
         if (cursorRequest.cursor == null) {
             val lastSlotId = PostSlotAssigner.assign(
                 postNo = postSequenceRepository.getLastSequence(
@@ -203,7 +203,7 @@ class PostRetriever(
         cursorRequest: CursorRequest,
         parentId: PostId?,
         postSpaceKey: PostSpaceKey,
-    ): Pair<Long, List<Post>> {
+    ): Pair<Long, List<PostEntity>> {
         if (cursorRequest.cursor == null) {
             val firstSlotId = PostSlotAssigner.FIRST_SLOT_ID
             return firstSlotId to postRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdOrderByKeyPostNoAsc(
@@ -236,7 +236,7 @@ class PostRetriever(
         componentId: String,
         ownerId: String,
         cursorRequest: CursorRequest,
-    ): Slice<PostResponse, String> = coroutineScope {
+    ): Slice<Post, String> = coroutineScope {
         val posts = postReverses(
             workspaceId = workspaceId,
             componentId = componentId,
@@ -251,7 +251,7 @@ class PostRetriever(
         return@coroutineScope Slice(
             data = posts.subList(0, cursorRequest.pageSize.coerceAtMost(posts.size))
                 .map { post ->
-                    PostResponse.of(
+                    Post.of(
                         post = post,
                         sections = postSectionManager.makePostSectionContentResponse(
                             postSections[post.key.postNo] ?: emptyList()
@@ -292,8 +292,8 @@ class PostRetriever(
     }
 
     private suspend fun getPostSections(
-        posts: List<Post>,
-    ): Map<Long, List<PostSection>> = coroutineScope {
+        posts: List<PostEntity>,
+    ): Map<Long, List<PostSectionEntity>> = coroutineScope {
         return@coroutineScope posts.groupBy { post -> PostSectionPartitionKey.from(post) }
             .map { (sectionPartition, posts) ->
                 async {
@@ -311,7 +311,7 @@ class PostRetriever(
 
     private suspend fun getPostReverseSections(
         posts: List<PostReverse>,
-    ): Map<Long, List<PostSection>> = coroutineScope {
+    ): Map<Long, List<PostSectionEntity>> = coroutineScope {
         return@coroutineScope posts.groupBy { post -> PostSectionPartitionKey.from(post) }
             .map { (sectionPartition, posts) ->
                 async {

@@ -10,7 +10,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
 @Table("event_history_v1")
-data class EventHistory(
+data class EventHistoryEntity(
     @field:PrimaryKey
     val key: EventHistoryPrimaryKey,
 
@@ -25,9 +25,9 @@ data class EventHistory(
             resourceId: ResourceId,
             componentId: String,
             eventRecord: EventRecord<T>,
-        ): EventHistory {
+        ): EventHistoryEntity {
             val slotId = EventIdHelper.getSlot(snowflake = eventRecord.eventId)
-            return EventHistory(
+            return EventHistoryEntity(
                 key = EventHistoryPrimaryKey(
                     workspaceId = workspaceId,
                     slotId = slotId,
@@ -47,8 +47,8 @@ data class EventHistory(
             componentId: String,
             eventRecord: EventRecord<T>,
             exception: Throwable,
-        ): EventHistory {
-            return EventHistory(
+        ): EventHistoryEntity {
+            return EventHistoryEntity(
                 key = EventHistoryPrimaryKey.of(
                     workspaceId = workspaceId,
                     eventId = eventRecord.eventId,

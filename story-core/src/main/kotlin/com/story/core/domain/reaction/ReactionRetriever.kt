@@ -17,7 +17,7 @@ class ReactionRetriever(
         componentId: String,
         spaceId: String,
         requestUserId: String?,
-    ): ReactionResponse {
+    ): Reaction {
         val reactionCountMap = reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
             workspaceId = workspaceId,
             componentId = componentId,
@@ -34,7 +34,7 @@ class ReactionRetriever(
             )
         }
 
-        return ReactionResponse(
+        return Reaction(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
@@ -63,7 +63,7 @@ class ReactionRetriever(
         componentId: String,
         spaceIds: Set<String>,
         requestUserId: String?,
-    ): List<ReactionResponse> = coroutineScope {
+    ): List<Reaction> = coroutineScope {
         val reactionCounts = spaceIds.map { spaceId ->
             async {
                 reactionCountRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceId(
@@ -96,7 +96,7 @@ class ReactionRetriever(
 
         return@coroutineScope spaceIds.map { spaceId ->
             val reactionByRequestUserId = spaceIdReactionMap[spaceId]
-            ReactionResponse(
+            Reaction(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,

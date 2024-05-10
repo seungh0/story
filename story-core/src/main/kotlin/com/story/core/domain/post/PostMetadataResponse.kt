@@ -5,7 +5,7 @@ data class PostMetadataResponse(
 ) {
 
     companion object {
-        fun of(post: Post) = PostMetadataResponse(
+        fun of(post: PostEntity) = PostMetadataResponse(
             hasChildren = post.getMetadata(type = PostMetadataType.HAS_CHILDREN),
         )
     }

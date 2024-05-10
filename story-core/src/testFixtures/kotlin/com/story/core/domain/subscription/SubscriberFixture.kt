@@ -13,7 +13,7 @@ object SubscriberFixture {
         slotId: Long = generateLong(),
         subscriberId: String = generateString(),
         alarmEnabled: Boolean = generateBoolean(),
-    ) = Subscriber(
+    ) = SubscriberEntity(
         key = SubscriberPrimaryKey(
             workspaceId = workspaceId,
             componentId = componentId,
@@ -25,8 +25,8 @@ object SubscriberFixture {
     )
 
     fun create(
-        subscription: Subscription,
-    ) = Subscriber(
+        subscription: SubscriptionEntity,
+    ) = SubscriberEntity(
         key = SubscriberPrimaryKey(
             workspaceId = subscription.key.subscriberId,
             componentId = subscription.key.componentId,

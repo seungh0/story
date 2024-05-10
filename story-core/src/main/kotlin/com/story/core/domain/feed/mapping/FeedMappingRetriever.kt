@@ -21,14 +21,14 @@ class FeedMappingRetriever(
         workspaceId: String,
         sourceResourceId: ResourceId,
         sourceComponentId: String,
-    ): List<FeedMappingResponse> {
+    ): List<FeedMapping> {
         val feedMappings = feedMappingReverseRepository.findAllByKeyWorkspaceIdAndKeySourceResourceIdAndKeySourceComponentId(
             workspaceId = workspaceId,
             sourceResourceId = sourceResourceId,
             sourceComponentId = sourceComponentId,
             pageable = CassandraPageRequest.first(3),
         )
-        return feedMappings.map { feedMapping -> FeedMappingResponse.of(feedMapping) }.toList()
+        return feedMappings.map { feedMapping -> FeedMapping.of(feedMapping) }.toList()
     }
 
 }

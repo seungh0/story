@@ -13,7 +13,7 @@ class ComponentCreator(
         resourceId: ResourceId,
         componentId: String,
         description: String,
-    ): ComponentResponse {
+    ): Component {
         val exists = componentRepository.existsById(
             ComponentPrimaryKey(
                 workspaceId = workspaceId,
@@ -26,7 +26,7 @@ class ComponentCreator(
             throw ComponentAlreadyExistsException(message = "워크스페이스($workspaceId)에 이미 등록된 리소스($resourceId) 컴포넌트($componentId)입니다.")
         }
 
-        val component = Component.of(
+        val component = ComponentEntity.of(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
@@ -35,7 +35,7 @@ class ComponentCreator(
         )
         componentRepository.save(component)
 
-        return ComponentResponse.of(component)
+        return Component.of(component)
     }
 
 }

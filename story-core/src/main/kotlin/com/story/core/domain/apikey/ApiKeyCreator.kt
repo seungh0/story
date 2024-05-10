@@ -28,7 +28,7 @@ class ApiKeyCreator(
 
         reactiveCassandraOperations.batchOps()
             .upsert(workspaceApiKey)
-            .upsert(ApiKey.from(workspaceApiKey))
+            .upsert(ApiKeyEntity.from(workspaceApiKey))
             .executeCoroutine()
     }
 

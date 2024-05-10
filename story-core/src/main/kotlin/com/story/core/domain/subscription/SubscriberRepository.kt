@@ -6,7 +6,7 @@ import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
-interface SubscriberRepository : CassandraBasicRepository<Subscriber, SubscriberPrimaryKey> {
+interface SubscriberRepository : CassandraBasicRepository<SubscriberEntity, SubscriberPrimaryKey> {
 
     suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdAsc(
         workspaceId: String,
@@ -14,7 +14,7 @@ interface SubscriberRepository : CassandraBasicRepository<Subscriber, Subscriber
         targetId: String,
         slotId: Long,
         pageable: Pageable,
-    ): Slice<Subscriber>
+    ): Slice<SubscriberEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdGreaterThanOrderByKeySubscriberIdAsc(
         workspaceId: String,
@@ -23,7 +23,7 @@ interface SubscriberRepository : CassandraBasicRepository<Subscriber, Subscriber
         slotId: Long,
         subscriberId: String,
         pageable: Pageable,
-    ): Flow<Subscriber>
+    ): Flow<SubscriberEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdAsc(
         workspaceId: String,
@@ -31,7 +31,7 @@ interface SubscriberRepository : CassandraBasicRepository<Subscriber, Subscriber
         targetId: String,
         slotId: Long,
         pageable: CassandraPageRequest,
-    ): Flow<Subscriber>
+    ): Flow<SubscriberEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdAndKeySubscriberIdLessThanOrderByKeySubscriberIdDesc(
         workspaceId: String,
@@ -40,7 +40,7 @@ interface SubscriberRepository : CassandraBasicRepository<Subscriber, Subscriber
         slotId: Long,
         subscriberId: String,
         pageable: Pageable,
-    ): Flow<Subscriber>
+    ): Flow<SubscriberEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotIdOrderByKeySubscriberIdDesc(
         workspaceId: String,
@@ -48,7 +48,7 @@ interface SubscriberRepository : CassandraBasicRepository<Subscriber, Subscriber
         targetId: String,
         slotId: Long,
         pageable: CassandraPageRequest,
-    ): Flow<Subscriber>
+    ): Flow<SubscriberEntity>
 
     suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeyTargetIdAndKeySlotId(
         workspaceId: String,

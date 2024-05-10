@@ -1,8 +1,8 @@
 package com.story.api.application.component
 
+import com.story.core.domain.component.Component
 import com.story.core.domain.component.ComponentFixutre
 import com.story.core.domain.component.ComponentNotExistsException
-import com.story.core.domain.component.ComponentResponse
 import com.story.core.domain.component.ComponentRetriever
 import com.story.core.domain.component.ComponentStatus
 import com.story.core.domain.resource.ResourceId
@@ -34,7 +34,7 @@ class ComponentCheckHandlerTest : FunSpec({
                     componentId = componentId,
                 )
             } returns Optional.of(
-                ComponentResponse.of(
+                Component.of(
                     ComponentFixutre.create(
                         workspaceId = workspaceId,
                         resourceId = resourceId,
@@ -67,7 +67,7 @@ class ComponentCheckHandlerTest : FunSpec({
                     componentId = componentId,
                 )
             } returns Optional.of(
-                ComponentResponse.of(
+                Component.of(
                     ComponentFixutre.create(
                         workspaceId = workspaceId,
                         resourceId = resourceId,

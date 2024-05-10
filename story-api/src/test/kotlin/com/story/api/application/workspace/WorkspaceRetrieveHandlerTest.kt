@@ -1,8 +1,8 @@
 package com.story.api.application.workspace
 
+import com.story.core.domain.workspace.Workspace
 import com.story.core.domain.workspace.WorkspaceFixture
 import com.story.core.domain.workspace.WorkspaceNotExistsException
-import com.story.core.domain.workspace.WorkspaceResponse
 import com.story.core.domain.workspace.WorkspaceRetriever
 import com.story.core.domain.workspace.WorkspaceStatus
 import io.kotest.assertions.throwables.shouldNotThrowAny
@@ -22,7 +22,7 @@ class WorkspaceRetrieveHandlerTest : StringSpec({
     "존재하지 않는 워크스페이스인 경우 throws NotExistsWorkspaceException" {
         // given
         val workspace = WorkspaceFixture.create(status = WorkspaceStatus.ENABLED)
-        coEvery { workspaceRetriever.getWorkspace(any()) } returns Optional.of(WorkspaceResponse.of(workspace))
+        coEvery { workspaceRetriever.getWorkspace(any()) } returns Optional.of(Workspace.of(workspace))
 
         // when & then
         shouldNotThrowAny {
@@ -33,7 +33,7 @@ class WorkspaceRetrieveHandlerTest : StringSpec({
     "삭제된 워크스페이스인 경우 throws NotExistsWorkspaceException" {
         // given
         val workspace = WorkspaceFixture.create(status = WorkspaceStatus.DELETED)
-        coEvery { workspaceRetriever.getWorkspace(any()) } returns Optional.of(WorkspaceResponse.of(workspace))
+        coEvery { workspaceRetriever.getWorkspace(any()) } returns Optional.of(Workspace.of(workspace))
 
         // when & then
         shouldThrowExactly<WorkspaceNotExistsException> {

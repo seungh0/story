@@ -1,7 +1,7 @@
 package com.story.api.application.reaction
 
 import com.story.api.application.emotion.EmotionApiResponse
-import com.story.core.domain.emotion.EmotionResponse
+import com.story.core.domain.emotion.Emotion
 import com.story.core.domain.reaction.ReactionEmotionResponse
 
 data class ReactionEmotionApiResponse(
@@ -13,7 +13,7 @@ data class ReactionEmotionApiResponse(
     companion object {
         fun of(
             reactionEmotion: ReactionEmotionResponse,
-            emotion: EmotionResponse,
+            emotion: Emotion,
         ) = ReactionEmotionApiResponse(
             count = reactionEmotion.count,
             reactedByMe = reactionEmotion.reactedByMe,

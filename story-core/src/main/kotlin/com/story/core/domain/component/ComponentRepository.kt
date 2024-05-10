@@ -5,19 +5,19 @@ import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 
-interface ComponentRepository : CassandraBasicRepository<Component, ComponentPrimaryKey> {
+interface ComponentRepository : CassandraBasicRepository<ComponentEntity, ComponentPrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdLessThan(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
         pageable: Pageable,
-    ): Flow<Component>
+    ): Flow<ComponentEntity>
 
     fun findAllByKeyWorkspaceIdAndKeyResourceId(
         workspaceId: String,
         resourceId: ResourceId,
         pageable: Pageable,
-    ): Flow<Component>
+    ): Flow<ComponentEntity>
 
 }

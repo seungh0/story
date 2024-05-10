@@ -23,7 +23,7 @@ class PostCreator(
         title: String,
         sections: List<PostSectionContentRequest>,
         extra: Map<String, String>,
-    ): PostResponse {
+    ): Post {
         if (parentId != null) {
             val parentPost = postRepository.findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
                 workspaceId = postSpaceKey.workspaceId,
@@ -40,7 +40,7 @@ class PostCreator(
         }
 
         val postNo = postSequenceRepository.generatePostNo(postSpaceKey = postSpaceKey, parentId = parentId)
-        val post = Post.of(
+        val post = PostEntity.of(
             postSpaceKey = postSpaceKey,
             ownerId = ownerId,
             parentId = parentId,
@@ -63,7 +63,7 @@ class PostCreator(
             .upsert(postSections)
             .executeCoroutine()
 
-        return PostResponse.of(
+        return Post.of(
             post = post,
             sections = postSectionManager.makePostSectionContentResponse(postSections)
         )

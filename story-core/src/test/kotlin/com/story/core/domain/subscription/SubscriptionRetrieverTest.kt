@@ -31,7 +31,7 @@ internal class SubscriptionRetrieverTest(
                 slotId = 1L,
                 subscriberId = subscriberId,
             )
-            val subscription = Subscription.of(subscriber)
+            val subscription = SubscriptionEntity.of(subscriber)
             subscriberRepository.save(subscriber)
             subscriptionRepository.save(subscription)
 
@@ -166,7 +166,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 3
-            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -220,7 +220,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 3
-            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "3"
             sut.cursor.hasNext shouldBe true
@@ -274,7 +274,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 4
-            sut.data shouldBe subscriptions.subList(0, 4).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(0, 4).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -327,7 +327,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 3
-            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "3"
             sut.cursor.hasNext shouldBe true
@@ -380,7 +380,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 4
-            sut.data shouldBe subscriptions.subList(0, 4).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(0, 4).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -433,7 +433,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 3
-            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "3"
             sut.cursor.hasNext shouldBe true
@@ -493,7 +493,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 3
-            sut.data shouldBe subscriptions.subList(1, 4).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(1, 4).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -550,7 +550,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 2
-            sut.data shouldBe subscriptions.subList(1, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(1, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "3"
             sut.cursor.hasNext shouldBe true
@@ -607,7 +607,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 3
-            sut.data shouldBe subscriptions.subList(1, 4).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(1, 4).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -685,7 +685,7 @@ internal class SubscriptionRetrieverTest(
             // then
             sut.data shouldHaveSize 3
             sut.data shouldBe subscriptions.reversed().subList(0, 3)
-                .map { subscription -> SubscriptionResponse.of(subscription) }
+                .map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "1" // 커서가 반환되지만 이전 슬롯에 없음
             sut.cursor.hasNext shouldBe true
@@ -740,7 +740,7 @@ internal class SubscriptionRetrieverTest(
             // then
             sut.data shouldHaveSize 3
             sut.data shouldBe subscriptions.reversed().subList(0, 3)
-                .map { subscription -> SubscriptionResponse.of(subscription) }
+                .map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "2"
             sut.cursor.hasNext shouldBe true
@@ -795,7 +795,7 @@ internal class SubscriptionRetrieverTest(
             // then
             sut.data shouldHaveSize 4
             sut.data shouldBe subscriptions.reversed().subList(0, 4)
-                .map { subscription -> SubscriptionResponse.of(subscription) }
+                .map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -849,7 +849,7 @@ internal class SubscriptionRetrieverTest(
             // then
             sut.data shouldHaveSize 3
             sut.data shouldBe subscriptions.reversed().subList(0, 3)
-                .map { subscription -> SubscriptionResponse.of(subscription) }
+                .map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "2"
             sut.cursor.hasNext shouldBe true
@@ -903,7 +903,7 @@ internal class SubscriptionRetrieverTest(
             // then
             sut.data shouldHaveSize 4
             sut.data shouldBe subscriptions.reversed().subList(0, 4)
-                .map { subscription -> SubscriptionResponse.of(subscription) }
+                .map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -957,7 +957,7 @@ internal class SubscriptionRetrieverTest(
             // then
             sut.data shouldHaveSize 3
             sut.data shouldBe subscriptions.reversed().subList(0, 3)
-                .map { subscription -> SubscriptionResponse.of(subscription) }
+                .map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "2"
             sut.cursor.hasNext shouldBe true
@@ -1018,7 +1018,7 @@ internal class SubscriptionRetrieverTest(
             // then
             sut.data shouldHaveSize 3
             sut.data shouldBe subscriptions.reversed().subList(1, 4)
-                .map { subscription -> SubscriptionResponse.of(subscription) }
+                .map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -1076,7 +1076,7 @@ internal class SubscriptionRetrieverTest(
             // then
             sut.data shouldHaveSize 2
             sut.data shouldBe subscriptions.reversed().subList(1, 3)
-                .map { subscription -> SubscriptionResponse.of(subscription) }
+                .map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "2"
             sut.cursor.hasNext shouldBe true
@@ -1134,7 +1134,7 @@ internal class SubscriptionRetrieverTest(
             // then
             sut.data shouldHaveSize 3
             sut.data shouldBe subscriptions.reversed().subList(1, 4)
-                .map { subscription -> SubscriptionResponse.of(subscription) }
+                .map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -1180,7 +1180,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 3
-            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "3"
             sut.cursor.hasNext shouldBe true
@@ -1224,7 +1224,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 3
-            sut.data shouldBe subscriptions.map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -1268,7 +1268,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 2
-            sut.data shouldBe subscriptions.subList(1, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(1, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false
@@ -1312,7 +1312,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 2
-            sut.data shouldBe subscriptions.subList(1, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(1, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "3"
             sut.cursor.hasNext shouldBe true
@@ -1356,7 +1356,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 2
-            sut.data shouldBe subscriptions.subList(2, 4).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(2, 4).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "3"
             sut.cursor.hasNext shouldBe true
@@ -1400,7 +1400,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 2
-            sut.data shouldBe subscriptions.subList(1, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(1, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe "2"
             sut.cursor.hasNext shouldBe true
@@ -1444,7 +1444,7 @@ internal class SubscriptionRetrieverTest(
 
             // then
             sut.data shouldHaveSize 3
-            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> SubscriptionResponse.of(subscription) }
+            sut.data shouldBe subscriptions.subList(0, 3).map { subscription -> Subscription.of(subscription) }
 
             sut.cursor.nextCursor shouldBe null
             sut.cursor.hasNext shouldBe false

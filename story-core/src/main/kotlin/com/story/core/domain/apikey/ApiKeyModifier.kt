@@ -16,7 +16,7 @@ class ApiKeyModifier(
 ) {
 
     @CacheEvict(
-        cacheType = CacheType.API_KEY_REVERSE,
+        cacheType = CacheType.API_KEY,
         key = "'apiKey:' + {#key}",
         targetCacheStrategies = [CacheStrategy.GLOBAL],
     )
@@ -35,7 +35,7 @@ class ApiKeyModifier(
 
         reactiveCassandraOperations.batchOps()
             .upsert(apiKey)
-            .upsert(ApiKey.from(apiKey))
+            .upsert(ApiKeyEntity.from(apiKey))
             .executeCoroutine()
 
         apiKeyEventProducer.publishEvent(

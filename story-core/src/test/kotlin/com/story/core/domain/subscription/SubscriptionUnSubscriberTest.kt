@@ -81,7 +81,7 @@ internal class SubscriptionUnSubscriberTest(
             )
 
             // then
-            val subscribers: List<Subscriber> = subscriberRepository.findAll().toList()
+            val subscribers: List<SubscriberEntity> = subscriberRepository.findAll().toList()
             subscribers shouldHaveSize 0
 
             val subscriptions = subscriptionRepository.findAll().toList()

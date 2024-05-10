@@ -8,14 +8,14 @@ import org.springframework.data.domain.Pageable
 
 class ComponentMemoryRepository :
     ComponentRepository,
-    CassandraBasicRepository<Component, ComponentPrimaryKey> by StubCassandraBasicRepository() {
+    CassandraBasicRepository<ComponentEntity, ComponentPrimaryKey> by StubCassandraBasicRepository() {
 
     override fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdLessThan(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
         pageable: Pageable,
-    ): Flow<Component> {
+    ): Flow<ComponentEntity> {
         TODO("Not yet implemented")
     }
 
@@ -23,7 +23,7 @@ class ComponentMemoryRepository :
         workspaceId: String,
         resourceId: ResourceId,
         pageable: Pageable,
-    ): Flow<Component> {
+    ): Flow<ComponentEntity> {
         TODO("Not yet implemented")
     }
 

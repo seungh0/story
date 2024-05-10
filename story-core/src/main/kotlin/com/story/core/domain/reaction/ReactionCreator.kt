@@ -27,7 +27,7 @@ class ReactionCreator(
             )
         )
         if (reaction == null) {
-            val newReaction = Reaction.of(
+            val newReaction = ReactionEntity.of(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,

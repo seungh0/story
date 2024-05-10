@@ -24,7 +24,7 @@ class ComponentRetriever(
         workspaceId: String,
         resourceId: ResourceId,
         componentId: String,
-    ): Optional<ComponentResponse> {
+    ): Optional<Component> {
         val component = componentRepository.findById(
             ComponentPrimaryKey(
                 workspaceId = workspaceId,
@@ -32,14 +32,14 @@ class ComponentRetriever(
                 componentId = componentId,
             )
         ) ?: return Optional.empty()
-        return Optional.of(ComponentResponse.of(component = component))
+        return Optional.of(Component.of(component = component))
     }
 
     suspend fun listComponents(
         workspaceId: String,
         resourceId: ResourceId,
         cursorRequest: CursorRequest,
-    ): Slice<ComponentResponse, String> {
+    ): Slice<Component, String> {
         val components = listComponentsWithCursor(
             workspaceId = workspaceId,
             resourceId = resourceId,
@@ -49,7 +49,7 @@ class ComponentRetriever(
 
         return Slice.of(
             data = components.subList(0, cursorRequest.pageSize.coerceAtMost(components.size))
-                .map { component -> ComponentResponse.of(component) },
+                .map { component -> Component.of(component) },
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = components,
                 pageSize = cursorRequest.pageSize,
@@ -63,7 +63,7 @@ class ComponentRetriever(
         resourceId: ResourceId,
         componentId: String?,
         pageSize: Int,
-    ): List<Component> {
+    ): List<ComponentEntity> {
         if (componentId == null) {
             return componentRepository.findAllByKeyWorkspaceIdAndKeyResourceId(
                 workspaceId = workspaceId,

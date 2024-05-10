@@ -2,7 +2,7 @@ package com.story.core.infrastructure.cache
 
 import com.story.core.common.error.InternalServerException
 import com.story.core.common.json.toJson
-import com.story.core.domain.apikey.ApiKeyResponse
+import com.story.core.domain.apikey.ApiKey
 import com.story.core.domain.apikey.ApiKeyStatus
 import com.story.core.infrastrcture.curcuitbreaker.StubCircuitBreaker
 import io.kotest.assertions.throwables.shouldThrowExactly
@@ -26,10 +26,10 @@ class GlobalCacheHandlerTest : FunSpec({
     context("Get Cache") {
         test("글로벌 캐시로 부터 캐시를 가져온다") {
             // given
-            val cacheType = CacheType.API_KEY_REVERSE
+            val cacheType = CacheType.API_KEY
             val keyString = "key"
             val apiKey = Optional.of(
-                ApiKeyResponse(
+                ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
                     description = "설명"
@@ -63,7 +63,7 @@ class GlobalCacheHandlerTest : FunSpec({
 
         test("레디스에 캐싱이 안되어 있는 경우 null을 반환한다") {
             // given
-            val cacheType = CacheType.API_KEY_REVERSE
+            val cacheType = CacheType.API_KEY
             val keyString = "key"
 
             coEvery {
@@ -93,7 +93,7 @@ class GlobalCacheHandlerTest : FunSpec({
 
         test("글로벌 캐시가 PER 알고리즘으로 Early 갱신에 부합하는 경우 null을 반환한다") {
             // given
-            val cacheType = CacheType.API_KEY_REVERSE
+            val cacheType = CacheType.API_KEY
             val keyString = "key"
 
             coEvery {
@@ -119,7 +119,7 @@ class GlobalCacheHandlerTest : FunSpec({
             // given
             circuitBreaker.circuitOpen = true
 
-            val cacheType = CacheType.API_KEY_REVERSE
+            val cacheType = CacheType.API_KEY
             val keyString = "key"
 
             // when
@@ -139,10 +139,10 @@ class GlobalCacheHandlerTest : FunSpec({
     context("Refresh Cache") {
         test("캐시를 갱신한다") {
             // given
-            val cacheType = CacheType.API_KEY_REVERSE
+            val cacheType = CacheType.API_KEY
             val keyString = "key"
             val apiKey = Optional.of(
-                ApiKeyResponse(
+                ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
                     description = "설명"
@@ -186,10 +186,10 @@ class GlobalCacheHandlerTest : FunSpec({
             // given
             circuitBreaker.circuitOpen = true
 
-            val cacheType = CacheType.API_KEY_REVERSE
+            val cacheType = CacheType.API_KEY
             val keyString = "key"
             val apiKey = Optional.of(
-                ApiKeyResponse(
+                ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
                     description = "설명"
@@ -219,7 +219,7 @@ class GlobalCacheHandlerTest : FunSpec({
     context("Evict Cache") {
         test("캐시를 만료시킵니다") {
             // given
-            val cacheType = CacheType.API_KEY_REVERSE
+            val cacheType = CacheType.API_KEY
             val keyString = "key"
 
             coEvery { globalCacheRepository.evict(cacheType = cacheType, cacheKey = keyString) } returns Unit
@@ -249,7 +249,7 @@ class GlobalCacheHandlerTest : FunSpec({
             // given
             circuitBreaker.circuitOpen = true
 
-            val cacheType = CacheType.API_KEY_REVERSE
+            val cacheType = CacheType.API_KEY
             val keyString = "key"
 
             // when

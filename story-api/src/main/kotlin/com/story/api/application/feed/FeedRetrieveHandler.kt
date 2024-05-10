@@ -4,8 +4,8 @@ import com.story.api.application.component.ComponentCheckHandler
 import com.story.api.application.feed.payload.FeedPayloadHandlerFinder
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.common.model.Slice
+import com.story.core.domain.feed.Feed
 import com.story.core.domain.feed.FeedPayload
-import com.story.core.domain.feed.FeedResponse
 import com.story.core.domain.feed.FeedRetriever
 import com.story.core.domain.resource.ResourceId
 
@@ -41,7 +41,7 @@ class FeedRetrieveHandler(
     }
 
     private suspend fun handleFeedPayloads(
-        feeds: Slice<FeedResponse, String>,
+        feeds: Slice<Feed, String>,
         workspaceId: String,
         subscriberId: String,
     ): MutableMap<Long, FeedPayload> {

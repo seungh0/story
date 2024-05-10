@@ -29,7 +29,11 @@ class FeedItemFanoutRemoveActionHandler(
                 cursorRequest = CursorRequest(cursor = cursor, direction = CursorDirection.NEXT, pageSize = 500),
             )
 
-            feedRemover.remove(feedSubscribers = feedSubscribers.data)
+            feedRemover.remove(
+                workspaceId = payload.workspaceId,
+                componentId = payload.feedComponentId,
+                feedSubscribers = feedSubscribers.data
+            )
 
             cursor = feedSubscribers.cursor.nextCursor
         } while (feedSubscribers.hasNext)

@@ -7,7 +7,7 @@ import com.story.api.StringSpecDocsTest
 import com.story.api.lib.PageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
 import com.story.api.lib.WebClientUtils
-import com.story.core.domain.component.ComponentResponse
+import com.story.core.domain.component.Component
 import com.story.core.domain.component.ComponentStatus
 import com.story.core.domain.resource.ResourceId
 import io.mockk.coEvery
@@ -44,7 +44,7 @@ class ComponentCreateApiTest(
                 componentId = componentId,
                 description = description,
             )
-        } returns ComponentResponse(
+        } returns Component(
             componentId = componentId,
             description = description,
             status = ComponentStatus.ENABLED,

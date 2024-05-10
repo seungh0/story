@@ -1,6 +1,6 @@
 package com.story.core.domain.post
 
-import com.story.core.common.model.AuditingTime
+import com.story.core.common.model.AuditingTimeEntity
 import com.story.core.support.RandomGenerator
 
 object PostFixture {
@@ -15,7 +15,7 @@ object PostFixture {
         title: String = RandomGenerator.generateString(),
         extra: Map<String, String> = emptyMap(),
         metadata: Map<PostMetadataType, String> = emptyMap(),
-    ) = Post(
+    ) = PostEntity(
         key = PostPrimaryKey.of(
             postSpaceKey = PostSpaceKey(
                 workspaceId = workspaceId,
@@ -29,7 +29,7 @@ object PostFixture {
         title = title,
         extra = extra.toMutableMap(),
         metadata = metadata.toMutableMap(),
-        auditingTime = AuditingTime.created(),
+        auditingTime = AuditingTimeEntity.created(),
     )
 
 }
