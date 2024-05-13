@@ -100,6 +100,10 @@ class WorkspaceRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result.plan")
                             .type(JsonFieldType.STRING).description("워크스페이스의 사용 플랜")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(WorkspacePricePlan::class.java))),
+                        PayloadDocumentation.fieldWithPath("result.createdAt")
+                            .type(JsonFieldType.STRING).description("워크스페이스 생성 일자"),
+                        PayloadDocumentation.fieldWithPath("result.updatedAt")
+                            .type(JsonFieldType.STRING).description("워크스페이스 최근 수정 일자"),
                     )
                 )
             )

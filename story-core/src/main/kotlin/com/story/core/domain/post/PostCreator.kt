@@ -32,7 +32,7 @@ class PostCreator(
                 parentId = parentId.parentId ?: StringUtils.EMPTY,
                 slotId = PostSlotAssigner.assign(postNo = parentId.postNo),
                 postNo = parentId.postNo,
-            ) ?: throw ParentPostNotExistsException("부모 포스트($parentId)가 존재하지 않습니다")
+            ) ?: throw PostParentNotExistsException("부모 포스트($parentId)가 존재하지 않습니다")
 
             if (!parentPost.getMetadata<Boolean>(type = PostMetadataType.HAS_CHILDREN)) {
                 postRepository.putMetadata(parentPost.key, PostMetadataType.HAS_CHILDREN, true.toString())

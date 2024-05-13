@@ -8,10 +8,7 @@ class ResourceRetrieveHandler {
 
     suspend fun listResources(request: ResourceListApiRequest): ResourceListApiResponse {
         val resources = ResourceId.entries.map { resourceId ->
-            ResourceApiResponse(
-                resourceId = resourceId.code,
-                description = resourceId.description,
-            )
+            ResourceApiResponse.from(resourceId)
         }.take(request.pageSize)
 
         return ResourceListApiResponse(

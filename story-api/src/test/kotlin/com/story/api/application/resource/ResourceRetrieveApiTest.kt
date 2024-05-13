@@ -56,6 +56,8 @@ class ResourceRetrieveApiTest(
                             .type(JsonFieldType.STRING).description("리소스 ID"),
                         fieldWithPath("result.resources[].description")
                             .type(JsonFieldType.STRING).description("리소스에 대한 설명"),
+                        fieldWithPath("result.resources[].latestVersion")
+                            .type(JsonFieldType.STRING).description("API Latest 버전"),
                     )
                 )
             )
