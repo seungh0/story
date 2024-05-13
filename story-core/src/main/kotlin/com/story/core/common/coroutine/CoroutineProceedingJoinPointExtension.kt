@@ -10,13 +10,14 @@ val ProceedingJoinPoint.coroutineArgs: Array<Any?>
 
 suspend fun ProceedingJoinPoint.proceedCoroutine(
     args: Array<Any?> = this.coroutineArgs,
-): Any? =
-    suspendCoroutineUninterceptedOrReturn { continuation ->
-        this.proceed(args + continuation)
-    }
+): Any? = suspendCoroutineUninterceptedOrReturn { continuation ->
+    this.proceed(args + continuation)
+}
 
-@Suppress("unchecked_cast")
 fun ProceedingJoinPoint.runCoroutine(
     runner: suspend () -> Any?,
-): Any? =
-    runner.startCoroutineUninterceptedOrReturn(this.args.last() as Continuation<Any?>)
+): Any? = runner.startCoroutineUninterceptedOrReturn(coroutineContinuation)
+
+@Suppress("unchecked_cast")
+private val ProceedingJoinPoint.coroutineContinuation: Continuation<Any?>
+    get() = this.args.last() as Continuation<Any?>

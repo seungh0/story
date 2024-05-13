@@ -4,11 +4,13 @@ import com.story.core.common.coroutine.coroutineArgs
 import com.story.core.common.coroutine.proceedCoroutine
 import com.story.core.common.coroutine.runCoroutine
 import com.story.core.infrastructure.spring.SpringExpressionParser
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.reflect.MethodSignature
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Aspect
 @Component
@@ -31,17 +33,24 @@ class DistributedLockAspect(
                 return@runCoroutine joinPoint.proceedCoroutine()
             }
 
-            val lockKey = SpringExpressionParser.parseString(
+            val lockKey = "$LOCK_PREFIX_KEY:${distributedLock.lockType.prefix}:${
+            SpringExpressionParser.parseString(
                 methodSignature.parameterNames,
                 joinPoint.coroutineArgs,
                 distributedLock.key
             )
+            }"
 
-            distributedLockHandler.runWithLock(
+            return@runCoroutine distributedLockHandler.runWithLock(
                 distributedLock = distributedLock,
                 lockKey = "lock:${distributedLock.lockType.prefix}:$lockKey",
             ) {
-                joinPoint.proceedCoroutine()
+                val result = joinPoint.proceedCoroutine()
+                if (result is Mono<*>) {
+                    // for spring 6.1.0 and later
+                    return@runWithLock result.awaitSingleOrNull()
+                }
+                return@runWithLock result
             }
         }
     }
@@ -64,6 +73,10 @@ class DistributedLockAspect(
         )
 
         return (unless == null || !unless) && (condition == null || condition)
+    }
+
+    companion object {
+        private const val LOCK_PREFIX_KEY = "LOCK"
     }
 
 }

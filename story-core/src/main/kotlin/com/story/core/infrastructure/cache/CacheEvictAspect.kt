@@ -5,11 +5,13 @@ import com.story.core.common.coroutine.proceedCoroutine
 import com.story.core.common.coroutine.runCoroutine
 import com.story.core.common.error.InternalServerException
 import com.story.core.infrastructure.spring.SpringExpressionParser
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.reflect.MethodSignature
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
 @Aspect
 @Component
@@ -24,8 +26,12 @@ class CacheEvictAspect(
         val cacheEvict = method.getAnnotation(CacheEvict::class.java)
 
         return joinPoint.runCoroutine {
-            val result = joinPoint.proceedCoroutine(joinPoint.coroutineArgs)
+            val result = joinPoint.proceedCoroutine()
             if (!precondition(joinPoint = joinPoint, methodSignature = methodSignature, cacheEvict = cacheEvict)) {
+                if (result is Mono<*>) {
+                    // for spring 6.1.0 and later
+                    return@runCoroutine result.awaitSingleOrNull()
+                }
                 return@runCoroutine result
             }
 
@@ -52,6 +58,10 @@ class CacheEvictAspect(
                 targetCacheStrategies = cacheEvict.targetCacheStrategies.toSet()
             )
 
+            if (result is Mono<*>) {
+                // for spring 6.1.0 and later
+                return@runCoroutine result.awaitSingleOrNull()
+            }
             return@runCoroutine result
         }
     }

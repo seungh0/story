@@ -94,6 +94,10 @@ class ApiKeyRetrieveApiTest(
                         PayloadDocumentation.fieldWithPath("result.workspace.plan")
                             .type(JsonFieldType.STRING).description("워크스페이스 사용 플랜")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(WorkspacePricePlan::class.java))),
+                        PayloadDocumentation.fieldWithPath("result.workspace.createdAt")
+                            .type(JsonFieldType.STRING).description("워크스페이스 생성 일자"),
+                        PayloadDocumentation.fieldWithPath("result.workspace.updatedAt")
+                            .type(JsonFieldType.STRING).description("워크스페이스 수정 일자"),
                     )
                 )
             )
