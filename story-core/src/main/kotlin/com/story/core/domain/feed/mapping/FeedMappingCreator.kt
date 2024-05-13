@@ -1,5 +1,8 @@
 package com.story.core.domain.feed.mapping
 
+import com.story.core.infrastructure.cache.CacheEvict
+import com.story.core.infrastructure.cache.CacheStrategy
+import com.story.core.infrastructure.cache.CacheType
 import com.story.core.infrastructure.cassandra.executeCoroutine
 import com.story.core.infrastructure.cassandra.upsert
 import com.story.core.infrastructure.lock.DistributedLock
@@ -14,6 +17,11 @@ class FeedMappingCreator(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
 ) {
 
+    @CacheEvict(
+        cacheType = CacheType.FEED_MAPPING,
+        key = "'workspaceId:' + {#request.workspaceId} + ':sourceResourceId:' + {#request.sourceResourceId} + ':sourceComponentId:' + {#request.sourceComponentId}",
+        targetCacheStrategies = [CacheStrategy.GLOBAL]
+    )
     @DistributedLock(
         lockType = DistributedLockType.FEED_MAPPING,
         key = "'workspaceId:' + {#request.workspaceId} + ':feedComponentId:' + {#request.feedComponentId} + ':sourceResourceId:' + {#request.sourceResourceId} + ':sourceComponentId:' + {#request.sourceComponentId}"

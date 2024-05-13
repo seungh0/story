@@ -33,12 +33,12 @@ class RedissonDistributedLockHandler(
 
         log.debug { "[DistributedLock] 락을 선점합니다. [lockKey: $lockKey]" }
 
-        try {
-            return runnable.invoke()
+        return try {
+            runnable.invoke()
         } finally {
             redisLock.unlock(threadId).awaitSingleOrNull()
 
-            log.debug { "[DistributedLock] 락을 해제합니다. [lockKey: $lockKey]" }
+            log.debug { "[DistributedLock] 락을 해제하였습니다 [lockKey: $lockKey]" }
         }
     }
 

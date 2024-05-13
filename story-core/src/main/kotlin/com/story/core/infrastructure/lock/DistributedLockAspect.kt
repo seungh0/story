@@ -16,7 +16,7 @@ class DistributedLockAspect(
     private val distributedLockHandler: DistributedLockHandler,
 ) {
 
-    @Around("args(.., kotlin.coroutines.Continuation) && @annotation(DistributedLock)")
+    @Around("@annotation(DistributedLock) && args(.., kotlin.coroutines.Continuation)")
     fun handleDistributedLock(joinPoint: ProceedingJoinPoint): Any? {
         val methodSignature = joinPoint.signature as MethodSignature
         val distributedLock = methodSignature.method.getAnnotation(DistributedLock::class.java)
@@ -28,7 +28,7 @@ class DistributedLockAspect(
                     distributedLock = distributedLock
                 )
             ) {
-                return@runCoroutine joinPoint.proceedCoroutine(joinPoint.coroutineArgs)
+                return@runCoroutine joinPoint.proceedCoroutine()
             }
 
             val lockKey = SpringExpressionParser.parseString(
@@ -36,13 +36,12 @@ class DistributedLockAspect(
                 joinPoint.coroutineArgs,
                 distributedLock.key
             )
-            return@runCoroutine distributedLockHandler.runWithLock(
+
+            distributedLockHandler.runWithLock(
                 distributedLock = distributedLock,
                 lockKey = "lock:${distributedLock.lockType.prefix}:$lockKey",
             ) {
-                return@runWithLock joinPoint.runCoroutine {
-                    joinPoint.proceedCoroutine(joinPoint.coroutineArgs)
-                }
+                joinPoint.proceedCoroutine()
             }
         }
     }
