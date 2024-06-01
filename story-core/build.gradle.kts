@@ -1,5 +1,4 @@
 val redissonVersion: String by project.extra
-
 dependencies {
     // Cache
     implementation("org.springframework.boot:spring-boot-starter-cache")
@@ -20,6 +19,10 @@ dependencies {
 
     // CommonsLang3
     api("org.apache.commons:commons-lang3")
+
+    // Jackson
+    implementation("org.springframework.boot:spring-boot-starter-json")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Test
     testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
