@@ -7,12 +7,12 @@ import com.story.core.domain.apikey.ApiKey
 import com.story.core.domain.apikey.ApiKeyEmptyException
 import com.story.core.domain.apikey.ApiKeyInactivatedException
 import com.story.core.domain.apikey.ApiKeyInvalidException
-import com.story.core.domain.apikey.ApiKeyRetriever
+import com.story.core.domain.apikey.ApiKeyReaderWithCache
 import org.springframework.web.server.ServerWebExchange
 
 @HandlerAdapter
 class ApiKeyHandler(
-    private val apiKeyRetriever: ApiKeyRetriever,
+    private val apiKeyReaderWithCache: ApiKeyReaderWithCache,
 ) {
 
     suspend fun handleApiKey(
@@ -22,7 +22,7 @@ class ApiKeyHandler(
         val requestApiKey = serverWebExchange.getApiKey()
             ?: throw ApiKeyEmptyException("API Key 헤더(${HttpHeader.X_STORY_API_KEY.header})가 비어있습니다")
 
-        val apiKey = apiKeyRetriever.getApiKey(apiKey = requestApiKey)
+        val apiKey = apiKeyReaderWithCache.getApiKey(apiKey = requestApiKey)
             .orElseThrow { ApiKeyInvalidException("등록되지 않은 ApiKey($requestApiKey)입니다") }
 
         if (!allowedDisabledApiKey && !apiKey.isActivated()) {

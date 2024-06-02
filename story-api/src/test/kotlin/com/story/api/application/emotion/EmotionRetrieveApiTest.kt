@@ -40,14 +40,14 @@ class EmotionRetrieveApiTest(
                 resourceId = resourceId,
                 componentId = componentId,
             )
-        } returns EmotionListApiResponse(
+        } returns EmotionListResponse(
             emotions = listOf(
-                EmotionApiResponse(
+                EmotionResponse(
                     emotionId = "smile",
                     image = "\uD83D\uDC08",
                     priority = 1,
                 ),
-                EmotionApiResponse(
+                EmotionResponse(
                     emotionId = "sad",
                     image = "\uD83D\uDE2D",
                     priority = 2,

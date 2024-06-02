@@ -19,8 +19,8 @@ class ComponentRetrieveApi(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
         @RequestApiKey authContext: ApiKeyContext,
-        @Valid request: ComponentGetApiRequest,
-    ): ApiResponse<ComponentApiResponse> {
+        @Valid request: ComponentGetRequest,
+    ): ApiResponse<ComponentResponse> {
         val component = componentRetrieveHandler.getComponent(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),
@@ -34,8 +34,8 @@ class ComponentRetrieveApi(
     suspend fun listComponents(
         @PathVariable resourceId: String,
         @RequestApiKey authContext: ApiKeyContext,
-        @Valid request: ComponentListApiRequest,
-    ): ApiResponse<ComponentListApiResponse> {
+        @Valid request: ComponentListRequest,
+    ): ApiResponse<ComponentListResponse> {
         val response = componentRetrieveHandler.listComponents(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),

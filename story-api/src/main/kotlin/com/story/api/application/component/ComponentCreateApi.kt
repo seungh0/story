@@ -23,7 +23,7 @@ class ComponentCreateApi(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
         @RequestApiKey authContext: ApiKeyContext,
-        @Valid @RequestBody request: ComponentCreateApiRequest,
+        @Valid @RequestBody request: ComponentCreateRequest,
     ): ApiResponse<Nothing?> {
         componentCreateHandler.createComponent(
             workspaceId = authContext.workspaceId,

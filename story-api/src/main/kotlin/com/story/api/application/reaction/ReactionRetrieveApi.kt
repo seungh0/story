@@ -17,9 +17,9 @@ class ReactionRetrieveApi(
     suspend fun getReaction(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @Valid request: ReactionGetApiRequest,
+        @Valid request: ReactionGetRequest,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<ReactionApiResponse> {
+    ): ApiResponse<ReactionResponse> {
         val response = reactionRetrieveHandler.getReaction(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -33,9 +33,9 @@ class ReactionRetrieveApi(
     @GetMapping("/v1/resources/reactions/components/{componentId}/spaces")
     suspend fun listReactions(
         @PathVariable componentId: String,
-        @Valid request: ReactionListApiRequest,
+        @Valid request: ReactionListRequest,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<ReactionListApiResponse> {
+    ): ApiResponse<ReactionListResponse> {
         val response = reactionRetrieveHandler.listReactions(
             workspaceId = authContext.workspaceId,
             componentId = componentId,

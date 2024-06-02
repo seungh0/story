@@ -30,7 +30,7 @@ class SubscriptionUpsertApiTest(
         val subscriberId = "subscriber-id"
         val targetId = "subscription-target-id"
 
-        val request = SubscriptionUpsertApiRequest(
+        val request = SubscriptionUpsertRequest(
             alarmEnabled = true,
         )
 

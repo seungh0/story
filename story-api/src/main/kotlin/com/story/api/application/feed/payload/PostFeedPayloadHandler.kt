@@ -1,6 +1,6 @@
 package com.story.api.application.feed.payload
 
-import com.story.api.application.post.PostApiResponse
+import com.story.api.application.post.PostResponse
 import com.story.core.domain.feed.Feed
 import com.story.core.domain.feed.FeedPayload
 import com.story.core.domain.post.PostEventKey
@@ -25,7 +25,7 @@ class PostFeedPayloadHandler(
         return feeds.mapNotNull { feed ->
             try {
                 val eventKey = PostEventKey.parse(eventKey = feed.eventKey)
-                feed.feedId to PostApiResponse.of(
+                feed.feedId to PostResponse.of(
                     postRetriever.getPost(
                         postSpaceKey = PostSpaceKey(
                             workspaceId = workspaceId,

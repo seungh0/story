@@ -1,6 +1,6 @@
 package com.story.api.application.feed.payload
 
-import com.story.api.application.subscription.SubscriptionApiResponse
+import com.story.api.application.subscription.SubscriptionResponse
 import com.story.core.domain.feed.Feed
 import com.story.core.domain.feed.FeedPayload
 import com.story.core.domain.resource.ResourceId
@@ -19,7 +19,7 @@ class SubscriptionFeedPayloadHandler : FeedPayloadHandler {
     ): Map<Long, FeedPayload> {
         return feeds.map { feed ->
             val eventKey = SubscriptionEventKey.parse(feed.eventKey)
-            feed.feedId to SubscriptionApiResponse(
+            feed.feedId to SubscriptionResponse(
                 subscriberId = eventKey.subscriberId,
                 targetId = eventKey.targetId,
             )

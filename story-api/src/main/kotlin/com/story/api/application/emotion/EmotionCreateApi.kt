@@ -20,7 +20,7 @@ class EmotionCreateApi(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
         @PathVariable emotionId: String,
-        @Valid @RequestBody request: EmotionCreateApiRequest,
+        @Valid @RequestBody request: EmotionCreateRequest,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         emotionCreateHandler.createEmotion(

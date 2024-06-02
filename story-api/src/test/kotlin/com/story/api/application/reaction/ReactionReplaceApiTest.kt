@@ -36,12 +36,12 @@ class ReactionReplaceApiTest(
         val componentId = "post-like"
         val spaceId = "post-id"
 
-        val request = ReactionReplaceApiRequest(
+        val request = ReactionReplaceRequest(
             emotions = setOf(
-                ReactionEmotionUpsertApiRequest(
+                ReactionEmotionUpsertRequest(
                     emotionId = "1",
                 ),
-                ReactionEmotionUpsertApiRequest(
+                ReactionEmotionUpsertRequest(
                     emotionId = "2",
                 )
             )

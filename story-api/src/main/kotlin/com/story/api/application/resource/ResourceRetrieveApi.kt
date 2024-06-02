@@ -15,8 +15,8 @@ class ResourceRetrieveApi(
      */
     @GetMapping("/v1/resources")
     suspend fun listResources(
-        @Valid request: ResourceListApiRequest,
-    ): ApiResponse<ResourceListApiResponse> {
+        @Valid request: ResourceListRequest,
+    ): ApiResponse<ResourceListResponse> {
         val response = resourceRetrieveHandler.listResources(request)
         return ApiResponse.ok(response)
     }

@@ -23,7 +23,7 @@ class PostRetrieveApi(
         @PathVariable spaceId: String,
         @PathVariable postId: PostId,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<PostApiResponse> {
+    ): ApiResponse<PostResponse> {
         val response = postRetrieveHandler.getPost(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -42,8 +42,8 @@ class PostRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @RequestApiKey authContext: ApiKeyContext,
-        @Valid request: PostListApiRequest,
-    ): ApiResponse<PostListApiResponse> {
+        @Valid request: PostListRequest,
+    ): ApiResponse<PostListResponse> {
         val response = postRetrieveHandler.listPosts(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -62,8 +62,8 @@ class PostRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable userId: String,
         @RequestApiKey authContext: ApiKeyContext,
-        @Valid request: PostListApiRequest,
-    ): ApiResponse<PostListApiResponse> {
+        @Valid request: PostListRequest,
+    ): ApiResponse<PostListResponse> {
         val response = postRetrieveHandler.listOwnerPosts(
             workspaceId = authContext.workspaceId,
             componentId = componentId,

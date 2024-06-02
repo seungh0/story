@@ -40,7 +40,7 @@ class SubscriptionRetrieveApiTest(
                 targetId = targetId,
                 subscriberId = subscriberId,
             )
-        } returns SubscriptionExistsApiResponse(
+        } returns SubscriptionExistsResponse(
             isSubscriber = true,
         )
 
@@ -92,7 +92,7 @@ class SubscriptionRetrieveApiTest(
                 componentId = componentId,
                 subscriberId = subscriberId,
             )
-        } returns SubscriptionTargetCountApiResponse(
+        } returns SubscriptionTargetCountResponse(
             targetCount = 350,
         )
 
@@ -137,7 +137,7 @@ class SubscriptionRetrieveApiTest(
         val componentId = "follow"
         val subscriberId = "subscriberId"
 
-        val request = SubscriptionTargetListApiRequest(
+        val request = SubscriptionTargetListRequest(
             pageSize = 30,
             direction = CursorDirection.NEXT.name,
             cursor = UUID.randomUUID().toString(),
@@ -150,17 +150,17 @@ class SubscriptionRetrieveApiTest(
                 subscriberId = subscriberId,
                 request = request,
             )
-        } returns SubscriptionTargetListApiResponse(
+        } returns SubscriptionTargetListResponse(
             targets = listOf(
-                SubscriptionTargetApiResponse(
+                SubscriptionTargetResponse(
                     targetId = "target-1",
                     alarmEnabled = true,
                 ),
-                SubscriptionTargetApiResponse(
+                SubscriptionTargetResponse(
                     targetId = "target-2",
                     alarmEnabled = true,
                 ),
-                SubscriptionTargetApiResponse(
+                SubscriptionTargetResponse(
                     targetId = "target-3",
                     alarmEnabled = false,
                 )
@@ -238,7 +238,7 @@ class SubscriptionRetrieveApiTest(
                 componentId = componentId,
                 targetId = targetId,
             )
-        } returns SubscriberCountApiResponse(
+        } returns SubscriberCountResponse(
             subscriberCount = 13500L
         )
 
@@ -283,7 +283,7 @@ class SubscriptionRetrieveApiTest(
         val componentId = "follow"
         val targetId = "subscription-target-id"
 
-        val request = SubscriberListApiRequest(
+        val request = SubscriberListRequest(
             pageSize = 30,
             direction = CursorDirection.NEXT.name,
             cursor = UUID.randomUUID().toString(),
@@ -296,12 +296,12 @@ class SubscriptionRetrieveApiTest(
                 targetId = targetId,
                 request = request,
             )
-        } returns SubscriberListApiResponse(
+        } returns SubscriberListResponse(
             subscribers = listOf(
-                SubscriberApiResponse(
+                SubscriberResponse(
                     subscriberId = "subscriber-id-1",
                 ),
-                SubscriberApiResponse(
+                SubscriberResponse(
                     subscriberId = "subscriber-id-2",
                 ),
             ),
@@ -438,7 +438,7 @@ class SubscriptionRetrieveApiTest(
         val componentId = "follow"
         val targetId = "subscription-target-id"
 
-        val request = SubscriberListApiRequest(
+        val request = SubscriberListRequest(
             pageSize = 30,
             cursor = UUID.randomUUID().toString(),
         )
@@ -450,12 +450,12 @@ class SubscriptionRetrieveApiTest(
                 targetId = targetId,
                 request = request,
             )
-        } returns SubscriberListApiResponse(
+        } returns SubscriberListResponse(
             subscribers = listOf(
-                SubscriberApiResponse(
+                SubscriberResponse(
                     subscriberId = "subscriber-id-1",
                 ),
-                SubscriberApiResponse(
+                SubscriberResponse(
                     subscriberId = "subscriber-id-2",
                 ),
             ),

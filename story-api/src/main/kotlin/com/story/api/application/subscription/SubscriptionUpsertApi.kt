@@ -22,7 +22,7 @@ class SubscriptionUpsertApi(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
-        @Valid @RequestBody request: SubscriptionUpsertApiRequest,
+        @Valid @RequestBody request: SubscriptionUpsertRequest,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         subscriptionUpsertHandler.upsertSubscription(

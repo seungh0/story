@@ -35,7 +35,7 @@ class NonceCreateApiTest(
             nonceManager.create(any())
         } returns UUID.randomUUID().toString()
 
-        val request = NonceCreateApiRequest(
+        val request = NonceCreateRequest(
             expirationSeconds = 3_600,
         )
 

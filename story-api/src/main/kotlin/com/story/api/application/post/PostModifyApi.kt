@@ -24,7 +24,7 @@ class PostModifyApi(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
         @PathVariable postId: PostId,
-        @Valid @RequestBody request: PostModifyApiRequest,
+        @Valid @RequestBody request: PostModifyRequest,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         postModifyHandler.patchPost(

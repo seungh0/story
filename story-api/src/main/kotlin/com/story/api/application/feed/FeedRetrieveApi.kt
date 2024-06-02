@@ -17,9 +17,9 @@ class FeedRetrieveApi(
     suspend fun listFeeds(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
-        @Valid request: FeedListApiRequest,
+        @Valid request: FeedListRequest,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<FeedListApiResponse> {
+    ): ApiResponse<FeedListResponse> {
         val response = feedRetrieveHandler.listFeeds(
             workspaceId = authContext.workspaceId,
             feedComponentId = componentId,

@@ -31,7 +31,7 @@ class ApiKeyCreateApiTest(
         val key = UUID.randomUUID().toString()
         val description = "Story Platform에서 사용할 API-Key"
 
-        val request = ApiKeyCreateApiRequest(
+        val request = ApiKeyCreateRequest(
             description = description,
         )
 

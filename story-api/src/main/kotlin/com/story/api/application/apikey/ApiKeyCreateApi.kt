@@ -21,7 +21,7 @@ class ApiKeyCreateApi(
     suspend fun createApiKey(
         @PathVariable apiKey: String,
         @RequestApiKey authContext: ApiKeyContext,
-        @Valid @RequestBody request: ApiKeyCreateApiRequest,
+        @Valid @RequestBody request: ApiKeyCreateRequest,
     ): ApiResponse<Nothing?> {
         apiKeyCreateHandler.createApiKey(
             workspaceId = authContext.workspaceId,

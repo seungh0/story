@@ -17,8 +17,8 @@ class ApiKeyRetrieveApi(
     @GetMapping("/v1/api-keys/{apiKey}")
     suspend fun getApiKey(
         @PathVariable apiKey: String,
-        @Valid request: ApiKeyGetApiRequest,
-    ): ApiResponse<ApiKeyApiResponse> {
+        @Valid request: ApiKeyGetRequest,
+    ): ApiResponse<ApiKeyResponse> {
         val response = apiKeyRetrieveHandler.getApiKey(
             requestApiKey = apiKey,
             filterStatus = request.filterStatus

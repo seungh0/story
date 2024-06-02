@@ -15,7 +15,7 @@ class FeedMappingRetrieveHandler(
         workspaceId: String,
         sourceResourceId: ResourceId,
         sourceComponentId: String,
-    ): FeedMappingListApiResponse {
+    ): FeedMappingListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = sourceResourceId,
@@ -27,7 +27,7 @@ class FeedMappingRetrieveHandler(
             sourceComponentId = sourceComponentId,
         )
 
-        return FeedMappingListApiResponse.of(feedMappings = feedMappings)
+        return FeedMappingListResponse.of(feedMappings = feedMappings)
     }
 
 }

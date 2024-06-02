@@ -36,7 +36,7 @@ class ComponentModifyApiTest(
         val description = "[Story Platform] 유저 팔로우 시스템"
         val status = ComponentStatus.ENABLED
 
-        val request = ComponentModifyApiRequest(
+        val request = ComponentModifyRequest(
             description = description,
             status = status,
         )

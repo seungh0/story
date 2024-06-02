@@ -6,7 +6,7 @@ import com.story.core.domain.apikey.ApiKey
 import com.story.core.domain.apikey.ApiKeyEmptyException
 import com.story.core.domain.apikey.ApiKeyInactivatedException
 import com.story.core.domain.apikey.ApiKeyInvalidException
-import com.story.core.domain.apikey.ApiKeyRetriever
+import com.story.core.domain.apikey.ApiKeyReaderWithCache
 import com.story.core.domain.apikey.ApiKeyStatus
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
@@ -18,17 +18,17 @@ import java.util.Optional
 
 class ApiKeyHandlerTest(
     @MockkBean
-    private val apiKeyRetriever: ApiKeyRetriever,
+    private val apiKeyReaderWithCache: ApiKeyReaderWithCache,
 ) : FunSpec({
 
-    val apiKeyHandler = ApiKeyHandler(apiKeyRetriever = apiKeyRetriever)
+    val apiKeyHandler = ApiKeyHandler(apiKeyReaderWithCache = apiKeyReaderWithCache)
 
     context("인증 정보를 확인한다") {
         test("활성화되어 있는 API-Key인 경우 인증 체크를 통과한다") {
             val apiKey = "api-key"
 
             // given
-            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns Optional.of(
+            coEvery { apiKeyReaderWithCache.getApiKey(apiKey) } returns Optional.of(
                 ApiKey(
                     workspaceId = "story",
                     status = ApiKeyStatus.ENABLED,
@@ -53,7 +53,7 @@ class ApiKeyHandlerTest(
         test("비활성화되어 있는 API-Key인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns Optional.of(
+            coEvery { apiKeyReaderWithCache.getApiKey(apiKey) } returns Optional.of(
                 ApiKey(
                     workspaceId = "story",
                     status = ApiKeyStatus.DISABLED,
@@ -76,7 +76,7 @@ class ApiKeyHandlerTest(
         test("등록되지 않은 API-Key 인 경우 인증에 실패한다") {
             // given
             val apiKey = "api-key"
-            coEvery { apiKeyRetriever.getApiKey(apiKey) } returns Optional.empty()
+            coEvery { apiKeyReaderWithCache.getApiKey(apiKey) } returns Optional.empty()
 
             // when & then
             shouldThrowExactly<ApiKeyInvalidException> {

@@ -23,7 +23,7 @@ class ComponentModifyApi(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
         @RequestApiKey authContext: ApiKeyContext,
-        @Valid @RequestBody request: ComponentModifyApiRequest,
+        @Valid @RequestBody request: ComponentModifyRequest,
     ): ApiResponse<Nothing?> {
         componentModifyHandler.patchComponent(
             workspaceId = authContext.workspaceId,

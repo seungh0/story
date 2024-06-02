@@ -44,23 +44,23 @@ class PostRetrieveApiTest(
         val parentId = PostId(spaceId = spaceId, depth = 1, parentId = null, postNo = 1000).serialize()
         val postKey = PostId(spaceId = spaceId, depth = 2, parentId = parentId, postNo = postId)
 
-        val post = PostApiResponse(
+        val post = PostResponse(
             parentId = parentId,
             postId = postKey.serialize(),
             title = title,
-            owner = PostOwnerApiResponse(
+            owner = PostOwnerResponse(
                 isOwner = false,
                 ownerId = "user-1"
             ),
             sections = listOf(
-                PostSectionApiResponse(
+                PostSectionResponse(
                     sectionType = PostSectionType.TEXT,
                     data = TextPostSectionContent(
                         content = "뽀미뽀미뽀미",
                         extra = emptyMap(),
                     )
                 ),
-                PostSectionApiResponse(
+                PostSectionResponse(
                     sectionType = PostSectionType.IMAGE,
                     data = ImagePostSectionContent(
                         path = "/store/v1/store.png",
@@ -70,7 +70,7 @@ class PostRetrieveApiTest(
                         extra = emptyMap(),
                     )
                 ),
-                PostSectionApiResponse(
+                PostSectionResponse(
                     sectionType = PostSectionType.LINK,
                     data = LinkPostSectionContent(
                         link = "https://intro.threedollars.co.kr",
@@ -82,7 +82,7 @@ class PostRetrieveApiTest(
                     )
                 )
             ),
-            metadata = PostMetadataApiResponse(
+            metadata = PostMetadataResponse(
                 hasChildren = false,
             ),
             depth = 2,
@@ -206,23 +206,23 @@ class PostRetrieveApiTest(
         val pageSize = 10
         val sortBy = PostSortBy.LATEST
 
-        val post = PostApiResponse(
+        val post = PostResponse(
             parentId = parentId,
             postId = postId,
             title = title,
-            owner = PostOwnerApiResponse(
+            owner = PostOwnerResponse(
                 ownerId = "user-1",
                 isOwner = false,
             ),
             sections = listOf(
-                PostSectionApiResponse(
+                PostSectionResponse(
                     sectionType = PostSectionType.TEXT,
                     data = TextPostSectionContent(
                         content = "뽀미",
                         extra = emptyMap()
                     )
                 ),
-                PostSectionApiResponse(
+                PostSectionResponse(
                     sectionType = PostSectionType.IMAGE,
                     data = ImagePostSectionContent(
                         path = "/store/v1/store.png",
@@ -232,7 +232,7 @@ class PostRetrieveApiTest(
                         extra = emptyMap(),
                     ),
                 ),
-                PostSectionApiResponse(
+                PostSectionResponse(
                     sectionType = PostSectionType.LINK,
                     data = LinkPostSectionContent(
                         link = "https://intro.threedollars.co.kr",
@@ -244,7 +244,7 @@ class PostRetrieveApiTest(
                     )
                 )
             ),
-            metadata = PostMetadataApiResponse(
+            metadata = PostMetadataResponse(
                 hasChildren = false,
             ),
             depth = 2,
@@ -261,7 +261,7 @@ class PostRetrieveApiTest(
                 request = any(),
                 requestUserId = any(),
             )
-        } returns PostListApiResponse(
+        } returns PostListResponse(
             posts = listOf(post),
             cursor = CursorResponse(
                 nextCursor = UUID.randomUUID().toString(),
@@ -398,23 +398,23 @@ class PostRetrieveApiTest(
         val pageSize = 10
         val userId = "user-id"
 
-        val post = PostApiResponse(
+        val post = PostResponse(
             parentId = null,
             postId = postId,
             title = title,
-            owner = PostOwnerApiResponse(
+            owner = PostOwnerResponse(
                 ownerId = userId,
                 isOwner = false,
             ),
             sections = listOf(
-                PostSectionApiResponse(
+                PostSectionResponse(
                     sectionType = PostSectionType.TEXT,
                     data = TextPostSectionContent(
                         content = "뽀미",
                         extra = emptyMap()
                     )
                 ),
-                PostSectionApiResponse(
+                PostSectionResponse(
                     sectionType = PostSectionType.IMAGE,
                     data = ImagePostSectionContent(
                         path = "/store/v1/store.png",
@@ -424,7 +424,7 @@ class PostRetrieveApiTest(
                         extra = emptyMap(),
                     ),
                 ),
-                PostSectionApiResponse(
+                PostSectionResponse(
                     sectionType = PostSectionType.LINK,
                     data = LinkPostSectionContent(
                         link = "https://intro.threedollars.co.kr",
@@ -450,7 +450,7 @@ class PostRetrieveApiTest(
                 ownerId = userId,
                 request = any(),
             )
-        } returns PostListApiResponse(
+        } returns PostListResponse(
             posts = listOf(post),
             cursor = CursorResponse(
                 nextCursor = UUID.randomUUID().toString(),

@@ -3,11 +3,11 @@ package com.story.api.application.reaction
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.common.utils.mapToSet
-import com.story.core.domain.emotion.EmotionRetriever
-import com.story.core.domain.reaction.ReactionChangeResponse
+import com.story.core.domain.emotion.EmotionReader
 import com.story.core.domain.reaction.ReactionCreator
 import com.story.core.domain.reaction.ReactionEventProducer
 import com.story.core.domain.reaction.ReactionRemover
+import com.story.core.domain.reaction.ReactionWriteResponse
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
@@ -15,7 +15,7 @@ class ReactionReplaceHandler(
     private val reactionCreator: ReactionCreator,
     private val componentCheckHandler: ComponentCheckHandler,
     private val reactionEventProducer: ReactionEventProducer,
-    private val emotionRetriever: EmotionRetriever,
+    private val emotionReader: EmotionReader,
     private val reactionRemover: ReactionRemover,
 ) {
 
@@ -24,7 +24,7 @@ class ReactionReplaceHandler(
         componentId: String,
         spaceId: String,
         userId: String,
-        request: ReactionReplaceApiRequest,
+        request: ReactionReplaceRequest,
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
@@ -36,12 +36,12 @@ class ReactionReplaceHandler(
     }
 
     private suspend fun replaceReactions(
-        request: ReactionReplaceApiRequest,
+        request: ReactionReplaceRequest,
         workspaceId: String,
         componentId: String,
         spaceId: String,
         userId: String,
-    ): ReactionChangeResponse {
+    ): ReactionWriteResponse {
         if (request.isClearRequest()) {
             return reactionRemover.removeReaction(
                 workspaceId = workspaceId,
@@ -56,11 +56,11 @@ class ReactionReplaceHandler(
     private suspend fun upsertReactions(
         workspaceId: String,
         componentId: String,
-        request: ReactionReplaceApiRequest,
+        request: ReactionReplaceRequest,
         spaceId: String,
         userId: String,
-    ): ReactionChangeResponse {
-        emotionRetriever.validateExistsEmotions(
+    ): ReactionWriteResponse {
+        emotionReader.validateExistsEmotions(
             workspaceId = workspaceId,
             resourceId = ResourceId.REACTIONS,
             componentId = componentId,

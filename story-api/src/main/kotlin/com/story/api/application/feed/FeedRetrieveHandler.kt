@@ -20,8 +20,8 @@ class FeedRetrieveHandler(
         workspaceId: String,
         feedComponentId: String,
         subscriberId: String,
-        request: FeedListApiRequest,
-    ): FeedListApiResponse {
+        request: FeedListRequest,
+    ): FeedListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.FEEDS,
@@ -37,7 +37,7 @@ class FeedRetrieveHandler(
 
         val feedPayloads = handleFeedPayloads(feeds = feeds, workspaceId = workspaceId, subscriberId = subscriberId)
 
-        return FeedListApiResponse.of(feeds = feeds, feedPayloads = feedPayloads)
+        return FeedListResponse.of(feeds = feeds, feedPayloads = feedPayloads)
     }
 
     private suspend fun handleFeedPayloads(

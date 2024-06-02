@@ -18,7 +18,7 @@ class EmotionRetrieveApi(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<EmotionListApiResponse> {
+    ): ApiResponse<EmotionListResponse> {
         val response = emotionRetrieveHandler.listEmotions(
             workspaceId = authContext.workspaceId,
             resourceId = ResourceId.findByCode(resourceId),

@@ -40,8 +40,8 @@ class SubscriptionDistributedRetrieveHandler(
         workspaceId: String,
         componentId: String,
         targetId: String,
-        request: SubscriberListApiRequest,
-    ): SubscriberListApiResponse {
+        request: SubscriberListRequest,
+    ): SubscriberListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
@@ -61,7 +61,7 @@ class SubscriptionDistributedRetrieveHandler(
             pageSize = request.pageSize,
         )
 
-        return SubscriberListApiResponse.of(subscribers = subscribers)
+        return SubscriberListResponse.of(subscribers = subscribers)
     }
 
 }

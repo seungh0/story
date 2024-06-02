@@ -19,7 +19,7 @@ class PostRetrieveHandler(
         spaceId: String,
         postId: PostId,
         requestUserId: String?,
-    ): PostApiResponse {
+    ): PostResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.POSTS,
@@ -34,16 +34,16 @@ class PostRetrieveHandler(
             ),
             postId = postId,
         )
-        return PostApiResponse.of(post = post, requestUserId = requestUserId)
+        return PostResponse.of(post = post, requestUserId = requestUserId)
     }
 
     suspend fun listPosts(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        request: PostListApiRequest,
+        request: PostListRequest,
         requestUserId: String?,
-    ): PostListApiResponse {
+    ): PostListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.POSTS,
@@ -61,15 +61,15 @@ class PostRetrieveHandler(
             sortBy = request.getSortBy(),
         )
 
-        return PostListApiResponse.of(posts = posts, requestUserId = requestUserId)
+        return PostListResponse.of(posts = posts, requestUserId = requestUserId)
     }
 
     suspend fun listOwnerPosts(
         workspaceId: String,
         componentId: String,
-        request: PostListApiRequest,
+        request: PostListRequest,
         ownerId: String,
-    ): PostListApiResponse {
+    ): PostListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.POSTS,
@@ -83,7 +83,7 @@ class PostRetrieveHandler(
             cursorRequest = request.toDecodedCursor(),
         )
 
-        return PostListApiResponse.of(posts = posts, requestUserId = ownerId)
+        return PostListResponse.of(posts = posts, requestUserId = ownerId)
     }
 
 }

@@ -1,9 +1,8 @@
 package com.story.api.application.component
 
-import com.story.core.domain.component.Component
-import com.story.core.domain.component.ComponentFixutre
+import com.story.core.domain.component.ComponentEntityFixture
 import com.story.core.domain.component.ComponentNotExistsException
-import com.story.core.domain.component.ComponentRetriever
+import com.story.core.domain.component.ComponentReaderWithCache
 import com.story.core.domain.component.ComponentStatus
 import com.story.core.domain.resource.ResourceId
 import io.kotest.assertions.throwables.shouldNotThrowAny
@@ -15,9 +14,9 @@ import java.util.Optional
 
 class ComponentCheckHandlerTest : FunSpec({
 
-    val componentRetriever = mockk<ComponentRetriever>()
+    val componentReaderWithCache = mockk<ComponentReaderWithCache>()
     val componentCheckHandler = ComponentCheckHandler(
-        componentRetriever = componentRetriever,
+        componentReaderWithCache = componentReaderWithCache,
     )
 
     context("컴포넌트를 검증합니다") {
@@ -28,20 +27,18 @@ class ComponentCheckHandlerTest : FunSpec({
             val componentId = "following"
 
             coEvery {
-                componentRetriever.getComponent(
+                componentReaderWithCache.getComponent(
                     workspaceId = workspaceId,
                     resourceId = resourceId,
                     componentId = componentId,
                 )
             } returns Optional.of(
-                Component.of(
-                    ComponentFixutre.create(
-                        workspaceId = workspaceId,
-                        resourceId = resourceId,
-                        componentId = componentId,
-                        status = ComponentStatus.ENABLED,
-                    )
-                )
+                ComponentEntityFixture.create(
+                    workspaceId = workspaceId,
+                    resourceId = resourceId,
+                    componentId = componentId,
+                    status = ComponentStatus.ENABLED,
+                ).toComponent()
             )
 
             // when & then
@@ -61,20 +58,18 @@ class ComponentCheckHandlerTest : FunSpec({
             val componentId = "following"
 
             coEvery {
-                componentRetriever.getComponent(
+                componentReaderWithCache.getComponent(
                     workspaceId = workspaceId,
                     resourceId = resourceId,
                     componentId = componentId,
                 )
             } returns Optional.of(
-                Component.of(
-                    ComponentFixutre.create(
-                        workspaceId = workspaceId,
-                        resourceId = resourceId,
-                        componentId = componentId,
-                        status = ComponentStatus.DISABLED,
-                    )
-                )
+                ComponentEntityFixture.create(
+                    workspaceId = workspaceId,
+                    resourceId = resourceId,
+                    componentId = componentId,
+                    status = ComponentStatus.DISABLED,
+                ).toComponent()
             )
 
             // when & then
@@ -94,7 +89,7 @@ class ComponentCheckHandlerTest : FunSpec({
             val componentId = "following"
 
             coEvery {
-                componentRetriever.getComponent(
+                componentReaderWithCache.getComponent(
                     workspaceId = workspaceId,
                     resourceId = resourceId,
                     componentId = componentId,

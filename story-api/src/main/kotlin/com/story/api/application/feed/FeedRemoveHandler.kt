@@ -16,7 +16,7 @@ class FeedRemoveHandler(
     ) {
         feedRemover.remove(
             workspaceId = workspaceId,
-            componentId = componentId,
+            feedComponentId = componentId,
             subscriberId = subscriberId,
             feedId = feedId,
         )

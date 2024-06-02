@@ -5,7 +5,7 @@ import com.story.core.common.annotation.IOBound
 import com.story.core.common.json.toJson
 import com.story.core.common.json.toObject
 import com.story.core.domain.event.EventRecord
-import com.story.core.domain.reaction.ReactionCountPrimaryKey
+import com.story.core.domain.reaction.ReactionCountKey
 import com.story.core.domain.reaction.ReactionCountRepository
 import com.story.core.domain.reaction.ReactionEvent
 import com.story.core.infrastructure.kafka.KafkaConsumerConfig
@@ -42,7 +42,7 @@ class ReactionCountManageEventConsumer(
         val reactionCountMap = events.flatMap { event ->
             (event.createdOptionIds.map { emotionId -> emotionId to 1L } + event.deletedOptionIds.map { emotionId -> emotionId to -1L })
                 .map { (emotionId, delta) ->
-                    ReactionCountPrimaryKey(
+                    ReactionCountKey(
                         workspaceId = event.workspaceId,
                         componentId = event.componentId,
                         spaceId = event.spaceId,

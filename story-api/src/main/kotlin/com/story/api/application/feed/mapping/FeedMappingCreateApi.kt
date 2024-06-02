@@ -21,7 +21,7 @@ class FeedMappingCreateApi(
         @PathVariable sourceResourceId: String,
         @PathVariable sourceComponentId: String,
         @PathVariable subscriptionComponentId: String,
-        @Valid @RequestBody request: FeedMappingCreateApiRequest,
+        @Valid @RequestBody request: FeedMappingCreateRequest,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         feedMappingCreateHandler.create(

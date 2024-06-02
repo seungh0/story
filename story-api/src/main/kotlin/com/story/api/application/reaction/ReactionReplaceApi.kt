@@ -18,7 +18,7 @@ class ReactionReplaceApi(
     suspend fun replaceReactions(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @Valid @RequestBody request: ReactionReplaceApiRequest,
+        @Valid @RequestBody request: ReactionReplaceRequest,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         reactionUpsertHandler.replaceReactions(

@@ -20,7 +20,7 @@ class EmotionModifyApi(
         @PathVariable resourceId: String,
         @PathVariable componentId: String,
         @PathVariable emotionId: String,
-        @Valid @RequestBody request: EmotionModifyApiRequest,
+        @Valid @RequestBody request: EmotionModifyRequest,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         emotionModifyHandler.modifyEmotion(

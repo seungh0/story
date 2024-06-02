@@ -23,10 +23,10 @@ class PostCreateApi(
     suspend fun createPost(
         @PathVariable componentId: String,
         @PathVariable spaceId: String,
-        @Valid @RequestBody request: PostCreateApiRequest,
+        @Valid @RequestBody request: PostCreateRequest,
         @RequestApiKey authContext: ApiKeyContext,
         @RequestNonce(required = false) nonce: String? = null,
-    ): ApiResponse<PostCreateApiResponse> {
+    ): ApiResponse<PostCreateResponse> {
         val postId = postCreateHandler.createPost(
             postSpaceKey = PostSpaceKey(
                 workspaceId = authContext.workspaceId,
@@ -37,7 +37,7 @@ class PostCreateApi(
             nonce = nonce,
             request = request,
         )
-        return ApiResponse.ok(PostCreateApiResponse.of(postId = postId))
+        return ApiResponse.ok(PostCreateResponse.of(postId = postId))
     }
 
 }

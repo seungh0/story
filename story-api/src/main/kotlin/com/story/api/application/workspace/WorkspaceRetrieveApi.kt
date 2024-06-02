@@ -18,8 +18,8 @@ class WorkspaceRetrieveApi(
     suspend fun getWorkspace(
         @PathVariable workspaceId: String,
         @RequestApiKey authContext: ApiKeyContext,
-        @Valid request: WorkspaceGetApiRequest,
-    ): ApiResponse<WorkspaceApiResponse> {
+        @Valid request: WorkspaceGetRequest,
+    ): ApiResponse<WorkspaceResponse> {
         if (authContext.workspaceId != workspaceId) {
             throw WorkspaceNoPermissionException("워크스페이스($workspaceId)에 권한이 없습니다 [현재 요청자의 워크스페이스 키 = ${authContext.workspaceId}]")
         }

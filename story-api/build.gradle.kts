@@ -2,7 +2,9 @@ val asciidoctorExtensions: Configuration by configurations.creating
 
 dependencies {
     // Core
-    implementation(project(":story-core"))
+    implementation(project(":story-core:domain"))
+    implementation(project(":story-core:data-cassandra"))
+    implementation(project(":story-core:data-redis"))
 
     // Spring Webflux
     implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -23,7 +25,8 @@ dependencies {
     asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor")
 
     // Test Fixtures
-    testImplementation(testFixtures(project(":story-core")))
+    testImplementation(testFixtures(project(":story-core:domain")))
+    testImplementation(testFixtures(project(":story-core:data-cassandra")))
 }
 
 tasks.bootJar {

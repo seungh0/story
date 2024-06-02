@@ -16,7 +16,7 @@ class EmotionModifyHandler(
         resourceId: ResourceId,
         componentId: String,
         emotionId: String,
-        request: EmotionModifyApiRequest,
+        request: EmotionModifyRequest,
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,

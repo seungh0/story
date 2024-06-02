@@ -41,10 +41,10 @@ class PostModifyApiTest(
         val spaceId = "user-space-id"
         val postKey = PostId(spaceId = spaceId, depth = 1, parentId = null, postNo = postId)
 
-        val request = PostModifyApiRequest(
+        val request = PostModifyRequest(
             title = "플랫폼 정보",
             sections = listOf(
-                PostSectionApiRequest(
+                PostSectionRequest(
                     sectionType = PostSectionType.TEXT.name,
                     data = mapOf(
                         "priority" to 1L,
@@ -52,7 +52,7 @@ class PostModifyApiTest(
                         "extra" to emptyMap<String, Any>(),
                     )
                 ),
-                PostSectionApiRequest(
+                PostSectionRequest(
                     sectionType = PostSectionType.IMAGE.name,
                     data = mapOf(
                         "priority" to 2L,
@@ -60,7 +60,7 @@ class PostModifyApiTest(
                         "extra" to emptyMap<String, Any>(),
                     )
                 ),
-                PostSectionApiRequest(
+                PostSectionRequest(
                     sectionType = PostSectionType.LINK.name,
                     data = mapOf(
                         "priority" to 3L,

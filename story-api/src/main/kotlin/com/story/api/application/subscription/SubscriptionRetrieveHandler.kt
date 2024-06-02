@@ -22,7 +22,7 @@ class SubscriptionRetrieveHandler(
         componentId: String,
         targetId: String,
         subscriberId: String,
-    ): SubscriptionExistsApiResponse {
+    ): SubscriptionExistsResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
@@ -35,15 +35,15 @@ class SubscriptionRetrieveHandler(
             targetId = targetId,
             subscriberId = subscriberId,
         )
-        return SubscriptionExistsApiResponse(isSubscriber = isSubscriber)
+        return SubscriptionExistsResponse(isSubscriber = isSubscriber)
     }
 
     suspend fun listSubscribers(
         workspaceId: String,
         componentId: String,
         targetId: String,
-        request: SubscriberListApiRequest,
-    ): SubscriberListApiResponse {
+        request: SubscriberListRequest,
+    ): SubscriberListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
@@ -56,7 +56,7 @@ class SubscriptionRetrieveHandler(
             cursorRequest = request.toDecodedCursor(),
         )
 
-        return SubscriberListApiResponse.of(subscribers = subscriptions)
+        return SubscriberListResponse.of(subscribers = subscriptions)
     }
 
     suspend fun listSubscriberDistributedMarkers(
@@ -86,8 +86,8 @@ class SubscriptionRetrieveHandler(
         workspaceId: String,
         componentId: String,
         targetId: String,
-        request: SubscriberListApiRequest,
-    ): SubscriberListApiResponse {
+        request: SubscriberListRequest,
+    ): SubscriberListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
@@ -107,15 +107,15 @@ class SubscriptionRetrieveHandler(
             pageSize = request.pageSize,
         )
 
-        return SubscriberListApiResponse.of(subscribers = subscribers)
+        return SubscriberListResponse.of(subscribers = subscribers)
     }
 
     suspend fun listSubscriptionTargets(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
-        request: SubscriptionTargetListApiRequest,
-    ): SubscriptionTargetListApiResponse {
+        request: SubscriptionTargetListRequest,
+    ): SubscriptionTargetListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
@@ -129,14 +129,14 @@ class SubscriptionRetrieveHandler(
             cursorRequest = request.toDecodedCursor(),
         )
 
-        return SubscriptionTargetListApiResponse.of(subscriptions = subscriptions)
+        return SubscriptionTargetListResponse.of(subscriptions = subscriptions)
     }
 
     suspend fun countSubscribers(
         workspaceId: String,
         componentId: String,
         targetId: String,
-    ): SubscriberCountApiResponse {
+    ): SubscriberCountResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
@@ -148,14 +148,14 @@ class SubscriptionRetrieveHandler(
             componentId = componentId,
             targetId = targetId,
         )
-        return SubscriberCountApiResponse(subscriberCount = subscriberCount)
+        return SubscriberCountResponse(subscriberCount = subscriberCount)
     }
 
     suspend fun countTargets(
         workspaceId: String,
         componentId: String,
         subscriberId: String,
-    ): SubscriptionTargetCountApiResponse {
+    ): SubscriptionTargetCountResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.SUBSCRIPTIONS,
@@ -167,7 +167,7 @@ class SubscriptionRetrieveHandler(
             componentId = componentId,
             subscriberId = subscriberId,
         )
-        return SubscriptionTargetCountApiResponse(targetCount = subscriberCount)
+        return SubscriptionTargetCountResponse(targetCount = subscriberCount)
     }
 
 }

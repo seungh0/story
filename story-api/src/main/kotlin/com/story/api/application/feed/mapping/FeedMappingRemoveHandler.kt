@@ -2,15 +2,15 @@ package com.story.api.application.feed.mapping
 
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.component.ComponentNotExistsException
-import com.story.core.domain.component.ComponentRetriever
+import com.story.core.domain.component.ComponentReaderWithCache
 import com.story.core.domain.feed.mapping.FeedMappingEventProducer
-import com.story.core.domain.feed.mapping.FeedMappingRemoveRequest
+import com.story.core.domain.feed.mapping.FeedMappingRemoveCommand
 import com.story.core.domain.feed.mapping.FeedMappingRemover
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
 class FeedMappingRemoveHandler(
-    private val componentRetriever: ComponentRetriever,
+    private val componentReaderWithCache: ComponentReaderWithCache,
     private val feedMappingRemover: FeedMappingRemover,
     private val feedMappingEventProducer: FeedMappingEventProducer,
 ) {
@@ -27,7 +27,7 @@ class FeedMappingRemoveHandler(
             sourceResourceId to sourceComponentId,
             ResourceId.SUBSCRIPTIONS to subscriptionComponentId,
         ).forEach { (resourceId: ResourceId, componentId: String) ->
-            componentRetriever.getComponent(
+            componentReaderWithCache.getComponent(
                 workspaceId = workspaceId,
                 resourceId = resourceId,
                 componentId = componentId,
@@ -36,7 +36,7 @@ class FeedMappingRemoveHandler(
         }
 
         feedMappingRemover.remove(
-            request = FeedMappingRemoveRequest(
+            command = FeedMappingRemoveCommand(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
                 sourceResourceId = sourceResourceId,

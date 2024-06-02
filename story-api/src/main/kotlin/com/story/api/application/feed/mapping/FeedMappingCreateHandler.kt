@@ -2,15 +2,15 @@ package com.story.api.application.feed.mapping
 
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.component.ComponentNotExistsException
-import com.story.core.domain.component.ComponentRetriever
-import com.story.core.domain.feed.mapping.FeedMappingCreateRequest
+import com.story.core.domain.component.ComponentReaderWithCache
+import com.story.core.domain.feed.mapping.FeedMappingCreateCommand
 import com.story.core.domain.feed.mapping.FeedMappingCreator
 import com.story.core.domain.feed.mapping.FeedMappingEventProducer
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
 class FeedMappingCreateHandler(
-    private val componentRetriever: ComponentRetriever,
+    private val componentReaderWithCache: ComponentReaderWithCache,
     private val feedMappingCreator: FeedMappingCreator,
     private val feedMappingEventProducer: FeedMappingEventProducer,
 ) {
@@ -21,14 +21,14 @@ class FeedMappingCreateHandler(
         sourceResourceId: ResourceId,
         sourceComponentId: String,
         subscriptionComponentId: String,
-        request: FeedMappingCreateApiRequest,
+        request: FeedMappingCreateRequest,
     ) {
         setOf(
             ResourceId.FEEDS to feedComponentId,
             sourceResourceId to sourceComponentId,
             ResourceId.SUBSCRIPTIONS to subscriptionComponentId,
         ).forEach { (resourceId: ResourceId, componentId: String) ->
-            componentRetriever.getComponent(
+            componentReaderWithCache.getComponent(
                 workspaceId = workspaceId,
                 resourceId = resourceId,
                 componentId = componentId,
@@ -37,7 +37,7 @@ class FeedMappingCreateHandler(
         }
 
         feedMappingCreator.create(
-            request = FeedMappingCreateRequest(
+            command = FeedMappingCreateCommand(
                 workspaceId = workspaceId,
                 feedComponentId = feedComponentId,
                 sourceResourceId = sourceResourceId,

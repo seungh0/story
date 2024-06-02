@@ -31,7 +31,7 @@ class FeedItemFanoutRemoveActionHandler(
 
             feedRemover.remove(
                 workspaceId = payload.workspaceId,
-                componentId = payload.feedComponentId,
+                feedComponentId = payload.feedComponentId,
                 feedSubscribers = feedSubscribers.data
             )
 

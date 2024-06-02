@@ -19,7 +19,7 @@ class FeedMappingRetrieveApi(
         @PathVariable sourceResourceId: String,
         @PathVariable sourceComponentId: String,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<FeedMappingListApiResponse> {
+    ): ApiResponse<FeedMappingListResponse> {
         val feedMappings = feedMappingRetrieveHandler.listConnectedFeedMappings(
             workspaceId = authContext.workspaceId,
             sourceResourceId = ResourceId.findByCode(sourceResourceId),

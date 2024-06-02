@@ -11,8 +11,8 @@ import com.story.api.lib.RestDocsUtils.getDocumentRequest
 import com.story.api.lib.RestDocsUtils.getDocumentResponse
 import com.story.api.lib.WebClientUtils
 import com.story.core.domain.emotion.Emotion
-import com.story.core.domain.reaction.Reaction
-import com.story.core.domain.reaction.ReactionEmotionResponse
+import com.story.core.domain.reaction.ReactionEmotion
+import com.story.core.domain.reaction.ReactionWithEmotionCount
 import io.mockk.coEvery
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
@@ -48,18 +48,18 @@ class ReactionRetrieveApiTest(
                 requestUserId = any(),
                 request = any(),
             )
-        } returns ReactionApiResponse.of(
-            reaction = Reaction(
+        } returns ReactionResponse.of(
+            reaction = ReactionWithEmotionCount(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 spaceId = spaceId,
                 emotions = listOf(
-                    ReactionEmotionResponse(
+                    ReactionEmotion(
                         emotionId = "emotion-1",
                         count = 10500,
                         reactedByMe = true,
                     ),
-                    ReactionEmotionResponse(
+                    ReactionEmotion(
                         emotionId = "emotion-2",
                         count = 3500,
                         reactedByMe = false,
@@ -153,20 +153,20 @@ class ReactionRetrieveApiTest(
                 request = any(),
                 requestUserId = any(),
             )
-        } returns ReactionListApiResponse(
+        } returns ReactionListResponse(
             spaceReactions = listOf(
-                ReactionApiResponse.of(
-                    reaction = Reaction(
+                ReactionResponse.of(
+                    reaction = ReactionWithEmotionCount(
                         workspaceId = workspaceId,
                         componentId = componentId,
                         spaceId = "space-1",
                         emotions = listOf(
-                            ReactionEmotionResponse(
+                            ReactionEmotion(
                                 emotionId = "emotion-1",
                                 count = 10500,
                                 reactedByMe = true,
                             ),
-                            ReactionEmotionResponse(
+                            ReactionEmotion(
                                 emotionId = "emotion-2",
                                 count = 3500,
                                 reactedByMe = false,
@@ -186,18 +186,18 @@ class ReactionRetrieveApiTest(
                         )
                     )
                 ),
-                ReactionApiResponse.of(
-                    reaction = Reaction(
+                ReactionResponse.of(
+                    reaction = ReactionWithEmotionCount(
                         workspaceId = workspaceId,
                         componentId = componentId,
                         spaceId = "space-2",
                         emotions = listOf(
-                            ReactionEmotionResponse(
+                            ReactionEmotion(
                                 emotionId = "emotion-1",
                                 count = 3500,
                                 reactedByMe = false,
                             ),
-                            ReactionEmotionResponse(
+                            ReactionEmotion(
                                 emotionId = "emotion-2",
                                 count = 1000,
                                 reactedByMe = true,

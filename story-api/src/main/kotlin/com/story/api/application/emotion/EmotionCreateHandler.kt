@@ -16,7 +16,7 @@ class EmotionCreateHandler(
         resourceId: ResourceId,
         componentId: String,
         emotionId: String,
-        request: EmotionCreateApiRequest,
+        request: EmotionCreateRequest,
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,

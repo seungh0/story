@@ -10,8 +10,7 @@ import com.story.api.lib.WebClientUtils
 import com.story.api.lib.isTrue
 import com.story.core.domain.apikey.ApiKey
 import com.story.core.domain.apikey.ApiKeyStatus
-import com.story.core.domain.workspace.Workspace
-import com.story.core.domain.workspace.WorkspaceFixture
+import com.story.core.domain.workspace.WorkspaceEntityFixture
 import com.story.core.domain.workspace.WorkspacePricePlan
 import com.story.core.domain.workspace.WorkspaceStatus
 import io.kotest.core.spec.style.FunSpec
@@ -46,7 +45,7 @@ class WorkspaceRetrieveApiTest(
 
     test("워크스페이스를 조회한다") {
         // given
-        val workspace = WorkspaceFixture.create(
+        val workspace = WorkspaceEntityFixture.create(
             workspaceId = "story",
             name = "Story Platform",
             status = WorkspaceStatus.ENABLED,
@@ -57,7 +56,7 @@ class WorkspaceRetrieveApiTest(
                 workspaceId = any(),
                 filterStatus = any(),
             )
-        } returns WorkspaceApiResponse.of(workspace = Workspace.of(workspace = workspace))
+        } returns WorkspaceResponse.of(workspace = workspace.toWorkspace())
 
         // when
         val exchange = webTestClient.get()

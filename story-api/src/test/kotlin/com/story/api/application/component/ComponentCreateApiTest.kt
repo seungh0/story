@@ -33,7 +33,7 @@ class ComponentCreateApiTest(
         val componentId = "user-follow"
         val description = "[Story Platform] 유저 팔로우 시스템"
 
-        val request = ComponentCreateApiRequest(
+        val request = ComponentCreateRequest(
             description = description,
         )
 

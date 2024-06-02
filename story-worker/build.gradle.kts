@@ -1,6 +1,8 @@
 dependencies {
     // Core
-    implementation(project(":story-core"))
+    implementation(project(":story-core:domain"))
+    implementation(project(":story-core:data-cassandra"))
+    implementation(project(":story-core:data-redis"))
 
     // Spring Webflux
     implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -17,7 +19,8 @@ dependencies {
     implementation("io.micrometer:micrometer-tracing")
 
     // Test Fixtures
-    testImplementation(testFixtures(project(":story-core")))
+    testImplementation(testFixtures(project(":story-core:data-cassandra")))
+    testImplementation(testFixtures(project(":story-core:domain")))
 }
 
 tasks.bootJar {

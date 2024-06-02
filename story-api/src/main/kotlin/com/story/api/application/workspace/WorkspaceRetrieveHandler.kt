@@ -2,19 +2,19 @@ package com.story.api.application.workspace
 
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.workspace.WorkspaceNotExistsException
-import com.story.core.domain.workspace.WorkspaceRetriever
+import com.story.core.domain.workspace.WorkspaceReaderWithCache
 import com.story.core.domain.workspace.WorkspaceStatus
 import kotlin.jvm.optionals.getOrNull
 
 @HandlerAdapter
 class WorkspaceRetrieveHandler(
-    private val workspaceRetriever: WorkspaceRetriever,
+    private val workspaceReaderWithCache: WorkspaceReaderWithCache,
 ) {
 
     suspend fun validateEnabledWorkspace(
         workspaceId: String,
     ) {
-        val workspace = workspaceRetriever.getWorkspace(workspaceId = workspaceId)
+        val workspace = workspaceReaderWithCache.getWorkspace(workspaceId = workspaceId)
             .orElseThrow { WorkspaceNotExistsException(message = "워크스페이스($workspaceId)가 존재하지 않습니다") }
 
         if (!workspace.isEnabled()) {
@@ -25,13 +25,13 @@ class WorkspaceRetrieveHandler(
     suspend fun getWorkspace(
         workspaceId: String,
         filterStatus: WorkspaceStatus? = WorkspaceStatus.ENABLED,
-    ): WorkspaceApiResponse {
-        val workspace = workspaceRetriever.getWorkspace(workspaceId = workspaceId).getOrNull()
+    ): WorkspaceResponse {
+        val workspace = workspaceReaderWithCache.getWorkspace(workspaceId = workspaceId).getOrNull()
 
         if (workspace == null || filterStatus != null && filterStatus != workspace.status) {
             throw WorkspaceNotExistsException(message = "워크스페이스($workspaceId)가 존재하지 않습니다 [filterStaus: $filterStatus, current: ${workspace?.status}]")
         }
-        return WorkspaceApiResponse.of(workspace = workspace)
+        return WorkspaceResponse.of(workspace = workspace)
     }
 
 }

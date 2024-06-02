@@ -2,12 +2,12 @@ package com.story.api.application.component
 
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.component.ComponentNotExistsException
-import com.story.core.domain.component.ComponentRetriever
+import com.story.core.domain.component.ComponentReaderWithCache
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
 class ComponentCheckHandler(
-    private val componentRetriever: ComponentRetriever,
+    private val componentReaderWithCache: ComponentReaderWithCache,
 ) {
 
     suspend fun checkExistsComponent(
@@ -15,7 +15,7 @@ class ComponentCheckHandler(
         resourceId: ResourceId,
         componentId: String,
     ) {
-        val component = componentRetriever.getComponent(
+        val component = componentReaderWithCache.getComponent(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,

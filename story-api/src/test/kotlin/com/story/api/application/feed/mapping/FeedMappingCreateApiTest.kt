@@ -34,7 +34,7 @@ class FeedMappingCreateApiTest(
         val sourceComponentId = "user-post"
         val subscriptionComponentId = "user-follow"
 
-        val request = FeedMappingCreateApiRequest(
+        val request = FeedMappingCreateRequest(
             description = "유저 포스트가 생성되면 유저를 팔로워 한 구독자들의 타임라인 피드에 발행한다",
             retention = Duration.ofDays(30),
         )

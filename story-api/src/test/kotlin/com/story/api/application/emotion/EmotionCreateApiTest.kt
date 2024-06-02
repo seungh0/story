@@ -38,7 +38,7 @@ class EmotionCreateApiTest(
         val componentId = "post-sticker"
         val emotionId = "emotion-id"
 
-        val request = EmotionCreateApiRequest(
+        val request = EmotionCreateRequest(
             image = "\uD83D\uDE49",
             priority = 1,
         )

@@ -32,7 +32,7 @@ class ApiKeyModifyApiTest(
         val description = "Story Platform에서 사용할 API-Key"
         val status = ApiKeyStatus.ENABLED
 
-        val request = ApiKeyModifyApiRequest(
+        val request = ApiKeyModifyRequest(
             description = description,
             status = status,
         )

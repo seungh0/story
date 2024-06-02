@@ -21,7 +21,7 @@ class ApiKeyModifyApi(
     suspend fun patchApiKey(
         @PathVariable apiKey: String,
         @RequestApiKey authContext: ApiKeyContext,
-        @Valid @RequestBody request: ApiKeyModifyApiRequest,
+        @Valid @RequestBody request: ApiKeyModifyRequest,
     ): ApiResponse<Nothing?> {
         apiKeyModifyHandler.patchApiKey(
             workspaceId = authContext.workspaceId,

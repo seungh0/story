@@ -4,13 +4,12 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.api.ApiTest
 import com.story.api.DocsTest
 import com.story.api.StringSpecDocsTest
-import com.story.api.application.workspace.WorkspaceApiResponse
+import com.story.api.application.workspace.WorkspaceResponse
 import com.story.api.lib.PageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
 import com.story.api.lib.WebClientUtils
 import com.story.core.domain.apikey.ApiKeyStatus
-import com.story.core.domain.workspace.Workspace
-import com.story.core.domain.workspace.WorkspaceFixture
+import com.story.core.domain.workspace.WorkspaceEntityFixture
 import com.story.core.domain.workspace.WorkspacePricePlan
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
@@ -38,11 +37,11 @@ class ApiKeyRetrieveApiTest(
                 requestApiKey = apiKey,
                 filterStatus = any(),
             )
-        } returns ApiKeyApiResponse(
+        } returns ApiKeyResponse(
             status = ApiKeyStatus.ENABLED,
             description = "Story Platform에서 사용할 API-Key",
-            workspace = WorkspaceApiResponse.of(
-                workspace = Workspace.of(workspace = WorkspaceFixture.create())
+            workspace = WorkspaceResponse.of(
+                workspace = WorkspaceEntityFixture.create().toWorkspace(),
             )
         )
 

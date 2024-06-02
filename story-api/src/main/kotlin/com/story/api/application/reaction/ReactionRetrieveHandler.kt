@@ -4,31 +4,31 @@ import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.common.utils.mapToSet
 import com.story.core.domain.emotion.Emotion
-import com.story.core.domain.emotion.EmotionRetriever
-import com.story.core.domain.reaction.ReactionRetriever
+import com.story.core.domain.emotion.EmotionReader
+import com.story.core.domain.reaction.ReactionReader
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
 class ReactionRetrieveHandler(
-    private val reactionRetriever: ReactionRetriever,
+    private val reactionReader: ReactionReader,
     private val componentCheckHandler: ComponentCheckHandler,
-    private val emotionRetriever: EmotionRetriever,
+    private val emotionReader: EmotionReader,
 ) {
 
     suspend fun getReaction(
         workspaceId: String,
         componentId: String,
         spaceId: String,
-        request: ReactionGetApiRequest,
+        request: ReactionGetRequest,
         requestUserId: String?,
-    ): ReactionApiResponse {
+    ): ReactionResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.REACTIONS,
             componentId = componentId,
         )
 
-        val reaction = reactionRetriever.getReaction(
+        val reaction = reactionReader.getReaction(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceId = spaceId,
@@ -42,7 +42,7 @@ class ReactionRetrieveHandler(
             emotionIds = reaction.emotions.mapToSet { emotion -> emotion.emotionId },
         )
 
-        return ReactionApiResponse.of(reaction = reaction, emotions = emotions)
+        return ReactionResponse.of(reaction = reaction, emotions = emotions)
     }
 
     private suspend fun getEmotions(
@@ -52,13 +52,13 @@ class ReactionRetrieveHandler(
         emotionIds: Set<String>,
     ): Map<String, Emotion> {
         if (includeUnselectedEmotions) {
-            return emotionRetriever.listEmotions(
+            return emotionReader.listEmotions(
                 workspaceId = workspaceId,
                 resourceId = ResourceId.REACTIONS,
                 componentId = componentId,
             ).data.associateBy { emotion -> emotion.emotionId }
         }
-        return emotionRetriever.getEmotions(
+        return emotionReader.getEmotions(
             workspaceId = workspaceId,
             resourceId = ResourceId.REACTIONS,
             componentId = componentId,
@@ -69,16 +69,16 @@ class ReactionRetrieveHandler(
     suspend fun listReactions(
         workspaceId: String,
         componentId: String,
-        request: ReactionListApiRequest,
+        request: ReactionListRequest,
         requestUserId: String?,
-    ): ReactionListApiResponse {
+    ): ReactionListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.REACTIONS,
             componentId = componentId,
         )
 
-        val reactions = reactionRetriever.listReactions(
+        val reactions = reactionReader.listReactions(
             workspaceId = workspaceId,
             componentId = componentId,
             spaceIds = request.spaceIds,
@@ -96,7 +96,7 @@ class ReactionRetrieveHandler(
             emotionIds = emotionIds,
         )
 
-        return ReactionListApiResponse.of(reactions = reactions, emotions = emotions)
+        return ReactionListResponse.of(reactions = reactions, emotions = emotions)
     }
 
 }

@@ -35,11 +35,11 @@ class ComponentRetrieveApiTest(
         val description = "[Story Platform] 유저 팔로우 시스템"
         val status = ComponentStatus.ENABLED
 
-        val request = ComponentGetApiRequest(
+        val request = ComponentGetRequest(
             filterStatus = ComponentStatus.ENABLED,
         )
 
-        val component = ComponentApiResponse(
+        val component = ComponentResponse(
             componentId = componentId,
             description = description,
             status = status
@@ -117,7 +117,7 @@ class ComponentRetrieveApiTest(
         val cursor = UUID.randomUUID().toString()
         val pageSize = 10
 
-        val component = ComponentApiResponse(
+        val component = ComponentResponse(
             componentId = componentId,
             description = description,
             status = status
@@ -131,7 +131,7 @@ class ComponentRetrieveApiTest(
                 resourceId = resourceId,
                 request = any(),
             )
-        } returns ComponentListApiResponse(
+        } returns ComponentListResponse(
             components = listOf(component),
             cursor = CursorResponse(
                 nextCursor = UUID.randomUUID().toString(),

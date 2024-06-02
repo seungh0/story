@@ -37,9 +37,9 @@ class FeedMappingRetrieveApiTest(
                 sourceResourceId = sourceResourceId,
                 sourceComponentId = sourceComponentId,
             )
-        } returns FeedMappingListApiResponse(
+        } returns FeedMappingListResponse(
             feedMappings = listOf(
-                FeedMappingApiResponse(
+                FeedMappingResponse(
                     resourceId = ResourceId.SUBSCRIPTIONS.code,
                     componentId = "follow"
                 )

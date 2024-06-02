@@ -24,7 +24,7 @@ internal class HeaderDocsGeneratorTest : FunSpec({
 
         """.trimIndent()
 
-        HttpHeader.values()
+        HttpHeader.entries
             .forEach { httpHeader ->
                 asciidoctorText +=
                     """

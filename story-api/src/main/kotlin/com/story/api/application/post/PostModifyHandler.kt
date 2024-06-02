@@ -20,7 +20,7 @@ class PostModifyHandler(
         postSpaceKey: PostSpaceKey,
         ownerId: String,
         postId: PostId,
-        request: PostModifyApiRequest,
+        request: PostModifyRequest,
     ) {
         componentCheckHandler.checkExistsComponent(
             workspaceId = postSpaceKey.workspaceId,

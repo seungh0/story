@@ -11,7 +11,7 @@ class ApiKeyCreateApiRequestTest : StringSpec({
 
     "API-Key에 대한 설명이 비어있을 수 있다" {
         // given
-        val request = ApiKeyCreateApiRequest(description = "")
+        val request = ApiKeyCreateRequest(description = "")
 
         // when
         val sut = validator.validate(request)
@@ -22,7 +22,7 @@ class ApiKeyCreateApiRequestTest : StringSpec({
 
     "API-Key에 대한 설명은 최대 300자까지만 사용할 수 있다" {
         // given
-        val request = ApiKeyCreateApiRequest(description = "1".repeat(n = 300))
+        val request = ApiKeyCreateRequest(description = "1".repeat(n = 300))
 
         // when
         val sut = validator.validate(request)
@@ -33,7 +33,7 @@ class ApiKeyCreateApiRequestTest : StringSpec({
 
     "API-Key에 대한 설명은 301자 이상인 경우 사용할 수 없다" {
         // given
-        val request = ApiKeyCreateApiRequest(description = "1".repeat(n = 301))
+        val request = ApiKeyCreateRequest(description = "1".repeat(n = 301))
 
         // when
         val sut = validator.validate(request)

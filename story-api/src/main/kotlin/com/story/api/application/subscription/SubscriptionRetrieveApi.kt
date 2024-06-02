@@ -22,7 +22,7 @@ class SubscriptionRetrieveApi(
         @PathVariable subscriberId: String,
         @PathVariable targetId: String,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<SubscriptionExistsApiResponse> {
+    ): ApiResponse<SubscriptionExistsResponse> {
         val response = subscriptionRetrieveHandler.existsSubscription(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -40,7 +40,7 @@ class SubscriptionRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<SubscriptionTargetCountApiResponse> {
+    ): ApiResponse<SubscriptionTargetCountResponse> {
         val response = subscriptionRetrieveHandler.countTargets(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -56,9 +56,9 @@ class SubscriptionRetrieveApi(
     suspend fun listSubscriptionTargets(
         @PathVariable componentId: String,
         @PathVariable subscriberId: String,
-        @Valid request: SubscriptionTargetListApiRequest,
+        @Valid request: SubscriptionTargetListRequest,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<SubscriptionTargetListApiResponse> {
+    ): ApiResponse<SubscriptionTargetListResponse> {
         val response = subscriptionRetrieveHandler.listSubscriptionTargets(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -76,7 +76,7 @@ class SubscriptionRetrieveApi(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<SubscriberCountApiResponse> {
+    ): ApiResponse<SubscriberCountResponse> {
         val response = subscriptionRetrieveHandler.countSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -92,9 +92,9 @@ class SubscriptionRetrieveApi(
     suspend fun listSubscribers(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
-        @Valid request: SubscriberListApiRequest,
+        @Valid request: SubscriberListRequest,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<SubscriberListApiResponse> {
+    ): ApiResponse<SubscriberListResponse> {
         val response = subscriptionRetrieveHandler.listSubscribers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
@@ -130,9 +130,9 @@ class SubscriptionRetrieveApi(
     suspend fun listSubscribersByDistributedMarkers(
         @PathVariable componentId: String,
         @PathVariable targetId: String,
-        @Valid request: SubscriberListApiRequest,
+        @Valid request: SubscriberListRequest,
         @RequestApiKey authContext: ApiKeyContext,
-    ): ApiResponse<SubscriberListApiResponse> {
+    ): ApiResponse<SubscriberListResponse> {
         val response = subscriptionRetrieveHandler.listSubscribersByDistributedMarkers(
             workspaceId = authContext.workspaceId,
             componentId = componentId,

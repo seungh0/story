@@ -4,11 +4,11 @@ import com.ninjasquad.springmockk.MockkBean
 import com.story.api.ApiTest
 import com.story.api.DocsTest
 import com.story.api.StringSpecDocsTest
-import com.story.api.application.post.PostApiResponse
-import com.story.api.application.post.PostMetadataApiResponse
-import com.story.api.application.post.PostOwnerApiResponse
-import com.story.api.application.post.PostSectionApiResponse
-import com.story.api.application.subscription.SubscriptionApiResponse
+import com.story.api.application.post.PostMetadataResponse
+import com.story.api.application.post.PostOwnerResponse
+import com.story.api.application.post.PostResponse
+import com.story.api.application.post.PostSectionResponse
+import com.story.api.application.subscription.SubscriptionResponse
 import com.story.api.lib.PageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
 import com.story.api.lib.WebClientUtils
@@ -54,17 +54,17 @@ class FeedRetrieveApiTest(
                 subscriberId = subscriberId,
                 request = any(),
             )
-        } returns FeedListApiResponse(
+        } returns FeedListResponse(
             feeds = listOf(
-                FeedApiResponse(
+                FeedResponse(
                     feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
                     componentId = "user-post",
-                    payload = PostApiResponse(
+                    payload = PostResponse(
                         postId = "1000",
                         title = "스토리 플랫폼(Story Platform)이란?",
                         sections = listOf(
-                            PostSectionApiResponse(
+                            PostSectionResponse(
                                 sectionType = PostSectionType.TEXT,
                                 data = TextPostSectionContent(
                                     content = "섹션 내용",
@@ -72,11 +72,11 @@ class FeedRetrieveApiTest(
                                 )
                             )
                         ),
-                        owner = PostOwnerApiResponse(
+                        owner = PostOwnerResponse(
                             ownerId = "user-1",
                             isOwner = false,
                         ),
-                        metadata = PostMetadataApiResponse(
+                        metadata = PostMetadataResponse(
                             hasChildren = false,
                         ),
                         parentId = null,
@@ -87,15 +87,15 @@ class FeedRetrieveApiTest(
                         this.updatedAt = LocalDateTime.now()
                     }
                 ),
-                FeedApiResponse(
+                FeedResponse(
                     feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
                     componentId = "user-post",
-                    payload = PostApiResponse(
+                    payload = PostResponse(
                         postId = "1000",
                         title = "스토리 플랫폼(Story Platform)이란?",
                         sections = listOf(
-                            PostSectionApiResponse(
+                            PostSectionResponse(
                                 sectionType = PostSectionType.IMAGE,
                                 data = ImagePostSectionContent(
                                     path = "/store/v1/store.png",
@@ -106,11 +106,11 @@ class FeedRetrieveApiTest(
                                 )
                             )
                         ),
-                        owner = PostOwnerApiResponse(
+                        owner = PostOwnerResponse(
                             ownerId = "user-10",
                             isOwner = false,
                         ),
-                        metadata = PostMetadataApiResponse(
+                        metadata = PostMetadataResponse(
                             hasChildren = false,
                         ),
                         parentId = null,
@@ -121,15 +121,15 @@ class FeedRetrieveApiTest(
                         this.updatedAt = LocalDateTime.now()
                     }
                 ),
-                FeedApiResponse(
+                FeedResponse(
                     feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
                     componentId = "user-post",
-                    payload = PostApiResponse(
+                    payload = PostResponse(
                         postId = "1000",
                         title = "스토리 플랫폼(Story Platform)이란?",
                         sections = listOf(
-                            PostSectionApiResponse(
+                            PostSectionResponse(
                                 sectionType = PostSectionType.LINK,
                                 data = LinkPostSectionContent(
                                     link = "https://intro.threedollars.co.kr",
@@ -141,11 +141,11 @@ class FeedRetrieveApiTest(
                                 )
                             )
                         ),
-                        owner = PostOwnerApiResponse(
+                        owner = PostOwnerResponse(
                             ownerId = "user-1",
                             isOwner = false,
                         ),
-                        metadata = PostMetadataApiResponse(
+                        metadata = PostMetadataResponse(
                             hasChildren = false,
                         ),
                         parentId = null,
@@ -291,13 +291,13 @@ class FeedRetrieveApiTest(
                 subscriberId = subscriberId,
                 request = any(),
             )
-        } returns FeedListApiResponse(
+        } returns FeedListResponse(
             feeds = listOf(
-                FeedApiResponse(
+                FeedResponse(
                     feedId = "30000",
                     resourceId = ResourceId.POSTS.code,
                     componentId = "user-post",
-                    payload = SubscriptionApiResponse(
+                    payload = SubscriptionResponse(
                         targetId = "target-id",
                         subscriberId = "subscriber-id"
                     )

@@ -24,7 +24,7 @@ internal class ErrorCodeDocsGeneratorTest : FunSpec({
 
         """.trimIndent()
 
-        ErrorCode.values()
+        ErrorCode.entries
             .forEach { errorCode ->
                 asciidoctorText +=
                     """

@@ -28,7 +28,7 @@ class PostCreateHandler(
     suspend fun createPost(
         postSpaceKey: PostSpaceKey,
         ownerId: String,
-        request: PostCreateApiRequest,
+        request: PostCreateRequest,
         nonce: String?,
     ): PostId {
         nonce?.let { nonceManager.verify(nonce) }
@@ -54,7 +54,7 @@ class PostCreateHandler(
     }
 
     private suspend fun validateParentPost(
-        request: PostCreateApiRequest,
+        request: PostCreateRequest,
         postSpaceKey: PostSpaceKey,
     ) {
         if (request.parentId == null) {
