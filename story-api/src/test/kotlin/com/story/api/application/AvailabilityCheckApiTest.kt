@@ -38,6 +38,7 @@ internal class AvailabilityCheckApiTest(
             workspaceId = "story",
             status = ApiKeyStatus.ENABLED,
             description = "",
+            apiKey = "api-key"
         )
 
         coEvery { componentCheckHandler.checkExistsComponent(any(), any(), any()) } returns Unit

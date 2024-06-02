@@ -9,10 +9,11 @@ import kotlinx.coroutines.flow.toList
 
 class ComponentCreatorTest : StringSpec({
 
-    val componentRepository = ComponentMemoryRepository()
+    val componentRepository = ComponentMemoryCassandraRepository()
 
     val componentCreator = ComponentCreator(
-        componentRepository = componentRepository,
+        componentReadRepository = ComponentEntityRepository(componentRepository),
+        componentWriteRepository = ComponentEntityRepository(componentRepository),
     )
 
     "새로운 컴포넌트를 등록합니다" {

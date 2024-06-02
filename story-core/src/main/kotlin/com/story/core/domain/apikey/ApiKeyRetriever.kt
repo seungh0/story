@@ -7,7 +7,7 @@ import java.util.Optional
 
 @Service
 class ApiKeyRetriever(
-    private val apiKeyRepository: ApiKeyRepository,
+    private val apiKeyReadRepository: ApiKeyReadRepository,
 ) {
 
     @Cacheable(
@@ -17,9 +17,9 @@ class ApiKeyRetriever(
     suspend fun getApiKey(
         apiKey: String,
     ): Optional<ApiKey> {
-        val entity = apiKeyRepository.findById(apiKey)
+        val entity = apiKeyReadRepository.findById(apiKey)
             ?: return Optional.empty()
-        return Optional.of(ApiKey.of(apiKey = entity))
+        return Optional.of(entity)
     }
 
 }

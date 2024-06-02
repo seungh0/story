@@ -1,6 +1,8 @@
 package com.story.core.domain.apikey
 
 import com.story.core.common.model.AuditingTimeEntity
+import com.story.core.domain.apikey.storage.WorkspaceApiKey
+import com.story.core.domain.apikey.storage.WorkspaceApiKeyPrimaryKey
 import com.story.core.support.RandomGenerator.generateEnum
 import com.story.core.support.RandomGenerator.generateString
 

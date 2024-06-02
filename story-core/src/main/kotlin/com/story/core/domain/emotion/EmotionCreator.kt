@@ -2,13 +2,13 @@ package com.story.core.domain.emotion
 
 import com.story.core.domain.emotion.EmotionPolicy.EMOTION_MAX_COUNT_PER_COMPONENT
 import com.story.core.domain.resource.ResourceId
-import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 
 @Service
 class EmotionCreator(
-    private val emotionRepository: EmotionRepository,
+    private val emotionWriteRepository: EmotionWriteRepository,
+    private val emotionReadRepository: EmotionReadRepository,
 ) {
 
     suspend fun createEmotion(
@@ -22,7 +22,7 @@ class EmotionCreator(
         validateNotExistsEmotion(workspaceId, resourceId, componentId, emotionId)
         validateNotExceededEmotionCountLimit(workspaceId, resourceId, componentId)
 
-        val emotion = EmotionEntity.of(
+        emotionWriteRepository.create(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
@@ -30,7 +30,6 @@ class EmotionCreator(
             priority = priority,
             image = image,
         )
-        emotionRepository.save(emotion)
     }
 
     private suspend fun validateNotExistsEmotion(
@@ -39,13 +38,13 @@ class EmotionCreator(
         componentId: String,
         emotionId: String,
     ) {
-        val key = EmotionPrimaryKey(
-            workspaceId = workspaceId,
-            resourceId = resourceId,
-            componentId = componentId,
-            emotionId = emotionId,
-        )
-        if (emotionRepository.existsById(key)) {
+        if (emotionReadRepository.existsById(
+                workspaceId = workspaceId,
+                resourceId = resourceId,
+                componentId = componentId,
+                emotionId = emotionId,
+            )
+        ) {
             throw EmotionAlreadyExistsException("워크스페이스($workspaceId)의 리소스/컴포넌트($resourceId/$componentId)에 이미 등록된 이모션($emotionId) 입니다")
         }
     }
@@ -55,7 +54,7 @@ class EmotionCreator(
         resourceId: ResourceId,
         componentId: String,
     ) {
-        val existsEmotions = emotionRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
+        val existsEmotions = emotionReadRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,

@@ -3,6 +3,7 @@ package com.story.core.domain.apikey
 import com.story.core.FunSpecIntegrationTest
 import com.story.core.IntegrationTest
 import com.story.core.common.utils.mapToSet
+import com.story.core.domain.apikey.storage.WorkspaceApiKeyCassandraRepository
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.collections.shouldHaveSize
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
 class ApiKeyCreatorTest(
-    private val workspaceApiKeyRepository: WorkspaceApiKeyRepository,
+    private val workspaceApiKeyRepository: WorkspaceApiKeyCassandraRepository,
     private val apiKeyCreator: ApiKeyCreator,
 ) : FunSpecIntegrationTest({
 

@@ -1,11 +1,11 @@
-package com.story.core.domain.component
+package com.story.core.domain.component.storage
 
 import com.story.core.domain.resource.ResourceId
 import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 
-interface ComponentRepository : CassandraBasicRepository<ComponentEntity, ComponentPrimaryKey> {
+interface ComponentCassandraRepository : CassandraBasicRepository<ComponentEntity, ComponentPrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdLessThan(
         workspaceId: String,

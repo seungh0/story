@@ -1,6 +1,7 @@
 package com.story.core.domain.component
 
 import com.story.core.common.model.dto.AuditingTimeResponse
+import com.story.core.domain.component.storage.ComponentEntity
 
 data class Component(
     val componentId: String,

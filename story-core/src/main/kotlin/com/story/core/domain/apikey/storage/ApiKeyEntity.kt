@@ -1,6 +1,7 @@
-package com.story.core.domain.apikey
+package com.story.core.domain.apikey.storage
 
 import com.story.core.common.model.AuditingTimeEntity
+import com.story.core.domain.apikey.ApiKeyStatus
 import org.springframework.data.cassandra.core.mapping.Embedded
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.Table

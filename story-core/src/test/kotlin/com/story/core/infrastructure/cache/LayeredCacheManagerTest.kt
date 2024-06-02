@@ -23,7 +23,8 @@ internal class LayeredCacheManagerTest : FunSpec({
                 ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
-                    description = "설명"
+                    description = "설명",
+                    apiKey = "api-key",
                 )
             )
 
@@ -53,7 +54,8 @@ internal class LayeredCacheManagerTest : FunSpec({
                 ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
-                    description = "설명"
+                    description = "설명",
+                    apiKey = "api-key",
                 )
             )
 
@@ -131,7 +133,8 @@ internal class LayeredCacheManagerTest : FunSpec({
                 ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
-                    description = "설명"
+                    description = "설명",
+                    apiKey = "api-key",
                 )
             )
 
@@ -195,7 +198,8 @@ internal class LayeredCacheManagerTest : FunSpec({
                 ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
-                    description = "설명"
+                    description = "설명",
+                    apiKey = "api-key",
                 )
             )
 
@@ -259,7 +263,8 @@ internal class LayeredCacheManagerTest : FunSpec({
                 ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
-                    description = "설명"
+                    description = "설명",
+                    apiKey = "api-key",
                 )
             )
 

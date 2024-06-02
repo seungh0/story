@@ -6,14 +6,13 @@ import com.story.core.common.utils.CursorUtils
 import com.story.core.domain.resource.ResourceId
 import com.story.core.infrastructure.cache.CacheType
 import com.story.core.infrastructure.cache.Cacheable
-import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 import java.util.Optional
 
 @Service
 class ComponentRetriever(
-    private val componentRepository: ComponentRepository,
+    private val componentReadRepository: ComponentReadRepository,
 ) {
 
     @Cacheable(
@@ -25,14 +24,12 @@ class ComponentRetriever(
         resourceId: ResourceId,
         componentId: String,
     ): Optional<Component> {
-        val component = componentRepository.findById(
-            ComponentPrimaryKey(
-                workspaceId = workspaceId,
-                resourceId = resourceId,
-                componentId = componentId,
-            )
+        val component = componentReadRepository.findById(
+            workspaceId = workspaceId,
+            resourceId = resourceId,
+            componentId = componentId,
         ) ?: return Optional.empty()
-        return Optional.of(Component.of(component = component))
+        return Optional.of(component)
     }
 
     suspend fun listComponents(
@@ -48,12 +45,11 @@ class ComponentRetriever(
         )
 
         return Slice.of(
-            data = components.subList(0, cursorRequest.pageSize.coerceAtMost(components.size))
-                .map { component -> Component.of(component) },
+            data = components.subList(0, cursorRequest.pageSize.coerceAtMost(components.size)),
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = components,
                 pageSize = cursorRequest.pageSize,
-                keyGenerator = { component -> component?.key?.componentId }
+                keyGenerator = { component -> component?.componentId }
             )
         )
     }
@@ -63,21 +59,21 @@ class ComponentRetriever(
         resourceId: ResourceId,
         componentId: String?,
         pageSize: Int,
-    ): List<ComponentEntity> {
+    ): List<Component> {
         if (componentId == null) {
-            return componentRepository.findAllByKeyWorkspaceIdAndKeyResourceId(
+            return componentReadRepository.findAllByKeyWorkspaceIdAndKeyResourceId(
                 workspaceId = workspaceId,
                 resourceId = resourceId,
                 pageable = CassandraPageRequest.first(pageSize + 1),
-            ).toList()
+            )
         }
 
-        return componentRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdLessThan(
+        return componentReadRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdLessThan(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
             pageable = CassandraPageRequest.first(pageSize + 1),
-        ).toList()
+        )
     }
 
 }

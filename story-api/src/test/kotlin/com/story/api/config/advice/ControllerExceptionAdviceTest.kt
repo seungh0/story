@@ -38,6 +38,7 @@ internal class ControllerExceptionAdviceTest(
             workspaceId = "story",
             status = ApiKeyStatus.ENABLED,
             description = "",
+            apiKey = "api-key",
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }

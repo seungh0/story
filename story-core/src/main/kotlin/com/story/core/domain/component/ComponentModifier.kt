@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ComponentModifier(
-    private val componentRepository: ComponentRepository,
+    private val componentWriteRepository: ComponentWriteRepository,
 ) {
 
     @CacheEvict(
@@ -23,20 +23,13 @@ class ComponentModifier(
         description: String?,
         status: ComponentStatus?,
     ): Component {
-        val component = componentRepository.findById(
-            ComponentPrimaryKey(
-                workspaceId = workspaceId,
-                resourceId = resourceId,
-                componentId = componentId,
-            )
+        return componentWriteRepository.update(
+            workspaceId = workspaceId,
+            resourceId = resourceId,
+            componentId = componentId,
+            description = description,
+            status = status,
         )
-            ?: throw ComponentNotExistsException(message = "워크스페이스($workspaceId)에 등록되지 않은 리소스($resourceId) 컴포넌트($componentId)입니다.")
-
-        component.patch(description = description, status = status)
-
-        componentRepository.save(component)
-
-        return Component.of(component)
     }
 
 }

@@ -1,6 +1,8 @@
 package com.story.core.domain.component
 
 import com.story.core.common.model.AuditingTimeEntity
+import com.story.core.domain.component.storage.ComponentEntity
+import com.story.core.domain.component.storage.ComponentPrimaryKey
 import com.story.core.domain.resource.ResourceId
 import com.story.core.support.RandomGenerator
 

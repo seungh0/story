@@ -32,7 +32,8 @@ class GlobalCacheHandlerTest : FunSpec({
                 ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
-                    description = "설명"
+                    description = "설명",
+                    apiKey = "api-key",
                 )
             )
 
@@ -145,7 +146,8 @@ class GlobalCacheHandlerTest : FunSpec({
                 ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
-                    description = "설명"
+                    description = "설명",
+                    apiKey = "api-key",
                 )
             )
 
@@ -192,7 +194,8 @@ class GlobalCacheHandlerTest : FunSpec({
                 ApiKey(
                     workspaceId = "workspaceId",
                     status = ApiKeyStatus.ENABLED,
-                    description = "설명"
+                    description = "설명",
+                    apiKey = "api-key",
                 )
             )
 

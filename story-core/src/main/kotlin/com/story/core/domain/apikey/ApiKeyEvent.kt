@@ -11,15 +11,15 @@ data class ApiKeyEvent(
 
     companion object {
         fun updated(
-            workspaceApiKey: WorkspaceApiKey,
+            workspaceApiKey: ApiKey,
         ) = EventRecord(
             eventAction = EventAction.MODIFIED,
             payload = ApiKeyEvent(
-                workspaceId = workspaceApiKey.key.workspaceId,
-                apiKey = workspaceApiKey.key.apiKey,
+                workspaceId = workspaceApiKey.workspaceId,
+                apiKey = workspaceApiKey.apiKey,
                 status = workspaceApiKey.status,
             ),
-            eventKey = ApiKeyEventKey(apiKey = workspaceApiKey.key.apiKey).makeKey(),
+            eventKey = ApiKeyEventKey(apiKey = workspaceApiKey.apiKey).makeKey(),
         )
     }
 

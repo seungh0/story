@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class ComponentCreator(
-    private val componentRepository: ComponentRepository,
+    private val componentReadRepository: ComponentReadRepository,
+    private val componentWriteRepository: ComponentWriteRepository,
 ) {
 
     suspend fun createComponent(
@@ -14,28 +15,23 @@ class ComponentCreator(
         componentId: String,
         description: String,
     ): Component {
-        val exists = componentRepository.existsById(
-            ComponentPrimaryKey(
-                workspaceId = workspaceId,
-                resourceId = resourceId,
-                componentId = componentId,
-            )
+        val exists = componentReadRepository.existsById(
+            workspaceId = workspaceId,
+            resourceId = resourceId,
+            componentId = componentId,
         )
 
         if (exists) {
             throw ComponentAlreadyExistsException(message = "워크스페이스($workspaceId)에 이미 등록된 리소스($resourceId) 컴포넌트($componentId)입니다.")
         }
 
-        val component = ComponentEntity.of(
+        return componentWriteRepository.create(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
             description = description,
             status = ComponentStatus.ENABLED
         )
-        componentRepository.save(component)
-
-        return Component.of(component)
     }
 
 }

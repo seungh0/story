@@ -4,6 +4,7 @@ import com.story.core.IntegrationTest
 import com.story.core.StringSpecIntegrationTest
 import com.story.core.common.json.toJson
 import com.story.core.common.json.toObject
+import com.story.core.domain.apikey.storage.ApiKeyCassandraRepository
 import com.story.core.infrastructure.cache.CacheType
 import com.story.core.infrastructure.cache.GlobalCacheRepository
 import io.kotest.matchers.shouldBe
@@ -12,7 +13,7 @@ import kotlin.jvm.optionals.getOrNull
 @IntegrationTest
 class ApiKeyRetrieverTest(
     private val apiKeyRetriever: ApiKeyRetriever,
-    private val apiKeyRepository: ApiKeyRepository,
+    private val apiKeyRepository: ApiKeyCassandraRepository,
     private val globalCacheRepository: GlobalCacheRepository,
 ) : StringSpecIntegrationTest({
 
@@ -53,7 +54,7 @@ class ApiKeyRetrieverTest(
         globalCacheRepository.setCache(
             cacheType = CacheType.API_KEY,
             cacheKey = "apiKey:${apiKey.apiKey}",
-            value = ApiKey.of(apiKey).toJson(),
+            value = ApiKey.from(apiKey).toJson(),
         )
 
         // when

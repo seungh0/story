@@ -1,13 +1,16 @@
 package com.story.core.domain.component
 
+import com.story.core.domain.component.storage.ComponentCassandraRepository
+import com.story.core.domain.component.storage.ComponentEntity
+import com.story.core.domain.component.storage.ComponentPrimaryKey
 import com.story.core.domain.resource.ResourceId
 import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import com.story.core.lib.StubCassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 
-class ComponentMemoryRepository :
-    ComponentRepository,
+class ComponentMemoryCassandraRepository :
+    ComponentCassandraRepository,
     CassandraBasicRepository<ComponentEntity, ComponentPrimaryKey> by StubCassandraBasicRepository() {
 
     override fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdLessThan(

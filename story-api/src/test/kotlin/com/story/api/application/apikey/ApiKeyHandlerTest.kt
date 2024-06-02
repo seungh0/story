@@ -33,6 +33,7 @@ class ApiKeyHandlerTest(
                     workspaceId = "story",
                     status = ApiKeyStatus.ENABLED,
                     description = "",
+                    apiKey = "api-key",
                 )
             )
 
@@ -57,6 +58,7 @@ class ApiKeyHandlerTest(
                     workspaceId = "story",
                     status = ApiKeyStatus.DISABLED,
                     description = "",
+                    apiKey = "api-key"
                 )
             )
 

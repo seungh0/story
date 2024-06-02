@@ -5,13 +5,12 @@ import com.story.core.common.model.dto.CursorResponse
 import com.story.core.common.utils.mapToSet
 import com.story.core.domain.emotion.EmotionPolicy.EMOTION_MAX_COUNT_PER_COMPONENT
 import com.story.core.domain.resource.ResourceId
-import kotlinx.coroutines.flow.toList
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 
 @Service
 class EmotionRetriever(
-    private val emotionRepository: EmotionRepository,
+    private val emotionReadRepository: EmotionReadRepository,
 ) {
 
     suspend fun validateExistsEmotions(
@@ -20,18 +19,15 @@ class EmotionRetriever(
         componentId: String,
         emotionIds: Set<String>,
     ) {
-        val keys = emotionIds.map { emotionId ->
-            EmotionPrimaryKey(
-                workspaceId = workspaceId,
-                resourceId = resourceId,
-                componentId = componentId,
-                emotionId = emotionId,
-            )
-        }
-        val emotions = emotionRepository.findAllById(keys).toList()
+        val emotions = emotionReadRepository.findAllById(
+            workspaceId = workspaceId,
+            resourceId = resourceId,
+            componentId = componentId,
+            emotionIds = emotionIds,
+        ).toList()
 
         if (emotions.size < emotionIds.size) {
-            val existsEmotionIds = emotions.mapToSet { emotion -> emotion.key.emotionId }
+            val existsEmotionIds = emotions.mapToSet { emotion -> emotion.emotionId }
             throw EmotionNotExistsException("워크스페이스($workspaceId)의 리소스/컴포넌트($resourceId/$componentId)에 존재하지 않는 이모션(${emotionIds - existsEmotionIds})이 존재합니다")
         }
     }
@@ -42,14 +38,13 @@ class EmotionRetriever(
         componentId: String,
         emotionIds: Set<String>,
     ): Map<String, Emotion> {
-        val emotions = emotionRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdAndKeyEmotionIdIn(
+        val emotions = emotionReadRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentIdAndKeyEmotionIdIn(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
             emotionIds = emotionIds,
         ).toList()
-        return emotions.associateBy { emotion -> emotion.key.emotionId }
-            .mapValues { emotion -> Emotion.of(emotion.value) }
+        return emotions.associateBy { emotion -> emotion.emotionId }
     }
 
     suspend fun listEmotions(
@@ -57,7 +52,7 @@ class EmotionRetriever(
         resourceId: ResourceId,
         componentId: String,
     ): Slice<Emotion, String> {
-        val emotions = emotionRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
+        val emotions = emotionReadRepository.findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
             workspaceId = workspaceId,
             resourceId = resourceId,
             componentId = componentId,
@@ -65,7 +60,7 @@ class EmotionRetriever(
         ).toList()
 
         return Slice.of(
-            data = emotions.map { emotion -> Emotion.of(emotion = emotion) },
+            data = emotions,
             cursor = CursorResponse.noMore(),
         )
     }

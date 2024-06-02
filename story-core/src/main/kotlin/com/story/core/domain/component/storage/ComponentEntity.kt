@@ -1,6 +1,8 @@
-package com.story.core.domain.apikey
+package com.story.core.domain.component.storage
 
 import com.story.core.common.model.AuditingTimeEntity
+import com.story.core.domain.component.ComponentStatus
+import com.story.core.domain.resource.ResourceId
 import com.story.core.infrastructure.cassandra.CassandraEntity
 import com.story.core.infrastructure.cassandra.CassandraKey
 import org.springframework.data.cassandra.core.cql.Ordering
@@ -11,22 +13,20 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 
-@Table("workspace_api_key_v1")
-data class WorkspaceApiKey(
+@Table("component_v1")
+data class ComponentEntity(
     @field:PrimaryKey
-    override val key: WorkspaceApiKeyPrimaryKey,
+    override val key: ComponentPrimaryKey,
 
-    var status: ApiKeyStatus,
-    var description: String = "",
+    var status: ComponentStatus,
+
+    var description: String,
 
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
     var auditingTime: AuditingTimeEntity,
 ) : CassandraEntity {
 
-    fun patch(
-        description: String?,
-        status: ApiKeyStatus?,
-    ) {
+    fun patch(description: String?, status: ComponentStatus?) {
         if (description != null) {
             this.description = description
         }
@@ -35,22 +35,24 @@ data class WorkspaceApiKey(
             this.status = status
         }
 
-        this.auditingTime = this.auditingTime.updated()
+        this.auditingTime = auditingTime.updated()
     }
 
     companion object {
         fun of(
             workspaceId: String,
-            apiKey: String,
-            status: ApiKeyStatus = ApiKeyStatus.ENABLED,
+            resourceId: ResourceId,
+            componentId: String,
             description: String,
-        ) = WorkspaceApiKey(
-            key = WorkspaceApiKeyPrimaryKey(
+            status: ComponentStatus,
+        ) = ComponentEntity(
+            key = ComponentPrimaryKey(
                 workspaceId = workspaceId,
-                apiKey = apiKey,
+                resourceId = resourceId,
+                componentId = componentId,
             ),
-            description = description,
             status = status,
+            description = description,
             auditingTime = AuditingTimeEntity.created(),
         )
     }
@@ -58,10 +60,13 @@ data class WorkspaceApiKey(
 }
 
 @PrimaryKeyClass
-data class WorkspaceApiKeyPrimaryKey(
+data class ComponentPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
     val workspaceId: String,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 2)
-    val apiKey: String,
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 2)
+    val resourceId: ResourceId,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 3)
+    val componentId: String,
 ) : CassandraKey

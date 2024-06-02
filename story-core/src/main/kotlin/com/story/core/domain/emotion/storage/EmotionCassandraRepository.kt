@@ -1,11 +1,11 @@
-package com.story.core.domain.emotion
+package com.story.core.domain.emotion.storage
 
 import com.story.core.domain.resource.ResourceId
 import com.story.core.infrastructure.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 
-interface EmotionRepository : CassandraBasicRepository<EmotionEntity, EmotionPrimaryKey> {
+interface EmotionCassandraRepository : CassandraBasicRepository<EmotionEntity, EmotionPrimaryKey> {
 
     fun findAllByKeyWorkspaceIdAndKeyResourceIdAndKeyComponentId(
         workspaceId: String,

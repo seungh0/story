@@ -22,6 +22,7 @@ abstract class FunSpecDocsTest(body: FunSpec.() -> Unit = {}) : FunSpec() {
             workspaceId = "story",
             status = ApiKeyStatus.ENABLED,
             description = "",
+            apiKey = "api-key",
         )
         coEvery { workspaceRetrieveHandler.validateEnabledWorkspace(any()) } returns Unit
     }

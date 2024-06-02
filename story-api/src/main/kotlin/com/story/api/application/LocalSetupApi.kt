@@ -1,8 +1,8 @@
 package com.story.api.application
 
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.domain.apikey.ApiKeyEntity
-import com.story.core.domain.apikey.WorkspaceApiKey
+import com.story.core.domain.apikey.storage.ApiKeyEntity
+import com.story.core.domain.apikey.storage.WorkspaceApiKey
 import com.story.core.domain.workspace.WorkspaceEntity
 import com.story.core.domain.workspace.WorkspacePricePlan
 import com.story.core.infrastructure.cassandra.upsert
