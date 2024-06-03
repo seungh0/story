@@ -1,5 +1,7 @@
-package com.story.core.domain.post
+package com.story.data.redis.post
 
+import com.story.core.domain.post.PostId
+import com.story.core.domain.post.PostSpaceKey
 import com.story.core.infrastructure.redis.StringRedisKey
 import java.time.Duration
 

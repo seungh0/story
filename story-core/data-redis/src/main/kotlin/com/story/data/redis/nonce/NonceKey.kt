@@ -1,4 +1,4 @@
-package com.story.core.domain.nonce
+package com.story.data.redis.nonce
 
 import com.story.core.infrastructure.redis.StringRedisKey
 import java.time.Duration

@@ -1,6 +1,5 @@
 package com.story.data.redis.nonce
 
-import com.story.core.domain.nonce.NonceKey
 import com.story.core.domain.nonce.NonceRepository
 import com.story.core.infrastructure.redis.StringRedisRepository
 import org.springframework.stereotype.Repository

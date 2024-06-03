@@ -1,13 +1,13 @@
-package com.story.core.domain.subscription
+package com.story.data.redis.subscription
 
 import com.story.core.infrastructure.redis.StringRedisKey
 import java.time.Duration
 
-data class SubscriberSequence(
+data class SubscriberSequenceKey(
     val workspaceId: String,
     val componentId: String,
     val targetId: String,
-) : StringRedisKey<SubscriberSequence, Long> {
+) : StringRedisKey<SubscriberSequenceKey, Long> {
 
     override fun makeKeyString(): String = "subscriber-sequence:v1:$workspaceId:$componentId:$targetId"
 
