@@ -9,12 +9,9 @@ dependencies {
     implementation("org.redisson:redisson:$redissonVersion")
 
     // Test
+    testFixturesImplementation(testFixtures(project(":story-core:domain")))
     testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
-    testFixturesImplementation(
-        testFixtures(project(":story-core:domain")),
-    )
 }
 
 tasks.bootJar {

@@ -11,12 +11,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
 
     // Spring Actuator
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    runtimeOnly("org.springframework.boot:spring-boot-starter-actuator")
 
     // Micrometer
-    implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-observation")
-    implementation("io.micrometer:micrometer-tracing")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+    runtimeOnly("io.micrometer:micrometer-tracing")
 
     // Test Fixtures
     testImplementation(testFixtures(project(":story-core:data-cassandra")))

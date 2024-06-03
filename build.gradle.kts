@@ -42,13 +42,6 @@ subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
-        // Spring
-        implementation("org.springframework.boot:spring-boot-starter")
-        implementation("org.springframework.boot:spring-boot-starter-validation")
-        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
-        implementation("org.springframework.boot:spring-boot-starter-aop")
-
         // Kotlin
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -58,15 +51,19 @@ subprojects {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
         testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
 
+        // Spring
+        implementation("org.springframework.boot:spring-boot-starter")
+        implementation("org.springframework.boot:spring-boot-starter-aop")
+        implementation("org.springframework.boot:spring-boot-starter-validation")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+
         // Logging
         implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
 
-        // Kotest
+        // Test
         testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
         testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
         testImplementation("io.kotest.extensions:kotest-extensions-spring:$kotestSpringExtensionVersion")
-
-        // Spring MockK
         testImplementation("com.ninja-squad:springmockk:$springMockkVersion")
     }
 

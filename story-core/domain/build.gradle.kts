@@ -2,7 +2,6 @@ val redissonVersion: String by project.extra
 
 dependencies {
     // Cache
-    implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("com.github.ben-manes.caffeine:caffeine")
 
     // Cassandra
@@ -26,10 +25,12 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Test
-    testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     testRuntimeOnly(project(":story-core:data-cassandra"))
     testRuntimeOnly(project(":story-core:data-redis"))
+
+    // Test Fixtures
+    testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 }
 
 tasks.bootJar {
