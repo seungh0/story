@@ -24,7 +24,7 @@ class PostEventProducer(
     private val dispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun publishCreatedEvent(post: Post) {
+    suspend fun publishCreatedEvent(post: PostWithSections) {
         val event = PostEvent.created(post = post)
         eventHistoryManager.withSaveEventHistory(
             workspaceId = post.workspaceId,
@@ -46,7 +46,7 @@ class PostEventProducer(
         }
     }
 
-    suspend fun publishModifiedEvent(post: Post) {
+    suspend fun publishModifiedEvent(post: PostWithSections) {
         val event = PostEvent.modified(post = post)
         eventHistoryManager.withSaveEventHistory(
             workspaceId = post.workspaceId,

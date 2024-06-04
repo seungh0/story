@@ -1,7 +1,8 @@
 package com.story.core.domain.post
 
+import com.story.core.common.model.AuditingTimeEntity
 import com.story.core.common.model.dto.AuditingTimeResponse
-import com.story.core.domain.post.section.PostSectionContent
+import java.time.LocalDateTime
 
 data class Post(
     val workspaceId: String,
@@ -11,55 +12,30 @@ data class Post(
     val postId: PostId,
     val depth: Int,
     val ownerId: String,
-    val title: String,
-    val sections: List<PostSectionContent>,
-    val extra: Map<String, String>,
-    val metadata: PostMetadataResponse?,
+    var title: String,
+    var extra: Map<String, String>,
+    val metadata: Map<PostMetadataType, String>,
 ) : AuditingTimeResponse() {
 
-    fun hasChildrenMetadata(): Boolean {
-        if (this.metadata == null) {
-            return false
-        }
-        return this.metadata.hasChildren
+    fun isOwner(ownerId: String): Boolean {
+        return this.ownerId == ownerId
     }
 
-    companion object {
-        fun of(post: PostEntity, sections: List<PostSectionContent>): Post {
-            val response = Post(
-                workspaceId = post.key.workspaceId,
-                componentId = post.key.componentId,
-                spaceId = post.key.spaceId,
-                parentId = post.key.parentPostId,
-                postId = post.key.postId,
-                depth = post.key.getDepth(),
-                ownerId = post.ownerId,
-                title = post.title,
-                sections = sections,
-                extra = post.extra,
-                metadata = PostMetadataResponse.of(post),
-            )
-            response.setAuditingTime(post.auditingTime)
-            return response
+    fun patch(title: String?, extra: Map<String, String>?): Boolean {
+        var hasChanged = false
+        if (!title.isNullOrBlank()) {
+            hasChanged = hasChanged || this.title != title
+            this.title = title
         }
 
-        fun of(post: PostReverse, sections: List<PostSectionContent>): Post {
-            val response = Post(
-                workspaceId = post.key.workspaceId,
-                componentId = post.key.componentId,
-                spaceId = post.key.spaceId,
-                parentId = post.key.parentPostId,
-                postId = post.key.postId,
-                depth = post.key.getDepth(),
-                ownerId = post.key.ownerId,
-                title = post.title,
-                sections = sections,
-                extra = post.extra,
-                metadata = null
-            )
-            response.setAuditingTime(post.auditingTime)
-            return response
+        if (extra != null) {
+            hasChanged = hasChanged || this.extra != extra
+            this.extra = extra.toMutableMap()
         }
+
+        this.setAuditingTime(AuditingTimeEntity(super.createdAt, LocalDateTime.now()))
+
+        return hasChanged
     }
 
 }

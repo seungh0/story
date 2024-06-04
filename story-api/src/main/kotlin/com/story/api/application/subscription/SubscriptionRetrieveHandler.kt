@@ -7,12 +7,12 @@ import com.story.core.common.error.InvalidArgumentsException
 import com.story.core.domain.resource.ResourceId
 import com.story.core.domain.subscription.SubscriptionCountRetriever
 import com.story.core.domain.subscription.SubscriptionDistributedRetriever
-import com.story.core.domain.subscription.SubscriptionRetriever
+import com.story.core.domain.subscription.SubscriptionReader
 
 @HandlerAdapter
 class SubscriptionRetrieveHandler(
     private val componentCheckHandler: ComponentCheckHandler,
-    private val subscriptionRetriever: SubscriptionRetriever,
+    private val subscriptionReader: SubscriptionReader,
     private val subscriptionDistributedRetriever: SubscriptionDistributedRetriever,
     private val subscriptionCountRetriever: SubscriptionCountRetriever,
 ) {
@@ -29,7 +29,7 @@ class SubscriptionRetrieveHandler(
             componentId = componentId,
         )
 
-        val isSubscriber = subscriptionRetriever.existsSubscription(
+        val isSubscriber = subscriptionReader.existsSubscription(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
@@ -49,7 +49,7 @@ class SubscriptionRetrieveHandler(
             resourceId = ResourceId.SUBSCRIPTIONS,
             componentId = componentId,
         )
-        val subscriptions = subscriptionRetriever.listSubscribers(
+        val subscriptions = subscriptionReader.listSubscribers(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
@@ -122,7 +122,7 @@ class SubscriptionRetrieveHandler(
             componentId = componentId,
         )
 
-        val subscriptions = subscriptionRetriever.listSubscriptionTargets(
+        val subscriptions = subscriptionReader.listSubscriptionTargets(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,

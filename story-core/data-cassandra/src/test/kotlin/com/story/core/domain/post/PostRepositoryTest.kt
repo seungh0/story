@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
 class PostRepositoryTest(
-    private val postRepository: PostRepository,
+    private val postRepository: PostCassandraRepository,
 ) : StringSpecIntegrationTest({
 
     "Post의 메타 정보를 변경한다 - 없던 경우 신규로 추가된다" {

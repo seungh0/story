@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
 class PostRetrieverTest(
-    private val postRepository: PostRepository,
-    private val postReverseRepository: PostReverseRepository,
-    private val postRetriever: PostRetriever,
+    private val postRepository: PostCassandraRepository,
+    private val postReverseCassandraRepository: PostReverseCassandraRepository,
+    private val postReader: PostReader,
     private val postSequenceRepository: PostSequenceRepository,
 ) : FunSpecIntegrationTest({
 
@@ -32,10 +32,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -70,10 +70,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -108,10 +108,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -151,10 +151,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -192,10 +192,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -232,10 +232,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "7",
@@ -270,10 +270,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "4",
@@ -308,10 +308,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "4",
@@ -351,10 +351,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "10002",
@@ -392,10 +392,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "10002",
@@ -434,10 +434,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -472,10 +472,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -510,10 +510,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -553,10 +553,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -594,10 +594,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = null,
@@ -634,10 +634,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "2",
@@ -672,10 +672,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "6",
@@ -710,10 +710,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "6",
@@ -753,10 +753,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "9998",
@@ -794,10 +794,10 @@ class PostRetrieverTest(
                     postReverses += PostReverse.of(post)
                 }
                 postRepository.saveAll(posts).toList()
-                postReverseRepository.saveAll(postReverses).toList()
+                postReverseCassandraRepository.saveAll(postReverses).toList()
 
                 // when
-                val sut = postRetriever.listPosts(
+                val sut = postReader.listPosts(
                     postSpaceKey = POST_SPACE_KEY,
                     cursorRequest = CursorRequest(
                         cursor = "9998",

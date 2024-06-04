@@ -27,6 +27,19 @@ data class PostEntity(
     val auditingTime: AuditingTimeEntity,
 ) {
 
+    fun toPost() = Post(
+        workspaceId = this.key.workspaceId,
+        componentId = this.key.componentId,
+        spaceId = this.key.spaceId,
+        parentId = this.key.parentPostId,
+        postId = this.key.postId,
+        depth = this.key.getDepth(),
+        ownerId = this.ownerId,
+        title = this.title,
+        extra = this.extra,
+        metadata = metadata,
+    ).apply { this.setAuditingTime(auditingTime) }
+
     fun isOwner(ownerId: String): Boolean {
         return this.ownerId == ownerId
     }
@@ -61,7 +74,9 @@ data class PostEntity(
 
     companion object {
         fun of(
-            postSpaceKey: PostSpaceKey,
+            workspaceId: String,
+            componentId: String,
+            spaceId: String,
             parentId: PostId?,
             ownerId: String,
             postNo: Long,
@@ -69,7 +84,9 @@ data class PostEntity(
             extra: Map<String, String>,
         ) = PostEntity(
             key = PostPrimaryKey.of(
-                postSpaceKey = postSpaceKey,
+                workspaceId = workspaceId,
+                componentId = componentId,
+                spaceId = spaceId,
                 postNo = postNo,
                 parentId = parentId,
             ),
@@ -123,13 +140,15 @@ data class PostPrimaryKey(
 
     companion object {
         fun of(
-            postSpaceKey: PostSpaceKey,
+            workspaceId: String,
+            componentId: String,
+            spaceId: String,
             parentId: PostId?,
             postNo: Long,
         ) = PostPrimaryKey(
-            workspaceId = postSpaceKey.workspaceId,
-            componentId = postSpaceKey.componentId,
-            spaceId = postSpaceKey.spaceId,
+            workspaceId = workspaceId,
+            componentId = componentId,
+            spaceId = spaceId,
             parentId = parentId?.serialize() ?: StringUtils.EMPTY,
             slotId = PostSlotAssigner.assign(postNo),
             postNo = postNo,

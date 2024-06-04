@@ -6,12 +6,12 @@ import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.common.model.Slice
 import com.story.core.domain.feed.Feed
 import com.story.core.domain.feed.FeedPayload
-import com.story.core.domain.feed.FeedRetriever
+import com.story.core.domain.feed.FeedReader
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
 class FeedRetrieveHandler(
-    private val feedRetriever: FeedRetriever,
+    private val feedReader: FeedReader,
     private val componentCheckHandler: ComponentCheckHandler,
     private val feedPayloadHandlerFinder: FeedPayloadHandlerFinder,
 ) {
@@ -28,7 +28,7 @@ class FeedRetrieveHandler(
             componentId = feedComponentId,
         )
 
-        val feeds = feedRetriever.listFeeds(
+        val feeds = feedReader.listFeeds(
             workspaceId = workspaceId,
             feedComponentId = feedComponentId,
             subscriberId = subscriberId,

@@ -10,6 +10,13 @@ data class PostId(
     val postNo: Long,
 ) {
 
+    fun parentPostId(): PostId? {
+        if (parentId.isNullOrBlank()) {
+            return null
+        }
+        return PostId.parsed(parentId)
+    }
+
     fun serialize(): String {
         return ENCODER.encodeToString(
             StringJoiner("-")

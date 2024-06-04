@@ -4,7 +4,7 @@ import com.story.core.FunSpecIntegrationTest
 import com.story.core.IntegrationTest
 import com.story.core.common.error.NoPermissionException
 import com.story.core.common.json.toJson
-import com.story.core.domain.post.section.PostSectionRepository
+import com.story.core.domain.post.section.PostSectionCassandraRepository
 import com.story.core.domain.post.section.PostSectionSlotAssigner
 import com.story.core.domain.post.section.PostSectionType
 import com.story.core.domain.post.section.text.TextPostSectionContentCommand
@@ -17,9 +17,9 @@ import kotlinx.coroutines.flow.toList
 @IntegrationTest
 internal class PostModifierTest(
     private val postModifier: PostModifier,
-    private val postRepository: PostRepository,
-    private val postReverseRepository: PostReverseRepository,
-    private val postSectionRepository: PostSectionRepository,
+    private val postRepository: PostCassandraRepository,
+    private val postReverseCassandraRepository: PostReverseCassandraRepository,
+    private val postSectionCassandraRepository: PostSectionCassandraRepository,
 ) : FunSpecIntegrationTest({
 
     context("등록된 포스트를 수정한다") {
@@ -31,7 +31,7 @@ internal class PostModifierTest(
             val postRev = PostReverse.of(post)
 
             postRepository.save(post)
-            postReverseRepository.save(postRev)
+            postReverseCassandraRepository.save(postRev)
 
             val section1 = TextPostSectionContentCommand(
                 content = "컨텐츠 내용 - 1",
@@ -73,7 +73,7 @@ internal class PostModifierTest(
                 it.extra shouldBe extra
             }
 
-            val postReverses = postReverseRepository.findAll().toList()
+            val postReverses = postReverseCassandraRepository.findAll().toList()
             postReverses shouldHaveSize 1
             postReverses[0].also {
                 it.key.workspaceId shouldBe post.key.workspaceId
@@ -83,7 +83,7 @@ internal class PostModifierTest(
                 it.title shouldBe title
             }
 
-            val postSections = postSectionRepository.findAll().toList()
+            val postSections = postSectionCassandraRepository.findAll().toList()
             postSections shouldHaveSize 2
             postSections[0].also {
                 it.key.workspaceId shouldBe post.key.workspaceId
@@ -140,7 +140,7 @@ internal class PostModifierTest(
             val postRev = PostReverse.of(post)
 
             postRepository.save(post)
-            postReverseRepository.save(postRev)
+            postReverseCassandraRepository.save(postRev)
 
             // when & then
             shouldThrowExactly<NoPermissionException> {
@@ -168,7 +168,7 @@ internal class PostModifierTest(
             val postRev = PostReverse.of(post)
 
             postRepository.save(post)
-            postReverseRepository.save(postRev)
+            postReverseCassandraRepository.save(postRev)
 
             // when
             postModifier.putMetadata(

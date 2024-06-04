@@ -3,7 +3,6 @@ package com.story.api.application.post
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.nonce.NonceManager
-import com.story.core.domain.post.Post
 import com.story.core.domain.post.PostCreator
 import com.story.core.domain.post.PostEventProducer
 import com.story.core.domain.post.PostId
@@ -11,8 +10,9 @@ import com.story.core.domain.post.PostMetadataType
 import com.story.core.domain.post.PostModifier
 import com.story.core.domain.post.PostNotExistsException
 import com.story.core.domain.post.PostParentNotExistsException
-import com.story.core.domain.post.PostRetriever
+import com.story.core.domain.post.PostReader
 import com.story.core.domain.post.PostSpaceKey
+import com.story.core.domain.post.PostWithSections
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
@@ -21,7 +21,7 @@ class PostCreateHandler(
     private val componentCheckHandler: ComponentCheckHandler,
     private val postEventProducer: PostEventProducer,
     private val nonceManager: NonceManager,
-    private val postRetriever: PostRetriever,
+    private val postReader: PostReader,
     private val postModifier: PostModifier,
 ) {
 
@@ -62,7 +62,7 @@ class PostCreateHandler(
         }
 
         try {
-            val parentPost = postRetriever.getPost(
+            val parentPost = postReader.getPost(
                 postSpaceKey = postSpaceKey,
                 postId = request.parentId,
             )
@@ -73,7 +73,7 @@ class PostCreateHandler(
     }
 
     private suspend fun updateParentPostHasChildrenMetadata(
-        parentPost: Post,
+        parentPost: PostWithSections,
         postSpaceKey: PostSpaceKey,
     ) {
         if (!parentPost.hasChildrenMetadata()) {

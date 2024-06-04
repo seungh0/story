@@ -38,7 +38,7 @@ class FeedRetrieveApiTest(
     private val feedRetrieveHandler: FeedRetrieveHandler,
 ) : StringSpecDocsTest({
 
-    "피드를 조회합니다 (Post)" {
+    "피드를 조회합니다 (PostWithSections)" {
         // given
         val componentId = "timeline"
         val subscriberId = "user-100"

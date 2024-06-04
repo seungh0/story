@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.story.core.domain.apikey.ApiKey
 import com.story.core.domain.component.Component
 import com.story.core.domain.feed.mapping.FeedMapping
-import com.story.core.domain.post.Post
+import com.story.core.domain.post.PostWithSections
 import com.story.core.domain.workspace.Workspace
 import java.time.Duration
 import java.util.Optional
@@ -50,7 +50,7 @@ enum class CacheType(
         key = "post:v1",
         localCacheTtl = Duration.ofMinutes(1),
         globalCacheTtl = Duration.ofMinutes(5),
-        typeReference = object : TypeReference<Post>() {}
+        typeReference = object : TypeReference<PostWithSections>() {}
     ),
     ;
 

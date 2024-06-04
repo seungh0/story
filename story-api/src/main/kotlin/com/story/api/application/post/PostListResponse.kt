@@ -3,7 +3,7 @@ package com.story.api.application.post
 import com.story.core.common.model.Slice
 import com.story.core.common.model.dto.CursorResponse
 import com.story.core.common.model.dto.encode
-import com.story.core.domain.post.Post
+import com.story.core.domain.post.PostWithSections
 
 data class PostListResponse(
     val posts: List<PostResponse>,
@@ -11,7 +11,7 @@ data class PostListResponse(
 ) {
 
     companion object {
-        fun of(posts: Slice<Post, String>, requestUserId: String?) = PostListResponse(
+        fun of(posts: Slice<PostWithSections, String>, requestUserId: String?) = PostListResponse(
             posts = posts.data.map { post -> PostResponse.of(post = post, requestUserId = requestUserId) },
             cursor = posts.cursor.encode(),
         )

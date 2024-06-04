@@ -1,10 +1,10 @@
 package com.story.core.domain.purge
 
 import com.story.core.common.distribution.DistributionKey
+import com.story.core.domain.post.PostCassandraRepository
 import com.story.core.domain.post.PostDistributionKey
 import com.story.core.domain.post.PostPartitionKey
-import com.story.core.domain.post.PostRepository
-import com.story.core.domain.post.PostReverseRepository
+import com.story.core.domain.post.PostReverseCassandraRepository
 import com.story.core.domain.resource.ResourceId
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Pageable
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class PostPurger(
-    private val postReverseRepository: PostReverseRepository,
-    private val postRepository: PostRepository,
+    private val postReverseCassandraRepository: PostReverseCassandraRepository,
+    private val postRepository: PostCassandraRepository,
 ) : Purger {
 
     override fun targetResourceId(): ResourceId = ResourceId.POSTS
@@ -24,7 +24,7 @@ class PostPurger(
         var pageable: Pageable = CassandraPageRequest.first(500)
         var deletedCount = 0L
         do {
-            val postReverses = postReverseRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
+            val postReverses = postReverseCassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 distributionKey = distributionKey.key,
@@ -42,7 +42,7 @@ class PostPurger(
                     )
                 }
 
-            postReverseRepository.deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
+            postReverseCassandraRepository.deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKey(
                 workspaceId = workspaceId,
                 componentId = componentId,
                 distributionKey = distributionKey.key,

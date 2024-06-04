@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
-interface PostReverseRepository : CassandraBasicRepository<PostReverse, PostReversePrimaryKey> {
+interface PostReverseCassandraRepository : CassandraBasicRepository<PostReverse, PostReversePrimaryKey> {
 
     suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeyDistributionKeyAndKeyOwnerIdAndKeyPostNoAndKeyParentIdAndKeySpaceId(
         workspaceId: String,

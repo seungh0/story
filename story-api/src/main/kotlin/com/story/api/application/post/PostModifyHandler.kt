@@ -2,11 +2,11 @@ package com.story.api.application.post
 
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
-import com.story.core.domain.post.Post
 import com.story.core.domain.post.PostEventProducer
 import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostModifier
 import com.story.core.domain.post.PostSpaceKey
+import com.story.core.domain.post.PostWithSections
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
@@ -28,7 +28,7 @@ class PostModifyHandler(
             componentId = postSpaceKey.componentId,
         )
 
-        val (post: Post, hasChanged: Boolean) = postModifier.patchPost(
+        val (post: PostWithSections, hasChanged: Boolean) = postModifier.patchPost(
             postSpaceKey = postSpaceKey,
             ownerId = ownerId,
             postId = postId,

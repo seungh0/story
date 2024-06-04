@@ -11,7 +11,7 @@ import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 
 @Service
-class SubscriptionRetriever(
+class SubscriptionReader(
     private val subscriptionRepository: SubscriptionRepository,
     private val subscriberRepository: SubscriberRepository,
     private val subscriberSequenceRepository: SubscriberSequenceRepository,

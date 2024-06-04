@@ -3,7 +3,7 @@ package com.story.core.domain.post
 import com.story.core.FunSpecIntegrationTest
 import com.story.core.IntegrationTest
 import com.story.core.common.json.toJson
-import com.story.core.domain.post.section.PostSectionRepository
+import com.story.core.domain.post.section.PostSectionCassandraRepository
 import com.story.core.domain.post.section.PostSectionType
 import com.story.core.domain.post.section.text.TextPostSectionContentCommand
 import com.story.core.domain.post.section.text.TextPostSectionContentEntity
@@ -16,9 +16,9 @@ import kotlinx.coroutines.flow.toList
 @IntegrationTest
 internal class PostCreatorTest(
     private val postCreator: PostCreator,
-    private val postRepository: PostRepository,
-    private val postReverseRepository: PostReverseRepository,
-    private val postSectionRepository: PostSectionRepository,
+    private val postRepository: PostCassandraRepository,
+    private val postReverseCassandraRepository: PostReverseCassandraRepository,
+    private val postSectionCassandraRepository: PostSectionCassandraRepository,
 ) : FunSpecIntegrationTest({
 
     context("신규 포스트를 등록한다") {
@@ -68,7 +68,7 @@ internal class PostCreatorTest(
                 it.extra shouldBe extra
             }
 
-            val postReverses = postReverseRepository.findAll().toList()
+            val postReverses = postReverseCassandraRepository.findAll().toList()
             postReverses shouldHaveSize 1
             postReverses[0].also {
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId
@@ -81,7 +81,7 @@ internal class PostCreatorTest(
                 it.title shouldBe title
             }
 
-            val postSections = postSectionRepository.findAll().toList()
+            val postSections = postSectionCassandraRepository.findAll().toList()
             postSections shouldHaveSize 2
             postSections[0].also {
                 it.key.workspaceId shouldBe postSpaceKey.workspaceId

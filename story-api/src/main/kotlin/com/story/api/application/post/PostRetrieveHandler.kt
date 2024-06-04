@@ -3,13 +3,13 @@ package com.story.api.application.post
 import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.post.PostId
-import com.story.core.domain.post.PostRetriever
+import com.story.core.domain.post.PostReader
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
 class PostRetrieveHandler(
-    private val postRetriever: PostRetriever,
+    private val postReader: PostReader,
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
@@ -26,7 +26,7 @@ class PostRetrieveHandler(
             componentId = componentId,
         )
 
-        val post = postRetriever.getPost(
+        val post = postReader.getPost(
             postSpaceKey = PostSpaceKey(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -50,7 +50,7 @@ class PostRetrieveHandler(
             componentId = componentId,
         )
 
-        val posts = postRetriever.listPosts(
+        val posts = postReader.listPosts(
             postSpaceKey = PostSpaceKey(
                 workspaceId = workspaceId,
                 componentId = componentId,
@@ -76,7 +76,7 @@ class PostRetrieveHandler(
             componentId = componentId,
         )
 
-        val posts = postRetriever.listOwnerPosts(
+        val posts = postReader.listOwnerPosts(
             workspaceId = workspaceId,
             componentId = componentId,
             ownerId = ownerId,

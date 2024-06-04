@@ -2,7 +2,7 @@ package com.story.api.application.post
 
 import com.story.core.common.model.dto.AuditingTimeResponse
 import com.story.core.domain.feed.FeedPayload
-import com.story.core.domain.post.Post
+import com.story.core.domain.post.PostWithSections
 
 data class PostResponse(
     val parentId: String?,
@@ -16,7 +16,7 @@ data class PostResponse(
 ) : FeedPayload, AuditingTimeResponse() {
 
     companion object {
-        fun of(post: Post, requestUserId: String?): PostResponse {
+        fun of(post: PostWithSections, requestUserId: String?): PostResponse {
             val response = PostResponse(
                 parentId = post.parentId?.serialize(),
                 postId = post.postId.serialize(),

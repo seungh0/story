@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.toList
 @IntegrationTest
 internal class PostRemoverTest(
     private val postRemover: PostRemover,
-    private val postRepository: PostRepository,
-    private val postReverseRepository: PostReverseRepository,
+    private val postRepository: PostCassandraRepository,
+    private val postReverseCassandraRepository: PostReverseCassandraRepository,
 ) : FunSpecIntegrationTest({
 
     context("등록된 포스트를 삭제한다") {
@@ -20,7 +20,7 @@ internal class PostRemoverTest(
             postRepository.save(post)
 
             val postReverse = PostReverse.of(post)
-            postReverseRepository.save(postReverse)
+            postReverseCassandraRepository.save(postReverse)
 
             // when
             postRemover.removePost(
@@ -37,7 +37,7 @@ internal class PostRemoverTest(
             val posts = postRepository.findAll().toList()
             posts shouldHaveSize 0
 
-            val postReverses = postReverseRepository.findAll().toList()
+            val postReverses = postReverseCassandraRepository.findAll().toList()
             postReverses shouldHaveSize 0
         }
 
@@ -57,7 +57,7 @@ internal class PostRemoverTest(
             val posts = postRepository.findAll().toList()
             posts shouldHaveSize 0
 
-            val postReverses = postReverseRepository.findAll().toList()
+            val postReverses = postReverseCassandraRepository.findAll().toList()
             postReverses shouldHaveSize 0
         }
 
@@ -67,7 +67,7 @@ internal class PostRemoverTest(
             postRepository.save(post)
 
             val postReverse = PostReverse.of(post)
-            postReverseRepository.save(postReverse)
+            postReverseCassandraRepository.save(postReverse)
 
             // when
             postRemover.removePost(
@@ -94,7 +94,7 @@ internal class PostRemoverTest(
                 it.extra shouldBe post.extra
             }
 
-            val postReverses = postReverseRepository.findAll().toList()
+            val postReverses = postReverseCassandraRepository.findAll().toList()
             postReverses shouldHaveSize 1
             postReverses[0].also {
                 it.key.workspaceId shouldBe post.key.workspaceId

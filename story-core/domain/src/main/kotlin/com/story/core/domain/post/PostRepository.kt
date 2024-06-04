@@ -1,75 +1,53 @@
 package com.story.core.domain.post
 
-import com.story.core.infrastructure.cassandra.CassandraBasicRepository
-import kotlinx.coroutines.flow.Flow
-import org.springframework.data.cassandra.repository.Query
-import org.springframework.data.domain.Pageable
+import com.story.core.domain.post.section.PostSectionContentCommand
 
-interface PostRepository : CassandraBasicRepository<PostEntity, PostPrimaryKey> {
+interface PostRepository {
 
-    @Query(
-        """
-        update post_v1
-        set metadata[:metadataType] = :value
-        where workspace_id = :#{#key.workspaceId}
-        and component_id = :#{#key.componentId} and space_id = :#{#key.spaceId} and parent_id = :#{#key.parentId} and slot_id = :#{#key.slotId} and post_no = :#{#key.postNo}
-    """
+    suspend fun putMetadata(
+        workspaceId: String,
+        componentId: String,
+        spaceId: String,
+        parentId: PostId?,
+        postId: PostId,
+        metadataType: PostMetadataType,
+        value: Any,
+    ): Boolean
+
+    suspend fun create(
+        postSpaceKey: PostSpaceKey,
+        parentId: PostId?,
+        postNo: Long,
+        ownerId: String,
+        title: String,
+        sections: List<PostSectionContentCommand>,
+        extra: Map<String, String>,
+    ): PostWithSections
+
+    suspend fun modify(
+        postSpaceKey: PostSpaceKey,
+        parentId: PostId?,
+        postNo: Long,
+        ownerId: String,
+        title: String?,
+        sections: List<PostSectionContentCommand>?,
+        extra: Map<String, String>?,
+    ): PostPatchResponse
+
+    suspend fun delete(
+        postSpaceKey: PostSpaceKey,
+        ownerId: String,
+        postId: PostId,
     )
-    suspend fun putMetadata(key: PostPrimaryKey, metadataType: PostMetadataType, value: String)
 
-    suspend fun findByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNo(
-        workspaceId: String,
-        componentId: String,
-        spaceId: String,
-        parentId: String,
-        slotId: Long,
-        postNo: Long,
-    ): PostEntity?
+    suspend fun findPost(
+        postSpaceKey: PostSpaceKey,
+        postId: PostId,
+    ): Post?
 
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
-        workspaceId: String,
-        componentId: String,
-        spaceId: String,
-        parentId: String,
-        slotId: Long,
-        pageable: Pageable,
-    ): Flow<PostEntity>
-
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoLessThan(
-        workspaceId: String,
-        componentId: String,
-        spaceId: String,
-        parentId: String,
-        slotId: Long,
-        postNo: Long,
-        pageable: Pageable,
-    ): Flow<PostEntity>
-
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdOrderByKeyPostNoAsc(
-        workspaceId: String,
-        componentId: String,
-        spaceId: String,
-        parentId: String,
-        slotId: Long,
-        pageable: Pageable,
-    ): Flow<PostEntity>
-
-    fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotIdAndKeyPostNoGreaterThanOrderByKeyPostNoAsc(
-        workspaceId: String,
-        componentId: String,
-        spaceId: String,
-        parentId: String,
-        slotId: Long,
-        postNo: Long,
-        pageable: Pageable,
-    ): Flow<PostEntity>
-
-    suspend fun deleteAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
-        workspaceId: String,
-        componentId: String,
-        spaceId: String,
-        parentId: String,
-        slotId: Long,
-    )
+    suspend fun findPostWithSections(
+        postSpaceKey: PostSpaceKey,
+        postId: PostId,
+    ): PostWithSections?
 
 }

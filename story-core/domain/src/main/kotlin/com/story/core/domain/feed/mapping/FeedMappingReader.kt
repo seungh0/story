@@ -7,7 +7,7 @@ import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 
 @Service
-class FeedMappingRetriever(
+class FeedMappingReader(
     private val feedMappingReadRepository: FeedMappingReadRepository,
 ) {
 

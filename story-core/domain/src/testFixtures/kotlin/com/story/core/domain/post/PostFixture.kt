@@ -17,11 +17,9 @@ object PostFixture {
         metadata: Map<PostMetadataType, String> = emptyMap(),
     ) = PostEntity(
         key = PostPrimaryKey.of(
-            postSpaceKey = PostSpaceKey(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                spaceId = spaceId,
-            ),
+            workspaceId = workspaceId,
+            componentId = componentId,
+            spaceId = spaceId,
             parentId = parentId,
             postNo = postNo,
         ),
