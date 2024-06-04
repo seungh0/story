@@ -13,12 +13,11 @@ class SubscriptionCountRetriever(
         componentId: String,
         targetId: String,
     ): Long {
-        val key = SubscriberCountPrimaryKey(
+        return subscriberCountRepository.get(
             workspaceId = workspaceId,
             componentId = componentId,
             targetId = targetId,
         )
-        return subscriberCountRepository.findById(key)?.count ?: 0L
     }
 
     suspend fun countTargets(
@@ -26,12 +25,11 @@ class SubscriptionCountRetriever(
         componentId: String,
         subscriberId: String,
     ): Long {
-        val key = SubscriptionCountPrimaryKey(
+        return subscriptionCountRepository.get(
             workspaceId = workspaceId,
             componentId = componentId,
             subscriberId = subscriberId,
         )
-        return subscriptionCountRepository.findById(key)?.count ?: 0L
     }
 
 }

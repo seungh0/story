@@ -3,7 +3,6 @@ package com.story.core.domain.subscription
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.flow.toList
 
 class SubscriptionCountManagerTest : FunSpec({
 
@@ -39,23 +38,19 @@ class SubscriptionCountManagerTest : FunSpec({
         val subscriptionCounts = subscriptionCountRepository.findAll().toList()
         subscriptionCounts shouldHaveSize 1
         subscriptionCounts.first().also {
-            it.key shouldBe SubscriptionCountPrimaryKey(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                subscriberId = subscriberId,
-            )
-            it.count shouldBe 1L
+            it.first.workspaceId shouldBe workspaceId
+            it.first.componentId shouldBe componentId
+            it.first.subscriberId shouldBe subscriberId
+            it.second shouldBe 1L
         }
 
         val subscriberCounts = subscriberCountRepository.findAll().toList()
         subscriberCounts shouldHaveSize 1
         subscriberCounts.first().also {
-            it.key shouldBe SubscriberCountPrimaryKey(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                targetId = targetId,
-            )
-            it.count shouldBe 1L
+            it.first.workspaceId shouldBe workspaceId
+            it.first.componentId shouldBe componentId
+            it.first.targetId shouldBe targetId
+            it.second shouldBe 1L
         }
     }
 
@@ -78,23 +73,19 @@ class SubscriptionCountManagerTest : FunSpec({
         val subscriptionCounts = subscriptionCountRepository.findAll().toList()
         subscriptionCounts shouldHaveSize 1
         subscriptionCounts.first().also {
-            it.key shouldBe SubscriptionCountPrimaryKey(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                subscriberId = subscriberId,
-            )
-            it.count shouldBe -1L
+            it.first.workspaceId shouldBe workspaceId
+            it.first.componentId shouldBe componentId
+            it.first.subscriberId shouldBe subscriberId
+            it.second shouldBe -1L
         }
 
         val subscriberCounts = subscriberCountRepository.findAll().toList()
         subscriberCounts shouldHaveSize 1
         subscriberCounts.first().also {
-            it.key shouldBe SubscriberCountPrimaryKey(
-                workspaceId = workspaceId,
-                componentId = componentId,
-                targetId = targetId,
-            )
-            it.count shouldBe -1L
+            it.first.workspaceId shouldBe workspaceId
+            it.first.componentId shouldBe componentId
+            it.first.targetId shouldBe targetId
+            it.second shouldBe -1L
         }
     }
 

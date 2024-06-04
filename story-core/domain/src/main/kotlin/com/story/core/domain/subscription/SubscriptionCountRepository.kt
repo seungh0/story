@@ -1,28 +1,11 @@
 package com.story.core.domain.subscription
 
-import com.story.core.infrastructure.cassandra.CassandraCounterRepository
-import org.springframework.data.cassandra.repository.Query
+interface SubscriptionCountRepository {
 
-interface SubscriptionCountRepository : CassandraCounterRepository<SubscriptionCountEntity, SubscriptionCountPrimaryKey> {
+    suspend fun increase(workspaceId: String, componentId: String, subscriberId: String, count: Long = 1L)
 
-    @Query(
-        """
-			update ${SubscriptionTableNames.SUBSCRIPTION_COUNT_V1} set count = count + :count
-			where workspace_id = :#{#key.workspaceId}
-			and component_id = :#{#key.componentId}
-			and subscriber_id = :#{#key.subscriberId}
-		"""
-    )
-    suspend fun increase(key: SubscriptionCountPrimaryKey, count: Long = 1L)
+    suspend fun decrease(workspaceId: String, componentId: String, subscriberId: String, count: Long = 1L)
 
-    @Query(
-        """
-			update ${SubscriptionTableNames.SUBSCRIPTION_COUNT_V1} set count = count - :count
-			where workspace_id = :#{#key.workspaceId}
-			and component_id = :#{#key.componentId}
-			and subscriber_id = :#{#key.subscriberId}
-		"""
-    )
-    suspend fun decrease(key: SubscriptionCountPrimaryKey, count: Long = 1L)
+    suspend fun get(workspaceId: String, componentId: String, subscriberId: String): Long
 
 }

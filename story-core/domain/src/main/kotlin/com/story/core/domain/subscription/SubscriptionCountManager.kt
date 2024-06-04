@@ -21,21 +21,17 @@ class SubscriptionCountManager(
         val jobs = mutableListOf<Job>()
         jobs += launch {
             subscriptionCountRepository.increase(
-                SubscriptionCountPrimaryKey(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    subscriberId = subscriberId,
-                )
+                workspaceId = workspaceId,
+                componentId = componentId,
+                subscriberId = subscriberId,
             )
         }
 
         jobs += launch {
             subscriberCountRepository.increase(
-                key = SubscriberCountPrimaryKey(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    targetId = targetId,
-                )
+                workspaceId = workspaceId,
+                componentId = componentId,
+                targetId = targetId,
             )
         }
         jobs.joinAll()
@@ -50,21 +46,17 @@ class SubscriptionCountManager(
         val jobs = mutableListOf<Job>()
         jobs += launch {
             subscriptionCountRepository.decrease(
-                SubscriptionCountPrimaryKey(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    subscriberId = subscriberId,
-                )
+                workspaceId = workspaceId,
+                componentId = componentId,
+                subscriberId = subscriberId,
             )
         }
 
         jobs += launch {
             subscriberCountRepository.decrease(
-                key = SubscriberCountPrimaryKey(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    targetId = targetId,
-                )
+                workspaceId = workspaceId,
+                componentId = componentId,
+                targetId = targetId,
             )
         }
         jobs.joinAll()

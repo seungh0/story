@@ -27,11 +27,9 @@ class SubscriptionCountRetrieverTest : FunSpec({
             val count = 999L
 
             subscriberCountRepository.increase(
-                key = SubscriberCountPrimaryKey(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    targetId = targetId,
-                ),
+                workspaceId = workspaceId,
+                componentId = componentId,
+                targetId = targetId,
                 count = count,
             )
 
