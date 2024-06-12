@@ -1,10 +1,10 @@
 package com.story.core.domain.post
 
-import com.story.core.infrastructure.cache.CacheEvict
-import com.story.core.infrastructure.cache.CacheStrategy
-import com.story.core.infrastructure.cache.CacheType
-import com.story.core.infrastructure.lock.DistributedLock
-import com.story.core.infrastructure.lock.DistributedLockType
+import com.story.core.support.cache.CacheEvict
+import com.story.core.support.cache.CacheStrategy
+import com.story.core.support.cache.CacheType
+import com.story.core.support.lock.DistributedLock
+import com.story.core.support.lock.DistributedLockType
 import org.springframework.stereotype.Service
 
 @Service

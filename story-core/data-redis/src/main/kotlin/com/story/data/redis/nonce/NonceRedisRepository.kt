@@ -1,7 +1,7 @@
 package com.story.data.redis.nonce
 
 import com.story.core.domain.nonce.NonceRepository
-import com.story.core.infrastructure.redis.StringRedisRepository
+import com.story.core.support.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 import java.time.Duration
 

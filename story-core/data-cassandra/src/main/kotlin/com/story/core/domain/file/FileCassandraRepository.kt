@@ -1,6 +1,6 @@
 package com.story.core.domain.file
 
-import com.story.core.infrastructure.cassandra.CassandraBasicRepository
+import com.story.core.support.cassandra.CassandraBasicRepository
 
 interface FileCassandraRepository : CassandraBasicRepository<FileEntity, FilePrimaryKey> {
 

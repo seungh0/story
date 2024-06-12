@@ -2,8 +2,8 @@ package com.story.core.domain.feed
 
 import com.story.core.common.utils.mapToSet
 import com.story.core.domain.resource.ResourceId
-import com.story.core.infrastructure.cassandra.executeCoroutine
-import com.story.core.infrastructure.cassandra.upsert
+import com.story.core.support.cassandra.executeCoroutine
+import com.story.core.support.cassandra.upsert
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice

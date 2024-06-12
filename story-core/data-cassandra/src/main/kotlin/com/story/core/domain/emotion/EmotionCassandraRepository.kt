@@ -1,7 +1,7 @@
 package com.story.core.domain.emotion
 
 import com.story.core.domain.resource.ResourceId
-import com.story.core.infrastructure.cassandra.CassandraBasicRepository
+import com.story.core.support.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 import org.springframework.data.domain.Pageable
 

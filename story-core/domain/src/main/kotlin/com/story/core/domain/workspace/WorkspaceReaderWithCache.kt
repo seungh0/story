@@ -1,7 +1,7 @@
 package com.story.core.domain.workspace
 
-import com.story.core.infrastructure.cache.CacheType
-import com.story.core.infrastructure.cache.Cacheable
+import com.story.core.support.cache.CacheType
+import com.story.core.support.cache.Cacheable
 import org.springframework.stereotype.Service
 import java.util.Optional
 

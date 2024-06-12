@@ -2,7 +2,7 @@ package com.story.data.redis.post
 
 import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostSpaceKey
-import com.story.core.infrastructure.redis.StringRedisKey
+import com.story.core.support.redis.StringRedisKey
 import java.time.Duration
 
 data class PostSequenceKey(

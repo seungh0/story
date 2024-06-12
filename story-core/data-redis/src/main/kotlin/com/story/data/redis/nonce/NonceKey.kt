@@ -1,6 +1,6 @@
 package com.story.data.redis.nonce
 
-import com.story.core.infrastructure.redis.StringRedisKey
+import com.story.core.support.redis.StringRedisKey
 import java.time.Duration
 
 data class NonceKey(

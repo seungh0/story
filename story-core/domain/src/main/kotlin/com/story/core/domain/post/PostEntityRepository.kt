@@ -5,8 +5,8 @@ import com.story.core.domain.post.section.PostSectionCassandraRepository
 import com.story.core.domain.post.section.PostSectionContentCommand
 import com.story.core.domain.post.section.PostSectionManager
 import com.story.core.domain.post.section.PostSectionSlotAssigner
-import com.story.core.infrastructure.cassandra.executeCoroutine
-import com.story.core.infrastructure.cassandra.upsert
+import com.story.core.support.cassandra.executeCoroutine
+import com.story.core.support.cassandra.upsert
 import kotlinx.coroutines.flow.toList
 import org.apache.commons.lang3.StringUtils
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations

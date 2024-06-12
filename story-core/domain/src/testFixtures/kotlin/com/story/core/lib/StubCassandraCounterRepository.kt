@@ -1,8 +1,8 @@
 package com.story.core.lib
 
-import com.story.core.infrastructure.cassandra.CassandraCounterRepository
-import com.story.core.infrastructure.cassandra.CassandraEntity
-import com.story.core.infrastructure.cassandra.CassandraKey
+import com.story.core.support.cassandra.CassandraCounterRepository
+import com.story.core.support.cassandra.CassandraEntity
+import com.story.core.support.cassandra.CassandraKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 

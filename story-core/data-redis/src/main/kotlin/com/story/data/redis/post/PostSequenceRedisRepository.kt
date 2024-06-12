@@ -3,7 +3,7 @@ package com.story.data.redis.post
 import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostSequenceRepository
 import com.story.core.domain.post.PostSpaceKey
-import com.story.core.infrastructure.redis.StringRedisRepository
+import com.story.core.support.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 
 @Repository

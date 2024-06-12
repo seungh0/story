@@ -3,7 +3,7 @@ package com.story.core.domain.post.section.image
 import com.story.core.domain.file.File
 import com.story.core.domain.file.FileReader
 import com.story.core.domain.file.FileType
-import com.story.core.infrastructure.file.FileProperties
+import com.story.core.support.file.FileProperties
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.maps.shouldContainExactly
 import io.kotest.matchers.maps.shouldHaveSize

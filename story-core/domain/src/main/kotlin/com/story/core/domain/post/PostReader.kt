@@ -10,8 +10,8 @@ import com.story.core.domain.post.section.PostSectionCassandraRepository
 import com.story.core.domain.post.section.PostSectionEntity
 import com.story.core.domain.post.section.PostSectionManager
 import com.story.core.domain.post.section.PostSectionPartitionKey
-import com.story.core.infrastructure.cache.CacheType
-import com.story.core.infrastructure.cache.Cacheable
+import com.story.core.support.cache.CacheType
+import com.story.core.support.cache.Cacheable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope

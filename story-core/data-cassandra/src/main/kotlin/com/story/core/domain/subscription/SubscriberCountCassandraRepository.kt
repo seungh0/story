@@ -1,6 +1,6 @@
 package com.story.core.domain.subscription
 
-import com.story.core.infrastructure.cassandra.CassandraCounterRepository
+import com.story.core.support.cassandra.CassandraCounterRepository
 import org.springframework.data.cassandra.repository.Query
 
 interface SubscriberCountCassandraRepository : CassandraCounterRepository<SubscriberCountEntity, SubscriberCountPrimaryKey> {

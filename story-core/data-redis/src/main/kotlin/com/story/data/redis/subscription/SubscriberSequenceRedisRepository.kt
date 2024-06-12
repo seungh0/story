@@ -1,7 +1,7 @@
 package com.story.data.redis.subscription
 
 import com.story.core.domain.subscription.SubscriberSequenceRepository
-import com.story.core.infrastructure.redis.StringRedisRepository
+import com.story.core.support.redis.StringRedisRepository
 import org.springframework.stereotype.Repository
 
 @Repository

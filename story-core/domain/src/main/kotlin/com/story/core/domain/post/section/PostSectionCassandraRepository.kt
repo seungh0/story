@@ -1,6 +1,6 @@
 package com.story.core.domain.post.section
 
-import com.story.core.infrastructure.cassandra.CassandraBasicRepository
+import com.story.core.support.cassandra.CassandraBasicRepository
 import kotlinx.coroutines.flow.Flow
 
 interface PostSectionCassandraRepository : CassandraBasicRepository<PostSectionEntity, PostSectionPrimaryKey> {

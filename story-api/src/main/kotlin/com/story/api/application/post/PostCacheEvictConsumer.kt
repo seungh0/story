@@ -8,8 +8,8 @@ import com.story.core.domain.event.EventAction
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.post.PostEvent
 import com.story.core.domain.post.PostLocalCacheEvictManager
-import com.story.core.infrastructure.kafka.KafkaConsumerConfig
-import com.story.core.infrastructure.kafka.RetryableKafkaListener
+import com.story.core.support.kafka.KafkaConsumerConfig
+import com.story.core.support.kafka.RetryableKafkaListener
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext

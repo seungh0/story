@@ -1,6 +1,6 @@
 package com.story.core.domain.file
 
-import com.story.core.infrastructure.file.FileInfo
+import com.story.core.support.file.FileInfo
 
 interface FileWriteRepository {
 

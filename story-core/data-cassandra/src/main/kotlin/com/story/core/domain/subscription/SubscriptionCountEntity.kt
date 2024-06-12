@@ -1,8 +1,8 @@
 package com.story.core.domain.subscription
 
 import com.story.core.domain.subscription.SubscriptionTableNames.SUBSCRIPTION_COUNT_V1
-import com.story.core.infrastructure.cassandra.CassandraEntity
-import com.story.core.infrastructure.cassandra.CassandraKey
+import com.story.core.support.cassandra.CassandraEntity
+import com.story.core.support.cassandra.CassandraKey
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.CassandraType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey

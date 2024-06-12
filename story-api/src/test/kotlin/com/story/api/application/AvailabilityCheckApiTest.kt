@@ -10,7 +10,7 @@ import com.story.api.lib.isTrue
 import com.story.core.common.model.dto.ApiResponse
 import com.story.core.domain.apikey.ApiKey
 import com.story.core.domain.apikey.ApiKeyStatus
-import com.story.core.infrastructure.spring.AvailabilityChecker
+import com.story.core.support.spring.AvailabilityChecker
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.coEvery
 import org.springframework.http.ResponseEntity

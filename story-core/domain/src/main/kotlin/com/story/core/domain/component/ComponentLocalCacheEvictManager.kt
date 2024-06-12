@@ -1,9 +1,9 @@
 package com.story.core.domain.component
 
 import com.story.core.domain.resource.ResourceId
-import com.story.core.infrastructure.cache.CacheEvict
-import com.story.core.infrastructure.cache.CacheStrategy
-import com.story.core.infrastructure.cache.CacheType
+import com.story.core.support.cache.CacheEvict
+import com.story.core.support.cache.CacheStrategy
+import com.story.core.support.cache.CacheType
 import org.springframework.stereotype.Service
 
 @Service

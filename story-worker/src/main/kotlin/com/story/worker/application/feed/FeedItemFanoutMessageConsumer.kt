@@ -6,7 +6,7 @@ import com.story.core.common.json.toJson
 import com.story.core.common.json.toObject
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.feed.FeedFanoutMessage
-import com.story.core.infrastructure.kafka.KafkaConsumerConfig
+import com.story.core.support.kafka.KafkaConsumerConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch

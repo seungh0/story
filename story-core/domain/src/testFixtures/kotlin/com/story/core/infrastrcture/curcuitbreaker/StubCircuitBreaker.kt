@@ -1,8 +1,8 @@
 package com.story.core.infrastrcture.curcuitbreaker
 
-import com.story.core.infrastructure.curcuitbreaker.CircuitBreaker
-import com.story.core.infrastructure.curcuitbreaker.CircuitBreakerType
-import com.story.core.infrastructure.curcuitbreaker.CircuitOpenException
+import com.story.core.support.circuitbreaker.CircuitBreaker
+import com.story.core.support.circuitbreaker.CircuitBreakerType
+import com.story.core.support.circuitbreaker.CircuitOpenException
 
 class StubCircuitBreaker(
     var circuitOpen: Boolean = false,

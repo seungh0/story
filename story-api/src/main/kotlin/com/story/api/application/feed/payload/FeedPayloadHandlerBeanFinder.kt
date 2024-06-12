@@ -2,7 +2,7 @@ package com.story.api.application.feed.payload
 
 import com.story.core.common.error.NotSupportedException
 import com.story.core.domain.resource.ResourceId
-import com.story.core.infrastructure.spring.SpringBeanProvider
+import com.story.core.support.spring.SpringBeanProvider
 import jakarta.annotation.PostConstruct
 import org.springframework.stereotype.Component
 import java.util.EnumMap

@@ -1,8 +1,8 @@
 package com.story.core.domain.feed.mapping
 
 import com.story.core.domain.resource.ResourceId
-import com.story.core.infrastructure.cache.CacheType
-import com.story.core.infrastructure.cache.Cacheable
+import com.story.core.support.cache.CacheType
+import com.story.core.support.cache.Cacheable
 import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.stereotype.Service
 

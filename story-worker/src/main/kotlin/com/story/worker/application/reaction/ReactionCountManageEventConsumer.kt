@@ -8,7 +8,7 @@ import com.story.core.domain.event.EventRecord
 import com.story.core.domain.reaction.ReactionCountKey
 import com.story.core.domain.reaction.ReactionCountRepository
 import com.story.core.domain.reaction.ReactionEvent
-import com.story.core.infrastructure.kafka.KafkaConsumerConfig
+import com.story.core.support.kafka.KafkaConsumerConfig
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch

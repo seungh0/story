@@ -1,8 +1,8 @@
 package com.story.core.lib
 
-import com.story.core.infrastructure.cache.CacheStrategy
-import com.story.core.infrastructure.cache.CacheType
-import com.story.core.infrastructure.cache.LayeredCacheManager
+import com.story.core.support.cache.CacheStrategy
+import com.story.core.support.cache.CacheType
+import com.story.core.support.cache.LayeredCacheManager
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch

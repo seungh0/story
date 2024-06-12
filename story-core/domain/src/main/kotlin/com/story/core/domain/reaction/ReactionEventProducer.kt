@@ -6,9 +6,9 @@ import com.story.core.common.json.toJson
 import com.story.core.domain.event.EventHistoryManager
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.resource.ResourceId
-import com.story.core.infrastructure.kafka.KafkaProducerConfig
-import com.story.core.infrastructure.kafka.KafkaTopic
-import com.story.core.infrastructure.kafka.send
+import com.story.core.support.kafka.KafkaProducerConfig
+import com.story.core.support.kafka.KafkaTopic
+import com.story.core.support.kafka.send
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Qualifier

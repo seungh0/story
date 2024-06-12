@@ -1,6 +1,6 @@
 package com.story.core.domain.workspace
 
-import com.story.core.infrastructure.cassandra.executeCoroutine
+import com.story.core.support.cassandra.executeCoroutine
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Repository
 

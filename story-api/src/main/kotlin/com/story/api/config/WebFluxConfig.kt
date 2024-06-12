@@ -3,8 +3,8 @@ package com.story.api.config
 import com.story.api.config.apikey.ApiKeyContextMethodArgumentResolver
 import com.story.api.config.nonce.NonceMethodArgumentResolver
 import com.story.core.common.json.Jsons
-import com.story.core.infrastructure.cassandra.converter.PostIdReadConverter
-import com.story.core.infrastructure.cassandra.converter.PostIdWriteConverter
+import com.story.core.support.cassandra.converter.PostIdReadConverter
+import com.story.core.support.cassandra.converter.PostIdWriteConverter
 import org.springframework.context.MessageSource
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

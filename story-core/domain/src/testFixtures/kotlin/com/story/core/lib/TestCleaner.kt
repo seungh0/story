@@ -1,6 +1,6 @@
 package com.story.core.lib
 
-import com.story.core.infrastructure.cache.CacheStrategy
+import com.story.core.support.cache.CacheStrategy
 import kotlinx.coroutines.joinAll
 import org.springframework.stereotype.Component
 

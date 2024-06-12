@@ -1,7 +1,7 @@
 package com.story.core.infrastrcture.redis
 
-import com.story.core.infrastructure.redis.StringRedisKey
-import com.story.core.infrastructure.redis.StringRedisRepository
+import com.story.core.support.redis.StringRedisKey
+import com.story.core.support.redis.StringRedisRepository
 import java.time.Duration
 
 class StringRedisMemoryRepository<K : StringRedisKey<K, Long>> : StringRedisRepository<K, Long> {

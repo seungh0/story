@@ -1,7 +1,7 @@
 package com.story.core.domain.reaction
 
-import com.story.core.infrastructure.cassandra.executeCoroutine
-import com.story.core.infrastructure.cassandra.upsert
+import com.story.core.support.cassandra.executeCoroutine
+import com.story.core.support.cassandra.upsert
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.stereotype.Repository
 

@@ -4,8 +4,8 @@ import com.story.core.IntegrationTest
 import com.story.core.StringSpecIntegrationTest
 import com.story.core.common.json.toJson
 import com.story.core.common.json.toObject
-import com.story.core.infrastructure.cache.CacheType
-import com.story.core.infrastructure.cache.GlobalCacheRepository
+import com.story.core.support.cache.CacheType
+import com.story.core.support.cache.GlobalCacheRepository
 import io.kotest.matchers.shouldBe
 import kotlin.jvm.optionals.getOrNull
 

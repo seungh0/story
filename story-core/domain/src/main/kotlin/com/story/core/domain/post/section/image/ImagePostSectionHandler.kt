@@ -9,7 +9,7 @@ import com.story.core.domain.post.section.PostSectionContentCommand
 import com.story.core.domain.post.section.PostSectionContentEntity
 import com.story.core.domain.post.section.PostSectionHandler
 import com.story.core.domain.post.section.PostSectionType
-import com.story.core.infrastructure.file.FileProperties
+import com.story.core.support.file.FileProperties
 import org.springframework.stereotype.Service
 
 @Service

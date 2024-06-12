@@ -1,6 +1,6 @@
 package com.story.core.domain.file
 
-import com.story.core.infrastructure.file.FileUploader
+import com.story.core.support.file.FileUploader
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 

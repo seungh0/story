@@ -1,7 +1,7 @@
 package com.story.core.domain.file
 
-import com.story.core.infrastructure.file.FileInfo
-import com.story.core.infrastructure.file.FileProperties
+import com.story.core.support.file.FileInfo
+import com.story.core.support.file.FileProperties
 import kotlinx.coroutines.flow.toList
 import org.springframework.stereotype.Repository
 

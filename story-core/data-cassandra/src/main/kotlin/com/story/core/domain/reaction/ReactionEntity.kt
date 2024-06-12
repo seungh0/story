@@ -1,7 +1,7 @@
 package com.story.core.domain.reaction
 
-import com.story.core.infrastructure.cassandra.CassandraEntity
-import com.story.core.infrastructure.cassandra.CassandraKey
+import com.story.core.support.cassandra.CassandraEntity
+import com.story.core.support.cassandra.CassandraKey
 import org.springframework.data.cassandra.core.cql.Ordering
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
