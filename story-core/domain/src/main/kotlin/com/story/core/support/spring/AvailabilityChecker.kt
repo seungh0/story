@@ -6,7 +6,6 @@ import com.story.core.common.coroutine.CoroutineConfig
 import com.story.core.common.error.ErrorCode
 import com.story.core.common.error.InternalServerException
 import com.story.core.common.model.dto.ApiResponse
-import com.story.core.common.warmer.Warmer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withContext
@@ -27,8 +26,6 @@ class AvailabilityChecker(
 
     @CpuBound
     private val cpuBoundCoroutineDispatcher: CoroutineDispatcher,
-
-    private val warmer: Warmer,
 ) {
 
     suspend fun livenessCheck(): ResponseEntity<ApiResponse<Nothing?>> {
@@ -107,8 +104,6 @@ class AvailabilityChecker(
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(ApiResponse.fail(ErrorCode.E503_SERVICE_UNAVAILABLE))
         }
-
-        warmer.run()
 
         return ResponseEntity.ok(ApiResponse.OK)
     }

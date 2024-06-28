@@ -4,12 +4,14 @@ import com.story.api.application.component.ComponentCheckHandler
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.post.PostId
 import com.story.core.domain.post.PostReader
+import com.story.core.domain.post.PostReaderWithCache
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
 
 @HandlerAdapter
 class PostRetrieveHandler(
     private val postReader: PostReader,
+    private val postReaderWithCache: PostReaderWithCache,
     private val componentCheckHandler: ComponentCheckHandler,
 ) {
 
@@ -26,7 +28,7 @@ class PostRetrieveHandler(
             componentId = componentId,
         )
 
-        val post = postReader.getPost(
+        val post = postReaderWithCache.getPost(
             postSpaceKey = PostSpaceKey(
                 workspaceId = workspaceId,
                 componentId = componentId,

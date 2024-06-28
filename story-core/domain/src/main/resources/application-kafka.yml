@@ -107,7 +107,7 @@ spring.config:
 
 spring:
   kafka:
-    bootstrap-servers: 223.130.136.209:9092,110.165.18.231:9092,223.130.138.92:9092
+    bootstrap-servers: localhost:39092
     admin:
       auto-create: true
 

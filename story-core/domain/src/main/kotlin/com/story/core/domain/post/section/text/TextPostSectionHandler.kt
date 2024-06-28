@@ -29,7 +29,7 @@ class TextPostSectionHandler : PostSectionHandler {
 
     override suspend fun makeContentResponse(contents: Collection<PostSectionContentEntity>): Map<PostSectionContentEntity, PostSectionContent> {
         return contents.associateWith { content ->
-            TextPostSectionContent.from(content as TextPostSectionContentEntity)
+            (content as TextPostSectionContentEntity).toTextPostSectionContent()
         }
     }
 

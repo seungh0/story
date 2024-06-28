@@ -10,11 +10,4 @@ data class LinkPostSectionContent(
 
     override fun sectionType(): PostSectionType = PostSectionType.LINK
 
-    companion object {
-        fun from(sectionContent: LinkPostSectionContentEntity) = LinkPostSectionContent(
-            link = sectionContent.link,
-            extra = sectionContent.extra,
-        )
-    }
-
 }

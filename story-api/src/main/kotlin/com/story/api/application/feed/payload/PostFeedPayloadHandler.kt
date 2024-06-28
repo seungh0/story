@@ -5,14 +5,14 @@ import com.story.core.domain.feed.Feed
 import com.story.core.domain.feed.FeedPayload
 import com.story.core.domain.post.PostEventKey
 import com.story.core.domain.post.PostNotExistsException
-import com.story.core.domain.post.PostReader
+import com.story.core.domain.post.PostReaderWithCache
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
 import org.springframework.stereotype.Service
 
 @Service
 class PostFeedPayloadHandler(
-    private val postReader: PostReader,
+    private val postReaderWithCache: PostReaderWithCache,
 ) : FeedPayloadHandler {
 
     override fun resourceId(): ResourceId = ResourceId.POSTS
@@ -26,7 +26,7 @@ class PostFeedPayloadHandler(
             try {
                 val eventKey = PostEventKey.parse(eventKey = feed.eventKey)
                 feed.feedId to PostResponse.of(
-                    postReader.getPost(
+                    postReaderWithCache.getPost(
                         postSpaceKey = PostSpaceKey(
                             workspaceId = workspaceId,
                             componentId = feed.sourceComponentId,

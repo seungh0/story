@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
 
 @IntegrationTest
-class ReactionCreatorTest(
+class ReactionCreatorIntegrationTest(
     private val reactionCreator: ReactionCreator,
     private val reactionCassandraRepository: ReactionCassandraRepository,
     private val reactiveReverseRepository: ReactionReverseCassandraRepository,

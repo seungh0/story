@@ -13,14 +13,4 @@ data class ImagePostSectionContent(
 
     override fun sectionType() = PostSectionType.IMAGE
 
-    companion object {
-        fun from(sectionContent: ImagePostSectionContentEntity, imageDomain: String) = ImagePostSectionContent(
-            domain = imageDomain,
-            path = sectionContent.path,
-            width = sectionContent.width,
-            height = sectionContent.height,
-            extra = sectionContent.extra,
-        )
-    }
-
 }

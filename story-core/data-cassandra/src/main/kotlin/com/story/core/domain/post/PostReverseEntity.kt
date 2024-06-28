@@ -1,6 +1,7 @@
 package com.story.core.domain.post
 
 import com.story.core.common.model.AuditingTimeEntity
+import com.story.core.domain.post.section.PostSectionContent
 import org.apache.commons.lang3.StringUtils
 import org.springframework.data.annotation.Transient
 import org.springframework.data.cassandra.core.cql.Ordering.DESCENDING
@@ -24,6 +25,24 @@ data class PostReverse(
     @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
     val auditingTime: AuditingTimeEntity,
 ) {
+
+    fun toPostWithSEctions(sections: List<PostSectionContent>): PostWithSections {
+        val response = PostWithSections(
+            workspaceId = this.key.workspaceId,
+            componentId = this.key.componentId,
+            spaceId = this.key.spaceId,
+            parentId = this.key.parentPostId,
+            postId = this.key.postId,
+            depth = this.key.getDepth(),
+            ownerId = this.key.ownerId,
+            title = this.title,
+            sections = sections,
+            extra = this.extra,
+            metadata = null
+        )
+        response.setAuditingTime(this.auditingTime)
+        return response
+    }
 
     companion object {
         fun of(post: PostEntity) = PostReverse(

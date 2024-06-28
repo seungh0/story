@@ -6,7 +6,6 @@ dependencies {
 
     // Redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
-    implementation("org.redisson:redisson:$redissonVersion")
 
     // Test
     testFixturesImplementation(testFixtures(project(":story-core:domain")))

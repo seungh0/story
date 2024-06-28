@@ -53,10 +53,7 @@ class ImagePostSectionHandler(
 
     override suspend fun makeContentResponse(contents: Collection<PostSectionContentEntity>): Map<PostSectionContentEntity, PostSectionContent> {
         return contents.associateWith { content ->
-            ImagePostSectionContent.from(
-                sectionContent = content as ImagePostSectionContentEntity,
-                imageDomain = properties.getProperties(fileType = FileType.IMAGE).domain
-            )
+            (content as ImagePostSectionContentEntity).toSectionContent(imageDomain = properties.getProperties(fileType = FileType.IMAGE).domain)
         }
     }
 

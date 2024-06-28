@@ -10,11 +10,4 @@ data class TextPostSectionContent(
 
     override fun sectionType() = PostSectionType.TEXT
 
-    companion object {
-        fun from(sectionContent: TextPostSectionContentEntity) = TextPostSectionContent(
-            content = sectionContent.content,
-            extra = sectionContent.extra,
-        )
-    }
-
 }

@@ -2,6 +2,7 @@ package com.story.core.domain.post
 
 import com.story.core.common.json.Jsons
 import com.story.core.common.model.AuditingTimeEntity
+import com.story.core.domain.post.section.PostSectionContent
 import org.apache.commons.lang3.StringUtils
 import org.springframework.data.annotation.Transient
 import org.springframework.data.cassandra.core.cql.Ordering
@@ -44,7 +45,29 @@ data class PostEntity(
         return this.ownerId == ownerId
     }
 
-    fun <T> getMetadata(type: PostMetadataType): T {
+    fun toPostWithSections(sections: List<PostSectionContent>): PostWithSections {
+        val response = PostWithSections(
+            workspaceId = this.key.workspaceId,
+            componentId = this.key.componentId,
+            spaceId = this.key.spaceId,
+            parentId = this.key.parentPostId,
+            postId = this.key.postId,
+            depth = this.key.getDepth(),
+            ownerId = this.ownerId,
+            title = this.title,
+            sections = sections,
+            extra = this.extra,
+            metadata = this.toPostMeta(),
+        )
+        response.setAuditingTime(this.auditingTime)
+        return response
+    }
+
+    fun toPostMeta() = PostMetadata(
+        hasChildren = getMetadata(type = PostMetadataType.HAS_CHILDREN),
+    )
+
+    private fun <T> getMetadata(type: PostMetadataType): T {
         val rawMetadata = this.metadata[type]
         if (rawMetadata.isNullOrBlank()) {
             return type.defaultValue as T

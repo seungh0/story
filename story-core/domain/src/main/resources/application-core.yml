@@ -14,3 +14,7 @@ resilience4j:
   circuitbreaker:
     metrics:
       enabled: true
+
+logging:
+  level:
+    com.story.core.support: INFO

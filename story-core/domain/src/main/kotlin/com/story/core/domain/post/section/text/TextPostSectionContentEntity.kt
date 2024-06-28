@@ -10,4 +10,9 @@ data class TextPostSectionContentEntity(
 
     override fun sectionType(): PostSectionType = PostSectionType.TEXT
 
+    fun toTextPostSectionContent() = TextPostSectionContent(
+        content = this.content,
+        extra = this.extra,
+    )
+
 }

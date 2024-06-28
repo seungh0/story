@@ -13,4 +13,12 @@ data class ImagePostSectionContentEntity(
 
     override fun sectionType(): PostSectionType = PostSectionType.IMAGE
 
+    fun toSectionContent(imageDomain: String) = ImagePostSectionContent(
+        domain = imageDomain,
+        path = this.path,
+        width = this.width,
+        height = this.height,
+        extra = this.extra,
+    )
+
 }

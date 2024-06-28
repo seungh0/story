@@ -3,7 +3,7 @@ package com.story.core.domain.post
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 
-class PostTest : FunSpec({
+class PostEntityTest : FunSpec({
 
     context("포스트 변경") {
         test("제목만 변경이 있는 경우 변경점이 존재한다") {

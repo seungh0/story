@@ -4,7 +4,7 @@ import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.event.EventAction
 import com.story.core.domain.feed.FeedFanoutMessage
 import com.story.core.domain.feed.FeedFanoutMessageProducer
-import com.story.core.domain.feed.mapping.FeedMappingReader
+import com.story.core.domain.feed.mapping.FeedMappingReaderWithCache
 import com.story.core.domain.post.PostEvent
 import com.story.core.domain.subscription.SubscriberSequenceRepository
 import com.story.core.domain.subscription.SubscriptionSlotAssigner.FIRST_SLOT_ID
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 @HandlerAdapter
 class PostFeedEventDistributor(
-    private val feedMappingReader: FeedMappingReader,
+    private val feedMappingReaderWithCache: FeedMappingReaderWithCache,
     private val subscriberSequenceRepository: SubscriberSequenceRepository,
     private val feedFanoutMessageProducer: FeedFanoutMessageProducer,
 ) {
@@ -28,7 +28,7 @@ class PostFeedEventDistributor(
         parallelCount: Int = 5,
     ) =
         coroutineScope {
-            val feedMappings = feedMappingReader.listConnectedFeedMappings(
+            val feedMappings = feedMappingReaderWithCache.listConnectedFeedMappings(
                 workspaceId = payload.workspaceId,
                 sourceResourceId = payload.resourceId,
                 sourceComponentId = payload.componentId,

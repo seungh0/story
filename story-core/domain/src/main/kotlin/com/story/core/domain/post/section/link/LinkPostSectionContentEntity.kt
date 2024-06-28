@@ -10,4 +10,9 @@ data class LinkPostSectionContentEntity(
 
     override fun sectionType(): PostSectionType = PostSectionType.LINK
 
+    fun toSectionContent() = LinkPostSectionContent(
+        link = this.link,
+        extra = this.extra,
+    )
+
 }

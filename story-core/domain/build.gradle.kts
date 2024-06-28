@@ -5,7 +5,7 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine")
 
     // Cassandra
-    api("org.springframework.boot:spring-boot-starter-data-cassandra-reactive")
+    api("org.springframework.boot:spring-boot-starter-data-cassandra-reactive") // TODO: 모듈 정리 후 제거
 
     // Kafka
     api("org.springframework.kafka:spring-kafka")
@@ -25,10 +25,13 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Test
-    testRuntimeOnly(project(":story-core:data-cassandra"))
-    testRuntimeOnly(project(":story-core:data-redis"))
+    testImplementation(project(":story-core:data-cassandra"))
+    testImplementation(project(":story-core:data-redis"))
 
     // Test Fixtures
+    testImplementation(testFixtures(project(":story-core:domain")))
+    testImplementation(testFixtures(project(":story-core:data-cassandra")))
+
     testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     testFixturesImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 }

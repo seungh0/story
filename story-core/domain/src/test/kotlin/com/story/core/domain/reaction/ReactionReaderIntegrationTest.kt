@@ -6,7 +6,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 
 @IntegrationTest
-class ReactionRetrieverTest(
+class ReactionReaderIntegrationTest(
     private val reactionReader: ReactionReader,
     private val reactionReverseCassandraRepository: ReactionReverseCassandraRepository,
     private val reactionCountCassandraRepository: ReactionCountCassandraRepository,

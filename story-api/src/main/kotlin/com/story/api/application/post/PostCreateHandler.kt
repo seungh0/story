@@ -10,7 +10,7 @@ import com.story.core.domain.post.PostMetadataType
 import com.story.core.domain.post.PostModifier
 import com.story.core.domain.post.PostNotExistsException
 import com.story.core.domain.post.PostParentNotExistsException
-import com.story.core.domain.post.PostReader
+import com.story.core.domain.post.PostReaderWithCache
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.post.PostWithSections
 import com.story.core.domain.resource.ResourceId
@@ -21,7 +21,7 @@ class PostCreateHandler(
     private val componentCheckHandler: ComponentCheckHandler,
     private val postEventProducer: PostEventProducer,
     private val nonceManager: NonceManager,
-    private val postReader: PostReader,
+    private val postReaderWithCache: PostReaderWithCache,
     private val postModifier: PostModifier,
 ) {
 
@@ -62,7 +62,7 @@ class PostCreateHandler(
         }
 
         try {
-            val parentPost = postReader.getPost(
+            val parentPost = postReaderWithCache.getPost(
                 postSpaceKey = postSpaceKey,
                 postId = request.parentId,
             )

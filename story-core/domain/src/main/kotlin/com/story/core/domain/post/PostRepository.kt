@@ -1,5 +1,8 @@
 package com.story.core.domain.post
 
+import com.story.core.common.distribution.DistributionKey
+import com.story.core.common.model.Slice
+import com.story.core.common.model.dto.CursorRequest
 import com.story.core.domain.post.section.PostSectionContentCommand
 
 interface PostRepository {
@@ -49,5 +52,21 @@ interface PostRepository {
         postSpaceKey: PostSpaceKey,
         postId: PostId,
     ): PostWithSections?
+
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeySpaceIdAndKeyParentIdAndKeySlotId(
+        postSpaceKey: PostSpaceKey,
+        parentId: PostId?,
+        cursorRequest: CursorRequest,
+        sortBy: PostSortBy,
+    ): Slice<PostWithSections, String>
+
+    suspend fun listOwnerPosts(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        cursorRequest: CursorRequest,
+    ): Slice<PostWithSections, String>
+
+    suspend fun clear(workspaceId: String, componentId: String, distributionKey: DistributionKey): Long
 
 }
