@@ -19,7 +19,7 @@ services:
     tmpfs:
       - /var/lib/cassandra
     healthcheck:
-      test: [ "CMD-SHELL", "[ $$(nodetool statusgossip) = running ]" ]
+      test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
       interval: 30s
       timeout: 15s
       retries: 10
