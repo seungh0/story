@@ -11,7 +11,7 @@ val kotestSpringExtensionVersion: String by project.extra
 val springCloudVersion: String by project.extra
 
 plugins {
-    id("org.springframework.boot") version "3.3.1"
+    id("org.springframework.boot") version "3.3.2"
     id("io.spring.dependency-management") version "1.1.5"
     id("application")
     id("org.asciidoctor.jvm.convert") version "4.0.2"
