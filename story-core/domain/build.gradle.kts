@@ -11,7 +11,7 @@ dependencies {
     api("org.springframework.kafka:spring-kafka")
 
     // Redis
-    api("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("org.redisson:redisson:$redissonVersion")
 
     // CircuitBreaker
