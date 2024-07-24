@@ -27,7 +27,12 @@ class ApiKeyEntityRepository(
         return entity.toApiKey()
     }
 
-    override suspend fun update(workspaceId: String, key: String, description: String?, status: ApiKeyStatus?): ApiKey {
+    override suspend fun partialUpdate(
+        workspaceId: String,
+        key: String,
+        description: String?,
+        status: ApiKeyStatus?,
+    ): ApiKey {
         val entity = findApiKey(workspaceId = workspaceId, key = key)
 
         entity.patch(

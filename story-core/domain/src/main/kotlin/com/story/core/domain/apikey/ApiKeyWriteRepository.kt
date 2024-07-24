@@ -4,6 +4,6 @@ interface ApiKeyWriteRepository {
 
     suspend fun create(workspaceId: String, key: String, description: String): ApiKey
 
-    suspend fun update(workspaceId: String, key: String, description: String?, status: ApiKeyStatus?): ApiKey
+    suspend fun partialUpdate(workspaceId: String, key: String, description: String?, status: ApiKeyStatus?): ApiKey
 
 }

@@ -22,7 +22,7 @@ class ApiKeyModifier(
         description: String?,
         status: ApiKeyStatus?,
     ) {
-        val apiKey = apiKeyWriteRepository.update(
+        val apiKey = apiKeyWriteRepository.partialUpdate(
             workspaceId = workspaceId,
             key = key,
             description = description,

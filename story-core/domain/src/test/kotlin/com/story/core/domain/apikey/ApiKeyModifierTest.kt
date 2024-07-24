@@ -1,109 +1,95 @@
 package com.story.core.domain.apikey
 
-import com.story.core.FunSpecIntegrationTest
-import com.story.core.IntegrationTest
-import io.kotest.assertions.throwables.shouldThrowExactly
-import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import kotlinx.coroutines.flow.toList
+import io.kotest.core.spec.style.StringSpec
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import java.util.UUID
 
-@IntegrationTest
-class ApiKeyModifierTest(
-    private val workspaceApiKeyRepository: WorkspaceApiKeyCassandraRepository,
-    private val apiKeyModifier: ApiKeyModifier,
-) : FunSpecIntegrationTest({
+class ApiKeyModifierTest : StringSpec({
 
-    context("등록되어 있는 API-키를 변경한다") {
-        test("등록된 API-키에 대한 설명을 변경한다") {
-            // given
-            val description = "사용처에 대한 설명"
+    val apiKeyWriteRepository = mockk<ApiKeyWriteRepository>()
+    val apiKeyEventProducer = mockk<ApiKeyEventProducer>(relaxed = true)
+    val apiKeyModifier = ApiKeyModifier(
+        apiKeyWriteRepository = apiKeyWriteRepository,
+        apiKeyEventProducer = apiKeyEventProducer,
+    )
 
-            val apiKey = WorkspaceApiKeyEntityFixture.create()
-            workspaceApiKeyRepository.save(apiKey)
+    "API Key를 수정합니다" {
+        // given
+        val workspaceId = "story"
+        val key = UUID.randomUUID().toString()
+        val description = "스토리 사용"
+        val status = ApiKeyStatus.ENABLED
 
-            // when
-            apiKeyModifier.patchApiKey(
-                workspaceId = apiKey.key.workspaceId,
-                key = apiKey.key.apiKey,
+        coEvery {
+            apiKeyWriteRepository.partialUpdate(
+                workspaceId = workspaceId,
+                key = key,
                 description = description,
-                status = null,
+                status = status,
             )
+        } returns ApiKeyTestFixture.create(
+            apiKey = key,
+            workspaceId = workspaceId,
+            description = description,
+            status = status,
+        )
 
-            // then
-            val apiKeys = workspaceApiKeyRepository.findAll().toList()
-            apiKeys shouldHaveSize 1
-            apiKeys[0].also {
-                it.key.workspaceId shouldBe apiKey.key.workspaceId
-                it.key.apiKey shouldBe apiKey.key.apiKey
-                it.description shouldBe description
-                it.status shouldBe apiKey.status
-                it.auditingTime.createdAt shouldNotBe null
-                it.auditingTime.updatedAt shouldNotBe null
-                it.auditingTime.updatedAt shouldNotBe it.auditingTime.createdAt
-            }
+        // when
+        apiKeyModifier.patchApiKey(
+            workspaceId = workspaceId,
+            key = key,
+            description = description,
+            status = status,
+        )
+
+        // then
+        coVerify(exactly = 1) {
+            apiKeyWriteRepository.partialUpdate(
+                workspaceId = workspaceId,
+                key = key,
+                description = description,
+                status = status,
+            )
         }
+    }
 
-        test("서비스 API-키를 사용 중지한다") {
-            // given
-            val apiKey = WorkspaceApiKeyEntityFixture.create(
-                status = ApiKeyStatus.ENABLED,
+    "API Key를 수정하면 수정 이벤트를 발행합니다" {
+        // given
+        val workspaceId = "story"
+        val key = UUID.randomUUID().toString()
+        val description = "스토리 사용"
+        val status = ApiKeyStatus.ENABLED
+
+        coEvery {
+            apiKeyWriteRepository.partialUpdate(
+                workspaceId = workspaceId,
+                key = key,
+                description = description,
+                status = status,
             )
-            workspaceApiKeyRepository.save(apiKey)
+        } returns ApiKeyTestFixture.create(
+            apiKey = key,
+            workspaceId = workspaceId,
+            description = description,
+            status = status,
+        )
 
-            // when
-            apiKeyModifier.patchApiKey(
-                workspaceId = apiKey.key.workspaceId,
-                key = apiKey.key.apiKey,
-                description = null,
-                status = ApiKeyStatus.DISABLED,
+        // when
+        apiKeyModifier.patchApiKey(
+            workspaceId = workspaceId,
+            key = key,
+            description = description,
+            status = status,
+        )
+
+        // then
+        coVerify(exactly = 1) {
+            apiKeyEventProducer.publishEvent(
+                apiKey = key,
+                event = any(),
             )
-
-            // then
-            val apiKeys = workspaceApiKeyRepository.findAll().toList()
-            apiKeys shouldHaveSize 1
-            apiKeys[0].also {
-                it.key.workspaceId shouldBe apiKey.key.workspaceId
-                it.key.apiKey shouldBe apiKey.key.apiKey
-                it.description shouldBe apiKey.description
-                it.status shouldBe ApiKeyStatus.DISABLED
-                it.auditingTime.createdAt shouldNotBe null
-                it.auditingTime.updatedAt shouldNotBe null
-                it.auditingTime.updatedAt shouldNotBe it.auditingTime.createdAt
-            }
-        }
-
-        test("워크스페이스에 등록되어 있지 않은 API-키인 경우 변경할 수 없다") {
-            // given
-            val workspaceId = "story"
-
-            // when & then
-            shouldThrowExactly<ApiKeyNotExistsException> {
-                apiKeyModifier.patchApiKey(
-                    workspaceId = workspaceId,
-                    key = "api-key",
-                    description = "",
-                    status = null,
-                )
-            }
-        }
-
-        test("API-키는 각 워크스페이스별로 독립적으로 관리된다") {
-            // given
-            val apiKey = WorkspaceApiKeyEntityFixture.create(
-                workspaceId = "story",
-            )
-            workspaceApiKeyRepository.save(apiKey)
-
-            // when & then
-            shouldThrowExactly<ApiKeyNotExistsException> {
-                apiKeyModifier.patchApiKey(
-                    workspaceId = "instagram",
-                    key = apiKey.key.apiKey,
-                    description = "",
-                    status = null,
-                )
-            }
         }
     }
 
