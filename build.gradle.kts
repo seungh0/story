@@ -15,7 +15,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
     id("application")
     id("org.asciidoctor.jvm.convert") version "4.0.3"
-    kotlin("jvm") version "1.9.24"
+    kotlin("jvm") version "2.0.10"
     kotlin("plugin.spring") version "1.9.24"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
 }
