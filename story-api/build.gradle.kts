@@ -3,7 +3,7 @@ val asciidoctorExtensions: Configuration by configurations.creating
 dependencies {
     // Core
     implementation(project(":story-core:domain"))
-    runtimeOnly(project(":story-core:data-cassandra"))
+    implementation(project(":story-core:data-cassandra"))
     runtimeOnly(project(":story-core:data-redis"))
 
     // Spring Webflux

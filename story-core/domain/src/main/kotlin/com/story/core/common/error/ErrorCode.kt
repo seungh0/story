@@ -139,6 +139,7 @@ enum class ErrorCode(
         description = "피드 매핑 중복 시"
     ),
     E409_ALREADY_EXISTS_EMOTION(httpStatusCode = 409, code = "already_exists_emotion", description = "이모션 중복 시"),
+    E409_ALREADY_EXISTS_WORKSPACE(httpStatusCode = 409, code = "already_exists_workspace", description = "워크스페이스 중복 시"),
 
     /**
      * 429 Too Many Request

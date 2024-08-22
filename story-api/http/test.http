@@ -1,0 +1,2 @@
+### 캐시 전체 제거
+DELETE {{api}}/test/caches-refresh

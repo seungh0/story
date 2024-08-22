@@ -1,6 +1,7 @@
 package com.story.api.config.apikey
 
 import org.springframework.http.HttpMethod
+import org.springframework.http.HttpMethod.DELETE
 import org.springframework.http.HttpMethod.GET
 import org.springframework.http.HttpMethod.POST
 import org.springframework.stereotype.Component
@@ -27,6 +28,7 @@ class ApiKeyChecker(
         GET to "/monitoring/**",
         GET to "/api/v1/api-keys/**",
         POST to "/api/setup",
+        DELETE to "/api/test/caches-refresh",
     )
 
 }
