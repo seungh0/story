@@ -1,4 +1,3 @@
-import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -9,6 +8,7 @@ val springMockkVersion: String by project.extra
 val kotestVersion: String by project.extra
 val kotestSpringExtensionVersion: String by project.extra
 val springCloudVersion: String by project.extra
+val redissonVersion: String by project.extra
 
 plugins {
     id("org.springframework.boot") version "3.3.3"
@@ -41,7 +41,26 @@ subprojects {
     apply(plugin = "org.asciidoctor.jvm.convert")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
+    dependencyManagement {
+        dependencies {
+            // Redisson
+            dependency("org.redisson:redisson:$redissonVersion")
+
+            // Logging
+            dependency("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
+
+            // Test
+            dependency("io.kotest:kotest-runner-junit5:$kotestVersion")
+            dependency("io.kotest:kotest-assertions-core:$kotestVersion")
+            dependency("io.kotest.extensions:kotest-extensions-spring:$kotestSpringExtensionVersion")
+            dependency("com.ninja-squad:springmockk:$springMockkVersion")
+        }
+    }
+
     dependencies {
+        // BOM
+        implementation(platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"))
+
         // Kotlin
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -58,13 +77,13 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
 
         // Logging
-        implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
+        implementation("io.github.microutils:kotlin-logging-jvm")
 
         // Test
-        testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-        testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
-        testImplementation("io.kotest.extensions:kotest-extensions-spring:$kotestSpringExtensionVersion")
-        testImplementation("com.ninja-squad:springmockk:$springMockkVersion")
+        testImplementation("io.kotest:kotest-runner-junit5")
+        testImplementation("io.kotest:kotest-assertions-core")
+        testImplementation("io.kotest.extensions:kotest-extensions-spring")
+        testImplementation("com.ninja-squad:springmockk")
     }
 
     configurations {
@@ -77,12 +96,6 @@ subprojects {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict", "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
             jvmTarget = "21"
-        }
-    }
-
-    the<DependencyManagementExtension>().apply {
-        imports {
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
         }
     }
 

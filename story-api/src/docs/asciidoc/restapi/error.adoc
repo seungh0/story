@@ -31,6 +31,7 @@
 | 409 | already_exists_component | 컴포넌트 중복 시
 | 409 | already_connected_feed_mapping | 피드 매핑 중복 시
 | 409 | already_exists_emotion | 이모션 중복 시
+| 409 | already_exists_workspace | 워크스페이스 중복 시
 | 429 | too_many_request | 일시적으로 제한을 넘어서서 요청 시
 | 500 | internal_error | 서버 내부적으로 문제 발생 시
 | 501 | not_supported | 지원하지 않는 요청인 경우
