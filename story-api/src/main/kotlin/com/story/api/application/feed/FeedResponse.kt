@@ -5,17 +5,17 @@ import com.story.core.domain.feed.FeedPayload
 
 data class FeedResponse(
     val feedId: String,
-    val resourceId: String,
-    val componentId: String,
-    val payload: FeedPayload,
+    val itemResourceId: String,
+    val itemComponentId: String,
+    val item: FeedPayload,
 ) {
 
     companion object {
         fun of(feed: Feed, payload: FeedPayload) = FeedResponse(
-            feedId = feed.feedId.toString(),
-            resourceId = feed.sourceResourceId.code,
-            componentId = feed.sourceComponentId,
-            payload = payload,
+            feedId = feed.makeFeedId(),
+            itemResourceId = feed.item.resourceId.code,
+            itemComponentId = feed.item.componentId,
+            item = payload,
         )
     }
 

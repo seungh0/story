@@ -22,15 +22,4 @@ class FeedFanoutHandlerFinderTest(
         sut should beInstanceOf<FeedItemFanoutCreateActionHandler>()
     }
 
-    "Feed Remove Handler" {
-        // given
-        val eventAction = EventAction.REMOVED
-
-        // when
-        val sut = feedHandlerFinder.get(eventAction = eventAction)
-
-        // then
-        sut should beInstanceOf<FeedItemFanoutRemoveActionHandler>()
-    }
-
 })

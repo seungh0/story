@@ -12,17 +12,17 @@ class FeedRemoveApi(
     private val feedRemoveHandler: FeedRemoveHandler,
 ) {
 
-    @DeleteMapping("/v1/resources/feeds/components/{componentId}/subscribers/{subscriberId}/feeds/{feedId}")
+    @DeleteMapping("/v1/feed-components/{componentId}/owners/{ownerId}/feeds/{feedId}")
     suspend fun removeFeed(
         @PathVariable componentId: String,
-        @PathVariable subscriberId: String,
-        @PathVariable feedId: Long,
+        @PathVariable ownerId: String,
+        @PathVariable feedId: String,
         @RequestApiKey authContext: ApiKeyContext,
     ): ApiResponse<Nothing?> {
         feedRemoveHandler.remove(
             workspaceId = authContext.workspaceId,
             componentId = componentId,
-            subscriberId = subscriberId,
+            ownerId = ownerId,
             feedId = feedId,
         )
         return ApiResponse.OK

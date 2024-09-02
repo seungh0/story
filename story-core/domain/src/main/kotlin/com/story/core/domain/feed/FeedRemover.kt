@@ -12,37 +12,34 @@ class FeedRemover(
 
     suspend fun remove(
         workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
-        feedId: Long,
-    ) {
-        feedWriteRepository.delete(
-            workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            subscriberId = subscriberId,
-            feedId = feedId,
-        )
-    }
-
-    suspend fun remove(
-        workspaceId: String,
-        feedComponentId: String,
-        feedSubscribers: Collection<Feed>,
+        componentId: String,
+        ownerIds: Collection<String>,
+        item: FeedItem,
+        options: FeedOptions,
         parallelCount: Int = 50,
     ) = coroutineScope {
-        feedSubscribers.chunked(10)
+        ownerIds.asSequence()
+            .chunked(BATCH_SIZE)
             .chunked(parallelCount)
-            .map { parallelChunkedFeedSubscribers ->
-                parallelChunkedFeedSubscribers.map { feedSubscribers ->
-                    launch {
+            .map { parallelChunkedOwnerIds ->
+                launch {
+                    parallelChunkedOwnerIds.map { chunkedOwnerIds ->
                         feedWriteRepository.delete(
                             workspaceId = workspaceId,
-                            feedComponentId = feedComponentId,
-                            feedSubscribers = feedSubscribers,
+                            componentId = componentId,
+                            ownerIds = chunkedOwnerIds,
+                            item = item,
+                            options = options,
                         )
                     }
-                }.joinAll()
+                }
             }
+            .toList()
+            .joinAll()
+    }
+
+    companion object {
+        private const val BATCH_SIZE = 10 // 10 * 200byte = 2KB
     }
 
 }

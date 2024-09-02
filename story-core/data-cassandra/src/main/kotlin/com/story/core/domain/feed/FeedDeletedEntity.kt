@@ -9,28 +9,15 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 import java.time.LocalDateTime
 
-@Table("feed_v2")
-data class FeedEntity(
+@Table("feed_deleted_v2")
+data class FeedDeletedEntity(
     @field:PrimaryKey
-    val key: FeedEntityPrimaryKey,
-    val createdAt: LocalDateTime,
-) {
-    fun toFeed() = Feed(
-        workspaceId = key.workspaceId,
-        componentId = key.componentId,
-        ownerId = key.ownerId,
-        item = FeedItem(
-            itemId = key.itemId,
-            componentId = key.itemComponentId,
-            resourceId = key.itemResourceId,
-        ),
-        sortKey = key.sortKey,
-        createdAt = createdAt,
-    )
-}
+    val key: FeedDeletedEntityPrimaryKey,
+    val deletedAt: LocalDateTime,
+)
 
 @PrimaryKeyClass
-data class FeedEntityPrimaryKey(
+data class FeedDeletedEntityPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
     val workspaceId: String,
 
@@ -41,14 +28,11 @@ data class FeedEntityPrimaryKey(
     val ownerId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
-    val sortKey: Long,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val itemResourceId: ResourceId,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val itemComponentId: String,
 
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
     val itemId: String,
 )

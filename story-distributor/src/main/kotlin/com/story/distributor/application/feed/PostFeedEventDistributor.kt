@@ -2,10 +2,15 @@ package com.story.distributor.application.feed
 
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.domain.event.EventAction
+import com.story.core.domain.event.EventRecord
 import com.story.core.domain.feed.FeedFanoutMessage
 import com.story.core.domain.feed.FeedFanoutMessageProducer
+import com.story.core.domain.feed.FeedItem
+import com.story.core.domain.feed.FeedOptions
 import com.story.core.domain.feed.mapping.FeedMappingReaderWithCache
 import com.story.core.domain.post.PostEvent
+import com.story.core.domain.post.PostEventKey
+import com.story.core.domain.resource.ResourceId
 import com.story.core.domain.subscription.SubscriberSequenceRepository
 import com.story.core.domain.subscription.SubscriptionSlotAssigner.FIRST_SLOT_ID
 import com.story.core.domain.subscription.SubscriptionSlotAssigner.assign
@@ -22,9 +27,7 @@ class PostFeedEventDistributor(
 
     suspend fun distribute(
         payload: PostEvent,
-        eventId: Long,
         eventAction: EventAction,
-        eventKey: String,
         parallelCount: Int = 5,
     ) =
         coroutineScope {
@@ -57,18 +60,27 @@ class PostFeedEventDistributor(
                         chunkedSlotIds.map { slotId ->
                             launch {
                                 feedFanoutMessageProducer.publish(
-                                    event = FeedFanoutMessage.of(
-                                        eventAction = eventAction,
-                                        eventKey = eventKey,
-                                        workspaceId = feedMapping.workspaceId,
-                                        feedComponentId = feedMapping.feedComponentId,
-                                        subscriptionComponentId = feedMapping.subscriptionComponentId,
-                                        sourceResourceId = feedMapping.sourceResourceId,
-                                        sourceComponentId = feedMapping.sourceComponentId,
-                                        targetId = payload.ownerId,
-                                        slotId = slotId,
-                                        payload = payload,
-                                        retention = feedMapping.retention,
+                                    event = EventRecord(
+                                        eventAction = EventAction.CREATED,
+                                        eventKey = PostEventKey(
+                                            spaceId = payload.spaceId,
+                                            postId = payload.postId
+                                        ).makeKey(),
+                                        payload = FeedFanoutMessage(
+                                            workspaceId = feedMapping.workspaceId,
+                                            componentId = feedMapping.feedComponentId,
+                                            options = FeedOptions(
+                                                retention = feedMapping.retention,
+                                            ),
+                                            item = FeedItem(
+                                                resourceId = ResourceId.POSTS,
+                                                componentId = payload.componentId,
+                                                itemId = payload.postId.serialize(),
+                                            ),
+                                            slotId = slotId,
+                                            targetId = payload.ownerId,
+                                            subscriptionComponentId = feedMapping.subscriptionComponentId,
+                                        )
                                     )
                                 )
                             }

@@ -5,6 +5,7 @@ import com.story.api.application.feed.payload.FeedPayloadHandlerFinder
 import com.story.core.common.annotation.HandlerAdapter
 import com.story.core.common.model.Slice
 import com.story.core.domain.feed.Feed
+import com.story.core.domain.feed.FeedItem
 import com.story.core.domain.feed.FeedPayload
 import com.story.core.domain.feed.FeedReader
 import com.story.core.domain.resource.ResourceId
@@ -18,24 +19,24 @@ class FeedRetrieveHandler(
 
     suspend fun listFeeds(
         workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
+        componentId: String,
+        ownerId: String,
         request: FeedListRequest,
     ): FeedListResponse {
         componentCheckHandler.checkExistsComponent(
             workspaceId = workspaceId,
             resourceId = ResourceId.FEEDS,
-            componentId = feedComponentId,
+            componentId = componentId,
         )
 
         val feeds = feedReader.listFeeds(
             workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            subscriberId = subscriberId,
+            componentId = componentId,
+            ownerId = ownerId,
             cursorRequest = request.toDecodedCursor(),
         )
 
-        val feedPayloads = handleFeedPayloads(feeds = feeds, workspaceId = workspaceId, subscriberId = subscriberId)
+        val feedPayloads = handleFeedPayloads(feeds = feeds, workspaceId = workspaceId, subscriberId = ownerId)
 
         return FeedListResponse.of(feeds = feeds, feedPayloads = feedPayloads)
     }
@@ -44,9 +45,9 @@ class FeedRetrieveHandler(
         feeds: Slice<Feed, String>,
         workspaceId: String,
         subscriberId: String,
-    ): MutableMap<Long, FeedPayload> {
-        val feedPayloads = mutableMapOf<Long, FeedPayload>()
-        for ((resourceId, feesGroupByResource) in feeds.data.groupBy { feed -> feed.sourceResourceId }) {
+    ): MutableMap<FeedItem, FeedPayload> {
+        val feedPayloads = mutableMapOf<FeedItem, FeedPayload>()
+        for ((resourceId, feesGroupByResource) in feeds.data.groupBy { feed -> feed.item.resourceId }) {
             val handler = feedPayloadHandlerFinder.get(resourceId = resourceId)
             feedPayloads.putAll(
                 handler.handle(

@@ -5,50 +5,18 @@ import org.springframework.data.domain.Slice
 
 interface FeedReadRepository {
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberId(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerId(
         workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
+        componentId: String,
+        ownerId: String,
         pageable: Pageable,
     ): Slice<Feed>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdLessThan(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
         workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
-        feedId: Long,
-        pageable: Pageable,
-    ): Slice<Feed>
-
-    suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdOrderByKeyFeedIdAsc(
-        workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
-        pageable: Pageable,
-    ): Slice<Feed>
-
-    suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
-        workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
-        feedId: Long,
-        pageable: Pageable,
-    ): Slice<Feed>
-
-    suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyEventKeyAndKeySlotId(
-        workspaceId: String,
-        feedComponentId: String,
-        eventKey: String,
-        slotId: Long,
-        pageable: Pageable,
-    ): Slice<Feed>
-
-    suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyEventKeyAndKeySlotIdAndKeySubscriberIdLessThan(
-        workspaceId: String,
-        feedComponentId: String,
-        eventKey: String,
-        slotId: Long,
-        subscriberId: String,
+        componentId: String,
+        ownerId: String,
+        sortKey: Long,
         pageable: Pageable,
     ): Slice<Feed>
 

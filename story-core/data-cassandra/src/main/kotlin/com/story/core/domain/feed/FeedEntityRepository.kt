@@ -1,203 +1,103 @@
 package com.story.core.domain.feed
 
-import com.story.core.common.utils.mapToSet
-import com.story.core.domain.resource.ResourceId
 import com.story.core.support.cassandra.executeCoroutine
 import com.story.core.support.cassandra.upsert
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
-import org.springframework.data.domain.SliceImpl
 import org.springframework.stereotype.Repository
-import java.time.Duration
+import java.time.LocalDateTime
 
 @Repository
 class FeedEntityRepository(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val feedCassandraRepository: FeedCassandraRepository,
-    private val feedSubscriberCassandraRepository: FeedSubscriberCassandraRepository,
+    private val feedEntityV2CassandraRepository: FeedEntityV2CassandraRepository,
 ) : FeedWriteRepository, FeedReadRepository {
 
     override suspend fun create(
         workspaceId: String,
-        feedComponentId: String,
-        slotId: Long,
-        subscriberIds: Collection<String>,
-        eventKey: String,
-        retention: Duration,
-        feedId: Long,
-        sourceComponentId: String,
-        sourceResourceId: ResourceId,
+        componentId: String,
+        ownerIds: Collection<String>,
+        sortKey: Long,
+        item: FeedItem,
+        options: FeedOptions,
     ) {
-        val feedSubscribers: Set<FeedSubscriberEntity> = subscriberIds.mapToSet { subscriberId ->
-            FeedSubscriberEntity(
-                key = FeedSubscriberPrimaryKey.of(
-                    workspaceId = workspaceId,
-                    feedComponentId = feedComponentId,
-                    slotId = slotId,
-                    subscriberId = subscriberId,
-                    eventKey = eventKey,
-                ),
-                feedId = feedId,
-                sourceComponentId = sourceComponentId,
-                sourceResourceId = sourceResourceId,
-            )
-        }
-
-        val feeds: Set<FeedEntity> = feedSubscribers.mapToSet { feedSubscriber -> FeedEntity.from(feedSubscriber) }
-
-        reactiveCassandraOperations.batchOps()
-            .upsert(entities = feeds, ttl = retention)
-            .upsert(entities = feedSubscribers, ttl = retention)
-            .executeCoroutine()
-    }
-
-    override suspend fun delete(workspaceId: String, feedComponentId: String, subscriberId: String, feedId: Long) {
-        val feed = feedCassandraRepository.findById(
-            FeedPrimaryKey.of(
-                workspaceId = workspaceId,
-                feedComponentId = feedComponentId,
-                subscriberId = subscriberId,
-                feedId = feedId,
-            )
-        )
-            ?: throw FeedNotExistsExeption("워크스페이스($workspaceId)의 피드 컴포넌트($feedComponentId)상에서 피드 구독자($subscriberId)에게 존재하지 않는 피드($feedId)입니다")
-
-        reactiveCassandraOperations.batchOps()
-            .delete(feed)
-            .delete(FeedSubscriberEntity.from(feed))
-            .executeCoroutine()
-    }
-
-    override suspend fun delete(workspaceId: String, feedComponentId: String, feedSubscribers: Collection<Feed>) {
-        val feeds = feedSubscribers.map { feedSubscriber ->
+        val feeds = ownerIds.map { ownerId ->
             FeedEntity(
-                key = FeedPrimaryKey(
+                key = FeedEntityPrimaryKey(
                     workspaceId = workspaceId,
-                    feedComponentId = feedComponentId,
-                    subscriberId = feedSubscriber.subscriberId,
-                    feedId = feedSubscriber.feedId,
+                    componentId = componentId,
+                    ownerId = ownerId,
+                    sortKey = sortKey,
+                    itemResourceId = item.resourceId,
+                    itemComponentId = item.componentId,
+                    itemId = item.itemId,
                 ),
-                sourceResourceId = feedSubscriber.sourceResourceId,
-                sourceComponentId = feedSubscriber.sourceComponentId,
-                eventKey = "", // Dummy
-                subscriberSlot = 0L, // Dummy
+                createdAt = LocalDateTime.now(),
             )
         }
 
+        val feedReverses = feeds.map { feed -> FeedReverseEntity.from(feed) }
+
         reactiveCassandraOperations.batchOps()
-            .delete(feeds)
-            .delete(feedSubscribers)
+            .upsert(entities = feeds, ttl = options.retention)
+            .upsert(entities = feedReverses, ttl = options.retention)
             .executeCoroutine()
     }
 
-    override suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberId(
+    override suspend fun delete(
         workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
-        pageable: Pageable,
-    ): Slice<Feed> {
-        val feeds = feedCassandraRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberId(
-            workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            subscriberId = subscriberId,
-            pageable = pageable,
-        )
-
-        return SliceImpl(feeds.content.map { entity -> entity.toFeed() }, feeds.nextPageable(), feeds.hasNext())
+        componentId: String,
+        ownerIds: Collection<String>,
+        item: FeedItem,
+        options: FeedOptions,
+    ) {
+        val feedDeletes = ownerIds.map { ownerId ->
+            FeedDeletedEntity(
+                key = FeedDeletedEntityPrimaryKey(
+                    workspaceId = workspaceId,
+                    componentId = componentId,
+                    ownerId = ownerId,
+                    itemResourceId = item.resourceId,
+                    itemComponentId = item.componentId,
+                    itemId = item.itemId,
+                ),
+                deletedAt = LocalDateTime.now(),
+            )
+        }
+        reactiveCassandraOperations.batchOps()
+            .upsert(entities = feedDeletes, ttl = options.retention)
+            .executeCoroutine()
     }
 
-    override suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdLessThan(
+    override suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerId(
         workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
-        feedId: Long,
+        componentId: String,
+        ownerId: String,
         pageable: Pageable,
     ): Slice<Feed> {
-        val feeds = feedCassandraRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdLessThan(
+        return feedEntityV2CassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerId(
             workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            subscriberId = subscriberId,
-            feedId = feedId,
+            componentId = componentId,
+            ownerId = ownerId,
             pageable = pageable,
-        )
-        return SliceImpl(feeds.content.map { entity -> entity.toFeed() }, feeds.nextPageable(), feeds.hasNext())
+        ).map { entity -> entity.toFeed() }
     }
 
-    override suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdOrderByKeyFeedIdAsc(
+    override suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
         workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
+        componentId: String,
+        ownerId: String,
+        sortKey: Long,
         pageable: Pageable,
     ): Slice<Feed> {
-        val feeds = feedCassandraRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdOrderByKeyFeedIdAsc(
+        return feedEntityV2CassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
             workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            subscriberId = subscriberId,
+            componentId = componentId,
+            ownerId = ownerId,
+            sortKey = sortKey,
             pageable = pageable,
-        )
-        return SliceImpl(feeds.content.map { entity -> entity.toFeed() }, feeds.nextPageable(), feeds.hasNext())
-    }
-
-    override suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
-        workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
-        feedId: Long,
-        pageable: Pageable,
-    ): Slice<Feed> {
-        val feeds = feedCassandraRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
-            workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            subscriberId = subscriberId,
-            feedId = feedId,
-            pageable = pageable,
-        )
-        return SliceImpl(feeds.content.map { entity -> entity.toFeed() }, feeds.nextPageable(), feeds.hasNext())
-    }
-
-    override suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyEventKeyAndKeySlotId(
-        workspaceId: String,
-        feedComponentId: String,
-        eventKey: String,
-        slotId: Long,
-        pageable: Pageable,
-    ): Slice<Feed> {
-        val feedSubscribers = feedSubscriberCassandraRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyEventKeyAndKeySlotId(
-            workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            eventKey = eventKey,
-            slotId = slotId,
-            pageable = pageable,
-        )
-        return SliceImpl(
-            feedSubscribers.content.map { entity -> entity.toFeed() },
-            feedSubscribers.nextPageable(),
-            feedSubscribers.hasNext()
-        )
-    }
-
-    override suspend fun findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyEventKeyAndKeySlotIdAndKeySubscriberIdLessThan(
-        workspaceId: String,
-        feedComponentId: String,
-        eventKey: String,
-        slotId: Long,
-        subscriberId: String,
-        pageable: Pageable,
-    ): Slice<Feed> {
-        val feedSubscribers = feedSubscriberCassandraRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeyEventKeyAndKeySlotIdAndKeySubscriberIdLessThan(
-            workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            eventKey = eventKey,
-            slotId = slotId,
-            subscriberId = subscriberId,
-            pageable = pageable,
-        )
-        return SliceImpl(
-            feedSubscribers.content.map { entity -> entity.toFeed() },
-            feedSubscribers.nextPageable(),
-            feedSubscribers.hasNext()
-        )
+        ).map { entity -> entity.toFeed() }
     }
 
 }

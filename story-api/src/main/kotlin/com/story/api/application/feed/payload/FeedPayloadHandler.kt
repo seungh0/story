@@ -1,6 +1,7 @@
 package com.story.api.application.feed.payload
 
 import com.story.core.domain.feed.Feed
+import com.story.core.domain.feed.FeedItem
 import com.story.core.domain.feed.FeedPayload
 import com.story.core.domain.resource.ResourceId
 
@@ -12,6 +13,6 @@ interface FeedPayloadHandler {
         workspaceId: String,
         feeds: Collection<Feed>,
         requestUserId: String?,
-    ): Map<Long, FeedPayload>
+    ): Map<FeedItem, FeedPayload>
 
 }

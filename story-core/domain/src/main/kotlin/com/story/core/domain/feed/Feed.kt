@@ -1,11 +1,27 @@
 package com.story.core.domain.feed
 
 import com.story.core.domain.resource.ResourceId
+import java.time.LocalDateTime
 
 data class Feed(
-    val feedId: Long,
-    val subscriberId: String,
-    val eventKey: String,
-    val sourceResourceId: ResourceId,
-    val sourceComponentId: String,
+    val workspaceId: String,
+    val componentId: String,
+    val ownerId: String,
+    val sortKey: Long,
+    val item: FeedItem,
+    val createdAt: LocalDateTime,
+) {
+
+    fun makeFeedId(): String = FeedId(
+        itemId = item.itemId,
+        itemResourceId = item.resourceId,
+        itemComponentId = item.componentId,
+    ).makeKey()
+
+}
+
+data class FeedItem(
+    val resourceId: ResourceId,
+    val componentId: String,
+    val itemId: String,
 )

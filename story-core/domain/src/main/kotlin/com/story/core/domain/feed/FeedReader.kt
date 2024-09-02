@@ -1,6 +1,5 @@
 package com.story.core.domain.feed
 
-import com.story.core.common.model.CursorDirection
 import com.story.core.common.model.Slice
 import com.story.core.common.model.dto.CursorRequest
 import com.story.core.common.utils.CursorUtils
@@ -14,79 +13,42 @@ class FeedReader(
 
     suspend fun listFeeds(
         workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
+        componentId: String,
+        ownerId: String,
         cursorRequest: CursorRequest,
     ): Slice<Feed, String> {
-        val feeds = when (cursorRequest.direction) {
-            CursorDirection.NEXT -> listNextFeeds(
-                workspaceId = workspaceId,
-                feedComponentId = feedComponentId,
-                subscriberId = subscriberId,
-                cursorRequest = cursorRequest,
-            )
-
-            CursorDirection.PREVIOUS -> listPreviousFeeds(
-                workspaceId = workspaceId,
-                feedComponentId = feedComponentId,
-                subscriberId = subscriberId,
-                cursorRequest = cursorRequest,
-            )
-        }
+        val feeds = listNextFeeds(cursorRequest, workspaceId, componentId, ownerId)
 
         return Slice.of(
             data = feeds.content.subList(0, cursorRequest.pageSize.coerceAtMost(feeds.numberOfElements)),
             cursor = CursorUtils.getCursor(
                 listWithNextCursor = feeds.content,
                 pageSize = cursorRequest.pageSize,
-                keyGenerator = { feed -> feed?.feedId?.toString() }
+                keyGenerator = { feed -> feed?.sortKey?.toString() }
             )
         )
     }
 
     private suspend fun listNextFeeds(
-        workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
         cursorRequest: CursorRequest,
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
     ): org.springframework.data.domain.Slice<Feed> {
         if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedReadRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberId(
+            return feedReadRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerId(
                 workspaceId = workspaceId,
-                feedComponentId = feedComponentId,
-                subscriberId = subscriberId,
+                componentId = componentId,
+                ownerId = ownerId,
                 pageable = CassandraPageRequest.first(cursorRequest.pageSize),
             )
         }
-        return feedReadRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdLessThan(
+        return feedReadRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
             workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            subscriberId = subscriberId,
-            feedId = cursorRequest.cursor.toLong(),
+            componentId = componentId,
+            ownerId = ownerId,
+            sortKey = cursorRequest.cursor.toLong(),
             pageable = CassandraPageRequest.first(cursorRequest.pageSize),
-        )
-    }
-
-    private suspend fun listPreviousFeeds(
-        workspaceId: String,
-        feedComponentId: String,
-        subscriberId: String,
-        cursorRequest: CursorRequest,
-    ): org.springframework.data.domain.Slice<Feed> {
-        if (cursorRequest.cursor.isNullOrBlank()) {
-            return feedReadRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdOrderByKeyFeedIdAsc(
-                workspaceId = workspaceId,
-                feedComponentId = feedComponentId,
-                subscriberId = subscriberId,
-                pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1)
-            )
-        }
-        return feedReadRepository.findAllByKeyWorkspaceIdAndKeyFeedComponentIdAndKeySubscriberIdAndKeyFeedIdGreaterThanOrderByKeyFeedIdAsc(
-            workspaceId = workspaceId,
-            feedComponentId = feedComponentId,
-            subscriberId = subscriberId,
-            feedId = cursorRequest.cursor.toLong(),
-            pageable = CassandraPageRequest.first(cursorRequest.pageSize + 1),
         )
     }
 

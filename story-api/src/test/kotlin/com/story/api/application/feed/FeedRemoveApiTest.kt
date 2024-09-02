@@ -7,6 +7,8 @@ import com.story.api.StringSpecDocsTest
 import com.story.api.lib.PageHeaderSnippet
 import com.story.api.lib.RestDocsUtils
 import com.story.api.lib.WebClientUtils
+import com.story.core.domain.feed.FeedId
+import com.story.core.domain.resource.ResourceId
 import io.mockk.coEvery
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation
@@ -27,22 +29,25 @@ class FeedRemoveApiTest(
         // given
         val componentId = "timeline"
         val subscriberId = "subscriberId"
-        val feedId = 213123L
+        val feedId = FeedId(
+            itemResourceId = ResourceId.POSTS,
+            itemComponentId = "user-posts",
+            itemId = "123"
+        ).makeKey()
 
         coEvery {
             feedRemoveHandler.remove(
                 workspaceId = any(),
                 componentId = componentId,
-                subscriberId = subscriberId,
+                ownerId = subscriberId,
                 feedId = feedId,
-
             )
         } returns Unit
 
         // when
         val exchange = webTestClient.delete()
             .uri(
-                "/v1/resources/feeds/components/{componentId}/subscribers/{subscriberId}/feeds/{feedId}",
+                "/v1/feed-components/{componentId}/owners/{ownerId}/feeds/{feedId}",
                 componentId, subscriberId, feedId,
             )
             .headers(WebClientUtils.apiKeyHeader)
@@ -60,7 +65,7 @@ class FeedRemoveApiTest(
                     PageHeaderSnippet.pageHeaderSnippet(),
                     RequestDocumentation.pathParameters(
                         RequestDocumentation.parameterWithName("componentId").description("피드 컴포넌트 ID"),
-                        RequestDocumentation.parameterWithName("subscriberId").description("피드 구독자 ID"),
+                        RequestDocumentation.parameterWithName("ownerId").description("피드 소유자 ID"),
                         RequestDocumentation.parameterWithName("feedId").description("피드 ID"),
                     ),
                     PayloadDocumentation.responseFields(

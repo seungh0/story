@@ -1,6 +1,5 @@
 package com.story.core.domain.feed
 
-import com.story.core.domain.event.EventRecord
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -11,28 +10,28 @@ class FeedCreator(
     private val feedWriteRepository: FeedWriteRepository,
 ) {
 
-    suspend fun createFeeds(
-        event: EventRecord<*>,
-        payload: FeedFanoutMessage,
-        subscriberIds: Collection<String>,
+    suspend fun create(
+        workspaceId: String,
+        componentId: String,
+        ownerIds: Collection<String>,
+        sortKey: Long,
+        item: FeedItem,
+        options: FeedOptions,
         parallelCount: Int = 50,
     ) = coroutineScope {
-        subscriberIds.asSequence()
+        ownerIds.asSequence()
             .chunked(BATCH_SIZE)
             .chunked(parallelCount)
-            .map { parallelChunkedSubscriberIds ->
+            .map { parallelChunkedOwnerIds ->
                 launch {
-                    parallelChunkedSubscriberIds.map { chunkedSubscriberIds ->
+                    parallelChunkedOwnerIds.map { chunkedOwnerIds ->
                         feedWriteRepository.create(
-                            workspaceId = payload.workspaceId,
-                            feedComponentId = payload.feedComponentId,
-                            slotId = payload.slotId,
-                            eventKey = event.eventKey,
-                            feedId = event.eventId,
-                            sourceComponentId = payload.sourceComponentId,
-                            sourceResourceId = payload.sourceResourceId,
-                            subscriberIds = chunkedSubscriberIds.toSet(),
-                            retention = payload.retention,
+                            workspaceId = workspaceId,
+                            componentId = componentId,
+                            ownerIds = chunkedOwnerIds,
+                            sortKey = sortKey,
+                            item = item,
+                            options = options,
                         )
                     }
                 }

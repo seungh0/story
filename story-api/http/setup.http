@@ -90,19 +90,19 @@ X-Story-Api-Key: {{API_KEY}}
 %}
 
 
-### 피드 설정 연결 (구독-> 팔로워들에게 피드 발행)
-POST {{api}}/v1/resources/feeds/components/timeline/mappings/subscriptions/follow/to/subscriptions/follow
-Content-Type: application/json
-X-Story-Api-Key: {{API_KEY}}
-
-{
-    "description": "팔로워 등록시 구독자들에게 피드 발행",
-    "retention": "PT720H"
-}
-
-> {%
-    client.test("200 OK", () => {
-        client.assert(response.status === 200, "응답 실패");
-    });
-%}
+#### 피드 설정 연결 (구독-> 팔로워들에게 피드 발행)
+#POST {{api}}/v1/resources/feeds/components/timeline/mappings/subscriptions/follow/to/subscriptions/follow
+#Content-Type: application/json
+#X-Story-Api-Key: {{API_KEY}}
+#
+#{
+#    "description": "팔로워 등록시 구독자들에게 피드 발행",
+#    "retention": "PT720H"
+#}
+#
+#> {%
+#    client.test("200 OK", () => {
+#        client.assert(response.status === 200, "응답 실패");
+#    });
+#%}
 

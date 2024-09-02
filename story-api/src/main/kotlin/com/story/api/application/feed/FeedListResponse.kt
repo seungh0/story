@@ -4,6 +4,7 @@ import com.story.core.common.model.Slice
 import com.story.core.common.model.dto.CursorResponse
 import com.story.core.common.model.dto.encode
 import com.story.core.domain.feed.Feed
+import com.story.core.domain.feed.FeedItem
 import com.story.core.domain.feed.FeedPayload
 
 data class FeedListResponse(
@@ -12,9 +13,9 @@ data class FeedListResponse(
 ) {
 
     companion object {
-        fun of(feeds: Slice<Feed, String>, feedPayloads: Map<Long, FeedPayload>) = FeedListResponse(
+        fun of(feeds: Slice<Feed, String>, feedPayloads: Map<FeedItem, FeedPayload>) = FeedListResponse(
             feeds = feeds.data.mapNotNull { feed ->
-                return@mapNotNull feedPayloads[feed.feedId]?.let { payload ->
+                return@mapNotNull feedPayloads[feed.item]?.let { payload ->
                     FeedResponse.of(
                         feed = feed,
                         payload = payload

@@ -15,9 +15,7 @@ class PostFeedCreateActionHandler(
     override suspend fun handle(event: EventRecord<*>, payload: PostEvent) {
         postFeedEventDistributor.distribute(
             payload = payload,
-            eventId = event.eventId,
             eventAction = event.eventAction,
-            eventKey = event.eventKey,
         )
     }
 

@@ -7,30 +7,32 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
-import java.time.LocalDateTime
 
-@Table("feed_v2")
-data class FeedEntity(
+@Table("feed_reverse_v2")
+data class FeedReverseEntity(
     @field:PrimaryKey
-    val key: FeedEntityPrimaryKey,
-    val createdAt: LocalDateTime,
+    val key: FeedReverseEntityPrimaryKey,
+    val sortKey: Long,
 ) {
-    fun toFeed() = Feed(
-        workspaceId = key.workspaceId,
-        componentId = key.componentId,
-        ownerId = key.ownerId,
-        item = FeedItem(
-            itemId = key.itemId,
-            componentId = key.itemComponentId,
-            resourceId = key.itemResourceId,
-        ),
-        sortKey = key.sortKey,
-        createdAt = createdAt,
-    )
+
+    companion object {
+        fun from(feed: FeedEntity) = FeedReverseEntity(
+            key = FeedReverseEntityPrimaryKey(
+                workspaceId = feed.key.workspaceId,
+                componentId = feed.key.componentId,
+                ownerId = feed.key.ownerId,
+                itemResourceId = feed.key.itemResourceId,
+                itemComponentId = feed.key.itemComponentId,
+                itemId = feed.key.itemId,
+            ),
+            sortKey = feed.key.sortKey,
+        )
+    }
+
 }
 
 @PrimaryKeyClass
-data class FeedEntityPrimaryKey(
+data class FeedReverseEntityPrimaryKey(
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 1)
     val workspaceId: String,
 
@@ -39,9 +41,6 @@ data class FeedEntityPrimaryKey(
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
     val ownerId: String,
-
-    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
-    val sortKey: Long,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val itemResourceId: ResourceId,

@@ -6,7 +6,7 @@ import com.story.core.domain.event.EventRecord
 import com.story.core.domain.post.PostEvent
 
 @HandlerAdapter
-class PostFeedRemoveEventActionHandler(
+class PostFeedRemoveActionHandler(
     private val postFeedEventDistributor: PostFeedEventDistributor,
 ) : PostFeedEventActionHandler {
 
@@ -15,9 +15,7 @@ class PostFeedRemoveEventActionHandler(
     override suspend fun handle(event: EventRecord<*>, payload: PostEvent) {
         postFeedEventDistributor.distribute(
             payload = payload,
-            eventId = event.eventId,
             eventAction = event.eventAction,
-            eventKey = event.eventKey,
         )
     }
 

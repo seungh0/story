@@ -29,7 +29,7 @@ data class ComponentEntity(
         componentId = this.key.componentId,
         status = this.status,
         description = this.description,
-    )
+    ).apply { this.setAuditingTime(auditingTime) }
 
     fun patch(description: String?, status: ComponentStatus?) {
         if (description != null) {
