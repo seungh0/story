@@ -6,7 +6,7 @@ interface FeedWriteRepository {
         workspaceId: String,
         componentId: String,
         ownerIds: Collection<String>,
-        sortKey: Long,
+        priority: Long,
         item: FeedItem,
         options: FeedOptions,
     )

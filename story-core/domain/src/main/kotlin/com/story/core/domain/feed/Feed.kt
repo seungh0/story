@@ -7,16 +7,17 @@ data class Feed(
     val workspaceId: String,
     val componentId: String,
     val ownerId: String,
-    val sortKey: Long,
+    val priority: Long,
     val item: FeedItem,
+    val extra: Map<String, Any>,
     val createdAt: LocalDateTime,
 ) {
 
     fun makeFeedId(): String = FeedId(
-        itemId = item.itemId,
         itemResourceId = item.resourceId,
         itemComponentId = item.componentId,
         channelId = item.channelId,
+        itemId = item.itemId,
     ).makeKey()
 
 }

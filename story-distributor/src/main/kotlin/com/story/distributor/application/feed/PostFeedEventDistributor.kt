@@ -17,6 +17,7 @@ import com.story.core.domain.subscription.SubscriptionSlotAssigner.assign
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import java.sql.Timestamp
 
 @HandlerAdapter
 class PostFeedEventDistributor(
@@ -81,6 +82,7 @@ class PostFeedEventDistributor(
                                             slotId = slotId,
                                             targetId = payload.ownerId,
                                             subscriptionComponentId = feedMapping.subscriptionComponentId,
+                                            priority = Timestamp.valueOf(payload.createdAt).time,
                                         )
                                     )
                                 )

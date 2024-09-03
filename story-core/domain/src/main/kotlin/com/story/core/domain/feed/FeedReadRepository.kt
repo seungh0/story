@@ -12,11 +12,26 @@ interface FeedReadRepository {
         pageable: Pageable,
     ): Slice<Feed>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeyPriorityLessThan(
         workspaceId: String,
         componentId: String,
         ownerId: String,
-        sortKey: Long,
+        priority: Long,
+        pageable: Pageable,
+    ): Slice<Feed>
+
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdOrderByKeyPriortyAsc(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        pageable: Pageable,
+    ): Slice<Feed>
+
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeyPriorityGreaterThanOrderByKeyPriorityAsc(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        priority: Long,
         pageable: Pageable,
     ): Slice<Feed>
 

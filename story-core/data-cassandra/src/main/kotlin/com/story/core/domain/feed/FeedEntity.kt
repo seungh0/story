@@ -13,6 +13,7 @@ import java.time.LocalDateTime
 data class FeedEntity(
     @field:PrimaryKey
     val key: FeedEntityPrimaryKey,
+    val extra: MutableMap<String, String> = mutableMapOf(),
     val createdAt: LocalDateTime,
 ) {
 
@@ -26,7 +27,8 @@ data class FeedEntity(
             resourceId = key.itemResourceId,
             channelId = key.channelId,
         ),
-        sortKey = key.sortKey,
+        priority = key.priority,
+        extra = extra,
         createdAt = createdAt,
     )
 
@@ -36,7 +38,7 @@ data class FeedEntity(
                 workspaceId = feedReverse.key.workspaceId,
                 componentId = feedReverse.key.componentId,
                 ownerId = feedReverse.key.ownerId,
-                sortKey = feedReverse.sortKey,
+                priority = feedReverse.priority,
                 channelId = feedReverse.key.channelId,
                 itemResourceId = feedReverse.key.itemResourceId,
                 itemComponentId = feedReverse.key.itemComponentId,
@@ -60,7 +62,7 @@ data class FeedEntityPrimaryKey(
     val ownerId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
-    val sortKey: Long,
+    val priority: Long,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val channelId: String,

@@ -6,6 +6,7 @@ import com.story.core.domain.feed.FeedPayload
 data class FeedResponse(
     val feedId: String,
     val item: FeedItemResponse,
+    val extra: Map<String, Any>,
 ) {
 
     companion object {
@@ -15,7 +16,8 @@ data class FeedResponse(
                 resourceId = feed.item.resourceId.code,
                 componentId = feed.item.componentId,
                 payload = payload,
-            )
+            ),
+            extra = feed.extra,
         )
     }
 

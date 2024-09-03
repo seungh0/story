@@ -12,7 +12,7 @@ import org.springframework.data.cassandra.core.mapping.Table
 data class FeedReverseEntity(
     @field:PrimaryKey
     val key: FeedReverseEntityPrimaryKey,
-    val sortKey: Long,
+    val priority: Long,
 ) {
 
     companion object {
@@ -26,7 +26,7 @@ data class FeedReverseEntity(
                 itemComponentId = feed.key.itemComponentId,
                 itemId = feed.key.itemId,
             ),
-            sortKey = feed.key.sortKey,
+            priority = feed.key.priority,
         )
     }
 

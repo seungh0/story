@@ -14,7 +14,7 @@ class FeedCreator(
         workspaceId: String,
         componentId: String,
         ownerIds: Collection<String>,
-        sortKey: Long,
+        priority: Long,
         item: FeedItem,
         options: FeedOptions,
         parallelCount: Int = 50,
@@ -29,7 +29,7 @@ class FeedCreator(
                             workspaceId = workspaceId,
                             componentId = componentId,
                             ownerIds = chunkedOwnerIds,
-                            sortKey = sortKey,
+                            priority = priority,
                             item = item,
                             options = options,
                         )

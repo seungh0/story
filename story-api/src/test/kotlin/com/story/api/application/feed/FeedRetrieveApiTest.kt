@@ -91,8 +91,9 @@ class FeedRetrieveApiTest(
                         ).apply {
                             this.createdAt = LocalDateTime.now()
                             this.updatedAt = LocalDateTime.now()
-                        }
-                    )
+                        },
+                    ),
+                    extra = emptyMap(),
                 ),
                 FeedResponse(
                     feedId = FeedId(
@@ -132,8 +133,9 @@ class FeedRetrieveApiTest(
                         ).apply {
                             this.createdAt = LocalDateTime.now()
                             this.updatedAt = LocalDateTime.now()
-                        }
-                    )
+                        },
+                    ),
+                    extra = emptyMap(),
                 ),
                 FeedResponse(
                     feedId = FeedId(
@@ -174,8 +176,9 @@ class FeedRetrieveApiTest(
                         ).apply {
                             this.createdAt = LocalDateTime.now()
                             this.updatedAt = LocalDateTime.now()
-                        }
-                    )
+                        },
+                    ),
+                    extra = emptyMap(),
                 ),
             ),
             cursor = CursorResponse(
@@ -225,6 +228,8 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.ARRAY).description("피드 목록"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].feedId")
                             .type(JsonFieldType.STRING).description("피드 ID"),
+                        PayloadDocumentation.fieldWithPath("result.feeds[].extra")
+                            .type(JsonFieldType.OBJECT).description("피드추가 정보").optional(),
                         PayloadDocumentation.fieldWithPath("result.feeds[].item.resourceId")
                             .type(JsonFieldType.STRING).description("피드 아이템 리소스 ID"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].item.componentId")

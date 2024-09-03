@@ -1,7 +1,6 @@
 package com.story.worker.application.feed
 
 import com.story.core.common.annotation.HandlerAdapter
-import com.story.core.common.sequence.SnowflakeIdGenerator
 import com.story.core.domain.event.EventAction
 import com.story.core.domain.event.EventRecord
 import com.story.core.domain.feed.FeedCreator
@@ -36,7 +35,7 @@ class FeedItemFanoutCreateActionHandler(
                 ownerIds = subscribers.content.map { subscriber -> subscriber.key.subscriberId },
                 item = payload.item,
                 options = payload.options,
-                sortKey = SnowflakeIdGenerator().nextId(), // TODO
+                priority = payload.priority,
             )
 
             pageable = subscribers.nextPageable()

@@ -20,7 +20,7 @@ class FeedEntityRepository(
         workspaceId: String,
         componentId: String,
         ownerIds: Collection<String>,
-        sortKey: Long,
+        priority: Long,
         item: FeedItem,
         options: FeedOptions,
     ) {
@@ -30,7 +30,7 @@ class FeedEntityRepository(
                     workspaceId = workspaceId,
                     componentId = componentId,
                     ownerId = ownerId,
-                    sortKey = sortKey,
+                    priority = priority,
                     channelId = item.channelId,
                     itemResourceId = item.resourceId,
                     itemComponentId = item.componentId,
@@ -79,7 +79,7 @@ class FeedEntityRepository(
                         componentId = feedReverse.key.componentId,
                         ownerId = feedReverse.key.ownerId,
                         channelId = item.channelId,
-                        sortKey = feedReverse.sortKey,
+                        priority = feedReverse.priority,
                         itemResourceId = feedReverse.key.itemResourceId,
                         itemComponentId = feedReverse.key.itemComponentId,
                         itemId = feedReverse.key.itemId,
@@ -129,18 +129,48 @@ class FeedEntityRepository(
         ).map { entity -> entity.toFeed() }
     }
 
-    override suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
+    override suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeyPriorityLessThan(
         workspaceId: String,
         componentId: String,
         ownerId: String,
-        sortKey: Long,
+        priority: Long,
         pageable: Pageable,
     ): Slice<Feed> {
-        return feedEntityCassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
+        return feedEntityCassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeyPriorityLessThan(
             workspaceId = workspaceId,
             componentId = componentId,
             ownerId = ownerId,
-            sortKey = sortKey,
+            priority = priority,
+            pageable = pageable,
+        ).map { entity -> entity.toFeed() }
+    }
+
+    override suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdOrderByKeyPriortyAsc(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        pageable: Pageable,
+    ): Slice<Feed> {
+        return feedEntityCassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdOrderByKeyPriorityAsc(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            ownerId = ownerId,
+            pageable = pageable,
+        ).map { entity -> entity.toFeed() }
+    }
+
+    override suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeyPriorityGreaterThanOrderByKeyPriorityAsc(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        priority: Long,
+        pageable: Pageable,
+    ): Slice<Feed> {
+        return feedEntityCassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeyPriorityGreaterThanOrderByKeyPriorityAsc(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            ownerId = ownerId,
+            priority = priority,
             pageable = pageable,
         ).map { entity -> entity.toFeed() }
     }

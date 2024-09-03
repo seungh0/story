@@ -13,26 +13,26 @@ interface FeedEntityCassandraRepository : CassandraBasicRepository<FeedEntity, F
         pageable: Pageable,
     ): Slice<FeedEntity>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeyPriorityLessThan(
         workspaceId: String,
         componentId: String,
         ownerId: String,
-        sortKey: Long,
+        priority: Long,
         pageable: Pageable,
     ): Slice<FeedEntity>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdOrderByKeySortKeyAsc(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdOrderByKeyPriorityAsc(
         workspaceId: String,
         componentId: String,
         ownerId: String,
         pageable: Pageable,
     ): Slice<FeedEntity>
 
-    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyGreaterThanOrderByKeySortKeyAsc(
+    suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeyPriorityGreaterThanOrderByKeyPriorityAsc(
         workspaceId: String,
         componentId: String,
         ownerId: String,
-        sortKey: Long,
+        priority: Long,
         pageable: Pageable,
     ): Slice<FeedEntity>
 
