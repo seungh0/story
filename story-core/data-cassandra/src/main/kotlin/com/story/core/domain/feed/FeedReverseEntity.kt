@@ -21,6 +21,7 @@ data class FeedReverseEntity(
                 workspaceId = feed.key.workspaceId,
                 componentId = feed.key.componentId,
                 ownerId = feed.key.ownerId,
+                channelId = feed.key.channelId,
                 itemResourceId = feed.key.itemResourceId,
                 itemComponentId = feed.key.itemComponentId,
                 itemId = feed.key.itemId,
@@ -41,6 +42,9 @@ data class FeedReverseEntityPrimaryKey(
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED, ordinal = 3)
     val ownerId: String,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 4)
+    val channelId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
     val itemResourceId: ResourceId,

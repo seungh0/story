@@ -15,6 +15,7 @@ data class FeedEntity(
     val key: FeedEntityPrimaryKey,
     val createdAt: LocalDateTime,
 ) {
+
     fun toFeed() = Feed(
         workspaceId = key.workspaceId,
         componentId = key.componentId,
@@ -23,10 +24,28 @@ data class FeedEntity(
             itemId = key.itemId,
             componentId = key.itemComponentId,
             resourceId = key.itemResourceId,
+            channelId = key.channelId,
         ),
         sortKey = key.sortKey,
         createdAt = createdAt,
     )
+
+    companion object {
+        fun from(feedReverse: FeedReverseEntity) = FeedEntity(
+            key = FeedEntityPrimaryKey(
+                workspaceId = feedReverse.key.workspaceId,
+                componentId = feedReverse.key.componentId,
+                ownerId = feedReverse.key.ownerId,
+                sortKey = feedReverse.sortKey,
+                channelId = feedReverse.key.channelId,
+                itemResourceId = feedReverse.key.itemResourceId,
+                itemComponentId = feedReverse.key.itemComponentId,
+                itemId = feedReverse.key.itemId,
+            ),
+            createdAt = LocalDateTime.now(),
+        )
+    }
+
 }
 
 @PrimaryKeyClass
@@ -44,11 +63,14 @@ data class FeedEntityPrimaryKey(
     val sortKey: Long,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 5)
-    val itemResourceId: ResourceId,
+    val channelId: String,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 6)
-    val itemComponentId: String,
+    val itemResourceId: ResourceId,
 
     @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 7)
+    val itemComponentId: String,
+
+    @field:PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING, ordinal = 8)
     val itemId: String,
 )

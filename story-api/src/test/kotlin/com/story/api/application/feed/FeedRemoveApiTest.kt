@@ -32,7 +32,8 @@ class FeedRemoveApiTest(
         val feedId = FeedId(
             itemResourceId = ResourceId.POSTS,
             itemComponentId = "user-posts",
-            itemId = "123"
+            channelId = "author",
+            itemId = "1",
         ).makeKey()
 
         coEvery {

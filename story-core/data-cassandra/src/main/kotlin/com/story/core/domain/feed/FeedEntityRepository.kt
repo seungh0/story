@@ -3,6 +3,7 @@ package com.story.core.domain.feed
 import com.story.core.support.cassandra.executeCoroutine
 import com.story.core.support.cassandra.upsert
 import org.springframework.data.cassandra.core.ReactiveCassandraOperations
+import org.springframework.data.cassandra.core.query.CassandraPageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Repository
@@ -11,7 +12,8 @@ import java.time.LocalDateTime
 @Repository
 class FeedEntityRepository(
     private val reactiveCassandraOperations: ReactiveCassandraOperations,
-    private val feedEntityV2CassandraRepository: FeedEntityV2CassandraRepository,
+    private val feedEntityCassandraRepository: FeedEntityCassandraRepository,
+    private val feedReverseEntityCassandraRepository: FeedReverseEntityCassandraRepository,
 ) : FeedWriteRepository, FeedReadRepository {
 
     override suspend fun create(
@@ -29,6 +31,7 @@ class FeedEntityRepository(
                     componentId = componentId,
                     ownerId = ownerId,
                     sortKey = sortKey,
+                    channelId = item.channelId,
                     itemResourceId = item.resourceId,
                     itemComponentId = item.componentId,
                     itemId = item.itemId,
@@ -48,26 +51,68 @@ class FeedEntityRepository(
     override suspend fun delete(
         workspaceId: String,
         componentId: String,
-        ownerIds: Collection<String>,
+        ownerId: String,
         item: FeedItem,
-        options: FeedOptions,
     ) {
-        val feedDeletes = ownerIds.map { ownerId ->
-            FeedDeletedEntity(
-                key = FeedDeletedEntityPrimaryKey(
-                    workspaceId = workspaceId,
-                    componentId = componentId,
-                    ownerId = ownerId,
-                    itemResourceId = item.resourceId,
-                    itemComponentId = item.componentId,
-                    itemId = item.itemId,
-                ),
-                deletedAt = LocalDateTime.now(),
+        val feedReverse = feedReverseEntityCassandraRepository.findById(
+            FeedReverseEntityPrimaryKey(
+                workspaceId = workspaceId,
+                componentId = componentId,
+                ownerId = ownerId,
+                itemResourceId = item.resourceId,
+                itemComponentId = item.componentId,
+                channelId = item.channelId,
+                itemId = item.itemId,
             )
+        )
+
+        if (feedReverse == null) {
+            return
         }
+
         reactiveCassandraOperations.batchOps()
-            .upsert(entities = feedDeletes, ttl = options.retention)
+            .delete(feedReverse)
+            .delete(
+                FeedEntity(
+                    key = FeedEntityPrimaryKey(
+                        workspaceId = feedReverse.key.workspaceId,
+                        componentId = feedReverse.key.componentId,
+                        ownerId = feedReverse.key.ownerId,
+                        channelId = item.channelId,
+                        sortKey = feedReverse.sortKey,
+                        itemResourceId = feedReverse.key.itemResourceId,
+                        itemComponentId = feedReverse.key.itemComponentId,
+                        itemId = feedReverse.key.itemId,
+                    ),
+                    createdAt = LocalDateTime.now(), // Dummy
+                )
+            )
             .executeCoroutine()
+    }
+
+    override suspend fun clearByChannel(workspaceId: String, componentId: String, ownerId: String, channelId: String) {
+        var pageable: Pageable = CassandraPageRequest.first(100)
+        do {
+            val feedReverses = feedReverseEntityCassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeyChannelId(
+                workspaceId = workspaceId,
+                componentId = componentId,
+                ownerId = ownerId,
+                channelId = channelId,
+                pageable = pageable,
+            )
+
+            if (feedReverses.hasContent()) {
+                reactiveCassandraOperations.batchOps()
+                    .delete(feedReverses.content)
+                    .delete(feedReverses.content.map { feedReverse -> FeedEntity.from(feedReverse) })
+                    .executeCoroutine()
+            }
+
+            if (feedReverses.hasNext()) {
+                pageable = feedReverses.nextPageable()
+            }
+
+        } while (feedReverses.hasNext())
     }
 
     override suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerId(
@@ -76,7 +121,7 @@ class FeedEntityRepository(
         ownerId: String,
         pageable: Pageable,
     ): Slice<Feed> {
-        return feedEntityV2CassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerId(
+        return feedEntityCassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerId(
             workspaceId = workspaceId,
             componentId = componentId,
             ownerId = ownerId,
@@ -91,7 +136,7 @@ class FeedEntityRepository(
         sortKey: Long,
         pageable: Pageable,
     ): Slice<Feed> {
-        return feedEntityV2CassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
+        return feedEntityCassandraRepository.findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerIdAndKeySortKeyLessThan(
             workspaceId = workspaceId,
             componentId = componentId,
             ownerId = ownerId,

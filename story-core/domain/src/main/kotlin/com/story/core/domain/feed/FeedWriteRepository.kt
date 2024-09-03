@@ -14,9 +14,15 @@ interface FeedWriteRepository {
     suspend fun delete(
         workspaceId: String,
         componentId: String,
-        ownerIds: Collection<String>,
+        ownerId: String,
         item: FeedItem,
-        options: FeedOptions,
+    )
+
+    suspend fun clearByChannel(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        channelId: String,
     )
 
 }

@@ -4,7 +4,7 @@ import com.story.core.support.cassandra.CassandraBasicRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
-interface FeedEntityV2CassandraRepository : CassandraBasicRepository<FeedEntity, FeedEntityPrimaryKey> {
+interface FeedEntityCassandraRepository : CassandraBasicRepository<FeedEntity, FeedEntityPrimaryKey> {
 
     suspend fun findAllByKeyWorkspaceIdAndKeyComponentIdAndKeyOwnerId(
         workspaceId: String,

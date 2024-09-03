@@ -16,6 +16,7 @@ data class Feed(
         itemId = item.itemId,
         itemResourceId = item.resourceId,
         itemComponentId = item.componentId,
+        channelId = item.channelId,
     ).makeKey()
 
 }
@@ -23,5 +24,6 @@ data class Feed(
 data class FeedItem(
     val resourceId: ResourceId,
     val componentId: String,
+    val channelId: String,
     val itemId: String,
 )

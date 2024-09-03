@@ -75,6 +75,7 @@ class PostFeedEventDistributor(
                                             item = FeedItem(
                                                 resourceId = ResourceId.POSTS,
                                                 componentId = payload.componentId,
+                                                channelId = payload.ownerId,
                                                 itemId = payload.postId.serialize(),
                                             ),
                                             slotId = slotId,

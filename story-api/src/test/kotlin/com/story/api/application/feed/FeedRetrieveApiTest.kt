@@ -61,112 +61,121 @@ class FeedRetrieveApiTest(
                         itemResourceId = ResourceId.POSTS,
                         itemComponentId = "user-post",
                         itemId = "10000",
+                        channelId = "author",
                     ).makeKey(),
-                    itemResourceId = ResourceId.POSTS.code,
-                    itemComponentId = "user-post",
-                    item = PostResponse(
-                        postId = "10000",
-                        title = "스토리 플랫폼(Story Platform)이란?",
-                        sections = listOf(
-                            PostSectionResponse(
-                                sectionType = PostSectionType.TEXT,
-                                data = TextPostSectionContent(
-                                    content = "섹션 내용",
-                                    extra = emptyMap(),
+                    item = FeedItemResponse(
+                        resourceId = ResourceId.POSTS.code,
+                        componentId = "user-post",
+                        payload = PostResponse(
+                            postId = "10000",
+                            title = "스토리 플랫폼(Story Platform)이란?",
+                            sections = listOf(
+                                PostSectionResponse(
+                                    sectionType = PostSectionType.TEXT,
+                                    data = TextPostSectionContent(
+                                        content = "섹션 내용",
+                                        extra = emptyMap(),
+                                    )
                                 )
-                            )
-                        ),
-                        owner = PostOwnerResponse(
-                            ownerId = "user-1",
-                            isOwner = false,
-                        ),
-                        metadata = PostMetadataResponse(
-                            hasChildren = false,
-                        ),
-                        parentId = null,
-                        depth = 1,
-                        extra = emptyMap(),
-                    ).apply {
-                        this.createdAt = LocalDateTime.now()
-                        this.updatedAt = LocalDateTime.now()
-                    }
+                            ),
+                            owner = PostOwnerResponse(
+                                ownerId = "user-1",
+                                isOwner = false,
+                            ),
+                            metadata = PostMetadataResponse(
+                                hasChildren = false,
+                            ),
+                            parentId = null,
+                            depth = 1,
+                            extra = emptyMap(),
+                        ).apply {
+                            this.createdAt = LocalDateTime.now()
+                            this.updatedAt = LocalDateTime.now()
+                        }
+                    )
                 ),
                 FeedResponse(
                     feedId = FeedId(
                         itemResourceId = ResourceId.POSTS,
                         itemComponentId = "user-post",
                         itemId = "10001",
+                        channelId = "author",
                     ).makeKey(),
-                    itemResourceId = ResourceId.POSTS.code,
-                    itemComponentId = "user-post",
-                    item = PostResponse(
-                        postId = "10001",
-                        title = "스토리 플랫폼(Story Platform)이란?",
-                        sections = listOf(
-                            PostSectionResponse(
-                                sectionType = PostSectionType.IMAGE,
-                                data = ImagePostSectionContent(
-                                    path = "/store/v1/store.png",
-                                    width = 480,
-                                    height = 360,
-                                    domain = "https://localhost",
-                                    extra = emptyMap(),
+                    item = FeedItemResponse(
+                        resourceId = ResourceId.POSTS.code,
+                        componentId = "user-post",
+                        payload = PostResponse(
+                            postId = "10001",
+                            title = "스토리 플랫폼(Story Platform)이란?",
+                            sections = listOf(
+                                PostSectionResponse(
+                                    sectionType = PostSectionType.IMAGE,
+                                    data = ImagePostSectionContent(
+                                        path = "/store/v1/store.png",
+                                        width = 480,
+                                        height = 360,
+                                        domain = "https://localhost",
+                                        extra = emptyMap(),
+                                    )
                                 )
-                            )
-                        ),
-                        owner = PostOwnerResponse(
-                            ownerId = "user-10",
-                            isOwner = false,
-                        ),
-                        metadata = PostMetadataResponse(
-                            hasChildren = false,
-                        ),
-                        parentId = null,
-                        depth = 1,
-                        extra = emptyMap(),
-                    ).apply {
-                        this.createdAt = LocalDateTime.now()
-                        this.updatedAt = LocalDateTime.now()
-                    }
+                            ),
+                            owner = PostOwnerResponse(
+                                ownerId = "user-10",
+                                isOwner = false,
+                            ),
+                            metadata = PostMetadataResponse(
+                                hasChildren = false,
+                            ),
+                            parentId = null,
+                            depth = 1,
+                            extra = emptyMap(),
+                        ).apply {
+                            this.createdAt = LocalDateTime.now()
+                            this.updatedAt = LocalDateTime.now()
+                        }
+                    )
                 ),
                 FeedResponse(
                     feedId = FeedId(
                         itemResourceId = ResourceId.POSTS,
                         itemComponentId = "user-post",
                         itemId = "10002",
+                        channelId = "author"
                     ).makeKey(),
-                    itemResourceId = ResourceId.POSTS.code,
-                    itemComponentId = "user-post",
-                    item = PostResponse(
-                        postId = "10002",
-                        title = "스토리 플랫폼(Story Platform)이란?",
-                        sections = listOf(
-                            PostSectionResponse(
-                                sectionType = PostSectionType.LINK,
-                                data = LinkPostSectionContent(
-                                    link = "https://intro.threedollars.co.kr",
-                                    extra = mapOf(
-                                        "og:image" to "http://localhost:5000/abc.png",
-                                        "og:title" to "뽀미 토키",
-                                        "og:description" to "뽀미랑 토키의 사진입니다",
-                                    ),
+                    item = FeedItemResponse(
+                        resourceId = ResourceId.POSTS.code,
+                        componentId = "user-post",
+                        payload = PostResponse(
+                            postId = "10002",
+                            title = "스토리 플랫폼(Story Platform)이란?",
+                            sections = listOf(
+                                PostSectionResponse(
+                                    sectionType = PostSectionType.LINK,
+                                    data = LinkPostSectionContent(
+                                        link = "https://intro.threedollars.co.kr",
+                                        extra = mapOf(
+                                            "og:image" to "http://localhost:5000/abc.png",
+                                            "og:title" to "뽀미 토키",
+                                            "og:description" to "뽀미랑 토키의 사진입니다",
+                                        ),
+                                    )
                                 )
-                            )
-                        ),
-                        owner = PostOwnerResponse(
-                            ownerId = "user-1",
-                            isOwner = false,
-                        ),
-                        metadata = PostMetadataResponse(
-                            hasChildren = false,
-                        ),
-                        parentId = null,
-                        depth = 1,
-                        extra = emptyMap(),
-                    ).apply {
-                        this.createdAt = LocalDateTime.now()
-                        this.updatedAt = LocalDateTime.now()
-                    }
+                            ),
+                            owner = PostOwnerResponse(
+                                ownerId = "user-1",
+                                isOwner = false,
+                            ),
+                            metadata = PostMetadataResponse(
+                                hasChildren = false,
+                            ),
+                            parentId = null,
+                            depth = 1,
+                            extra = emptyMap(),
+                        ).apply {
+                            this.createdAt = LocalDateTime.now()
+                            this.updatedAt = LocalDateTime.now()
+                        }
+                    )
                 ),
             ),
             cursor = CursorResponse(
@@ -216,67 +225,67 @@ class FeedRetrieveApiTest(
                             .type(JsonFieldType.ARRAY).description("피드 목록"),
                         PayloadDocumentation.fieldWithPath("result.feeds[].feedId")
                             .type(JsonFieldType.STRING).description("피드 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].itemResourceId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.resourceId")
                             .type(JsonFieldType.STRING).description("피드 아이템 리소스 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].itemComponentId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.componentId")
                             .type(JsonFieldType.STRING).description("피드 아이템 컴포넌트 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload")
                             .type(JsonFieldType.OBJECT).description("피드로 발행된 포스트 정보"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.parentId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.parentId")
                             .type(JsonFieldType.STRING).description("포스트 Parent ID").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.postId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.postId")
                             .type(JsonFieldType.STRING).description("포스트 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.depth")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.depth")
                             .type(JsonFieldType.NUMBER).description("포스트가 속한 Depth"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.owner")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.owner")
                             .type(JsonFieldType.OBJECT).description("포스트 작성자"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.owner.ownerId")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.owner.ownerId")
                             .type(JsonFieldType.STRING).description("포스트 작성자의 계정 ID"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.owner.isOwner")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.owner.isOwner")
                             .type(JsonFieldType.BOOLEAN).description("포스트 작성자 여부"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.metadata")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.metadata")
                             .type(JsonFieldType.OBJECT).description("포스트 메타 정보"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.metadata.hasChildren")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.metadata.hasChildren")
                             .type(JsonFieldType.BOOLEAN).description("포스트의 하위 포스트 존재 여부"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.title")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.title")
                             .type(JsonFieldType.STRING).description("포스트 제목"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections")
                             .type(JsonFieldType.ARRAY).description("포스트 섹션 목록"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].sectionType")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].sectionType")
                             .type(JsonFieldType.STRING).description("포스트 섹션 타입")
                             .attributes(RestDocsUtils.remarks(RestDocsUtils.convertToString(PostSectionType::class.java))),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data")
                             .type(JsonFieldType.OBJECT).description("포스트 섹션 목록"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.extra")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.extra")
                             .type(JsonFieldType.OBJECT).description("부가적으로 사용할 필드").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.content")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.content")
                             .type(JsonFieldType.STRING).description("[TEXT 섹션 전용] 포스트 섹션 내용").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.path")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.path")
                             .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 Path").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.domain")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.domain")
                             .type(JsonFieldType.STRING).description("[IMAGE 섹션 전용] 이미지 도메인").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.width")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.width")
                             .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 가로 길이").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.height")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.height")
                             .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 세로 길이").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.fileSize")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.fileSize")
                             .type(JsonFieldType.NUMBER).description("[IMAGE 섹션 전용] 이미지 파일 사이즈").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.link")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.link")
                             .type(JsonFieldType.STRING).description("[LINK 섹션 전용] Link").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.extra.og:image")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.extra.og:image")
                             .type(JsonFieldType.STRING)
                             .description("[LINK 섹션 전용] OG 태그 (image)").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.extra.og:title")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.extra.og:title")
                             .type(JsonFieldType.STRING)
                             .description("[LINK 섹션 전용] OG 태그 (title)").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.sections[].data.extra.og:description")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.sections[].data.extra.og:description")
                             .type(JsonFieldType.STRING)
                             .description("[LINK 섹션 전용] OG 태그 (description)").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.extra")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.extra")
                             .type(JsonFieldType.OBJECT).description("포스트 추가 정보").optional(),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.createdAt")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.createdAt")
                             .type(JsonFieldType.STRING).description("포스트 생성 일자"),
-                        PayloadDocumentation.fieldWithPath("result.feeds[].item.updatedAt")
+                        PayloadDocumentation.fieldWithPath("result.feeds[].item.payload.updatedAt")
                             .type(JsonFieldType.STRING).description("포스트 최근 수정 일자"),
                         PayloadDocumentation.fieldWithPath("result.cursor")
                             .type(JsonFieldType.OBJECT).description("페이지 커서 정보"),
