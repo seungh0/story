@@ -40,7 +40,7 @@ class ApiKeyModifyApiTest(
         coEvery {
             apiKeyModifyHandler.patchApiKey(
                 workspaceId = any(),
-                apiKey = key,
+                key = key,
                 description = description,
                 status = status,
             )

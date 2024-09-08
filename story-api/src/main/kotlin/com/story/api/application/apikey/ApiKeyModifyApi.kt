@@ -25,7 +25,7 @@ class ApiKeyModifyApi(
     ): ApiResponse<Nothing?> {
         apiKeyModifyHandler.patchApiKey(
             workspaceId = authContext.workspaceId,
-            apiKey = apiKey,
+            key = apiKey,
             description = request.description,
             status = request.status,
         )

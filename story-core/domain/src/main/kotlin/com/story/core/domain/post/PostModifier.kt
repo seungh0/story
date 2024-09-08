@@ -2,7 +2,6 @@ package com.story.core.domain.post
 
 import com.story.core.domain.post.section.PostSectionContentCommand
 import com.story.core.support.cache.CacheEvict
-import com.story.core.support.cache.CacheStrategy
 import com.story.core.support.cache.CacheType
 import com.story.core.support.lock.DistributedLock
 import com.story.core.support.lock.DistributedLockType
@@ -20,7 +19,6 @@ class PostModifier(
     @CacheEvict(
         cacheType = CacheType.POST,
         key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postNo:' + {#postId.postNo}",
-        targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun patchPost(
         postSpaceKey: PostSpaceKey,
@@ -48,7 +46,6 @@ class PostModifier(
     @CacheEvict(
         cacheType = CacheType.POST,
         key = "'workspaceId:' + {#postSpaceKey.workspaceId} + ':componentId:' + {#postSpaceKey.componentId} + ':spaceId:' + {#postSpaceKey.spaceId} + ':parentId:' + {#postId.parentId} + ':postNo:' + {#postId.postNo}",
-        targetCacheStrategies = [CacheStrategy.GLOBAL]
     )
     suspend fun putMetadata(
         postSpaceKey: PostSpaceKey,

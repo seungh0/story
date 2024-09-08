@@ -14,6 +14,7 @@ enum class KafkaTopic(
     PURGE(description = "데이터 삭제", property = "purge"),
     WORKSPACE(description = "워크스페이스", property = "workspace"),
     REACTION(description = "리액션", property = "reaction"),
+    CACHE_EVICTION(description = "캐시 만료", property = "cache-broadcast-eviction"),
     ;
 
 }

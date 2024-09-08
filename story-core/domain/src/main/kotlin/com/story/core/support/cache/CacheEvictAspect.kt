@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono
 @Aspect
 @Component
 class CacheEvictAspect(
-    private val cacheManager: LayeredCacheManager,
+    private val cacheBroadcastEvictionManager: CacheBroadcastEvictionManager,
 ) {
 
     @Around("args(.., kotlin.coroutines.Continuation) && @annotation(CacheEvict)")
@@ -38,7 +38,7 @@ class CacheEvictAspect(
             val cacheType = cacheEvict.cacheType
 
             if (cacheEvict.allEntries) {
-                cacheManager.evictAllCachesLayeredCache(cacheType = cacheType)
+                cacheBroadcastEvictionManager.evictAllCacheEntries(cacheType = cacheType)
                 return@runCoroutine result
             }
 
@@ -52,7 +52,7 @@ class CacheEvictAspect(
                 throw InternalServerException("@CacheEvict key can't be null. [cacheType: ${cacheEvict.cacheType} parameterNames: ${methodSignature.parameterNames} args: ${joinPoint.coroutineArgs} key: ${cacheEvict.key}]")
             }
 
-            cacheManager.evictCacheLayeredCache(
+            cacheBroadcastEvictionManager.evictCacheByCacheKey(
                 cacheType = cacheType,
                 cacheKey = cacheKeyString,
                 targetCacheStrategies = cacheEvict.targetCacheStrategies.toSet()

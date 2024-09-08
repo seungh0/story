@@ -1,14 +1,9 @@
-package com.story.api.application.workspace
+package com.story.core.support.cache
 
 import com.story.core.common.annotation.EventConsumer
 import com.story.core.common.annotation.IOBound
-import com.story.core.common.json.toJson
 import com.story.core.common.json.toObject
 import com.story.core.common.logger.LoggerExtension.log
-import com.story.core.domain.event.EventAction
-import com.story.core.domain.event.EventRecord
-import com.story.core.domain.workspace.WorkspaceEvent
-import com.story.core.domain.workspace.WorkspaceLocalCacheEvictManager
 import com.story.core.support.kafka.KafkaConsumerConfig
 import com.story.core.support.kafka.RetryableKafkaListener
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,35 +15,36 @@ import org.springframework.messaging.handler.annotation.Headers
 import org.springframework.messaging.handler.annotation.Payload
 
 @EventConsumer
-class WorkspaceCacheEvictConsumer(
-    private val workspaceLocalCacheEvictManager: WorkspaceLocalCacheEvictManager,
+class CacheBroadcastEvictionConsumer(
+    private val layeredCacheManager: LayeredCacheManager,
 
     @IOBound
     private val dispatcher: CoroutineDispatcher,
 ) {
 
     @RetryableKafkaListener(
-        topics = ["\${story.kafka.topic.workspace.name}"],
+        topics = ["\${story.kafka.topic.cache-broadcast-eviction.name}"],
         groupId = "$GROUP_ID-\${random.uuid}",
         containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
     )
-    fun handleWorkspaceCacheEviction(
+    fun handleCacheEviction(
         @Payload record: ConsumerRecord<String, String>,
         @Headers headers: Map<String, Any>,
     ) = runBlocking {
-        val event = record.value().toObject(EventRecord::class.java)
+        val message = record.value().toObject(CacheBroadcastEvictionMessage::class.java)
             ?: throw IllegalArgumentException("Record can't be deserialize, record: $record")
 
-        if (event.eventAction == EventAction.CREATED) {
-            return@runBlocking
-        }
-
-        val payload = event.payload.toJson().toObject(WorkspaceEvent::class.java)
-            ?: throw IllegalArgumentException("Record Payload can't be deserialize, record: $record")
-
         withContext(dispatcher) {
-            workspaceLocalCacheEvictManager.evict(
-                workspaceId = payload.workspaceId,
+            if (message.allEntries) {
+                return@withContext layeredCacheManager.evictAllCachesLayeredCache(
+                    cacheType = message.cacheType,
+                    targetCacheStrategies = message.cacheStrategies,
+                )
+            }
+            return@withContext layeredCacheManager.evictCacheLayeredCache(
+                cacheType = message.cacheType,
+                targetCacheStrategies = message.cacheStrategies,
+                cacheKey = message.cacheKey,
             )
         }
     }
@@ -60,7 +56,7 @@ class WorkspaceCacheEvictConsumer(
     ) = runBlocking {
         log.error {
             """
-            Workspace Cache Evict Consumer DLT is Received
+            Cache Evict Consumer DLT is Received
             - record=$record
             - headers=$headers
             """.trimIndent()
@@ -68,7 +64,7 @@ class WorkspaceCacheEvictConsumer(
     }
 
     companion object {
-        private const val GROUP_ID = "workspace-cache-evict-consumer"
+        private const val GROUP_ID = "cache-evict-consumer"
     }
 
 }

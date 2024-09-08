@@ -121,13 +121,6 @@ X-Story-Request-User-Id: {{USER_ID}}
             }
         },
         {
-            "sectionType": "IMAGE",
-            "data": {
-                "priority": 2,
-                "fileId": 86471063135047680
-            }
-        },
-        {
             "sectionType": "LINK",
             "data": {
                 "priority": 4,

@@ -3,6 +3,9 @@ story:
     default:
       replication-count: 3
     topic:
+      cache-broadcast-eviction:
+        name: story-cache-broadcast-eviction-v1
+        partition-count: 10
       subscription:
         name: story-subscription-event-v1
         partition-count: 10

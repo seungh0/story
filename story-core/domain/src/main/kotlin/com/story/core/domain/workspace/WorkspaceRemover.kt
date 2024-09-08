@@ -1,7 +1,6 @@
 package com.story.core.domain.workspace
 
 import com.story.core.support.cache.CacheEvict
-import com.story.core.support.cache.CacheStrategy
 import com.story.core.support.cache.CacheType
 import org.springframework.stereotype.Service
 
@@ -13,7 +12,6 @@ class WorkspaceRemover(
     @CacheEvict(
         cacheType = CacheType.WORKSPACE,
         key = "'workspaceId:' + {#workspaceId}",
-        targetCacheStrategies = [CacheStrategy.GLOBAL],
     )
     suspend fun removeWorkspace(
         workspaceId: String,

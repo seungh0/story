@@ -36,7 +36,7 @@ X-Story-Api-Key: {{API_KEY}}
 GET {{api}}/v1/api-keys/{{API_KEY}}
 
 > {%
-    client.test("ㅇ200 OK", () => {
+    client.test("200 OK", () => {
         client.assert(response.status === 200, "응답 실패");
         client.global.set("WORKSPACE_ID", response.body["result"]["workspace"]["workspaceId"])
     });
