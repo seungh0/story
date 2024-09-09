@@ -11,6 +11,14 @@ interface FeedWriteRepository {
         options: FeedOptions,
     )
 
+    suspend fun create(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        items: List<FeedItemWithOption>,
+        options: FeedOptions,
+    )
+
     suspend fun delete(
         workspaceId: String,
         componentId: String,

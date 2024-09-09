@@ -40,6 +40,22 @@ class FeedCreator(
             .joinAll()
     }
 
+    suspend fun create(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        items: List<FeedItemWithOption>,
+        options: FeedOptions,
+    ) {
+        feedWriteRepository.create(
+            workspaceId = workspaceId,
+            componentId = componentId,
+            ownerId = ownerId,
+            items = items,
+            options = options,
+        )
+    }
+
     companion object {
         private const val BATCH_SIZE = 10 // 10 * 200byte = 2KB
     }

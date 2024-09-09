@@ -25,7 +25,7 @@ class FeedRemoveApiTest(
     private val feedRemoveHandler: FeedRemoveHandler,
 ) : StringSpecDocsTest({
 
-    "특정 컴포넌트 간의 피드 매핑을 해제합니다" {
+    "피드함에서 특정 피드를 삭제합니다" {
         // given
         val componentId = "timeline"
         val subscriberId = "subscriberId"

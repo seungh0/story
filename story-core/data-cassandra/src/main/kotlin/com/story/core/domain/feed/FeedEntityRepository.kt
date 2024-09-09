@@ -48,6 +48,37 @@ class FeedEntityRepository(
             .executeCoroutine()
     }
 
+    override suspend fun create(
+        workspaceId: String,
+        componentId: String,
+        ownerId: String,
+        items: List<FeedItemWithOption>,
+        options: FeedOptions,
+    ) {
+        val feeds = items.map { itemWithOption ->
+            FeedEntity(
+                key = FeedEntityPrimaryKey(
+                    workspaceId = workspaceId,
+                    componentId = componentId,
+                    ownerId = ownerId,
+                    priority = itemWithOption.priority,
+                    channelId = itemWithOption.item.channelId,
+                    itemResourceId = itemWithOption.item.resourceId,
+                    itemComponentId = itemWithOption.item.componentId,
+                    itemId = itemWithOption.item.itemId,
+                ),
+                createdAt = LocalDateTime.now(),
+            )
+        }
+
+        val feedReverses = feeds.map { feed -> FeedReverseEntity.from(feed) }
+
+        reactiveCassandraOperations.batchOps()
+            .upsert(entities = feeds, ttl = options.retention)
+            .upsert(entities = feedReverses, ttl = options.retention)
+            .executeCoroutine()
+    }
+
     override suspend fun delete(
         workspaceId: String,
         componentId: String,

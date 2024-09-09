@@ -26,6 +26,7 @@ class CacheBroadcastEvictionConsumer(
         topics = ["\${story.kafka.topic.cache-broadcast-eviction.name}"],
         groupId = "$GROUP_ID-\${random.uuid}",
         containerFactory = KafkaConsumerConfig.DEFAULT_KAFKA_CONSUMER,
+        concurrency = "3",
     )
     fun handleCacheEviction(
         @Payload record: ConsumerRecord<String, String>,

@@ -1,0 +1,31 @@
+=== [Feed] Create API
+
+include::{snippets}/feed.create/request-path.adoc[]
+
+==== [Request]
+
+include::{snippets}/feed.create/http-request.adoc[]
+
+==== [Request Path Parameters]
+
+include::{snippets}/feed.create/path-parameters.adoc[]
+
+==== [Request Headers]
+
+include::{snippets}/feed.create/request-headers.adoc[]
+
+===== [Request Body Parameter]
+
+include::{snippets}/feed.create/request-fields.adoc[]
+
+==== [Response]
+
+include::{snippets}/feed.create/http-response.adoc[]
+
+===== [Response Body Fields]
+
+include::{snippets}/feed.create/response-fields.adoc[]
+
+===== [Curl Request HTTP Example]
+
+include::{snippets}/feed.create/curl-request.adoc[]
