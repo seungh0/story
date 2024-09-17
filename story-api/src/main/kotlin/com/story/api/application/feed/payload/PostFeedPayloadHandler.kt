@@ -9,6 +9,9 @@ import com.story.core.domain.post.PostNotExistsException
 import com.story.core.domain.post.PostReaderWithCache
 import com.story.core.domain.post.PostSpaceKey
 import com.story.core.domain.resource.ResourceId
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
@@ -22,25 +25,27 @@ class PostFeedPayloadHandler(
         workspaceId: String,
         feeds: Collection<Feed>,
         requestUserId: String?,
-    ): Map<FeedItem, FeedPayload> {
-        return feeds.mapNotNull { feed ->
-            val postId = PostId.parsed(feed.item.itemId)
-            try {
-                feed.item to PostResponse.of(
-                    postReaderWithCache.getPost(
-                        postSpaceKey = PostSpaceKey(
-                            workspaceId = workspaceId,
-                            componentId = feed.item.componentId,
-                            spaceId = postId.spaceId,
+    ): Map<FeedItem, FeedPayload> = coroutineScope {
+        return@coroutineScope feeds.map { feed ->
+            async {
+                val postId = PostId.parsed(feed.item.itemId)
+                try {
+                    feed.item to PostResponse.of(
+                        postReaderWithCache.getPost(
+                            postSpaceKey = PostSpaceKey(
+                                workspaceId = workspaceId,
+                                componentId = feed.item.componentId,
+                                spaceId = postId.spaceId,
+                            ),
+                            postId = postId,
                         ),
-                        postId = postId,
-                    ),
-                    requestUserId = requestUserId,
-                )
-            } catch (exception: PostNotExistsException) {
-                return@mapNotNull null
+                        requestUserId = requestUserId,
+                    )
+                } catch (exception: PostNotExistsException) {
+                    return@async null
+                }
             }
-        }.associate { it.first to it.second }
+        }.awaitAll().filterNotNull().associate { it.first to it.second }
     }
 
 }

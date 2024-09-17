@@ -59,7 +59,7 @@ Accept-Language: en
 
 {
     "parentId": "{{POST_ID}}",
-    "title": "depth 1-1",
+    "title": "depth 1-2",
     "sections": [
         {
             "sectionType": "TEXT",
@@ -93,7 +93,6 @@ Accept-Language: en
 > {%
     client.test("200 OK", () => {
         client.assert(response.status === 200, "응답 실패");
-        client.global.set("POST_ID", response.body["result"]["postId"])
     });
 %}
 
