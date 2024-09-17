@@ -14,7 +14,7 @@ data class PostId(
         if (parentId.isNullOrBlank()) {
             return null
         }
-        return PostId.parsed(parentId)
+        return parsed(parentId)
     }
 
     fun serialize(): String {
