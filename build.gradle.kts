@@ -11,7 +11,7 @@ val springCloudVersion: String by project.extra
 val redissonVersion: String by project.extra
 
 plugins {
-    id("org.springframework.boot") version "3.3.3"
+    id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
     id("application")
     id("org.asciidoctor.jvm.convert") version "4.0.3"
