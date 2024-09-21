@@ -12,6 +12,10 @@ data class Slice<E, K>(
     val hasNext: Boolean = cursor.hasNext
 
     companion object {
+        fun <E, K> noMore(
+            data: List<E>,
+        ) = Slice(data = data, cursor = CursorResponse.noMore<K>())
+
         fun <E, K> of(
             data: List<E>,
             cursor: CursorResponse<K>,

@@ -2,27 +2,21 @@ package com.story.core.common.model.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.story.core.common.model.AuditingTimeEntity
+import com.story.core.common.model.AuditingTime
 import java.time.LocalDateTime
 
-abstract class AuditingTimeResponse {
+abstract class AuditingTimeResponse : AuditingTime {
 
     @field:JsonProperty
-    lateinit var createdAt: LocalDateTime
+    override lateinit var createdAt: LocalDateTime
 
     @field:JsonProperty
-    lateinit var updatedAt: LocalDateTime
+    override lateinit var updatedAt: LocalDateTime
 
     @JsonIgnore
-    fun setAuditingTime(auditingTime: AuditingTimeEntity) {
+    fun setAuditingTime(auditingTime: AuditingTime) {
         this.createdAt = auditingTime.createdAt
         this.updatedAt = auditingTime.updatedAt
-    }
-
-    @JsonIgnore
-    fun setAuditingTime(auditingTimeResponse: AuditingTimeResponse) {
-        this.createdAt = auditingTimeResponse.createdAt
-        this.updatedAt = auditingTimeResponse.updatedAt
     }
 
 }

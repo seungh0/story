@@ -3,9 +3,9 @@ package com.story.core.common.model
 import java.time.LocalDateTime
 
 data class AuditingTimeEntity(
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime,
-) {
+    override val createdAt: LocalDateTime,
+    override val updatedAt: LocalDateTime,
+) : AuditingTime {
 
     fun updated(now: LocalDateTime = LocalDateTime.now()) = this.copy(
         updatedAt = now,

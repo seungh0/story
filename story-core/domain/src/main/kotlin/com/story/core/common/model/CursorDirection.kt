@@ -12,8 +12,7 @@ enum class CursorDirection {
         private val cachedCursorDirectionMap = mutableMapOf<String, CursorDirection>()
 
         init {
-            entries
-                .forEach { cursorDirection -> cachedCursorDirectionMap[cursorDirection.name.lowercase()] = cursorDirection }
+            entries.forEach { cursorDirection -> cachedCursorDirectionMap[cursorDirection.name.lowercase()] = cursorDirection }
         }
 
         fun findByCode(code: String): CursorDirection {

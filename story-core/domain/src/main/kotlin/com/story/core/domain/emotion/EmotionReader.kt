@@ -1,7 +1,6 @@
 package com.story.core.domain.emotion
 
 import com.story.core.common.model.Slice
-import com.story.core.common.model.dto.CursorResponse
 import com.story.core.common.utils.mapToSet
 import com.story.core.domain.emotion.EmotionPolicy.EMOTION_MAX_COUNT_PER_COMPONENT
 import com.story.core.domain.resource.ResourceId
@@ -59,10 +58,7 @@ class EmotionReader(
             pageable = CassandraPageRequest.first(EMOTION_MAX_COUNT_PER_COMPONENT),
         ).toList()
 
-        return Slice.of(
-            data = emotions,
-            cursor = CursorResponse.noMore(),
-        )
+        return Slice.noMore(data = emotions)
     }
 
 }
