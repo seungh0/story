@@ -1,6 +1,5 @@
 package com.story.core.common.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.story.core.common.model.dto.CursorResponse
 
 data class Slice<E, K>(
@@ -8,8 +7,7 @@ data class Slice<E, K>(
     val cursor: CursorResponse<K>,
 ) {
 
-    @JsonIgnore
-    val hasNext: Boolean = cursor.hasNext
+    fun hasNext(): Boolean = cursor.hasNext
 
     companion object {
         fun <E, K> noMore(

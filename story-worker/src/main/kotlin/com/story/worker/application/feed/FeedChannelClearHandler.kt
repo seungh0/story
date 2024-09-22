@@ -33,10 +33,10 @@ class FeedChannelClearHandler(
                 )
             }
 
-            if (components.hasNext) {
+            if (components.hasNext()) {
                 cursor = cursor.copy(cursor = components.cursor.nextCursor)
             }
-        } while (components.hasNext)
+        } while (components.hasNext())
     }
 
 }

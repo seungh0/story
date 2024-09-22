@@ -11,7 +11,7 @@ class CursorResultTest : StringSpec({
         val cursor = Slice.of(data = listOf<String>(), cursor = CursorResponse.of(null))
 
         // when
-        val sut = cursor.hasNext
+        val sut = cursor.hasNext()
 
         // then
         sut shouldBe false
@@ -22,7 +22,7 @@ class CursorResultTest : StringSpec({
         val cursor = Slice.of(data = listOf<String>(), cursor = CursorResponse.of("cursor"))
 
         // when
-        val sut = cursor.hasNext
+        val sut = cursor.hasNext()
 
         // then
         sut shouldBe true

@@ -1,6 +1,5 @@
 package com.story.api.application.post
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.story.core.domain.post.section.PostSectionContentCommand
 import jakarta.validation.constraints.Size
 
@@ -11,7 +10,6 @@ data class PostModifyRequest(
     val extra: Map<String, String>?,
 ) {
 
-    @JsonIgnore
     fun toSections(): List<PostSectionContentCommand>? {
         if (sections == null) {
             return null

@@ -42,7 +42,7 @@ class WorkspacePurger(
                     )
                 }
                 cursor = cursor.copy(cursor = components.cursor.nextCursor)
-            } while (components.hasNext)
+            } while (components.hasNext())
         }
 
         workspaceArchiveWriteRepository.delete(workspaceArchive)
